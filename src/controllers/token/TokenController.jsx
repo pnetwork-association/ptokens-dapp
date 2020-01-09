@@ -9,6 +9,8 @@ import * as pTokens from '../../actions/pTokens'
 import * as WalletsController from '../../actions/wallets'
 import { isValidAccount } from '../../utils/account-validator'
 import { getMinumIssuableAmount } from '../../utils/minum-issuable-amount'
+import { getMinumRedeemableAmount } from '../../utils/minimun-redeeamble-amount'
+
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
 
 const mapStateToProps = state => {
@@ -218,6 +220,16 @@ export class TokenController extends React.Component {
     const parsedAmountToRedeem = parseFloat(this.props.pTokensParams.amountToRedeem)
     if (parsedAmountToRedeem === 0) {
       this.showAlert('danger', `Impossible to burn 0 ${this.props.pTokenSelected.name}`)
+      return
+    }
+
+    const decimals = this.props.pTokenSelected.decimals
+    const parsedAmountToIssue = parseFloat(this.props.pTokensParams.amountToRedeem).toFixed(decimals)
+    const minimunRedeemableAmount = getMinumRedeemableAmount(
+      this.props.pTokenSelected.name
+    )
+    if (parsedAmountToIssue < minimunRedeemableAmount ) {
+      this.showAlert('danger', `Impossible to mint less than ${minimunRedeemableAmount} ${this.props.pTokenSelected.name}`)
       return
     }
 
