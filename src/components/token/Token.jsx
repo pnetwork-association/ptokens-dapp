@@ -29,7 +29,7 @@ const Token = props => {
                           {
                             props.balance !== null
                               ? parseFloat(props.balance)
-                                  .toFixed(props.pTokenSelected)
+                                  .toFixed(props.pTokenSelected.decimals)
                               : '-'
                           }
                           <span className="text-md">
