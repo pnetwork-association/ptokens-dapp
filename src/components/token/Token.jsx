@@ -28,7 +28,8 @@ const Token = props => {
                         <div className="text-gray text-xxl line-height-1 font-weight-light mt-10">
                           {
                             props.balance !== null
-                              ? props.balance 
+                              ? parseFloat(props.balance)
+                                  .toFixed(props.pTokenSelected)
                               : '-'
                           }
                           <span className="text-md">
