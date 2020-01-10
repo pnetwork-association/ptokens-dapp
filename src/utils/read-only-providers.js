@@ -1,8 +1,5 @@
 import settings from '../settings'
 import Web3 from 'web3'
-import { Api, JsonRpc } from 'eosjs'
-import fetch from 'node-fetch'
-import encoding from 'text-encoding'
 
 const getCorrespondingReadOnlyProvider = (_pTokenName, _type) => {
   if (_type === 'ETH') {

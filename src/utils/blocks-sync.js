@@ -26,7 +26,7 @@ const getEnclaveBlockHeightStatusComparedWithTheReals = async (_pTokenName, _rol
       }
     })
 
-     const btcLastBlock = await ptokens.pbtc.esplora.makeApiCall(
+     const btcLastBlock = await ptokens.pbtc._esplora.makeApiCall(
       'GET',
       '/blocks/tip/height'
     )

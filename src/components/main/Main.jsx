@@ -60,7 +60,7 @@ const getCorrespondingHeaders = (_pTokenName, _role) => {
 
   if (_pTokenName === 'pEOS' && _role === 'redeemer') {
     return [
-      'eos_amount',
+      'peos_amount',
       'broadcast_timestamp',
       'incoming_transaction_hash',
       'broadcast_transaction_hash',
@@ -199,11 +199,7 @@ const Main = props => {
               }}
               whichAnimation={[4]}
               conversions={{
-                0: n => {
-                  return props.pTokenSelected.name === 'pBTC'
-                    ? (parseFloat(n) / Math.pow(10, props.pTokenSelected.decimals)).toFixed(props.pTokenSelected.decimals)
-                    : parseFloat(n)
-                },
+                0: n => (parseFloat(n) / Math.pow(10, props.pTokenSelected.decimals)).toFixed(props.pTokenSelected.decimals),
                 1: t => timestampInSecondsToDate(t)
               }}
               headers={getCorrespondingHeaders(props.pTokenSelected.name, 'redeemer')}

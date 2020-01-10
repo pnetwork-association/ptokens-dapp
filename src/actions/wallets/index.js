@@ -11,7 +11,6 @@ const connectWithCorrectWallets = (_pTokenName, _currentProviders, _force) => {
   return dispatch => {
 
     const {
-      issuer,
       redeemer
     } = _currentProviders
 
