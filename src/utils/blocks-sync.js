@@ -2,6 +2,11 @@ import pTokens from 'ptokens'
 import {
   getCorrespondingReadOnlyProvider
 } from './read-only-providers'
+import Web3 from 'web3'
+import settings from '../settings'
+import { Api, JsonRpc } from 'eosjs'
+import fetch from 'node-fetch'
+import encoding from 'text-encoding'
 
 const ETH_GOOD = 2
 const ETH_BAD = 180
@@ -35,7 +40,8 @@ const getEnclaveBlockHeightStatusComparedWithTheReals = async (_pTokenName, _rol
   }
 
   if (_pTokenName === 'pBTC' && _role === 'redeemer') {
-    const web3 = getCorrespondingReadOnlyProvider('pBTC', 'ETH')
+    const ethProvider = getCorrespondingReadOnlyProvider('pBTC', 'ETH')
+    const web3 = new Web3(ethProvider)
     const ethLastBlock = await web3.eth.getBlockNumber()
 
     return _calculateStatus(
@@ -47,7 +53,14 @@ const getEnclaveBlockHeightStatusComparedWithTheReals = async (_pTokenName, _rol
   }
 
   if (_pTokenName === 'pEOS' && _role === 'issuer') {
-    const eosjs = getCorrespondingReadOnlyProvider('pEOS', 'EOS')
+    
+    const rpc = new JsonRpc(settings.peos.eos.provableEndpoint, { fetch })
+    const eosjs = new Api({
+      rpc,
+      textDecoder: new encoding.TextDecoder(),
+      textEncoder: new encoding.TextEncoder()
+    })
+    
     const info = await eosjs.rpc.get_info()
     const eosLastBlock = info.head_block_num
 
@@ -61,7 +74,8 @@ const getEnclaveBlockHeightStatusComparedWithTheReals = async (_pTokenName, _rol
 
   if (_pTokenName === 'pEOS' && _role === 'redeemer') {
 
-    const web3 = getCorrespondingReadOnlyProvider('pEOS', 'ETH')
+    const ethProvider = getCorrespondingReadOnlyProvider('pEOS', 'ETH')
+    const web3 = new Web3(ethProvider)
     const ethLastBlock = await web3.eth.getBlockNumber()
 
     return _calculateStatus(

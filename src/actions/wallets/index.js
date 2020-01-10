@@ -17,7 +17,7 @@ const connectWithCorrectWallets = (_pTokenName, _currentProviders, _force) => {
 
     switch (_pTokenName) {
       case 'pEOS': {
-        connectWithScatter(issuer, dispatch)
+        connectWithScatter('issuer', dispatch)
         connectWithEthWallet('pEOS', 'redeemer', redeemer, dispatch, _force)
         break
       }

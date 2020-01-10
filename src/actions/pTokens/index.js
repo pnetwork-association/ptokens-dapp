@@ -23,6 +23,7 @@ import {
   pbtcLoggedIssue,
   pbtcLoggedRedeem
 } from './loggers/pbtc'
+import settings from '../../settings'
 
 const setSelectedpToken = _type => {
   return {
@@ -213,8 +214,9 @@ const _getCorrectConfigs = (_type, _configs) => {
     case 'pEOS' : {
       return {
         peos: {
-          eosjs: issuer,
-          web3: redeemer
+          eosRpc: settings.peos.eos.provableEndpoint,
+          eosSignatureProvider: issuer,
+          ethProvider: redeemer
         }
       }
     }
@@ -222,7 +224,7 @@ const _getCorrectConfigs = (_type, _configs) => {
       return {
         pbtc: {
           btcNetwork: 'testnet',
-          web3: redeemer
+          ethProvider: redeemer
         }
       }
     }

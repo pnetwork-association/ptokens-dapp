@@ -10,7 +10,6 @@ import * as WalletsController from '../../actions/wallets'
 import { isValidAccount } from '../../utils/account-validator'
 import { getMinumIssuableAmount } from '../../utils/minum-issuable-amount'
 import { getMinumRedeemableAmount } from '../../utils/minimun-redeeamble-amount'
-
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
 
 const mapStateToProps = state => {
@@ -96,15 +95,6 @@ export class TokenController extends React.Component {
       this.setState({
         isIssueTerminated: false 
       })
-
-      this.props.getBalance(
-        this.props.pTokenSelected.name,
-        this.props.redeemerAccount,
-        {
-          redeemer: this.props.redeemerProvider,
-          issuer: this.props.issuerProvider
-        }
-      )
     }
     if (
       (_prevProps.issueError !== this.props.issueError) &&

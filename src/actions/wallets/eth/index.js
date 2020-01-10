@@ -57,22 +57,22 @@ const connectWithEthWallet = async (_pTokenName, _role, _currentProvider, _dispa
 
   if (web3Connect.injectedProvider && !_force) {
     const provider = await Web3Connect.ConnectToInjected()
-    const web3 = new Web3(provider)
+    //const web3 = new Web3(provider)
     const wallet = {
       name: _getWalletNameByProvider(provider),
       type: 'multiWallet'
     }
-    _connectionSuccesfull(web3, _dispatch, _role, wallet)
+    _connectionSuccesfull(provider, _dispatch, _role, wallet)
     return
   }
 
   web3Connect.on('connect', provider => {
-    const web3 = new Web3(provider)
+    //const web3 = new Web3(provider)
     const wallet = {
       name: _getWalletNameByProvider(provider),
       type: 'multiWallet'
     }
-    _connectionSuccesfull(web3, _dispatch, _role, wallet)
+    _connectionSuccesfull(provider, _dispatch, _role, wallet)
   })
 
   if (_force)
@@ -83,20 +83,21 @@ const disconnectFromEthWallet = () => {
   //TODO: disconnect from ETH wallet
 }
 
-const _connectionSuccesfull = async (web3, _dispatch, _role, _wallet) => {
-  const account = await _getAccount(web3)
+const _connectionSuccesfull = async (_provider, _dispatch, _role, _wallet) => {
+  const account = await _getAccount(_provider)
   _dispatch({
     type: _role === 'issuer' ? WALLET_ISSUER_CONNECTED : WALLET_REDEEMER_CONNECTED,
     payload: {
-      provider: web3,
+      provider: _provider,
       account,
       wallet: _wallet
     }
   })
 }
 
-const _getAccount = async _web3 => {
-  const accounts = await _web3.eth.getAccounts()
+const _getAccount = async _provider => {
+  const web3 = new Web3(_provider)
+  const accounts = await web3.eth.getAccounts()
   return accounts[0]
 }
 

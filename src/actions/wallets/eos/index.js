@@ -1,6 +1,5 @@
 import ScatterJS from '@scatterjs/core'
 import ScatterEOS from '@scatterjs/eosjs2'
-import { JsonRpc, Api } from 'eosjs'
 import settings from '../../../settings'
 
 import {
@@ -13,11 +12,6 @@ import {
 ScatterJS.plugins(new ScatterEOS())
 
 const network = ScatterJS.Network.fromJson(settings.peos.eos)
-const rpc = new JsonRpc(network.fullhost())
-const eosjs = new Api({
-  rpc,
-  signatureProvider:ScatterJS.eosHook(network) 
-})
 
 const connectWithScatter = async (_role, _dispatch, _force = true) => {
   try {
@@ -90,7 +84,7 @@ const _connectionSuccesfull = (_role, _dispatch) => {
   _dispatch({
     type: _role === 'issuer' ? WALLET_ISSUER_CONNECTED : WALLET_REDEEMER_CONNECTED,
     payload: {
-      provider: eosjs,
+      provider: ScatterJS.eosHook(network),
       account: account.name,
       wallet: {
         name: 'Scatter',

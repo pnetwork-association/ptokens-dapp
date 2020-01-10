@@ -3,7 +3,8 @@ import {
   getBurnNonce,
   getMintNonce,
   getTotalIssued,
-  getTotalRedeemed
+  getTotalRedeemed,
+  getBalance
 } from '../actions/pTokens'
 import {
   getReports,
