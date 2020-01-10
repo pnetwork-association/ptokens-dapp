@@ -4,7 +4,7 @@ const PEOS_ETH_SMART_CONTRACT_ADDRESS = '0x4AEAFc6F72eD16665a70A45297500a0BD9d8c
 const PEOS_EOS_SMART_CONTRACT_ADDRESS = 'provabletokn'
 
 const PBTC_ETH_SMART_CONTRACT_ADDRESS = '0xb070c3e0e4af9b125880a4a6ab0000ea0ebf06c5'
-const PBTC_ENCLAVE_PUBKEY = '02808e5df4f98d1f9eef1b40d90a3854a5c9e54a9d0e0671d89394f6007096bf0e'
+const PBTC_ENCLAVE_PUBKEY = '02c21940ae750e4c58380d2bd240e2bd1c5c9b5ef299965d0bde88dd07e10ad54b'
 
 const getCorrespondingSmartContractAddress = (_pTokenName, _role) => {
   switch (_pTokenName) {
