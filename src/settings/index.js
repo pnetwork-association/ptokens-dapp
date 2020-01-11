@@ -1,8 +1,5 @@
 const settings = {
   dappName: 'pTokens Dapp',
-  api: {
-    endpoint: 'https://nuc-bridge-1.ngrok.io/'
-  },
   peos: {
     eth: {
     wsInfuraEndpoint: 'wss://kovan.infura.io/ws/v3',
@@ -12,7 +9,8 @@ const settings = {
     formaticKey: 'pk_test_48E59AF566747C40',
     network: 'kovan',
     chainId: 42,
-    etherscanLink: 'https://kovan.etherscan.io/'
+    etherscanLink: 'https://kovan.etherscan.io/',
+    enclaveBlockHeightPollingTime: 3000
     },
     eos: {
       blockchain: 'eos',
@@ -26,8 +24,9 @@ const settings = {
         'symbol': 'SYS',
         'contract': 'eosio.token',
         'decimals': 4
-      }
-    }
+      },
+      enclaveBlockHeightPollingTime: 3000
+    },
   },
   pbtc: {
     eth: {
@@ -38,10 +37,12 @@ const settings = {
       formaticKey: 'pk_test_48E59AF566747C40',
       network: 'ropsten',
       chainId: 3,
-      etherscanLink: 'https://ropsten.etherscan.io/'
+      etherscanLink: 'https://ropsten.etherscan.io/',
+      enclaveBlockHeightPollingTime: 3000
     },
     btc: {
-      explorer: 'https://blockstream.info/testnet/'
+      explorer: 'https://blockstream.info/testnet/',
+      enclaveBlockHeightPollingTime: 3000
     }
   }
 }

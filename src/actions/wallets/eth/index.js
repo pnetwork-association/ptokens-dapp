@@ -31,7 +31,7 @@ const connectWithEthWallet = async (_pTokenName, _role, _currentProvider, _dispa
           id: settings[_pTokenName.toLowerCase()].eth.portisDappId
         }
       },
-      fortmatic: {
+      /*fortmatic: {
         package: Fortmatic,
         options: {
           key: settings[_pTokenName.toLowerCase()].eth.formaticKey
@@ -47,7 +47,7 @@ const connectWithEthWallet = async (_pTokenName, _role, _currentProvider, _dispa
             chainId: settings[_pTokenName.toLowerCase()].eth.chainId,
           },
         }
-      }
+      }*/
     }
   })
   

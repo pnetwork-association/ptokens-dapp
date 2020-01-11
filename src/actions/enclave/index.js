@@ -87,7 +87,7 @@ const getReports = (_pTokenName, _type, _role) => {
       pToken: _pTokenName
     })
 
-    const report = await enclave.getReports(_type)
+    const reports = await enclave.getReports(_type)
 
     const actionType = _role === 'issuer'
       ? ENCLAVE_REPORT_ISSUE_LOADED
@@ -95,7 +95,7 @@ const getReports = (_pTokenName, _type, _role) => {
     dispatch({
       type: actionType,
       payload: {
-        report
+        reports
       }
     })
   }

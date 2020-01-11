@@ -568,6 +568,17 @@ input[type=number] {
     width: 10px;
     height: 10px;
 }
+
+.lds-ring-big {
+    width: 100px !important; 
+    height: 100px !important;
+}
+
+.lds-ring .big {
+    width: 100px;
+    height: 100px;
+}
+
 .lds-ring div {
     box-sizing: border-box;
     display: block;

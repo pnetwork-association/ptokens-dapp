@@ -41,6 +41,7 @@ const mapDispatchToProps = dispatch => {
     resetIssueSuccess: () => dispatch(pTokens.resetIssueSuccess()),
     resetRedeemSuccess: () => dispatch(pTokens.resetRedeemSuccess()),
     resetIssueError: () => dispatch(pTokens.resetIssueError()),
+    resetRedeemError: () => dispatch(pTokens.resetRedeemError()),
     setpTokenParams: _params => dispatch(pTokens.setParams(_params)),
     connectWithCorrectWallets: (pTokenName, currentProviders, force) => dispatch(WalletsController.connectWithCorrectWallets(pTokenName, currentProviders, force)),
   }
@@ -252,47 +253,34 @@ export class TokenController extends React.Component {
   }
 
   onChangeAmountToIssue = _amount => {    
-    this.props.setpTokenParams({
-      amountToIssue: mask(_amount, this.props.pTokenSelected.decimals).maskedValue,
-      amountToRedeem: this.props.pTokensParams.amountToRedeem,
-      typedIssueAccount: this.props.pTokensParams.typedIssueAccount,
-      typedRedeemAccount: this.props.typedRedeemAccount
-    })
+    this.props.setpTokenParams(Object.assign({}, this.props.pTokensParams, {
+      amountToIssue: mask(_amount, this.props.pTokenSelected.decimals).maskedValue
+    }))
   }
 
   onChangeAmountToRedeem = _amount => {
-    this.props.setpTokenParams({
-      amountToIssue: this.props.pTokensParams.amountToIssue,
+    this.props.setpTokenParams(Object.assign({}, this.props.pTokensParams, {
       amountToRedeem: mask(_amount, this.props.pTokenSelected.decimals).maskedValue,
-      typedIssueAccount: this.props.pTokensParams.typedIssueAccount,
-      typedRedeemAccount: this.props.pTokensParams.typedRedeemAccount
-    })
+    }))
   }
 
   onChangeTypedIssueAccount = _typedIssueAccount => {
-    if (this.props.pTokenSelected.name === 'pBTC') {
+    if (
+      this.props.pTokenSelected.name === 'pBTC' &&
+      !this.props.pTokenSelected.depositAddress.waiting
+    ) {
       this.props.resetDepositAddress()
     }
 
-    this.props.setpTokenParams({
-      amountToIssue: this.props.pTokensParams.amountToIssue,
-      amountToRedeem: this.props.pTokensParams.amountToRedeem,
+    this.props.setpTokenParams(Object.assign({},this.props.pTokensParams, {
       typedIssueAccount: _typedIssueAccount,
-      typedRedeemAccount: this.props.pTokensParams.typedRedeemAccount
-    })
+    }))
   }
 
   onChangeTypedRedeemAccount = _typedRedeemAccount => {
-    if (this.props.pTokenSelected.name === 'pBTC') {
-      this.props.resetDepositAddress()
-    }
-
-    this.props.setpTokenParams({
-      amountToIssue: this.props.pTokensParams.amountToIssue,
-      amountToRedeem: this.props.pTokensParams.amountToRedeem,
-      typedIssueAccount: this.props.pTokensParams.typedIssueAccount,
-      typedRedeemAccount: _typedRedeemAccount
-    })
+    this.props.setpTokenParams(Object.assign({}, this.props.pTokensParams, {
+      typedRedeemAccount: _typedRedeemAccount,
+    }))
   }
 
   render() {

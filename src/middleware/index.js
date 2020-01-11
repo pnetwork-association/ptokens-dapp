@@ -43,13 +43,13 @@ const middleware = ({ dispatch }) => {
         dispatch(getReports(
           _action.payload.pToken.name,
           _action.payload.pToken.issueFrom,
-          'issuer',
+          'redeemer',
         ))
 
         dispatch(getReports(
           _action.payload.pToken.name,
-          _action.payload.pToken.issueFrom,
-          'redeemer',
+          _action.payload.pToken.redeemFrom,
+          'issuer',
         ))
 
         //enclave page data

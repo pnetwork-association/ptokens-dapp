@@ -27,10 +27,10 @@ const getCorrespondingHeaderMap = (_pTokenName, _role) => {
     case 'pBTC' : {
       return _role === 'issuer'
         ? {
-            btc_tx_amount: 'AMOUNT pBTC',
+            eth_tx_amount: 'AMOUNT pBTC',
             broadcast_timestamp: 'TIMESTAMP',
-            btc_tx_hash: 'BTC TX HASH (FROM)',
-            originating_tx_hash: 'ETH TX HASH (TO)',
+            originating_tx_hash: 'BTC TX HASH (FROM)',
+            eth_tx_hash: 'ETH TX HASH (TO)',
             //prooved: 'VERIFIED'
           }
         : {
@@ -60,7 +60,7 @@ const getCorrespondingHeaders = (_pTokenName, _role) => {
 
   if (_pTokenName === 'pEOS' && _role === 'redeemer') {
     return [
-      'peos_amount',
+      'eos_amount',
       'broadcast_timestamp',
       'incoming_transaction_hash',
       'broadcast_transaction_hash',
@@ -70,17 +70,17 @@ const getCorrespondingHeaders = (_pTokenName, _role) => {
 
   if (_pTokenName === 'pBTC' && _role === 'issuer') {
     return [
-      'btc_tx_amount',
+      'eth_tx_amount',
       'broadcast_timestamp',
-      'btc_tx_hash',
       'originating_tx_hash',
+      'eth_tx_hash'
       //'prooved'
     ]
   }
 
   if (_pTokenName === 'pBTC' && _role === 'redeemer') {
     return [
-      'eth_tx_amount',
+      'btc_tx_amount',
       'broadcast_timestamp',
       'broadcast_tx_hash',
       'originating_tx_hash',

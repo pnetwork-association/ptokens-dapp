@@ -14,7 +14,7 @@ import {
   PTOKENS_TOTAL_ISSUED_LOADED,
   PTOKENS_TOTAL_REDEEMED_LOADED,
   PTOKENS_CIRCULATING_SUPPLY_LOADED,
-  PTOKENS_DEPOSIT_ADDRESS_LOADED,
+  PTOKENS_SET_DEPOSIT_ADDRESS,
   PTOKENS_RESET_DEPOSIT_ADDRESS,
   PTOKENS_SET_PARAMS,
   PTOKENS_RESET_PARAMS
@@ -34,7 +34,10 @@ const initialState = {
     tokenType: 'ERC-20',
 
     //only for pbtc
-    depositAddress: null
+    depositAddress: {
+      value: null,
+      waiting: false
+    }
   },
   balance: null,
   available: [
@@ -83,7 +86,10 @@ const pTokensReducer = (_state = initialState, _action) => {
         totalRedeemed: null,
         mintNonce: null,
         burnNonce: null,
-        depositAddress: null
+        depositAddress: {
+          value: null,
+          waiting: false
+        },
       }),
       balance: null,
       isIssueSuccedeed: null,
@@ -99,7 +105,7 @@ const pTokensReducer = (_state = initialState, _action) => {
     })
   }
   
-  if (_action.type === PTOKENS_DEPOSIT_ADDRESS_LOADED) {
+  if (_action.type === PTOKENS_SET_DEPOSIT_ADDRESS) {
     return Object.assign({}, _state, {
       selected: Object.assign({}, _state.selected, {
         depositAddress: _action.payload.pToken.depositAddress
@@ -150,7 +156,10 @@ const pTokensReducer = (_state = initialState, _action) => {
   if (_action.type === PTOKENS_RESET_DEPOSIT_ADDRESS) {
     return Object.assign({}, _state, {
       selected: Object.assign({}, _state.selected, {
-        depositAddress: null
+        depositAddress: {
+          value: null,
+          waiting: false
+        }
       })
     })
   }

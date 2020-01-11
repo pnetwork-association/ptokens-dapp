@@ -7,6 +7,7 @@ import * as pTokens from '../../actions/pTokens'
 import { connect } from 'react-redux'
 import { isJsonString } from '../../utils/utils'
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
+import settings from '../../settings'
 
 const mapStateToProps = state => {
   return {
@@ -66,14 +67,23 @@ class EnclaveController extends React.Component {
         this.props.pTokenSelected.issueFrom.toLowerCase(),
         'issuer'
       )
-    }, 10000)
+    }, settings
+        [this.props.pTokenSelected.name.toLowerCase()]
+        [this.props.pTokenSelected.issueFrom.toLowerCase()]
+        .enclaveBlockHeightPollingTime
+    )
+
     this.intervalRedeemerBlockGetter = setInterval(() => {
       this.props.getLastProcessedBlock(
         this.props.pTokenSelected.name,
         this.props.pTokenSelected.redeemFrom.toLowerCase(),
         'redeemer'
       )
-    }, 10000)
+    }, settings
+        [this.props.pTokenSelected.name.toLowerCase()]
+        [this.props.pTokenSelected.redeemFrom.toLowerCase()]
+        .enclaveBlockHeightPollingTime
+    )
   }
 
 

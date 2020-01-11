@@ -56,13 +56,13 @@ const enclaveReducer = (_state = initialState, _action) => {
 
   if (_action.type === ENCLAVE_REPORT_ISSUE_LOADED) {
     return Object.assign({}, _state, {
-      issueReports: _action.payload.report
+      issueReports: _action.payload.reports
     })
   }
 
   if (_action.type === ENCLAVE_REPORT_REDEEM_LOADED) {
     return Object.assign({}, _state, {
-      redeemReports: _action.payload.report
+      redeemReports: _action.payload.reports
     })
   }
 

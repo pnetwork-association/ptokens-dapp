@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import MiniSpinner from '../utils/MiniSpinner'
+import Spinner from '../utils/Spinner'
 import { 
   getCorrespondingSmartContractAddress,
   getCorrespondingExplorerLink 
@@ -57,7 +57,7 @@ const Enclave = props => {
                           </span>
                           {
                             props.lastRedeemerProcessedBlock
-                              ? <MiniSpinner/> 
+                              ? <Spinner/> 
                               : null    
                           }
                         </div>
@@ -90,7 +90,7 @@ const Enclave = props => {
                           </span>
                           {
                             props.lastIssuerProcessedBlock 
-                              ? <MiniSpinner/> 
+                              ? <Spinner/> 
                               : null
                           }
                         </div>
@@ -144,14 +144,14 @@ const Enclave = props => {
                   </div>
                 </div>
                 <div className="row mt-15 mb-15">
-                  <div className="col-5 col-xl-3 text-gray text-xs font-weight-light">
+                  <div className="col-6 col-xl-3 text-gray text-xs font-weight-light">
                     {
                       props.pTokenSelected.name === 'pBTC'
                         ? `${props.pTokenSelected.issueFrom} ENCLAVE PUBKEY:`
                         : `${props.pTokenSelected.issueFrom} ACCOUNT:`
                     }
                   </div>
-                  <div className="col-7 col-xl-9 text-right text-gray text-md">
+                  <div className="col-6 col-xl-9 text-right text-gray text-md">
                     {
                       props.pTokenSelected.name === 'pBTC'
                         ?  getCorresponsingVisibleAddressFormat(

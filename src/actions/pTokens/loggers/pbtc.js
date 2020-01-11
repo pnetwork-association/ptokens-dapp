@@ -2,7 +2,7 @@ import * as LogHandler from '../../log'
 import {
   PTOKENS_ISSUE_SUCCEDEED,
   PTOKENS_ISSUE_NOT_SUCCEDEED,
-  PTOKENS_DEPOSIT_ADDRESS_LOADED,
+  PTOKENS_SET_DEPOSIT_ADDRESS,
   PTOKENS_REDEEM_NOT_SUCCEDEED,
   PTOKENS_REDEEM_SUCCEDEED
 } from '../../../constants/index'
@@ -14,10 +14,13 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
   const depositAddress = await _ptokens.pbtc.getDepositAddress(_params[1])
 
   _dispatch({
-    type: PTOKENS_DEPOSIT_ADDRESS_LOADED,
+    type: PTOKENS_SET_DEPOSIT_ADDRESS,
     payload: {
       pToken: {
-        depositAddress: depositAddress.toString()
+        depositAddress: {
+          value: depositAddress.toString(),
+          waiting: false
+        }
       }
     }
   })
@@ -37,6 +40,18 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
       const {
         txid
       } = tx
+
+      _dispatch({
+        type: PTOKENS_SET_DEPOSIT_ADDRESS,
+        payload: {
+          pToken: {
+            depositAddress: {
+              value: depositAddress.toString(),
+              waiting: true
+            }
+          }
+        }
+      })
 
       _dispatch(LogHandler.updateItem('broadcasting-pending', {
         value: `pBTC mint transaction broadcasted`,
@@ -64,7 +79,7 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
         })
       )
     })
-    .once('onBtcTxConfirmed', event => {
+    .once('onBtcTxConfirmed', () => {
 
       _dispatch(LogHandler.updateItem('mint-confirmation', {
         value: `Mint transaction confirmed!`,
