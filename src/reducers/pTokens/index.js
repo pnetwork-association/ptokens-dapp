@@ -36,7 +36,9 @@ const initialState = {
     //only for pbtc
     depositAddress: {
       value: null,
-      waiting: false
+      waiting: false,
+      terminated: false,
+      success: false
     }
   },
   balance: null,
@@ -88,7 +90,9 @@ const pTokensReducer = (_state = initialState, _action) => {
         burnNonce: null,
         depositAddress: {
           value: null,
-          waiting: false
+          waiting: false,
+          terminated: false,
+          success: false
         },
       }),
       balance: null,
@@ -123,9 +127,13 @@ const pTokensReducer = (_state = initialState, _action) => {
     return Object.assign({}, _state, {
       isIssueSuccedeed: true,
       issueError: null,
-      /*selected: Object.assign({}, _state.selected, {
-        depositAddress: null
-      })*/
+      selected: Object.assign({}, _state.selected, {
+        depositAddress: Object.assign({}, _state.selected.depositAddress, {
+          waiting: false,
+          terminated: true,
+          success: true
+        })
+      }),
     })
   }
 
@@ -133,9 +141,13 @@ const pTokensReducer = (_state = initialState, _action) => {
     return Object.assign({}, _state, {
       issueError: _action.payload.error,
       isIssueSuccedeed: null,
-      /*selected: Object.assign({}, _state.selected, {
-        depositAddress: null
-      })*/
+      selected: Object.assign({}, _state.selected, {
+        depositAddress: Object.assign({}, _state.selected.depositAddress, {
+          waiting: false,
+          terminated: true,
+          success: false
+        })
+      }),
     })
   }
 
@@ -158,7 +170,9 @@ const pTokensReducer = (_state = initialState, _action) => {
       selected: Object.assign({}, _state.selected, {
         depositAddress: {
           value: null,
-          waiting: false
+          waiting: false,
+          terminated: false,
+          success: false
         }
       })
     })

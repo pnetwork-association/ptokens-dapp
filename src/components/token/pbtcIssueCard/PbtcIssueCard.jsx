@@ -34,7 +34,8 @@ const PbtcIssueCard = props => {
         <hr />
         {
           props.pTokenSelected.depositAddress.value &&
-          !props.pTokenSelected.depositAddress.waiting
+          !props.pTokenSelected.depositAddress.waiting &&
+          !props.pTokenSelected.depositAddress.terminated
             ? <div className="row mt-4">
               <div className="col-12 text-center">
                 <QRCode value={props.pTokenSelected.depositAddress.value} />
@@ -48,10 +49,26 @@ const PbtcIssueCard = props => {
         {
           
           props.pTokenSelected.depositAddress.value &&
-          props.pTokenSelected.depositAddress.waiting
+          props.pTokenSelected.depositAddress.waiting &&
+          !props.pTokenSelected.depositAddress.terminated
             ? <div className="row mt-4">
                 <div className="col-12 text-center">
                   <Spinner size="big"/>
+                </div>
+              </div>
+            : null
+        }
+        {
+          
+          props.pTokenSelected.depositAddress.terminated
+            ? <div className="row mt-4 mb-4">
+                <div className="col-12 text-center">
+                  {
+                    props.pTokenSelected.depositAddress.success
+                      ? <img src="./assets/tick.svg" height="100" width="100" alt="success"/>
+                      : <img src="./assets/error.svg" height="100" width="100" alt="error"/>
+                  }
+                  
                 </div>
               </div>
             : null

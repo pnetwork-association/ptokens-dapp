@@ -63,15 +63,6 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
 
       _dispatch(
         LogHandler.addItem({
-          value: 'pBTC mint transaction pending...',
-          success: true,
-          waiting: false,
-          id: 'mint-pending'
-        })
-      )
-
-      _dispatch(
-        LogHandler.addItem({
           value: 'Waiting for confirmation...',
           success: false,
           waiting: true,
@@ -120,7 +111,7 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
     .once('onEnclaveBroadcastedTx', () => {
 
       _dispatch(LogHandler.updateItem('enclave-transaction-broadcast', {
-        value: 'Transaction broadcasted by the enclave!',
+        value: 'ETH Transaction broadcasted by the enclave!',
         success: true,
         waiting: false,
         link: null,
