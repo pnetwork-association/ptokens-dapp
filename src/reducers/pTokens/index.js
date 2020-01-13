@@ -38,7 +38,8 @@ const initialState = {
       value: null,
       waiting: false,
       terminated: false,
-      success: false
+      success: false,
+      error: null
     }
   },
   balance: null,
@@ -92,7 +93,8 @@ const pTokensReducer = (_state = initialState, _action) => {
           value: null,
           waiting: false,
           terminated: false,
-          success: false
+          success: false,
+          error: null
         },
       }),
       balance: null,
@@ -131,7 +133,8 @@ const pTokensReducer = (_state = initialState, _action) => {
         depositAddress: Object.assign({}, _state.selected.depositAddress, {
           waiting: false,
           terminated: true,
-          success: true
+          success: true,
+          error: null
         })
       }),
     })
@@ -145,7 +148,8 @@ const pTokensReducer = (_state = initialState, _action) => {
         depositAddress: Object.assign({}, _state.selected.depositAddress, {
           waiting: false,
           terminated: true,
-          success: false
+          success: false,
+          error: _action.payload.error
         })
       }),
     })
@@ -172,7 +176,8 @@ const pTokensReducer = (_state = initialState, _action) => {
           value: null,
           waiting: false,
           terminated: false,
-          success: false
+          success: false,
+          error: null
         }
       })
     })

@@ -61,7 +61,6 @@ const PbtcIssueCard = props => {
             : null
         }
         {
-          
           props.pTokenSelected.depositAddress.value &&
           props.pTokenSelected.depositAddress.waiting &&
           !props.pTokenSelected.depositAddress.terminated
@@ -73,7 +72,6 @@ const PbtcIssueCard = props => {
             : null
         }
         {
-          
           props.pTokenSelected.depositAddress.terminated
             ? <div className="row mt-4 mb-4">
                 <div className="col-12 text-center">
@@ -82,7 +80,16 @@ const PbtcIssueCard = props => {
                       ? <img src="./assets/tick.svg" height="100" width="100" alt="success"/>
                       : <img src="./assets/error.svg" height="100" width="100" alt="error"/>
                   }
-                  
+                </div>
+              </div>
+            : null
+        }
+        {
+          props.pTokenSelected.depositAddress.terminated &&
+          props.pTokenSelected.depositAddress.error
+            ? <div className="row mt-4 mb-4">
+                <div className="col-12 text-center text-sm text-red font-weight-bold">
+                  {props.pTokenSelected.depositAddress.error}
                 </div>
               </div>
             : null

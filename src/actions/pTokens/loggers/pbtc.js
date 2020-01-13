@@ -11,7 +11,19 @@ import settings from '../../../settings'
 const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
 
   //[0] should be the value but here there isn't
-  const depositAddress = await _ptokens.pbtc.getDepositAddress(_params[1])
+  let depositAddress = null
+  try {
+    depositAddress = await _ptokens.pbtc.getDepositAddress(_params[1])
+  } catch (err) {
+    _dispatch({
+      type: PTOKENS_ISSUE_NOT_SUCCEDEED,
+      payload: {
+        error: err.message
+      }
+    })
+    return
+  }
+  
 
   _dispatch({
     type: PTOKENS_SET_DEPOSIT_ADDRESS,
