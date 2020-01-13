@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Spinner from '../../utils/Spinner'
 import QRCode from 'qrcode.react'
+import settings from '../../../settings'
 
 const PbtcIssueCard = props => {
 
@@ -43,6 +44,19 @@ const PbtcIssueCard = props => {
               <div className="col-12 font-weight-bold text-center mt-2">
                 {props.pTokenSelected.depositAddress.value}
               </div>
+              <div className="col-12 text-primary text-center mt-2 text-xs">
+                Need testnet BTC? 
+                <a className="text-primary" 
+                  href={settings.pbtc.btc.faucet1}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  > (Faucet 1 link)</a>
+                <a className="text-primary"
+                  href={settings.pbtc.btc.faucet2}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  > (Faucet 2 link)</a>
+              </div>
             </div>
             : null
         }
@@ -78,7 +92,8 @@ const PbtcIssueCard = props => {
         <button onClick={() => props.onIssue()}
           type="button"
           className={'btn btn-primary font-weight-light btn-width-280'}
-          disabled={props.typedIssueAccount === ''}>
+          disabled={
+            props.typedIssueAccount === ''}>
           <i className="icon add" />
           <span className="ml-10 vertical-align-middle">
             {
