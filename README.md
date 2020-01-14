@@ -50,6 +50,9 @@ npm test
 
 ### :wrench: Development:
 
+Before running it you must clone __`ptokens.js`__, build it and copy all packages within this __`node_modules `__
+folder (it's not a good solution but make it easy to develop in paraller both __`ptokens.js`__ and __`ptokens-dapp`__)
+
 
 Start __`ptokens-dapp`__ via:
 
