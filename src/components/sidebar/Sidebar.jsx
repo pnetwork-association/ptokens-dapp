@@ -191,7 +191,7 @@ class Sidebar extends React.Component {
                     className="text-white text-sm"
                     target="_blank"
                     rel="noopener noreferrer">
-                      Join us on Telegram <i class="fa fa-telegram fa-lg" aria-hidden="true"/>
+                      <i class="fa fa-telegram fa-lg" aria-hidden="true"/> Join us on Telegram
                   </a>
                 </span>
               </li>
