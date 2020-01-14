@@ -1,6 +1,7 @@
 const settings = {
   dappName: 'pTokens Dapp',
   telegram: 'https://t.me/ptokens',
+  googleAnalyticsTrackId: 'UA- 154250265-1', 
   peos: {
     eth: {
     wsInfuraEndpoint: 'wss://kovan.infura.io/ws/v3',

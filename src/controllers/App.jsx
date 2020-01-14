@@ -7,6 +7,13 @@ import SettingsController from './settings/SettingsController'
 import { Route, Switch } from 'react-router-dom'
 import MainWrapper from '../components/utils/MainWrapper'
 import NetworkDetectorController from './networkDetector/NetworkDetectorController'
+import history from './../utils/history'
+import ReactGA from 'react-ga'
+
+history.listen(location => {
+	ReactGA.set({ page: location.pathname })
+	ReactGA.pageview(location.pathname)
+})
 
 class App extends React.Component {
 
@@ -15,6 +22,10 @@ class App extends React.Component {
 
     this.state = {}
   }
+
+  componentDidMount() {
+		ReactGA.pageview(window.location.pathname)
+	}
 
   render() {
     return (

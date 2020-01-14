@@ -24,7 +24,6 @@ const NetworkDetector = props => {
   )
 }
 
-
 NetworkDetector.propTypes = {
   pTokenSelected: PropTypes.object,
   isCorrectRedeemerNetwork: PropTypes.bool,
