@@ -46,16 +46,16 @@ const PbtcIssueCard = props => {
               </div>
               <div className="col-12 text-primary text-center mt-2 text-xs">
                 Need testnet BTC? 
-                <a className="text-primary" 
+                <a className="text-primary text-underline ml-5" 
                   href={settings.pbtc.btc.faucet1}
                   target="_blank"
                   rel="noopener noreferrer"
-                  > (Faucet 1)</a>
-                <a className="text-primary"
+                  > Faucet 1</a>
+                <a className="text-primary text-underline ml-5"
                   href={settings.pbtc.btc.faucet2}
                   target="_blank"
                   rel="noopener noreferrer"
-                  > (Faucet 2)</a>
+                  > Faucet 2</a>
               </div>
             </div>
             : null

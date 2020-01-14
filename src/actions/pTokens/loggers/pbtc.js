@@ -66,7 +66,7 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
       })
 
       _dispatch(LogHandler.updateItem('broadcasting-pending', {
-        value: `pBTC mint transaction broadcasted`,
+        value: `new BTC deposit detected`,
         success: true,
         link: `${settings.pbtc.btc.explorer}tx/${txid}`,
         id: 'broadcasting-pending'
@@ -85,7 +85,7 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
     .once('onBtcTxConfirmed', () => {
 
       _dispatch(LogHandler.updateItem('mint-confirmation', {
-        value: `Mint transaction confirmed!`,
+        value: `Minting transaction confirmed`,
         success: true,
         link: null,//explorer,
         id: 'mint-confirmation'
