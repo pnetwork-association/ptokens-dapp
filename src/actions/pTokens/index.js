@@ -240,7 +240,8 @@ const _getCorrectpTokenObject = _type => {
         decimals: 4,
         issueFrom: 'EOS',
         redeemFrom: 'ETH',
-        tokenType: 'ERC-20'
+        tokenType: 'ERC-20',
+        network: 'kovan',
       }
     }
     case 'pBTC' : {
@@ -249,7 +250,8 @@ const _getCorrectpTokenObject = _type => {
         decimals: 8,
         issueFrom: 'BTC',
         redeemFrom: 'ETH',
-        tokenType: 'ERC-20'
+        tokenType: 'ERC-20',
+        network: 'ropsten'
       }
     }
     default: break

@@ -11,7 +11,7 @@ const Token = props => {
   let inputRedeemAddress = null
 
   return (
-    <div className="main-content bg-white">
+    <React.Fragment>
       <div className="header">
         <div className="container-fluid">
           <div className="header-body">
@@ -195,7 +195,7 @@ const Token = props => {
           </div>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   )
 }
 

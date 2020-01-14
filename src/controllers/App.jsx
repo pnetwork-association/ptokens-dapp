@@ -5,6 +5,8 @@ import SidebarController from './sidebar/SidebarController'
 import TokenController from './token/TokenController'
 import SettingsController from './settings/SettingsController'
 import { Route, Switch } from 'react-router-dom'
+import MainWrapper from '../components/utils/MainWrapper'
+import NetworkDetectorController from './networkDetector/NetworkDetectorController'
 
 class App extends React.Component {
 
@@ -29,8 +31,10 @@ class App extends React.Component {
           <Route exact path="/enclave" render={props => {
             return (
               <React.Fragment>
-                <SidebarController />
-                <EnclaveController />
+                <SidebarController/>
+                <MainWrapper>
+                  <EnclaveController/>
+                </MainWrapper>
               </React.Fragment>
             )
           }}/>
@@ -38,7 +42,10 @@ class App extends React.Component {
             return (
               <React.Fragment>
                 <SidebarController />
-                <TokenController />
+                <MainWrapper>
+                  <NetworkDetectorController/>
+                  <TokenController />
+                </MainWrapper>
               </React.Fragment>
             )
           }}/>

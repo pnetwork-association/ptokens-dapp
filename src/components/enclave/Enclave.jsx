@@ -10,7 +10,7 @@ import { getCorresponsingVisibleAddressFormat } from '../../utils/account-viewer
 const Enclave = props => {
 
   return (
-    <div className="main-content bg-white">
+    <React.Fragment>
       <div className="header">
         <div className="container-fluid">
           <div className="header-body">
@@ -318,7 +318,7 @@ const Enclave = props => {
           </div>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   )
 }
 

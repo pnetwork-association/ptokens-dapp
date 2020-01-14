@@ -32,6 +32,7 @@ const initialState = {
     totalRedeemed: null,
     circulatingSupply: null,
     tokenType: 'ERC-20',
+    network: 'ropsten',
 
     //only for pbtc
     depositAddress: {
