@@ -16,56 +16,65 @@ const Token = props => {
         <div className="container-fluid">
           <div className="header-body">
             <div className="row">
-              <div className={(props.pTokenSelected.name === 'pBTC' ? 'col-xl-6' : 'col-xl-4') + ' col-12 mt-20'}>
-                <div className="card bg-gray">
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-12">
-                        <div className="text-xxs text-gray line-height-1 font-weight-light">
-                          YOUR BALANCE
-                        </div>
-                        <div className="text-gray text-xxl line-height-1 font-weight-light mt-10">
-                          {
-                            props.balance !== null
-                              ? parseFloat(props.balance)
-                                  .toFixed(props.pTokenSelected.decimals)
-                              : '-'
-                          }
-                          <span className="text-md">
-                          {
-                            props.balance !== null 
-                              ? ' ' + props.pTokenSelected.name 
-                              : ''
-                          }
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className={(props.pTokenSelected.name === 'pBTC' ? 'col-xl-6' : 'col-xl-4') +' col-12 mt-20'}>
-                <div className="card bg-gray">
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-12 mr-0">
-                        <div className="text-xxs text-gray line-height-1 font-weight-light">
-                          YOUR {props.pTokenSelected.redeemFrom} ADDRESS
-                        </div>
-                        <div className="text-gray text-xxl line-height-1 font-weight-light mt-10 text-on-1-row">
-                        {
-                          props.redeemerAccount
-                            ? getCorresponsingVisibleAddressFormat(props.pTokenSelected.name, 'redeemer', props.redeemerAccount)
-                            : '-'
-                        }
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
               {
-                props.pTokenSelected.name !== 'pBTC'
+                props.redeemerProvider
+                  ? <div className={(props.pTokenSelected.name === 'pBTC' ? 'col-xl-6' : 'col-xl-4') + ' col-12 mt-20'}>
+                      <div className="card bg-gray">
+                        <div className="card-body">
+                          <div className="row">
+                            <div className="col-12">
+                              <div className="text-xxs text-gray line-height-1 font-weight-light">
+                                YOUR BALANCE
+                              </div>
+                              <div className="text-gray text-xxl line-height-1 font-weight-light mt-10">
+                                {
+                                  props.balance !== null
+                                    ? parseFloat(props.balance)
+                                        .toFixed(props.pTokenSelected.decimals)
+                                    : '-'
+                                }
+                                <span className="text-md">
+                                {
+                                  props.balance !== null 
+                                    ? ' ' + props.pTokenSelected.name 
+                                    : ''
+                                }
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  : null
+              }
+              {
+                props.redeemerProvider
+                  ? <div className={(props.pTokenSelected.name === 'pBTC' ? 'col-xl-6' : 'col-xl-4') +' col-12 mt-20'}>
+                      <div className="card bg-gray">
+                        <div className="card-body">
+                          <div className="row">
+                            <div className="col-12 mr-0">
+                              <div className="text-xxs text-gray line-height-1 font-weight-light">
+                                YOUR {props.pTokenSelected.redeemFrom} ADDRESS
+                              </div>
+                              <div className="text-gray text-xxl line-height-1 font-weight-light mt-10 text-on-1-row">
+                              {
+                                props.redeemerAccount
+                                  ? getCorresponsingVisibleAddressFormat(props.pTokenSelected.name, 'redeemer', props.redeemerAccount)
+                                  : '-'
+                              }
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  : null
+              }
+              {
+                props.pTokenSelected.name !== 'pBTC' &&
+                props.issuerAccount
                   ?<div className="col-12 col-xl-4 mt-20">
                     <div className="card bg-gray">
                       <div className="card-body">
@@ -200,6 +209,8 @@ Token.propTypes = {
   typedIssueAccount: PropTypes.string,
   typedRedeemAccount: PropTypes.string,
   logs: PropTypes.array,
+  issuerProvider: PropTypes.object,
+  redeemerProvider: PropTypes.object,
   onChangeAmountToIssue: PropTypes.func,
   onChangeAmountToRedeem: PropTypes.func,
   onChangeIssueAccount: PropTypes.func,

@@ -311,6 +311,8 @@ export class TokenController extends React.Component {
           typedIssueAccount={this.props.pTokensParams.typedIssueAccount}
           typedRedeemAccount={this.props.pTokensParams.typedRedeemAccount}
           logs={this.props.logs}
+          issuerProvider={this.props.issuerProvider}
+          redeemerProvider={this.props.redeemerProvider}
           onChangeAmountToIssue={this.onChangeAmountToIssue}
           onChangeAmountToRedeem={this.onChangeAmountToRedeem}
           onChangeIssueAccount={this.onChangeTypedIssueAccount}

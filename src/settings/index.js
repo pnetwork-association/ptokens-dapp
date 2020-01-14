@@ -1,5 +1,6 @@
 const settings = {
   dappName: 'pTokens Dapp',
+  telegram: 'https://t.me/ptokens',
   peos: {
     eth: {
     wsInfuraEndpoint: 'wss://kovan.infura.io/ws/v3',
@@ -43,7 +44,7 @@ const settings = {
     btc: {
       explorer: 'https://blockstream.info/testnet/',
       enclaveBlockHeightPollingTime: 3000,
-      faucet1: 'https://coinfaucet.eu/en/btc-testnet/',
+      faucet1: 'https://testnet-faucet.mempool.co',
       faucet2: 'https://bitcoinfaucet.uo1.net/send.php'
     }
   }

@@ -39,7 +39,7 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
 
   _dispatch(
     LogHandler.addItem({
-      value: 'Waiting for broadcasting pBTC mint transaction...',
+      value: 'Waiting for new deposits...',
       success: false,
       waiting: true,
       id: 'broadcasting-pending'

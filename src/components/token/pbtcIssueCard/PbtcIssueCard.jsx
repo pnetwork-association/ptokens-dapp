@@ -50,12 +50,12 @@ const PbtcIssueCard = props => {
                   href={settings.pbtc.btc.faucet1}
                   target="_blank"
                   rel="noopener noreferrer"
-                  > (Faucet 1 link)</a>
+                  > (Faucet 1)</a>
                 <a className="text-primary"
                   href={settings.pbtc.btc.faucet2}
                   target="_blank"
                   rel="noopener noreferrer"
-                  > (Faucet 2 link)</a>
+                  > (Faucet 2)</a>
               </div>
             </div>
             : null

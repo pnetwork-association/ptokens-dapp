@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Collapse } from "react-bootstrap"
+import { Collapse } from 'react-bootstrap'
+import settings from '../../settings'
 
 class Sidebar extends React.Component {
 
@@ -186,7 +187,12 @@ class Sidebar extends React.Component {
             <ul className="navbar-nav m-0">
               <li className="nav-item">
                 <span className="nav-link active text-xxs justify-content-center">
-                  Powered by<i className="icon powered-provable ml-10"></i>
+                  <a href={settings.telegram}
+                    className="text-white text-sm"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                      Join us on Telegram
+                  </a>
                 </span>
               </li>
             </ul>
