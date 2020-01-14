@@ -25,6 +25,7 @@ const detectNetwork = (_provider, _ptokenName, _role) => {
             network: networks[network]
           }
         })
+        
       }
     }
   }

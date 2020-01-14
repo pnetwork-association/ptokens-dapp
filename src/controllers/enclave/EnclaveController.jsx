@@ -165,7 +165,7 @@ class EnclaveController extends React.Component {
         </span>
       ),
       type: _type,
-      icon: 'fas fa-bell',
+      icon: 'fa fa-bell',
       autoDismiss: 7
     };
     this.refs.notify.notificationAlert(options);
