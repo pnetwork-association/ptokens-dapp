@@ -201,7 +201,6 @@ class Sidebar extends React.Component {
       </React.Fragment>
     )
   }
-
 }
 
 Sidebar.propTypes = {
