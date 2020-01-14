@@ -50,12 +50,14 @@ const initialState = {
       tokenType: 'ERC-20',
       issueFrom: 'EOS',
       redeemFrom: 'ETH',
+      network: 'kovan'
     },
     {
       name: 'pBTC',
       tokenType: 'ERC-20',
       issueFrom: 'BTC',
       redeemFrom: 'ETH',
+      network: 'ropsten'
     },
     /*{
       name: 'pDAI',
@@ -85,6 +87,7 @@ const pTokensReducer = (_state = initialState, _action) => {
         issueFrom: _action.payload.pToken.issueFrom,
         redeemFrom: _action.payload.pToken.redeemFrom,
         tokenType: _action.payload.pToken.tokenType,
+        network: _action.payload.pToken.network,
         circulatingSupply: null,
         totalIssued: null,
         totalRedeemed: null,

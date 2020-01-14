@@ -24,7 +24,7 @@ const PbtcIssueCard = props => {
           className="row mt-5 bg-white ml-0 mr-0 mb-5 cursor-text">
           <div className="col-4 col-md-2 mt-15 mb-15 text-xxs text-gray font-weight-light line-height-1">
             {props.pTokenSelected.redeemFrom} ADDRESS
-                  </div>
+          </div>
           <div className="col-8 col-md-10 text-right text-xxs font-weight-light my-auto">
             <input ref={ref => inputIssueAddress = ref}
               value={props.typedIssueAccount}

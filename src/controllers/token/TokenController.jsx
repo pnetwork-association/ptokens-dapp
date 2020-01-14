@@ -54,7 +54,9 @@ export class TokenController extends React.Component {
 
     this.state = {
       isIssueTerminated: null,
-      isRedeemTerminated: null
+      isRedeemTerminated: null,
+      currentRedeemerAccount: null,
+      currentpTokenName: null
     }
 
     //TODO: se non connesso con entrambi connetti con entrambi altrimenti con solo ognuno di essi
@@ -68,8 +70,8 @@ export class TokenController extends React.Component {
     )
   }
 
-  static getDerivedStateFromProps(_props, _prevState) {
-    if (_props.isIssueSuccedeed === true  || _props.issueError) {
+  static getDerivedStateFromProps(_prevProps, _prevState) {
+    if (_prevProps.isIssueSuccedeed === true  || _prevProps.issueError) {
       return {
         isIssueTerminated: true,
         amountToIssue: '',
@@ -77,8 +79,8 @@ export class TokenController extends React.Component {
       }
     }
     if (
-      (_props.isRedeemSuccedeed === true && !_prevState.isRedeemTerminated) ||
-      _props.redeemError
+      (_prevProps.isRedeemSuccedeed === true && !_prevState.isRedeemTerminated) ||
+      _prevProps.redeemError
     ) {
       return {
         isRedeemTerminated: true,
@@ -125,6 +127,29 @@ export class TokenController extends React.Component {
       this.props.redeemError
     ) {
       this.props.resetRedeemError()
+    }
+
+    //filling input with eth address when pToken is pBTC
+    if (
+        (
+          _prevProps.redeemerAccount !== this.state.currentRedeemerAccount &&
+          this.props.pTokenSelected.name === 'pBTC'
+        ) ||
+        (
+          _prevProps.pTokenSelected.name !== this.state.currentpTokenName &&
+          this.props.pTokenSelected.name === 'pBTC' &&
+          _prevProps.redeemerAccount
+        )
+    ) {
+
+      this.setState({
+        currentRedeemerAccount: _prevProps.redeemerAccount,
+        currentpTokenName: _prevProps.pTokenSelected.name
+      })
+
+      this.props.setpTokenParams(Object.assign({}, this.props.pTokensParams, {
+        typedIssueAccount: _prevProps.redeemerAccount,
+      }))
     }
   }
 
