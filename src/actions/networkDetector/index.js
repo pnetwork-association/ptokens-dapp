@@ -18,6 +18,7 @@ const detectNetwork = (_provider, _ptokenName, _role) => {
       (_ptokenName === 'pBTC' || _ptokenName === 'pEOS') && 
       _role === 'redeemer') 
     {
+      console.log(_provider)
       if (_provider.isMetaMask) {
         const network = await _provider.networkVersion
         _dispatch({
@@ -35,6 +36,17 @@ const detectNetwork = (_provider, _ptokenName, _role) => {
           type: NETWORK_DETECTED_REDEEMER,
           payload: {
             network: networks[_provider.chainId]
+          }
+        })
+        return
+      }
+
+      //portis
+      if (_provider.isPortis) {
+        _dispatch({
+          type: NETWORK_DETECTED_REDEEMER,
+          payload: {
+            network: networks[_provider._portis.config.network.chainId]
           }
         })
         return
