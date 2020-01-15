@@ -1,5 +1,6 @@
 import {
-  NETWORK_DETECTED_REDEEMER
+  NETWORK_DETECTED_REDEEMER,
+  RESET_DETECTED_NETWORK_REDEEMER
 } from '../../constants'
 
 const networks = {
@@ -25,12 +26,30 @@ const detectNetwork = (_provider, _ptokenName, _role) => {
             network: networks[network]
           }
         })
-        
+        return
+      }
+
+      //wallet connect
+      if (_provider.chainId) {
+        _dispatch({
+          type: NETWORK_DETECTED_REDEEMER,
+          payload: {
+            network: networks[_provider.chainId]
+          }
+        })
+        return
       }
     }
   }
 }
 
+const resetDetectedNetwork = _role => {
+  return {
+    type: _role === 'redeemer' ? RESET_DETECTED_NETWORK_REDEEMER : RESET_DETECTED_NETWORK_REDEEMER //TODO: RESET_DETECTED_NETWORK_ISSUER
+  }
+}
+
 export {
-  detectNetwork
+  detectNetwork,
+  resetDetectedNetwork
 }

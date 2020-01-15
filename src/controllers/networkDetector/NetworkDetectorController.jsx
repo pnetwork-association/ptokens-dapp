@@ -18,7 +18,8 @@ const mapStateToProps = state => {
     issuerProvider: state.wallets.issuerProvider,
     redeemerIsConnected: state.wallets.redeemerIsConnected,
     redeemerProvider: state.wallets.redeemerProvider,
-    detectedRedeemerNetwork: state.networkDetector.redeemerNetwork
+    detectedRedeemerNetwork: state.networkDetector.redeemerNetwork,
+    pageSelected: state.sidebar.selected
   }
 }
 
@@ -38,11 +39,22 @@ export class NetworkDetectorController extends Component {
       isCorrectRedeemerNetwork: null,
       isDetectedRedeemer: false,
       toDetectRedeemer: true,
-      currentpTokenName: true
+      currentpTokenName: true,
+      currentRedeemerProvider: null
     }
   }
 
   static getDerivedStateFromProps(_nextProps, _prevState) {
+    if (
+      _nextProps.redeemerProvider !== _prevState.currentRedeemerProvider &&
+      _nextProps.redeemerIsConnected
+    ) {
+      return {
+        toDetectRedeemer: true,
+        currentRedeemerProvider: _nextProps.redeemerProvider
+      }
+    }
+
     if (
       (_nextProps.pTokenSelected.name !== _prevState.currentPtokenName) &&
       _nextProps.redeemerIsConnected
@@ -98,6 +110,8 @@ export class NetworkDetectorController extends Component {
   render() {
     return (
       <NetworkDetector
+        showIn={[1]} //array of pages where showing the network error (0: main, 1: issue & redeem, 2:enclave 3:settings)
+        currentPage={this.props.pageSelected}
         pTokenSelected={this.props.pTokenSelected}
         isCorrectRedeemerNetwork={this.state.isCorrectRedeemerNetwork}
         currentDetectedRedeemerNetwork={this.state.currentDetectedRedeemerNetwork}
@@ -113,6 +127,7 @@ NetworkDetectorController.propTypes = {
   redeemerIsConnected: PropTypes.bool,
   redeemerProvider: PropTypes.object,
   detectedRedeemerNetwork: PropTypes.string,
+  pageSelected: PropTypes.number,
   detectNetwork: PropTypes.func
 }
 

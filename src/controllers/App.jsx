@@ -35,7 +35,10 @@ class App extends React.Component {
             return (
               <React.Fragment>
                 <SidebarController />
-                <MainController />
+                <MainWrapper>
+                  <NetworkDetectorController/>
+                  <MainController />
+                </MainWrapper>
               </React.Fragment>
             )
           }}/>
@@ -44,6 +47,7 @@ class App extends React.Component {
               <React.Fragment>
                 <SidebarController/>
                 <MainWrapper>
+                  <NetworkDetectorController/>  
                   <EnclaveController/>
                 </MainWrapper>
               </React.Fragment>
@@ -63,8 +67,11 @@ class App extends React.Component {
           <Route exact from='/settings' render={props => {
             return (
               <React.Fragment>
-                <SidebarController />
-                <SettingsController />
+                 <SidebarController />
+                <MainWrapper>
+                  <NetworkDetectorController/>
+                  <SettingsController />
+                </MainWrapper>
               </React.Fragment>
             )
           }} />

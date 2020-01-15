@@ -35,7 +35,7 @@ const settings = {
       wsInfuraEndpoint: 'wss://ropsten.infura.io/ws/v3',
       httpsInfuraEndpoint: 'https://ropsten.infura.io/v3/',
       infuraProjectId: '4762c881ac0c4938be76386339358ed6',
-      portisDappId: 'd1f79009-507e-48a9-be58-30468c67b33c',
+      portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       formaticKey: 'pk_test_48E59AF566747C40',
       network: 'ropsten',
       chainId: 3,

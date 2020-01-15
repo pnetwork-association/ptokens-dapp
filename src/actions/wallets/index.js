@@ -40,8 +40,11 @@ const connectWithSpecificWallet = (_pTokenName, _role, _force) => {
         break
       }
       case 'pBTC': {
-        connectWithEthWallet('pBTC', 'redeemer', null, dispatch, _force)
-        break
+        //issuer not present in pbtc
+        if (_role === 'redeemer')
+          connectWithEthWallet('pBTC', 'redeemer', null, dispatch, _force)
+        
+          break
       }
       default: break
     }

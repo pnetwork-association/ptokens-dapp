@@ -11,7 +11,8 @@ const networkTextToShow = {
 
 const NetworkDetector = props => {
   return (
-    props.isCorrectRedeemerNetwork === false
+    props.isCorrectRedeemerNetwork === false &&
+    props.showIn.includes(props.currentPage)
       ? <div className="container-fluid mt-3">
           <div className="alert alert-danger" role="alert">
             {

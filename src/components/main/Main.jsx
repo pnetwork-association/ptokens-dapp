@@ -92,7 +92,7 @@ const getCorrespondingHeaders = (_pTokenName, _role) => {
 const Main = props => {
 
   return (
-    <div className="main-content bg-white">
+    <React.Fragment>
       <div className="header">
         <div className="container-fluid">
           <div className="header-body">
@@ -207,7 +207,7 @@ const Main = props => {
           </div>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   )
 }
 

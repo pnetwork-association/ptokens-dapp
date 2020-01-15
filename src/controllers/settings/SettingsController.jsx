@@ -3,10 +3,13 @@ import { connect } from 'react-redux'
 import Settings from '../../components/settings/Settings'
 import PropTypes from 'prop-types'
 import * as WalletsController from '../../actions/wallets'
+import { resetDetectedNetwork } from '../../actions/networkDetector'
+import { setParams } from '../../actions/pTokens'
 
 const mapStateToProps = state => {
   return {
     pTokenSelected: state.pTokens.selected,
+    pTokensParams: state.pTokens.params,
     issuerIsConnected: state.wallets.issuerIsConnected,
     issuerProvider: state.wallets.issuerProvider,
     issuerAccount: state.wallets.issuerAccount,
@@ -23,6 +26,8 @@ const mapDispatchToProps = dispatch => {
     connectWithSpecificWallet: (_pTokenName, _role, _force) => dispatch(WalletsController.connectWithSpecificWallet(_pTokenName, _role, _force)),
     disconnectFromSpecificWallet: (_pTokenName, _role) => dispatch(WalletsController.disconnectFromSpecificWallet(_pTokenName, _role)),
     changeSpecificWallet: (_pTokenName, _role) => dispatch(WalletsController.changeSpecificWallet(_pTokenName, _role)),
+    resetDetectedNetwork: _role => dispatch(resetDetectedNetwork(_role)),
+    setpTokenParams: _params => dispatch(setParams(_params)),
   }
 }
 
@@ -38,13 +43,15 @@ export class SettingsController extends React.Component {
     if (!this.props.issuerIsConnected) {
       this.props.connectWithSpecificWallet(
         this.props.pTokenSelected.name,
-        'issuer'
+        'issuer',
+        false
       )
     }
     if (!this.props.redeemerIsConnected) {
       this.props.connectWithSpecificWallet(
         this.props.pTokenSelected.name,
-        'redeemer'
+        'redeemer',
+        false
       )
     }
   }
@@ -82,6 +89,12 @@ export class SettingsController extends React.Component {
   }
 
   onChangeRedeemerConnection = _wallet => {
+
+    this.props.resetDetectedNetwork('redeemer')
+    this.props.setpTokenParams(Object.assign({}, this.props.pTokensParams, {
+      typedIssueAccount: '',
+    }))
+
     if (!_wallet) {
       this.props.connectWithSpecificWallet(
         this.props.pTokenSelected.name,
@@ -132,6 +145,7 @@ export class SettingsController extends React.Component {
 
 Settings.propTypes = {
   pTokenSelected: PropTypes.object,
+  pTokensParams: PropTypes.object,
   issuerIsConnected: PropTypes.bool,
   issuerProvider: PropTypes.bool,
   issuerAccount: PropTypes.string,
@@ -143,7 +157,9 @@ Settings.propTypes = {
   connectWithCorrectWallets: PropTypes.func,
   connectWithSpecificWallet: PropTypes.func,
   disconnectFromSpecificWallet: PropTypes.func,
-  changeSpecificWallet: PropTypes.func
+  changeSpecificWallet: PropTypes.func,
+  resetDetectedNetwork: PropTypes.func,
+  setpTokenParams: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsController)

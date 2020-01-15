@@ -6,7 +6,7 @@ import MultiWallet from './multiWallet/MultiWallet'
 
 const Settings = (props) => {
   return (
-    <div className="main-content bg-white">
+    <React.Fragment>
       <div className="header">
         <div className="container-fluid">
           <div className="header-body">
@@ -116,7 +116,7 @@ const Settings = (props) => {
           </div>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   )
 }
 

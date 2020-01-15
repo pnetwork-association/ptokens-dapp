@@ -1,8 +1,8 @@
 import Web3 from 'web3'
 import Web3Connect from 'web3connect'
 import WalletConnectProvider from '@walletconnect/web3-provider'
-import Portis from '@portis/web3'
-//import Fortmatic from 'fortmatic'
+//import Portis from '@portis/web3'
+import Fortmatic from 'fortmatic'
 //import Torus from "@toruslabs/torus-embed";
 //import Squarelink from 'squarelink'
 import settings from '../../../settings'
@@ -25,19 +25,19 @@ const connectWithEthWallet = async (_pTokenName, _role, _currentProvider, _dispa
           infuraId: settings[_pTokenName.toLowerCase()].eth.infuraProjectId,
         }
       },
-      portis: {
+      /*portis: {
         package: Portis,
         options: {
           id: settings[_pTokenName.toLowerCase()].eth.portisDappId
         }
-      },
-      /*fortmatic: {
+      },*/
+      fortmatic: {
         package: Fortmatic,
         options: {
           key: settings[_pTokenName.toLowerCase()].eth.formaticKey
         }
       },
-      torus: {
+      /*torus: {
         package: Torus, 
         options: {
           showTorusButton: true,
