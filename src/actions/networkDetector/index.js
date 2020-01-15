@@ -18,7 +18,6 @@ const detectNetwork = (_provider, _ptokenName, _role) => {
       (_ptokenName === 'pBTC' || _ptokenName === 'pEOS') && 
       _role === 'redeemer') 
     {
-      console.log(_provider)
       if (_provider.isMetaMask) {
         const network = await _provider.networkVersion
         _dispatch({
