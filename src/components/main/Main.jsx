@@ -34,10 +34,10 @@ const getCorrespondingHeaderMap = (_pTokenName, _role) => {
             //prooved: 'VERIFIED'
           }
         : {
-            eth_tx_amount: 'AMOUNT BTC',
+            btc_tx_amount: 'AMOUNT pBTC',
             broadcast_timestamp: 'TIMESTAMP',
-            originating_tx_hash: 'BTC TX HASH (TO)',
-            broadcast_tx_hash: 'ETH TX HASH (FROM)',
+            originating_tx_hash: 'ETH TX HASH (FROM)',
+            broadcast_tx_hash: 'BTC TX HASH (TO)',
             //prooved: 'VERIFIED'
           }
     }
@@ -82,8 +82,8 @@ const getCorrespondingHeaders = (_pTokenName, _role) => {
     return [
       'btc_tx_amount',
       'broadcast_timestamp',
-      'broadcast_tx_hash',
       'originating_tx_hash',
+      'broadcast_tx_hash',
       //'prooved'
     ]
   }

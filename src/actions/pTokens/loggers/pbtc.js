@@ -120,7 +120,7 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
       }))
 
     })
-    .once('onEnclaveBroadcastedTx', () => {
+    .once('onEnclaveBroadcastedTx', tx => {
 
       _dispatch(LogHandler.updateItem('enclave-transaction-broadcast', {
         value: 'ETH Transaction broadcasted by the enclave!',
@@ -130,10 +130,12 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
         id: 'enclave-transaction-broadcast'
       }))
 
+      const explorer = `${settings.pbtc.eth.etherscanLink}tx/${tx.eth_tx_hash}`
+
       _dispatch(LogHandler.addItem({
         value: `ETH transaction pending...`,
         success: true,
-        link: null,
+        link: explorer,
         id: 'transaction-final-pending'
       }))
 
@@ -148,13 +150,11 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
     })
     .then(_result => {
 
-      const explorer = `${settings.pbtc.eth.etherscanLink}tx/${_result.tx}`
-
       _dispatch(LogHandler.updateItem('confirmation-final-mint', {
         value: `ETH transaction confirmed!`,
         success: true,
         waiting: false,
-        link: explorer
+        link: null
       }))
 
       _dispatch({
@@ -236,7 +236,7 @@ const pbtcLoggedRedeem = (_ptokens, _params, _dispatch) => {
         id: 'enclave-transaction-broadcast'
       }))
     })
-    .once('onEnclaveBroadcastedTx', () => {
+    .once('onEnclaveBroadcastedTx', tx => {
       _dispatch(LogHandler.updateItem('enclave-transaction-broadcast', {
         value: 'Transaction broadcasted by the enclave!',
         success: true,
@@ -245,10 +245,12 @@ const pbtcLoggedRedeem = (_ptokens, _params, _dispatch) => {
         id: 'enclave-transaction-broadcast'
       }))
 
+      const explorer = `${settings.pbtc.btc.explorer}tx/${tx.btc_tx_hash}`
+
       _dispatch(LogHandler.addItem({
         value: `BTC transaction pending...`,
         success: true,
-        link: null,
+        link: explorer,
         id: 'transaction-final-pending'
       }))
 
@@ -262,13 +264,11 @@ const pbtcLoggedRedeem = (_ptokens, _params, _dispatch) => {
     })
     .then(result => {
 
-      const explorer = `${settings.pbtc.btc.explorer}tx/${result.tx}`
-
       _dispatch(LogHandler.updateItem('confirmation-final-burn', {
         value: 'BTC transaction confirmed!',
         success: true,
         waiting: false,
-        link: explorer
+        link: null
       }))
 
       _dispatch({

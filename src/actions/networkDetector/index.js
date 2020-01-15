@@ -14,6 +14,10 @@ const networks = {
 
 const detectNetwork = (_provider, _ptokenName, _role) => {
   return async _dispatch => {
+
+    if (!_provider)
+      return
+
     if (
       (_ptokenName === 'pBTC' || _ptokenName === 'pEOS') && 
       _role === 'redeemer') 
