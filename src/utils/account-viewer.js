@@ -1,4 +1,8 @@
 const getCorresponsingVisibleAddressFormat = (_pTokenName, _role, _account) => {
+
+  if (!_account || !_pTokenName)
+    return null
+
   switch (_pTokenName) {
     case 'pEOS': {
       return _role === 'redeemer'

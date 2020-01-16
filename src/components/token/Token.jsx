@@ -4,6 +4,7 @@ import { getCorresponsingVisibleAddressFormat } from '../../utils/account-viewer
 import Process from './process/Process'
 import PbtcIssueCard from './pbtcIssueCard/PbtcIssueCard'
 import PeosIssueCard from './peosIssueCard/PeosIssue'
+import MiniCard from '../utils/MiniCard'
 
 const Token = props => {
 
@@ -19,32 +20,10 @@ const Token = props => {
               {
                 props.redeemerProvider
                   ? <div className={(props.pTokenSelected.name === 'pBTC' ? 'col-xl-6' : 'col-xl-4') + ' col-12 mt-20'}>
-                      <div className="card bg-gray">
-                        <div className="card-body">
-                          <div className="row">
-                            <div className="col-12">
-                              <div className="text-xxs text-gray line-height-1 font-weight-light">
-                                YOUR BALANCE
-                              </div>
-                              <div className="text-gray text-xxl line-height-1 font-weight-light mt-10">
-                                {
-                                  props.balance !== null
-                                    ? parseFloat(props.balance)
-                                        .toFixed(props.pTokenSelected.decimals)
-                                    : '-'
-                                }
-                                <span className="text-md">
-                                {
-                                  props.balance !== null 
-                                    ? ' ' + props.pTokenSelected.name 
-                                    : ''
-                                }
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      <MiniCard title="YOUR BALANCE"
+                        value={props.balance ? parseFloat(props.balance).toFixed(props.pTokenSelected.decimals) : null}
+                        measure={props.pTokenSelected.name }
+                      />
                     </div>
                   : null
               }
@@ -76,24 +55,10 @@ const Token = props => {
                 props.pTokenSelected.name !== 'pBTC' &&
                 props.issuerAccount
                   ?<div className="col-12 col-xl-4 mt-20">
-                    <div className="card bg-gray">
-                      <div className="card-body">
-                        <div className="row">
-                          <div className="col-12">
-                            <div className="text-xxs text-gray line-height-1 font-weight-light">
-                              YOUR {props.pTokenSelected.issueFrom} ACCOUNT
-                            </div>
-                            <div className="text-gray text-xxl line-height-1 font-weight-light mt-10">
-                              {
-                                props.issuerAccount
-                                  ? getCorresponsingVisibleAddressFormat(props.pTokenSelected.name, 'issuer', props.issuerAccount)
-                                  : '-'
-                              }
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <MiniCard title={`YOUR ${props.pTokenSelected.issueFrom} ACCOUNT`}
+                      value={getCorresponsingVisibleAddressFormat(props.pTokenSelected.name, 'issuer', props.issuerAccount)}
+                      measure={''}
+                    />
                   </div>
                 : null
               }

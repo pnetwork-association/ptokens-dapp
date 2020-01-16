@@ -261,12 +261,18 @@ html * {
 .ml-20 {
     margin-left: 20px;
 }
+.ml-25 {
+    margin-left: 25px;
+}
 
 .mr-5 {
     margin-right: 5px !important;
 }
 .mr-10 {
     margin-right: 10px !important;
+}
+.mr-20 {
+    margin-right: 20px;
 }
 .mr-50 {
     margin-right: 50px;

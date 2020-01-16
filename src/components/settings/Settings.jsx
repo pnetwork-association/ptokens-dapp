@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { getCorresponsingVisibleAddressFormat } from '../../utils/account-viewer'
 import SingleWallet from './singleWallet/SingleWallet'
 import MultiWallet from './multiWallet/MultiWallet'
+import MiniCard from '../utils/MiniCard'
 
 const Settings = (props) => {
   return (
@@ -12,46 +13,18 @@ const Settings = (props) => {
           <div className="header-body">
             <div className="row">
               <div className="col-12 col-xl-8 mt-20">
-                <div className="card bg-gray">
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-12">
-                        <div className="text-xxs text-gray line-height-1 font-weight-light">
-                          YOUR {props.pTokenSelected.redeemFrom} ADDRESS
-                        </div>
-                        <div className="text-gray text-xxl line-height-1 font-weight-light mt-10 text-on-1-row">
-                        {
-                          props.redeemerAccount
-                            ? getCorresponsingVisibleAddressFormat(props.pTokenSelected.name, 'redeemer', props.redeemerAccount)
-                            : '-'
-                        }
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <MiniCard title={`YOUR ${props.pTokenSelected.redeemFrom} ACCOUNT`}
+                  value={getCorresponsingVisibleAddressFormat(props.pTokenSelected.name, 'redeemer', props.redeemerAccount)}
+                  measure={''}
+                />
               </div>
               {
                 props.pTokenSelected.name !== 'pBTC'
                   ? <div className="col-12 col-xl-4 mt-20">
-                      <div className="card bg-gray">
-                        <div className="card-body">
-                          <div className="row">
-                            <div className="col-12">
-                              <div className="text-xxs text-gray line-height-1 font-weight-light">
-                                YOUR {props.pTokenSelected.issueFrom} ACCOUNT
-                              </div>
-                              <div className="text-gray text-xxl line-height-1 font-weight-light mt-10">
-                              {
-                                props.issuerAccount
-                                  ? getCorresponsingVisibleAddressFormat(props.pTokenSelected.name, 'issuer', props.issuerAccount)
-                                  : '-'
-                              }
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      <MiniCard title={`YOUR ${props.pTokenSelected.issueFrom} ACCOUNT`}
+                        value={getCorresponsingVisibleAddressFormat(props.pTokenSelected.name, 'issuer', props.issuerAccount)}
+                        measure={''}
+                      />
                     </div>
                   : null
               }

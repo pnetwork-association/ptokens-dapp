@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Spinner from '../utils/Spinner'
+import BlockHeightCard from './BlockHeightCard'
 import { 
   getCorrespondingSmartContractAddress,
   getCorrespondingExplorerLink 
@@ -35,69 +35,16 @@ const Enclave = props => {
                 </div>
               </div>
               <div className="col-12 col-xl-4 mt-20">
-                <div className="card bg-gray">
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-12">
-                        <div className="text-xxs text-gray line-height-1 font-weight-light">
-                          LAST PROCESSED {props.pTokenSelected.redeemFrom} BLOCK NUMBER
-                        </div>
-                        <div className="text-xxl line-height-1 mt-10 font-weight-light">
-                          <span className={
-                            'mr-10 ' +
-                            (props.redeemerBlockHeightStatus === 1 ? 'text-gray' : '') +
-                            (props.redeemerBlockHeightStatus === 2 ? 'text-orange' : '') +
-                            (props.redeemerBlockHeightStatus === 3 ? 'text-red' : '')
-                          }>
-                            {
-                              props.lastRedeemerProcessedBlock
-                                ? props.lastRedeemerProcessedBlock 
-                                : '-'
-                            }
-                          </span>
-                          {
-                            props.lastRedeemerProcessedBlock
-                              ? <Spinner/> 
-                              : null    
-                          }
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <BlockHeightCard title={`LAST PROCESSED ${props.pTokenSelected.redeemFrom} BLOCK NUMBER`}
+                  blockHeightStatus={props.redeemerBlockHeightStatus}
+                  lastProcessedBlock={props.lastRedeemerProcessedBlock}
+                />
               </div>
               <div className="col-12 col-xl-4 mt-20">
-                <div className="card bg-gray">
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-12">
-                        <div className="text-xxs text-gray line-height-1 font-weight-light">
-                          LAST PROCESSED {props.pTokenSelected.issueFrom} BLOCK NUMBER
-                        </div>
-                        <div className="text-xxl line-height-1 mt-10 font-weight-light">
-                          <span className={
-                            'mr-10 ' +
-                            (props.issuerBlockHeightStatus === 1 ? 'text-gray' : '') +
-                            (props.issuerBlockHeightStatus === 2 ? 'text-orange' : '') +
-                            (props.issuerBlockHeightStatus === 3 ? 'text-red' : '')
-                          }
-                          >
-                            {
-                              props.lastIssuerProcessedBlock 
-                                ? props.lastIssuerProcessedBlock 
-                                : '-'
-                            }
-                          </span>
-                          {
-                            props.lastIssuerProcessedBlock 
-                              ? <Spinner/> 
-                              : null
-                          }
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <BlockHeightCard title={`LAST PROCESSED ${props.pTokenSelected.issueFrom} BLOCK NUMBER`}
+                  blockHeightStatus={props.issuerBlockHeightStatus}
+                  lastProcessedBlock={props.lastIssuerProcessedBlock}
+                />
               </div>
             </div>
           </div>

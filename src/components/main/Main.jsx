@@ -3,43 +3,44 @@ import Table from '../utils/Table'
 import PropTypes from 'prop-types'
 import { timestampInSecondsToDate } from '../../utils/utils'
 import { getCorrespondingBaseTxExplorerLink } from '../../utils/ptokens-sm-utils'
+import MiniCard from '../utils/MiniCard'
 
 const getCorrespondingHeaderMap = (_pTokenName, _role) => {
   switch (_pTokenName) {
-    case 'pEOS' : {
+    case 'pEOS': {
       return _role === 'issuer'
         ? {
-            peos_amount: 'AMOUNT pEOS',
-            broadcast_timestamp: 'TIMESTAMP',
-            incoming_transaction_hash: 'EOS TX ID (FROM)',
-            broadcast_transaction_hash: 'ETH TX HASH (TO)',
-            //prooved: 'VERIFIED'
-          }
+          peos_amount: 'AMOUNT pEOS',
+          broadcast_timestamp: 'TIMESTAMP',
+          incoming_transaction_hash: 'EOS TX ID (FROM)',
+          broadcast_transaction_hash: 'ETH TX HASH (TO)',
+          //prooved: 'VERIFIED'
+        }
         : {
-            eos_amount: 'AMOUNT pEOS',
-            broadcast_timestamp: 'TIMESTAMP',
-            incoming_transaction_hash: 'ETH TX HASH (FROM)',
-            broadcast_transaction_hash: 'EOS TX ID (TO)',
-            //prooved: 'VERIFIED'
-          }
+          eos_amount: 'AMOUNT pEOS',
+          broadcast_timestamp: 'TIMESTAMP',
+          incoming_transaction_hash: 'ETH TX HASH (FROM)',
+          broadcast_transaction_hash: 'EOS TX ID (TO)',
+          //prooved: 'VERIFIED'
+        }
     }
 
-    case 'pBTC' : {
+    case 'pBTC': {
       return _role === 'issuer'
         ? {
-            eth_tx_amount: 'AMOUNT pBTC',
-            broadcast_timestamp: 'TIMESTAMP',
-            originating_tx_hash: 'BTC TX HASH (FROM)',
-            eth_tx_hash: 'ETH TX HASH (TO)',
-            //prooved: 'VERIFIED'
-          }
+          eth_tx_amount: 'AMOUNT pBTC',
+          broadcast_timestamp: 'TIMESTAMP',
+          originating_tx_hash: 'BTC TX HASH (FROM)',
+          eth_tx_hash: 'ETH TX HASH (TO)',
+          //prooved: 'VERIFIED'
+        }
         : {
-            btc_tx_amount: 'AMOUNT pBTC',
-            broadcast_timestamp: 'TIMESTAMP',
-            originating_tx_hash: 'ETH TX HASH (FROM)',
-            broadcast_tx_hash: 'BTC TX HASH (TO)',
-            //prooved: 'VERIFIED'
-          }
+          btc_tx_amount: 'AMOUNT pBTC',
+          broadcast_timestamp: 'TIMESTAMP',
+          originating_tx_hash: 'ETH TX HASH (FROM)',
+          broadcast_tx_hash: 'BTC TX HASH (TO)',
+          //prooved: 'VERIFIED'
+        }
     }
 
     default: break
@@ -98,58 +99,16 @@ const Main = props => {
           <div className="header-body">
             <div className="row">
               <div className="col-12 col-xl-6 mt-20">
-                <div className="card bg-gray">
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-12">
-                        <div className="text-xxs text-gray line-height-1 font-weight-light">
-                          CIRCULATING SUPPLY
-                        </div>
-                        <div className="text-gray text-xxl line-height-1 font-weight-light mt-10">
-                          {
-                            props.pTokenSelected.circulatingSupply
-                              ? props.pTokenSelected.circulatingSupply
-                              : '-'
-                          }
-                          <span className="text-md">
-                          {
-                            props.pTokenSelected.circulatingSupply
-                              ? ` ${props.pTokenSelected.name}` 
-                              : null
-                          }
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <MiniCard title="CIRCULATING SUPPLY"
+                  value={props.pTokenSelected.circulatingSupply}
+                  measure={props.pTokenSelected.name}
+                />
               </div>
               <div className="col-12 col-xl-6 mt-20">
-                <div className="card bg-gray">
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-12">
-                        <div className="text-xxs text-gray line-height-1 font-weight-light">
-                          UNDERLYING ASSET
-                        </div>
-                        <div className="text-gray text-xxl line-height-1 font-weight-light mt-10">
-                          {
-                            props.pTokenSelected.circulatingSupply 
-                              ? props.pTokenSelected.circulatingSupply 
-                              : '-'
-                          }
-                          <span className="text-md">
-                          {
-                            props.pTokenSelected.circulatingSupply 
-                              ? ` ${props.pTokenSelected.issueFrom}`  
-                              : null
-                          }
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <MiniCard title="UNDERLYING ASSET"
+                  value={props.pTokenSelected.circulatingSupply}
+                  measure={props.pTokenSelected.name}
+                />
               </div>
             </div>
           </div>
@@ -158,8 +117,19 @@ const Main = props => {
       <div className="container-fluid mt-20">
         <div className="row">
           <div className="col-xl-12">
-            <Table id='issue'
-              title="Minting Events"
+            <Table id='peg-ins'
+              title={
+                <div className="row">
+                  <div className="col-4">
+                    Peg-ins
+                  </div>
+                  <div className="col-8 text-right">
+                    <img className="ml-20 mr-10" src="./assets/BTC.png" height="22" width="22" alt="redeem from logo" />
+                    <img src="./assets/right.png" height="22" width="22" alt="redeem from logo" />
+                    <img className="ml-10" src="./assets/PBTC.png" height="22" width="22" alt="redeem to logo" />
+                  </div>
+                </div>
+              }
               headerMap={
                 getCorrespondingHeaderMap(props.pTokenSelected.name, 'issuer')
               }
@@ -184,8 +154,19 @@ const Main = props => {
       <div className="container-fluid mt-20 mb-20">
         <div className="row">
           <div className="col-xl-12">
-            <Table id='reedeem'
-              title="Burning Events"
+            <Table id='peg-out'
+              title={
+                <div className="row">
+                  <div className="col-4">
+                    Peg-outs
+                  </div>
+                  <div className="col-8 text-right">
+                    <img className="ml-20 mr-10" src="./assets/pBTC.png" height="22" width="22" alt="redeem from logo" />
+                    <img src="./assets/right.png" height="22" width="22" alt="redeem from logo" />
+                    <img className="ml-10" src="./assets/BTC.png" height="22" width="22" alt="redeem to logo" />
+                  </div>
+                </div>
+              }
               headerMap={
                 getCorrespondingHeaderMap(props.pTokenSelected.name, 'redeemer')
               }
