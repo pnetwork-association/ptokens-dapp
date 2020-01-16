@@ -3,8 +3,8 @@ import settings from '../settings'
 const PEOS_ETH_SMART_CONTRACT_ADDRESS = '0x4AEAFc6F72eD16665a70A45297500a0BD9d8c2F0'
 const PEOS_EOS_SMART_CONTRACT_ADDRESS = 'provabletokn'
 
-const PBTC_ETH_SMART_CONTRACT_ADDRESS = '0xc361ed03d162a5084741cfb49ab4caccad47cab9'
-const PBTC_ENCLAVE_PUBKEY = '02e21d574235545c47f36d3507a2416b2ae06efa182d7795a8ed85551a081038a0'
+const PBTC_ETH_SMART_CONTRACT_ADDRESS = '0x7af11253fd03260c5cda7bc2cc39519b382fbf81'
+const PBTC_ENCLAVE_PUBKEY = '038198d8e373c837832c8c719900ea7f5273af16e838c2bbb383f391833d73d6d7'
 
 const getCorrespondingSmartContractAddress = (_pTokenName, _role) => {
   switch (_pTokenName) {
