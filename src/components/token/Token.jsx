@@ -90,11 +90,16 @@ const Token = props => {
             <div className="card bg-light-gray no-shadow border-0 height-max">
               <div className="card-header mb-0 bg-light-gray pl-0 pt-0">
                 <div className="row align-items-center">
-                  <div className="col">
-                    <div className="text-left text-gray text-xxl font-weight-light">
-                      Burn {props.pTokenSelected.name}
-                    </div>
+                <div className="col-12 col-md-8">
+                  <div className="text-left text-gray text-xxl font-weight-light">
+                    Burn {props.pTokenSelected.name} <span className="text-md">(Peg-out)</span>
                   </div>
+                </div>
+                <div className="col-12 col-md-4 text-md-right pl-0 pr-0 mt-10 mt-0-md mb-10 mb-0-md">
+                  <img className="ml-20 mr-10" src={`./assets/${props.pTokenSelected.name}.png`} height="22" width="22" alt="redeem from logo" />
+                  <img src="./assets/right.png" height="22" width="22" alt="redeem from logo" />
+                  <img className="ml-10" src={`./assets/${props.pTokenSelected.issueFrom}.png`} height="22" width="22" alt="redeem to logo" />
+                </div>
                 </div>
               </div>
               <div className="card-body pt-0">

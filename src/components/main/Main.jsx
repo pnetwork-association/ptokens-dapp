@@ -107,9 +107,10 @@ const Main = props => {
               </div>
               <div className="col-12 col-xl-6 mt-20">
               <MiniCard title="NUMBER OF VALIDATORS"
-                  value={1}
+                  value={'1'}
+                  
                   textColor={'yellow'}
-                  measure=""
+                  measure="(on Strongbox)"
                   icon={'blockchain'}
                 />
               </div>
@@ -123,13 +124,13 @@ const Main = props => {
             <Table id='peg-ins'
               title={
                 <div className="row">
-                  <div className="col-4">
+                  <div className="col-7 pr-0">
                     Peg-ins
                   </div>
-                  <div className="col-8 text-right">
-                    <img className="ml-20 mr-10" src="./assets/BTC.png" height="22" width="22" alt="redeem from logo" />
+                  <div className="col-5 text-right pr-0 pl-0">
+                    <img className="ml-20 mr-10" src={`./assets/${props.pTokenSelected.issueFrom}.png`} height="22" width="22" alt="redeem from logo" />
                     <img src="./assets/right.png" height="22" width="22" alt="redeem from logo" />
-                    <img className="ml-10" src="./assets/PBTC.png" height="22" width="22" alt="redeem to logo" />
+                    <img className="ml-10" src={`./assets/${props.pTokenSelected.name}.png`} height="22" width="22" alt="redeem to logo" />
                   </div>
                 </div>
               }
@@ -160,13 +161,13 @@ const Main = props => {
             <Table id='peg-out'
               title={
                 <div className="row">
-                  <div className="col-4">
+                  <div className="col-7 pr-0">
                     Peg-outs
                   </div>
-                  <div className="col-8 text-right">
-                    <img className="ml-20 mr-10" src="./assets/pBTC.png" height="22" width="22" alt="redeem from logo" />
+                  <div className="col-5 text-right pr-0 pl-0">
+                    <img className="ml-20 mr-10" src={`./assets/${props.pTokenSelected.name}.png`} height="22" width="22" alt="redeem from logo" />
                     <img src="./assets/right.png" height="22" width="22" alt="redeem from logo" />
-                    <img className="ml-10" src="./assets/BTC.png" height="22" width="22" alt="redeem to logo" />
+                    <img className="ml-10" src={`./assets/${props.pTokenSelected.issueFrom}.png`} height="22" width="22" alt="redeem to logo" />
                   </div>
                 </div>
               }

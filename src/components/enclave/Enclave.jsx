@@ -16,23 +16,11 @@ const Enclave = props => {
           <div className="header-body">
             <div className="row">
               <div className="col-12 col-xl-4 mt-20">
-                <div className="card bg-gray">
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-12">
-                        <div className="text-xxs text-gray line-height-1 font-weight-light">ENCLAVE STATUS</div>
-                        <div className="text-xl text-gray line-height-1 mt-15 mb-3 font-weight-light">
-                          <i className={'icon mr-5 mb-5 ' + (props.isActive ? 'done' : 'timer')} />
-                          {
-                            props.isActive
-                              ? 'Online' 
-                              : 'Contacting...'
-                          }
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <MiniCard  title="ENCLAVE STATUS"
+                  icon={props.isActive ? 'done' : 'timer'}
+                  value={props.isActive ? 'Online' : 'Contacting...'}
+                  measure={''}
+                />
               </div>
               <div className="col-12 col-xl-4 mt-20">
                 <MiniCard title={`LAST PROCESSED ${props.pTokenSelected.redeemFrom} BLOCK NUMBER`}

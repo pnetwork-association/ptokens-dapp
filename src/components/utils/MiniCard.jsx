@@ -34,7 +34,14 @@ const MiniCard = props => {
                       ? props.value
                       : '-'
                   }
-                  <span className="text-md">
+                  <span className="text-gray">
+                    {
+                      props.description
+                        ? ` ${props.description}`
+                        : null
+                    }
+                  </span>
+                  <span className="text-md text-gray">
                     {
                       props.value
                         ? ` ${props.measure}`
@@ -42,7 +49,7 @@ const MiniCard = props => {
                     }
                   </span>
                   {
-                    props.value
+                    props.value && props.withSpinner
                       ? <Spinner />
                       : null
                   }
@@ -62,7 +69,8 @@ MiniCard.propTypes = {
   measure: PropTypes.string,
   textColor: PropTypes.string,
   icon: PropTypes.string,
-  withSpinner: PropTypes.bool
+  withSpinner: PropTypes.bool,
+  description: PropTypes.string
 }
 
 export default MiniCard

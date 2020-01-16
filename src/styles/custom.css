@@ -290,6 +290,9 @@ html * {
     .mt-10-md {
         margin-top: 10px !important;
     }
+    .mt-0-md {
+        margin-top: 0px !important;
+    }
     .mb-0-md {
         margin-bottom: 0px !important;
     }
