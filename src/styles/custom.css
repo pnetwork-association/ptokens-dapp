@@ -766,6 +766,18 @@ table thead th {
     mask: url(./icons/empty.svg) no-repeat 50% 50%;
     background-color: #475965;
 }
+.icon.coins {
+    height: 24px;
+    width: 24px;
+    background: url(./icons/coins.svg) no-repeat;
+    background-size: contain;
+}
+.icon.blockchain {
+    height: 26px;
+    width: 26px;
+    background: url(./icons/blockchain.svg) no-repeat;
+    background-size: contain;
+}
 .icon.powered-provable {
     width: 70px;
     height: 22px;

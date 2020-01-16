@@ -102,12 +102,15 @@ const Main = props => {
                 <MiniCard title="CIRCULATING SUPPLY"
                   value={props.pTokenSelected.circulatingSupply}
                   measure={props.pTokenSelected.name}
+                  icon={'coins'}
                 />
               </div>
               <div className="col-12 col-xl-6 mt-20">
-              <MiniCard title="UNDERLYING ASSET"
-                  value={props.pTokenSelected.circulatingSupply}
-                  measure={props.pTokenSelected.name}
+              <MiniCard title="NUMBER OF VALIDATORS"
+                  value={1}
+                  textColor={'yellow'}
+                  measure=""
+                  icon={'blockchain'}
                 />
               </div>
             </div>

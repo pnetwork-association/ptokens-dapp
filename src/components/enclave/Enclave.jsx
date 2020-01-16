@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import BlockHeightCard from './BlockHeightCard'
+import MiniCard from '../utils/MiniCard'
 import { 
   getCorrespondingSmartContractAddress,
   getCorrespondingExplorerLink 
@@ -35,15 +35,27 @@ const Enclave = props => {
                 </div>
               </div>
               <div className="col-12 col-xl-4 mt-20">
-                <BlockHeightCard title={`LAST PROCESSED ${props.pTokenSelected.redeemFrom} BLOCK NUMBER`}
-                  blockHeightStatus={props.redeemerBlockHeightStatus}
-                  lastProcessedBlock={props.lastRedeemerProcessedBlock}
+                <MiniCard title={`LAST PROCESSED ${props.pTokenSelected.redeemFrom} BLOCK NUMBER`}
+                  value={props.lastRedeemerProcessedBlock}
+                  measure={''}
+                  withSpinner={true}
+                  textColor={
+                    props.redeemerBlockHeightStatus === 1 ? 'gray' :
+                    props.redeemerBlockHeightStatus === 2 ? 'orange' :
+                    props.redeemerBlockHeightStatus === 3 ? 'red' : ''
+                  }
                 />
               </div>
               <div className="col-12 col-xl-4 mt-20">
-                <BlockHeightCard title={`LAST PROCESSED ${props.pTokenSelected.issueFrom} BLOCK NUMBER`}
-                  blockHeightStatus={props.issuerBlockHeightStatus}
-                  lastProcessedBlock={props.lastIssuerProcessedBlock}
+                <MiniCard title={`LAST PROCESSED ${props.pTokenSelected.issueFrom} BLOCK NUMBER`}
+                  value={props.lastIssuerProcessedBlock}
+                  measure={''}
+                  withSpinner={true}
+                  textColor={
+                    props.issuerBlockHeightStatus === 1 ? 'gray' :
+                    props.issuerBlockHeightStatus === 2 ? 'orange' :
+                    props.issuerBlockHeightStatus === 3 ? 'red' : ''
+                  }
                 />
               </div>
             </div>
