@@ -115,8 +115,8 @@ const Token = props => {
                       <div className="col-12 text-xxs text-primary mt-5 mb-15">
                         {
                           props.amountToRedeem !== '' 
-                            ? `${props.amountToRedeem} ${props.pTokenSelected.redeemFrom}`
-                            : `0 ${props.pTokenSelected.redeemFrom}`
+                            ? `${props.amountToRedeem} ${props.pTokenSelected.name}`
+                            : `0 ${props.pTokenSelected.name}`
                         }
                       </div>
                     </div>

@@ -35,8 +35,8 @@ const PeosIssueCard = props => {
               <div className="col-12 text-xxs text-primary mt-5 mb-15">
                 {
                   props.amountToIssue !== ''
-                    ? `${props.amountToIssue} ${props.pTokenSelected.issueFrom}`
-                    : `0 ${props.pTokenSelected.issueFrom}`
+                    ? `${props.amountToIssue} ${props.pTokenSelected.name}`
+                    : `0 ${props.pTokenSelected.name}`
                 }
               </div>
             </div>
