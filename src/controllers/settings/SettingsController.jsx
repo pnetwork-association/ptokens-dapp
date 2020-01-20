@@ -162,7 +162,8 @@ Settings.propTypes = {
   disconnectFromSpecificWallet: PropTypes.func,
   changeSpecificWallet: PropTypes.func,
   resetDetectedNetwork: PropTypes.func,
-  setpTokenParams: PropTypes.func
+  setpTokenParams: PropTypes.func,
+  setBalance: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsController)

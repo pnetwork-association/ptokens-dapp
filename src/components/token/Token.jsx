@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { getCorresponsingVisibleAddressFormat } from '../../utils/account-viewer'
 import Process from './process/Process'

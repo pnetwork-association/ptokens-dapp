@@ -12,6 +12,8 @@ import { getMinumIssuableAmount } from '../../utils/minum-issuable-amount'
 import { getMinumRedeemableAmount } from '../../utils/minimun-redeeamble-amount'
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
 
+const sleep = _ms => new Promise(resolve => setTimeout(resolve, _ms))
+
 const mapStateToProps = state => {
   return {
     logs: state.log.logs,
@@ -59,8 +61,6 @@ export class TokenController extends React.Component {
       currentpTokenName: null
     }
 
-    //TODO: se non connesso con entrambi connetti con entrambi altrimenti con solo ognuno di essi
-
     this.props.connectWithCorrectWallets(
       this.props.pTokenSelected.name,
       {
@@ -100,7 +100,7 @@ export class TokenController extends React.Component {
     else return null
   }
 
-  componentDidUpdate(_prevProps, _prevState) {
+  async componentDidUpdate(_prevProps, _prevState) {
 
     if (!_prevProps.redeemerProvider && this.props.redeemerProvider) {
       this.props.getBalance(
@@ -117,13 +117,13 @@ export class TokenController extends React.Component {
       this.props.isIssueSuccedeed &&
       this.state.isIssueTerminated
     ) {
-      console.log("ciaio")
       this.props.resetIssueSuccess()
 
       this.setState({
         isIssueTerminated: false 
       })
 
+      await sleep(10000)
       this.props.getBalance(
         this.props.pTokenSelected.name,
         this.props.redeemerAccount,
