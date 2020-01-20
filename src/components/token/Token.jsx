@@ -7,11 +7,9 @@ import PeosIssueCard from './peosIssueCard/PeosIssue'
 import MiniCard from '../utils/MiniCard'
 import Alert from '../utils/Alert'
 import Input from '../utils/Input'
+import Button from '../utils/Button'
 
 const Token = props => {
-
-  let inputRedeemAmount = null
-  let inputRedeemAddress = null
 
   return (
     <React.Fragment>
@@ -94,7 +92,7 @@ const Token = props => {
                 <div className="row align-items-center">
                 <div className="col-12 col-md-8">
                   <div className="text-left text-gray text-xxl font-weight-light">
-                    Burn {props.pTokenSelected.name} <span className="text-md">(Peg-out)</span>
+                    Redeem {props.pTokenSelected.name} <span className="text-md">(Peg-out)</span>
                   </div>
                 </div>
                 <div className="col-12 col-md-4 text-md-right pl-0 pr-0 mt-10 mt-0-md mb-10 mb-0-md">
@@ -135,13 +133,11 @@ const Token = props => {
                 <hr/>
               </div>
               <div className="card-footer border-0 pb-20 pt-10 d-flex justify-content-end">
-                <button onClick={() => props.onRedeem()} 
-                        type="button" 
-                        className="btn btn-primary font-weight-light btn-width-140"
-                        disabled={props.typedRedeemAccount === '' || props.amountToRedeem === ''}>
-                  <i className="icon burn"/>
-                  <span className="ml-10 vertical-align-middle">BURN</span>
-                </button>  
+                <Button width={140}
+                  icon={'burn'}
+                  disabled={(props.typedRedeemAccount === '' || props.amountToRedeem === '')}
+                  text="REDEEM"
+                  onClick={() => props.onRedeem()}/>
               </div>
             </div>
           </div>

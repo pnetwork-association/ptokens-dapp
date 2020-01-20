@@ -58,7 +58,7 @@ const Settings = (props) => {
                   }
                   </div>
                   <div className="col-md-4 co-12 text-center text-md-right mt-10-md mt-0 mb-0-md mb-10">
-                    <SingleWallet isConnected={props.redeemerIsConnected}
+                    <MultiWallet isConnected={props.redeemerIsConnected}
                       onChange={() => props.onChangeRedeemerConnection(props.redeemerWallet)}/>
                   </div>
                 </div>
@@ -76,7 +76,7 @@ const Settings = (props) => {
                         }
                         </div>
                         <div className="col-md-4 col-6 text-right d-flex justify-end justify-content-end mt-15 mb-15 pl-0">
-                          <MultiWallet isConnected={props.issuerIsConnected}
+                          <SingleWallet isConnected={props.issuerIsConnected}
                             onChange={() => props.onChangeIssuerConnection(props.issuerWallet)}/>
                         </div>
                       </div>

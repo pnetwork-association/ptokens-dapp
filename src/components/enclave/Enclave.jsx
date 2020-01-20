@@ -6,6 +6,7 @@ import {
   getCorrespondingExplorerLink 
 } from '../../utils/ptokens-sm-utils'
 import { getCorresponsingVisibleAddressFormat } from '../../utils/account-viewer'
+import Button from '../utils/Button'
 
 const Enclave = props => {
 
@@ -257,9 +258,9 @@ const Enclave = props => {
                 </div>
               </div>
               <div className="card-footer border-0 pb-20 pt-10 d-flex justify-content-end">
-                <button onClick={() => props.onSubmit()} type="button" className="btn btn-primary" disabled={props.canSubmit ? false : true}>
-                  <span>SUBMIT BLOCK</span>
-                </button>
+                <Button onClick={() => props.onSubmit()}
+                  disabled={props.canSubmit ? false : true}
+                  text="SUBMIT BLOCK"/>
               </div>
             </div>
           </div>

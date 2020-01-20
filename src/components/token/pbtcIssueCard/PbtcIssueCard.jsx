@@ -4,6 +4,7 @@ import Spinner from '../../utils/Spinner'
 import QRCode from 'qrcode.react'
 import settings from '../../../settings'
 import Input from '../../utils/Input'
+import Button from '../../utils/Button'
 
 const PbtcIssueCard = props => {
 
@@ -92,20 +93,15 @@ const PbtcIssueCard = props => {
         }
       </div>
       <div className={'card-footer border-0 pb-20 pt-10 d-flex justify-content-center'}>
-        <button onClick={() => props.onIssue()}
-          type="button"
-          className={'btn btn-primary font-weight-light btn-width-280'}
-          disabled={
-            props.typedIssueAccount === ''}>
-          <i className="icon add" />
-          <span className="ml-10 vertical-align-middle">
-            {
-              props.pTokenSelected.depositAddress
-                ? 'Generate New Deposit Address'
-                : 'Generate Deposit Address'
-            }
-          </span>
-        </button>
+        <Button width={280}
+          icon={'add'}
+          disabled={props.typedIssueAccount === ''}
+          text={
+            props.pTokenSelected.depositAddress
+              ? 'Generate New Deposit Address'
+              : 'Generate Deposit Address'
+          }
+          onClick={() => props.onIssue()}/>
       </div>
     </div>
   )

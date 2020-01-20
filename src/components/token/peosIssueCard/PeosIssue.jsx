@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Input from '../../utils/Input'
+import Button from '../../utils/Button'
 
 const PeosIssueCard = props => {
-  
+
   return (
     <div className="card shadow bg-light-gray no-shadow height-max">
       <div className="card-header mb-0 bg-light-gray pl-0 pt-0">
@@ -39,15 +40,11 @@ const PeosIssueCard = props => {
         <hr />
       </div>
       <div className="card-footer border-0 pb-20 pt-10 d-flex">
-        <button onClick={() => props.onIssue()}
-          type="button"
-          className={'btn btn-primary font-weight-light btn-width-140'}
-          disabled={(props.typedIssueAccount === '' || props.amountToIssue === '')}>
-          <i className="icon add" />
-          <span className="ml-10 vertical-align-middle">
-            ISSUE
-          </span>
-        </button>
+        <Button width={140}
+          icon={'add'}
+          disabled={(props.typedIssueAccount === '' || props.amountToIssue === '')}
+          text="ISSUE"
+          onClick={() => props.onIssue()}/>
       </div>
     </div>
 

@@ -1,17 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Toogle from '../../utils/Toogle'
 
 const SingleWallet = props => {
   return(
-    <button className="btn btn-primary h-40" onClick={() => props.onChange()}>
-      <span>
-        {
-          props.isConnected
-            ? 'CHANGE' 
-            : 'CONNECT'
-        }
-      </span>
-    </button>
+    <React.Fragment>
+      <div className={'text-xxs font-weigth-light mr-10 my-auto d-none d-sm-block ' + (!props.isConnected ? 'text-gray' : 'text-super-light-gray')}>
+        DEACTIVATED
+      </div>
+      <Toogle value={props.isConnected ? props.isConnected : false}
+        onChange={() => props.onChange()} />
+      <div className={'text-xxs font-weigth-light ml-10 my-auto d-none d-sm-block ' + (props.isConnected ? 'text-gray' : 'text-super-light-gray')}>
+        ACTIVATED
+      </div>
+    </React.Fragment>
   )
 }
 
