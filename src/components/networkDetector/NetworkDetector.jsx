@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Alert from '../utils/Alert'
 
 const networkTextToShow = {
   kovan: 'Kovan Test Network',
@@ -14,12 +15,11 @@ const NetworkDetector = props => {
     props.isCorrectRedeemerNetwork === false &&
     props.showIn.includes(props.currentPage)
       ? <div className="container-fluid mt-3">
-          <div className="alert alert-danger" role="alert">
-            {
+          <Alert type={'danger'}
+            text={
               `${props.pTokenSelected.name} is not available on ${networkTextToShow[props.currentDetectedRedeemerNetwork]}. 
               Please use ${networkTextToShow[props.pTokenSelected.network]}`
-            }
-          </div>
+            }/>
         </div>
       : null
   )

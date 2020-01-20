@@ -1,15 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { getCorresponsingVisibleAddressFormat } from '../../utils/account-viewer'
 import Process from './process/Process'
 import PbtcIssueCard from './pbtcIssueCard/PbtcIssueCard'
 import PeosIssueCard from './peosIssueCard/PeosIssue'
 import MiniCard from '../utils/MiniCard'
+import Alert from '../utils/Alert'
 
 const Token = props => {
 
   let inputRedeemAmount = null
   let inputRedeemAddress = null
+
+  const [inputIsClicked, setInputIsClicked] = useState(0)
 
   return (
     <React.Fragment>
@@ -129,7 +132,10 @@ const Token = props => {
                   </div>
                 </div>
                 <hr/>
-                <div onClick={() => inputRedeemAddress.focus()}
+                <div onClick={() => {
+                    inputRedeemAddress.focus()
+                    setInputIsClicked(true)
+                  }}
                   className="row mt-5 bg-white ml-0 mr-0 mb-5">
                   <div className="col-4 col-md-2 mt-15 mb-15 text-xxs text-gray font-weight-light line-height-1">
                     {props.pTokenSelected.issueFrom} ADDRESS
@@ -142,6 +148,17 @@ const Token = props => {
                   </div>
                 </div>
                 <hr/>
+                {
+                  props.pTokenSelected.name === 'pBTC' &&
+                  inputIsClicked
+                    ? <div className="mt-10">
+                        <Alert type={'warning'}
+                          size={'exsmall'}
+                          text={'BTC addresses where redeem pBTCs should be addresses under the user control'}
+                        />
+                      </div>
+                    : null
+                }
               </div>
               <div className="card-footer border-0 pb-20 pt-10 d-flex justify-content-end">
                 <button onClick={() => props.onRedeem()} 
