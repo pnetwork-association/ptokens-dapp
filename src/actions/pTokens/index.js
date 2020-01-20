@@ -203,6 +203,15 @@ const setParams = _params => {
   }
 }
 
+const setBalance = _balance => {
+  return {
+    type: PTOKENS_BALANCE_LOADED,
+    payload: {
+      balance: _balance
+    }
+  }
+}
+
 const _getCorrectConfigs = (_type, _configs) => {
 
   const {
@@ -276,5 +285,6 @@ export {
   resetIssueError,
   resetParams,
   resetRedeemError,
-  setParams
+  setParams,
+  setBalance
 }

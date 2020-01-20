@@ -266,7 +266,7 @@ const pTokensReducer = (_state = initialState, _action) => {
         amountToRedeem: '',
         typedIssueAccount: '',
         typedRedeemAccount: ''
-      }),
+      })
     })
   }
 

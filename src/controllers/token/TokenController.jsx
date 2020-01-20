@@ -68,14 +68,25 @@ export class TokenController extends React.Component {
         issuer: this.props.issuerProvider
       }
     )
+
+    if (this.props.redeemerProvider) {
+      this.props.getBalance(
+        this.props.pTokenSelected.name,
+        this.props.redeemerAccount,
+        {
+          redeemer: this.props.redeemerProvider,
+          issuer: this.props.issuerProvider
+        }
+      )
+    }
   }
 
   static getDerivedStateFromProps(_prevProps, _prevState) {
-    if (_prevProps.isIssueSuccedeed === true  || _prevProps.issueError) {
+    if (
+      (_prevProps.isIssueSuccedeed === true  && !_prevState.isRedeemTerminated) ||
+      _prevProps.issueError) {
       return {
-        isIssueTerminated: true,
-        amountToIssue: '',
-        typedIssueAccount: ''
+        isIssueTerminated: true
       }
     }
     if (
@@ -83,19 +94,30 @@ export class TokenController extends React.Component {
       _prevProps.redeemError
     ) {
       return {
-        isRedeemTerminated: true,
-        amountToRedeem: '',
-        typedRedeemAccount: ''
+        isRedeemTerminated: true
       }
     }
     else return null
   }
 
   componentDidUpdate(_prevProps, _prevState) {
+
+    if (!_prevProps.redeemerProvider && this.props.redeemerProvider) {
+      this.props.getBalance(
+        this.props.pTokenSelected.name,
+        this.props.redeemerAccount,
+        {
+          redeemer: this.props.redeemerProvider,
+          issuer: this.props.issuerProvider
+        }
+      )
+    }
+
     if (
       this.props.isIssueSuccedeed &&
       this.state.isIssueTerminated
     ) {
+      console.log("ciaio")
       this.props.resetIssueSuccess()
 
       this.setState({
@@ -324,21 +346,6 @@ export class TokenController extends React.Component {
   }
 
   render() {
-    
-    if (
-      this.props.redeemerIsConnected &&
-      this.props.redeemerAccount &&
-      this.props.pTokenSelected
-    ) {
-      this.props.getBalance(
-        this.props.pTokenSelected.name,
-        this.props.redeemerAccount,
-        {
-          issuer: this.props.issuerProvider,
-          redeemer: this.props.redeemerProvider
-        }
-      )
-    }
       
     return (
       <React.Fragment>
