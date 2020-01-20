@@ -124,7 +124,7 @@ const Token = props => {
                     ? <div className="mt-10">
                         <Alert type={'warning'}
                           size={'exsmall'}
-                          text={'BTC addresses where redeem pBTCs should be addresses under the user control'}
+                          text={'Please make sure the bitcoin address is one you own, or funds may be permanently lost'}
                         />
                       </div>
                     : null
