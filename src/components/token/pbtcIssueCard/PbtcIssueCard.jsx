@@ -3,10 +3,9 @@ import PropTypes from 'prop-types'
 import Spinner from '../../utils/Spinner'
 import QRCode from 'qrcode.react'
 import settings from '../../../settings'
+import Input from '../../utils/Input'
 
 const PbtcIssueCard = props => {
-
-  let inputIssueAddress = null
 
   return (
     <div className="card shadow bg-light-gray no-shadow height-max">
@@ -25,18 +24,10 @@ const PbtcIssueCard = props => {
         </div>
       </div>
       <div className="card-body pt-0">
-        <div onClick={() => inputIssueAddress.focus()}
-          className="row mt-5 bg-white ml-0 mr-0 mb-5 cursor-text">
-          <div className="col-4 col-md-2 mt-15 mb-15 text-xxs text-gray font-weight-light line-height-1">
-            {props.pTokenSelected.redeemFrom} ADDRESS
-          </div>
-          <div className="col-8 col-md-10 text-right text-xxs font-weight-light my-auto">
-            <input ref={ref => inputIssueAddress = ref}
-              value={props.typedIssueAccount}
-              onChange={e => props.onChangeIssueAccount(e.target.value)}
-              className="form-control text-sm" placeholder="" type="text" />
-          </div>
-        </div>
+        <Input label={`${props.pTokenSelected.redeemFrom} ADDRESS`}
+          value={props.typedIssueAccount}
+          size={'small'}
+          onChange={e => props.onChangeIssueAccount(e.target.value)}/>
         <hr />
         {
           props.pTokenSelected.depositAddress.value &&
