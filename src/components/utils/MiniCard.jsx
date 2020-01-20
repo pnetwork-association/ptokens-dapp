@@ -65,7 +65,10 @@ const MiniCard = props => {
 
 MiniCard.propTypes = {
   title: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   measure: PropTypes.string,
   textColor: PropTypes.string,
   icon: PropTypes.string,

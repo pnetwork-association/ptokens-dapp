@@ -107,8 +107,7 @@ const Main = props => {
               </div>
               <div className="col-12 col-xl-6 mt-20">
               <MiniCard title="NUMBER OF VALIDATORS"
-                  value={'1'}
-                  
+                  value={1}
                   textColor={'yellow'}
                   measure="(on Strongbox)"
                   icon={'blockchain'}

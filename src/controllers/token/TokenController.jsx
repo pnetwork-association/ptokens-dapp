@@ -92,12 +92,24 @@ export class TokenController extends React.Component {
   }
 
   componentDidUpdate(_prevProps, _prevState) {
-    if (this.props.isIssueSuccedeed) {
+    if (
+      this.props.isIssueSuccedeed &&
+      this.state.isIssueTerminated
+    ) {
       this.props.resetIssueSuccess()
 
       this.setState({
         isIssueTerminated: false 
       })
+
+      this.props.getBalance(
+        this.props.pTokenSelected.name,
+        this.props.redeemerAccount,
+        {
+          redeemer: this.props.redeemerProvider,
+          issuer: this.props.issuerProvider
+        }
+      )
     }
     if (
       (_prevProps.issueError !== this.props.issueError) &&
@@ -106,7 +118,10 @@ export class TokenController extends React.Component {
       this.props.resetIssueError()
     }
 
-    if (this.props.isRedeemSuccedeed) {
+    if (
+      this.props.isRedeemSuccedeed &&
+      this.state.isRedeemTerminated
+    ) {
       this.props.resetRedeemSuccess()
 
       this.setState({

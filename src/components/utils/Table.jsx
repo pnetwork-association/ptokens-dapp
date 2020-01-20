@@ -172,7 +172,8 @@ class Table extends Component {
 }
 
 Table.propTypes = {
-  title: PropTypes.string,
+  id: PropTypes.string,
+  title: PropTypes.object,
   headers: PropTypes.array,
   values: PropTypes.array
 }
