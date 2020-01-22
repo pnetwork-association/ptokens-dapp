@@ -1,4 +1,6 @@
-import React from 'react'
+import React , {
+  useEffect
+} from 'react'
 import PropTypes from 'prop-types'
 import MiniCard from '../utils/MiniCard'
 import { 
@@ -11,6 +13,10 @@ import ReactTooltip from 'react-tooltip'
 
 
 const Enclave = props => {
+  
+  useEffect(() => {
+    ReactTooltip.rebuild()
+  })
 
   return (
     <React.Fragment>
