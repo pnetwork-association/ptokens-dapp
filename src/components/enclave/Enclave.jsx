@@ -7,11 +7,14 @@ import {
 } from '../../utils/ptokens-sm-utils'
 import { getCorresponsingVisibleAddressFormat } from '../../utils/account-viewer'
 import Button from '../utils/Button'
+import ReactTooltip from 'react-tooltip'
+
 
 const Enclave = props => {
 
   return (
     <React.Fragment>
+      <ReactTooltip/>
       <div className="header">
         <div className="container-fluid">
           <div className="header-body">
@@ -102,14 +105,23 @@ const Enclave = props => {
                   <div className="col-6 col-xl-9 text-right text-gray text-md">
                     {
                       props.pTokenSelected.name === 'pBTC'
-                        ?  getCorresponsingVisibleAddressFormat(
-                            props.pTokenSelected.name,
-                            'issuer',
+                        ? <div data-tip={
                             getCorrespondingSmartContractAddress(
                               props.pTokenSelected.name,
                               'issuer'
                             )
-                          )
+                          }>
+                            { 
+                              getCorresponsingVisibleAddressFormat(
+                                props.pTokenSelected.name,
+                                'issuer',
+                                getCorrespondingSmartContractAddress(
+                                  props.pTokenSelected.name,
+                                  'issuer'
+                                )
+                              )
+                            }
+                          </div>
                         : <a className="text-xs text-underline text-primary font-monospace" 
                             href={
                               getCorrespondingExplorerLink(
