@@ -20,10 +20,9 @@ const isValidAccount = (_pTokenName, _account, _role) => {
         ? pTokenUtils.btc.isValidAddress(_account)
         : web3.utils.isAddress(_account)
     }
-    default: break
+    default:
+      break
   }
 }
 
-export {
-  isValidAccount
-}
+export { isValidAccount }

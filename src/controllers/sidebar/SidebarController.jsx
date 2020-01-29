@@ -1,13 +1,13 @@
 import React from 'react'
 import Sidebar from '../../components/sidebar/Sidebar'
-import { connect } from "react-redux"
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { 
+import {
   setSelectedPage,
   setSelectedPageFromPathname,
   setCollapseState
 } from '../../actions/sidebar'
-import { setSelectedpToken , resetParams} from '../../actions/pTokens'
+import { setSelectedpToken, resetParams } from '../../actions/pTokens'
 import { disconnectFromSpecificWallet } from '../../actions/wallets'
 import * as Enclave from '../../actions/enclave'
 import history from '../../utils/history'
@@ -24,17 +24,18 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setSelectedPage: selected => dispatch(setSelectedPage(selected)),
-    setSelectedPageFromPathname: pathname => dispatch(setSelectedPageFromPathname(pathname)),
+    setSelectedPageFromPathname: pathname =>
+      dispatch(setSelectedPageFromPathname(pathname)),
     setCollapseState: state => dispatch(setCollapseState(state)),
     setSelectedpToken: pToken => dispatch(setSelectedpToken(pToken)),
     resetEnclaveData: () => dispatch(Enclave.resetData()),
-    disconnectFromSpecificWallet: (pTokenName, role) => dispatch(disconnectFromSpecificWallet(pTokenName, role)),
-    resetParams: () => dispatch(resetParams()),
+    disconnectFromSpecificWallet: (pTokenName, role) =>
+      dispatch(disconnectFromSpecificWallet(pTokenName, role)),
+    resetParams: () => dispatch(resetParams())
   }
 }
 
 export class SidebarController extends React.Component {
-
   constructor(props, context) {
     super(props, context)
 
@@ -45,7 +46,8 @@ export class SidebarController extends React.Component {
 
   render() {
     return (
-      <Sidebar page={this.props.selected}
+      <Sidebar
+        page={this.props.selected}
         pTokenSelected={this.props.pTokenSelected}
         pTokensAvailable={this.props.pTokensAvailable}
         onChangePage={this.props.setSelectedPage}
@@ -54,8 +56,7 @@ export class SidebarController extends React.Component {
             ? this.props.setCollapseState(!this.props.isCollapseOpened)
             : this.props.setCollapseState(state)
         }}
-        onChangeSelectedpToken={(pToken => {
-
+        onChangeSelectedpToken={pToken => {
           this.props.disconnectFromSpecificWallet(
             this.props.pTokenSelected.name,
             'issuer'
@@ -66,7 +67,7 @@ export class SidebarController extends React.Component {
 
           this.props.resetEnclaveData()
           this.props.setSelectedpToken(pToken)
-        })}
+        }}
         isCollapseOpened={this.props.isCollapseOpened}
       />
     )

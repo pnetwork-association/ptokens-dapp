@@ -55,10 +55,4 @@ const clearWaitingItem = () => {
   }
 }
 
-export {
-  addItem,
-  addWithoutDoubleUp,
-  updateItem,
-  clear,
-  clearWaitingItem,
-}
+export { addItem, addWithoutDoubleUp, updateItem, clear, clearWaitingItem }

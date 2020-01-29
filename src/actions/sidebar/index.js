@@ -6,9 +6,7 @@ import {
 import history from '../../utils/history'
 
 const setSelectedPage = page => {
-  switch (
-    page
-  ) {
+  switch (page) {
     case 0: {
       history.push('/')
       break
@@ -25,7 +23,8 @@ const setSelectedPage = page => {
       history.push('/settings')
       break
     }
-    default: break
+    default:
+      break
   }
 
   return {
@@ -35,9 +34,7 @@ const setSelectedPage = page => {
 }
 
 const setSelectedPageFromPathname = pathname => {
-  switch (
-    pathname
-  ) {
+  switch (pathname) {
     case '/': {
       return {
         type: SET_SELECTED_PAGE_FROM_PATHNAME,
@@ -62,7 +59,8 @@ const setSelectedPageFromPathname = pathname => {
         payload: 3
       }
     }
-    default: break
+    default:
+      break
   }
 }
 
@@ -73,8 +71,4 @@ const setCollapseState = state => {
   }
 }
 
-export {
-  setSelectedPage,
-  setSelectedPageFromPathname,
-  setCollapseState
-}
+export { setSelectedPage, setSelectedPageFromPathname, setCollapseState }

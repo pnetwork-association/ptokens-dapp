@@ -23,7 +23,6 @@ const initialState = {
 }
 
 const enclaveReducer = (_state = initialState, _action) => {
-  
   if (_action.type === ENCLAVE_PING_PONG) {
     return Object.assign({}, _state, {
       isActive: true

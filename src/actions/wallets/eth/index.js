@@ -14,15 +14,20 @@ import {
 
 let web3Connect
 
-const connectWithEthWallet = async (_pTokenName, _role, _currentProvider, _dispatch, _force = null) => {
-
+const connectWithEthWallet = async (
+  _pTokenName,
+  _role,
+  _currentProvider,
+  _dispatch,
+  _force = null
+) => {
   web3Connect = new Web3Connect.Core({
     network: settings[_pTokenName.toLowerCase()].eth.network,
     providerOptions: {
       walletconnect: {
         package: WalletConnectProvider,
         options: {
-          infuraId: settings[_pTokenName.toLowerCase()].eth.infuraProjectId,
+          infuraId: settings[_pTokenName.toLowerCase()].eth.infuraProjectId
         }
       },
       portis: {
@@ -30,7 +35,7 @@ const connectWithEthWallet = async (_pTokenName, _role, _currentProvider, _dispa
         options: {
           id: settings[_pTokenName.toLowerCase()].eth.portisDappId
         }
-      },
+      }
       /*fortmatic: {
         package: Fortmatic,
         options: {
@@ -50,7 +55,7 @@ const connectWithEthWallet = async (_pTokenName, _role, _currentProvider, _dispa
       }*/
     }
   })
-  
+
   if (_currentProvider) {
     return
   }
@@ -73,8 +78,7 @@ const connectWithEthWallet = async (_pTokenName, _role, _currentProvider, _dispa
     _connectionSuccesfull(provider, _dispatch, _role, wallet)
   })
 
-  if (_force)
-    web3Connect.toggleModal()
+  if (_force) web3Connect.toggleModal()
 }
 
 const disconnectFromEthWallet = () => {
@@ -84,7 +88,8 @@ const disconnectFromEthWallet = () => {
 const _connectionSuccesfull = async (_provider, _dispatch, _role, _wallet) => {
   const account = await _getAccount(_provider)
   _dispatch({
-    type: _role === 'issuer' ? WALLET_ISSUER_CONNECTED : WALLET_REDEEMER_CONNECTED,
+    type:
+      _role === 'issuer' ? WALLET_ISSUER_CONNECTED : WALLET_REDEEMER_CONNECTED,
     payload: {
       provider: _provider,
       account,
@@ -100,15 +105,9 @@ const _getAccount = async _provider => {
 }
 
 const _getWalletNameByProvider = _provider => {
-  if (_provider.isWalletConnect)
-    return 'Wallet Connect'
-  if (_provider.isPortis)
-    return 'Portis'
-  else
-    return 'Metamask'
+  if (_provider.isWalletConnect) return 'Wallet Connect'
+  if (_provider.isPortis) return 'Portis'
+  else return 'Metamask'
 }
 
-export {
-  connectWithEthWallet,
-  disconnectFromEthWallet,
-}
+export { connectWithEthWallet, disconnectFromEthWallet }

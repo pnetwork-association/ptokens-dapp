@@ -11,7 +11,6 @@ const initialState = {
 }
 
 const logReducer = (_state = initialState, _action) => {
-  
   if (_action.type === LOG_ITEM_ADDED) {
     return Object.assign({}, _state, {
       logs: [..._state.logs, _action.payload]
@@ -19,9 +18,7 @@ const logReducer = (_state = initialState, _action) => {
   }
 
   if (_action.type === LOG_ITEM_ADDED_WITHOUT_DOUBLE_UP) {
-    const exists = _state.logs.filter(log => 
-      log.id === _action.payload.id 
-    )
+    const exists = _state.logs.filter(log => log.id === _action.payload.id)
     if (exists.length === 0) {
       return Object.assign({}, _state, {
         logs: [..._state.logs, _action.payload.item]
@@ -30,9 +27,7 @@ const logReducer = (_state = initialState, _action) => {
   }
 
   if (_action.type === LOG_ITEM_UPDATED) {
-    const exists = _state.logs.filter(log => 
-      log.id === _action.payload.id
-    )
+    const exists = _state.logs.filter(log => log.id === _action.payload.id)
     if (exists.length === 0) {
       return Object.assign({}, _state, {
         logs: [..._state.logs, _action.payload.item]
@@ -42,8 +37,7 @@ const logReducer = (_state = initialState, _action) => {
     const logs = _state.logs.map(log => {
       if (log.id === _action.payload.id) {
         return _action.payload.item
-      }
-      else return log
+      } else return log
     })
     return Object.assign({}, _state, {
       logs
@@ -57,9 +51,7 @@ const logReducer = (_state = initialState, _action) => {
   }
 
   if (_action.type === LOG_ITEMS_WAITING_CLEARED) {
-    const logs = _state.logs.filter(log => 
-      !log.waiting
-    )
+    const logs = _state.logs.filter(log => !log.waiting)
     return Object.assign({}, _state, {
       logs
     })

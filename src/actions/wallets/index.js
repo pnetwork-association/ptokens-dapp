@@ -1,18 +1,9 @@
-import {
-  connectWithScatter,
-  disconnectFromScatter
-} from './eos'
-import {
-  connectWithEthWallet,
-  disconnectFromEthWallet
-} from './eth'
+import { connectWithScatter, disconnectFromScatter } from './eos'
+import { connectWithEthWallet, disconnectFromEthWallet } from './eth'
 
 const connectWithCorrectWallets = (_pTokenName, _currentProviders, _force) => {
   return dispatch => {
-
-    const {
-      redeemer
-    } = _currentProviders
+    const { redeemer } = _currentProviders
 
     switch (_pTokenName) {
       case 'pEOS': {
@@ -25,14 +16,15 @@ const connectWithCorrectWallets = (_pTokenName, _currentProviders, _force) => {
         connectWithEthWallet('pBTC', 'redeemer', redeemer, dispatch, _force)
         break
       }
-      default: break
+      default:
+        break
     }
   }
 }
 
 const connectWithSpecificWallet = (_pTokenName, _role, _force) => {
   return dispatch => {
-    switch(_pTokenName) {
+    switch (_pTokenName) {
       case 'pEOS': {
         _role === 'issuer'
           ? connectWithScatter('issuer', dispatch, _force)
@@ -43,17 +35,18 @@ const connectWithSpecificWallet = (_pTokenName, _role, _force) => {
         //issuer not present in pbtc
         if (_role === 'redeemer')
           connectWithEthWallet('pBTC', 'redeemer', null, dispatch, _force)
-        
-          break
+
+        break
       }
-      default: break
+      default:
+        break
     }
   }
 }
 
 const disconnectFromSpecificWallet = (_pTokenName, _role) => {
   return dispatch => {
-    switch(_pTokenName) {
+    switch (_pTokenName) {
       case 'pEOS': {
         _role === 'issuer'
           ? disconnectFromScatter('issuer', dispatch)
@@ -64,14 +57,15 @@ const disconnectFromSpecificWallet = (_pTokenName, _role) => {
         disconnectFromEthWallet('redeemer', null, dispatch)
         break
       }
-      default: break
+      default:
+        break
     }
   }
 }
 
 const changeSpecificWallet = (_pTokenName, _role) => {
   return dispatch => {
-    switch(_pTokenName) {
+    switch (_pTokenName) {
       case 'pEOS': {
         _role === 'issuer'
           ? console.log('Available only 1 EOS wallet')
@@ -82,7 +76,8 @@ const changeSpecificWallet = (_pTokenName, _role) => {
         connectWithEthWallet('pBTC', 'redeemer', null, dispatch, true)
         break
       }
-      default: break
+      default:
+        break
     }
   }
 }

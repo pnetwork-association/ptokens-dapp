@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import NotificationAlert from "react-notification-alert"
+import NotificationAlert from 'react-notification-alert'
 import Enclave from '../../components/enclave/Enclave'
 import * as EnclaveConnector from '../../actions/enclave'
 import * as pTokens from '../../actions/pTokens'
@@ -25,21 +25,30 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     ping: _pTokenName => dispatch(EnclaveConnector.ping(_pTokenName)),
-    getLastProcessedBlock: (_pTokenName, _type, _role) => dispatch(EnclaveConnector.getLastProcessedBlock(_pTokenName, _type, _role)),
-    submitBlock: (_pTokenName, _type, _block) => dispatch(EnclaveConnector.submitBlock(_pTokenName, _type, _block)),
-    resetSubmitBlockSuccess:() => dispatch(EnclaveConnector.resetSubmitBlockSuccess()),
-    getMintNonce: (_pTokenName, _configs) => dispatch(pTokens.getMintNonce(_pTokenName, _configs)),
-    getBurnNonce: (_pTokenName, _configs) => dispatch(pTokens.getBurnNonce(_pTokenName, _configs)),
-    getTotalIssued: (_pTokenName, _configs) => dispatch(pTokens.getTotalIssued(_pTokenName, _configs)),
-    getTotalRedeemed: (_pTokenName, _configs) => dispatch(pTokens.getTotalRedeemed(_pTokenName, _configs)),
-    getCirculatingSupply: (_pTokenName, _configs) => dispatch(pTokens.getCirculatingSupply(_pTokenName, _configs))
+    getLastProcessedBlock: (_pTokenName, _type, _role) =>
+      dispatch(
+        EnclaveConnector.getLastProcessedBlock(_pTokenName, _type, _role)
+      ),
+    submitBlock: (_pTokenName, _type, _block) =>
+      dispatch(EnclaveConnector.submitBlock(_pTokenName, _type, _block)),
+    resetSubmitBlockSuccess: () =>
+      dispatch(EnclaveConnector.resetSubmitBlockSuccess()),
+    getMintNonce: (_pTokenName, _configs) =>
+      dispatch(pTokens.getMintNonce(_pTokenName, _configs)),
+    getBurnNonce: (_pTokenName, _configs) =>
+      dispatch(pTokens.getBurnNonce(_pTokenName, _configs)),
+    getTotalIssued: (_pTokenName, _configs) =>
+      dispatch(pTokens.getTotalIssued(_pTokenName, _configs)),
+    getTotalRedeemed: (_pTokenName, _configs) =>
+      dispatch(pTokens.getTotalRedeemed(_pTokenName, _configs)),
+    getCirculatingSupply: (_pTokenName, _configs) =>
+      dispatch(pTokens.getCirculatingSupply(_pTokenName, _configs))
   }
 }
 
 class EnclaveController extends React.Component {
-
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
 
     this.state = {
       blockType: null,
@@ -48,7 +57,7 @@ class EnclaveController extends React.Component {
       redeemerDataLoaded: false,
       isBlockSubmissionTerminated: false
     }
-    
+
     this.props.ping(this.props.pTokenSelected.name)
     this.props.getLastProcessedBlock(
       this.props.pTokenSelected.name,
@@ -60,18 +69,14 @@ class EnclaveController extends React.Component {
       this.props.pTokenSelected.redeemFrom.toLowerCase(),
       'redeemer'
     )
-    
+
     this.intervalIssuerBlockGetter = setInterval(() => {
       this.props.getLastProcessedBlock(
         this.props.pTokenSelected.name,
         this.props.pTokenSelected.issueFrom.toLowerCase(),
         'issuer'
       )
-    }, settings
-        [this.props.pTokenSelected.name.toLowerCase()]
-        [this.props.pTokenSelected.issueFrom.toLowerCase()]
-        .enclaveBlockHeightPollingTime
-    )
+    }, settings[this.props.pTokenSelected.name.toLowerCase()][this.props.pTokenSelected.issueFrom.toLowerCase()].enclaveBlockHeightPollingTime)
 
     this.intervalRedeemerBlockGetter = setInterval(() => {
       this.props.getLastProcessedBlock(
@@ -79,17 +84,12 @@ class EnclaveController extends React.Component {
         this.props.pTokenSelected.redeemFrom.toLowerCase(),
         'redeemer'
       )
-    }, settings
-        [this.props.pTokenSelected.name.toLowerCase()]
-        [this.props.pTokenSelected.redeemFrom.toLowerCase()]
-        .enclaveBlockHeightPollingTime
-    )
+    }, settings[this.props.pTokenSelected.name.toLowerCase()][this.props.pTokenSelected.redeemFrom.toLowerCase()].enclaveBlockHeightPollingTime)
   }
-
 
   static getDerivedStateFromProps(props, prevState) {
     if (
-      props.isBlockSubmissionSucceeded === true && 
+      props.isBlockSubmissionSucceeded === true &&
       !prevState.isBlockSubmissionTerminated
     ) {
       return {
@@ -101,10 +101,10 @@ class EnclaveController extends React.Component {
 
   componentDidUpdate(_prevProps, _prevState) {
     if (
-      (!_prevProps.redeemerReadOnlyProvider && this.props.redeemerReadOnlyProvider) ||
+      (!_prevProps.redeemerReadOnlyProvider &&
+        this.props.redeemerReadOnlyProvider) ||
       !this.state.redeemerDataLoaded
     ) {
-
       const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(
         this.props.pTokenSelected.name,
         this.props.pTokenSelected.redeemFrom
@@ -114,7 +114,7 @@ class EnclaveController extends React.Component {
         issuer: null,
         redeemer: redeemerReadOnlyProvider
       }
-      
+
       this.props.getMintNonce(this.props.pTokenSelected.name, configs)
       this.props.getBurnNonce(this.props.pTokenSelected.name, configs)
       this.props.getTotalIssued(this.props.pTokenSelected.name, configs)
@@ -130,8 +130,8 @@ class EnclaveController extends React.Component {
     }
 
     if (
-      this.props.isBlockSubmissionSucceeded && 
-      this.state.isBlockSubmissionTerminated && 
+      this.props.isBlockSubmissionSucceeded &&
+      this.state.isBlockSubmissionTerminated &&
       !_prevState.isBlockSubmissionTerminated
     ) {
       this.setState({
@@ -153,47 +153,45 @@ class EnclaveController extends React.Component {
     const options = {
       place: 'br',
       message: (
-        <span className='ml-1 font-weight-bold'>
-          {
-            _message + '.'
-          } 
-          {
-            _link
-              ? <a href={_link} target="_blank" rel="noopener noreferrer"> link</a> 
-              : null
-          }
+        <span className="ml-1 font-weight-bold">
+          {_message + '.'}
+          {_link ? (
+            <a href={_link} target="_blank" rel="noopener noreferrer">
+              {' '}
+              link
+            </a>
+          ) : null}
         </span>
       ),
       type: _type,
       icon: 'fa fa-bell',
       autoDismiss: 7
-    };
-    this.refs.notify.notificationAlert(options);
+    }
+    this.refs.notify.notificationAlert(options)
   }
 
   handleChangeBlockType = _blockType => {
     this.setState({
-      blockType: _blockType 
+      blockType: _blockType
     })
     this.canSubmit(_blockType, this.state.blockData)
   }
 
   handleBlockData = _blockData => {
-    this.setState({ 
-      blockData : _blockData
+    this.setState({
+      blockData: _blockData
     })
     this.canSubmit(this.state.blockType, _blockData)
   }
 
   canSubmit = (_blockType, _blockData) => {
     if (_blockData !== '' && _blockType) {
-      this.setState({ 
-        canSubmit: true 
-      })
-    } 
-    else {
       this.setState({
-        canSubmit: false 
+        canSubmit: true
+      })
+    } else {
+      this.setState({
+        canSubmit: false
       })
     }
   }
@@ -216,7 +214,8 @@ class EnclaveController extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Enclave pTokenSelected={this.props.pTokenSelected}
+        <Enclave
+          pTokenSelected={this.props.pTokenSelected}
           isActive={this.props.isActive}
           lastIssuerProcessedBlock={this.props.lastIssuerProcessedBlock}
           lastRedeemerProcessedBlock={this.props.lastRedeemerProcessedBlock}
@@ -227,18 +226,19 @@ class EnclaveController extends React.Component {
           redeemerBlockHeightStatus={this.props.redeemerBlockHeightStatus}
           onChangeBlockType={this.handleChangeBlockType}
           onChangeBlockData={this.handleBlockData}
-          onSubmit={this.onSubmit} />
-        <NotificationAlert ref="notify"/>
+          onSubmit={this.onSubmit}
+        />
+        <NotificationAlert ref="notify" />
       </React.Fragment>
     )
   }
 }
 
 EnclaveController.propTypes = {
-  pTokenSelected: PropTypes.object, 
-  isActive: PropTypes.bool, 
-  lastIssuerProcessedBlock: PropTypes.number, 
-  lastRedeemerProcessedBlock: PropTypes.number, 
+  pTokenSelected: PropTypes.object,
+  isActive: PropTypes.bool,
+  lastIssuerProcessedBlock: PropTypes.number,
+  lastRedeemerProcessedBlock: PropTypes.number,
   isBlockSubmissionSucceeded: PropTypes.bool,
   issuerBlockHeightStatus: PropTypes.number,
   redeemerBlockHeightStatus: PropTypes.number,

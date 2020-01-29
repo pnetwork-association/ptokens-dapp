@@ -1,15 +1,9 @@
-import React, {
-  Component 
-} from 'react'
+import React, { Component } from 'react'
 import NetworkDetector from '../../components/networkDetector/NetworkDetector'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {
-  detectNetwork
-} from '../../actions/networkDetector'
-import {
-  getNetworkCorrectness
-} from '../../utils/network-correctness'
+import { detectNetwork } from '../../actions/networkDetector'
+import { getNetworkCorrectness } from '../../utils/network-correctness'
 
 const mapStateToProps = state => {
   return {
@@ -25,17 +19,17 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    detectNetwork: (_provider, _pTokenName, _role) => dispatch(detectNetwork(_provider, _pTokenName, _role) )
+    detectNetwork: (_provider, _pTokenName, _role) =>
+      dispatch(detectNetwork(_provider, _pTokenName, _role))
   }
 }
 
 export class NetworkDetectorController extends Component {
-
   constructor(props, context) {
     super(props, context)
 
     this.state = {
-      currentDetectedRedeemerNetwork : null,
+      currentDetectedRedeemerNetwork: null,
       isCorrectRedeemerNetwork: null,
       isDetectedRedeemer: false,
       toDetectRedeemer: true,
@@ -56,7 +50,7 @@ export class NetworkDetectorController extends Component {
     }
 
     if (
-      (_nextProps.pTokenSelected.name !== _prevState.currentPtokenName) &&
+      _nextProps.pTokenSelected.name !== _prevState.currentPtokenName &&
       _nextProps.redeemerIsConnected
     ) {
       return {
@@ -66,7 +60,10 @@ export class NetworkDetectorController extends Component {
       }
     }
 
-    if (_nextProps.detectedRedeemerNetwork !== _prevState.currentDetectedRedeemerNetwork) {
+    if (
+      _nextProps.detectedRedeemerNetwork !==
+      _prevState.currentDetectedRedeemerNetwork
+    ) {
       return {
         currentDetectedRedeemerNetwork: _nextProps.detectedRedeemerNetwork,
         isCorrectRedeemerNetwork: getNetworkCorrectness(
@@ -78,7 +75,8 @@ export class NetworkDetectorController extends Component {
     }
 
     if (
-      (_nextProps.pTokenSelected.name === 'pEOS' || _nextProps.pTokenSelected.name === 'pBTC') &&
+      (_nextProps.pTokenSelected.name === 'pEOS' ||
+        _nextProps.pTokenSelected.name === 'pBTC') &&
       _nextProps.redeemerIsConnected &&
       _nextProps.redeemerProvider &&
       !_prevState.isDetectedRedeemer
@@ -90,9 +88,8 @@ export class NetworkDetectorController extends Component {
     return null
   }
 
-  componentDidUpdate (_nextProps, _prevState) {
-    if (this.state.toDetectRedeemer){
-
+  componentDidUpdate(_nextProps, _prevState) {
+    if (this.state.toDetectRedeemer) {
       this.props.detectNetwork(
         this.props.redeemerProvider,
         this.props.pTokenSelected.name,
@@ -114,7 +111,9 @@ export class NetworkDetectorController extends Component {
         currentPage={this.props.pageSelected}
         pTokenSelected={this.props.pTokenSelected}
         isCorrectRedeemerNetwork={this.state.isCorrectRedeemerNetwork}
-        currentDetectedRedeemerNetwork={this.state.currentDetectedRedeemerNetwork}
+        currentDetectedRedeemerNetwork={
+          this.state.currentDetectedRedeemerNetwork
+        }
       />
     )
   }
@@ -131,4 +130,7 @@ NetworkDetectorController.propTypes = {
   detectNetwork: PropTypes.func
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NetworkDetectorController)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NetworkDetectorController)

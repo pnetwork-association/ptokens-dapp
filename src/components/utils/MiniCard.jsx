@@ -23,36 +23,22 @@ const MiniCard = props => {
             </div>
             <div className="row">
               <div className="col-12">
-                <div className={`text-gray text-xxl line-height-1 font-weight-light mt-10 ${props.textColor ? colors[props.textColor] : ''}`}>
-                  {
-                    props.icon
-                      ? <i className={`icon mr-10 mb-5 ${props.icon}`} />
-                      : null
-                  }
-                  {
-                    props.value
-                      ? props.value
-                      : '-'
-                  }
+                <div
+                  className={`text-gray text-xxl line-height-1 font-weight-light mt-10 ${
+                    props.textColor ? colors[props.textColor] : ''
+                  }`}
+                >
+                  {props.icon ? (
+                    <i className={`icon mr-10 mb-5 ${props.icon}`} />
+                  ) : null}
+                  {props.value ? props.value : '-'}
                   <span className="text-gray">
-                    {
-                      props.description
-                        ? ` ${props.description}`
-                        : null
-                    }
+                    {props.description ? ` ${props.description}` : null}
                   </span>
                   <span className="text-md text-gray">
-                    {
-                      props.value
-                        ? ` ${props.measure}`
-                        : null
-                    }
+                    {props.value ? ` ${props.measure}` : null}
                   </span>
-                  {
-                    props.value && props.withSpinner
-                      ? <Spinner />
-                      : null
-                  }
+                  {props.value && props.withSpinner ? <Spinner /> : null}
                 </div>
               </div>
             </div>
@@ -65,10 +51,7 @@ const MiniCard = props => {
 
 MiniCard.propTypes = {
   title: PropTypes.string,
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   measure: PropTypes.string,
   textColor: PropTypes.string,
   icon: PropTypes.string,

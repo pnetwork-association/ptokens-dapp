@@ -58,7 +58,7 @@ const initialState = {
       issueFrom: 'BTC',
       redeemFrom: 'ETH',
       network: 'ropsten'
-    },
+    }
     /*{
       name: 'pDAI',
       tokenType: 'ERC-20' 
@@ -99,7 +99,7 @@ const pTokensReducer = (_state = initialState, _action) => {
           terminated: false,
           success: false,
           error: null
-        },
+        }
       }),
       balance: null,
       isIssueSuccedeed: null,
@@ -111,10 +111,10 @@ const pTokensReducer = (_state = initialState, _action) => {
         amountToRedeem: '',
         typedIssueAccount: '',
         typedRedeemAccount: ''
-      }),
+      })
     })
   }
-  
+
   if (_action.type === PTOKENS_SET_DEPOSIT_ADDRESS) {
     return Object.assign({}, _state, {
       selected: Object.assign({}, _state.selected, {
@@ -140,7 +140,7 @@ const pTokensReducer = (_state = initialState, _action) => {
           success: true,
           error: null
         })
-      }),
+      })
     })
   }
 
@@ -155,7 +155,7 @@ const pTokensReducer = (_state = initialState, _action) => {
           success: false,
           error: _action.payload.error
         })
-      }),
+      })
     })
   }
 
@@ -236,7 +236,7 @@ const pTokensReducer = (_state = initialState, _action) => {
       })
     })
   }
-  
+
   if (_action.type === PTOKENS_TOTAL_REDEEMED_LOADED) {
     return Object.assign({}, _state, {
       selected: Object.assign({}, _state.selected, {
@@ -269,8 +269,6 @@ const pTokensReducer = (_state = initialState, _action) => {
       })
     })
   }
-
-  
 
   return _state
 }

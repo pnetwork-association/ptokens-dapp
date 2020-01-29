@@ -12,37 +12,61 @@ const Process = props => {
               Process
             </div>
           </div>
-          <div onClick={() => props.onResetLogs()} className="col-2 text-right cursor-pointer">
+          <div
+            onClick={() => props.onResetLogs()}
+            className="col-2 text-right cursor-pointer"
+          >
             <i className="icon empty" />
           </div>
         </div>
       </div>
       <div className="card-body">
-        {
-          props.logs ?
-            props.logs.map((log, index) => {
+        {props.logs
+          ? props.logs.map((log, index) => {
               return (
                 <div key={index} className="row">
-                  <div className={'col ml-10' + (index > 0 ? ' mt-5' : '') + (index === props.logs.length - 1 ? ' mb-15' : '')}>
-                    {
-                      log.waiting === true
-                        ? <Spinner />
-                        : <i className={log.success === true ? 'icon verified' : 'icon not-verified'} />
+                  <div
+                    className={
+                      'col ml-10' +
+                      (index > 0 ? ' mt-5' : '') +
+                      (index === props.logs.length - 1 ? ' mb-15' : '')
                     }
-                    <span className={(!log.waiting ? 'text-gray ml-10' : 'text-super-light-gray ml-15') + ' text-sm'}>{log.value}</span>
-                    {
-                      log.link
-                        ? <a className="ml-10 text-xs text-underline text-primary" href={log.link} target="_blank" rel="noopener noreferrer">
-                          View tx link
-                                  </a>
-                        : null
-                    }
+                  >
+                    {log.waiting === true ? (
+                      <Spinner />
+                    ) : (
+                      <i
+                        className={
+                          log.success === true
+                            ? 'icon verified'
+                            : 'icon not-verified'
+                        }
+                      />
+                    )}
+                    <span
+                      className={
+                        (!log.waiting
+                          ? 'text-gray ml-10'
+                          : 'text-super-light-gray ml-15') + ' text-sm'
+                      }
+                    >
+                      {log.value}
+                    </span>
+                    {log.link ? (
+                      <a
+                        className="ml-10 text-xs text-underline text-primary"
+                        href={log.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        View tx link
+                      </a>
+                    ) : null}
                   </div>
                 </div>
               )
             })
-            : null
-        }
+          : null}
         <hr />
       </div>
       <div className="card-footer border-0 p-0 pt-10" />

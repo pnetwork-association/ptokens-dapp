@@ -11,6 +11,4 @@ const getNetworkCorrectness = (_pTokenName, _network, _role) => {
   }
 }
 
-export {
-  getNetworkCorrectness
-}
+export { getNetworkCorrectness }

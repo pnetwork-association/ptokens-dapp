@@ -10,7 +10,10 @@ const sizes = {
 
 const Alert = props => {
   return (
-    <div className={`alert alert-${props.type} ${sizes[props.size]}`} role="alert">
+    <div
+      className={`alert alert-${props.type} ${sizes[props.size]}`}
+      role="alert"
+    >
       {props.text}
     </div>
   )

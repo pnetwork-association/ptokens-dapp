@@ -1,7 +1,5 @@
 import pTokens from 'ptokens'
-import {
-  getCorrespondingReadOnlyProvider
-} from './read-only-providers'
+import { getCorrespondingReadOnlyProvider } from './read-only-providers'
 import Web3 from 'web3'
 import settings from '../settings'
 import { Api, JsonRpc } from 'eosjs'
@@ -17,8 +15,11 @@ const BTC_BAD = 6
 const EOS_GOOD = 1200 // (500ms each block -> 2blocks x second -> 120 block x minute -> 1200 blocks each 10 minutes)
 const EOS_BAD = 7200 //each hours
 
-const getEnclaveBlockHeightStatusComparedWithTheReals = async (_pTokenName, _role, _enclaveBlockHeight) => {
-
+const getEnclaveBlockHeightStatusComparedWithTheReals = async (
+  _pTokenName,
+  _role,
+  _enclaveBlockHeight
+) => {
   if (_pTokenName === 'pBTC' && _role === 'issuer') {
     const ptokens = new pTokens({
       pbtc: {
@@ -26,7 +27,7 @@ const getEnclaveBlockHeightStatusComparedWithTheReals = async (_pTokenName, _rol
       }
     })
 
-     const btcLastBlock = await ptokens.pbtc._esplora.makeApiCall(
+    const btcLastBlock = await ptokens.pbtc._esplora.makeApiCall(
       'GET',
       '/blocks/tip/height'
     )
@@ -53,14 +54,13 @@ const getEnclaveBlockHeightStatusComparedWithTheReals = async (_pTokenName, _rol
   }
 
   if (_pTokenName === 'pEOS' && _role === 'issuer') {
-    
     const rpc = new JsonRpc(settings.peos.eos.provableEndpoint, { fetch })
     const eosjs = new Api({
       rpc,
       textDecoder: new encoding.TextDecoder(),
       textEncoder: new encoding.TextEncoder()
     })
-    
+
     const info = await eosjs.rpc.get_info()
     const eosLastBlock = info.head_block_num
 
@@ -73,7 +73,6 @@ const getEnclaveBlockHeightStatusComparedWithTheReals = async (_pTokenName, _rol
   }
 
   if (_pTokenName === 'pEOS' && _role === 'redeemer') {
-
     const ethProvider = getCorrespondingReadOnlyProvider('pEOS', 'ETH')
     const web3 = new Web3(ethProvider)
     const ethLastBlock = await web3.eth.getBlockNumber()
@@ -85,7 +84,6 @@ const getEnclaveBlockHeightStatusComparedWithTheReals = async (_pTokenName, _rol
       ETH_BAD
     )
   }
-
 }
 
 const _calculateStatus = (_b1, _b2, _good, _bad) => {
@@ -104,6 +102,4 @@ const _calculateStatus = (_b1, _b2, _good, _bad) => {
   return 1
 }
 
-export {
-  getEnclaveBlockHeightStatusComparedWithTheReals
-}
+export { getEnclaveBlockHeightStatusComparedWithTheReals }

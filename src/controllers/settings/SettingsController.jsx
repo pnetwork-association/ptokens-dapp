@@ -22,10 +22,23 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    connectWithCorrectWallets: (_pTokenName, _currentProviders) => dispatch(WalletsController.connectWithCorrectWallets(_pTokenName, _currentProviders)),
-    connectWithSpecificWallet: (_pTokenName, _role, _force) => dispatch(WalletsController.connectWithSpecificWallet(_pTokenName, _role, _force)),
-    disconnectFromSpecificWallet: (_pTokenName, _role) => dispatch(WalletsController.disconnectFromSpecificWallet(_pTokenName, _role)),
-    changeSpecificWallet: (_pTokenName, _role) => dispatch(WalletsController.changeSpecificWallet(_pTokenName, _role)),
+    connectWithCorrectWallets: (_pTokenName, _currentProviders) =>
+      dispatch(
+        WalletsController.connectWithCorrectWallets(
+          _pTokenName,
+          _currentProviders
+        )
+      ),
+    connectWithSpecificWallet: (_pTokenName, _role, _force) =>
+      dispatch(
+        WalletsController.connectWithSpecificWallet(_pTokenName, _role, _force)
+      ),
+    disconnectFromSpecificWallet: (_pTokenName, _role) =>
+      dispatch(
+        WalletsController.disconnectFromSpecificWallet(_pTokenName, _role)
+      ),
+    changeSpecificWallet: (_pTokenName, _role) =>
+      dispatch(WalletsController.changeSpecificWallet(_pTokenName, _role)),
     resetDetectedNetwork: _role => dispatch(resetDetectedNetwork(_role)),
     setpTokenParams: _params => dispatch(setParams(_params)),
     setBalance: _balance => dispatch(setBalance(_balance))
@@ -33,7 +46,6 @@ const mapDispatchToProps = dispatch => {
 }
 
 export class SettingsController extends React.Component {
-
   constructor(props, context) {
     super(props, context)
 
@@ -78,7 +90,7 @@ export class SettingsController extends React.Component {
             'issuer',
             false
           )
-    } 
+    }
 
     if (_wallet.type === 'multiWallet') {
       this.props.changeSpecificWallet(
@@ -90,11 +102,12 @@ export class SettingsController extends React.Component {
   }
 
   onChangeRedeemerConnection = _wallet => {
-
     this.props.resetDetectedNetwork('redeemer')
-    this.props.setpTokenParams(Object.assign({}, this.props.pTokensParams, {
-      typedIssueAccount: '',
-    }))
+    this.props.setpTokenParams(
+      Object.assign({}, this.props.pTokensParams, {
+        typedIssueAccount: ''
+      })
+    )
 
     this.props.setBalance(null)
 
@@ -106,19 +119,19 @@ export class SettingsController extends React.Component {
       )
       return
     }
-    
+
     if (_wallet.type === 'singleWallet') {
       this.props.issuerIsConnected
-      ? this.props.disconnectFromSpecificWallet(
-          this.props.pTokenSelected.name,
-          'redeemer'
-        )
-      : this.props.connectWithSpecificWallet(
-          this.props.pTokenSelected.name,
-          'redeemer',
-          false
-        )
-    } 
+        ? this.props.disconnectFromSpecificWallet(
+            this.props.pTokenSelected.name,
+            'redeemer'
+          )
+        : this.props.connectWithSpecificWallet(
+            this.props.pTokenSelected.name,
+            'redeemer',
+            false
+          )
+    }
 
     if (_wallet.type === 'multiWallet') {
       this.props.changeSpecificWallet(
@@ -132,7 +145,8 @@ export class SettingsController extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Settings pTokenSelected={this.props.pTokenSelected}
+        <Settings
+          pTokenSelected={this.props.pTokenSelected}
           issuerIsConnected={this.props.issuerIsConnected}
           redeemerIsConnected={this.props.redeemerIsConnected}
           issuerAccount={this.props.issuerAccount}
@@ -140,7 +154,8 @@ export class SettingsController extends React.Component {
           issuerWallet={this.props.issuerWallet}
           redeemerWallet={this.props.redeemerWallet}
           onChangeIssuerConnection={this.onChangeIssuerConnection}
-          onChangeRedeemerConnection={this.onChangeRedeemerConnection}/>
+          onChangeRedeemerConnection={this.onChangeRedeemerConnection}
+        />
       </React.Fragment>
     )
   }

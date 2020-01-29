@@ -10,51 +10,51 @@ const getCorrespondingHeaderMap = (_pTokenName, _role) => {
     case 'pEOS': {
       return _role === 'issuer'
         ? {
-          peos_amount: 'AMOUNT pEOS',
-          broadcast_timestamp: 'TIMESTAMP',
-          incoming_transaction_hash: 'EOS TX ID (FROM)',
-          broadcast_transaction_hash: 'ETH TX HASH (TO)',
-          //prooved: 'VERIFIED'
-        }
+            peos_amount: 'AMOUNT pEOS',
+            broadcast_timestamp: 'TIMESTAMP',
+            incoming_transaction_hash: 'EOS TX ID (FROM)',
+            broadcast_transaction_hash: 'ETH TX HASH (TO)'
+            //prooved: 'VERIFIED'
+          }
         : {
-          eos_amount: 'AMOUNT pEOS',
-          broadcast_timestamp: 'TIMESTAMP',
-          incoming_transaction_hash: 'ETH TX HASH (FROM)',
-          broadcast_transaction_hash: 'EOS TX ID (TO)',
-          //prooved: 'VERIFIED'
-        }
+            eos_amount: 'AMOUNT pEOS',
+            broadcast_timestamp: 'TIMESTAMP',
+            incoming_transaction_hash: 'ETH TX HASH (FROM)',
+            broadcast_transaction_hash: 'EOS TX ID (TO)'
+            //prooved: 'VERIFIED'
+          }
     }
 
     case 'pBTC': {
       return _role === 'issuer'
         ? {
-          eth_tx_amount: 'AMOUNT pBTC',
-          broadcast_timestamp: 'TIMESTAMP',
-          originating_tx_hash: 'BTC TX HASH (FROM)',
-          eth_tx_hash: 'ETH TX HASH (TO)',
-          //prooved: 'VERIFIED'
-        }
+            eth_tx_amount: 'AMOUNT pBTC',
+            broadcast_timestamp: 'TIMESTAMP',
+            originating_tx_hash: 'BTC TX HASH (FROM)',
+            eth_tx_hash: 'ETH TX HASH (TO)'
+            //prooved: 'VERIFIED'
+          }
         : {
-          btc_tx_amount: 'AMOUNT pBTC',
-          broadcast_timestamp: 'TIMESTAMP',
-          originating_tx_hash: 'ETH TX HASH (FROM)',
-          broadcast_tx_hash: 'BTC TX HASH (TO)',
-          //prooved: 'VERIFIED'
-        }
+            btc_tx_amount: 'AMOUNT pBTC',
+            broadcast_timestamp: 'TIMESTAMP',
+            originating_tx_hash: 'ETH TX HASH (FROM)',
+            broadcast_tx_hash: 'BTC TX HASH (TO)'
+            //prooved: 'VERIFIED'
+          }
     }
 
-    default: break
+    default:
+      break
   }
 }
 
 const getCorrespondingHeaders = (_pTokenName, _role) => {
-
   if (_pTokenName === 'pEOS' && _role === 'issuer') {
     return [
       'peos_amount',
       'broadcast_timestamp',
       'incoming_transaction_hash',
-      'broadcast_transaction_hash',
+      'broadcast_transaction_hash'
       //'prooved'
     ]
   }
@@ -64,7 +64,7 @@ const getCorrespondingHeaders = (_pTokenName, _role) => {
       'eos_amount',
       'broadcast_timestamp',
       'incoming_transaction_hash',
-      'broadcast_transaction_hash',
+      'broadcast_transaction_hash'
       //'prooved'
     ]
   }
@@ -84,14 +84,13 @@ const getCorrespondingHeaders = (_pTokenName, _role) => {
       'btc_tx_amount',
       'broadcast_timestamp',
       'originating_tx_hash',
-      'broadcast_tx_hash',
+      'broadcast_tx_hash'
       //'prooved'
     ]
   }
 }
 
 const Main = props => {
-
   return (
     <React.Fragment>
       <div className="header">
@@ -99,14 +98,16 @@ const Main = props => {
           <div className="header-body">
             <div className="row">
               <div className="col-12 col-xl-6 mt-20">
-                <MiniCard title="CIRCULATING SUPPLY"
+                <MiniCard
+                  title="CIRCULATING SUPPLY"
                   value={props.pTokenSelected.circulatingSupply}
                   measure={props.pTokenSelected.name}
                   icon={'coins'}
                 />
               </div>
               <div className="col-12 col-xl-6 mt-20">
-              <MiniCard title="NUMBER OF VALIDATORS"
+                <MiniCard
+                  title="NUMBER OF VALIDATORS"
                   value={1}
                   textColor={'yellow'}
                   measure="(on Strongbox)"
@@ -120,74 +121,134 @@ const Main = props => {
       <div className="container-fluid mt-20">
         <div className="row">
           <div className="col-xl-12">
-            <Table id='peg-ins'
+            <Table
+              id="peg-ins"
               title={
                 <div className="row">
-                  <div className="col-7 pr-0">
-                    Peg-ins
-                  </div>
+                  <div className="col-7 pr-0">Peg-ins</div>
                   <div className="col-5 text-right pr-0 pl-0">
-                    <img className="ml-20 mr-10" src={`./assets/${props.pTokenSelected.issueFrom}.png`} height="22" width="22" alt="redeem from logo" />
-                    <img src="./assets/right.png" height="22" width="22" alt="redeem from logo" />
-                    <img className="ml-10" src={`./assets/${props.pTokenSelected.name}.png`} height="22" width="22" alt="redeem to logo" />
+                    <img
+                      className="ml-20 mr-10"
+                      src={`./assets/${props.pTokenSelected.issueFrom}.png`}
+                      height="22"
+                      width="22"
+                      alt="redeem from logo"
+                    />
+                    <img
+                      src="./assets/right.png"
+                      height="22"
+                      width="22"
+                      alt="redeem from logo"
+                    />
+                    <img
+                      className="ml-10"
+                      src={`./assets/${props.pTokenSelected.name}.png`}
+                      height="22"
+                      width="22"
+                      alt="redeem to logo"
+                    />
                   </div>
                 </div>
               }
-              headerMap={
-                getCorrespondingHeaderMap(props.pTokenSelected.name, 'issuer')
-              }
+              headerMap={getCorrespondingHeaderMap(
+                props.pTokenSelected.name,
+                'issuer'
+              )}
               whichLink={{
                 2: {
-                  base: getCorrespondingBaseTxExplorerLink(props.pTokenSelected.name, 'issuer')
+                  base: getCorrespondingBaseTxExplorerLink(
+                    props.pTokenSelected.name,
+                    'issuer'
+                  )
                 },
                 3: {
-                  base: getCorrespondingBaseTxExplorerLink(props.pTokenSelected.name, 'redeemer')
+                  base: getCorrespondingBaseTxExplorerLink(
+                    props.pTokenSelected.name,
+                    'redeemer'
+                  )
                 }
               }}
               whichAnimation={[4]}
               conversions={{
-                0: n => (parseFloat(n) / Math.pow(10, props.pTokenSelected.decimals)).toFixed(props.pTokenSelected.decimals),
+                0: n =>
+                  (
+                    parseFloat(n) / Math.pow(10, props.pTokenSelected.decimals)
+                  ).toFixed(props.pTokenSelected.decimals),
                 1: t => timestampInSecondsToDate(t)
               }}
-              headers={getCorrespondingHeaders(props.pTokenSelected.name, 'issuer')}
-              values={props.issueReports} />
+              headers={getCorrespondingHeaders(
+                props.pTokenSelected.name,
+                'issuer'
+              )}
+              values={props.issueReports}
+            />
           </div>
         </div>
       </div>
       <div className="container-fluid mt-20 mb-20">
         <div className="row">
           <div className="col-xl-12">
-            <Table id='peg-out'
+            <Table
+              id="peg-out"
               title={
                 <div className="row">
-                  <div className="col-7 pr-0">
-                    Peg-outs
-                  </div>
+                  <div className="col-7 pr-0">Peg-outs</div>
                   <div className="col-5 text-right pr-0 pl-0">
-                    <img className="ml-20 mr-10" src={`./assets/${props.pTokenSelected.name}.png`} height="22" width="22" alt="redeem from logo" />
-                    <img src="./assets/right.png" height="22" width="22" alt="redeem from logo" />
-                    <img className="ml-10" src={`./assets/${props.pTokenSelected.issueFrom}.png`} height="22" width="22" alt="redeem to logo" />
+                    <img
+                      className="ml-20 mr-10"
+                      src={`./assets/${props.pTokenSelected.name}.png`}
+                      height="22"
+                      width="22"
+                      alt="redeem from logo"
+                    />
+                    <img
+                      src="./assets/right.png"
+                      height="22"
+                      width="22"
+                      alt="redeem from logo"
+                    />
+                    <img
+                      className="ml-10"
+                      src={`./assets/${props.pTokenSelected.issueFrom}.png`}
+                      height="22"
+                      width="22"
+                      alt="redeem to logo"
+                    />
                   </div>
                 </div>
               }
-              headerMap={
-                getCorrespondingHeaderMap(props.pTokenSelected.name, 'redeemer')
-              }
+              headerMap={getCorrespondingHeaderMap(
+                props.pTokenSelected.name,
+                'redeemer'
+              )}
               whichLink={{
                 2: {
-                  base: getCorrespondingBaseTxExplorerLink(props.pTokenSelected.name, 'redeemer')
+                  base: getCorrespondingBaseTxExplorerLink(
+                    props.pTokenSelected.name,
+                    'redeemer'
+                  )
                 },
                 3: {
-                  base: getCorrespondingBaseTxExplorerLink(props.pTokenSelected.name, 'issuer')
-                },
+                  base: getCorrespondingBaseTxExplorerLink(
+                    props.pTokenSelected.name,
+                    'issuer'
+                  )
+                }
               }}
               whichAnimation={[4]}
               conversions={{
-                0: n => (parseFloat(n) / Math.pow(10, props.pTokenSelected.decimals)).toFixed(props.pTokenSelected.decimals),
+                0: n =>
+                  (
+                    parseFloat(n) / Math.pow(10, props.pTokenSelected.decimals)
+                  ).toFixed(props.pTokenSelected.decimals),
                 1: t => timestampInSecondsToDate(t)
               }}
-              headers={getCorrespondingHeaders(props.pTokenSelected.name, 'redeemer')}
-              values={props.redeemReports} />
+              headers={getCorrespondingHeaders(
+                props.pTokenSelected.name,
+                'redeemer'
+              )}
+              values={props.redeemReports}
+            />
           </div>
         </div>
       </div>
@@ -198,7 +259,7 @@ const Main = props => {
 Main.propTypes = {
   pTokenSelected: PropTypes.object,
   redeemReports: PropTypes.array,
-  issueReports: PropTypes.array,
+  issueReports: PropTypes.array
 }
 
 export default Main

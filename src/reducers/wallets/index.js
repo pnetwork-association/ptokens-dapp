@@ -10,14 +10,13 @@ const initialState = {
   redeemerIsConnected: null,
   issuerProvider: null,
   redeemerProvider: null,
-  issuerAccount : null,
+  issuerAccount: null,
   redeemerAccount: null,
   issuerWallet: null,
   redeemerWallet: null
 }
 
 const walletsReducer = (_state = initialState, _action) => {
-  
   if (_action.type === WALLET_ISSUER_CONNECTED) {
     return Object.assign({}, _state, {
       issuerIsConnected: true,

@@ -11,18 +11,18 @@ const networkTextToShow = {
 }
 
 const NetworkDetector = props => {
-  return (
-    props.isCorrectRedeemerNetwork === false &&
-    props.showIn.includes(props.currentPage)
-      ? <div className="container-fluid mt-3">
-          <Alert type={'danger'}
-            text={
-              `${props.pTokenSelected.name} is not available on ${networkTextToShow[props.currentDetectedRedeemerNetwork]}. 
-              Please use ${networkTextToShow[props.pTokenSelected.network]}`
-            }/>
-        </div>
-      : null
-  )
+  return props.isCorrectRedeemerNetwork === false &&
+    props.showIn.includes(props.currentPage) ? (
+    <div className="container-fluid mt-3">
+      <Alert
+        type={'danger'}
+        text={`${props.pTokenSelected.name} is not available on ${
+          networkTextToShow[props.currentDetectedRedeemerNetwork]
+        }. 
+              Please use ${networkTextToShow[props.pTokenSelected.network]}`}
+      />
+    </div>
+  ) : null
 }
 
 NetworkDetector.propTypes = {

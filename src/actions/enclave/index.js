@@ -17,7 +17,6 @@ let enclave = null
 
 const ping = _pTokenName => {
   return async dispatch => {
-
     enclave = new Enclave({
       pToken: _pTokenName
     })
@@ -31,13 +30,12 @@ const ping = _pTokenName => {
 
 const getLastProcessedBlock = (_pTokenName, _type, _role) => {
   return async dispatch => {
-
     enclave = new Enclave({
       pToken: _pTokenName
     })
 
     const lastProcessedBlock = await enclave.getLastProcessedBlock(_type)
-    
+
     let value = null
     switch (_pTokenName) {
       case 'pEOS': {
@@ -48,7 +46,8 @@ const getLastProcessedBlock = (_pTokenName, _type, _role) => {
         value = lastProcessedBlock.block_num
         break
       }
-      default: value = null
+      default:
+        value = null
     }
 
     const status = await getEnclaveBlockHeightStatusComparedWithTheReals(
@@ -57,20 +56,22 @@ const getLastProcessedBlock = (_pTokenName, _type, _role) => {
       value
     )
 
-    const actionTypeBlockStatus = _role === 'issuer'
-      ? ENCLAVE_SET_ISSUER_BLOCK_HEIGHT_STATUS
-      : ENCLAVE_SET_REDEEMER_BLOCK_HEIGHT_STATUS
+    const actionTypeBlockStatus =
+      _role === 'issuer'
+        ? ENCLAVE_SET_ISSUER_BLOCK_HEIGHT_STATUS
+        : ENCLAVE_SET_REDEEMER_BLOCK_HEIGHT_STATUS
 
     dispatch({
       type: actionTypeBlockStatus,
       payload: {
         status
       }
-    }) 
+    })
 
-    const actionTypeBlockLoaded = _role === 'issuer'
-      ? ENCLAVE_LAST_ISSUER_PROCESSED_BLOCK_LOADED
-      : ENCLAVE_LAST_REDEEMER_PROCESSED_BLOCK_LOADED
+    const actionTypeBlockLoaded =
+      _role === 'issuer'
+        ? ENCLAVE_LAST_ISSUER_PROCESSED_BLOCK_LOADED
+        : ENCLAVE_LAST_REDEEMER_PROCESSED_BLOCK_LOADED
     dispatch({
       type: actionTypeBlockLoaded,
       payload: {
@@ -82,16 +83,16 @@ const getLastProcessedBlock = (_pTokenName, _type, _role) => {
 
 const getReports = (_pTokenName, _type, _role) => {
   return async dispatch => {
-
     enclave = new Enclave({
       pToken: _pTokenName
     })
 
     const reports = await enclave.getReports(_type)
 
-    const actionType = _role === 'issuer'
-      ? ENCLAVE_REPORT_ISSUE_LOADED
-      : ENCLAVE_REPORT_REDEEM_LOADED
+    const actionType =
+      _role === 'issuer'
+        ? ENCLAVE_REPORT_ISSUE_LOADED
+        : ENCLAVE_REPORT_REDEEM_LOADED
     dispatch({
       type: actionType,
       payload: {
@@ -103,7 +104,6 @@ const getReports = (_pTokenName, _type, _role) => {
 
 const submitBlock = (_pTokenName, _type, _block) => {
   return async dispatch => {
-
     enclave = new Enclave({
       pToken: _pTokenName
     })

@@ -1,4 +1,3 @@
-
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     window.location.hostname === '[::1]' ||
@@ -7,11 +6,10 @@ const isLocalhost = Boolean(
     )
 )
 
-export function register (config) {
+export function register(config) {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href)
-    if (publicUrl.origin !== window.location.origin)
-      return
+    if (publicUrl.origin !== window.location.origin) return
 
     window.addEventListener('load', () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`
@@ -32,14 +30,13 @@ export function register (config) {
   }
 }
 
-function registerValidSW (swUrl, config) {
+function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
       registration.onupdatefound = () => {
         const installingWorker = registration.installing
-        if (installingWorker == null)
-          return
+        if (installingWorker == null) return
 
         installingWorker.onstatechange = () => {
           if (installingWorker.state === 'installed') {
@@ -49,12 +46,10 @@ function registerValidSW (swUrl, config) {
                   'tabs for this page are closed. See https://bit.ly/CRA-PWA.'
               )
 
-              if (config && config.onUpdate)
-                config.onUpdate(registration)
+              if (config && config.onUpdate) config.onUpdate(registration)
             } else {
               console.log('Content is cached for offline use.')
-              if (config && config.onSuccess)
-                config.onSuccess(registration)
+              if (config && config.onSuccess) config.onSuccess(registration)
             }
           }
         }
@@ -65,13 +60,13 @@ function registerValidSW (swUrl, config) {
     })
 }
 
-function checkValidServiceWorker (swUrl, config) {
+function checkValidServiceWorker(swUrl, config) {
   fetch(swUrl)
     .then(response => {
       const contentType = response.headers.get('content-type')
       if (
         response.status === 404 ||
-         contentType != null && contentType.indexOf('javascript') === -1 
+        (contentType != null && contentType.indexOf('javascript') === -1)
       ) {
         navigator.serviceWorker.ready.then(registration => {
           registration.unregister().then(() => {
@@ -89,7 +84,7 @@ function checkValidServiceWorker (swUrl, config) {
     })
 }
 
-export function unregister () {
+export function unregister() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then(registration => {
       registration.unregister()

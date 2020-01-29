@@ -1,7 +1,5 @@
 const sleep = ms => {
-  return new Promise(resolve => 
-    setTimeout(resolve, ms)
-  )
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 const isJsonString = str => {
@@ -13,7 +11,15 @@ const isJsonString = str => {
   return true
 }
 
-const mask = (value, precision = 2, decimalSeparator = '.', thousandSeparator = '', allowNegative = false, prefix = '', suffix = '') => {
+const mask = (
+  value,
+  precision = 2,
+  decimalSeparator = '.',
+  thousandSeparator = '',
+  allowNegative = false,
+  prefix = '',
+  suffix = ''
+) => {
   if (value === undefined) {
     return {
       value: 0,
@@ -48,15 +54,17 @@ const mask = (value, precision = 2, decimalSeparator = '.', thousandSeparator = 
     }
   }
 
-  while (digits.length <= precision) { 
-    digits.unshift('0') 
+  while (digits.length <= precision) {
+    digits.unshift('0')
   }
 
   if (precision > 0) {
-    digits.splice(digits.length - precision, 0, ".")
+    digits.splice(digits.length - precision, 0, '.')
   }
 
-  digits = Number(digits.join('')).toFixed(precision).split('')
+  digits = Number(digits.join(''))
+    .toFixed(precision)
+    .split('')
   let raw = Number(digits.join(''))
 
   let decimalpos = digits.length - precision - 1
@@ -71,11 +79,11 @@ const mask = (value, precision = 2, decimalSeparator = '.', thousandSeparator = 
     digits.splice(x, 0, thousandSeparator)
   }
 
-  if (prefix.length > 0) { 
-    digits.unshift(prefix) 
+  if (prefix.length > 0) {
+    digits.unshift(prefix)
   }
-  if (suffix.length > 0) { 
-    digits.push(suffix) 
+  if (suffix.length > 0) {
+    digits.push(suffix)
   }
 
   if (allowNegative && numberIsNegative) {
@@ -101,7 +109,9 @@ const timestampInSecondsToDate = timestamp => {
   const hours = date.getHours()
   const minutes = `0${date.getMinutes()}`
   const seconds = `0${date.getSeconds()}`
-  return `${hours}:${minutes.substr(-2)}:${seconds.substr(-2)} - ${tomonth}/${todate}/${toyear}`
+  return `${hours}:${minutes.substr(-2)}:${seconds.substr(
+    -2
+  )} - ${tomonth}/${todate}/${toyear}`
 }
 
 const calculateObjectValuesString = obj => {
@@ -109,9 +119,7 @@ const calculateObjectValuesString = obj => {
     return
   }
   let key = ''
-  Object.values(obj).forEach(v => 
-    key = key + v.toString()
-  )
+  Object.values(obj).forEach(v => (key = key + v.toString()))
   return key
 }
 

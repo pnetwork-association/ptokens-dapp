@@ -32,6 +32,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "format": "prettier --config ./.prettierrc --write  \"./src/**/*.+(js|json|jsx)\"",
     "build": "GENERATE_SOURCEMAP=false  react-scripts build",
     "test-dev": "react-scripts test",
     "test": "react-scripts test  --env=jsdom --verbose a",
@@ -59,6 +60,9 @@
     "chai": "^4.2.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^1.19.1",
     "react-redux": "^7.1.0",
     "redux": "^4.0.1",
     "redux-mock-store": "^1.5.3",

@@ -15,14 +15,8 @@ import {
   PTOKENS_RESET_PARAMS
 } from '../../constants/index'
 import pTokens from 'ptokens'
-import {
-  peosLoggedIssue,
-  peosLoggedRedeem
-} from './loggers/peos'
-import {
-  pbtcLoggedIssue,
-  pbtcLoggedRedeem
-} from './loggers/pbtc'
+import { peosLoggedIssue, peosLoggedRedeem } from './loggers/peos'
+import { pbtcLoggedIssue, pbtcLoggedRedeem } from './loggers/pbtc'
 import settings from '../../settings'
 
 const setSelectedpToken = _type => {
@@ -36,7 +30,6 @@ const setSelectedpToken = _type => {
 
 const issue = (_pToken, _params, _configs) => {
   return async _dispatch => {
-
     const configs = _getCorrectConfigs(_pToken.name, _configs)
     const ptokens = new pTokens(configs)
 
@@ -49,17 +42,17 @@ const issue = (_pToken, _params, _configs) => {
         pbtcLoggedIssue(ptokens, _params, _dispatch)
         break
       }
-      default: break
+      default:
+        break
     }
   }
 }
 
 const redeem = (_pToken, _params, _configs) => {
   return _dispatch => {
-
     const configs = _getCorrectConfigs(_pToken.name, _configs)
     const ptokens = new pTokens(configs)
-    
+
     switch (_pToken.name) {
       case 'pEOS': {
         peosLoggedRedeem(ptokens, _params, _dispatch)
@@ -69,7 +62,8 @@ const redeem = (_pToken, _params, _configs) => {
         pbtcLoggedRedeem(ptokens, _params, _dispatch)
         break
       }
-      default: break
+      default:
+        break
     }
   }
 }
@@ -78,7 +72,9 @@ const getBalance = (_pTokenName, _account, _configs) => {
   return async dispatch => {
     const configs = _getCorrectConfigs(_pTokenName, _configs)
     const ptokens = new pTokens(configs)
-    const balance = await ptokens[_pTokenName.toLowerCase()].getBalance(_account)
+    const balance = await ptokens[_pTokenName.toLowerCase()].getBalance(
+      _account
+    )
     dispatch({
       type: PTOKENS_BALANCE_LOADED,
       payload: {
@@ -120,7 +116,9 @@ const getTotalIssued = (_pTokenName, _configs) => {
   return async dispatch => {
     const configs = _getCorrectConfigs(_pTokenName, _configs)
     const ptokens = new pTokens(configs)
-    const totalIssued = await ptokens[_pTokenName.toLowerCase()].getTotalIssued()
+    const totalIssued = await ptokens[
+      _pTokenName.toLowerCase()
+    ].getTotalIssued()
     dispatch({
       type: PTOKENS_TOTAL_ISSUED_LOADED,
       payload: {
@@ -134,7 +132,9 @@ const getTotalRedeemed = (_pTokenName, _configs) => {
   return async dispatch => {
     const configs = _getCorrectConfigs(_pTokenName, _configs)
     const ptokens = new pTokens(configs)
-    const totalRedeemed = await ptokens[_pTokenName.toLowerCase()].getTotalRedeemed()
+    const totalRedeemed = await ptokens[
+      _pTokenName.toLowerCase()
+    ].getTotalRedeemed()
     dispatch({
       type: PTOKENS_TOTAL_REDEEMED_LOADED,
       payload: {
@@ -148,7 +148,9 @@ const getCirculatingSupply = (_pTokenName, _configs) => {
   return async dispatch => {
     const configs = _getCorrectConfigs(_pTokenName, _configs)
     const ptokens = new pTokens(configs)
-    const circulatingSupply = await ptokens[_pTokenName.toLowerCase()].getCirculatingSupply()
+    const circulatingSupply = await ptokens[
+      _pTokenName.toLowerCase()
+    ].getCirculatingSupply()
     dispatch({
       type: PTOKENS_CIRCULATING_SUPPLY_LOADED,
       payload: {
@@ -213,14 +215,10 @@ const setBalance = _balance => {
 }
 
 const _getCorrectConfigs = (_type, _configs) => {
-
-  const {
-    issuer,
-    redeemer
-  } = _configs
+  const { issuer, redeemer } = _configs
 
   switch (_type) {
-    case 'pEOS' : {
+    case 'pEOS': {
       return {
         peos: {
           eosRpc: settings.peos.eos.provableEndpoint,
@@ -229,7 +227,7 @@ const _getCorrectConfigs = (_type, _configs) => {
         }
       }
     }
-    case 'pBTC' : {
+    case 'pBTC': {
       return {
         pbtc: {
           btcNetwork: 'testnet',
@@ -237,23 +235,24 @@ const _getCorrectConfigs = (_type, _configs) => {
         }
       }
     }
-    default: return null
+    default:
+      return null
   }
 }
 
 const _getCorrectpTokenObject = _type => {
   switch (_type) {
-    case 'pEOS' : {
+    case 'pEOS': {
       return {
         name: 'pEOS',
         decimals: 4,
         issueFrom: 'EOS',
         redeemFrom: 'ETH',
         tokenType: 'ERC-20',
-        network: 'kovan',
+        network: 'kovan'
       }
     }
-    case 'pBTC' : {
+    case 'pBTC': {
       return {
         name: 'pBTC',
         decimals: 8,
@@ -263,11 +262,10 @@ const _getCorrectpTokenObject = _type => {
         network: 'ropsten'
       }
     }
-    default: break
+    default:
+      break
   }
 }
-
-
 
 export {
   setSelectedpToken,

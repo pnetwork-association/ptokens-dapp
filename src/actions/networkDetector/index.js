@@ -9,19 +9,17 @@ const networks = {
   4: 'rinkeby',
   5: 'goerly',
   42: 'kovan',
-  'private': 'private'
+  private: 'private'
 }
 
 const detectNetwork = (_provider, _ptokenName, _role) => {
   return async _dispatch => {
-
-    if (!_provider)
-      return
+    if (!_provider) return
 
     if (
-      (_ptokenName === 'pBTC' || _ptokenName === 'pEOS') && 
-      _role === 'redeemer') 
-    {
+      (_ptokenName === 'pBTC' || _ptokenName === 'pEOS') &&
+      _role === 'redeemer'
+    ) {
       if (_provider.isMetaMask) {
         const network = await _provider.networkVersion
         _dispatch({
@@ -60,11 +58,11 @@ const detectNetwork = (_provider, _ptokenName, _role) => {
 
 const resetDetectedNetwork = _role => {
   return {
-    type: _role === 'redeemer' ? RESET_DETECTED_NETWORK_REDEEMER : RESET_DETECTED_NETWORK_REDEEMER //TODO: RESET_DETECTED_NETWORK_ISSUER
+    type:
+      _role === 'redeemer'
+        ? RESET_DETECTED_NETWORK_REDEEMER
+        : RESET_DETECTED_NETWORK_REDEEMER //TODO: RESET_DETECTED_NETWORK_ISSUER
   }
 }
 
-export {
-  detectNetwork,
-  resetDetectedNetwork
-}
+export { detectNetwork, resetDetectedNetwork }

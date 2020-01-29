@@ -15,15 +15,11 @@ const network = ScatterJS.Network.fromJson(settings.peos.eos)
 
 const connectWithScatter = async (_role, _dispatch, _force = true) => {
   try {
-
     const scatter = ScatterJS.scatter
 
     let connected = false
     if (_force) {
-      connected = await ScatterJS.connect(
-        settings.dappName,
-        { network }
-      )
+      connected = await ScatterJS.connect(settings.dappName, { network })
     } else {
       _login(scatter, _role, _dispatch)
       return
@@ -38,20 +34,19 @@ const connectWithScatter = async (_role, _dispatch, _force = true) => {
     } else {
       _login(scatter, _role, _dispatch)
     }
-
   } catch (err) {
     _connectionNotSuccesfull(_role, _dispatch)
   }
 }
 
 const disconnectFromScatter = async (_role, _dispatch) => {
-
   //already disconnected
-  if (!ScatterJS.logout){
+  if (!ScatterJS.logout) {
     _dispatch({
-      type: _role === 'issuer' 
-        ? WALLET_ISSUER_DISCONNECTED 
-        : WALLET_REDEEMER_DISCONNECTED
+      type:
+        _role === 'issuer'
+          ? WALLET_ISSUER_DISCONNECTED
+          : WALLET_REDEEMER_DISCONNECTED
     })
     return
   }
@@ -59,9 +54,10 @@ const disconnectFromScatter = async (_role, _dispatch) => {
   const isDisconnected = await ScatterJS.logout()
   if (isDisconnected) {
     _dispatch({
-      type: _role === 'issuer' 
-        ? WALLET_ISSUER_DISCONNECTED 
-        : WALLET_REDEEMER_DISCONNECTED
+      type:
+        _role === 'issuer'
+          ? WALLET_ISSUER_DISCONNECTED
+          : WALLET_REDEEMER_DISCONNECTED
     })
   }
 }
@@ -82,7 +78,8 @@ const _login = async (_scatter, _role, _dispatch) => {
 const _connectionSuccesfull = (_role, _dispatch) => {
   const account = _getAccount()
   _dispatch({
-    type: _role === 'issuer' ? WALLET_ISSUER_CONNECTED : WALLET_REDEEMER_CONNECTED,
+    type:
+      _role === 'issuer' ? WALLET_ISSUER_CONNECTED : WALLET_REDEEMER_CONNECTED,
     payload: {
       provider: ScatterJS.eosHook(network),
       account: account.name,
@@ -96,7 +93,10 @@ const _connectionSuccesfull = (_role, _dispatch) => {
 
 const _connectionNotSuccesfull = (_role, _dispatch) => {
   _dispatch({
-    type: _role === 'issuer' ? WALLET_ISSUER_DISCONNECTED : WALLET_REDEEMER_DISCONNECTED,
+    type:
+      _role === 'issuer'
+        ? WALLET_ISSUER_DISCONNECTED
+        : WALLET_REDEEMER_DISCONNECTED,
     payload: {
       //TODO error message
     }
@@ -110,8 +110,4 @@ const _getAccount = () => {
   return account
 }
 
-export {
-  connectWithScatter,
-  disconnectFromScatter,
-}
-
+export { connectWithScatter, disconnectFromScatter }

@@ -1,29 +1,29 @@
 import React from 'react'
-import { connect } from "react-redux"
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Main from '../../components/main/Main'
 import * as Enclave from '../../actions/enclave'
 import * as pTokens from '../../actions/pTokens'
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
 
-
 const mapStateToProps = state => {
   return {
     pTokenSelected: state.pTokens.selected,
     redeemerReadOnlyProvider: state.wallets.redeemerReadOnlyProvider,
     issueReports: state.enclave.issueReports,
-    redeemReports: state.enclave.redeemReports,
+    redeemReports: state.enclave.redeemReports
   }
 }
 const mapDispatchToProps = dispatch => {
   return {
-    getCirculatingSupply: (pTokenName, configs) => dispatch(pTokens.getCirculatingSupply(pTokenName, configs)),
-    getReports: (pTokenName, _type, role) => dispatch(Enclave.getReports(pTokenName, _type, role))
+    getCirculatingSupply: (pTokenName, configs) =>
+      dispatch(pTokens.getCirculatingSupply(pTokenName, configs)),
+    getReports: (pTokenName, _type, role) =>
+      dispatch(Enclave.getReports(pTokenName, _type, role))
   }
 }
 
 export class MainController extends React.Component {
-
   constructor(props, context) {
     super(props, context)
 
@@ -51,9 +51,11 @@ export class MainController extends React.Component {
   }
 
   componentDidUpdate(_prevProps) {
-
     //reset verification proof
-    if (this.props.issueReports.length < this.state.issuerReportWithProof.length - 2) {
+    if (
+      this.props.issueReports.length <
+      this.state.issuerReportWithProof.length - 2
+    ) {
       this.setState({
         app1: [],
         app2: []
@@ -61,7 +63,6 @@ export class MainController extends React.Component {
     }
 
     if (!this.state.redeemerDataLoaded) {
-
       const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(
         this.props.pTokenSelected.name,
         this.props.pTokenSelected.redeemFrom
@@ -71,52 +72,56 @@ export class MainController extends React.Component {
         issuer: null,
         redeemer: redeemerReadOnlyProvider
       }
-      
+
       this.props.getCirculatingSupply(this.props.pTokenSelected.name, configs)
 
       this.setState({ redeemerDataLoaded: true })
     }
 
     if (
-      (_prevProps.issueReports.length !== this.props.issueReports.length) || 
-      (this.state.issuerReportWithProof.length === 0 && this.props.issueReports.length > 0)
+      _prevProps.issueReports.length !== this.props.issueReports.length ||
+      (this.state.issuerReportWithProof.length === 0 &&
+        this.props.issueReports.length > 0)
     ) {
       this.setState(() => {
         const issuerReportWithProof = this.props.issueReports
-        issuerReportWithProof.forEach(obj => obj.prooved = false)
+        issuerReportWithProof.forEach(obj => (obj.prooved = false))
         return {
-          issuerReportWithProof,
+          issuerReportWithProof
         }
       })
-      const a1 =  setInterval(() => this.animation1(), 5)
+      const a1 = setInterval(() => this.animation1(), 5)
       this.setState({ a1 })
     }
 
     if (
-      (_prevProps.redeemReports.length !== this.props.redeemReports.length) || 
-      (this.state.redeemerReportWithProof.length === 0 && this.props.redeemReports.length > 0)
+      _prevProps.redeemReports.length !== this.props.redeemReports.length ||
+      (this.state.redeemerReportWithProof.length === 0 &&
+        this.props.redeemReports.length > 0)
     ) {
       this.setState(() => {
         const redeemerReportWithProof = this.props.redeemReports
-        redeemerReportWithProof.forEach(obj => obj.prooved = false)
+        redeemerReportWithProof.forEach(obj => (obj.prooved = false))
         return {
-          redeemerReportWithProof,
+          redeemerReportWithProof
         }
       })
-      const a2 =  setInterval(() => this.animation2(), 5)
+      const a2 = setInterval(() => this.animation2(), 5)
       this.setState({ a2 })
     }
   }
 
   //provisional animation for proove
   animation1 = () => {
-    if (this.state.issuerReportWithProof.length === 0 ) {
+    if (this.state.issuerReportWithProof.length === 0) {
       return
     }
 
-    const random = Math.round(Math.random() * this.state.issuerReportWithProof.length);
+    const random = Math.round(
+      Math.random() * this.state.issuerReportWithProof.length
+    )
     const value = random > 0 ? random - 1 : 0
-    if (!this.state.app1.includes(value)){
+    if (!this.state.app1.includes(value)) {
       this.setState(prevState => {
         const issuerReportWithProof = prevState.issuerReportWithProof
         const app = prevState.app1
@@ -133,11 +138,12 @@ export class MainController extends React.Component {
   }
 
   animation2 = () => {
-    if (this.state.redeemerReportWithProof.length === 0 )
-      return
-    const random = Math.round(Math.random() * this.state.redeemerReportWithProof.length);
+    if (this.state.redeemerReportWithProof.length === 0) return
+    const random = Math.round(
+      Math.random() * this.state.redeemerReportWithProof.length
+    )
     const value = random > 0 ? random - 1 : 0
-    if (!this.state.app2.includes(value)){
+    if (!this.state.app2.includes(value)) {
       this.setState(prevState => {
         const redeemerReportWithProof = prevState.redeemerReportWithProof
         const app = prevState.app2
@@ -153,7 +159,7 @@ export class MainController extends React.Component {
     }
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     clearInterval(this.state.a1)
     clearInterval(this.state.a2)
   }
@@ -161,11 +167,13 @@ export class MainController extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Main pTokenSelected={this.props.pTokenSelected}
+        <Main
+          pTokenSelected={this.props.pTokenSelected}
           redeemReports={this.state.redeemerReportWithProof}
-          issueReports={this.state.issuerReportWithProof}/>
+          issueReports={this.state.issuerReportWithProof}
+        />
       </React.Fragment>
-    );
+    )
   }
 }
 

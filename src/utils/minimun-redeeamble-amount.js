@@ -10,10 +10,9 @@ const getMinumRedeemableAmount = _pTokenName => {
     case 'pBTC': {
       return parseFloat(MINIMUM_REDEEMABLE_PBTC_AMOUNT).toFixed(PBTC_DECIMALS)
     }
-    default: break
+    default:
+      break
   }
 }
 
-export {
-  getMinumRedeemableAmount
-}
+export { getMinumRedeemableAmount }

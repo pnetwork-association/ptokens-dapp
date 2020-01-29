@@ -11,12 +11,11 @@ import history from './../utils/history'
 import ReactGA from 'react-ga'
 
 history.listen(location => {
-	ReactGA.set({ page: location.pathname })
-	ReactGA.pageview(location.pathname)
+  ReactGA.set({ page: location.pathname })
+  ReactGA.pageview(location.pathname)
 })
 
 class App extends React.Component {
-
   constructor(props, context) {
     super(props, context)
 
@@ -24,57 +23,73 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-		ReactGA.pageview(window.location.pathname)
-	}
+    ReactGA.pageview(window.location.pathname)
+  }
 
   render() {
     return (
       <React.Fragment>
         <Switch>
-          <Route exact path="/" render={props => {
-            return (
-              <React.Fragment>
-                <SidebarController />
-                <MainWrapper>
-                  <NetworkDetectorController/>
-                  <MainController />
-                </MainWrapper>
-              </React.Fragment>
-            )
-          }}/>
-          <Route exact path="/enclave" render={props => {
-            return (
-              <React.Fragment>
-                <SidebarController/>
-                <MainWrapper>
-                  <NetworkDetectorController/>  
-                  <EnclaveController/>
-                </MainWrapper>
-              </React.Fragment>
-            )
-          }}/>
-          <Route exact path="/token" render={props => {
-            return (
-              <React.Fragment>
-                <SidebarController />
-                <MainWrapper>
-                  <NetworkDetectorController/>
-                  <TokenController />
-                </MainWrapper>
-              </React.Fragment>
-            )
-          }}/>
-          <Route exact from='/settings' render={props => {
-            return (
-              <React.Fragment>
-                 <SidebarController />
-                <MainWrapper>
-                  <NetworkDetectorController/>
-                  <SettingsController />
-                </MainWrapper>
-              </React.Fragment>
-            )
-          }} />
+          <Route
+            exact
+            path="/"
+            render={props => {
+              return (
+                <React.Fragment>
+                  <SidebarController />
+                  <MainWrapper>
+                    <NetworkDetectorController />
+                    <MainController />
+                  </MainWrapper>
+                </React.Fragment>
+              )
+            }}
+          />
+          <Route
+            exact
+            path="/enclave"
+            render={props => {
+              return (
+                <React.Fragment>
+                  <SidebarController />
+                  <MainWrapper>
+                    <NetworkDetectorController />
+                    <EnclaveController />
+                  </MainWrapper>
+                </React.Fragment>
+              )
+            }}
+          />
+          <Route
+            exact
+            path="/token"
+            render={props => {
+              return (
+                <React.Fragment>
+                  <SidebarController />
+                  <MainWrapper>
+                    <NetworkDetectorController />
+                    <TokenController />
+                  </MainWrapper>
+                </React.Fragment>
+              )
+            }}
+          />
+          <Route
+            exact
+            from="/settings"
+            render={props => {
+              return (
+                <React.Fragment>
+                  <SidebarController />
+                  <MainWrapper>
+                    <NetworkDetectorController />
+                    <SettingsController />
+                  </MainWrapper>
+                </React.Fragment>
+              )
+            }}
+          />
         </Switch>
       </React.Fragment>
     )

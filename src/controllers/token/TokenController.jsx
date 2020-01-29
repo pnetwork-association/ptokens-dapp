@@ -1,8 +1,8 @@
 import React from 'react'
-import { connect } from "react-redux"
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Token from '../../components/token/Token'
-import NotificationAlert from "react-notification-alert"
+import NotificationAlert from 'react-notification-alert'
 import * as LogHandler from '../../actions/log'
 import { mask } from '../../utils/utils'
 import * as pTokens from '../../actions/pTokens'
@@ -36,21 +36,30 @@ const mapDispatchToProps = dispatch => {
   return {
     addItemLogs: item => dispatch(LogHandler.addItem(item)),
     clearLogs: () => dispatch(LogHandler.clear()),
-    issue: (type, amount, to, configs) => dispatch(pTokens.issue(type, amount, to, configs)),
-    redeem: (type, amount, to, configs) => dispatch(pTokens.redeem(type, amount, to, configs)),
-    getBalance: (type, account, configs) => dispatch(pTokens.getBalance(type, account, configs)),
+    issue: (type, amount, to, configs) =>
+      dispatch(pTokens.issue(type, amount, to, configs)),
+    redeem: (type, amount, to, configs) =>
+      dispatch(pTokens.redeem(type, amount, to, configs)),
+    getBalance: (type, account, configs) =>
+      dispatch(pTokens.getBalance(type, account, configs)),
     resetDepositAddress: () => dispatch(pTokens.resetDepositAddress()),
     resetIssueSuccess: () => dispatch(pTokens.resetIssueSuccess()),
     resetRedeemSuccess: () => dispatch(pTokens.resetRedeemSuccess()),
     resetIssueError: () => dispatch(pTokens.resetIssueError()),
     resetRedeemError: () => dispatch(pTokens.resetRedeemError()),
     setpTokenParams: _params => dispatch(pTokens.setParams(_params)),
-    connectWithCorrectWallets: (pTokenName, currentProviders, force) => dispatch(WalletsController.connectWithCorrectWallets(pTokenName, currentProviders, force)),
+    connectWithCorrectWallets: (pTokenName, currentProviders, force) =>
+      dispatch(
+        WalletsController.connectWithCorrectWallets(
+          pTokenName,
+          currentProviders,
+          force
+        )
+      )
   }
 }
 
 export class TokenController extends React.Component {
-
   constructor(_props, _context) {
     super(_props, _context)
 
@@ -61,13 +70,10 @@ export class TokenController extends React.Component {
       currentpTokenName: null
     }
 
-    this.props.connectWithCorrectWallets(
-      this.props.pTokenSelected.name,
-      {
-        redeemer: this.props.redeemerProvider,
-        issuer: this.props.issuerProvider
-      }
-    )
+    this.props.connectWithCorrectWallets(this.props.pTokenSelected.name, {
+      redeemer: this.props.redeemerProvider,
+      issuer: this.props.issuerProvider
+    })
 
     if (this.props.redeemerProvider) {
       this.props.getBalance(
@@ -83,25 +89,26 @@ export class TokenController extends React.Component {
 
   static getDerivedStateFromProps(_prevProps, _prevState) {
     if (
-      (_prevProps.isIssueSuccedeed === true  && !_prevState.isRedeemTerminated) ||
-      _prevProps.issueError) {
+      (_prevProps.isIssueSuccedeed === true &&
+        !_prevState.isRedeemTerminated) ||
+      _prevProps.issueError
+    ) {
       return {
         isIssueTerminated: true
       }
     }
     if (
-      (_prevProps.isRedeemSuccedeed === true && !_prevState.isRedeemTerminated) ||
+      (_prevProps.isRedeemSuccedeed === true &&
+        !_prevState.isRedeemTerminated) ||
       _prevProps.redeemError
     ) {
       return {
         isRedeemTerminated: true
       }
-    }
-    else return null
+    } else return null
   }
 
   async componentDidUpdate(_prevProps, _prevState) {
-
     if (!_prevProps.redeemerProvider && this.props.redeemerProvider) {
       this.props.getBalance(
         this.props.pTokenSelected.name,
@@ -113,14 +120,11 @@ export class TokenController extends React.Component {
       )
     }
 
-    if (
-      this.props.isIssueSuccedeed &&
-      this.state.isIssueTerminated
-    ) {
+    if (this.props.isIssueSuccedeed && this.state.isIssueTerminated) {
       this.props.resetIssueSuccess()
 
       this.setState({
-        isIssueTerminated: false 
+        isIssueTerminated: false
       })
 
       await sleep(10000)
@@ -134,20 +138,17 @@ export class TokenController extends React.Component {
       )
     }
     if (
-      (_prevProps.issueError !== this.props.issueError) &&
+      _prevProps.issueError !== this.props.issueError &&
       this.props.issueError
     ) {
       this.props.resetIssueError()
     }
 
-    if (
-      this.props.isRedeemSuccedeed &&
-      this.state.isRedeemTerminated
-    ) {
+    if (this.props.isRedeemSuccedeed && this.state.isRedeemTerminated) {
       this.props.resetRedeemSuccess()
 
       this.setState({
-        isRedeemTerminated: false 
+        isRedeemTerminated: false
       })
 
       this.props.getBalance(
@@ -160,7 +161,7 @@ export class TokenController extends React.Component {
       )
     }
     if (
-      (_prevProps.redeemError !== this.props.redeemError) &&
+      _prevProps.redeemError !== this.props.redeemError &&
       this.props.redeemError
     ) {
       this.props.resetRedeemError()
@@ -168,25 +169,22 @@ export class TokenController extends React.Component {
 
     //filling input with eth address when pToken is pBTC
     if (
-        (
-          _prevProps.redeemerAccount !== this.state.currentRedeemerAccount &&
-          this.props.pTokenSelected.name === 'pBTC'
-        ) ||
-        (
-          _prevProps.pTokenSelected.name !== this.state.currentpTokenName &&
-          this.props.pTokenSelected.name === 'pBTC' &&
-          _prevProps.redeemerAccount
-        )
+      (_prevProps.redeemerAccount !== this.state.currentRedeemerAccount &&
+        this.props.pTokenSelected.name === 'pBTC') ||
+      (_prevProps.pTokenSelected.name !== this.state.currentpTokenName &&
+        this.props.pTokenSelected.name === 'pBTC' &&
+        _prevProps.redeemerAccount)
     ) {
-
       this.setState({
         currentRedeemerAccount: _prevProps.redeemerAccount,
         currentpTokenName: _prevProps.pTokenSelected.name
       })
 
-      this.props.setpTokenParams(Object.assign({}, this.props.pTokensParams, {
-        typedIssueAccount: _prevProps.redeemerAccount,
-      }))
+      this.props.setpTokenParams(
+        Object.assign({}, this.props.pTokensParams, {
+          typedIssueAccount: _prevProps.redeemerAccount
+        })
+      )
     }
   }
 
@@ -194,15 +192,14 @@ export class TokenController extends React.Component {
     const options = {
       place: 'br',
       message: (
-        <span className='ml-1 font-weight-bold'>
-          {
-            _message + '.'
-          } 
-          {
-            _link 
-              ? <a href={_link} target="_blank" rel="noopener noreferrer"> link</a> 
-              : null
-          }
+        <span className="ml-1 font-weight-bold">
+          {_message + '.'}
+          {_link ? (
+            <a href={_link} target="_blank" rel="noopener noreferrer">
+              {' '}
+              link
+            </a>
+          ) : null}
         </span>
       ),
       type: _type,
@@ -215,23 +212,40 @@ export class TokenController extends React.Component {
   onIssue = () => {
     if (this.props.pTokenSelected.name === 'pEOS') {
       if (!this.props.issuerIsConnected) {
-        this.showAlert('danger', `${this.props.pTokenSelected.issueFrom} Wallet Not Connected`)
+        this.showAlert(
+          'danger',
+          `${this.props.pTokenSelected.issueFrom} Wallet Not Connected`
+        )
         return
       }
     }
 
-    if (!isValidAccount(this.props.pTokenSelected.name, this.props.pTokensParams.typedIssueAccount, 'redeemer')) {
-      this.showAlert('danger', `Please insert a valid ${this.props.pTokenSelected.redeemFrom} address`)
+    if (
+      !isValidAccount(
+        this.props.pTokenSelected.name,
+        this.props.pTokensParams.typedIssueAccount,
+        'redeemer'
+      )
+    ) {
+      this.showAlert(
+        'danger',
+        `Please insert a valid ${this.props.pTokenSelected.redeemFrom} address`
+      )
       return
     }
 
     const decimals = this.props.pTokenSelected.decimals
-    const parsedAmountToIssue = parseFloat(this.props.pTokensParams.amountToIssue).toFixed(decimals)
+    const parsedAmountToIssue = parseFloat(
+      this.props.pTokensParams.amountToIssue
+    ).toFixed(decimals)
     const minimunIssuableAmount = getMinumIssuableAmount(
       this.props.pTokenSelected.name
     )
-    if (parsedAmountToIssue < minimunIssuableAmount ) {
-      this.showAlert('danger', `Impossible to mint less than ${minimunIssuableAmount} ${this.props.pTokenSelected.name}`)
+    if (parsedAmountToIssue < minimunIssuableAmount) {
+      this.showAlert(
+        'danger',
+        `Impossible to mint less than ${minimunIssuableAmount} ${this.props.pTokenSelected.name}`
+      )
       return
     }
 
@@ -254,35 +268,57 @@ export class TokenController extends React.Component {
       ],
       {
         issuer: this.props.issuerProvider,
-        redeemer: redeemerReadOnlyProvider,
+        redeemer: redeemerReadOnlyProvider
       }
     )
   }
 
   onRedeem = () => {
     if (!this.props.redeemerIsConnected) {
-      this.showAlert('danger', `${this.props.pTokenSelected.redeemFrom} Wallet Not Connected`)
-      return
-    }
-    
-    if (!isValidAccount(this.props.pTokenSelected.name, this.props.pTokensParams.typedRedeemAccount, 'issuer')) {
-      this.showAlert('danger', `Please insert a valid ${this.props.pTokenSelected.issueFrom} address`)
+      this.showAlert(
+        'danger',
+        `${this.props.pTokenSelected.redeemFrom} Wallet Not Connected`
+      )
       return
     }
 
-    const parsedAmountToRedeem = parseFloat(this.props.pTokensParams.amountToRedeem)
+    if (
+      !isValidAccount(
+        this.props.pTokenSelected.name,
+        this.props.pTokensParams.typedRedeemAccount,
+        'issuer'
+      )
+    ) {
+      this.showAlert(
+        'danger',
+        `Please insert a valid ${this.props.pTokenSelected.issueFrom} address`
+      )
+      return
+    }
+
+    const parsedAmountToRedeem = parseFloat(
+      this.props.pTokensParams.amountToRedeem
+    )
     if (parsedAmountToRedeem === 0) {
-      this.showAlert('danger', `Impossible to burn 0 ${this.props.pTokenSelected.name}`)
+      this.showAlert(
+        'danger',
+        `Impossible to burn 0 ${this.props.pTokenSelected.name}`
+      )
       return
     }
 
     const decimals = this.props.pTokenSelected.decimals
-    const parsedAmountToIssue = parseFloat(this.props.pTokensParams.amountToRedeem).toFixed(decimals)
+    const parsedAmountToIssue = parseFloat(
+      this.props.pTokensParams.amountToRedeem
+    ).toFixed(decimals)
     const minimunRedeemableAmount = getMinumRedeemableAmount(
       this.props.pTokenSelected.name
     )
-    if (parsedAmountToIssue < minimunRedeemableAmount ) {
-      this.showAlert('danger', `Impossible to mint less than ${minimunRedeemableAmount} ${this.props.pTokenSelected.name}`)
+    if (parsedAmountToIssue < minimunRedeemableAmount) {
+      this.showAlert(
+        'danger',
+        `Impossible to mint less than ${minimunRedeemableAmount} ${this.props.pTokenSelected.name}`
+      )
       return
     }
 
@@ -296,7 +332,7 @@ export class TokenController extends React.Component {
       this.props.pTokenSelected.name,
       this.props.pTokenSelected.issueFrom
     )
-    
+
     this.props.redeem(
       this.props.pTokenSelected,
       [
@@ -305,7 +341,7 @@ export class TokenController extends React.Component {
       ],
       {
         issuer: issuerReadOnlyProvider,
-        redeemer: this.props.redeemerProvider,
+        redeemer: this.props.redeemerProvider
       }
     )
   }
@@ -314,16 +350,22 @@ export class TokenController extends React.Component {
     this.props.clearLogs()
   }
 
-  onChangeAmountToIssue = _amount => {    
-    this.props.setpTokenParams(Object.assign({}, this.props.pTokensParams, {
-      amountToIssue: mask(_amount, this.props.pTokenSelected.decimals).maskedValue
-    }))
+  onChangeAmountToIssue = _amount => {
+    this.props.setpTokenParams(
+      Object.assign({}, this.props.pTokensParams, {
+        amountToIssue: mask(_amount, this.props.pTokenSelected.decimals)
+          .maskedValue
+      })
+    )
   }
 
   onChangeAmountToRedeem = _amount => {
-    this.props.setpTokenParams(Object.assign({}, this.props.pTokensParams, {
-      amountToRedeem: mask(_amount, this.props.pTokenSelected.decimals).maskedValue,
-    }))
+    this.props.setpTokenParams(
+      Object.assign({}, this.props.pTokensParams, {
+        amountToRedeem: mask(_amount, this.props.pTokenSelected.decimals)
+          .maskedValue
+      })
+    )
   }
 
   onChangeTypedIssueAccount = _typedIssueAccount => {
@@ -334,22 +376,26 @@ export class TokenController extends React.Component {
       this.props.resetDepositAddress()
     }
 
-    this.props.setpTokenParams(Object.assign({},this.props.pTokensParams, {
-      typedIssueAccount: _typedIssueAccount,
-    }))
+    this.props.setpTokenParams(
+      Object.assign({}, this.props.pTokensParams, {
+        typedIssueAccount: _typedIssueAccount
+      })
+    )
   }
 
   onChangeTypedRedeemAccount = _typedRedeemAccount => {
-    this.props.setpTokenParams(Object.assign({}, this.props.pTokensParams, {
-      typedRedeemAccount: _typedRedeemAccount,
-    }))
+    this.props.setpTokenParams(
+      Object.assign({}, this.props.pTokensParams, {
+        typedRedeemAccount: _typedRedeemAccount
+      })
+    )
   }
 
   render() {
-      
     return (
       <React.Fragment>
-        <Token pTokenSelected={this.props.pTokenSelected}
+        <Token
+          pTokenSelected={this.props.pTokenSelected}
           balance={this.props.pTokenBalance}
           issuerAccount={this.props.issuerAccount}
           redeemerAccount={this.props.redeemerAccount}
@@ -366,10 +412,11 @@ export class TokenController extends React.Component {
           onChangeRedeemAccount={this.onChangeTypedRedeemAccount}
           onIssue={this.onIssue}
           onRedeem={this.onRedeem}
-          onResetLogs={this.onResetLogs} />
-        <NotificationAlert ref="notify"/>
+          onResetLogs={this.onResetLogs}
+        />
+        <NotificationAlert ref="notify" />
       </React.Fragment>
-    );
+    )
   }
 }
 
@@ -389,7 +436,7 @@ TokenController.propTypes = {
   issueError: PropTypes.string,
   redeemError: PropTypes.string,
   addItemLogs: PropTypes.func,
-  clearLogs:PropTypes.func,
+  clearLogs: PropTypes.func,
   issue: PropTypes.func,
   redeem: PropTypes.func,
   getBalance: PropTypes.func,
@@ -398,7 +445,7 @@ TokenController.propTypes = {
   resetIssueError: PropTypes.func,
   resetRedeemError: PropTypes.func,
   setpTokenParams: PropTypes.func,
-  connectWithCorrectWallets: PropTypes.func,
+  connectWithCorrectWallets: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TokenController)
