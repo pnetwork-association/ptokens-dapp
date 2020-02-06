@@ -20,7 +20,8 @@ const Token = props => {
               {props.redeemerProvider ? (
                 <div
                   className={
-                    (props.pTokenSelected.name === 'pBTC' || props.pTokenSelected.name === 'pLTC'
+                    (props.pTokenSelected.name === 'pBTC' ||
+                    props.pTokenSelected.name === 'pLTC'
                       ? 'col-xl-6'
                       : 'col-xl-4') + ' col-12 mt-20'
                   }
@@ -41,7 +42,8 @@ const Token = props => {
               {props.redeemerProvider ? (
                 <div
                   className={
-                    (props.pTokenSelected.name === 'pBTC' || props.pTokenSelected.name === 'pLTC'
+                    (props.pTokenSelected.name === 'pBTC' ||
+                    props.pTokenSelected.name === 'pLTC'
                       ? 'col-xl-6'
                       : 'col-xl-4') + ' col-12 mt-20'
                   }
@@ -166,22 +168,19 @@ const Token = props => {
                   size={'small'}
                   onChange={e => props.onChangeRedeemAccount(e.target.value)}
                 >
-                  {props.pTokenSelected.name === 'pBTC' || props.pTokenSelected.name === 'pLTC' ? (
+                  {props.pTokenSelected.name === 'pBTC' ||
+                  props.pTokenSelected.name === 'pLTC' ? (
                     <div className="mt-10">
                       <Alert
                         type={'warning'}
                         size={'exsmall'}
-                        text={
-                          `Please make sure the ${
-                            props.pTokenSelected.name === 'pBTC'
-                              ? 'bitcoin'
-                              : 
-                            (props.pTokenSelected.name === 'pLTC'
-                              ? 'litecoin'
-                              : ''
-                            )
-                          } address is one you own, or funds may be permanently lost`
-                        }
+                        text={`Please make sure the ${
+                          props.pTokenSelected.name === 'pBTC'
+                            ? 'bitcoin'
+                            : props.pTokenSelected.name === 'pLTC'
+                            ? 'litecoin'
+                            : ''
+                        } address is one you own, or funds may be permanently lost`}
                       />
                     </div>
                   ) : null}

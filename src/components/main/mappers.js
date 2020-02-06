@@ -1,4 +1,3 @@
-
 const getCorrespondingHeaderMap = (_pTokenName, _role) => {
   switch (_pTokenName) {
     case 'pEOS': {
@@ -119,10 +118,7 @@ const getCorrespondingHeaders = (_pTokenName, _role) => {
       'broadcast_tx_hash'
       //'prooved'
     ]
-  }  
+  }
 }
 
-export {
-  getCorrespondingHeaderMap,
-  getCorrespondingHeaders
-}
+export { getCorrespondingHeaderMap, getCorrespondingHeaders }

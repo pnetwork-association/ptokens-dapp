@@ -4,10 +4,7 @@ import PropTypes from 'prop-types'
 import { timestampInSecondsToDate } from '../../utils/utils'
 import { getCorrespondingBaseTxExplorerLink } from '../../utils/ptokens-sm-utils'
 import MiniCard from '../utils/MiniCard'
-import {
-  getCorrespondingHeaderMap,
-  getCorrespondingHeaders
-} from './mappers'
+import { getCorrespondingHeaderMap, getCorrespondingHeaders } from './mappers'
 
 const Main = props => {
   console.log(props)

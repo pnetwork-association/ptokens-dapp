@@ -37,7 +37,11 @@ const getEnclaveBlockHeightStatusComparedWithTheReals = async (
   _enclaveBlockHeight
 ) => {
   if (_pTokenName === 'pBTC' && _role === 'issuer') {
-    const btcLastBlock = await _makeEsploraApiCall('testnet', 'GET','/blocks/tip/height')
+    const btcLastBlock = await _makeEsploraApiCall(
+      'testnet',
+      'GET',
+      '/blocks/tip/height'
+    )
 
     return _calculateStatus(
       _enclaveBlockHeight,
