@@ -46,6 +46,10 @@ const getLastProcessedBlock = (_pTokenName, _type, _role) => {
         value = lastProcessedBlock.block_num
         break
       }
+      case 'pLTC': {
+        value = lastProcessedBlock.block_num
+        break
+      }
       default:
         value = null
     }

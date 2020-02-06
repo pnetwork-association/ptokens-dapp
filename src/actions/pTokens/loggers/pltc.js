@@ -8,11 +8,11 @@ import {
 } from '../../../constants/index'
 import settings from '../../../settings'
 
-const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
+const pltcLoggedIssue = async (_ptokens, _params, _dispatch) => {
   //[0] should be the value but here there isn't
   let depositAddress = null
   try {
-    depositAddress = await _ptokens.pbtc.getDepositAddress(_params[1])
+    depositAddress = await _ptokens.pltc.getDepositAddress(_params[1])
   } catch (err) {
     _dispatch({
       type: PTOKENS_ISSUE_NOT_SUCCEDEED,
@@ -46,7 +46,7 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
 
   depositAddress
     .waitForDeposit()
-    .once('onBtcTxBroadcasted', tx => {
+    .once('onLtcTxBroadcasted', tx => {
       const { txid } = tx
 
       _dispatch({
@@ -63,9 +63,9 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
 
       _dispatch(
         LogHandler.updateItem('broadcasting-pending', {
-          value: `new BTC deposit detected`,
+          value: `new LTC deposit detected`,
           success: true,
-          link: `${settings.pbtc.btc.explorer}tx/${txid}`,
+          link: `${settings.pltc.ltc.explorer}/${txid}`,
           id: 'broadcasting-pending'
         })
       )
@@ -79,7 +79,7 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
         })
       )
     })
-    .once('onBtcTxConfirmed', () => {
+    .once('onLtcTxConfirmed', () => {
       _dispatch(
         LogHandler.updateItem('mint-confirmation', {
           value: `Minting transaction confirmed`,
@@ -131,7 +131,7 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
         })
       )
 
-      const explorer = `${settings.pbtc.eth.etherscanLink}tx/${tx}`
+      const explorer = `${settings.pltc.eth.etherscanLink}tx/${tx}`
 
       _dispatch(
         LogHandler.addItem({
@@ -186,10 +186,10 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
     })
 }
 
-const pbtcLoggedRedeem = (_ptokens, _params, _dispatch) => {
+const pltcLoggedRedeem = (_ptokens, _params, _dispatch) => {
   _dispatch(
     LogHandler.addItem({
-      value: `pBTC burn transaction pending...`,
+      value: `pLTC burn transaction pending...`,
       success: true,
       waiting: false,
       id: 'burn-pending'
@@ -205,14 +205,14 @@ const pbtcLoggedRedeem = (_ptokens, _params, _dispatch) => {
     })
   )
 
-  _ptokens.pbtc
+  _ptokens.pltc
     .redeem(..._params)
     .once('onEthTxConfirmed', _tx => {
-      const explorer = `${settings.pbtc.eth.etherscanLink}tx/${_tx.transactionHash}`
+      const explorer = `${settings.pltc.eth.etherscanLink}tx/${_tx.transactionHash}`
 
       const message = `Burn Transaction confirmed! ${parseFloat(
         _params[0]
-      ).toFixed(8)} pBTC Burnt`
+      ).toFixed(8)} pLTC Burnt`
 
       _dispatch(
         LogHandler.updateItem('burn-confirmation', {
@@ -265,11 +265,11 @@ const pbtcLoggedRedeem = (_ptokens, _params, _dispatch) => {
         })
       )
 
-      const explorer = `${settings.pbtc.btc.explorer}tx/${tx}`
+      const explorer = `${settings.pltc.ltc.explorer}/${tx}`
 
       _dispatch(
         LogHandler.addItem({
-          value: `BTC transaction pending...`,
+          value: `LTC transaction pending...`,
           success: true,
           link: explorer,
           id: 'transaction-final-pending'
@@ -289,7 +289,7 @@ const pbtcLoggedRedeem = (_ptokens, _params, _dispatch) => {
     .then(result => {
       _dispatch(
         LogHandler.updateItem('confirmation-final-burn', {
-          value: 'BTC transaction confirmed!',
+          value: 'LTC transaction confirmed!',
           success: true,
           waiting: false,
           link: null
@@ -320,4 +320,4 @@ const pbtcLoggedRedeem = (_ptokens, _params, _dispatch) => {
     })
 }
 
-export { pbtcLoggedIssue, pbtcLoggedRedeem }
+export { pltcLoggedIssue, pltcLoggedRedeem }

@@ -63,7 +63,7 @@ const settings = {
       enclaveBlockHeightPollingTime: 3000
     },
     ltc: {
-      explorer: 'https://sochain.com/testnet/ltc/',
+      explorer: 'https://tltc.bitaps.com/',
       enclaveBlockHeightPollingTime: 3000,
       faucet1: 'https://faucet.xblau.com/',
       faucet2: ''

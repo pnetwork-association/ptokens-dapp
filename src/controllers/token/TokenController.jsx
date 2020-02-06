@@ -168,11 +168,11 @@ export class TokenController extends React.Component {
     }
 
     //filling input with eth address when pToken is pBTC
+    const enablers = ['pBTC', 'pLTC']
     if (
-      (_prevProps.redeemerAccount !== this.state.currentRedeemerAccount &&
-        this.props.pTokenSelected.name === 'pBTC') ||
+      (_prevProps.redeemerAccount !== this.state.currentRedeemerAccount && enablers.includes(this.props.pTokenSelected.name)) ||
       (_prevProps.pTokenSelected.name !== this.state.currentpTokenName &&
-        this.props.pTokenSelected.name === 'pBTC' &&
+        enablers.includes(this.props.pTokenSelected.name) &&
         _prevProps.redeemerAccount)
     ) {
       this.setState({
@@ -370,7 +370,7 @@ export class TokenController extends React.Component {
 
   onChangeTypedIssueAccount = _typedIssueAccount => {
     if (
-      this.props.pTokenSelected.name === 'pBTC' &&
+      (this.props.pTokenSelected.name === 'pBTC' || this.props.pTokenSelected.name === 'pLTC') &&
       !this.props.pTokenSelected.depositAddress.waiting
     ) {
       this.props.resetDepositAddress()

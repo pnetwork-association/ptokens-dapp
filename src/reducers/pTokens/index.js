@@ -58,6 +58,13 @@ const initialState = {
       issueFrom: 'BTC',
       redeemFrom: 'ETH',
       network: 'ropsten'
+    },
+    {
+      name: 'pLTC',
+      tokenType: 'ERC-20',
+      issueFrom: 'LTC',
+      redeemFrom: 'ETH',
+      network: 'ropsten'
     }
     /*{
       name: 'pDAI',

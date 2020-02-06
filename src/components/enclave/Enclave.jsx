@@ -108,12 +108,12 @@ const Enclave = props => {
                 </div>
                 <div className="row mt-15 mb-15">
                   <div className="col-6 col-xl-3 text-gray text-xs font-weight-light">
-                    {props.pTokenSelected.name === 'pBTC'
+                    {props.pTokenSelected.name === 'pBTC' || props.pTokenSelected.name === 'pLTC'
                       ? `${props.pTokenSelected.issueFrom} ENCLAVE PUBKEY:`
                       : `${props.pTokenSelected.issueFrom} ACCOUNT:`}
                   </div>
                   <div className="col-6 col-xl-9 text-right text-gray text-md">
-                    {props.pTokenSelected.name === 'pBTC' ? (
+                    {props.pTokenSelected.name === 'pBTC' || props.pTokenSelected.name === 'pLTC' ? (
                       <div
                         data-tip={getCorrespondingSmartContractAddress(
                           props.pTokenSelected.name,

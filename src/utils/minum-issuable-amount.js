@@ -6,7 +6,10 @@ const getMinumIssuableAmount = _type => {
     case 'pEOS': {
       return parseFloat(MINIMUM_MINTABLE_PEOS_AMOUNT).toFixed(PEOS_DECIMALS)
     }
-    case 'pBTC' || 'pLTC': {
+    case 'pBTC': {
+      return 0
+    }
+    case 'pLTC': {
       return 0
     }
     default:

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { getCorresponsingVisibleAddressFormat } from '../../utils/account-viewer'
 import Process from './process/Process'
 import PbtcIssueCard from './pbtcIssueCard/PbtcIssueCard'
-import PeosIssueCard from './peosIssueCard/PeosIssue'
+import PeosIssueCard from './peosIssueCard/PeosIssueCard'
+import PltcIssueCard from './pltcIssueCard/PltcIssueCard'
 import MiniCard from '../utils/MiniCard'
 import Alert from '../utils/Alert'
 import Input from '../utils/Input'
@@ -19,7 +20,7 @@ const Token = props => {
               {props.redeemerProvider ? (
                 <div
                   className={
-                    (props.pTokenSelected.name === 'pBTC'
+                    (props.pTokenSelected.name === 'pBTC' || props.pTokenSelected.name === 'pLTC'
                       ? 'col-xl-6'
                       : 'col-xl-4') + ' col-12 mt-20'
                   }
@@ -40,7 +41,7 @@ const Token = props => {
               {props.redeemerProvider ? (
                 <div
                   className={
-                    (props.pTokenSelected.name === 'pBTC'
+                    (props.pTokenSelected.name === 'pBTC' || props.pTokenSelected.name === 'pLTC'
                       ? 'col-xl-6'
                       : 'col-xl-4') + ' col-12 mt-20'
                   }
@@ -103,6 +104,13 @@ const Token = props => {
                 onChangeIssueAccount={props.onChangeIssueAccount}
                 onIssue={props.onIssue}
               />
+            ) : props.pTokenSelected.name === 'pLTC' ? (
+              <PltcIssueCard
+                pTokenSelected={props.pTokenSelected}
+                typedIssueAccount={props.typedIssueAccount}
+                onChangeIssueAccount={props.onChangeIssueAccount}
+                onIssue={props.onIssue}
+              />
             ) : null}
           </div>
           <div className="col-xl-6 mt-xl-0 mt-3">
@@ -158,13 +166,21 @@ const Token = props => {
                   size={'small'}
                   onChange={e => props.onChangeRedeemAccount(e.target.value)}
                 >
-                  {props.pTokenSelected.name === 'pBTC' ? (
+                  {props.pTokenSelected.name === 'pBTC' || props.pTokenSelected.name === 'pLTC' ? (
                     <div className="mt-10">
                       <Alert
                         type={'warning'}
                         size={'exsmall'}
                         text={
-                          'Please make sure the bitcoin address is one you own, or funds may be permanently lost'
+                          `Please make sure the ${
+                            props.pTokenSelected.name === 'pBTC'
+                              ? 'bitcoin'
+                              : 
+                            (props.pTokenSelected.name === 'pLTC'
+                              ? 'litecoin'
+                              : ''
+                            )
+                          } address is one you own, or funds may be permanently lost`
                         }
                       />
                     </div>

@@ -17,6 +17,7 @@ import {
 import pTokens from 'ptokens'
 import { peosLoggedIssue, peosLoggedRedeem } from './loggers/peos'
 import { pbtcLoggedIssue, pbtcLoggedRedeem } from './loggers/pbtc'
+import { pltcLoggedIssue, pltcLoggedRedeem } from './loggers/pltc'
 import settings from '../../settings'
 
 const setSelectedpToken = _type => {
@@ -42,6 +43,10 @@ const issue = (_pToken, _params, _configs) => {
         pbtcLoggedIssue(ptokens, _params, _dispatch)
         break
       }
+      case 'pLTC': {
+        pltcLoggedIssue(ptokens, _params, _dispatch)
+        break
+      }
       default:
         break
     }
@@ -60,6 +65,10 @@ const redeem = (_pToken, _params, _configs) => {
       }
       case 'pBTC': {
         pbtcLoggedRedeem(ptokens, _params, _dispatch)
+        break
+      }
+      case 'pLTC': {
+        pltcLoggedRedeem(ptokens, _params, _dispatch)
         break
       }
       default:
@@ -235,6 +244,14 @@ const _getCorrectConfigs = (_type, _configs) => {
         }
       }
     }
+    case 'pLTC': {
+      return {
+        pltc: {
+          ltcNetwork: 'testnet',
+          ethProvider: redeemer
+        }
+      }
+    }
     default:
       return null
   }
@@ -257,6 +274,16 @@ const _getCorrectpTokenObject = _type => {
         name: 'pBTC',
         decimals: 8,
         issueFrom: 'BTC',
+        redeemFrom: 'ETH',
+        tokenType: 'ERC-20',
+        network: 'ropsten'
+      }
+    }
+    case 'pLTC': {
+      return {
+        name: 'pLTC',
+        decimals: 8,
+        issueFrom: 'LTC',
         redeemFrom: 'ETH',
         tokenType: 'ERC-20',
         network: 'ropsten'

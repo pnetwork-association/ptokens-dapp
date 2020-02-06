@@ -20,6 +20,11 @@ const isValidAccount = (_pTokenName, _account, _role) => {
         ? pTokenUtils.btc.isValidAddress(_account)
         : web3.utils.isAddress(_account)
     }
+    case 'pLTC': {
+      return _role === 'issuer'
+        ? pTokenUtils.ltc.isValidAddress(_account)
+        : web3.utils.isAddress(_account)
+    }
     default:
       break
   }

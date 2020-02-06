@@ -30,6 +30,15 @@ class Sidebar extends React.Component {
             width="30"
           />
         )
+      case 'pLTC':
+        return (
+          <img
+            src="./assets/pLTC.png"
+            alt="pLTC avatar"
+            height="30"
+            width="30"
+          />
+        )
       case 'pDAI':
         return (
           <img

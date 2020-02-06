@@ -11,9 +11,12 @@ const connectWithCorrectWallets = (_pTokenName, _currentProviders, _force) => {
         connectWithEthWallet('pEOS', 'redeemer', redeemer, dispatch, _force)
         break
       }
-
       case 'pBTC': {
         connectWithEthWallet('pBTC', 'redeemer', redeemer, dispatch, _force)
+        break
+      }
+      case 'pLTC': {
+        connectWithEthWallet('pLTC', 'redeemer', redeemer, dispatch, _force)
         break
       }
       default:
@@ -38,6 +41,13 @@ const connectWithSpecificWallet = (_pTokenName, _role, _force) => {
 
         break
       }
+      case 'pLTC': {
+        //issuer not present in pbtc
+        if (_role === 'redeemer')
+          connectWithEthWallet('pLTC', 'redeemer', null, dispatch, _force)
+
+        break
+      }
       default:
         break
     }
@@ -54,6 +64,10 @@ const disconnectFromSpecificWallet = (_pTokenName, _role) => {
         break
       }
       case 'pBTC': {
+        disconnectFromEthWallet('redeemer', null, dispatch)
+        break
+      }
+      case 'pLTC': {
         disconnectFromEthWallet('redeemer', null, dispatch)
         break
       }
@@ -74,6 +88,10 @@ const changeSpecificWallet = (_pTokenName, _role) => {
       }
       case 'pBTC': {
         connectWithEthWallet('pBTC', 'redeemer', null, dispatch, true)
+        break
+      }
+      case 'pLTC': {
+        connectWithEthWallet('pLTC', 'redeemer', null, dispatch, true)
         break
       }
       default:
