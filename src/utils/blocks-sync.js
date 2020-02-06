@@ -12,12 +12,19 @@ const ETH_BAD = 180
 const BTC_GOOD = 2
 const BTC_BAD = 6
 
+const LTC_GOOD = 4
+const LTC_BAD = 24
+
 const EOS_GOOD = 1200 // (500ms each block -> 2blocks x second -> 120 block x minute -> 1200 blocks each 10 minutes)
 const EOS_BAD = 7200 //each hours
 
 const BLOCKSTREAM_BASE_TESTNET_ENDPOINT =
   'https://blockstream.info/testnet/api/'
 const BLOCKSTREAM_BASE_MAINNET_ENDPOINT = 'https://blockstream.info/api/'
+
+const LTC_PTOKENS_NODE_TESTNET_API =
+'http://ltcnode.ptokens.io/insight-lite-api'
+const LTC_PTOKENS_NODE_MAINNET_API = 'Not available yet'
 
 const _getEsploraApi = _network =>
   axios.create({
@@ -28,6 +35,18 @@ const _getEsploraApi = _network =>
     timeout: 50000,
     headers: {
       'Content-Type': 'text/plain'
+    }
+  })
+
+const _getInsightLiteApi = _network =>
+  axios.create({
+    baseURL:
+      _network === 'litecoin'
+        ? LTC_PTOKENS_NODE_MAINNET_API
+        : LTC_PTOKENS_NODE_TESTNET_API,
+    timeout: 50000,
+    headers: {
+      'Content-Type': 'application/json'
     }
   })
 
@@ -95,6 +114,34 @@ const getEnclaveBlockHeightStatusComparedWithTheReals = async (
       ETH_BAD
     )
   }
+
+  if (_pTokenName === 'pLTC' && _role === 'issuer') {
+    const ltcLastBlock = await _makeInsightLiteApiCall(
+      'testnet',
+      'GET',
+      '/blocks?limit=1'
+    )
+
+    return _calculateStatus(
+      _enclaveBlockHeight,
+      ltcLastBlock.blocks[0].height,
+      LTC_GOOD,
+      LTC_BAD
+    )
+  }
+
+  if (_pTokenName === 'pLTC' && _role === 'redeemer') {
+    const ethProvider = getCorrespondingReadOnlyProvider('pLTC', 'ETH')
+    const web3 = new Web3(ethProvider)
+    const ethLastBlock = await web3.eth.getBlockNumber()
+
+    return _calculateStatus(
+      _enclaveBlockHeight,
+      ethLastBlock,
+      ETH_GOOD,
+      ETH_BAD
+    )
+  }
 }
 
 const _calculateStatus = (_b1, _b2, _good, _bad) => {
@@ -116,6 +163,14 @@ const _calculateStatus = (_b1, _b2, _good, _bad) => {
 const _makeEsploraApiCall = (_network, _callType, _apiPath, _params) =>
   new Promise((resolve, reject) => {
     _getEsploraApi(_network)
+      [_callType.toLowerCase()](_apiPath, _params)
+      .then(_res => resolve(_res.data))
+      .catch(_err => reject(_err))
+  })
+  
+const _makeInsightLiteApiCall = (_network, _callType, _apiPath, _params) =>
+  new Promise((resolve, reject) => {
+    _getInsightLiteApi(_network)
       [_callType.toLowerCase()](_apiPath, _params)
       .then(_res => resolve(_res.data))
       .catch(_err => reject(_err))
