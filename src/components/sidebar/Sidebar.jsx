@@ -64,7 +64,7 @@ class Sidebar extends React.Component {
                 <li
                   key={pToken.name}
                   onClick={() => {
-                    this.props.onChangeSelectedpToken(pToken.name)
+                    this.props.onChangeSelectedpToken(pToken)
                     this.props.onChangeCollapseState()
                   }}
                 >

@@ -33,7 +33,7 @@ class App extends React.Component {
           <Route
             exact
             path="/"
-            render={props => {
+            render={() => {
               return (
                 <React.Fragment>
                   <SidebarController />
@@ -48,7 +48,7 @@ class App extends React.Component {
           <Route
             exact
             path="/enclave"
-            render={props => {
+            render={() => {
               return (
                 <React.Fragment>
                   <SidebarController />
@@ -62,8 +62,8 @@ class App extends React.Component {
           />
           <Route
             exact
-            path="/token"
-            render={props => {
+            path={'/(peos-on-eth|pbtc-on-eth|pltc-on-eth)'}
+            render={() => {
               return (
                 <React.Fragment>
                   <SidebarController />
@@ -78,7 +78,7 @@ class App extends React.Component {
           <Route
             exact
             from="/settings"
-            render={props => {
+            render={() => {
               return (
                 <React.Fragment>
                   <SidebarController />

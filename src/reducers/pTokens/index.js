@@ -50,6 +50,7 @@ const initialState = {
       tokenType: 'ERC-20',
       issueFrom: 'EOS',
       redeemFrom: 'ETH',
+      decimals: 4,
       network: 'kovan'
     },
     {
@@ -57,6 +58,7 @@ const initialState = {
       tokenType: 'ERC-20',
       issueFrom: 'BTC',
       redeemFrom: 'ETH',
+      decimals: 8,
       network: 'ropsten'
     },
     {
@@ -64,6 +66,7 @@ const initialState = {
       tokenType: 'ERC-20',
       issueFrom: 'LTC',
       redeemFrom: 'ETH',
+      decimals: 8,
       network: 'ropsten'
     }
     /*{

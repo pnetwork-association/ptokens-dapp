@@ -20,11 +20,11 @@ import { pbtcLoggedIssue, pbtcLoggedRedeem } from './loggers/pbtc'
 import { pltcLoggedIssue, pltcLoggedRedeem } from './loggers/pltc'
 import settings from '../../settings'
 
-const setSelectedpToken = _type => {
+const setSelectedpToken = _pToken => {
   return {
     type: SET_SELECTED_PTOKEN,
     payload: {
-      pToken: _getCorrectpTokenObject(_type)
+      pToken: _pToken
     }
   }
 }
@@ -254,43 +254,6 @@ const _getCorrectConfigs = (_type, _configs) => {
     }
     default:
       return null
-  }
-}
-
-const _getCorrectpTokenObject = _type => {
-  switch (_type) {
-    case 'pEOS': {
-      return {
-        name: 'pEOS',
-        decimals: 4,
-        issueFrom: 'EOS',
-        redeemFrom: 'ETH',
-        tokenType: 'ERC-20',
-        network: 'kovan'
-      }
-    }
-    case 'pBTC': {
-      return {
-        name: 'pBTC',
-        decimals: 8,
-        issueFrom: 'BTC',
-        redeemFrom: 'ETH',
-        tokenType: 'ERC-20',
-        network: 'ropsten'
-      }
-    }
-    case 'pLTC': {
-      return {
-        name: 'pLTC',
-        decimals: 8,
-        issueFrom: 'LTC',
-        redeemFrom: 'ETH',
-        tokenType: 'ERC-20',
-        network: 'ropsten'
-      }
-    }
-    default:
-      break
   }
 }
 

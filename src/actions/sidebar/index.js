@@ -5,14 +5,14 @@ import {
 } from '../../constants/index'
 import history from '../../utils/history'
 
-const setSelectedPage = page => {
-  switch (page) {
+const setSelectedPage = (_page, _pToken) => {
+  switch (_page) {
     case 0: {
       history.push('/')
       break
     }
     case 1: {
-      history.push('/token')
+      history.push(`/${_pToken.name.toLowerCase()}-on-${_pToken.redeemFrom.toLowerCase()}`)
       break
     }
     case 2: {
@@ -29,19 +29,31 @@ const setSelectedPage = page => {
 
   return {
     type: SET_SELECTED_PAGE,
-    payload: page
+    payload: _page
   }
 }
 
-const setSelectedPageFromPathname = pathname => {
-  switch (pathname) {
+const setSelectedPageFromPathname = (_pathname, _pToken) => {
+  switch (_pathname) {
     case '/': {
       return {
         type: SET_SELECTED_PAGE_FROM_PATHNAME,
         payload: 0
       }
     }
-    case '/token': {
+    case '/peos-on-eth': {
+      return {
+        type: SET_SELECTED_PAGE_FROM_PATHNAME,
+        payload: 1
+      }
+    }
+    case '/pbtc-on-eth': {
+      return {
+        type: SET_SELECTED_PAGE_FROM_PATHNAME,
+        payload: 1
+      }
+    }
+    case '/pltc-on-eth': {
       return {
         type: SET_SELECTED_PAGE_FROM_PATHNAME,
         payload: 1
