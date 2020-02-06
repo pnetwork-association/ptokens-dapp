@@ -22,7 +22,7 @@ const isValidAccount = (_pTokenName, _account, _role) => {
     }
     case 'pLTC': {
       return _role === 'issuer'
-        ? pTokenUtils.ltc.isValidAddress(_account)
+        ? pTokenUtils.ltc.isValidAddress('testnet', _account)
         : web3.utils.isAddress(_account)
     }
     default:

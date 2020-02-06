@@ -7,7 +7,6 @@ import MiniCard from '../utils/MiniCard'
 import { getCorrespondingHeaderMap, getCorrespondingHeaders } from './mappers'
 
 const Main = props => {
-  console.log(props)
   return (
     <React.Fragment>
       <div className="header">
