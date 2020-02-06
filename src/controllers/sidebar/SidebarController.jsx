@@ -56,9 +56,15 @@ export class SidebarController extends React.Component {
     const pToken = this.props.pTokensAvailable.find(
       pToken => pToken.name.toLowerCase() === pTokenNameSelected
     )
+
     this.props.setSelectedPageFromPathname(history.location.pathname, pToken)
     this.props.setSelectedpToken(pToken)
-    this.props.setSelectedPage(pageNameToNumbers[page], pToken)
+
+    if (!page) {
+      this.props.setSelectedPage(0, pToken)
+    } else {
+      this.props.setSelectedPage(pageNameToNumbers[page], pToken)
+    }
   }
 
   render() {

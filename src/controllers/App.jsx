@@ -4,7 +4,7 @@ import EnclaveController from './enclave/EnclaveController'
 import SidebarController from './sidebar/SidebarController'
 import TokenController from './token/TokenController'
 import SettingsController from './settings/SettingsController'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import MainWrapper from '../components/utils/MainWrapper'
 import NetworkDetectorController from './networkDetector/NetworkDetectorController'
 import history from './../utils/history'
@@ -90,6 +90,7 @@ class App extends React.Component {
               )
             }}
           />
+           <Route render={() => <Redirect to='pbtc-on-eth'/>} />
         </Switch>
       </React.Fragment>
     )
