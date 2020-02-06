@@ -1,10 +1,10 @@
-import pTokens from 'ptokens'
 import { getCorrespondingReadOnlyProvider } from './read-only-providers'
 import Web3 from 'web3'
 import settings from '../settings'
 import { Api, JsonRpc } from 'eosjs'
 import fetch from 'node-fetch'
 import encoding from 'text-encoding'
+import axios from 'axios'
 
 const ETH_GOOD = 2
 const ETH_BAD = 180
@@ -15,22 +15,29 @@ const BTC_BAD = 6
 const EOS_GOOD = 1200 // (500ms each block -> 2blocks x second -> 120 block x minute -> 1200 blocks each 10 minutes)
 const EOS_BAD = 7200 //each hours
 
+const BLOCKSTREAM_BASE_TESTNET_ENDPOINT =
+  'https://blockstream.info/testnet/api/'
+const BLOCKSTREAM_BASE_MAINNET_ENDPOINT = 'https://blockstream.info/api/'
+
+const _getEsploraApi = _network =>
+  axios.create({
+    baseURL:
+      _network === 'bitcoin'
+        ? BLOCKSTREAM_BASE_MAINNET_ENDPOINT
+        : BLOCKSTREAM_BASE_TESTNET_ENDPOINT,
+    timeout: 50000,
+    headers: {
+      'Content-Type': 'text/plain'
+    }
+  })
+
 const getEnclaveBlockHeightStatusComparedWithTheReals = async (
   _pTokenName,
   _role,
   _enclaveBlockHeight
 ) => {
   if (_pTokenName === 'pBTC' && _role === 'issuer') {
-    const ptokens = new pTokens({
-      pbtc: {
-        btcNetwork: 'testnet'
-      }
-    })
-
-    const btcLastBlock = await ptokens.pbtc._esplora.makeApiCall(
-      'GET',
-      '/blocks/tip/height'
-    )
+    const btcLastBlock = await _makeEsploraApiCall('testnet', 'GET','/blocks/tip/height')
 
     return _calculateStatus(
       _enclaveBlockHeight,
@@ -101,5 +108,13 @@ const _calculateStatus = (_b1, _b2, _good, _bad) => {
 
   return 1
 }
+
+const _makeEsploraApiCall = (_network, _callType, _apiPath, _params) =>
+  new Promise((resolve, reject) => {
+    _getEsploraApi(_network)
+      [_callType.toLowerCase()](_apiPath, _params)
+      .then(_res => resolve(_res.data))
+      .catch(_err => reject(_err))
+  })
 
 export { getEnclaveBlockHeightStatusComparedWithTheReals }
