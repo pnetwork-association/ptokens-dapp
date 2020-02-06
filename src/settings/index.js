@@ -49,6 +49,25 @@ const settings = {
       faucet1: 'https://testnet-faucet.mempool.co',
       faucet2: 'https://bitcoinfaucet.uo1.net/send.php'
     }
+  },
+  pltc: {
+    eth: {
+      wsInfuraEndpoint: 'wss://ropsten.infura.io/ws/v3/',
+      httpsInfuraEndpoint: 'https://ropsten.infura.io/v3/',
+      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
+      formaticKey: 'pk_test_48E59AF566747C40',
+      network: 'ropsten',
+      chainId: 3,
+      etherscanLink: 'https://ropsten.etherscan.io/',
+      enclaveBlockHeightPollingTime: 3000
+    },
+    ltc: {
+      explorer: 'https://sochain.com/testnet/ltc/',
+      enclaveBlockHeightPollingTime: 3000,
+      faucet1: 'https://faucet.xblau.com/',
+      faucet2: ''
+    }
   }
 }
 

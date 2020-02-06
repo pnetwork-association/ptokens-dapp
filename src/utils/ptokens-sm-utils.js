@@ -9,6 +9,11 @@ const PBTC_ETH_SMART_CONTRACT_ADDRESS =
 const PBTC_ENCLAVE_PUBKEY =
   '038198d8e373c837832c8c719900ea7f5273af16e838c2bbb383f391833d73d6d7'
 
+const PLTC_ETH_SMART_CONTRACT_ADDRESS =
+  '0xBbf6F5913bFBE46e0fb5f0e5dF4361F38C299daA'
+const PLTC_ENCLAVE_PUBKEY =
+  '0320d09a42ec57271674945a98bb31f489cde0a40c430e7d1a5eac6370ca93c798'
+
 const getCorrespondingSmartContractAddress = (_pTokenName, _role) => {
   switch (_pTokenName) {
     case 'pEOS':
@@ -19,6 +24,10 @@ const getCorrespondingSmartContractAddress = (_pTokenName, _role) => {
       return _role === 'issuer'
         ? PBTC_ENCLAVE_PUBKEY
         : PBTC_ETH_SMART_CONTRACT_ADDRESS
+    case 'pLTC':
+      return _role === 'issuer'
+        ? PLTC_ENCLAVE_PUBKEY
+        : PLTC_ETH_SMART_CONTRACT_ADDRESS
     default:
       break
   }
@@ -34,6 +43,10 @@ const getCorrespondingExplorerLink = (_pTokenName, _role) => {
       return _role === 'issuer'
         ? `${settings.pbtc.btc.explorer}`
         : `${settings.pbtc.eth.etherscanLink}address/${PBTC_ETH_SMART_CONTRACT_ADDRESS}`
+    case 'pLTC':
+      return _role === 'issuer'
+        ? `${settings.pltc.ltc.explorer}`
+        : `${settings.pltc.eth.etherscanLink}address/${PLTC_ETH_SMART_CONTRACT_ADDRESS}`
     default:
       break
   }
@@ -49,6 +62,10 @@ const getCorrespondingBaseTxExplorerLink = (_pTokenName, _role) => {
       return _role === 'issuer'
         ? `${settings.pbtc.btc.explorer}tx/`
         : `${settings.pbtc.eth.etherscanLink}tx/`
+    case 'pLTC':
+      return _role === 'issuer'
+        ? `${settings.pltc.ltc.explorer}`
+        : `${settings.pltc.eth.etherscanLink}tx/`
     default:
       break
   }
