@@ -15,7 +15,7 @@ class Sidebar extends React.Component {
       case 'pEOS':
         return (
           <img
-            src="./assets/pEOS.png"
+            src="../assets/pEOS.png"
             alt="pEOS avatar"
             height="30"
             width="30"
@@ -24,7 +24,7 @@ class Sidebar extends React.Component {
       case 'pBTC':
         return (
           <img
-            src="./assets/pBTC.png"
+            src="../assets/pBTC.png"
             alt="pBTC avatar"
             height="30"
             width="30"
@@ -33,7 +33,7 @@ class Sidebar extends React.Component {
       case 'pLTC':
         return (
           <img
-            src="./assets/pLTC.png"
+            src="../assets/pLTC.png"
             alt="pLTC avatar"
             height="30"
             width="30"
@@ -42,7 +42,7 @@ class Sidebar extends React.Component {
       case 'pDAI':
         return (
           <img
-            src="./assets/pDAI.png"
+            src="../assets/pDAI.png"
             alt="pDAI avatar"
             height="30"
             width="30"

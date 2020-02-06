@@ -17,20 +17,20 @@ const PeosIssueCard = props => {
           <div className="col-12 col-md-4 text-md-right pl-0 pr-0 mt-10 mt-0-md mb-10 mb-0-md">
             <img
               className="ml-20 mr-10"
-              src={`./assets/${props.pTokenSelected.issueFrom}.png`}
+              src={`../assets/${props.pTokenSelected.issueFrom}.png`}
               height="22"
               width="22"
               alt="redeem from logo"
             />
             <img
-              src="./assets/right.png"
+              src="../assets/right.png"
               height="22"
               width="22"
               alt="redeem from logo"
             />
             <img
               className="ml-10"
-              src={`./assets/${props.pTokenSelected.name}.png`}
+              src={`../assets/${props.pTokenSelected.name}.png`}
               height="22"
               width="22"
               alt="redeem to logo"

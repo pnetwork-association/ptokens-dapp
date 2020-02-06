@@ -36,16 +36,29 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
+const pageNameToNumbers = {
+  '': 0,
+  'issue-redeem': 1,
+  enclave: 2,
+  settings: 3
+}
+
 export class SidebarController extends React.Component {
   constructor(props, context) {
     super(props, context)
 
     this.state = {}
 
-    this.props.setSelectedPageFromPathname(
-      history.location.pathname,
-      this.props.pTokenSelected
+    const pTokenNameSelected = history.location.pathname
+      .split('/')[1]
+      .split('-')[0]
+    const page = history.location.pathname.split('/')[2]
+    const pToken = this.props.pTokensAvailable.find(
+      pToken => pToken.name.toLowerCase() === pTokenNameSelected
     )
+    this.props.setSelectedPageFromPathname(history.location.pathname, pToken)
+    this.props.setSelectedpToken(pToken)
+    this.props.setSelectedPage(pageNameToNumbers[page], pToken)
   }
 
   render() {

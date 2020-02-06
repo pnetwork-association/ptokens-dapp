@@ -8,21 +8,27 @@ import history from '../../utils/history'
 const setSelectedPage = (_page, _pToken) => {
   switch (_page) {
     case 0: {
-      history.push('/')
-      break
-    }
-    case 1: {
       history.push(
         `/${_pToken.name.toLowerCase()}-on-${_pToken.redeemFrom.toLowerCase()}`
       )
       break
     }
+    case 1: {
+      history.push(
+        `/${_pToken.name.toLowerCase()}-on-${_pToken.redeemFrom.toLowerCase()}/issue-redeem`
+      )
+      break
+    }
     case 2: {
-      history.push('/enclave')
+      history.push(
+        `/${_pToken.name.toLowerCase()}-on-${_pToken.redeemFrom.toLowerCase()}/enclave`
+      )
       break
     }
     case 3: {
-      history.push('/settings')
+      history.push(
+        `/${_pToken.name.toLowerCase()}-on-${_pToken.redeemFrom.toLowerCase()}/settings`
+      )
       break
     }
     default:
@@ -36,45 +42,45 @@ const setSelectedPage = (_page, _pToken) => {
 }
 
 const setSelectedPageFromPathname = (_pathname, _pToken) => {
-  switch (_pathname) {
-    case '/': {
-      return {
-        type: SET_SELECTED_PAGE_FROM_PATHNAME,
-        payload: 0
-      }
+  if (
+    _matchExact(
+      /[a-z:/]*[peos\-on\-eth|pbtc\-on\-eth|pbtc\-on\-eth]\/issue-redeem[/]?/g,
+      _pathname
+    )
+  ) {
+    return {
+      type: SET_SELECTED_PAGE_FROM_PATHNAME,
+      payload: 1
     }
-    case '/peos-on-eth': {
-      return {
-        type: SET_SELECTED_PAGE_FROM_PATHNAME,
-        payload: 1
-      }
+  }
+
+  if (
+    _matchExact(
+      /[a-z:/]*[peos\-on\-eth|pbtc\-on\-eth|pbtc\-on\-eth]\/enclave[/]?/g,
+      _pathname
+    )
+  ) {
+    return {
+      type: SET_SELECTED_PAGE_FROM_PATHNAME,
+      payload: 2
     }
-    case '/pbtc-on-eth': {
-      return {
-        type: SET_SELECTED_PAGE_FROM_PATHNAME,
-        payload: 1
-      }
+  }
+
+  if (
+    _matchExact(
+      /[a-z:/]*[peos\-on\-eth|pbtc\-on\-eth|pbtc\-on\-eth]\/settings[/]?/g,
+      _pathname
+    )
+  ) {
+    return {
+      type: SET_SELECTED_PAGE_FROM_PATHNAME,
+      payload: 3
     }
-    case '/pltc-on-eth': {
-      return {
-        type: SET_SELECTED_PAGE_FROM_PATHNAME,
-        payload: 1
-      }
-    }
-    case '/enclave': {
-      return {
-        type: SET_SELECTED_PAGE_FROM_PATHNAME,
-        payload: 2
-      }
-    }
-    case '/settings': {
-      return {
-        type: SET_SELECTED_PAGE_FROM_PATHNAME,
-        payload: 3
-      }
-    }
-    default:
-      break
+  }
+
+  return {
+    type: SET_SELECTED_PAGE_FROM_PATHNAME,
+    payload: 0
   }
 }
 
@@ -83,6 +89,11 @@ const setCollapseState = state => {
     type: SET_COLLAPSE_STATE,
     payload: state
   }
+}
+
+const _matchExact = (r, str) => {
+  const match = str.match(r)
+  return match && str === match[0]
 }
 
 export { setSelectedPage, setSelectedPageFromPathname, setCollapseState }

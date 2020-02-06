@@ -32,7 +32,7 @@ class App extends React.Component {
         <Switch>
           <Route
             exact
-            path="/"
+            path={'/(peos-on-eth|pbtc-on-eth|pltc-on-eth)'}
             render={() => {
               return (
                 <React.Fragment>
@@ -47,7 +47,7 @@ class App extends React.Component {
           />
           <Route
             exact
-            path="/enclave"
+            path={'/(peos-on-eth|pbtc-on-eth|pltc-on-eth)/enclave'}
             render={() => {
               return (
                 <React.Fragment>
@@ -62,7 +62,7 @@ class App extends React.Component {
           />
           <Route
             exact
-            path={'/(peos-on-eth|pbtc-on-eth|pltc-on-eth)'}
+            path={'/(peos-on-eth|pbtc-on-eth|pltc-on-eth)/issue-redeem'}
             render={() => {
               return (
                 <React.Fragment>
@@ -77,7 +77,7 @@ class App extends React.Component {
           />
           <Route
             exact
-            from="/settings"
+            path={'/(peos-on-eth|pbtc-on-eth|pltc-on-eth)/settings'}
             render={() => {
               return (
                 <React.Fragment>
