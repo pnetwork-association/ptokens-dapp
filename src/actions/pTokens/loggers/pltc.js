@@ -65,7 +65,7 @@ const pltcLoggedIssue = async (_ptokens, _params, _dispatch) => {
         LogHandler.updateItem('broadcasting-pending', {
           value: `new LTC deposit detected`,
           success: true,
-          link: `${settings.pltc.ltc.explorer}/${txid}`,
+          link: `${settings.pltc.ltc.explorer}${txid}`,
           id: 'broadcasting-pending'
         })
       )
@@ -265,7 +265,7 @@ const pltcLoggedRedeem = (_ptokens, _params, _dispatch) => {
         })
       )
 
-      const explorer = `${settings.pltc.ltc.explorer}/${tx}`
+      const explorer = `${settings.pltc.ltc.explorer}${tx}`
 
       _dispatch(
         LogHandler.addItem({
