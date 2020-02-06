@@ -23,7 +23,7 @@ const BLOCKSTREAM_BASE_TESTNET_ENDPOINT =
 const BLOCKSTREAM_BASE_MAINNET_ENDPOINT = 'https://blockstream.info/api/'
 
 const LTC_PTOKENS_NODE_TESTNET_API =
-'http://ltcnode.ptokens.io/insight-lite-api'
+'https://ltcnode.ptokens.io/insight-lite-api'
 const LTC_PTOKENS_NODE_MAINNET_API = 'Not available yet'
 
 const _getEsploraApi = _network =>
