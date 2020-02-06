@@ -70,7 +70,7 @@ const PltcIssueCard = props => {
                 {' '}
                 Faucet 1
               </a>
-              {/*<a
+              {<a
                 className="text-primary text-underline ml-5"
                 href={settings.pltc.ltc.faucet2}
                 target="_blank"
@@ -78,7 +78,7 @@ const PltcIssueCard = props => {
               >
                 {' '}
                 Faucet 2
-              </a>*/}
+              </a>}
             </div>
           </div>
         ) : null}

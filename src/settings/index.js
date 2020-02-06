@@ -66,7 +66,7 @@ const settings = {
       explorer: 'https://tltc.bitaps.com/',
       enclaveBlockHeightPollingTime: 3000,
       faucet1: 'https://faucet.xblau.com/',
-      faucet2: ''
+      faucet2: 'https://tltc.bitaps.com/'
     }
   }
 }
