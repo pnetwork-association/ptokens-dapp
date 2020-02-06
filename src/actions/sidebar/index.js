@@ -12,7 +12,9 @@ const setSelectedPage = (_page, _pToken) => {
       break
     }
     case 1: {
-      history.push(`/${_pToken.name.toLowerCase()}-on-${_pToken.redeemFrom.toLowerCase()}`)
+      history.push(
+        `/${_pToken.name.toLowerCase()}-on-${_pToken.redeemFrom.toLowerCase()}`
+      )
       break
     }
     case 2: {

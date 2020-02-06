@@ -23,7 +23,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setSelectedPage: (_selected, _pToken) => dispatch(setSelectedPage(_selected, _pToken)),
+    setSelectedPage: (_selected, _pToken) =>
+      dispatch(setSelectedPage(_selected, _pToken)),
     setSelectedPageFromPathname: (_pathname, _pToken) =>
       dispatch(setSelectedPageFromPathname(_pathname, _pToken)),
     setCollapseState: state => dispatch(setCollapseState(state)),
@@ -41,7 +42,10 @@ export class SidebarController extends React.Component {
 
     this.state = {}
 
-    this.props.setSelectedPageFromPathname(history.location.pathname, this.props.pTokenSelected)
+    this.props.setSelectedPageFromPathname(
+      history.location.pathname,
+      this.props.pTokenSelected
+    )
   }
 
   render() {
@@ -50,7 +54,9 @@ export class SidebarController extends React.Component {
         page={this.props.selected}
         pTokenSelected={this.props.pTokenSelected}
         pTokensAvailable={this.props.pTokensAvailable}
-        onChangePage={_page => this.props.setSelectedPage(_page, this.props.pTokenSelected)}
+        onChangePage={_page =>
+          this.props.setSelectedPage(_page, this.props.pTokenSelected)
+        }
         onChangeCollapseState={state => {
           !state
             ? this.props.setCollapseState(!this.props.isCollapseOpened)
@@ -67,7 +73,7 @@ export class SidebarController extends React.Component {
 
           this.props.resetEnclaveData()
           this.props.setSelectedpToken(pToken)
-          
+
           this.props.setSelectedPage(this.props.selected, pToken)
         }}
         isCollapseOpened={this.props.isCollapseOpened}
