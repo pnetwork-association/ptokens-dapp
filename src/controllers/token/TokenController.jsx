@@ -120,6 +120,17 @@ export class TokenController extends React.Component {
       )
     }
 
+    if (_prevProps.pTokenSelected.name !== this.props.pTokenSelected.name && this.props.redeemerProvider) {
+      this.props.getBalance(
+        this.props.pTokenSelected.name,
+        this.props.redeemerAccount,
+        {
+          redeemer: this.props.redeemerProvider,
+          issuer: this.props.issuerProvider
+        }
+      )
+    }
+
     if (this.props.isIssueSuccedeed && this.state.isIssueTerminated) {
       this.props.resetIssueSuccess()
 
@@ -392,6 +403,7 @@ export class TokenController extends React.Component {
   }
 
   render() {
+
     return (
       <React.Fragment>
         <Token
