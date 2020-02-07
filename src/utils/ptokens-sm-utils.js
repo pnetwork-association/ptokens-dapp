@@ -64,7 +64,7 @@ const getCorrespondingBaseTxExplorerLink = (_pTokenName, _role) => {
         : `${settings.pbtc.eth.etherscanLink}tx/`
     case 'pLTC':
       return _role === 'issuer'
-        ? `${settings.pltc.ltc.explorer}`
+        ? `${settings.pltc.ltc.explorer}tx/`
         : `${settings.pltc.eth.etherscanLink}tx/`
     default:
       break
