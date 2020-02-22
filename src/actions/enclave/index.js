@@ -27,6 +27,9 @@ const _selectNode = async _pToken => {
     }
   })
 
+  pTokenCurrent.name = _pToken.name
+  pTokenCurrent.redeemFrom = _pToken.redeemFrom
+
   const node = await nodeSelector.select()
   return node
 }

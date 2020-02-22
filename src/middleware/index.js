@@ -25,47 +25,27 @@ const middleware = ({ dispatch }) => {
         }
 
         //main page data
-        dispatch(getCirculatingSupply(_action.payload.pToken.name, configs))
+        dispatch(getCirculatingSupply(_action.payload.pToken, configs))
 
-        dispatch(
-          getReports(
-            _action.payload.pToken,
-            'native',
-            'redeemer'
-          )
-        )
+        dispatch(getReports(_action.payload.pToken, 'native', 'redeemer'))
 
-        dispatch(
-          getReports(
-            _action.payload.pToken,
-            'host',
-            'issuer'
-          )
-        )
+        dispatch(getReports(_action.payload.pToken, 'host', 'issuer'))
 
         //enclave page data
-        dispatch(getBurnNonce(_action.payload.pToken.name, configs))
+        dispatch(getBurnNonce(_action.payload.pToken, configs))
 
-        dispatch(getMintNonce(_action.payload.pToken.name, configs))
+        dispatch(getMintNonce(_action.payload.pToken, configs))
 
-        dispatch(getTotalRedeemed(_action.payload.pToken.name, configs))
+        dispatch(getTotalRedeemed(_action.payload.pToken, configs))
 
-        dispatch(getTotalIssued(_action.payload.pToken.name, configs))
+        dispatch(getTotalIssued(_action.payload.pToken, configs))
 
         dispatch(
-          getLastProcessedBlock(
-            _action.payload.pToken,
-            'native',
-            'issuer'
-          )
+          getLastProcessedBlock(_action.payload.pToken, 'native', 'issuer')
         )
 
         dispatch(
-          getLastProcessedBlock(
-            _action.payload.pToken,
-            'host',
-            'redeemer'
-          )
+          getLastProcessedBlock(_action.payload.pToken, 'host', 'redeemer')
         )
 
         dispatch(ping(_action.payload.pToken))

@@ -36,12 +36,12 @@ const mapDispatchToProps = dispatch => {
   return {
     addItemLogs: item => dispatch(LogHandler.addItem(item)),
     clearLogs: () => dispatch(LogHandler.clear()),
-    issue: (type, amount, to, configs) =>
-      dispatch(pTokens.issue(type, amount, to, configs)),
-    redeem: (type, amount, to, configs) =>
-      dispatch(pTokens.redeem(type, amount, to, configs)),
-    getBalance: (type, account, configs) =>
-      dispatch(pTokens.getBalance(type, account, configs)),
+    issue: (_pToken, amount, to, configs) =>
+      dispatch(pTokens.issue(_pToken, amount, to, configs)),
+    redeem: (_pToken, amount, to, configs) =>
+      dispatch(pTokens.redeem(_pToken, amount, to, configs)),
+    getBalance: (_pToken, account, configs) =>
+      dispatch(pTokens.getBalance(_pToken, account, configs)),
     resetDepositAddress: () => dispatch(pTokens.resetDepositAddress()),
     resetIssueSuccess: () => dispatch(pTokens.resetIssueSuccess()),
     resetRedeemSuccess: () => dispatch(pTokens.resetRedeemSuccess()),
@@ -77,7 +77,7 @@ export class TokenController extends React.Component {
 
     if (this.props.redeemerProvider) {
       this.props.getBalance(
-        this.props.pTokenSelected.name,
+        this.props.pTokenSelected,
         this.props.redeemerAccount,
         {
           redeemer: this.props.redeemerProvider,
@@ -111,7 +111,7 @@ export class TokenController extends React.Component {
   async componentDidUpdate(_prevProps, _prevState) {
     if (!_prevProps.redeemerProvider && this.props.redeemerProvider) {
       this.props.getBalance(
-        this.props.pTokenSelected.name,
+        this.props.pTokenSelected,
         this.props.redeemerAccount,
         {
           redeemer: this.props.redeemerProvider,
@@ -125,7 +125,7 @@ export class TokenController extends React.Component {
       this.props.redeemerProvider
     ) {
       this.props.getBalance(
-        this.props.pTokenSelected.name,
+        this.props.pTokenSelected,
         this.props.redeemerAccount,
         {
           redeemer: this.props.redeemerProvider,
@@ -143,7 +143,7 @@ export class TokenController extends React.Component {
 
       await sleep(10000)
       this.props.getBalance(
-        this.props.pTokenSelected.name,
+        this.props.pTokenSelected,
         this.props.redeemerAccount,
         {
           redeemer: this.props.redeemerProvider,
@@ -166,7 +166,7 @@ export class TokenController extends React.Component {
       })
 
       this.props.getBalance(
-        this.props.pTokenSelected.name,
+        this.props.pTokenSelected,
         this.props.redeemerAccount,
         {
           redeemer: this.props.redeemerProvider,

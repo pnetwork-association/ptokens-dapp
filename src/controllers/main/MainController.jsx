@@ -16,8 +16,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    getCirculatingSupply: (pTokenName, configs) =>
-      dispatch(pTokens.getCirculatingSupply(pTokenName, configs)),
+    getCirculatingSupply: (_pToken, configs) =>
+      dispatch(pTokens.getCirculatingSupply(_pToken, configs)),
     getReports: (_pToken, _type, role) =>
       dispatch(Enclave.getReports(_pToken, _type, role))
   }
@@ -37,17 +37,9 @@ export class MainController extends React.Component {
       redeemerDataLoaded: null
     }
 
-    this.props.getReports(
-      this.props.pTokenSelected,
-      'host',
-      'issuer'
-    )
+    this.props.getReports(this.props.pTokenSelected, 'host', 'issuer')
 
-    this.props.getReports(
-      this.props.pTokenSelected,
-      'native',
-      'redeemer'
-    )
+    this.props.getReports(this.props.pTokenSelected, 'native', 'redeemer')
   }
 
   componentDidUpdate(_prevProps) {
@@ -73,7 +65,7 @@ export class MainController extends React.Component {
         redeemer: redeemerReadOnlyProvider
       }
 
-      this.props.getCirculatingSupply(this.props.pTokenSelected.name, configs)
+      this.props.getCirculatingSupply(this.props.pTokenSelected, configs)
 
       this.setState({ redeemerDataLoaded: true })
     }

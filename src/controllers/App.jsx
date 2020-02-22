@@ -90,7 +90,7 @@ class App extends React.Component {
               )
             }}
           />
-           <Route render={() => <Redirect to='pbtc-on-eth'/>} />
+          <Route render={() => <Redirect to="pbtc-on-eth" />} />
         </Switch>
       </React.Fragment>
     )

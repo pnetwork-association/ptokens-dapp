@@ -20,6 +20,34 @@ import { pbtcLoggedIssue, pbtcLoggedRedeem } from './loggers/pbtc'
 import { pltcLoggedIssue, pltcLoggedRedeem } from './loggers/pltc'
 import settings from '../../settings'
 
+let ptokens = null
+
+let pTokenCurrent = {
+  name: 'pbtc',
+  redeemFrom: 'eth'
+}
+
+const _selectpToken = (_pToken, _configs) => {
+  const configs = _getCorrectConfigs(_pToken.name, _configs)
+
+  pTokenCurrent.name = _pToken.name
+  pTokenCurrent.redeemFrom = _pToken.redeemFrom
+
+  return new pTokens(configs)
+}
+
+const _getSelectedpToken = (_pToken, _configs) => {
+  if (
+    !ptokens ||
+    _pToken.name.toLowerCase() !== pTokenCurrent.name ||
+    _pToken.redeemFrom.toLowerCase() !== pTokenCurrent.redeemFrom
+  ) {
+    ptokens = _selectpToken(_pToken, _configs)
+  }
+
+  return ptokens
+}
+
 const setSelectedpToken = _pToken => {
   return {
     type: SET_SELECTED_PTOKEN,
@@ -31,8 +59,7 @@ const setSelectedpToken = _pToken => {
 
 const issue = (_pToken, _params, _configs) => {
   return async _dispatch => {
-    const configs = _getCorrectConfigs(_pToken.name, _configs)
-    const ptokens = new pTokens(configs)
+    const ptokens = _getSelectedpToken(_pToken, _configs)
 
     switch (_pToken.name) {
       case 'pEOS': {
@@ -55,8 +82,7 @@ const issue = (_pToken, _params, _configs) => {
 
 const redeem = (_pToken, _params, _configs) => {
   return _dispatch => {
-    const configs = _getCorrectConfigs(_pToken.name, _configs)
-    const ptokens = new pTokens(configs)
+    const ptokens = _getSelectedpToken(_pToken, _configs)
 
     switch (_pToken.name) {
       case 'pEOS': {
@@ -77,11 +103,10 @@ const redeem = (_pToken, _params, _configs) => {
   }
 }
 
-const getBalance = (_pTokenName, _account, _configs) => {
+const getBalance = (_pToken, _account, _configs) => {
   return async dispatch => {
-    const configs = _getCorrectConfigs(_pTokenName, _configs)
-    const ptokens = new pTokens(configs)
-    const balance = await ptokens[_pTokenName.toLowerCase()].getBalance(
+    const ptokens = _getSelectedpToken(_pToken, _configs)
+    const balance = await ptokens[_pToken.name.toLowerCase()].getBalance(
       _account
     )
     dispatch({
@@ -93,11 +118,10 @@ const getBalance = (_pTokenName, _account, _configs) => {
   }
 }
 
-const getMintNonce = (_pTokenName, _configs) => {
+const getMintNonce = (_pToken, _configs) => {
   return async dispatch => {
-    const configs = _getCorrectConfigs(_pTokenName, _configs)
-    const ptokens = new pTokens(configs)
-    const mintNonce = await ptokens[_pTokenName.toLowerCase()].getMintNonce()
+    const ptokens = _getSelectedpToken(_pToken, _configs)
+    const mintNonce = await ptokens[_pToken.name.toLowerCase()].getMintNonce()
     dispatch({
       type: PTOKENS_MINT_NONCE_LOADED,
       payload: {
@@ -107,11 +131,10 @@ const getMintNonce = (_pTokenName, _configs) => {
   }
 }
 
-const getBurnNonce = (_pTokenName, _configs) => {
+const getBurnNonce = (_pToken, _configs) => {
   return async dispatch => {
-    const configs = _getCorrectConfigs(_pTokenName, _configs)
-    const ptokens = new pTokens(configs)
-    const burnNonce = await ptokens[_pTokenName.toLowerCase()].getBurnNonce()
+    const ptokens = _getSelectedpToken(_pToken, _configs)
+    const burnNonce = await ptokens[_pToken.name.toLowerCase()].getBurnNonce()
     dispatch({
       type: PTOKENS_BURN_NONCE_LOADED,
       payload: {
@@ -121,12 +144,11 @@ const getBurnNonce = (_pTokenName, _configs) => {
   }
 }
 
-const getTotalIssued = (_pTokenName, _configs) => {
+const getTotalIssued = (_pToken, _configs) => {
   return async dispatch => {
-    const configs = _getCorrectConfigs(_pTokenName, _configs)
-    const ptokens = new pTokens(configs)
+    const ptokens = _getSelectedpToken(_pToken, _configs)
     const totalIssued = await ptokens[
-      _pTokenName.toLowerCase()
+      _pToken.name.toLowerCase()
     ].getTotalIssued()
     dispatch({
       type: PTOKENS_TOTAL_ISSUED_LOADED,
@@ -137,12 +159,11 @@ const getTotalIssued = (_pTokenName, _configs) => {
   }
 }
 
-const getTotalRedeemed = (_pTokenName, _configs) => {
+const getTotalRedeemed = (_pToken, _configs) => {
   return async dispatch => {
-    const configs = _getCorrectConfigs(_pTokenName, _configs)
-    const ptokens = new pTokens(configs)
+    const ptokens = _getSelectedpToken(_pToken, _configs)
     const totalRedeemed = await ptokens[
-      _pTokenName.toLowerCase()
+      _pToken.name.toLowerCase()
     ].getTotalRedeemed()
     dispatch({
       type: PTOKENS_TOTAL_REDEEMED_LOADED,
@@ -153,12 +174,12 @@ const getTotalRedeemed = (_pTokenName, _configs) => {
   }
 }
 
-const getCirculatingSupply = (_pTokenName, _configs) => {
+const getCirculatingSupply = (_pToken, _configs) => {
   return async dispatch => {
-    const configs = _getCorrectConfigs(_pTokenName, _configs)
-    const ptokens = new pTokens(configs)
+    console.log(_pToken)
+    const ptokens = _getSelectedpToken(_pToken, _configs)
     const circulatingSupply = await ptokens[
-      _pTokenName.toLowerCase()
+      _pToken.name.toLowerCase()
     ].getCirculatingSupply()
     dispatch({
       type: PTOKENS_CIRCULATING_SUPPLY_LOADED,

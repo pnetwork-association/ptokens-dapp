@@ -23,7 +23,7 @@ const BLOCKSTREAM_BASE_TESTNET_ENDPOINT =
 const BLOCKSTREAM_BASE_MAINNET_ENDPOINT = 'https://blockstream.info/api/'
 
 const LTC_PTOKENS_NODE_TESTNET_API =
-'https://ltcnode.ptokens.io/insight-lite-api'
+  'https://ltcnode.ptokens.io/insight-lite-api'
 const LTC_PTOKENS_NODE_MAINNET_API = 'Not available yet'
 
 const _getEsploraApi = _network =>
@@ -167,7 +167,7 @@ const _makeEsploraApiCall = (_network, _callType, _apiPath, _params) =>
       .then(_res => resolve(_res.data))
       .catch(_err => reject(_err))
   })
-  
+
 const _makeInsightLiteApiCall = (_network, _callType, _apiPath, _params) =>
   new Promise((resolve, reject) => {
     _getInsightLiteApi(_network)

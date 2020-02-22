@@ -26,23 +26,21 @@ const mapDispatchToProps = dispatch => {
   return {
     ping: _pToken => dispatch(EnclaveConnector.ping(_pToken)),
     getLastProcessedBlock: (_pToken, _type, _role) =>
-      dispatch(
-        EnclaveConnector.getLastProcessedBlock(_pToken, _type, _role)
-      ),
+      dispatch(EnclaveConnector.getLastProcessedBlock(_pToken, _type, _role)),
     submitBlock: (_pToken, _type, _block) =>
       dispatch(EnclaveConnector.submitBlock(_pToken, _type, _block)),
     resetSubmitBlockSuccess: () =>
       dispatch(EnclaveConnector.resetSubmitBlockSuccess()),
-    getMintNonce: (_pTokenName, _configs) =>
-      dispatch(pTokens.getMintNonce(_pTokenName, _configs)),
-    getBurnNonce: (_pTokenName, _configs) =>
-      dispatch(pTokens.getBurnNonce(_pTokenName, _configs)),
-    getTotalIssued: (_pTokenName, _configs) =>
-      dispatch(pTokens.getTotalIssued(_pTokenName, _configs)),
-    getTotalRedeemed: (_pTokenName, _configs) =>
-      dispatch(pTokens.getTotalRedeemed(_pTokenName, _configs)),
-    getCirculatingSupply: (_pTokenName, _configs) =>
-      dispatch(pTokens.getCirculatingSupply(_pTokenName, _configs))
+    getMintNonce: (_pToken, _configs) =>
+      dispatch(pTokens.getMintNonce(_pToken, _configs)),
+    getBurnNonce: (_pToken, _configs) =>
+      dispatch(pTokens.getBurnNonce(_pToken, _configs)),
+    getTotalIssued: (_pToken, _configs) =>
+      dispatch(pTokens.getTotalIssued(_pToken, _configs)),
+    getTotalRedeemed: (_pToken, _configs) =>
+      dispatch(pTokens.getTotalRedeemed(_pToken, _configs)),
+    getCirculatingSupply: (_pToken, _configs) =>
+      dispatch(pTokens.getCirculatingSupply(_pToken, _configs))
   }
 }
 
@@ -115,11 +113,11 @@ class EnclaveController extends React.Component {
         redeemer: redeemerReadOnlyProvider
       }
 
-      this.props.getMintNonce(this.props.pTokenSelected.name, configs)
-      this.props.getBurnNonce(this.props.pTokenSelected.name, configs)
-      this.props.getTotalIssued(this.props.pTokenSelected.name, configs)
-      this.props.getTotalRedeemed(this.props.pTokenSelected.name, configs)
-      this.props.getCirculatingSupply(this.props.pTokenSelected.name, configs)
+      this.props.getMintNonce(this.props.pTokenSelected, configs)
+      this.props.getBurnNonce(this.props.pTokenSelected, configs)
+      this.props.getTotalIssued(this.props.pTokenSelected, configs)
+      this.props.getTotalRedeemed(this.props.pTokenSelected, configs)
+      this.props.getCirculatingSupply(this.props.pTokenSelected, configs)
 
       this.setState({
         redeemerDataLoaded: true,
@@ -204,9 +202,7 @@ class EnclaveController extends React.Component {
 
     this.props.submitBlock(
       this.props.pTokenSelected,
-      this.state.blockType === 'issuerBlock'
-        ? 'native'
-        : 'host',
+      this.state.blockType === 'issuerBlock' ? 'native' : 'host',
       this.state.blockData
     )
   }
