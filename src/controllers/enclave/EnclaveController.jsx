@@ -24,13 +24,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    ping: _pTokenName => dispatch(EnclaveConnector.ping(_pTokenName)),
-    getLastProcessedBlock: (_pTokenName, _type, _role) =>
+    ping: _pToken => dispatch(EnclaveConnector.ping(_pToken)),
+    getLastProcessedBlock: (_pToken, _type, _role) =>
       dispatch(
-        EnclaveConnector.getLastProcessedBlock(_pTokenName, _type, _role)
+        EnclaveConnector.getLastProcessedBlock(_pToken, _type, _role)
       ),
-    submitBlock: (_pTokenName, _type, _block) =>
-      dispatch(EnclaveConnector.submitBlock(_pTokenName, _type, _block)),
+    submitBlock: (_pToken, _type, _block) =>
+      dispatch(EnclaveConnector.submitBlock(_pToken, _type, _block)),
     resetSubmitBlockSuccess: () =>
       dispatch(EnclaveConnector.resetSubmitBlockSuccess()),
     getMintNonce: (_pTokenName, _configs) =>
@@ -58,30 +58,30 @@ class EnclaveController extends React.Component {
       isBlockSubmissionTerminated: false
     }
 
-    this.props.ping(this.props.pTokenSelected.name)
+    this.props.ping(this.props.pTokenSelected)
     this.props.getLastProcessedBlock(
-      this.props.pTokenSelected.name,
-      this.props.pTokenSelected.issueFrom.toLowerCase(),
+      this.props.pTokenSelected,
+      'native',
       'issuer'
     )
     this.props.getLastProcessedBlock(
-      this.props.pTokenSelected.name,
-      this.props.pTokenSelected.redeemFrom.toLowerCase(),
+      this.props.pTokenSelected,
+      'host',
       'redeemer'
     )
 
     this.intervalIssuerBlockGetter = setInterval(() => {
       this.props.getLastProcessedBlock(
-        this.props.pTokenSelected.name,
-        this.props.pTokenSelected.issueFrom.toLowerCase(),
+        this.props.pTokenSelected,
+        'native',
         'issuer'
       )
     }, settings[this.props.pTokenSelected.name.toLowerCase()][this.props.pTokenSelected.issueFrom.toLowerCase()].enclaveBlockHeightPollingTime)
 
     this.intervalRedeemerBlockGetter = setInterval(() => {
       this.props.getLastProcessedBlock(
-        this.props.pTokenSelected.name,
-        this.props.pTokenSelected.redeemFrom.toLowerCase(),
+        this.props.pTokenSelected,
+        'host',
         'redeemer'
       )
     }, settings[this.props.pTokenSelected.name.toLowerCase()][this.props.pTokenSelected.redeemFrom.toLowerCase()].enclaveBlockHeightPollingTime)
@@ -203,10 +203,10 @@ class EnclaveController extends React.Component {
     }
 
     this.props.submitBlock(
-      this.props.pTokenSelected.name,
+      this.props.pTokenSelected,
       this.state.blockType === 'issuerBlock'
-        ? this.props.pTokenSelected.issueFrom.toLowerCase()
-        : this.props.pTokenSelected.redeemFrom.toLowerCase(),
+        ? 'native'
+        : 'host',
       this.state.blockData
     )
   }

@@ -45,14 +45,14 @@ const initialState = {
   },
   balance: null,
   available: [
-    {
+    /*{
       name: 'pEOS',
       tokenType: 'ERC-20',
       issueFrom: 'EOS',
       redeemFrom: 'ETH',
       decimals: 4,
       network: 'kovan'
-    },
+    },*/
     {
       name: 'pBTC',
       tokenType: 'ERC-20',

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { timestampInSecondsToDate } from '../../utils/utils'
 import { getCorrespondingBaseTxExplorerLink } from '../../utils/ptokens-sm-utils'
 import MiniCard from '../utils/MiniCard'
-import { getCorrespondingHeaderMap, getCorrespondingHeaders } from './mappers'
 
 const Main = props => {
   return (
@@ -66,10 +65,13 @@ const Main = props => {
                   </div>
                 </div>
               }
-              headerMap={getCorrespondingHeaderMap(
-                props.pTokenSelected.name,
-                'issuer'
-              )}
+              headerMap={{
+                host_tx_amount: `AMOUNT ${props.pTokenSelected.name}`,
+                broadcast_timestamp: 'TIMESTAMP',
+                originating_tx_hash: `${props.pTokenSelected.issueFrom} TX ID (FROM)`,
+                broadcast_tx_hash: `${props.pTokenSelected.redeemFrom} TX HASH (TO)`
+                //prooved: 'VERIFIED'
+              }}
               whichLink={{
                 2: {
                   base: getCorrespondingBaseTxExplorerLink(
@@ -92,10 +94,13 @@ const Main = props => {
                   ).toFixed(props.pTokenSelected.decimals),
                 1: t => timestampInSecondsToDate(t)
               }}
-              headers={getCorrespondingHeaders(
-                props.pTokenSelected.name,
-                'issuer'
-              )}
+              headers={[
+                'host_tx_amount',
+                'broadcast_timestamp',
+                'originating_tx_hash',
+                'broadcast_tx_hash'
+                //'prooved'
+              ]}
               values={props.issueReports}
             />
           </div>
@@ -133,10 +138,13 @@ const Main = props => {
                   </div>
                 </div>
               }
-              headerMap={getCorrespondingHeaderMap(
-                props.pTokenSelected.name,
-                'redeemer'
-              )}
+              headerMap={{
+                native_tx_amount: `AMOUNT ${props.pTokenSelected.name}`,
+                broadcast_timestamp: 'TIMESTAMP',
+                originating_tx_hash: `${props.pTokenSelected.redeemFrom} TX ID (FROM)`,
+                broadcast_tx_hash: `${props.pTokenSelected.issueFrom} TX HASH (TO)`
+                //prooved: 'VERIFIED'
+              }}
               whichLink={{
                 2: {
                   base: getCorrespondingBaseTxExplorerLink(
@@ -159,10 +167,13 @@ const Main = props => {
                   ).toFixed(props.pTokenSelected.decimals),
                 1: t => timestampInSecondsToDate(t)
               }}
-              headers={getCorrespondingHeaders(
-                props.pTokenSelected.name,
-                'redeemer'
-              )}
+              headers={[
+                'native_tx_amount',
+                'broadcast_timestamp',
+                'originating_tx_hash',
+                'broadcast_tx_hash'
+                //'prooved'
+              ]}
               values={props.redeemReports}
             />
           </div>

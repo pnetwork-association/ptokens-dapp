@@ -99,7 +99,7 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
         })
       )
     })
-    .once('onEnclaveReceivedTx', () => {
+    .once('onNodeReceivedTx', () => {
       _dispatch(
         LogHandler.updateItem('id-witness-mint-event', {
           value: 'Mint event witnessed by enclave!',
@@ -120,7 +120,7 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
         })
       )
     })
-    .once('onEnclaveBroadcastedTx', tx => {
+    .once('onNodeBroadcastedTx', report => {
       _dispatch(
         LogHandler.updateItem('enclave-transaction-broadcast', {
           value: 'ETH Transaction broadcasted by the enclave!',
@@ -131,7 +131,7 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
         })
       )
 
-      const explorer = `${settings.pbtc.eth.etherscanLink}tx/${tx}`
+      const explorer = `${settings.pbtc.eth.etherscanLink}tx/${report.broadcast_tx_hash}`
 
       _dispatch(
         LogHandler.addItem({
@@ -233,7 +233,7 @@ const pbtcLoggedRedeem = (_ptokens, _params, _dispatch) => {
         })
       )
     })
-    .once('onEnclaveReceivedTx', () => {
+    .once('onNodeReceivedTx', () => {
       _dispatch(
         LogHandler.updateItem('id-witness-burn-event', {
           value: 'Burn event witnessed by enclave!',
@@ -254,7 +254,7 @@ const pbtcLoggedRedeem = (_ptokens, _params, _dispatch) => {
         })
       )
     })
-    .once('onEnclaveBroadcastedTx', tx => {
+    .once('onNodeBroadcastedTx', report => {
       _dispatch(
         LogHandler.updateItem('enclave-transaction-broadcast', {
           value: 'Transaction broadcasted by the enclave!',
@@ -265,7 +265,7 @@ const pbtcLoggedRedeem = (_ptokens, _params, _dispatch) => {
         })
       )
 
-      const explorer = `${settings.pbtc.btc.explorer}tx/${tx}`
+      const explorer = `${settings.pbtc.btc.explorer}tx/${report.broadcast_tx_hash}`
 
       _dispatch(
         LogHandler.addItem({

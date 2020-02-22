@@ -18,8 +18,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getCirculatingSupply: (pTokenName, configs) =>
       dispatch(pTokens.getCirculatingSupply(pTokenName, configs)),
-    getReports: (pTokenName, _type, role) =>
-      dispatch(Enclave.getReports(pTokenName, _type, role))
+    getReports: (_pToken, _type, role) =>
+      dispatch(Enclave.getReports(_pToken, _type, role))
   }
 }
 
@@ -38,14 +38,14 @@ export class MainController extends React.Component {
     }
 
     this.props.getReports(
-      this.props.pTokenSelected.name.toLowerCase(),
-      this.props.pTokenSelected.redeemFrom.toLowerCase(),
+      this.props.pTokenSelected,
+      'host',
       'issuer'
     )
 
     this.props.getReports(
-      this.props.pTokenSelected.name.toLowerCase(),
-      this.props.pTokenSelected.issueFrom.toLowerCase(),
+      this.props.pTokenSelected,
+      'native',
       'redeemer'
     )
   }

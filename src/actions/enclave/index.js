@@ -10,34 +10,59 @@ import {
   ENCLAVE_SET_ISSUER_BLOCK_HEIGHT_STATUS,
   ENCLAVE_SET_REDEEMER_BLOCK_HEIGHT_STATUS
 } from '../../constants'
-import Enclave from 'ptokens-enclave'
+import { NodeSelector } from 'ptokens-node-selector'
 import { getEnclaveBlockHeightStatusComparedWithTheReals } from '../../utils/blocks-sync'
 
-let enclave = null
+let selectedNode = null
+let pTokenCurrent = {
+  name: 'pbtc',
+  redeemFrom: 'eth'
+}
 
-const ping = _pTokenName => {
+const _selectNode = async _pToken => {
+  const nodeSelector = new NodeSelector({
+    pToken: {
+      name: _pToken.name,
+      redeemFrom: _pToken.redeemFrom
+    }
+  })
+
+  const node = await nodeSelector.select()
+  return node
+}
+
+const _getSelectedNode = async _pToken => {
+  if (
+    !selectedNode ||
+    _pToken.name.toLowerCase() !== pTokenCurrent.name ||
+    _pToken.redeemFrom.toLowerCase() !== pTokenCurrent.redeemFrom
+  ) {
+    selectedNode = await _selectNode(_pToken)
+    //TODO: check if node is null => no nodes available
+  }
+
+  return selectedNode
+}
+
+const ping = _pToken => {
   return async dispatch => {
-    enclave = new Enclave({
-      pToken: _pTokenName
-    })
+    const node = await _getSelectedNode(_pToken)
+    await node.ping()
 
-    await enclave.ping()
     dispatch({
       type: ENCLAVE_PING_PONG
     })
   }
 }
 
-const getLastProcessedBlock = (_pTokenName, _type, _role) => {
+const getLastProcessedBlock = (_pToken, _type, _role) => {
   return async dispatch => {
-    enclave = new Enclave({
-      pToken: _pTokenName
-    })
+    const node = await _getSelectedNode(_pToken)
 
-    const lastProcessedBlock = await enclave.getLastProcessedBlock(_type)
+    const lastProcessedBlock = await node.getLastProcessedBlock(_type)
 
     let value = null
-    switch (_pTokenName) {
+    switch (_pToken.name) {
       case 'pEOS': {
         value = lastProcessedBlock.latestBlockNum
         break
@@ -55,7 +80,7 @@ const getLastProcessedBlock = (_pTokenName, _type, _role) => {
     }
 
     const status = await getEnclaveBlockHeightStatusComparedWithTheReals(
-      _pTokenName,
+      _pToken.name,
       _role,
       value
     )
@@ -85,13 +110,10 @@ const getLastProcessedBlock = (_pTokenName, _type, _role) => {
   }
 }
 
-const getReports = (_pTokenName, _type, _role) => {
+const getReports = (_pToken, _type, _role) => {
   return async dispatch => {
-    enclave = new Enclave({
-      pToken: _pTokenName
-    })
-
-    const reports = await enclave.getReports(_type)
+    const node = await _getSelectedNode(_pToken)
+    const reports = await node.getReports(_type)
 
     const actionType =
       _role === 'issuer'
@@ -106,13 +128,11 @@ const getReports = (_pTokenName, _type, _role) => {
   }
 }
 
-const submitBlock = (_pTokenName, _type, _block) => {
+const submitBlock = (_pToken, _type, _block) => {
   return async dispatch => {
-    enclave = new Enclave({
-      pToken: _pTokenName
-    })
+    const node = await _getSelectedNode(_pToken)
+    await node.submitBlock(_type, _block)
 
-    await enclave.submitBlock(_type, _block)
     dispatch({
       type: ENCLAVE_BLOCK_SUBMITTED
     })

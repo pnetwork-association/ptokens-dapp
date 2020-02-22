@@ -29,16 +29,16 @@ const middleware = ({ dispatch }) => {
 
         dispatch(
           getReports(
-            _action.payload.pToken.name,
-            _action.payload.pToken.issueFrom,
+            _action.payload.pToken,
+            'native',
             'redeemer'
           )
         )
 
         dispatch(
           getReports(
-            _action.payload.pToken.name,
-            _action.payload.pToken.redeemFrom,
+            _action.payload.pToken,
+            'host',
             'issuer'
           )
         )
@@ -54,21 +54,21 @@ const middleware = ({ dispatch }) => {
 
         dispatch(
           getLastProcessedBlock(
-            _action.payload.pToken.name,
-            _action.payload.pToken.issueFrom,
+            _action.payload.pToken,
+            'native',
             'issuer'
           )
         )
 
         dispatch(
           getLastProcessedBlock(
-            _action.payload.pToken.name,
-            _action.payload.pToken.redeemFrom,
+            _action.payload.pToken,
+            'host',
             'redeemer'
           )
         )
 
-        dispatch(ping(_action.payload.pToken.name))
+        dispatch(ping(_action.payload.pToken))
 
         //token page
         dispatch(Log.clear())
