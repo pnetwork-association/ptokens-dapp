@@ -19,20 +19,19 @@ const networkToType = {
 }
 
 const NetworkDetector = props => {
-  console.log(props.currentDetectedRedeemerNetwork)
   return (
     <React.Fragment>
       {props.pTokenSelected.network !==
-      networkToType[props.currentDetectedRedeemerNetwork] ? (
+      networkToType[props.currentDetectedRedeemerNetwork] && props.currentDetectedRedeemerNetwork ? (
         <div className="container-fluid mt-3">
           <Alert
             type={'danger'}
             text={`
-                the current provider network (${
+                The current provider (${
                   networkTextToShow[props.currentDetectedRedeemerNetwork]
                 })
                 does not match the current selected network (${
-                  props.pTokenSelected.network
+                  props.pTokenSelected.network.substr(0,1).toUpperCase() + props.pTokenSelected.network.substr(1,props.pTokenSelected.network.length-1)
                 }).
                 ${
                   props.pTokenSelected.network === 'testnet'
