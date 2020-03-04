@@ -50,7 +50,8 @@ const settings = {
         enclaveBlockHeightPollingTime: 3000,
         faucet1: 'https://testnet-faucet.mempool.co',
         faucet2: 'https://bitcoinfaucet.uo1.net/send.php',
-        publicKey: '0x02157351e30cfcb2603cfbfaab4c87d795839c907c068c9710b2230e8af72bc9d7'
+        publicKey:
+          '0x02157351e30cfcb2603cfbfaab4c87d795839c907c068c9710b2230e8af72bc9d7'
       }
     },
     mainnet: {
@@ -66,7 +67,8 @@ const settings = {
       btc: {
         explorer: 'https://blockstream.info/',
         enclaveBlockHeightPollingTime: 3000,
-        publicKey: '0x025e8608fc728c5c0d78b5c6c82bfe12bd5e1ba42d35f114a5f98f43a97d376b63'
+        publicKey:
+          '0x025e8608fc728c5c0d78b5c6c82bfe12bd5e1ba42d35f114a5f98f43a97d376b63'
       }
     }
   },

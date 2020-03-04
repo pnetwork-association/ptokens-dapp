@@ -1,5 +1,5 @@
 import {
-  getCirculatingSupply,
+  getCirculatingSupply
   /*getBurnNonce,
   getMintNonce,
   getTotalIssued,
@@ -13,10 +13,7 @@ import { getCorrespondingReadOnlyProvider } from '../utils/read-only-providers'
 const middleware = ({ dispatch }) => {
   return _next => {
     return async _action => {
-      if (
-        _action.type === SET_SELECTED_PTOKEN
-      ) {
-
+      if (_action.type === SET_SELECTED_PTOKEN) {
         const readOnlyProvider = getCorrespondingReadOnlyProvider(
           _action.payload.pToken.name,
           _action.payload.pToken.redeemFrom,
@@ -29,12 +26,7 @@ const middleware = ({ dispatch }) => {
         }
 
         //main page data
-        dispatch(
-          getCirculatingSupply(
-            _action.payload.pToken,
-            configs
-          )
-        )
+        dispatch(getCirculatingSupply(_action.payload.pToken, configs))
 
         dispatch(getReports(_action.payload.pToken, 'native', 'redeemer'))
 

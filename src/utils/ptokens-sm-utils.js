@@ -37,7 +37,9 @@ const getCorrespondingExplorerLink = (_pTokenName, _network, _role) => {
     case 'pBTC':
       return _role === 'issuer'
         ? `${settings.pbtc[_network].btc.explorer}`
-        : `${settings.pbtc[_network].eth.etherscanLink}address/${settings[_pTokenName.toLowerCase()][_network].eth.contractAddress}`
+        : `${settings.pbtc[_network].eth.etherscanLink}address/${
+            settings[_pTokenName.toLowerCase()][_network].eth.contractAddress
+          }`
     case 'pLTC':
       return _role === 'issuer'
         ? `${settings.pltc.ltc.explorer}`

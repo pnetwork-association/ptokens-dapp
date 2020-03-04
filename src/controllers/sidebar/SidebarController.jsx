@@ -2,10 +2,7 @@ import React from 'react'
 import Sidebar from '../../components/sidebar/Sidebar'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {
-  setSelectedPage,
-  setCollapseState
-} from '../../actions/sidebar'
+import { setSelectedPage, setCollapseState } from '../../actions/sidebar'
 import { setSelectedpToken, resetParams } from '../../actions/pTokens'
 import { disconnectFromSpecificWallet } from '../../actions/wallets'
 import * as Enclave from '../../actions/enclave'
@@ -48,19 +45,17 @@ export class SidebarController extends React.Component {
     this.state = {}
 
     //getting only the ptoken type -> ../pbtc-on-eth-testnet/....
-    const splittedUrl = history.location.pathname
-    .split('/')[1]
-    .split('-')
+    const splittedUrl = history.location.pathname.split('/')[1].split('-')
 
     const pTokenNameSelected = splittedUrl[0]
-    const pTokenNetworkSelected = splittedUrl[3] === 'testnet' ? 'testnet' : 'mainnet'
-
-    console.log(pTokenNameSelected, splittedUrl[3])
-
+    const pTokenNetworkSelected =
+      splittedUrl[3] === 'testnet' ? 'testnet' : 'mainnet'
 
     const page = history.location.pathname.split('/')[2]
     const pToken = this.props.pTokensAvailable.find(
-      pToken => pToken.name.toLowerCase() === pTokenNameSelected && pToken.network === pTokenNetworkSelected
+      pToken =>
+        pToken.name.toLowerCase() === pTokenNameSelected &&
+        pToken.network === pTokenNetworkSelected
     )
 
     this.props.setSelectedpToken(pToken, pTokenNetworkSelected)

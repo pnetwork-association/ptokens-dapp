@@ -24,7 +24,7 @@ class Sidebar extends React.Component {
       case 'pBTC':
         return (
           <img
-            src="../assets/pBTC.png"
+            src={`../assets/pBTC-${this.props.pTokenSelected.network}.png`}
             alt="pBTC avatar"
             height="30"
             width="30"
@@ -57,22 +57,25 @@ class Sidebar extends React.Component {
     return (
       <ul className="navbar-nav">
         {this.props.pTokensAvailable
-          .filter(pToken => pToken.name !== this.props.pTokenSelected.name || pToken.network !== this.props.pTokenSelected.network)
+          .filter(
+            pToken =>
+              pToken.name !== this.props.pTokenSelected.name ||
+              pToken.network !== this.props.pTokenSelected.network
+          )
           .map((pToken, index) => {
-              return (
-                <li
-                  key={pToken.name}
-                  onClick={() => {
-                    this.props.onChangeSelectedpToken(pToken)
-                    this.props.onChangeCollapseState()
-                  }}
-                >
-                  <span className="pt-5 nav-link pb-5 ml-20 text-xs">
-                    {pToken.name} ({pToken.network})
-                  </span>
-                </li>
-              )
-
+            return (
+              <li
+                key={pToken.name}
+                onClick={() => {
+                  this.props.onChangeSelectedpToken(pToken)
+                  this.props.onChangeCollapseState()
+                }}
+              >
+                <span className="pt-5 nav-link pb-5 ml-20 text-xs">
+                  {pToken.name} ({pToken.network})
+                </span>
+              </li>
+            )
           })}
       </ul>
     )
@@ -89,32 +92,34 @@ class Sidebar extends React.Component {
                 <div className="row">
                   <div className="col-12 d-flex justify-content-left cursor-pointer pl-0 pr-0">
                     <div className="text-center">
-                      {<div
-                        className={
-                          this.props.isCollapseOpened
-                            ? 'dropdown show'
-                            : 'dropdown'
-                        }
-                      >
+                      {
                         <div
-                          onClick={e => {
-                            e.preventDefault()
-                            this.props.onChangeCollapseState()
-                          }}
-                          className="avatar"
+                          className={
+                            this.props.isCollapseOpened
+                              ? 'dropdown show'
+                              : 'dropdown'
+                          }
                         >
-                          {this.renderpTokensAvatar()}
                           <div
-                            className={
-                              this.props.isCollapseOpened
-                                ? 'dropdown-menu show'
-                                : 'dropdown-menu'
-                            }
+                            onClick={e => {
+                              e.preventDefault()
+                              this.props.onChangeCollapseState()
+                            }}
+                            className="avatar"
                           >
-                            {this.renderpTokensList()}
+                            {this.renderpTokensAvatar()}
+                            <div
+                              className={
+                                this.props.isCollapseOpened
+                                  ? 'dropdown-menu show'
+                                  : 'dropdown-menu'
+                              }
+                            >
+                              {this.renderpTokensList()}
+                            </div>
                           </div>
                         </div>
-                      </div>}
+                      }
                     </div>
                   </div>
                 </div>
@@ -178,14 +183,17 @@ class Sidebar extends React.Component {
                     }}
                   >
                     <span>
-                      {this.props.pTokenSelected.name} ({this.props.pTokenSelected.network})
-                      {<b
-                        className={
-                          this.props.isCollapseOpened
-                            ? 'caret rotate-180'
-                            : 'caret'
-                        }
-                      />}
+                      {this.props.pTokenSelected.name} (
+                      {this.props.pTokenSelected.network})
+                      {
+                        <b
+                          className={
+                            this.props.isCollapseOpened
+                              ? 'caret rotate-180'
+                              : 'caret'
+                          }
+                        />
+                      }
                     </span>
                   </p>
                   <Collapse in={this.props.isCollapseOpened}>

@@ -46,7 +46,7 @@ const _getSelectedpToken = (_pToken, _configs) => {
   if (
     !ptokens ||
     _pToken.name.toLowerCase() !== pTokenCurrent.name ||
-    _pToken.redeemFrom.toLowerCase() !== pTokenCurrent.redeemFrom || 
+    _pToken.redeemFrom.toLowerCase() !== pTokenCurrent.redeemFrom ||
     _pToken.network.toLowerCase() !== pTokenCurrent.network
   ) {
     ptokens = _selectpToken(_pToken, _configs)
@@ -55,7 +55,7 @@ const _getSelectedpToken = (_pToken, _configs) => {
   return ptokens
 }
 
-const setSelectedpToken = (_pToken) => {
+const setSelectedpToken = _pToken => {
   return {
     type: SET_SELECTED_PTOKEN,
     payload: {
@@ -97,11 +97,11 @@ const redeem = (_pToken, _params, _configs) => {
         break
       }
       case 'pBTC': {
-        pbtcLoggedRedeem(ptokens, _params,  _pToken.network, _dispatch)
+        pbtcLoggedRedeem(ptokens, _params, _pToken.network, _dispatch)
         break
       }
       case 'pLTC': {
-        pltcLoggedRedeem(ptokens, _params,  _pToken.network, _dispatch)
+        pltcLoggedRedeem(ptokens, _params, _pToken.network, _dispatch)
         break
       }
       default:

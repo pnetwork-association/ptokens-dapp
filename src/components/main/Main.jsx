@@ -48,7 +48,7 @@ const Main = props => {
                     />
                     <img
                       className="ml-10"
-                      src={`./assets/${props.pTokenSelected.name}.png`}
+                      src={`./assets/${props.pTokenSelected.name}-${props.pTokenSelected.network}.png`}
                       height="22"
                       width="22"
                       alt="redeem to logo"
@@ -111,7 +111,7 @@ const Main = props => {
                   <div className="col-5 text-right pr-0 pl-0">
                     <img
                       className="ml-20 mr-10"
-                      src={`./assets/${props.pTokenSelected.name}.png`}
+                      src={`./assets/${props.pTokenSelected.name}-${props.pTokenSelected.network}.png`}
                       height="22"
                       width="22"
                       alt="redeem from logo"

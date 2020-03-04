@@ -41,9 +41,7 @@ const mapDispatchToProps = dispatch => {
     redeem: (_pToken, _params, _redeemerNetwork, _configs) =>
       dispatch(pTokens.redeem(_pToken, _params, _configs)),
     getBalance: (_pToken, _account, _redeemerNetwork, configs) =>
-      dispatch(
-        pTokens.getBalance(_pToken, _account, configs)
-      ),
+      dispatch(pTokens.getBalance(_pToken, _account, configs)),
     resetDepositAddress: () => dispatch(pTokens.resetDepositAddress()),
     resetIssueSuccess: () => dispatch(pTokens.resetIssueSuccess()),
     resetRedeemSuccess: () => dispatch(pTokens.resetRedeemSuccess()),
@@ -114,11 +112,7 @@ export class TokenController extends React.Component {
   }
 
   async componentDidUpdate(_prevProps, _prevState) {
-
-    if (
-      !_prevProps.redeemerProvider &&
-        this.props.redeemerProvider 
-    ) {
+    if (!_prevProps.redeemerProvider && this.props.redeemerProvider) {
       this.props.getBalance(
         this.props.pTokenSelected,
         this.props.redeemerAccount,
@@ -130,10 +124,9 @@ export class TokenController extends React.Component {
     }
 
     if (
-      (this.props.pTokenSelected.name !== this.state.pTokenSelectedName &&
-      this.props.redeemerProvider)
+      this.props.pTokenSelected.name !== this.state.pTokenSelectedName &&
+      this.props.redeemerProvider
     ) {
-
       this.setState({
         pTokenSelectedName: this.props.pTokenSelected.name
       })
@@ -149,10 +142,9 @@ export class TokenController extends React.Component {
     }
 
     if (
-      (this.props.pTokenSelected.network !== this.state.pTokenSelectedNetwork &&
-      this.props.redeemerProvider)
+      this.props.pTokenSelected.network !== this.state.pTokenSelectedNetwork &&
+      this.props.redeemerProvider
     ) {
-      
       this.setState({
         pTokenSelectedNetwork: this.props.pTokenSelected.network
       })
@@ -227,7 +219,7 @@ export class TokenController extends React.Component {
     ) {
       this.setState({
         currentRedeemerAccount: _prevProps.redeemerAccount,
-        currentpTokenName: _prevProps.pTokenSelected.name,
+        currentpTokenName: _prevProps.pTokenSelected.name
       })
 
       this.props.setpTokenParams(
@@ -239,9 +231,8 @@ export class TokenController extends React.Component {
 
     if (
       this.props.pTokenSelected.network !== this.state.currentSelectedNetwork &&
-        enablers.includes(this.props.pTokenSelected.name)
+      enablers.includes(this.props.pTokenSelected.name)
     ) {
-
       this.setState({
         currentSelectedNetwork: this.props.pTokenSelected.network
       })

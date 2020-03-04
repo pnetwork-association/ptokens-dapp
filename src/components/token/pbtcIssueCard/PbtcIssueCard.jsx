@@ -33,7 +33,7 @@ const PbtcIssueCard = props => {
             />
             <img
               className="ml-10"
-              src={`../assets/${props.pTokenSelected.name}.png`}
+              src={`../assets/${props.pTokenSelected.name}-${props.pTokenSelected.network}.png`}
               height="22"
               width="22"
               alt="redeem to logo"
