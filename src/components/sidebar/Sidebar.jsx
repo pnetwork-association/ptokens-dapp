@@ -57,9 +57,8 @@ class Sidebar extends React.Component {
     return (
       <ul className="navbar-nav">
         {this.props.pTokensAvailable
-          .filter(pToken => pToken.name !== this.props.pTokenSelected.name)
+          .filter(pToken => pToken.name !== this.props.pTokenSelected.name || pToken.network !== this.props.pTokenSelected.network)
           .map((pToken, index) => {
-            if (pToken !== this.props.pTokenSelected) {
               return (
                 <li
                   key={pToken.name}
@@ -69,11 +68,11 @@ class Sidebar extends React.Component {
                   }}
                 >
                   <span className="pt-5 nav-link pb-5 ml-20 text-xs">
-                    {pToken.name} ({pToken.tokenType})
+                    {pToken.name} ({pToken.network})
                   </span>
                 </li>
               )
-            } else return null
+
           })}
       </ul>
     )
@@ -90,7 +89,7 @@ class Sidebar extends React.Component {
                 <div className="row">
                   <div className="col-12 d-flex justify-content-left cursor-pointer pl-0 pr-0">
                     <div className="text-center">
-                      {/*<div
+                      {<div
                         className={
                           this.props.isCollapseOpened
                             ? 'dropdown show'
@@ -115,7 +114,7 @@ class Sidebar extends React.Component {
                             {this.renderpTokensList()}
                           </div>
                         </div>
-                      </div>*/}
+                      </div>}
                     </div>
                   </div>
                 </div>
@@ -179,14 +178,14 @@ class Sidebar extends React.Component {
                     }}
                   >
                     <span>
-                      {this.props.pTokenSelected.name}
-                      {/*<b
+                      {this.props.pTokenSelected.name} ({this.props.pTokenSelected.network})
+                      {<b
                         className={
                           this.props.isCollapseOpened
                             ? 'caret rotate-180'
                             : 'caret'
                         }
-                      />*/}
+                      />}
                     </span>
                   </p>
                   <Collapse in={this.props.isCollapseOpened}>

@@ -7,7 +7,7 @@ const initialState = {
 const networkDetectorReducer = (_state = initialState, _action) => {
   if (_action.type === NETWORK_DETECTED_REDEEMER) {
     return Object.assign({}, _state, {
-      redeemerNetwork: _action.payload.network
+      redeemerNetwork: _action.payload.redeemerNetwork
     })
   }
 

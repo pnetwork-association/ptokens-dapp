@@ -33,6 +33,7 @@ const initialState = {
     totalRedeemed: null,
     circulatingSupply: null,
     tokenType: 'ERC-20',
+    network: 'mainnet',
     //only for pbtc
     depositAddress: {
       value: null,
@@ -44,14 +45,6 @@ const initialState = {
   },
   balance: null,
   available: [
-    /*{
-      name: 'pEOS',
-      tokenType: 'ERC-20',
-      issueFrom: 'EOS',
-      redeemFrom: 'ETH',
-      decimals: 4,
-      network: 'kovan'
-    },*/
     {
       name: 'pBTC',
       tokenType: 'ERC-20',
@@ -60,6 +53,15 @@ const initialState = {
       realDecimals: 8,
       contractDecimals: 18,
       network: 'mainnet'
+    },
+    {
+      name: 'pBTC',
+      tokenType: 'ERC-20',
+      issueFrom: 'BTC',
+      redeemFrom: 'ETH',
+      realDecimals: 8,
+      contractDecimals: 18,
+      network: 'testnet'
     }
     /*{
       name: 'pLTC',
@@ -93,10 +95,12 @@ const pTokensReducer = (_state = initialState, _action) => {
     return Object.assign({}, _state, {
       selected: Object.assign({}, _state.selected, {
         name: _action.payload.pToken.name,
-        decimals: _action.payload.pToken.decimals,
+        realDecimals: _action.payload.pToken.realDecimals,
+        contractDecimals: _action.payload.pToken.contractDecimals,
         issueFrom: _action.payload.pToken.issueFrom,
         redeemFrom: _action.payload.pToken.redeemFrom,
         tokenType: _action.payload.pToken.tokenType,
+        network: _action.payload.pToken.network,
         circulatingSupply: null,
         totalIssued: null,
         totalRedeemed: null,

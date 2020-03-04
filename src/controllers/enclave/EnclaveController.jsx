@@ -74,7 +74,7 @@ class EnclaveController extends React.Component {
         'native',
         'issuer'
       )
-    }, settings[this.props.pTokenSelected.name.toLowerCase()][this.props.pTokenSelected.issueFrom.toLowerCase()].enclaveBlockHeightPollingTime)
+    }, settings[this.props.pTokenSelected.name.toLowerCase()][this.props.pTokenSelected.network][this.props.pTokenSelected.issueFrom.toLowerCase()].enclaveBlockHeightPollingTime)
 
     this.intervalRedeemerBlockGetter = setInterval(() => {
       this.props.getLastProcessedBlock(
@@ -82,7 +82,7 @@ class EnclaveController extends React.Component {
         'host',
         'redeemer'
       )
-    }, settings[this.props.pTokenSelected.name.toLowerCase()][this.props.pTokenSelected.redeemFrom.toLowerCase()].enclaveBlockHeightPollingTime)
+    }, settings[this.props.pTokenSelected.name.toLowerCase()][this.props.pTokenSelected.network][this.props.pTokenSelected.redeemFrom.toLowerCase()].enclaveBlockHeightPollingTime)
   }
 
   static getDerivedStateFromProps(props, prevState) {
@@ -105,7 +105,8 @@ class EnclaveController extends React.Component {
     ) {
       const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(
         this.props.pTokenSelected.name,
-        this.props.pTokenSelected.redeemFrom
+        this.props.pTokenSelected.redeemFrom,
+        this.props.pTokenSelected.network
       )
 
       const configs = {

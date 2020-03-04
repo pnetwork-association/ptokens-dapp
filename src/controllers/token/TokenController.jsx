@@ -29,21 +29,20 @@ const mapStateToProps = state => {
     isIssueSuccedeed: state.pTokens.isIssueSuccedeed,
     isRedeemSuccedeed: state.pTokens.isRedeemSuccedeed,
     issueError: state.pTokens.issueError,
-    redeemError: state.pTokens.redeemError,
-    detectedRedeemerNetwork: state.networkDetector.redeemerNetwork
+    redeemError: state.pTokens.redeemError
   }
 }
 const mapDispatchToProps = dispatch => {
   return {
     addItemLogs: item => dispatch(LogHandler.addItem(item)),
     clearLogs: () => dispatch(LogHandler.clear()),
-    issue: (_pToken, _params, _redeemerNetwork, _configs) =>
-      dispatch(pTokens.issue(_pToken, _params, _redeemerNetwork, _configs)),
+    issue: (_pToken, _params, _configs) =>
+      dispatch(pTokens.issue(_pToken, _params, _configs)),
     redeem: (_pToken, _params, _redeemerNetwork, _configs) =>
-      dispatch(pTokens.redeem(_pToken, _params, _redeemerNetwork, _configs)),
+      dispatch(pTokens.redeem(_pToken, _params, _configs)),
     getBalance: (_pToken, _account, _redeemerNetwork, configs) =>
       dispatch(
-        pTokens.getBalance(_pToken, _account, _redeemerNetwork, configs)
+        pTokens.getBalance(_pToken, _account, configs)
       ),
     resetDepositAddress: () => dispatch(pTokens.resetDepositAddress()),
     resetIssueSuccess: () => dispatch(pTokens.resetIssueSuccess()),
@@ -70,7 +69,10 @@ export class TokenController extends React.Component {
       isIssueTerminated: null,
       isRedeemTerminated: null,
       currentRedeemerAccount: null,
-      currentpTokenName: null
+      currentpTokenName: null,
+      currentSelectedNetwork: null,
+      pTokenSelectedName: null,
+      pTokenSelectedNetwork: null
     }
 
     this.props.connectWithCorrectWallets(this.props.pTokenSelected.name, {
@@ -78,11 +80,10 @@ export class TokenController extends React.Component {
       issuer: this.props.issuerProvider
     })
 
-    if (this.props.redeemerProvider && this.props.detectedRedeemerNetwork) {
+    if (this.props.redeemerProvider) {
       this.props.getBalance(
         this.props.pTokenSelected,
         this.props.redeemerAccount,
-        this.props.detectedRedeemerNetwork,
         {
           redeemer: this.props.redeemerProvider,
           issuer: this.props.issuerProvider
@@ -113,18 +114,14 @@ export class TokenController extends React.Component {
   }
 
   async componentDidUpdate(_prevProps, _prevState) {
+
     if (
-      (!_prevProps.redeemerProvider &&
-        this.props.redeemerProvider &&
-        this.props.detectedRedeemerNetwork) ||
-      (!_prevProps.detectedRedeemerNetwork &&
-        this.props.detectedRedeemerNetwork &&
-        this.props.redeemerProvider)
+      !_prevProps.redeemerProvider &&
+        this.props.redeemerProvider 
     ) {
       this.props.getBalance(
         this.props.pTokenSelected,
         this.props.redeemerAccount,
-        this.props.detectedRedeemerNetwork,
         {
           redeemer: this.props.redeemerProvider,
           issuer: this.props.issuerProvider
@@ -133,14 +130,36 @@ export class TokenController extends React.Component {
     }
 
     if (
-      _prevProps.pTokenSelected.name !== this.props.pTokenSelected.name &&
-      this.props.redeemerProvider &&
-      this.props.detectedRedeemerNetwork
+      (this.props.pTokenSelected.name !== this.state.pTokenSelectedName &&
+      this.props.redeemerProvider)
     ) {
+
+      this.setState({
+        pTokenSelectedName: this.props.pTokenSelected.name
+      })
+
       this.props.getBalance(
         this.props.pTokenSelected,
         this.props.redeemerAccount,
-        this.props.detectedRedeemerNetwork,
+        {
+          redeemer: this.props.redeemerProvider,
+          issuer: this.props.issuerProvider
+        }
+      )
+    }
+
+    if (
+      (this.props.pTokenSelected.network !== this.state.pTokenSelectedNetwork &&
+      this.props.redeemerProvider)
+    ) {
+      
+      this.setState({
+        pTokenSelectedNetwork: this.props.pTokenSelected.network
+      })
+
+      this.props.getBalance(
+        this.props.pTokenSelected,
+        this.props.redeemerAccount,
         {
           redeemer: this.props.redeemerProvider,
           issuer: this.props.issuerProvider
@@ -159,13 +178,13 @@ export class TokenController extends React.Component {
       this.props.getBalance(
         this.props.pTokenSelected,
         this.props.redeemerAccount,
-        this.props.detectedRedeemerNetwork,
         {
           redeemer: this.props.redeemerProvider,
           issuer: this.props.issuerProvider
         }
       )
     }
+
     if (
       _prevProps.issueError !== this.props.issueError &&
       this.props.issueError
@@ -183,13 +202,13 @@ export class TokenController extends React.Component {
       this.props.getBalance(
         this.props.pTokenSelected,
         this.props.redeemerAccount,
-        this.props.detectedRedeemerNetwork,
         {
           redeemer: this.props.redeemerProvider,
           issuer: this.props.issuerProvider
         }
       )
     }
+
     if (
       _prevProps.redeemError !== this.props.redeemError &&
       this.props.redeemError
@@ -208,12 +227,28 @@ export class TokenController extends React.Component {
     ) {
       this.setState({
         currentRedeemerAccount: _prevProps.redeemerAccount,
-        currentpTokenName: _prevProps.pTokenSelected.name
+        currentpTokenName: _prevProps.pTokenSelected.name,
       })
 
       this.props.setpTokenParams(
         Object.assign({}, this.props.pTokensParams, {
           typedIssueAccount: _prevProps.redeemerAccount
+        })
+      )
+    }
+
+    if (
+      this.props.pTokenSelected.network !== this.state.currentSelectedNetwork &&
+        enablers.includes(this.props.pTokenSelected.name)
+    ) {
+
+      this.setState({
+        currentSelectedNetwork: this.props.pTokenSelected.network
+      })
+
+      this.props.setpTokenParams(
+        Object.assign({}, this.props.pTokensParams, {
+          typedIssueAccount: this.props.redeemerAccount
         })
       )
     }
@@ -289,7 +324,7 @@ export class TokenController extends React.Component {
     const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(
       this.props.pTokenSelected.name,
       this.props.pTokenSelected.redeemFrom,
-      this.props.detectedRedeemerNetwork
+      this.props.pTokenSelected.network
     )
 
     this.props.issue(
@@ -298,7 +333,6 @@ export class TokenController extends React.Component {
         parseFloat(this.props.pTokensParams.amountToIssue),
         this.props.pTokensParams.typedIssueAccount
       ],
-      this.props.detectedRedeemerNetwork,
       {
         issuer: this.props.issuerProvider,
         redeemer: redeemerReadOnlyProvider
@@ -364,7 +398,7 @@ export class TokenController extends React.Component {
     const issuerReadOnlyProvider = getCorrespondingReadOnlyProvider(
       this.props.pTokenSelected.name,
       this.props.pTokenSelected.issueFrom,
-      this.props.detectedRedeemerNetwork
+      this.props.pTokenSelected.network
     )
 
     this.props.redeem(
@@ -373,7 +407,6 @@ export class TokenController extends React.Component {
         parseFloat(this.props.pTokensParams.amountToRedeem),
         this.props.pTokensParams.typedRedeemAccount
       ],
-      this.props.detectedRedeemerNetwork,
       {
         issuer: issuerReadOnlyProvider,
         redeemer: this.props.redeemerProvider
@@ -442,7 +475,6 @@ export class TokenController extends React.Component {
           logs={this.props.logs}
           issuerProvider={this.props.issuerProvider}
           redeemerProvider={this.props.redeemerProvider}
-          detectedRedeemerNetwork={this.props.detectedRedeemerNetwork}
           onChangeAmountToIssue={this.onChangeAmountToIssue}
           onChangeAmountToRedeem={this.onChangeAmountToRedeem}
           onChangeIssueAccount={this.onChangeTypedIssueAccount}
@@ -472,7 +504,6 @@ TokenController.propTypes = {
   isRedeemSuccedeed: PropTypes.bool,
   issueError: PropTypes.string,
   redeemError: PropTypes.string,
-  detectedRedeemerNetwork: PropTypes.string,
   addItemLogs: PropTypes.func,
   clearLogs: PropTypes.func,
   issue: PropTypes.func,

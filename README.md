@@ -8,6 +8,16 @@ The pTokens dapp
 
 &nbsp;
 
+## :exclamation: Important
+
+At the moment there are a lot of inconsistencies within the code because of differences within ptokens.js The only supported pToken is pBTC (for now)
+
+&nbsp;
+
+***
+
+&nbsp;
+
 ### :house_with_garden: Setting the environment:
 
 Clone the __`ptokens-dapp`__ repo

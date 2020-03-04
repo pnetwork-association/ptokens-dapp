@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
   setSelectedPage,
-  setSelectedPageFromPathname,
   setCollapseState
 } from '../../actions/sidebar'
 import { setSelectedpToken, resetParams } from '../../actions/pTokens'
@@ -17,8 +16,7 @@ const mapStateToProps = state => {
     selected: state.sidebar.selected,
     isCollapseOpened: state.sidebar.isCollapseOpened,
     pTokenSelected: state.pTokens.selected,
-    pTokensAvailable: state.pTokens.available,
-    detectedRedeemerNetwork: state.networkDetector.redeemerNetwork
+    pTokensAvailable: state.pTokens.available
   }
 }
 
@@ -26,8 +24,6 @@ const mapDispatchToProps = dispatch => {
   return {
     setSelectedPage: (_selected, _pToken) =>
       dispatch(setSelectedPage(_selected, _pToken)),
-    setSelectedPageFromPathname: (_pathname, _pToken) =>
-      dispatch(setSelectedPageFromPathname(_pathname, _pToken)),
     setCollapseState: state => dispatch(setCollapseState(state)),
     setSelectedpToken: (pToken, _redeemerNetwork) =>
       dispatch(setSelectedpToken(pToken, _redeemerNetwork)),
@@ -51,16 +47,23 @@ export class SidebarController extends React.Component {
 
     this.state = {}
 
-    const pTokenNameSelected = history.location.pathname
-      .split('/')[1]
-      .split('-')[0]
+    //getting only the ptoken type -> ../pbtc-on-eth-testnet/....
+    const splittedUrl = history.location.pathname
+    .split('/')[1]
+    .split('-')
+
+    const pTokenNameSelected = splittedUrl[0]
+    const pTokenNetworkSelected = splittedUrl[3] === 'testnet' ? 'testnet' : 'mainnet'
+
+    console.log(pTokenNameSelected, splittedUrl[3])
+
+
     const page = history.location.pathname.split('/')[2]
     const pToken = this.props.pTokensAvailable.find(
-      pToken => pToken.name.toLowerCase() === pTokenNameSelected
+      pToken => pToken.name.toLowerCase() === pTokenNameSelected && pToken.network === pTokenNetworkSelected
     )
 
-    this.props.setSelectedPageFromPathname(history.location.pathname, pToken)
-    this.props.setSelectedpToken(pToken, this.props.detectedRedeemerNetwork)
+    this.props.setSelectedpToken(pToken, pTokenNetworkSelected)
 
     if (!page) {
       this.props.setSelectedPage(0, pToken)
@@ -111,7 +114,6 @@ SidebarController.propTypes = {
   isCollapseOpened: PropTypes.bool,
   pTokenSelected: PropTypes.object,
   pTokensAvailable: PropTypes.array,
-  detectedRedeemerNetwork: PropTypes.string,
   setSelectedPage: PropTypes.func,
   setSelectedPageFromPathname: PropTypes.func,
   setCollapseState: PropTypes.func,

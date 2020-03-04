@@ -8,7 +8,7 @@ import {
 } from '../../../constants/index'
 import settings from '../../../settings'
 
-const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
+const pbtcLoggedIssue = async (_ptokens, _params, _network, _dispatch) => {
   //[0] should be the value but here there isn't
   let depositAddress = null
   try {
@@ -65,7 +65,7 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
         LogHandler.updateItem('broadcasting-pending', {
           value: `new BTC deposit detected`,
           success: true,
-          link: `${settings.pbtc.btc.explorer}tx/${txid}`,
+          link: `${settings.pbtc[_network].btc.explorer}tx/${txid}`,
           id: 'broadcasting-pending'
         })
       )
@@ -131,7 +131,7 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
         })
       )
 
-      const explorer = `${settings.pbtc.eth.etherscanLink}tx/${report.broadcast_tx_hash}`
+      const explorer = `${settings.pbtc[_network].eth.etherscanLink}tx/${report.broadcast_tx_hash}`
 
       _dispatch(
         LogHandler.addItem({
@@ -186,7 +186,7 @@ const pbtcLoggedIssue = async (_ptokens, _params, _dispatch) => {
     })
 }
 
-const pbtcLoggedRedeem = (_ptokens, _params, _dispatch) => {
+const pbtcLoggedRedeem = (_ptokens, _params, _network, _dispatch) => {
   _dispatch(
     LogHandler.addItem({
       value: `pBTC burn transaction pending...`,
@@ -208,7 +208,7 @@ const pbtcLoggedRedeem = (_ptokens, _params, _dispatch) => {
   _ptokens.pbtc
     .redeem(..._params)
     .once('onEthTxConfirmed', _tx => {
-      const explorer = `${settings.pbtc.eth.etherscanLink}tx/${_tx.transactionHash}`
+      const explorer = `${settings.pbtc[_network].eth.etherscanLink}tx/${_tx.transactionHash}`
 
       const message = `Burn Transaction confirmed! ${parseFloat(
         _params[0]
@@ -265,7 +265,7 @@ const pbtcLoggedRedeem = (_ptokens, _params, _dispatch) => {
         })
       )
 
-      const explorer = `${settings.pbtc.btc.explorer}tx/${report.broadcast_tx_hash}`
+      const explorer = `${settings.pbtc[_network].btc.explorer}tx/${report.broadcast_tx_hash}`
 
       _dispatch(
         LogHandler.addItem({

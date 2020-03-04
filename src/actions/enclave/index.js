@@ -16,7 +16,8 @@ import { getEnclaveBlockHeightStatusComparedWithTheReals } from '../../utils/blo
 let selectedNode = null
 let pTokenCurrent = {
   name: 'pbtc',
-  redeemFrom: 'eth'
+  redeemFrom: 'eth',
+  network: 'mainnet'
 }
 
 const _selectNode = async _pToken => {
@@ -25,11 +26,12 @@ const _selectNode = async _pToken => {
       name: _pToken.name,
       redeemFrom: _pToken.redeemFrom
     },
-    networkType: 'mainnet'
+    networkType: _pToken.network
   })
 
   pTokenCurrent.name = _pToken.name
   pTokenCurrent.redeemFrom = _pToken.redeemFrom
+  pTokenCurrent.network = _pToken.network
 
   const node = await nodeSelector.select()
   return node
@@ -39,7 +41,8 @@ const _getSelectedNode = async _pToken => {
   if (
     !selectedNode ||
     _pToken.name.toLowerCase() !== pTokenCurrent.name ||
-    _pToken.redeemFrom.toLowerCase() !== pTokenCurrent.redeemFrom
+    _pToken.redeemFrom.toLowerCase() !== pTokenCurrent.redeemFrom ||
+    _pToken.network.toLowerCase() !== pTokenCurrent.network
   ) {
     selectedNode = await _selectNode(_pToken)
     //TODO: check if node is null => no nodes available
@@ -86,7 +89,8 @@ const getLastProcessedBlock = (_pToken, _type, _role) => {
     const status = await getEnclaveBlockHeightStatusComparedWithTheReals(
       _pToken.name,
       _role,
-      value
+      value,
+      _pToken.network
     )
 
     const actionTypeBlockStatus =

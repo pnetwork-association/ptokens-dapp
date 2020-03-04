@@ -12,12 +12,12 @@ const networks = {
   private: 'private'
 }
 
-const detectNetwork = (_provider, _ptokenName, _role) => {
+const detectNetwork = (_provider, _pToken, _role) => {
   return async _dispatch => {
     if (!_provider) return
 
     if (
-      (_ptokenName === 'pBTC' || _ptokenName === 'pEOS') &&
+      (_pToken.name === 'pBTC' || _pToken.name === 'pEOS') &&
       _role === 'redeemer'
     ) {
       if (_provider.isMetaMask) {
@@ -25,7 +25,8 @@ const detectNetwork = (_provider, _ptokenName, _role) => {
         _dispatch({
           type: NETWORK_DETECTED_REDEEMER,
           payload: {
-            network: networks[network]
+            redeemerNetwork: networks[network],
+            pToken: _pToken
           }
         })
         return
@@ -36,7 +37,8 @@ const detectNetwork = (_provider, _ptokenName, _role) => {
         _dispatch({
           type: NETWORK_DETECTED_REDEEMER,
           payload: {
-            network: networks[_provider.chainId]
+            redeemerNetwork: networks[_provider.chainId],
+            pToken: _pToken
           }
         })
         return
@@ -47,7 +49,8 @@ const detectNetwork = (_provider, _ptokenName, _role) => {
         _dispatch({
           type: NETWORK_DETECTED_REDEEMER,
           payload: {
-            network: networks[_provider._portis.config.network.chainId]
+            redeemerNetwork: networks[_provider._portis.config.network.chainId],
+            pToken: _pToken
           }
         })
         return

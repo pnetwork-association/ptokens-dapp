@@ -44,7 +44,8 @@ const _getInsightLiteApi = () =>
 const getEnclaveBlockHeightStatusComparedWithTheReals = async (
   _pTokenName,
   _role,
-  _enclaveBlockHeight
+  _enclaveBlockHeight,
+  _network
 ) => {
   if (_pTokenName === 'pBTC' && _role === 'issuer') {
     const btcLastBlock = await _makeEsploraApiCall('GET', '/blocks/tip/height')
@@ -58,7 +59,7 @@ const getEnclaveBlockHeightStatusComparedWithTheReals = async (
   }
 
   if (_pTokenName === 'pBTC' && _role === 'redeemer') {
-    const ethProvider = getCorrespondingReadOnlyProvider('pBTC', 'ETH')
+    const ethProvider = getCorrespondingReadOnlyProvider('pBTC', 'ETH', _network)
     const web3 = new Web3(ethProvider)
     const ethLastBlock = await web3.eth.getBlockNumber()
 
@@ -90,7 +91,7 @@ const getEnclaveBlockHeightStatusComparedWithTheReals = async (
   }
 
   if (_pTokenName === 'pEOS' && _role === 'redeemer') {
-    const ethProvider = getCorrespondingReadOnlyProvider('pEOS', 'ETH')
+    const ethProvider = getCorrespondingReadOnlyProvider('pEOS', 'ETH', _network)
     const web3 = new Web3(ethProvider)
     const ethLastBlock = await web3.eth.getBlockNumber()
 
@@ -114,7 +115,7 @@ const getEnclaveBlockHeightStatusComparedWithTheReals = async (
   }
 
   if (_pTokenName === 'pLTC' && _role === 'redeemer') {
-    const ethProvider = getCorrespondingReadOnlyProvider('pLTC', 'ETH')
+    const ethProvider = getCorrespondingReadOnlyProvider('pLTC', 'ETH', _network)
     const web3 = new Web3(ethProvider)
     const ethLastBlock = await web3.eth.getBlockNumber()
 

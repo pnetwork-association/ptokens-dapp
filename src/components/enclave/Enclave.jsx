@@ -21,7 +21,7 @@ const Enclave = props => {
         <div className="container-fluid">
           <div className="header-body">
             <div className="row">
-              <div className="col-12 col-xl-3 mt-20">
+              <div className="col-12 col-xl-6 mt-20">
                 <MiniCard
                   title="NETWORK STATUS"
                   icon={props.isActive ? 'done' : 'timer'}
@@ -29,7 +29,7 @@ const Enclave = props => {
                   measure={''}
                 />
               </div>
-              <div className="col-12 col-xl-3 mt-20">
+              <div className="col-12 col-xl-6 mt-20">
                 <MiniCard
                   title="NUMBER OF VALIDATORS"
                   value={1}
@@ -38,7 +38,7 @@ const Enclave = props => {
                   icon={'blockchain'}
                 />
               </div>
-              <div className="col-12 col-xl-3 mt-20">
+              <div className="col-12 col-xl-6 mt-20">
                 <MiniCard
                   title={`LAST PROCESSED ${props.pTokenSelected.redeemFrom} BLOCK NUMBER`}
                   value={props.lastRedeemerProcessedBlock}
@@ -55,7 +55,7 @@ const Enclave = props => {
                   }
                 />
               </div>
-              <div className="col-12 col-xl-3 mt-20">
+              <div className="col-12 col-xl-6 mt-20">
                 <MiniCard
                   title={`LAST PROCESSED ${props.pTokenSelected.issueFrom} BLOCK NUMBER`}
                   value={props.lastIssuerProcessedBlock}
@@ -76,7 +76,7 @@ const Enclave = props => {
           </div>
         </div>
       </div>
-      <div className="container-fluid mt-20 mb-20">
+      <div className="container-fluid mt-40 mb-20">
         <div className="row">
           <div className="col-xl-6 col-12 ">
             <div className="card bg-light-gray border-0 no-shadow">
@@ -99,6 +99,7 @@ const Enclave = props => {
                       className="text-xs text-underline text-primary font-monospace"
                       href={getCorrespondingExplorerLink(
                         props.pTokenSelected.name,
+                        props.pTokenSelected.network,
                         'redeemer'
                       )}
                       target="_blank"
@@ -109,6 +110,7 @@ const Enclave = props => {
                         'redeemer',
                         getCorrespondingSmartContractAddress(
                           props.pTokenSelected.name,
+                          props.pTokenSelected.network,
                           'redeemer'
                         )
                       )}
@@ -128,6 +130,7 @@ const Enclave = props => {
                       <div
                         data-tip={getCorrespondingSmartContractAddress(
                           props.pTokenSelected.name,
+                          props.pTokenSelected.network,
                           'issuer'
                         )}
                       >
@@ -136,6 +139,7 @@ const Enclave = props => {
                           'issuer',
                           getCorrespondingSmartContractAddress(
                             props.pTokenSelected.name,
+                            props.pTokenSelected.network,
                             'issuer'
                           )
                         )}
@@ -145,6 +149,7 @@ const Enclave = props => {
                         className="text-xs text-underline text-primary font-monospace"
                         href={getCorrespondingExplorerLink(
                           props.pTokenSelected.name,
+                          props.pTokenSelected.network,
                           'issuer'
                         )}
                         target="_blank"

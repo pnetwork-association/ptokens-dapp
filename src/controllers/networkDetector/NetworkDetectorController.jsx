@@ -92,7 +92,7 @@ export class NetworkDetectorController extends Component {
     if (this.state.toDetectRedeemer) {
       this.props.detectNetwork(
         this.props.redeemerProvider,
-        this.props.pTokenSelected.name,
+        this.props.pTokenSelected,
         'redeemer'
       )
 

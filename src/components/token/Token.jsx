@@ -31,7 +31,7 @@ const Token = props => {
                     value={
                       props.balance
                         ? parseFloat(props.balance).toFixed(
-                            props.pTokenSelected.decimals
+                            props.pTokenSelected.realDecimals
                           )
                         : null
                     }
@@ -94,7 +94,6 @@ const Token = props => {
               <PbtcIssueCard
                 pTokenSelected={props.pTokenSelected}
                 typedIssueAccount={props.typedIssueAccount}
-                detectedRedeemerNetwork={props.detectedRedeemerNetwork}
                 onChangeIssueAccount={props.onChangeIssueAccount}
                 onIssue={props.onIssue}
               />
@@ -111,7 +110,6 @@ const Token = props => {
               <PltcIssueCard
                 pTokenSelected={props.pTokenSelected}
                 typedIssueAccount={props.typedIssueAccount}
-                detectedRedeemerNetwork={props.detectedRedeemerNetwork}
                 onChangeIssueAccount={props.onChangeIssueAccount}
                 onIssue={props.onIssue}
               />
@@ -228,7 +226,6 @@ Token.propTypes = {
   amountToRedeem: PropTypes.string,
   typedIssueAccount: PropTypes.string,
   typedRedeemAccount: PropTypes.string,
-  detectedRedeemerNetwork: PropTypes.string,
   logs: PropTypes.array,
   issuerProvider: PropTypes.object,
   redeemerProvider: PropTypes.object,

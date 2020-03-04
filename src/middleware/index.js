@@ -1,30 +1,26 @@
 import {
   getCirculatingSupply,
-  getBurnNonce,
+  /*getBurnNonce,
   getMintNonce,
   getTotalIssued,
-  getTotalRedeemed
+  getTotalRedeemed*/
 } from '../actions/pTokens'
 import { getReports, getLastProcessedBlock, ping } from '../actions/enclave'
 import * as Log from '../actions/log'
-import { SET_SELECTED_PTOKEN, NETWORK_DETECTED_REDEEMER } from '../constants'
+import { SET_SELECTED_PTOKEN } from '../constants'
 import { getCorrespondingReadOnlyProvider } from '../utils/read-only-providers'
 
 const middleware = ({ dispatch }) => {
   return _next => {
     return async _action => {
       if (
-        _action.type === SET_SELECTED_PTOKEN ||
-        _action.type === NETWORK_DETECTED_REDEEMER
+        _action.type === SET_SELECTED_PTOKEN
       ) {
-        if (!_action.payload.redeemerNetwork) {
-          return _next(_action)
-        }
 
         const readOnlyProvider = getCorrespondingReadOnlyProvider(
           _action.payload.pToken.name,
           _action.payload.pToken.redeemFrom,
-          _action.payload.redeemerNetwork
+          _action.payload.pToken.network
         )
 
         const configs = {
@@ -36,7 +32,6 @@ const middleware = ({ dispatch }) => {
         dispatch(
           getCirculatingSupply(
             _action.payload.pToken,
-            _action.payload.redeemerNetwork,
             configs
           )
         )

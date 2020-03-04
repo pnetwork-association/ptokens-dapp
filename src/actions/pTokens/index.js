@@ -28,55 +28,57 @@ let ptokens = null
 
 let pTokenCurrent = {
   name: 'pbtc',
-  redeemFrom: 'eth'
+  redeemFrom: 'eth',
+  network: 'mainnet'
 }
 
-const _selectpToken = (_pToken, _redeemerNetwork, _configs) => {
-  const configs = _getCorrectConfigs(_pToken.name, _redeemerNetwork, _configs)
+const _selectpToken = (_pToken, _configs) => {
+  const configs = _getCorrectConfigs(_pToken.name, _pToken.network, _configs)
 
   pTokenCurrent.name = _pToken.name
   pTokenCurrent.redeemFrom = _pToken.redeemFrom
+  pTokenCurrent.network = _pToken.network
 
   return new pTokens(configs)
 }
 
-const _getSelectedpToken = (_pToken, _redeemerNetwork, _configs) => {
+const _getSelectedpToken = (_pToken, _configs) => {
   if (
     !ptokens ||
     _pToken.name.toLowerCase() !== pTokenCurrent.name ||
-    _pToken.redeemFrom.toLowerCase() !== pTokenCurrent.redeemFrom
+    _pToken.redeemFrom.toLowerCase() !== pTokenCurrent.redeemFrom || 
+    _pToken.network.toLowerCase() !== pTokenCurrent.network
   ) {
-    ptokens = _selectpToken(_pToken, _redeemerNetwork, _configs)
+    ptokens = _selectpToken(_pToken, _configs)
   }
 
   return ptokens
 }
 
-const setSelectedpToken = (_pToken, _redeemerNetwork) => {
+const setSelectedpToken = (_pToken) => {
   return {
     type: SET_SELECTED_PTOKEN,
     payload: {
-      pToken: _pToken,
-      redemeerNetwork: _redeemerNetwork
+      pToken: _pToken
     }
   }
 }
 
-const issue = (_pToken, _params, _redeemerNetwork, _configs) => {
+const issue = (_pToken, _params, _configs) => {
   return async _dispatch => {
-    const ptokens = _getSelectedpToken(_pToken, _redeemerNetwork, _configs)
+    const ptokens = _getSelectedpToken(_pToken, _configs)
 
     switch (_pToken.name) {
       case 'pEOS': {
-        peosLoggedIssue(ptokens, _params, _dispatch)
+        peosLoggedIssue(ptokens, _params, _pToken.network, _dispatch)
         break
       }
       case 'pBTC': {
-        pbtcLoggedIssue(ptokens, _params, _dispatch)
+        pbtcLoggedIssue(ptokens, _params, _pToken.network, _dispatch)
         break
       }
       case 'pLTC': {
-        pltcLoggedIssue(ptokens, _params, _dispatch)
+        pltcLoggedIssue(ptokens, _params, _pToken.network, _dispatch)
         break
       }
       default:
@@ -85,21 +87,21 @@ const issue = (_pToken, _params, _redeemerNetwork, _configs) => {
   }
 }
 
-const redeem = (_pToken, _params, _redeemerNetwork, _configs) => {
+const redeem = (_pToken, _params, _configs) => {
   return _dispatch => {
-    const ptokens = _getSelectedpToken(_pToken, _redeemerNetwork, _configs)
+    const ptokens = _getSelectedpToken(_pToken, _configs)
 
     switch (_pToken.name) {
       case 'pEOS': {
-        peosLoggedRedeem(ptokens, _params, _dispatch)
+        peosLoggedRedeem(ptokens, _params, _pToken.network, _dispatch)
         break
       }
       case 'pBTC': {
-        pbtcLoggedRedeem(ptokens, _params, _dispatch)
+        pbtcLoggedRedeem(ptokens, _params,  _pToken.network, _dispatch)
         break
       }
       case 'pLTC': {
-        pltcLoggedRedeem(ptokens, _params, _dispatch)
+        pltcLoggedRedeem(ptokens, _params,  _pToken.network, _dispatch)
         break
       }
       default:
@@ -108,18 +110,18 @@ const redeem = (_pToken, _params, _redeemerNetwork, _configs) => {
   }
 }
 
-const getBalance = (_pToken, _account, _redeemerNetwork, _configs) => {
+const getBalance = (_pToken, _account, _configs) => {
   return async dispatch => {
     const provider = getCorrespondingReadOnlyProvider(
       _pToken.name,
       'ETH',
-      _redeemerNetwork
+      _pToken.network
     )
     const web3 = new Web3(provider)
     const res = await makeContractCall(
       web3,
       'balanceOf',
-      settings[_pToken.name.toLowerCase()][_redeemerNetwork][
+      settings[_pToken.name.toLowerCase()][_pToken.network][
         _pToken.redeemFrom.toLowerCase()
       ].contractAddress,
       pTokenAbi,
@@ -129,7 +131,7 @@ const getBalance = (_pToken, _account, _redeemerNetwork, _configs) => {
     dispatch({
       type: PTOKENS_BALANCE_LOADED,
       payload: {
-        balance: res / Math.pow(10, _pToken.decimals)
+        balance: res / Math.pow(10, _pToken.contractDecimals)
       }
     })
   }
@@ -215,18 +217,18 @@ const getTotalRedeemed = (_pToken, _configs) => {
   }*/
 }
 
-const getCirculatingSupply = (_pToken, _redeemerNetwork, _configs) => {
+const getCirculatingSupply = (_pToken, _configs) => {
   return async dispatch => {
     const provider = getCorrespondingReadOnlyProvider(
       _pToken.name,
       'ETH',
-      _redeemerNetwork
+      _pToken.network
     )
     const web3 = new Web3(provider)
     const res = await makeContractCall(
       web3,
       'totalSupply',
-      settings[_pToken.name.toLowerCase()][_redeemerNetwork][
+      settings[_pToken.name.toLowerCase()][_pToken.network][
         _pToken.redeemFrom.toLowerCase()
       ].contractAddress,
       pTokenAbi,
@@ -236,7 +238,7 @@ const getCirculatingSupply = (_pToken, _redeemerNetwork, _configs) => {
     dispatch({
       type: PTOKENS_CIRCULATING_SUPPLY_LOADED,
       payload: {
-        circulatingSupply: res / Math.pow(10, _pToken.decimals)
+        circulatingSupply: res / Math.pow(10, _pToken.contractDecimals)
       }
     })
   }
@@ -296,10 +298,8 @@ const setBalance = _balance => {
   }
 }
 
-const _getCorrectConfigs = (_type, _redeemerNetwork, _configs) => {
+const _getCorrectConfigs = (_type, _network, _configs) => {
   const { issuer, redeemer } = _configs
-
-  console.log(_redeemerNetwork)
 
   switch (_type) {
     case 'pEOS': {
@@ -314,7 +314,7 @@ const _getCorrectConfigs = (_type, _redeemerNetwork, _configs) => {
     case 'pBTC': {
       return {
         pbtc: {
-          btcNetwork: _redeemerNetwork === 'mainnet' ? 'bitcoin' : 'testnet',
+          btcNetwork: _network === 'mainnet' ? 'bitcoin' : 'testnet',
           ethProvider: redeemer
         }
       }
