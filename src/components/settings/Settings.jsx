@@ -12,7 +12,7 @@ const Settings = props => {
         <div className="container-fluid">
           <div className="header-body">
             <div className="row">
-              <div className="col-12 col-xl-8 mt-20">
+              <div className="col-12 col-xl-6 mt-20">
                 <MiniCard
                   title={`YOUR ${props.pTokenSelected.redeemFrom} ACCOUNT`}
                   value={getCorresponsingVisibleAddressFormat(
@@ -25,7 +25,7 @@ const Settings = props => {
               </div>
               {props.pTokenSelected.name === 'pBTC' ||
               props.pTokenSelected.name === 'pLTC' ? (
-                <div className="col-12 col-xl-4 mt-20">
+                <div className="col-12 col-xl-6 mt-20">
                   <MiniCard
                     title="YOUR BALANCE"
                     value={
