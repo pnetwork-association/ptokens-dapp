@@ -33,6 +33,7 @@ let pTokenCurrent = {
 }
 
 const _selectpToken = (_pToken, _configs) => {
+  console.log(_configs)
   const configs = _getCorrectConfigs(_pToken.name, _pToken.network, _configs)
 
   pTokenCurrent.name = _pToken.name

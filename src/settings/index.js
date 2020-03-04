@@ -56,7 +56,7 @@ const settings = {
     },
     mainnet: {
       eth: {
-        contractAddress: '0xdbc6bef940186d154f023023888b6c173483729d',
+        contractAddress: '0x5228a22e72ccc52d415ecfd199f99d0665e7733b',
         wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
         httpsInfuraEndpoint: 'https://mainnet.infura.io/v3/',
         network: 'mainnet',
@@ -68,7 +68,7 @@ const settings = {
         explorer: 'https://blockstream.info/',
         enclaveBlockHeightPollingTime: 3000,
         publicKey:
-          '0x025e8608fc728c5c0d78b5c6c82bfe12bd5e1ba42d35f114a5f98f43a97d376b63'
+          '0x0367663eeb293b978b495c20dee62cbfba551bf7e05a8381b374af84861ab6de39'
       }
     }
   },

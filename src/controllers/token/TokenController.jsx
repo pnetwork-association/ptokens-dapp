@@ -38,7 +38,7 @@ const mapDispatchToProps = dispatch => {
     clearLogs: () => dispatch(LogHandler.clear()),
     issue: (_pToken, _params, _configs) =>
       dispatch(pTokens.issue(_pToken, _params, _configs)),
-    redeem: (_pToken, _params, _redeemerNetwork, _configs) =>
+    redeem: (_pToken, _params, _configs) =>
       dispatch(pTokens.redeem(_pToken, _params, _configs)),
     getBalance: (_pToken, _account, _redeemerNetwork, configs) =>
       dispatch(pTokens.getBalance(_pToken, _account, configs)),
