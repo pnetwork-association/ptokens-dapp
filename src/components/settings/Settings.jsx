@@ -29,7 +29,7 @@ const Settings = props => {
                   <MiniCard
                     title="YOUR BALANCE"
                     value={
-                      props.balance
+                      props.balance || props.balance === 0
                         ? parseFloat(props.balance).toFixed(
                             props.pTokenSelected.realDecimals
                           )
