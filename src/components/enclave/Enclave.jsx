@@ -78,7 +78,7 @@ const Enclave = props => {
       </div>
       <div className="container-fluid mt-40 mb-20">
         <div className="row">
-          <div className="col-xl-6 col-12 ">
+          <div className="col-12">
             <div className="card bg-light-gray border-0 no-shadow">
               <div className="card-header mb-0 bg-light-gray pl-0 pt-0">
                 <div className="row align-items-center">
@@ -89,14 +89,16 @@ const Enclave = props => {
                   </div>
                 </div>
               </div>
+
               <div className="card-body">
                 <div className="row mt-5">
                   <div className="col-5 col-xl-3 text-gray text-xs font-weight-light">
                     {props.pTokenSelected.redeemFrom} ACCOUNT:
                   </div>
                   <div className="col-7 col-xl-9 text-right text-gray text-md">
+                    {/*MOBILE*/}
                     <a
-                      className="text-xs text-underline text-primary font-monospace"
+                      className="text-xs text-underline text-primary font-monospace show-mobile"
                       href={getCorrespondingExplorerLink(
                         props.pTokenSelected.name,
                         props.pTokenSelected.network,
@@ -115,35 +117,72 @@ const Enclave = props => {
                         )
                       )}
                     </a>
+                    {/*DESKTOP & TABLET*/}
+                    <a
+                      className="text-xs text-underline text-primary font-monospace hidden-mobile"
+                      href={getCorrespondingExplorerLink(
+                        props.pTokenSelected.name,
+                        props.pTokenSelected.network,
+                        'redeemer'
+                      )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {getCorrespondingSmartContractAddress(
+                        props.pTokenSelected.name,
+                        props.pTokenSelected.network,
+                        'redeemer'
+                      )}
+                    </a>
                   </div>
                 </div>
+
                 <div className="row mt-15 mb-15">
-                  <div className="col-6 col-xl-3 text-gray text-xs font-weight-light">
+                  <div className="col-4 col-sm-2 text-gray text-xs font-weight-light">
                     {props.pTokenSelected.name === 'pBTC' ||
                     props.pTokenSelected.name === 'pLTC'
                       ? `${props.pTokenSelected.issueFrom} PUBKEY:`
                       : `${props.pTokenSelected.issueFrom} ACCOUNT:`}
                   </div>
-                  <div className="col-6 col-xl-9 text-right text-gray text-md">
+                  <div className="col-8 col-sm-10 text-right text-gray text-md">
                     {props.pTokenSelected.name === 'pBTC' ||
                     props.pTokenSelected.name === 'pLTC' ? (
-                      <div
-                        data-tip={getCorrespondingSmartContractAddress(
-                          props.pTokenSelected.name,
-                          props.pTokenSelected.network,
-                          'issuer'
-                        )}
-                      >
-                        {getCorresponsingVisibleAddressFormat(
-                          props.pTokenSelected.name,
-                          'issuer',
-                          getCorrespondingSmartContractAddress(
+                      <React.Fragment>
+                        {/*MOBILE*/}
+                        <div
+                          className="show-mobile"
+                          data-tip={getCorrespondingSmartContractAddress(
                             props.pTokenSelected.name,
                             props.pTokenSelected.network,
                             'issuer'
-                          )
-                        )}
-                      </div>
+                          )}
+                        >
+                          {getCorresponsingVisibleAddressFormat(
+                            props.pTokenSelected.name,
+                            'issuer',
+                            getCorrespondingSmartContractAddress(
+                              props.pTokenSelected.name,
+                              props.pTokenSelected.network,
+                              'issuer'
+                            )
+                          )}
+                        </div>
+                        {/*DESKTOP & TABLET*/}
+                        <div
+                          className="hidden-mobile"
+                          data-tip={getCorrespondingSmartContractAddress(
+                            props.pTokenSelected.name,
+                            props.pTokenSelected.network,
+                            'issuer'
+                          )}
+                        >
+                          {getCorrespondingSmartContractAddress(
+                            props.pTokenSelected.name,
+                            props.pTokenSelected.network,
+                            'issuer'
+                          )}
+                        </div>
+                      </React.Fragment>
                     ) : (
                       <a
                         className="text-xs text-underline text-primary font-monospace"

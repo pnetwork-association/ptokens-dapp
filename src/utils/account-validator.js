@@ -30,5 +30,4 @@ const isValidAccount = (_pTokenName, _account, _role) => {
   }
 }
 
-
 export { isValidAccount }

@@ -11,7 +11,8 @@ const mapStateToProps = state => {
     pTokenSelected: state.pTokens.selected,
     redeemerReadOnlyProvider: state.wallets.redeemerReadOnlyProvider,
     issueReports: state.enclave.issueReports,
-    redeemReports: state.enclave.redeemReports
+    redeemReports: state.enclave.redeemReports,
+    isActive: state.enclave.isActive
   }
 }
 const mapDispatchToProps = dispatch => {
@@ -164,6 +165,7 @@ export class MainController extends React.Component {
           pTokenSelected={this.props.pTokenSelected}
           redeemReports={this.state.redeemerReportWithProof}
           issueReports={this.state.issuerReportWithProof}
+          isActive={this.props.isActive}
         />
       </React.Fragment>
     )
@@ -175,6 +177,7 @@ MainController.propTypes = {
   redeemerReadOnlyProvider: PropTypes.object,
   issueReports: PropTypes.array,
   redeemReports: PropTypes.array,
+  isActive: PropTypes.bool,
   getCirculatingSupply: PropTypes.func,
   getReport: PropTypes.func
 }

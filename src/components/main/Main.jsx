@@ -20,6 +20,14 @@ const Main = props => {
                   icon={'coins'}
                 />
               </div>
+              <div className="col-12 col-xl-6 mt-20">
+                <MiniCard
+                  title="NETWORK STATUS"
+                  icon={props.isActive ? 'blockchain' : 'timer'}
+                  value={props.isActive ? 'Online' : 'Contacting...'}
+                  measure={''}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -183,7 +191,8 @@ const Main = props => {
 Main.propTypes = {
   pTokenSelected: PropTypes.object,
   redeemReports: PropTypes.array,
-  issueReports: PropTypes.array
+  issueReports: PropTypes.array,
+  isActive: PropTypes.bool
 }
 
 export default Main

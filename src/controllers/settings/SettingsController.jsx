@@ -4,12 +4,13 @@ import Settings from '../../components/settings/Settings'
 import PropTypes from 'prop-types'
 import * as WalletsController from '../../actions/wallets'
 import { resetDetectedNetwork } from '../../actions/networkDetector'
-import { setParams, setBalance } from '../../actions/pTokens'
+import { setParams, setBalance, getBalance } from '../../actions/pTokens'
 
 const mapStateToProps = state => {
   return {
     pTokenSelected: state.pTokens.selected,
     pTokensParams: state.pTokens.params,
+    pTokenBalance: state.pTokens.balance,
     issuerIsConnected: state.wallets.issuerIsConnected,
     issuerProvider: state.wallets.issuerProvider,
     issuerAccount: state.wallets.issuerAccount,
@@ -41,7 +42,9 @@ const mapDispatchToProps = dispatch => {
       dispatch(WalletsController.changeSpecificWallet(_pTokenName, _role)),
     resetDetectedNetwork: _role => dispatch(resetDetectedNetwork(_role)),
     setpTokenParams: _params => dispatch(setParams(_params)),
-    setBalance: _balance => dispatch(setBalance(_balance))
+    setBalance: _balance => dispatch(setBalance(_balance)),
+    getBalance: (_pToken, _account, _redeemerNetwork, configs) =>
+      dispatch(getBalance(_pToken, _account, configs))
   }
 }
 
@@ -50,7 +53,9 @@ export class SettingsController extends React.Component {
     super(props, context)
 
     this.state = {
-      providerNameLoaded: false
+      providerNameLoaded: false,
+      pTokenSelectedName: null,
+      pTokenSelectedNetwork: null
     }
 
     if (!this.props.issuerIsConnected) {
@@ -65,6 +70,44 @@ export class SettingsController extends React.Component {
         this.props.pTokenSelected.name,
         'redeemer',
         false
+      )
+    }
+  }
+
+  componentDidUpdate(_prevProps) {
+    if (
+      this.props.pTokenSelected.name !== this.state.pTokenSelectedName &&
+      this.props.redeemerProvider
+    ) {
+      this.setState({
+        pTokenSelectedName: this.props.pTokenSelected.name
+      })
+
+      this.props.getBalance(
+        this.props.pTokenSelected,
+        this.props.redeemerAccount,
+        {
+          redeemer: this.props.redeemerProvider,
+          issuer: this.props.issuerProvider
+        }
+      )
+    }
+
+    if (
+      this.props.pTokenSelected.network !== this.state.pTokenSelectedNetwork &&
+      this.props.redeemerProvider
+    ) {
+      this.setState({
+        pTokenSelectedNetwork: this.props.pTokenSelected.network
+      })
+
+      this.props.getBalance(
+        this.props.pTokenSelected,
+        this.props.redeemerAccount,
+        {
+          redeemer: this.props.redeemerProvider,
+          issuer: this.props.issuerProvider
+        }
       )
     }
   }
@@ -147,6 +190,7 @@ export class SettingsController extends React.Component {
       <React.Fragment>
         <Settings
           pTokenSelected={this.props.pTokenSelected}
+          balance={this.props.pTokenBalance}
           issuerIsConnected={this.props.issuerIsConnected}
           redeemerIsConnected={this.props.redeemerIsConnected}
           issuerAccount={this.props.issuerAccount}
@@ -164,6 +208,7 @@ export class SettingsController extends React.Component {
 Settings.propTypes = {
   pTokenSelected: PropTypes.object,
   pTokensParams: PropTypes.object,
+  pTokenBalance: PropTypes.number,
   issuerIsConnected: PropTypes.bool,
   issuerProvider: PropTypes.bool,
   issuerAccount: PropTypes.string,
@@ -178,7 +223,8 @@ Settings.propTypes = {
   changeSpecificWallet: PropTypes.func,
   resetDetectedNetwork: PropTypes.func,
   setpTokenParams: PropTypes.func,
-  setBalance: PropTypes.func
+  setBalance: PropTypes.func,
+  getBalance: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsController)

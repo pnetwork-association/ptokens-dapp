@@ -23,6 +23,24 @@ const Settings = props => {
                   measure={''}
                 />
               </div>
+              {props.pTokenSelected.name === 'pBTC' ||
+              props.pTokenSelected.name === 'pLTC' ? (
+                <div className="col-12 col-xl-4 mt-20">
+                  <MiniCard
+                    title="YOUR BALANCE"
+                    value={
+                      props.balance
+                        ? parseFloat(props.balance).toFixed(
+                            props.pTokenSelected.realDecimals
+                          )
+                        : null
+                    }
+                    measure={props.pTokenSelected.name}
+                  />
+                </div>
+              ) : (
+                ''
+              )}
               {props.pTokenSelected.name !== 'pBTC' ? (
                 <div className="col-12 col-xl-4 mt-20">
                   <MiniCard
