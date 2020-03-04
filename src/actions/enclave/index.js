@@ -24,7 +24,8 @@ const _selectNode = async _pToken => {
     pToken: {
       name: _pToken.name,
       redeemFrom: _pToken.redeemFrom
-    }
+    },
+    networkType: 'mainnet'
   })
 
   pTokenCurrent.name = _pToken.name

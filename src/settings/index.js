@@ -32,22 +32,40 @@ const settings = {
     }
   },
   pbtc: {
-    eth: {
-      wsInfuraEndpoint: 'wss://ropsten.infura.io/ws/v3/',
-      httpsInfuraEndpoint: 'https://ropsten.infura.io/v3/',
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
-      portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
-      formaticKey: 'pk_test_48E59AF566747C40',
-      network: 'ropsten',
-      chainId: 3,
-      etherscanLink: 'https://ropsten.etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+    infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+    portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
+    formaticKey: 'pk_test_48E59AF566747C40',
+    ropsten: {
+      eth: {
+        contractAddress: '0xd6fda5d7f2bf423ae53af09a883f655b4e8306ff',
+        wsInfuraEndpoint: 'wss://ropsten.infura.io/ws/v3/',
+        httpsInfuraEndpoint: 'https://ropsten.infura.io/v3/',
+        network: 'ropsten',
+        chainId: 3,
+        etherscanLink: 'https://ropsten.etherscan.io/',
+        enclaveBlockHeightPollingTime: 3000
+      },
+      btc: {
+        explorer: 'https://blockstream.info/testnet/',
+        enclaveBlockHeightPollingTime: 3000,
+        faucet1: 'https://testnet-faucet.mempool.co',
+        faucet2: 'https://bitcoinfaucet.uo1.net/send.php'
+      }
     },
-    btc: {
-      explorer: 'https://blockstream.info/testnet/',
-      enclaveBlockHeightPollingTime: 3000,
-      faucet1: 'https://testnet-faucet.mempool.co',
-      faucet2: 'https://bitcoinfaucet.uo1.net/send.php'
+    mainnet: {
+      eth: {
+        contractAddress: '0xdbc6bef940186d154f023023888b6c173483729d',
+        wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
+        httpsInfuraEndpoint: 'https://mainnet.infura.io/v3/',
+        network: 'mainnet',
+        chainId: 1,
+        etherscanLink: 'https://etherscan.io/',
+        enclaveBlockHeightPollingTime: 3000
+      },
+      btc: {
+        explorer: 'https://blockstream.info/',
+        enclaveBlockHeightPollingTime: 3000
+      }
     }
   },
   pltc: {

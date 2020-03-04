@@ -17,7 +17,8 @@ const mapStateToProps = state => {
     selected: state.sidebar.selected,
     isCollapseOpened: state.sidebar.isCollapseOpened,
     pTokenSelected: state.pTokens.selected,
-    pTokensAvailable: state.pTokens.available
+    pTokensAvailable: state.pTokens.available,
+    detectedRedeemerNetwork: state.networkDetector.redeemerNetwork
   }
 }
 
@@ -28,7 +29,8 @@ const mapDispatchToProps = dispatch => {
     setSelectedPageFromPathname: (_pathname, _pToken) =>
       dispatch(setSelectedPageFromPathname(_pathname, _pToken)),
     setCollapseState: state => dispatch(setCollapseState(state)),
-    setSelectedpToken: pToken => dispatch(setSelectedpToken(pToken)),
+    setSelectedpToken: (pToken, _redeemerNetwork) =>
+      dispatch(setSelectedpToken(pToken, _redeemerNetwork)),
     resetEnclaveData: () => dispatch(Enclave.resetData()),
     disconnectFromSpecificWallet: (pTokenName, role) =>
       dispatch(disconnectFromSpecificWallet(pTokenName, role)),
@@ -58,7 +60,7 @@ export class SidebarController extends React.Component {
     )
 
     this.props.setSelectedPageFromPathname(history.location.pathname, pToken)
-    this.props.setSelectedpToken(pToken)
+    this.props.setSelectedpToken(pToken, this.props.detectedRedeemerNetwork)
 
     if (!page) {
       this.props.setSelectedPage(0, pToken)
@@ -91,7 +93,10 @@ export class SidebarController extends React.Component {
           this.props.resetParams()
 
           this.props.resetEnclaveData()
-          this.props.setSelectedpToken(pToken)
+          this.props.setSelectedpToken(
+            pToken,
+            this.props.detectedRedeemerNetwork
+          )
 
           this.props.setSelectedPage(this.props.selected, pToken)
         }}
@@ -106,6 +111,7 @@ SidebarController.propTypes = {
   isCollapseOpened: PropTypes.bool,
   pTokenSelected: PropTypes.object,
   pTokensAvailable: PropTypes.array,
+  detectedRedeemerNetwork: PropTypes.string,
   setSelectedPage: PropTypes.func,
   setSelectedPageFromPathname: PropTypes.func,
   setCollapseState: PropTypes.func,

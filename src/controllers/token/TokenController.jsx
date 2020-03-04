@@ -29,19 +29,22 @@ const mapStateToProps = state => {
     isIssueSuccedeed: state.pTokens.isIssueSuccedeed,
     isRedeemSuccedeed: state.pTokens.isRedeemSuccedeed,
     issueError: state.pTokens.issueError,
-    redeemError: state.pTokens.redeemError
+    redeemError: state.pTokens.redeemError,
+    detectedRedeemerNetwork: state.networkDetector.redeemerNetwork
   }
 }
 const mapDispatchToProps = dispatch => {
   return {
     addItemLogs: item => dispatch(LogHandler.addItem(item)),
     clearLogs: () => dispatch(LogHandler.clear()),
-    issue: (_pToken, amount, to, configs) =>
-      dispatch(pTokens.issue(_pToken, amount, to, configs)),
-    redeem: (_pToken, amount, to, configs) =>
-      dispatch(pTokens.redeem(_pToken, amount, to, configs)),
-    getBalance: (_pToken, account, configs) =>
-      dispatch(pTokens.getBalance(_pToken, account, configs)),
+    issue: (_pToken, _params, _redeemerNetwork, _configs) =>
+      dispatch(pTokens.issue(_pToken, _params, _redeemerNetwork, _configs)),
+    redeem: (_pToken, _params, _redeemerNetwork, _configs) =>
+      dispatch(pTokens.redeem(_pToken, _params, _redeemerNetwork, _configs)),
+    getBalance: (_pToken, _account, _redeemerNetwork, configs) =>
+      dispatch(
+        pTokens.getBalance(_pToken, _account, _redeemerNetwork, configs)
+      ),
     resetDepositAddress: () => dispatch(pTokens.resetDepositAddress()),
     resetIssueSuccess: () => dispatch(pTokens.resetIssueSuccess()),
     resetRedeemSuccess: () => dispatch(pTokens.resetRedeemSuccess()),
@@ -75,10 +78,11 @@ export class TokenController extends React.Component {
       issuer: this.props.issuerProvider
     })
 
-    if (this.props.redeemerProvider) {
+    if (this.props.redeemerProvider && this.props.detectedRedeemerNetwork) {
       this.props.getBalance(
         this.props.pTokenSelected,
         this.props.redeemerAccount,
+        this.props.detectedRedeemerNetwork,
         {
           redeemer: this.props.redeemerProvider,
           issuer: this.props.issuerProvider
@@ -109,10 +113,18 @@ export class TokenController extends React.Component {
   }
 
   async componentDidUpdate(_prevProps, _prevState) {
-    if (!_prevProps.redeemerProvider && this.props.redeemerProvider) {
+    if (
+      (!_prevProps.redeemerProvider &&
+        this.props.redeemerProvider &&
+        this.props.detectedRedeemerNetwork) ||
+      (!_prevProps.detectedRedeemerNetwork &&
+        this.props.detectedRedeemerNetwork &&
+        this.props.redeemerProvider)
+    ) {
       this.props.getBalance(
         this.props.pTokenSelected,
         this.props.redeemerAccount,
+        this.props.detectedRedeemerNetwork,
         {
           redeemer: this.props.redeemerProvider,
           issuer: this.props.issuerProvider
@@ -122,11 +134,13 @@ export class TokenController extends React.Component {
 
     if (
       _prevProps.pTokenSelected.name !== this.props.pTokenSelected.name &&
-      this.props.redeemerProvider
+      this.props.redeemerProvider &&
+      this.props.detectedRedeemerNetwork
     ) {
       this.props.getBalance(
         this.props.pTokenSelected,
         this.props.redeemerAccount,
+        this.props.detectedRedeemerNetwork,
         {
           redeemer: this.props.redeemerProvider,
           issuer: this.props.issuerProvider
@@ -145,6 +159,7 @@ export class TokenController extends React.Component {
       this.props.getBalance(
         this.props.pTokenSelected,
         this.props.redeemerAccount,
+        this.props.detectedRedeemerNetwork,
         {
           redeemer: this.props.redeemerProvider,
           issuer: this.props.issuerProvider
@@ -168,6 +183,7 @@ export class TokenController extends React.Component {
       this.props.getBalance(
         this.props.pTokenSelected,
         this.props.redeemerAccount,
+        this.props.detectedRedeemerNetwork,
         {
           redeemer: this.props.redeemerProvider,
           issuer: this.props.issuerProvider
@@ -249,7 +265,7 @@ export class TokenController extends React.Component {
       return
     }
 
-    const decimals = this.props.pTokenSelected.decimals
+    const decimals = this.props.pTokenSelected.realDecimals
     const parsedAmountToIssue = parseFloat(
       this.props.pTokensParams.amountToIssue
     ).toFixed(decimals)
@@ -272,7 +288,8 @@ export class TokenController extends React.Component {
 
     const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(
       this.props.pTokenSelected.name,
-      this.props.pTokenSelected.redeemFrom
+      this.props.pTokenSelected.redeemFrom,
+      this.props.detectedRedeemerNetwork
     )
 
     this.props.issue(
@@ -281,6 +298,7 @@ export class TokenController extends React.Component {
         parseFloat(this.props.pTokensParams.amountToIssue),
         this.props.pTokensParams.typedIssueAccount
       ],
+      this.props.detectedRedeemerNetwork,
       {
         issuer: this.props.issuerProvider,
         redeemer: redeemerReadOnlyProvider
@@ -322,7 +340,7 @@ export class TokenController extends React.Component {
       return
     }
 
-    const decimals = this.props.pTokenSelected.decimals
+    const decimals = this.props.pTokenSelected.realDecimals
     const parsedAmountToIssue = parseFloat(
       this.props.pTokensParams.amountToRedeem
     ).toFixed(decimals)
@@ -345,7 +363,8 @@ export class TokenController extends React.Component {
 
     const issuerReadOnlyProvider = getCorrespondingReadOnlyProvider(
       this.props.pTokenSelected.name,
-      this.props.pTokenSelected.issueFrom
+      this.props.pTokenSelected.issueFrom,
+      this.props.detectedRedeemerNetwork
     )
 
     this.props.redeem(
@@ -354,6 +373,7 @@ export class TokenController extends React.Component {
         parseFloat(this.props.pTokensParams.amountToRedeem),
         this.props.pTokensParams.typedRedeemAccount
       ],
+      this.props.detectedRedeemerNetwork,
       {
         issuer: issuerReadOnlyProvider,
         redeemer: this.props.redeemerProvider
@@ -368,7 +388,7 @@ export class TokenController extends React.Component {
   onChangeAmountToIssue = _amount => {
     this.props.setpTokenParams(
       Object.assign({}, this.props.pTokensParams, {
-        amountToIssue: mask(_amount, this.props.pTokenSelected.decimals)
+        amountToIssue: mask(_amount, this.props.pTokenSelected.realDecimals)
           .maskedValue
       })
     )
@@ -377,7 +397,7 @@ export class TokenController extends React.Component {
   onChangeAmountToRedeem = _amount => {
     this.props.setpTokenParams(
       Object.assign({}, this.props.pTokensParams, {
-        amountToRedeem: mask(_amount, this.props.pTokenSelected.decimals)
+        amountToRedeem: mask(_amount, this.props.pTokenSelected.realDecimals)
           .maskedValue
       })
     )
@@ -422,6 +442,7 @@ export class TokenController extends React.Component {
           logs={this.props.logs}
           issuerProvider={this.props.issuerProvider}
           redeemerProvider={this.props.redeemerProvider}
+          detectedRedeemerNetwork={this.props.detectedRedeemerNetwork}
           onChangeAmountToIssue={this.onChangeAmountToIssue}
           onChangeAmountToRedeem={this.onChangeAmountToRedeem}
           onChangeIssueAccount={this.onChangeTypedIssueAccount}
@@ -451,6 +472,7 @@ TokenController.propTypes = {
   isRedeemSuccedeed: PropTypes.bool,
   issueError: PropTypes.string,
   redeemError: PropTypes.string,
+  detectedRedeemerNetwork: PropTypes.string,
   addItemLogs: PropTypes.func,
   clearLogs: PropTypes.func,
   issue: PropTypes.func,

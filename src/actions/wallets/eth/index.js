@@ -22,18 +22,17 @@ const connectWithEthWallet = async (
   _force = null
 ) => {
   web3Connect = new Web3Connect.Core({
-    network: settings[_pTokenName.toLowerCase()].eth.network,
     providerOptions: {
       walletconnect: {
         package: WalletConnectProvider,
         options: {
-          infuraId: settings[_pTokenName.toLowerCase()].eth.infuraProjectId
+          infuraId: settings[_pTokenName.toLowerCase()].infuraProjectId
         }
       },
       portis: {
         package: Portis,
         options: {
-          id: settings[_pTokenName.toLowerCase()].eth.portisDappId
+          id: settings[_pTokenName.toLowerCase()].portisDappId
         }
       }
       /*fortmatic: {

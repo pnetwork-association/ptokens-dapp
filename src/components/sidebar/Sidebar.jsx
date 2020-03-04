@@ -90,7 +90,7 @@ class Sidebar extends React.Component {
                 <div className="row">
                   <div className="col-12 d-flex justify-content-left cursor-pointer pl-0 pr-0">
                     <div className="text-center">
-                      <div
+                      {/*<div
                         className={
                           this.props.isCollapseOpened
                             ? 'dropdown show'
@@ -115,7 +115,7 @@ class Sidebar extends React.Component {
                             {this.renderpTokensList()}
                           </div>
                         </div>
-                      </div>
+                      </div>*/}
                     </div>
                   </div>
                 </div>
@@ -180,13 +180,13 @@ class Sidebar extends React.Component {
                   >
                     <span>
                       {this.props.pTokenSelected.name}
-                      <b
+                      {/*<b
                         className={
                           this.props.isCollapseOpened
                             ? 'caret rotate-180'
                             : 'caret'
                         }
-                      />
+                      />*/}
                     </span>
                   </p>
                   <Collapse in={this.props.isCollapseOpened}>
@@ -224,7 +224,7 @@ class Sidebar extends React.Component {
                       this.props.page === 2 ? 'nav-link active' : 'nav-link'
                     }
                   >
-                    <i className="icon shape"></i>Enclave
+                    <i className="icon shape"></i>pNetwork
                   </span>
                 </li>
                 <li className="nav-item">

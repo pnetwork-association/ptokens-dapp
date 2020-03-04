@@ -20,15 +20,6 @@ const Main = props => {
                   icon={'coins'}
                 />
               </div>
-              <div className="col-12 col-xl-6 mt-20">
-                <MiniCard
-                  title="NUMBER OF VALIDATORS"
-                  value={1}
-                  textColor={'yellow'}
-                  measure="(on Strongbox)"
-                  icon={'blockchain'}
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -90,8 +81,9 @@ const Main = props => {
               conversions={{
                 0: n =>
                   (
-                    parseFloat(n) / Math.pow(10, props.pTokenSelected.decimals)
-                  ).toFixed(props.pTokenSelected.decimals),
+                    parseFloat(n) /
+                    Math.pow(10, props.pTokenSelected.contractDecimals)
+                  ).toFixed(props.pTokenSelected.realDecimals),
                 1: t => timestampInSecondsToDate(t)
               }}
               headers={[
@@ -163,8 +155,9 @@ const Main = props => {
               conversions={{
                 0: n =>
                   (
-                    parseFloat(n) / Math.pow(10, props.pTokenSelected.decimals)
-                  ).toFixed(props.pTokenSelected.decimals),
+                    parseFloat(n) /
+                    Math.pow(10, props.pTokenSelected.realDecimals)
+                  ).toFixed(props.pTokenSelected.realDecimals),
                 1: t => timestampInSecondsToDate(t)
               }}
               headers={[

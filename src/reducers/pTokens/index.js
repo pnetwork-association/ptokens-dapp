@@ -23,7 +23,8 @@ import {
 const initialState = {
   selected: {
     name: 'pBTC',
-    decimals: 8,
+    realDecimals: 8,
+    contractDecimals: 18,
     issueFrom: 'BTC',
     redeemFrom: 'ETH',
     mintNonce: null,
@@ -32,8 +33,6 @@ const initialState = {
     totalRedeemed: null,
     circulatingSupply: null,
     tokenType: 'ERC-20',
-    network: 'ropsten',
-
     //only for pbtc
     depositAddress: {
       value: null,
@@ -58,17 +57,18 @@ const initialState = {
       tokenType: 'ERC-20',
       issueFrom: 'BTC',
       redeemFrom: 'ETH',
-      decimals: 8,
-      network: 'ropsten'
-    },
-    {
+      realDecimals: 8,
+      contractDecimals: 18,
+      network: 'mainnet'
+    }
+    /*{
       name: 'pLTC',
       tokenType: 'ERC-20',
       issueFrom: 'LTC',
       redeemFrom: 'ETH',
       decimals: 8,
       network: 'ropsten'
-    }
+    }*/
     /*{
       name: 'pDAI',
       tokenType: 'ERC-20' 
@@ -97,7 +97,6 @@ const pTokensReducer = (_state = initialState, _action) => {
         issueFrom: _action.payload.pToken.issueFrom,
         redeemFrom: _action.payload.pToken.redeemFrom,
         tokenType: _action.payload.pToken.tokenType,
-        network: _action.payload.pToken.network,
         circulatingSupply: null,
         totalIssued: null,
         totalRedeemed: null,

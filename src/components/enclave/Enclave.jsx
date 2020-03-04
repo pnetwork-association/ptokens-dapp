@@ -6,7 +6,7 @@ import {
   getCorrespondingExplorerLink
 } from '../../utils/ptokens-sm-utils'
 import { getCorresponsingVisibleAddressFormat } from '../../utils/account-viewer'
-import Button from '../utils/Button'
+//import Button from '../utils/Button'
 import ReactTooltip from 'react-tooltip'
 
 const Enclave = props => {
@@ -21,15 +21,24 @@ const Enclave = props => {
         <div className="container-fluid">
           <div className="header-body">
             <div className="row">
-              <div className="col-12 col-xl-4 mt-20">
+              <div className="col-12 col-xl-3 mt-20">
                 <MiniCard
-                  title="ENCLAVE STATUS"
+                  title="NETWORK STATUS"
                   icon={props.isActive ? 'done' : 'timer'}
                   value={props.isActive ? 'Online' : 'Contacting...'}
                   measure={''}
                 />
               </div>
-              <div className="col-12 col-xl-4 mt-20">
+              <div className="col-12 col-xl-3 mt-20">
+                <MiniCard
+                  title="NUMBER OF VALIDATORS"
+                  value={1}
+                  textColor={'yellow'}
+                  measure="(on Strongbox)"
+                  icon={'blockchain'}
+                />
+              </div>
+              <div className="col-12 col-xl-3 mt-20">
                 <MiniCard
                   title={`LAST PROCESSED ${props.pTokenSelected.redeemFrom} BLOCK NUMBER`}
                   value={props.lastRedeemerProcessedBlock}
@@ -46,7 +55,7 @@ const Enclave = props => {
                   }
                 />
               </div>
-              <div className="col-12 col-xl-4 mt-20">
+              <div className="col-12 col-xl-3 mt-20">
                 <MiniCard
                   title={`LAST PROCESSED ${props.pTokenSelected.issueFrom} BLOCK NUMBER`}
                   value={props.lastIssuerProcessedBlock}
@@ -75,7 +84,7 @@ const Enclave = props => {
                 <div className="row align-items-center">
                   <div className="col">
                     <div className="text-left text-gray text-xxl font-weight-light">
-                      Enclave Report
+                      pTokens Setup
                     </div>
                   </div>
                 </div>
@@ -110,7 +119,7 @@ const Enclave = props => {
                   <div className="col-6 col-xl-3 text-gray text-xs font-weight-light">
                     {props.pTokenSelected.name === 'pBTC' ||
                     props.pTokenSelected.name === 'pLTC'
-                      ? `${props.pTokenSelected.issueFrom} ENCLAVE PUBKEY:`
+                      ? `${props.pTokenSelected.issueFrom} PUBKEY:`
                       : `${props.pTokenSelected.issueFrom} ACCOUNT:`}
                   </div>
                   <div className="col-6 col-xl-9 text-right text-gray text-md">
@@ -154,7 +163,7 @@ const Enclave = props => {
                   </div>
                 </div>
                 <hr />
-                <div className="row mt-15">
+                {/*<div className="row mt-15">
                   <div className="col-5 col-xl-3 coltext-gray text-xs font-weight-light">
                     ISSUED {props.pTokenSelected.name}:
                   </div>
@@ -183,7 +192,7 @@ const Enclave = props => {
                       ? props.pTokenSelected.circulatingSupply
                       : '-'}
                   </div>
-                </div>
+                    </div>*/}
                 <div className="row mt-15 mb-15">
                   <div className="col-5 col-xl-3  text-gray text-xs font-weight-light">
                     CIRCULATING {props.pTokenSelected.name}:
@@ -195,7 +204,7 @@ const Enclave = props => {
                   </div>
                 </div>
                 <hr />
-                <div className="row mt-15">
+                {/*<div className="row mt-15">
                   <div className="col-5 col-xl-3 text-gray text-xs font-weight-light">
                     MINTING EVENTS:
                   </div>
@@ -214,13 +223,13 @@ const Enclave = props => {
                       ? props.pTokenSelected.burnNonce
                       : '-'}
                   </div>
-                </div>
+                    </div>*/}
                 <hr />
               </div>
               <div className="card-footer border-0 pt-0" />
             </div>
           </div>
-          <div className="col-xl-6 col-12 mt-xl-0 mt-3">
+          {/*<div className="col-xl-6 col-12 mt-xl-0 mt-3">
             <div className="card bg-light-gray no-shadow">
               <div className="card-header mb-0 bg-light-gray pl-0 pt-0">
                 <div className="row align-items-center">
@@ -302,7 +311,7 @@ const Enclave = props => {
                 />
               </div>
             </div>
-          </div>
+          </div>*/}
         </div>
       </div>
     </React.Fragment>

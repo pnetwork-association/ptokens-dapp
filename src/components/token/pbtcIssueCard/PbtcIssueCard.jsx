@@ -59,27 +59,32 @@ const PbtcIssueCard = props => {
             <div className="col-12 font-weight-bold text-center mt-2">
               {props.pTokenSelected.depositAddress.value}
             </div>
-            <div className="col-12 text-primary text-center mt-2 text-xs">
-              Need testnet BTC?
-              <a
-                className="text-primary text-underline ml-5"
-                href={settings.pbtc.btc.faucet1}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {' '}
-                Faucet 1
-              </a>
-              <a
-                className="text-primary text-underline ml-5"
-                href={settings.pbtc.btc.faucet2}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {' '}
-                Faucet 2
-              </a>
-            </div>
+
+            {props.detectedRedeemerNetwork !== 'mainnet' ? (
+              <div className="col-12 text-primary text-center mt-2 text-xs">
+                Need testnet BTC?
+                <a
+                  className="text-primary text-underline ml-5"
+                  href={settings.pbtc.btc.faucet1}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {' '}
+                  Faucet 1
+                </a>
+                <a
+                  className="text-primary text-underline ml-5"
+                  href={settings.pbtc.btc.faucet2}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {' '}
+                  Faucet 2
+                </a>
+              </div>
+            ) : (
+              ''
+            )}
           </div>
         ) : null}
         {props.pTokenSelected.depositAddress.value &&

@@ -18,32 +18,23 @@ const LTC_BAD = 24
 const EOS_GOOD = 1200 // (500ms each block -> 2blocks x second -> 120 block x minute -> 1200 blocks each 10 minutes)
 const EOS_BAD = 7200 //each hours
 
-const BLOCKSTREAM_BASE_TESTNET_ENDPOINT =
-  'https://blockstream.info/testnet/api/'
 const BLOCKSTREAM_BASE_MAINNET_ENDPOINT = 'https://blockstream.info/api/'
 
 const LTC_PTOKENS_NODE_TESTNET_API =
   'https://ltcnode.ptokens.io/insight-lite-api'
-const LTC_PTOKENS_NODE_MAINNET_API = 'Not available yet'
 
-const _getEsploraApi = _network =>
+const _getEsploraApi = () =>
   axios.create({
-    baseURL:
-      _network === 'bitcoin'
-        ? BLOCKSTREAM_BASE_MAINNET_ENDPOINT
-        : BLOCKSTREAM_BASE_TESTNET_ENDPOINT,
+    baseURL: BLOCKSTREAM_BASE_MAINNET_ENDPOINT,
     timeout: 50000,
     headers: {
       'Content-Type': 'text/plain'
     }
   })
 
-const _getInsightLiteApi = _network =>
+const _getInsightLiteApi = () =>
   axios.create({
-    baseURL:
-      _network === 'litecoin'
-        ? LTC_PTOKENS_NODE_MAINNET_API
-        : LTC_PTOKENS_NODE_TESTNET_API,
+    baseURL: LTC_PTOKENS_NODE_TESTNET_API,
     timeout: 50000,
     headers: {
       'Content-Type': 'application/json'
@@ -56,11 +47,7 @@ const getEnclaveBlockHeightStatusComparedWithTheReals = async (
   _enclaveBlockHeight
 ) => {
   if (_pTokenName === 'pBTC' && _role === 'issuer') {
-    const btcLastBlock = await _makeEsploraApiCall(
-      'testnet',
-      'GET',
-      '/blocks/tip/height'
-    )
+    const btcLastBlock = await _makeEsploraApiCall('GET', '/blocks/tip/height')
 
     return _calculateStatus(
       _enclaveBlockHeight,
@@ -116,11 +103,7 @@ const getEnclaveBlockHeightStatusComparedWithTheReals = async (
   }
 
   if (_pTokenName === 'pLTC' && _role === 'issuer') {
-    const ltcLastBlock = await _makeInsightLiteApiCall(
-      'testnet',
-      'GET',
-      '/blocks?limit=1'
-    )
+    const ltcLastBlock = await _makeInsightLiteApiCall('GET', '/blocks?limit=1')
 
     return _calculateStatus(
       _enclaveBlockHeight,
@@ -160,17 +143,17 @@ const _calculateStatus = (_b1, _b2, _good, _bad) => {
   return 1
 }
 
-const _makeEsploraApiCall = (_network, _callType, _apiPath, _params) =>
+const _makeEsploraApiCall = (_callType, _apiPath, _params) =>
   new Promise((resolve, reject) => {
-    _getEsploraApi(_network)
+    _getEsploraApi()
       [_callType.toLowerCase()](_apiPath, _params)
       .then(_res => resolve(_res.data))
       .catch(_err => reject(_err))
   })
 
-const _makeInsightLiteApiCall = (_network, _callType, _apiPath, _params) =>
+const _makeInsightLiteApiCall = (_callType, _apiPath, _params) =>
   new Promise((resolve, reject) => {
-    _getInsightLiteApi(_network)
+    _getInsightLiteApi()
       [_callType.toLowerCase()](_apiPath, _params)
       .then(_res => resolve(_res.data))
       .catch(_err => reject(_err))
