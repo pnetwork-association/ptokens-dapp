@@ -19,14 +19,18 @@ const EOS_GOOD = 1200 // (500ms each block -> 2blocks x second -> 120 block x mi
 const EOS_BAD = 7200 //each hours
 
 const BLOCKSTREAM_BASE_MAINNET_ENDPOINT = 'https://blockstream.info/api/'
-const BLOCKSTREAM_BASE_TESTNET_ENDPOINT = 'https://blockstream.info/testnet/api/'
+const BLOCKSTREAM_BASE_TESTNET_ENDPOINT =
+  'https://blockstream.info/testnet/api/'
 
 const LTC_PTOKENS_NODE_TESTNET_API =
   'https://ltcnode.ptokens.io/insight-lite-api'
 
-const _getEsploraApi = (_network) =>
+const _getEsploraApi = _network =>
   axios.create({
-    baseURL: _network === 'mainnet' ? BLOCKSTREAM_BASE_MAINNET_ENDPOINT : BLOCKSTREAM_BASE_TESTNET_ENDPOINT,
+    baseURL:
+      _network === 'mainnet'
+        ? BLOCKSTREAM_BASE_MAINNET_ENDPOINT
+        : BLOCKSTREAM_BASE_TESTNET_ENDPOINT,
     timeout: 50000,
     headers: {
       'Content-Type': 'text/plain'
@@ -49,7 +53,11 @@ const getEnclaveBlockHeightStatusComparedWithTheReals = async (
   _network
 ) => {
   if (_pTokenName === 'pBTC' && _role === 'issuer') {
-    const btcLastBlock = await _makeEsploraApiCall('GET', '/blocks/tip/height', _network)
+    const btcLastBlock = await _makeEsploraApiCall(
+      'GET',
+      '/blocks/tip/height',
+      _network
+    )
 
     return _calculateStatus(
       _enclaveBlockHeight,

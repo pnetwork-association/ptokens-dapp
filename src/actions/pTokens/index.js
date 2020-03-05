@@ -131,7 +131,9 @@ const getBalance = (_pToken, _account, _configs) => {
     dispatch({
       type: PTOKENS_BALANCE_LOADED,
       payload: {
-        balance: res / Math.pow(10, _pToken.contractDecimals)
+        balance: (res / Math.pow(10, _pToken.contractDecimals)).toFixed(
+          _pToken.realDecimals
+        )
       }
     })
   }
@@ -238,7 +240,9 @@ const getCirculatingSupply = (_pToken, _configs) => {
     dispatch({
       type: PTOKENS_CIRCULATING_SUPPLY_LOADED,
       payload: {
-        circulatingSupply: res / Math.pow(10, _pToken.contractDecimals)
+        circulatingSupply: (
+          res / Math.pow(10, _pToken.contractDecimals)
+        ).toFixed(_pToken.realDecimals)
       }
     })
   }

@@ -15,11 +15,7 @@ const Main = props => {
               <div className="col-12 col-xl-6 mt-20">
                 <MiniCard
                   title="CIRCULATING SUPPLY"
-                  value={
-                    props.pTokenSelected.circulatingSupply
-                      ? props.pTokenSelected.circulatingSupply.toFixed(props.pTokenSelected.realDecimals)
-                      : '-'
-                  }
+                  value={props.pTokenSelected.circulatingSupply}
                   measure={props.pTokenSelected.name}
                   icon={'coins'}
                 />
