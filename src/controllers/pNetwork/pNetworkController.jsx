@@ -1,9 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import NotificationAlert from 'react-notification-alert'
-import Enclave from '../../components/enclave/Enclave'
-import * as EnclaveConnector from '../../actions/enclave'
-import * as pTokens from '../../actions/pTokens'
+import PNetwork from '../../components/pNetwork/pNetwork'
+import {
+  ping,
+  getLastProcessedBlock,
+  submitBlock,
+  resetSubmitBlockSuccess
+} from '../../actions/pNetwork'
+import {
+  getMintNonce,
+  getBurnNonce,
+  getTotalIssued,
+  getTotalRedeemed,
+  getCirculatingSupply
+} from '../../actions/pTokens'
 import { connect } from 'react-redux'
 import { isJsonString } from '../../utils/utils'
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
@@ -12,39 +23,38 @@ import settings from '../../settings'
 const mapStateToProps = state => {
   return {
     pTokenSelected: state.pTokens.selected,
-    isActive: state.enclave.isActive,
-    lastIssuerProcessedBlock: state.enclave.lastIssuerProcessedBlock,
-    lastRedeemerProcessedBlock: state.enclave.lastRedeemerProcessedBlock,
-    isBlockSubmissionSucceeded: state.enclave.isBlockSubmissionSucceeded,
-    issuerBlockHeightStatus: state.enclave.issuerBlockHeightStatus,
-    redeemerBlockHeightStatus: state.enclave.redeemerBlockHeightStatus,
+    isActive: state.pNetwork.isActive,
+    lastIssuerProcessedBlock: state.pNetwork.lastIssuerProcessedBlock,
+    lastRedeemerProcessedBlock: state.pNetwork.lastRedeemerProcessedBlock,
+    isBlockSubmissionSucceeded: state.pNetwork.isBlockSubmissionSucceeded,
+    issuerBlockHeightStatus: state.pNetwork.issuerBlockHeightStatus,
+    redeemerBlockHeightStatus: state.pNetwork.redeemerBlockHeightStatus,
     redeemerReadOnlyProvider: state.wallets.redeemerReadOnlyProvider
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    ping: _pToken => dispatch(EnclaveConnector.ping(_pToken)),
+    ping: _pToken => dispatch(ping(_pToken)),
     getLastProcessedBlock: (_pToken, _type, _role) =>
-      dispatch(EnclaveConnector.getLastProcessedBlock(_pToken, _type, _role)),
+      dispatch(getLastProcessedBlock(_pToken, _type, _role)),
     submitBlock: (_pToken, _type, _block) =>
-      dispatch(EnclaveConnector.submitBlock(_pToken, _type, _block)),
-    resetSubmitBlockSuccess: () =>
-      dispatch(EnclaveConnector.resetSubmitBlockSuccess()),
+      dispatch(submitBlock(_pToken, _type, _block)),
+    resetSubmitBlockSuccess: () => dispatch(resetSubmitBlockSuccess()),
     getMintNonce: (_pToken, _configs) =>
-      dispatch(pTokens.getMintNonce(_pToken, _configs)),
+      dispatch(getMintNonce(_pToken, _configs)),
     getBurnNonce: (_pToken, _configs) =>
-      dispatch(pTokens.getBurnNonce(_pToken, _configs)),
+      dispatch(getBurnNonce(_pToken, _configs)),
     getTotalIssued: (_pToken, _configs) =>
-      dispatch(pTokens.getTotalIssued(_pToken, _configs)),
+      dispatch(getTotalIssued(_pToken, _configs)),
     getTotalRedeemed: (_pToken, _configs) =>
-      dispatch(pTokens.getTotalRedeemed(_pToken, _configs)),
+      dispatch(getTotalRedeemed(_pToken, _configs)),
     getCirculatingSupply: (_pToken, _configs) =>
-      dispatch(pTokens.getCirculatingSupply(_pToken, _configs))
+      dispatch(getCirculatingSupply(_pToken, _configs))
   }
 }
 
-class EnclaveController extends React.Component {
+class pNetworkController extends React.Component {
   constructor(props, context) {
     super(props, context)
 
@@ -211,7 +221,7 @@ class EnclaveController extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Enclave
+        <PNetwork
           pTokenSelected={this.props.pTokenSelected}
           isActive={this.props.isActive}
           lastIssuerProcessedBlock={this.props.lastIssuerProcessedBlock}
@@ -231,7 +241,7 @@ class EnclaveController extends React.Component {
   }
 }
 
-EnclaveController.propTypes = {
+pNetworkController.propTypes = {
   pTokenSelected: PropTypes.object,
   isActive: PropTypes.bool,
   lastIssuerProcessedBlock: PropTypes.number,
@@ -251,4 +261,4 @@ EnclaveController.propTypes = {
   getCirculatingSupply: PropTypes.func
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EnclaveController)
+export default connect(mapStateToProps, mapDispatchToProps)(pNetworkController)

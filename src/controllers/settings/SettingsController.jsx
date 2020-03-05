@@ -2,7 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Settings from '../../components/settings/Settings'
 import PropTypes from 'prop-types'
-import * as WalletsController from '../../actions/wallets'
+import {
+  connectWithCorrectWallets,
+  connectWithSpecificWallet,
+  disconnectFromSpecificWallet,
+  changeSpecificWallet
+} from '../../actions/wallets'
 import { resetDetectedNetwork } from '../../actions/networkDetector'
 import { setParams, setBalance, getBalance } from '../../actions/pTokens'
 
@@ -24,22 +29,13 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     connectWithCorrectWallets: (_pTokenName, _currentProviders) =>
-      dispatch(
-        WalletsController.connectWithCorrectWallets(
-          _pTokenName,
-          _currentProviders
-        )
-      ),
+      dispatch(connectWithCorrectWallets(_pTokenName, _currentProviders)),
     connectWithSpecificWallet: (_pTokenName, _role, _force) =>
-      dispatch(
-        WalletsController.connectWithSpecificWallet(_pTokenName, _role, _force)
-      ),
+      dispatch(connectWithSpecificWallet(_pTokenName, _role, _force)),
     disconnectFromSpecificWallet: (_pTokenName, _role) =>
-      dispatch(
-        WalletsController.disconnectFromSpecificWallet(_pTokenName, _role)
-      ),
+      dispatch(disconnectFromSpecificWallet(_pTokenName, _role)),
     changeSpecificWallet: (_pTokenName, _role) =>
-      dispatch(WalletsController.changeSpecificWallet(_pTokenName, _role)),
+      dispatch(changeSpecificWallet(_pTokenName, _role)),
     resetDetectedNetwork: _role => dispatch(resetDetectedNetwork(_role)),
     setpTokenParams: _params => dispatch(setParams(_params)),
     setBalance: _balance => dispatch(setBalance(_balance)),

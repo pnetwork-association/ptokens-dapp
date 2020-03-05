@@ -23,7 +23,7 @@ const setSelectedPage = (_page, _pToken) => {
       history.push(
         `/${_pToken.name.toLowerCase()}-on-${_pToken.redeemFrom.toLowerCase()}${
           _pToken.network === 'testnet' ? '-testnet' : ''
-        }/enclave`
+        }/pnetwork`
       )
       break
     }

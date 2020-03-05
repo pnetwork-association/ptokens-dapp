@@ -2,25 +2,25 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Main from '../../components/main/Main'
-import * as Enclave from '../../actions/enclave'
-import * as pTokens from '../../actions/pTokens'
+import { getReports } from '../../actions/pNetwork'
+import { getCirculatingSupply } from '../../actions/pTokens'
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
 
 const mapStateToProps = state => {
   return {
     pTokenSelected: state.pTokens.selected,
     redeemerReadOnlyProvider: state.wallets.redeemerReadOnlyProvider,
-    issueReports: state.enclave.issueReports,
-    redeemReports: state.enclave.redeemReports,
-    isActive: state.enclave.isActive
+    issueReports: state.pNetwork.issueReports,
+    redeemReports: state.pNetwork.redeemReports,
+    isActive: state.pNetwork.isActive
   }
 }
 const mapDispatchToProps = dispatch => {
   return {
     getCirculatingSupply: (_pToken, configs) =>
-      dispatch(pTokens.getCirculatingSupply(_pToken, configs)),
+      dispatch(getCirculatingSupply(_pToken, configs)),
     getReports: (_pToken, _type, role) =>
-      dispatch(Enclave.getReports(_pToken, _type, role))
+      dispatch(getReports(_pToken, _type, role))
   }
 }
 

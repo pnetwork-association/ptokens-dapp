@@ -5,7 +5,7 @@ import {
   getTotalIssued,
   getTotalRedeemed*/
 } from '../actions/pTokens'
-import { getReports, getLastProcessedBlock, ping } from '../actions/enclave'
+import { getReports, getLastProcessedBlock, ping } from '../actions/pNetwork'
 import * as Log from '../actions/log'
 import { SET_SELECTED_PTOKEN } from '../constants'
 import { getCorrespondingReadOnlyProvider } from '../utils/read-only-providers'

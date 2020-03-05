@@ -46,7 +46,7 @@ const _getInsightLiteApi = () =>
     }
   })
 
-const getEnclaveBlockHeightStatusComparedWithTheReals = async (
+const getBlockHeightStatusComparedWithTheReals = async (
   _pTokenName,
   _role,
   _enclaveBlockHeight,
@@ -181,4 +181,4 @@ const _makeInsightLiteApiCall = (_callType, _apiPath, _params) =>
       .catch(_err => reject(_err))
   })
 
-export { getEnclaveBlockHeightStatusComparedWithTheReals }
+export { getBlockHeightStatusComparedWithTheReals }

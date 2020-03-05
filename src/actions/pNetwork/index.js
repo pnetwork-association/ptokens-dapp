@@ -1,17 +1,17 @@
 import {
-  ENCLAVE_PING_PONG,
-  ENCLAVE_LAST_ISSUER_PROCESSED_BLOCK_LOADED,
-  ENCLAVE_LAST_REDEEMER_PROCESSED_BLOCK_LOADED,
-  ENCLAVE_BLOCK_SUBMITTED,
-  ENCLAVE_RESET_BLOCK_SUBMIT_SUCCESS,
-  ENCLAVE_REPORT_ISSUE_LOADED,
-  ENCLAVE_REPORT_REDEEM_LOADED,
-  ENCLAVE_RESET_DATA,
-  ENCLAVE_SET_ISSUER_BLOCK_HEIGHT_STATUS,
-  ENCLAVE_SET_REDEEMER_BLOCK_HEIGHT_STATUS
+  PNETWORK_PING_PONG,
+  PNETWORK_LAST_ISSUER_PROCESSED_BLOCK_LOADED,
+  PNETWORK_LAST_REDEEMER_PROCESSED_BLOCK_LOADED,
+  PNETWORK_BLOCK_SUBMITTED,
+  PNETWORK_RESET_BLOCK_SUBMIT_SUCCESS,
+  PNETWORK_REPORT_ISSUE_LOADED,
+  PNETWORK_REPORT_REDEEM_LOADED,
+  PNETWORK_RESET_DATA,
+  PNETWORK_SET_ISSUER_BLOCK_HEIGHT_STATUS,
+  PNETWORK_SET_REDEEMER_BLOCK_HEIGHT_STATUS
 } from '../../constants'
 import { NodeSelector } from 'ptokens-node-selector'
-import { getEnclaveBlockHeightStatusComparedWithTheReals } from '../../utils/blocks-sync'
+import { getBlockHeightStatusComparedWithTheReals } from '../../utils/blocks-sync'
 
 let selectedNode = null
 let pTokenCurrent = {
@@ -57,7 +57,7 @@ const ping = _pToken => {
     await node.ping()
 
     dispatch({
-      type: ENCLAVE_PING_PONG
+      type: PNETWORK_PING_PONG
     })
   }
 }
@@ -86,7 +86,7 @@ const getLastProcessedBlock = (_pToken, _type, _role) => {
         value = null
     }
 
-    const status = await getEnclaveBlockHeightStatusComparedWithTheReals(
+    const status = await getBlockHeightStatusComparedWithTheReals(
       _pToken.name,
       _role,
       value,
@@ -95,8 +95,8 @@ const getLastProcessedBlock = (_pToken, _type, _role) => {
 
     const actionTypeBlockStatus =
       _role === 'issuer'
-        ? ENCLAVE_SET_ISSUER_BLOCK_HEIGHT_STATUS
-        : ENCLAVE_SET_REDEEMER_BLOCK_HEIGHT_STATUS
+        ? PNETWORK_SET_ISSUER_BLOCK_HEIGHT_STATUS
+        : PNETWORK_SET_REDEEMER_BLOCK_HEIGHT_STATUS
 
     dispatch({
       type: actionTypeBlockStatus,
@@ -107,8 +107,8 @@ const getLastProcessedBlock = (_pToken, _type, _role) => {
 
     const actionTypeBlockLoaded =
       _role === 'issuer'
-        ? ENCLAVE_LAST_ISSUER_PROCESSED_BLOCK_LOADED
-        : ENCLAVE_LAST_REDEEMER_PROCESSED_BLOCK_LOADED
+        ? PNETWORK_LAST_ISSUER_PROCESSED_BLOCK_LOADED
+        : PNETWORK_LAST_REDEEMER_PROCESSED_BLOCK_LOADED
     dispatch({
       type: actionTypeBlockLoaded,
       payload: {
@@ -125,8 +125,8 @@ const getReports = (_pToken, _type, _role) => {
 
     const actionType =
       _role === 'issuer'
-        ? ENCLAVE_REPORT_ISSUE_LOADED
-        : ENCLAVE_REPORT_REDEEM_LOADED
+        ? PNETWORK_REPORT_ISSUE_LOADED
+        : PNETWORK_REPORT_REDEEM_LOADED
     dispatch({
       type: actionType,
       payload: {
@@ -142,26 +142,26 @@ const submitBlock = (_pToken, _type, _block) => {
     await node.submitBlock(_type, _block)
 
     dispatch({
-      type: ENCLAVE_BLOCK_SUBMITTED
+      type: PNETWORK_BLOCK_SUBMITTED
     })
   }
 }
 
 const resetSubmitBlockSuccess = () => {
   return {
-    type: ENCLAVE_RESET_BLOCK_SUBMIT_SUCCESS
+    type: PNETWORK_RESET_BLOCK_SUBMIT_SUCCESS
   }
 }
 
 const resetData = () => {
   return {
-    type: ENCLAVE_RESET_DATA
+    type: PNETWORK_RESET_DATA
   }
 }
 
 const setIssuerBlockHeightStatus = _status => {
   return {
-    type: ENCLAVE_SET_ISSUER_BLOCK_HEIGHT_STATUS,
+    type: PNETWORK_SET_ISSUER_BLOCK_HEIGHT_STATUS,
     payload: {
       status: _status
     }
@@ -170,7 +170,7 @@ const setIssuerBlockHeightStatus = _status => {
 
 const setRedeemerBlockHeightStatus = _status => {
   return {
-    type: ENCLAVE_SET_REDEEMER_BLOCK_HEIGHT_STATUS,
+    type: PNETWORK_SET_REDEEMER_BLOCK_HEIGHT_STATUS,
     payload: {
       status: _status
     }

@@ -1,12 +1,22 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Token from '../../components/token/Token'
+import PTokens from '../../components/pTokens/pTokens'
 import NotificationAlert from 'react-notification-alert'
 import * as LogHandler from '../../actions/log'
 import { mask } from '../../utils/utils'
-import * as pTokens from '../../actions/pTokens'
-import * as WalletsController from '../../actions/wallets'
+import {
+  issue,
+  redeem,
+  getBalance,
+  resetDepositAddress,
+  resetIssueSuccess,
+  resetRedeemSuccess,
+  resetRedeemError,
+  resetIssueError,
+  setParams
+} from '../../actions/pTokens'
+import { connectWithCorrectWallets } from '../../actions/wallets'
 import { isValidAccount } from '../../utils/account-validator'
 import { getMinumIssuableAmount } from '../../utils/minum-issuable-amount'
 import { getMinumRedeemableAmount } from '../../utils/minimun-redeeamble-amount'
@@ -37,29 +47,23 @@ const mapDispatchToProps = dispatch => {
     addItemLogs: item => dispatch(LogHandler.addItem(item)),
     clearLogs: () => dispatch(LogHandler.clear()),
     issue: (_pToken, _params, _configs) =>
-      dispatch(pTokens.issue(_pToken, _params, _configs)),
+      dispatch(issue(_pToken, _params, _configs)),
     redeem: (_pToken, _params, _configs) =>
-      dispatch(pTokens.redeem(_pToken, _params, _configs)),
+      dispatch(redeem(_pToken, _params, _configs)),
     getBalance: (_pToken, _account, _redeemerNetwork, configs) =>
-      dispatch(pTokens.getBalance(_pToken, _account, configs)),
-    resetDepositAddress: () => dispatch(pTokens.resetDepositAddress()),
-    resetIssueSuccess: () => dispatch(pTokens.resetIssueSuccess()),
-    resetRedeemSuccess: () => dispatch(pTokens.resetRedeemSuccess()),
-    resetIssueError: () => dispatch(pTokens.resetIssueError()),
-    resetRedeemError: () => dispatch(pTokens.resetRedeemError()),
-    setpTokenParams: _params => dispatch(pTokens.setParams(_params)),
+      dispatch(getBalance(_pToken, _account, configs)),
+    resetDepositAddress: () => dispatch(resetDepositAddress()),
+    resetIssueSuccess: () => dispatch(resetIssueSuccess()),
+    resetRedeemSuccess: () => dispatch(resetRedeemSuccess()),
+    resetIssueError: () => dispatch(resetIssueError()),
+    resetRedeemError: () => dispatch(resetRedeemError()),
+    setpTokenParams: _params => dispatch(setParams(_params)),
     connectWithCorrectWallets: (pTokenName, currentProviders, force) =>
-      dispatch(
-        WalletsController.connectWithCorrectWallets(
-          pTokenName,
-          currentProviders,
-          force
-        )
-      )
+      dispatch(connectWithCorrectWallets(pTokenName, currentProviders, force))
   }
 }
 
-export class TokenController extends React.Component {
+export class pTokenControllers extends React.Component {
   constructor(_props, _context) {
     super(_props, _context)
 
@@ -454,7 +458,7 @@ export class TokenController extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Token
+        <PTokens
           pTokenSelected={this.props.pTokenSelected}
           balance={this.props.pTokenBalance}
           issuerAccount={this.props.issuerAccount}
@@ -480,7 +484,7 @@ export class TokenController extends React.Component {
   }
 }
 
-TokenController.propTypes = {
+pTokenControllers.propTypes = {
   logs: PropTypes.array,
   pTokenSelected: PropTypes.object,
   pTokenBalance: PropTypes.number,
@@ -508,4 +512,4 @@ TokenController.propTypes = {
   connectWithCorrectWallets: PropTypes.func
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TokenController)
+export default connect(mapStateToProps, mapDispatchToProps)(pTokenControllers)

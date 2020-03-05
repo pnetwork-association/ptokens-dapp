@@ -10,7 +10,7 @@ import Alert from '../utils/Alert'
 import Input from '../utils/Input'
 import Button from '../utils/Button'
 
-const Token = props => {
+const pTokens = props => {
   return (
     <React.Fragment>
       <div className="header">
@@ -217,7 +217,7 @@ const Token = props => {
   )
 }
 
-Token.propTypes = {
+pTokens.propTypes = {
   pTokenSelected: PropTypes.object,
   balance: PropTypes.number,
   issuerAccount: PropTypes.string,
@@ -238,4 +238,4 @@ Token.propTypes = {
   onResetLogs: PropTypes.func
 }
 
-export default Token
+export default pTokens

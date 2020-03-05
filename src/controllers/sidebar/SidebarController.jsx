@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { setSelectedPage, setCollapseState } from '../../actions/sidebar'
 import { setSelectedpToken, resetParams } from '../../actions/pTokens'
 import { disconnectFromSpecificWallet } from '../../actions/wallets'
-import * as Enclave from '../../actions/enclave'
+import { resetData } from '../../actions/pNetwork'
 import history from '../../utils/history'
 
 const mapStateToProps = state => {
@@ -24,7 +24,7 @@ const mapDispatchToProps = dispatch => {
     setCollapseState: state => dispatch(setCollapseState(state)),
     setSelectedpToken: (pToken, _redeemerNetwork) =>
       dispatch(setSelectedpToken(pToken, _redeemerNetwork)),
-    resetEnclaveData: () => dispatch(Enclave.resetData()),
+    pNetworkDataReset: () => dispatch(resetData()),
     disconnectFromSpecificWallet: (pTokenName, role) =>
       dispatch(disconnectFromSpecificWallet(pTokenName, role)),
     resetParams: () => dispatch(resetParams())
@@ -90,7 +90,7 @@ export class SidebarController extends React.Component {
           //reset token page params
           this.props.resetParams()
 
-          this.props.resetEnclaveData()
+          this.props.pNetworkDataReset()
           this.props.setSelectedpToken(
             pToken,
             this.props.detectedRedeemerNetwork

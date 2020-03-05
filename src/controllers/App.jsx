@@ -1,8 +1,8 @@
 import React from 'react'
 import MainController from './main/MainController'
-import EnclaveController from './enclave/EnclaveController'
+import PNetworkController from './pNetwork/pNetworkController'
 import SidebarController from './sidebar/SidebarController'
-import TokenController from './token/TokenController'
+import PTokensController from './pTokens/pTokensController'
 import SettingsController from './settings/SettingsController'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import MainWrapper from '../components/utils/MainWrapper'
@@ -47,14 +47,14 @@ class App extends React.Component {
           />
           <Route
             exact
-            path={'/(pbtc-on-eth|pbtc-on-eth-testnet|pltc-on-eth)/enclave'}
+            path={'/(pbtc-on-eth|pbtc-on-eth-testnet)/pnetwork'}
             render={() => {
               return (
                 <React.Fragment>
                   <SidebarController />
                   <MainWrapper>
                     <NetworkDetectorController />
-                    <EnclaveController />
+                    <PNetworkController />
                   </MainWrapper>
                 </React.Fragment>
               )
@@ -62,14 +62,14 @@ class App extends React.Component {
           />
           <Route
             exact
-            path={'/(pbtc-on-eth|pbtc-on-eth-testnet|pltc-on-eth)/issue-redeem'}
+            path={'/(pbtc-on-eth|pbtc-on-eth-testnet)/issue-redeem'}
             render={() => {
               return (
                 <React.Fragment>
                   <SidebarController />
                   <MainWrapper>
                     <NetworkDetectorController />
-                    <TokenController />
+                    <PTokensController />
                   </MainWrapper>
                 </React.Fragment>
               )
@@ -77,7 +77,7 @@ class App extends React.Component {
           />
           <Route
             exact
-            path={'/(pbtc-on-eth|pbtc-on-eth-testnet|pltc-on-eth)/settings'}
+            path={'/(pbtc-on-eth|pbtc-on-eth-testnet)/settings'}
             render={() => {
               return (
                 <React.Fragment>
