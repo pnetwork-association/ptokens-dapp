@@ -21,7 +21,7 @@ const Alert = props => {
 
 Alert.propTypes = {
   type: PropTypes.string,
-  text: PropTypes.string,
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   size: PropTypes.string
 }
 

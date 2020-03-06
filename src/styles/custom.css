@@ -921,3 +921,11 @@ table thead th {
     margin-top: 35px;
     margin-left: 10px;
 }
+
+.alert {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 10px !important;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}

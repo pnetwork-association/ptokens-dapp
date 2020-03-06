@@ -487,7 +487,7 @@ export class pTokenControllers extends React.Component {
 pTokenControllers.propTypes = {
   logs: PropTypes.array,
   pTokenSelected: PropTypes.object,
-  pTokenBalance: PropTypes.number,
+  pTokenBalance: PropTypes.string,
   pTokensParams: PropTypes.object,
   issuerIsConnected: PropTypes.bool,
   issuerProvider: PropTypes.object,

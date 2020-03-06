@@ -13,6 +13,22 @@ import Button from '../utils/Button'
 const pTokens = props => {
   return (
     <React.Fragment>
+      <div className="container-fluid mt-20 text-center">
+        <Alert
+          type={'warning'}
+          size={'exsmall'}
+          text={
+            <React.Fragment>
+              Disclaimer: while successfully audited, currently pTokens are in
+              their phase0 - the system has not been battle tested for a long
+              time and it is not decentralized yet. <br />
+              Just one node is currently running so while we are committed to
+              move quickly towards a decentralized phase1, you should currently
+              proceed with caution.
+            </React.Fragment>
+          }
+        />
+      </div>
       <div className="header">
         <div className="container-fluid">
           <div className="header-body">
@@ -23,7 +39,7 @@ const pTokens = props => {
                     (props.pTokenSelected.name === 'pBTC' ||
                     props.pTokenSelected.name === 'pLTC'
                       ? 'col-xl-6'
-                      : 'col-xl-4') + ' col-12 mt-20'
+                      : 'col-xl-4') + ' col-12 mt-10'
                   }
                 >
                   <MiniCard
@@ -45,7 +61,7 @@ const pTokens = props => {
                     (props.pTokenSelected.name === 'pBTC' ||
                     props.pTokenSelected.name === 'pLTC'
                       ? 'col-xl-6'
-                      : 'col-xl-4') + ' col-12 mt-20'
+                      : 'col-xl-4') + ' col-12 mt-10'
                   }
                 >
                   <div className="card bg-gray">
@@ -71,7 +87,7 @@ const pTokens = props => {
                 </div>
               ) : null}
               {props.pTokenSelected.name !== 'pBTC' && props.issuerAccount ? (
-                <div className="col-12 col-xl-4 mt-20">
+                <div className="col-12 col-xl-4 mt-10">
                   <MiniCard
                     title={`YOUR ${props.pTokenSelected.issueFrom} ACCOUNT`}
                     value={getCorresponsingVisibleAddressFormat(
@@ -219,7 +235,7 @@ const pTokens = props => {
 
 pTokens.propTypes = {
   pTokenSelected: PropTypes.object,
-  balance: PropTypes.number,
+  balance: PropTypes.string,
   issuerAccount: PropTypes.string,
   redeemerAccount: PropTypes.string,
   amountToIssue: PropTypes.string,
