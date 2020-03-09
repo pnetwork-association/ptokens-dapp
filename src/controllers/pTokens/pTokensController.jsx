@@ -295,6 +295,8 @@ export class pTokenControllers extends React.Component {
       return
     }
 
+    this.props.resetDepositAddress()
+
     const decimals = this.props.pTokenSelected.realDecimals
     const parsedAmountToIssue = parseFloat(
       this.props.pTokensParams.amountToIssue

@@ -1,12 +1,32 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Spinner from '../../utils/Spinner'
 import QRCode from 'qrcode.react'
 import settings from '../../../settings'
 import Input from '../../utils/Input'
 import Button from '../../utils/Button'
+import ReactTooltip from 'react-tooltip'
+import { copyToClipboard } from '../../../utils/utils'
 
 const PbtcIssueCard = props => {
+  const [isGenerating, setIsGenerating] = useState(0)
+  const [isCopiedToClipboard, setIsCopiedToClipboard] = useState(0)
+
+  useEffect(() => {
+    if (
+      props.pTokenSelected.depositAddress.value ||
+      props.pTokenSelected.depositAddress.error
+    )
+      setIsGenerating(false)
+  }, [
+    props.pTokenSelected.depositAddress.value,
+    props.pTokenSelected.depositAddress.error
+  ])
+
+  useEffect(() => {
+    ReactTooltip.rebuild()
+  })
+
   return (
     <div className="card shadow bg-light-gray no-shadow height-max">
       <div className="card-header mb-0 bg-light-gray pl-0 pt-0 pr-0">
@@ -56,8 +76,25 @@ const PbtcIssueCard = props => {
             <div className="col-12 text-center">
               <QRCode value={props.pTokenSelected.depositAddress.value} />
             </div>
-            <div className="col-12 font-weight-bold text-center mt-2">
-              {props.pTokenSelected.depositAddress.value}
+            <ReactTooltip />
+            <div
+              className="col-12 font-weight-bold text-center mt-2 cursor-pointer"
+              key={
+                isCopiedToClipboard
+                  ? 'is-copied-to-clipboard'
+                  : 'is-not-copied-to-clipboard'
+              }
+              data-tip={isCopiedToClipboard ? 'Copied!' : 'Copy to clipboard'}
+              onClick={() => {
+                setIsCopiedToClipboard(true)
+                copyToClipboard(props.pTokenSelected.depositAddress.value)
+
+                setTimeout(() => {
+                  setIsCopiedToClipboard(false)
+                }, 3000)
+              }}
+            >
+              <span className="gray-on-hover-with-border-radius">{props.pTokenSelected.depositAddress.value}</span>
             </div>
 
             {props.pTokenSelected.network !== 'mainnet' ? (
@@ -133,14 +170,21 @@ const PbtcIssueCard = props => {
       >
         <Button
           width={280}
-          icon={'add'}
-          disabled={props.typedIssueAccount === ''}
+          icon={isGenerating ? null : 'add'}
+          disabled={
+            props.typedIssueAccount === '' || isGenerating ? true : false
+          }
           text={
-            props.pTokenSelected.depositAddress
+            isGenerating
+              ? 'Generating...'
+              : props.pTokenSelected.depositAddress
               ? 'Generate New Deposit Address'
               : 'Generate Deposit Address'
           }
-          onClick={() => props.onIssue()}
+          onClick={() => {
+            setIsGenerating(true)
+            props.onIssue()
+          }}
         />
       </div>
     </div>

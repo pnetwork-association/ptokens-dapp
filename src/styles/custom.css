@@ -454,6 +454,15 @@ hr {
     width: 280px !important;
 }
 
+.gray-on-hover-with-border-radius {
+    background: transparent;
+    padding: 5px 5px 5px 5px;
+}
+.gray-on-hover-with-border-radius:hover {
+    background: lightgray;
+    border-radius: 5px
+}
+
 /* I N P U T */
 .form-control {
     border: 0;
