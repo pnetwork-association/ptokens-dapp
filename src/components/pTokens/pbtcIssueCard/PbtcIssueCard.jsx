@@ -7,6 +7,7 @@ import Input from '../../utils/Input'
 import Button from '../../utils/Button'
 import ReactTooltip from 'react-tooltip'
 import { copyToClipboard } from '../../../utils/utils'
+import Alert from '../../utils/Alert'
 
 const PbtcIssueCard = props => {
   const [isGenerating, setIsGenerating] = useState(0)
@@ -64,7 +65,7 @@ const PbtcIssueCard = props => {
       <div className="card-body pt-0">
         <Input
           label={`${props.pTokenSelected.redeemFrom} ADDRESS`}
-          value={props.typedIssueAccount}
+          value={props.typedIssueAccount ? props.typedIssueAccount : ''}
           size={'small'}
           onChange={e => props.onChangeIssueAccount(e.target.value)}
         />
@@ -94,7 +95,17 @@ const PbtcIssueCard = props => {
                 }, 3000)
               }}
             >
-              <span className="gray-on-hover-with-border-radius">{props.pTokenSelected.depositAddress.value}</span>
+              <span className="gray-on-hover-with-border-radius">
+                {props.pTokenSelected.depositAddress.value}
+              </span>
+            </div>
+
+            <div className="col-12 text-center mt-10">
+              <Alert
+                type={'info'}
+                size={'exsmall'}
+                text={`Any BTC deposit sent to this address will mint an equal number of pBTC tokens on the ETH addressed above`}
+              />
             </div>
 
             {props.pTokenSelected.network !== 'mainnet' ? (
