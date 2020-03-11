@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import MiniCard from '../utils/MiniCard'
-import {
-  getCorrespondingSmartContractAddress,
-  getCorrespondingExplorerLink
-} from '../../utils/ptokens-sm-utils'
+import { getCorrespondingExplorerLink } from '../../utils/ptokens-sm-utils'
 import { getCorresponsingVisibleAddressFormat } from '../../utils/account-viewer'
 //import Button from '../utils/Button'
 import ReactTooltip from 'react-tooltip'
@@ -102,20 +99,19 @@ const Enclave = props => {
                       href={getCorrespondingExplorerLink(
                         props.pTokenSelected.name,
                         props.pTokenSelected.network,
-                        'redeemer'
+                        'redeemer',
+                        `0x${props.pTokenSelected.nodeInfo.contractAddress}`
                       )}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {getCorresponsingVisibleAddressFormat(
-                        props.pTokenSelected.name,
-                        'redeemer',
-                        getCorrespondingSmartContractAddress(
-                          props.pTokenSelected.name,
-                          props.pTokenSelected.network,
-                          'redeemer'
-                        )
-                      )}
+                      {props.pTokenSelected.nodeInfo.contractAddress
+                        ? getCorresponsingVisibleAddressFormat(
+                            props.pTokenSelected.name,
+                            'redeemer',
+                            `0x${props.pTokenSelected.nodeInfo.contractAddress}`
+                          )
+                        : '-'}
                     </a>
                     {/*DESKTOP & TABLET*/}
                     <a
@@ -123,16 +119,15 @@ const Enclave = props => {
                       href={getCorrespondingExplorerLink(
                         props.pTokenSelected.name,
                         props.pTokenSelected.network,
-                        'redeemer'
+                        'redeemer',
+                        `0x${props.pTokenSelected.nodeInfo.contractAddress}`
                       )}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {getCorrespondingSmartContractAddress(
-                        props.pTokenSelected.name,
-                        props.pTokenSelected.network,
-                        'redeemer'
-                      )}
+                      {props.pTokenSelected.nodeInfo.contractAddress
+                        ? `0x${props.pTokenSelected.nodeInfo.contractAddress}`
+                        : '-'}
                     </a>
                   </div>
                 </div>
@@ -151,36 +146,22 @@ const Enclave = props => {
                         {/*MOBILE*/}
                         <div
                           className="show-mobile"
-                          data-tip={getCorrespondingSmartContractAddress(
-                            props.pTokenSelected.name,
-                            props.pTokenSelected.network,
-                            'issuer'
-                          )}
+                          data-tip={`0x${props.pTokenSelected.nodeInfo.publicKey}`}
                         >
                           {getCorresponsingVisibleAddressFormat(
                             props.pTokenSelected.name,
                             'issuer',
-                            getCorrespondingSmartContractAddress(
-                              props.pTokenSelected.name,
-                              props.pTokenSelected.network,
-                              'issuer'
-                            )
+                            `0x${props.pTokenSelected.nodeInfo.publicKey}`
                           )}
                         </div>
                         {/*DESKTOP & TABLET*/}
                         <div
                           className="hidden-mobile"
-                          data-tip={getCorrespondingSmartContractAddress(
-                            props.pTokenSelected.name,
-                            props.pTokenSelected.network,
-                            'issuer'
-                          )}
+                          data-tip={`0x${props.pTokenSelected.nodeInfo.publicKey}`}
                         >
-                          {getCorrespondingSmartContractAddress(
-                            props.pTokenSelected.name,
-                            props.pTokenSelected.network,
-                            'issuer'
-                          )}
+                          {props.pTokenSelected.nodeInfo.publicKey
+                            ? `0x${props.pTokenSelected.nodeInfo.publicKey}`
+                            : '-'}
                         </div>
                       </React.Fragment>
                     ) : (
@@ -189,18 +170,14 @@ const Enclave = props => {
                         href={getCorrespondingExplorerLink(
                           props.pTokenSelected.name,
                           props.pTokenSelected.network,
-                          'issuer'
+                          'issuer' //TODO 4th parameter (for blockchain with contract as issuer example peos)
                         )}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         {getCorresponsingVisibleAddressFormat(
                           props.pTokenSelected.name,
-                          'issuer',
-                          getCorrespondingSmartContractAddress(
-                            props.pTokenSelected.name,
-                            'issuer'
-                          )
+                          'issuer' //TODO 3th parameter (for blockchain with contract as issuer example peos)
                         )}
                       </a>
                     )}

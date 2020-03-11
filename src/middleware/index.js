@@ -7,13 +7,34 @@ import {
 } from '../actions/pTokens'
 import { getReports, getLastProcessedBlock, ping } from '../actions/pNetwork'
 import * as Log from '../actions/log'
-import { SET_SELECTED_PTOKEN } from '../constants'
+import { SET_SELECTED_PTOKEN, PTOKENS_SET_NODE_INFO } from '../constants'
 import { getCorrespondingReadOnlyProvider } from '../utils/read-only-providers'
+
+let currentContractAddress = null
 
 const middleware = ({ dispatch }) => {
   return _next => {
     return async _action => {
       if (_action.type === SET_SELECTED_PTOKEN) {
+        dispatch(getReports(_action.payload.pToken, 'native', 'redeemer'))
+
+        dispatch(getReports(_action.payload.pToken, 'host', 'issuer'))
+
+        dispatch(
+          getLastProcessedBlock(_action.payload.pToken, 'native', 'issuer')
+        )
+
+        dispatch(
+          getLastProcessedBlock(_action.payload.pToken, 'host', 'redeemer')
+        )
+
+        dispatch(ping(_action.payload.pToken))
+
+        //token page
+        dispatch(Log.clear())
+      }
+
+      if (_action.type === PTOKENS_SET_NODE_INFO) {
         const readOnlyProvider = getCorrespondingReadOnlyProvider(
           _action.payload.pToken.name,
           _action.payload.pToken.redeemFrom,
@@ -26,11 +47,14 @@ const middleware = ({ dispatch }) => {
         }
 
         //main page data
-        dispatch(getCirculatingSupply(_action.payload.pToken, configs))
-
-        dispatch(getReports(_action.payload.pToken, 'native', 'redeemer'))
-
-        dispatch(getReports(_action.payload.pToken, 'host', 'issuer'))
+        if (
+          currentContractAddress !==
+          _action.payload.pToken.nodeInfo.contractAddress
+        ) {
+          dispatch(getCirculatingSupply(_action.payload.pToken, configs))
+          currentContractAddress =
+            _action.payload.pToken.nodeInfo.contractAddress
+        }
 
         //enclave page data
         /*dispatch(getBurnNonce(_action.payload.pToken, configs))
@@ -40,16 +64,6 @@ const middleware = ({ dispatch }) => {
         dispatch(getTotalRedeemed(_action.payload.pToken, configs))
 
         dispatch(getTotalIssued(_action.payload.pToken, configs))*/
-
-        dispatch(
-          getLastProcessedBlock(_action.payload.pToken, 'native', 'issuer')
-        )
-
-        dispatch(
-          getLastProcessedBlock(_action.payload.pToken, 'host', 'redeemer')
-        )
-
-        dispatch(ping(_action.payload.pToken))
 
         //token page
         dispatch(Log.clear())

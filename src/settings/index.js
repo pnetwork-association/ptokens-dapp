@@ -37,7 +37,6 @@ const settings = {
     formaticKey: 'pk_test_48E59AF566747C40',
     testnet: {
       eth: {
-        contractAddress: '0xd6fda5d7f2bf423ae53af09a883f655b4e8306ff',
         wsInfuraEndpoint: 'wss://ropsten.infura.io/ws/v3/',
         httpsInfuraEndpoint: 'https://ropsten.infura.io/v3/',
         network: 'ropsten',
@@ -56,7 +55,6 @@ const settings = {
     },
     mainnet: {
       eth: {
-        contractAddress: '0x5228a22e72ccc52d415ecfd199f99d0665e7733b',
         wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
         httpsInfuraEndpoint: 'https://mainnet.infura.io/v3/',
         network: 'mainnet',

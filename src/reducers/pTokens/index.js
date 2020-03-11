@@ -17,7 +17,8 @@ import {
   PTOKENS_SET_DEPOSIT_ADDRESS,
   PTOKENS_RESET_DEPOSIT_ADDRESS,
   PTOKENS_SET_PARAMS,
-  PTOKENS_RESET_PARAMS
+  PTOKENS_RESET_PARAMS,
+  PTOKENS_SET_NODE_INFO
 } from '../../constants/index'
 
 const initialState = {
@@ -41,6 +42,10 @@ const initialState = {
       terminated: false,
       success: false,
       error: null
+    },
+    nodeInfo: {
+      publicKey: null,
+      contractAddress: null
     }
   },
   balance: null,
@@ -112,6 +117,10 @@ const pTokensReducer = (_state = initialState, _action) => {
           terminated: false,
           success: false,
           error: null
+        },
+        nodeInfo: {
+          publicKey: null,
+          contractAddress: null
         }
       }),
       balance: null,
@@ -124,6 +133,14 @@ const pTokensReducer = (_state = initialState, _action) => {
         amountToRedeem: '',
         typedIssueAccount: '',
         typedRedeemAccount: ''
+      })
+    })
+  }
+
+  if (_action.type === PTOKENS_SET_NODE_INFO) {
+    return Object.assign({}, _state, {
+      selected: Object.assign({}, _state.selected, {
+        nodeInfo: _action.payload.pToken.nodeInfo
       })
     })
   }

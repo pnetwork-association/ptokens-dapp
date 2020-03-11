@@ -112,6 +112,8 @@ const redeem = (_pToken, _params, _configs) => {
 
 const getBalance = (_pToken, _account, _configs) => {
   return async dispatch => {
+    if (!_pToken.nodeInfo.contractAddress) return
+
     const provider = getCorrespondingReadOnlyProvider(
       _pToken.name,
       'ETH',
@@ -121,9 +123,7 @@ const getBalance = (_pToken, _account, _configs) => {
     const res = await makeContractCall(
       web3,
       'balanceOf',
-      settings[_pToken.name.toLowerCase()][_pToken.network][
-        _pToken.redeemFrom.toLowerCase()
-      ].contractAddress,
+      _pToken.nodeInfo.contractAddress,
       pTokenAbi,
       [_account]
     )
@@ -221,6 +221,8 @@ const getTotalRedeemed = (_pToken, _configs) => {
 
 const getCirculatingSupply = (_pToken, _configs) => {
   return async dispatch => {
+    if (!_pToken.nodeInfo.contractAddress) return
+
     const provider = getCorrespondingReadOnlyProvider(
       _pToken.name,
       'ETH',
@@ -230,9 +232,7 @@ const getCirculatingSupply = (_pToken, _configs) => {
     const res = await makeContractCall(
       web3,
       'totalSupply',
-      settings[_pToken.name.toLowerCase()][_pToken.network][
-        _pToken.redeemFrom.toLowerCase()
-      ].contractAddress,
+      _pToken.nodeInfo.contractAddress,
       pTokenAbi,
       []
     )

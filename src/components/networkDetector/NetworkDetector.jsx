@@ -7,7 +7,8 @@ const networkTextToShow = {
   ropsten: 'Ropsten Test Network',
   mainnet: 'Main Ethereum Network',
   goerly: 'Goerly Test Network',
-  rinkeby: 'Rinkeby Test Network'
+  rinkeby: 'Rinkeby Test Network',
+  testnet: 'Ropsten Test Network'
 }
 
 const networkToType = {

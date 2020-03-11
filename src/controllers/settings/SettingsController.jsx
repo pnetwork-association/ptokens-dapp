@@ -73,7 +73,8 @@ export class SettingsController extends React.Component {
   componentDidUpdate(_prevProps) {
     if (
       this.props.pTokenSelected.name !== this.state.pTokenSelectedName &&
-      this.props.redeemerProvider
+      this.props.redeemerProvider &&
+      this.props.pTokenSelected.nodeInfo.contractAddress
     ) {
       this.setState({
         pTokenSelectedName: this.props.pTokenSelected.name
@@ -91,7 +92,8 @@ export class SettingsController extends React.Component {
 
     if (
       this.props.pTokenSelected.network !== this.state.pTokenSelectedNetwork &&
-      this.props.redeemerProvider
+      this.props.redeemerProvider &&
+      this.props.pTokenSelected.nodeInfo.contractAddress
     ) {
       this.setState({
         pTokenSelectedNetwork: this.props.pTokenSelected.network
