@@ -11,65 +11,36 @@ import {
   PNETWORK_SET_REDEEMER_BLOCK_HEIGHT_STATUS,
   PTOKENS_SET_NODE_INFO
 } from '../../constants'
-import { NodeSelector } from 'ptokens-node-selector'
 import { getBlockHeightStatusComparedWithTheReals } from '../../utils/blocks-sync'
 
 let selectedNode = null
-let pTokenCurrent = {
-  name: 'pbtc',
-  redeemFrom: 'eth',
-  network: 'mainnet'
-}
 
-const _selectNode = async (_pToken, _dispatch) => {
-  const nodeSelector = new NodeSelector({
-    pToken: {
-      name: _pToken.name,
-      redeemFrom: _pToken.redeemFrom
-    },
-    networkType: _pToken.network
-  })
+const setNode = (_pToken, _node) => {
+  return async dispatch => {
+    const info = await _node.getInfo()
 
-  pTokenCurrent.name = _pToken.name
-  pTokenCurrent.redeemFrom = _pToken.redeemFrom
-  pTokenCurrent.network = _pToken.network
+    selectedNode = _node
 
-  const node = await nodeSelector.select()
-  const info = await node.getInfo()
-
-  _dispatch({
-    type: PTOKENS_SET_NODE_INFO,
-    payload: {
-      pToken: Object.assign({}, _pToken, {
-        nodeInfo: {
-          contractAddress: info.smart_contract_address,
-          publicKey: info.public_key
-        }
-      })
-    }
-  })
-
-  return node
-}
-
-const _getSelectedNode = async (_pToken, _dispatch) => {
-  if (
-    !selectedNode ||
-    _pToken.name.toLowerCase() !== pTokenCurrent.name ||
-    _pToken.redeemFrom.toLowerCase() !== pTokenCurrent.redeemFrom ||
-    _pToken.network.toLowerCase() !== pTokenCurrent.network
-  ) {
-    selectedNode = await _selectNode(_pToken, _dispatch)
-    //TODO: check if node is null => no nodes available
+    dispatch({
+      type: PTOKENS_SET_NODE_INFO,
+      payload: {
+        pToken: Object.assign({}, _pToken, {
+          nodeInfo: {
+            contractAddress: info.smart_contract_address,
+            publicKey: info.public_key,
+            endpoint: _node.endpoint
+          }
+        })
+      }
+    })
   }
-
-  return selectedNode
 }
 
 const ping = _pToken => {
   return async dispatch => {
-    const node = await _getSelectedNode(_pToken, dispatch)
-    await node.ping()
+    if (!selectedNode) return
+
+    await selectedNode.ping()
 
     dispatch({
       type: PNETWORK_PING_PONG
@@ -79,9 +50,9 @@ const ping = _pToken => {
 
 const getLastProcessedBlock = (_pToken, _type, _role) => {
   return async dispatch => {
-    const node = await _getSelectedNode(_pToken, dispatch)
+    if (!selectedNode) return
 
-    const lastProcessedBlock = await node.getLastProcessedBlock(_type)
+    const lastProcessedBlock = await selectedNode.getLastProcessedBlock(_type)
 
     let value = null
     switch (_pToken.name) {
@@ -135,8 +106,9 @@ const getLastProcessedBlock = (_pToken, _type, _role) => {
 
 const getReports = (_pToken, _type, _role) => {
   return async dispatch => {
-    const node = await _getSelectedNode(_pToken, dispatch)
-    const reports = await node.getReports(_type)
+    if (!selectedNode) return
+
+    const reports = await selectedNode.getReports(_type)
 
     const actionType =
       _role === 'issuer'
@@ -153,8 +125,9 @@ const getReports = (_pToken, _type, _role) => {
 
 const submitBlock = (_pToken, _type, _block) => {
   return async dispatch => {
-    const node = await _getSelectedNode(_pToken, dispatch)
-    await node.submitBlock(_type, _block)
+    if (!selectedNode) return
+
+    await selectedNode.submitBlock(_type, _block)
 
     dispatch({
       type: PNETWORK_BLOCK_SUBMITTED
@@ -200,5 +173,6 @@ export {
   resetSubmitBlockSuccess,
   resetData,
   setIssuerBlockHeightStatus,
-  setRedeemerBlockHeightStatus
+  setRedeemerBlockHeightStatus,
+  setNode
 }

@@ -117,6 +117,16 @@ const Settings = props => {
                     </div>
                   </div>
                 ) : null}
+                <div className="row ml-0 mr-0 mt-5 mb-5">
+                  <div className="col-6 mt-15 mb-15 text-xs text-gray">
+                    Connected to:
+                  </div>
+                  <div className="col-6 text-right mt-15 mb-15 text-xs text-primary font-weight-bold">
+                    {props.pTokenSelected.nodeInfo.endpoint
+                      ? props.pTokenSelected.nodeInfo.endpoint
+                      : '-'}
+                  </div>
+                </div>
                 <hr />
               </div>
               <div className="card-footer border-0 p-0 pt-10" />

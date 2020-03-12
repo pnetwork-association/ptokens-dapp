@@ -45,7 +45,8 @@ const initialState = {
     },
     nodeInfo: {
       publicKey: null,
-      contractAddress: null
+      contractAddress: null,
+      endpoint: null
     }
   },
   balance: null,
@@ -120,7 +121,8 @@ const pTokensReducer = (_state = initialState, _action) => {
         },
         nodeInfo: {
           publicKey: null,
-          contractAddress: null
+          contractAddress: null,
+          endpoint: null
         }
       }),
       balance: null,
