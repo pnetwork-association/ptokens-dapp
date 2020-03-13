@@ -58,8 +58,6 @@ export class SidebarController extends React.Component {
         pToken.network === pTokenNetworkSelected
     )
 
-    this.props.setSelectedpToken(pToken, pTokenNetworkSelected)
-
     if (!page) {
       this.props.setSelectedPage(0, pToken)
     } else {

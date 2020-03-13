@@ -12,12 +12,45 @@ import {
   PTOKENS_SET_NODE_INFO
 } from '../../constants'
 import { getBlockHeightStatusComparedWithTheReals } from '../../utils/blocks-sync'
+import { NodeSelector } from 'ptokens-node-selector'
 
 let selectedNode = null
 
-const setNode = (_pToken, _node) => {
+const setNode = _pToken => {
+  return async dispatch => {
+    const nodeSelector = new NodeSelector({
+      pToken: {
+        name: _pToken.name,
+        redeemFrom: _pToken.redeemFrom
+      },
+      networkType: _pToken.network
+    })
+
+    await nodeSelector.select()
+
+    selectedNode = nodeSelector.selectedNode
+
+    const info = await selectedNode.getInfo()
+
+    dispatch({
+      type: PTOKENS_SET_NODE_INFO,
+      payload: {
+        pToken: Object.assign({}, _pToken, {
+          nodeInfo: {
+            contractAddress: info.smart_contract_address,
+            publicKey: info.public_key,
+            endpoint: selectedNode.endpoint
+          }
+        })
+      }
+    })
+  }
+}
+
+const setNodeManually = (_pToken, _node, _manuallySet) => {
   return async dispatch => {
     const info = await _node.getInfo()
+    console.log(info)
 
     selectedNode = _node
 
@@ -174,5 +207,6 @@ export {
   resetData,
   setIssuerBlockHeightStatus,
   setRedeemerBlockHeightStatus,
-  setNode
+  setNode,
+  setNodeManually
 }

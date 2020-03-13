@@ -13,7 +13,7 @@ import queryString from 'query-string'
 import { connect } from 'react-redux'
 import { Node } from 'ptokens-node'
 import NotificationAlert from 'react-notification-alert'
-import { setNode } from '../actions/pNetwork/'
+import { setNodeManually, setNode } from '../actions/pNetwork/'
 
 history.listen(location => {
   ReactGA.set({ page: location.pathname })
@@ -28,7 +28,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setNode: (_pToken, _node) => dispatch(setNode(_pToken, _node))
+    setNodeManually: (_pToken, _node) =>
+      dispatch(setNodeManually(_pToken, _node)),
+    setNode: _pToken => dispatch(setNode(_pToken))
   }
 }
 
@@ -50,14 +52,22 @@ class App extends React.Component {
         },
         endpoint: node.includes('https://') ? node : `https://${node}`
       })
-      const info = await pnode.getInfo()
-      if (!info.host_network.includes(this.props.pTokenSelected.network)) {
-        this.showAlert('danger', 'Node not compatible with selected pToken')
+
+      try {
+        const info = await pnode.getInfo()
+        if (!info.host_network.includes(this.props.pTokenSelected.network)) {
+          this.showAlert('danger', 'Node not compatible with selected pToken')
+          return
+        }
+        this.props.setNodeManually(this.props.pTokenSelected, pnode)
+        return
+      } catch (err) {
+        this.showAlert('danger', 'Node Unreachable')
         return
       }
-
-      this.props.setNode(this.props.pTokenSelected, pnode)
     }
+
+    this.props.setNode(this.props.pTokenSelected)
   }
 
   componentDidMount() {

@@ -66,8 +66,6 @@ const middleware = ({ dispatch }) => {
 
         dispatch(getTotalIssued(_action.payload.pToken, configs))*/
 
-        dispatch(setNode)
-
         dispatch(getReports(_action.payload.pToken, 'native', 'redeemer'))
 
         dispatch(getReports(_action.payload.pToken, 'host', 'issuer'))
