@@ -13,22 +13,39 @@ import {
 } from '../../constants'
 import { getBlockHeightStatusComparedWithTheReals } from '../../utils/blocks-sync'
 import { NodeSelector } from 'ptokens-node-selector'
+import { Node } from 'ptokens-node'
 
 let selectedNode = null
 
+const selectedManually = {}
+
 const setNode = _pToken => {
   return async dispatch => {
-    const nodeSelector = new NodeSelector({
-      pToken: {
-        name: _pToken.name,
-        redeemFrom: _pToken.redeemFrom
-      },
-      networkType: _pToken.network
-    })
+    const endpointManuallySelected =
+      selectedManually[
+        `${_pToken.name.toLowerCase()}-on-${_pToken.redeemFrom.toLowerCase()}-${_pToken.network.toLowerCase()}`
+      ]
 
-    await nodeSelector.select()
+    if (endpointManuallySelected) {
+      selectedNode = selectedNode = new Node({
+        pToken: {
+          name: _pToken.name,
+          redeemFrom: 'eth'
+        },
+        endpoint: endpointManuallySelected
+      })
+    } else {
+      const nodeSelector = new NodeSelector({
+        pToken: {
+          name: _pToken.name,
+          redeemFrom: _pToken.redeemFrom
+        },
+        networkType: _pToken.network
+      })
 
-    selectedNode = nodeSelector.selectedNode
+      await nodeSelector.select()
+      selectedNode = nodeSelector.selectedNode
+    }
 
     const info = await selectedNode.getInfo()
 
@@ -47,12 +64,20 @@ const setNode = _pToken => {
   }
 }
 
-const setNodeManually = (_pToken, _node, _manuallySet) => {
+const setNodeManually = (_pToken, _endpoint) => {
   return async dispatch => {
-    const info = await _node.getInfo()
-    console.log(info)
+    selectedManually[
+      `${_pToken.name.toLowerCase()}-on-${_pToken.redeemFrom.toLowerCase()}-${_pToken.network.toLowerCase()}`
+    ] = _endpoint
 
-    selectedNode = _node
+    selectedNode = new Node({
+      pToken: {
+        name: _pToken.name,
+        redeemFrom: 'eth'
+      },
+      endpoint: _endpoint
+    })
+    const info = await selectedNode.getInfo()
 
     dispatch({
       type: PTOKENS_SET_NODE_INFO,
@@ -61,7 +86,7 @@ const setNodeManually = (_pToken, _node, _manuallySet) => {
           nodeInfo: {
             contractAddress: info.smart_contract_address,
             publicKey: info.public_key,
-            endpoint: _node.endpoint
+            endpoint: _endpoint
           }
         })
       }

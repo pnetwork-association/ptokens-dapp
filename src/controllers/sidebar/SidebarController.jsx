@@ -7,6 +7,7 @@ import { setSelectedpToken, resetParams } from '../../actions/pTokens'
 import { disconnectFromSpecificWallet } from '../../actions/wallets'
 import { resetData } from '../../actions/pNetwork'
 import history from '../../utils/history'
+import queryString from 'query-string'
 
 const mapStateToProps = state => {
   return {
@@ -22,8 +23,8 @@ const mapDispatchToProps = dispatch => {
     setSelectedPage: (_selected, _pToken) =>
       dispatch(setSelectedPage(_selected, _pToken)),
     setCollapseState: state => dispatch(setCollapseState(state)),
-    setSelectedpToken: (pToken, _redeemerNetwork) =>
-      dispatch(setSelectedpToken(pToken, _redeemerNetwork)),
+    setSelectedpToken: (_pToken, _withNodeSelection) =>
+      dispatch(setSelectedpToken(_pToken, _withNodeSelection)),
     pNetworkDataReset: () => dispatch(resetData()),
     disconnectFromSpecificWallet: (pTokenName, role) =>
       dispatch(disconnectFromSpecificWallet(pTokenName, role)),
@@ -57,6 +58,10 @@ export class SidebarController extends React.Component {
         pToken.name.toLowerCase() === pTokenNameSelected &&
         pToken.network === pTokenNetworkSelected
     )
+
+    const { node } = queryString.parse(window.location.search)
+    //if node is present not load the node
+    this.props.setSelectedpToken(pToken, node ? false : true)
 
     if (!page) {
       this.props.setSelectedPage(0, pToken)

@@ -28,8 +28,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setNodeManually: (_pToken, _node) =>
-      dispatch(setNodeManually(_pToken, _node)),
+    setNodeManually: (_pToken, _endpoint) =>
+      dispatch(setNodeManually(_pToken, _endpoint)),
     setNode: _pToken => dispatch(setNode(_pToken))
   }
 }
@@ -47,8 +47,8 @@ class App extends React.Component {
     if (node) {
       const pnode = new Node({
         pToken: {
-          name: this.props.pTokenSelected.name,
-          redeemFrom: this.props.pTokenSelected.redeemFrom
+          name: this.props.pTokenSelected.name.toLowerCase(),
+          redeemFrom: this.props.pTokenSelected.redeemFrom.toLowerCase()
         },
         endpoint: node.includes('https://') ? node : `https://${node}`
       })
@@ -59,10 +59,11 @@ class App extends React.Component {
           this.showAlert('danger', 'Node not compatible with selected pToken')
           return
         }
-        this.props.setNodeManually(this.props.pTokenSelected, pnode)
+        this.props.setNodeManually(this.props.pTokenSelected, pnode.endpoint)
         return
       } catch (err) {
         this.showAlert('danger', 'Node Unreachable')
+        this.props.setNodeManually(this.props.pTokenSelected, pnode.endpoint)
         return
       }
     }
@@ -80,7 +81,7 @@ class App extends React.Component {
       message: <span className="ml-1 font-weight-bold">{_message + '.'}</span>,
       type: _type,
       icon: 'fa fa-bell',
-      autoDismiss: 10
+      autoDismiss: 5
     }
     this.refs.notify.notificationAlert(options)
   }
@@ -105,6 +106,7 @@ class App extends React.Component {
             }}
           />
           <Route
+            exact
             path={'/(pbtc-on-eth|pbtc-on-eth-testnet)/pnetwork'}
             render={() => {
               return (
@@ -119,6 +121,7 @@ class App extends React.Component {
             }}
           />
           <Route
+            exact
             path={'/(pbtc-on-eth|pbtc-on-eth-testnet)/issue-redeem'}
             render={() => {
               return (
@@ -133,6 +136,7 @@ class App extends React.Component {
             }}
           />
           <Route
+            exact
             path={'/(pbtc-on-eth|pbtc-on-eth-testnet)/settings'}
             render={() => {
               return (

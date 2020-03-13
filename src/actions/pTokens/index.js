@@ -55,11 +55,12 @@ const _getSelectedpToken = (_pToken, _configs) => {
   return ptokens
 }
 
-const setSelectedpToken = _pToken => {
+const setSelectedpToken = (_pToken, _withNodeSelection = true) => {
   return {
     type: SET_SELECTED_PTOKEN,
     payload: {
-      pToken: _pToken
+      pToken: _pToken,
+      withNodeSelection: _withNodeSelection
     }
   }
 }

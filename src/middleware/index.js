@@ -14,7 +14,6 @@ import {
 import * as Log from '../actions/log'
 import { SET_SELECTED_PTOKEN, PTOKENS_SET_NODE_INFO } from '../constants'
 import { getCorrespondingReadOnlyProvider } from '../utils/read-only-providers'
-import { NodeSelector } from 'ptokens-node-selector'
 
 let currentContractAddress = null
 
@@ -22,17 +21,8 @@ const middleware = ({ dispatch }) => {
   return _next => {
     return async _action => {
       if (_action.type === SET_SELECTED_PTOKEN) {
-        const nodeSelector = new NodeSelector({
-          pToken: {
-            name: _action.payload.pToken.name,
-            redeemFrom: _action.payload.pToken.redeemFrom
-          },
-          networkType: _action.payload.pToken.network
-        })
-
-        await nodeSelector.select()
-
-        dispatch(setNode(_action.payload.pToken, nodeSelector.selectedNode))
+        if (_action.payload.withNodeSelection)
+          dispatch(setNode(_action.payload.pToken))
       }
 
       if (_action.type === PTOKENS_SET_NODE_INFO) {
