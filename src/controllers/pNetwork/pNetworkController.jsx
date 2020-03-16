@@ -8,13 +8,7 @@ import {
   submitBlock,
   resetSubmitBlockSuccess
 } from '../../actions/pNetwork'
-import {
-  getMintNonce,
-  getBurnNonce,
-  getTotalIssued,
-  getTotalRedeemed,
-  getCirculatingSupply
-} from '../../actions/pTokens'
+import { getCirculatingSupply } from '../../actions/pTokens'
 import { connect } from 'react-redux'
 import { isJsonString } from '../../utils/utils'
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
@@ -41,14 +35,6 @@ const mapDispatchToProps = dispatch => {
     submitBlock: (_pToken, _type, _block) =>
       dispatch(submitBlock(_pToken, _type, _block)),
     resetSubmitBlockSuccess: () => dispatch(resetSubmitBlockSuccess()),
-    getMintNonce: (_pToken, _configs) =>
-      dispatch(getMintNonce(_pToken, _configs)),
-    getBurnNonce: (_pToken, _configs) =>
-      dispatch(getBurnNonce(_pToken, _configs)),
-    getTotalIssued: (_pToken, _configs) =>
-      dispatch(getTotalIssued(_pToken, _configs)),
-    getTotalRedeemed: (_pToken, _configs) =>
-      dispatch(getTotalRedeemed(_pToken, _configs)),
     getCirculatingSupply: (_pToken, _configs) =>
       dispatch(getCirculatingSupply(_pToken, _configs))
   }

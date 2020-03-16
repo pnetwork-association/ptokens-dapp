@@ -4,6 +4,7 @@ import PNetworkController from './pNetwork/pNetworkController'
 import SidebarController from './sidebar/SidebarController'
 import PTokensController from './pTokens/pTokensController'
 import SettingsController from './settings/SettingsController'
+import NodeDetectorController from './nodeDetector/NodeDetectorController'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import MainWrapper from '../components/utils/MainWrapper'
 import NetworkDetectorController from './networkDetector/NetworkDetectorController'
@@ -12,8 +13,10 @@ import ReactGA from 'react-ga'
 import queryString from 'query-string'
 import { connect } from 'react-redux'
 import { Node } from 'ptokens-node'
-import NotificationAlert from 'react-notification-alert'
 import { setNodeManually, setNode } from '../actions/pNetwork/'
+import { setSelectedPage } from '../actions/sidebar'
+import { setSelectedpToken } from '../actions/pTokens'
+import PropTypes from 'prop-types'
 
 history.listen(location => {
   ReactGA.set({ page: location.pathname })
@@ -22,7 +25,7 @@ history.listen(location => {
 
 const mapStateToProps = state => {
   return {
-    pTokenSelected: state.pTokens.selected
+    pTokensAvailable: state.pTokens.available
   }
 }
 
@@ -30,8 +33,19 @@ const mapDispatchToProps = dispatch => {
   return {
     setNodeManually: (_pToken, _endpoint) =>
       dispatch(setNodeManually(_pToken, _endpoint)),
-    setNode: _pToken => dispatch(setNode(_pToken))
+    setNode: _pToken => dispatch(setNode(_pToken)),
+    setSelectedPage: (_selected, _pToken) =>
+      dispatch(setSelectedPage(_selected, _pToken)),
+    setSelectedpToken: (_pToken, _withNodeSelection) =>
+      dispatch(setSelectedpToken(_pToken, _withNodeSelection))
   }
+}
+
+const pageNameToNumbers = {
+  '': 0,
+  'issue-redeem': 1,
+  enclave: 2,
+  settings: 3
 }
 
 class App extends React.Component {
@@ -42,40 +56,51 @@ class App extends React.Component {
   }
 
   async componentWillMount() {
+    //getting only the ptoken type -> ../pbtc-on-eth-testnet/....
+    const splittedUrl = history.location.pathname.split('/')[1].split('-')
+
+    const pTokenNameSelected = splittedUrl[0]
+    const pTokenNetworkSelected =
+      splittedUrl[3] === 'testnet' ? 'testnet' : 'mainnet'
+
+    const page = history.location.pathname.split('/')[2]
+    const pToken = this.props.pTokensAvailable.find(
+      pToken =>
+        pToken.name.toLowerCase() === pTokenNameSelected &&
+        pToken.network === pTokenNetworkSelected
+    )
+
     const { node } = queryString.parse(window.location.search)
+    //if node is present not load the node
+    this.props.setSelectedpToken(pToken, node ? false : true)
+
+    if (!page) {
+      this.props.setSelectedPage(0, pToken)
+    } else {
+      this.props.setSelectedPage(pageNameToNumbers[page], pToken)
+    }
 
     if (node) {
       const pnode = new Node({
         pToken: {
-          name: this.props.pTokenSelected.name.toLowerCase(),
-          redeemFrom: this.props.pTokenSelected.redeemFrom.toLowerCase()
+          name: pToken.name.toLowerCase(),
+          redeemFrom: pToken.redeemFrom.toLowerCase()
         },
         endpoint: node.includes('https://') ? node : `https://${node}`
       })
 
-      try {
-        const info = await pnode.getInfo()
-        if (!info.host_network.includes(this.props.pTokenSelected.network)) {
-          this.showAlert('danger', 'Node not compatible with selected pToken')
-          return
-        }
-        this.props.setNodeManually(this.props.pTokenSelected, pnode.endpoint)
-        return
-      } catch (err) {
-        this.showAlert('danger', 'Node Unreachable')
-        this.props.setNodeManually(this.props.pTokenSelected, pnode.endpoint)
-        return
-      }
+      this.props.setNodeManually(pToken, pnode.endpoint)
+      return
     }
 
-    this.props.setNode(this.props.pTokenSelected)
+    this.props.setNode(pToken)
   }
 
   componentDidMount() {
     ReactGA.pageview(window.location.pathname)
   }
 
-  showAlert = (_type, _message) => {
+  /*showAlert = (_type, _message) => {
     const options = {
       place: 'br',
       message: <span className="ml-1 font-weight-bold">{_message + '.'}</span>,
@@ -84,7 +109,7 @@ class App extends React.Component {
       autoDismiss: 5
     }
     this.refs.notify.notificationAlert(options)
-  }
+  }*/
 
   render() {
     return (
@@ -98,6 +123,7 @@ class App extends React.Component {
                 <React.Fragment>
                   <SidebarController />
                   <MainWrapper>
+                    <NodeDetectorController />
                     <NetworkDetectorController />
                     <MainController />
                   </MainWrapper>
@@ -113,6 +139,7 @@ class App extends React.Component {
                 <React.Fragment>
                   <SidebarController />
                   <MainWrapper>
+                    <NodeDetectorController />
                     <NetworkDetectorController />
                     <PNetworkController />
                   </MainWrapper>
@@ -128,6 +155,7 @@ class App extends React.Component {
                 <React.Fragment>
                   <SidebarController />
                   <MainWrapper>
+                    <NodeDetectorController />
                     <NetworkDetectorController />
                     <PTokensController />
                   </MainWrapper>
@@ -152,10 +180,15 @@ class App extends React.Component {
           />
           <Route render={() => <Redirect to="pbtc-on-eth" />} />
         </Switch>
-        <NotificationAlert ref="notify" />
       </React.Fragment>
     )
   }
+}
+
+SidebarController.propTypes = {
+  pTokensAvailable: PropTypes.array,
+  setSelectedPage: PropTypes.func,
+  setSelectedpToken: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

@@ -47,7 +47,26 @@ const setNode = _pToken => {
       selectedNode = nodeSelector.selectedNode
     }
 
-    const info = await selectedNode.getInfo()
+    let info = null
+    try {
+      info = await selectedNode.getInfo()
+    } catch (err) {
+      dispatch({
+        type: PTOKENS_SET_NODE_INFO,
+        payload: {
+          pToken: Object.assign({}, _pToken, {
+            nodeInfo: {
+              contractAddress: null,
+              publicKey: null,
+              endpoint: null,
+              isManuallySelected: endpointManuallySelected ? true : false,
+              isCompatible: false
+            }
+          })
+        }
+      })
+      return
+    }
 
     dispatch({
       type: PTOKENS_SET_NODE_INFO,
@@ -56,7 +75,11 @@ const setNode = _pToken => {
           nodeInfo: {
             contractAddress: info.smart_contract_address,
             publicKey: info.public_key,
-            endpoint: selectedNode.endpoint
+            endpoint: selectedNode.endpoint,
+            isManuallySelected: endpointManuallySelected ? true : false,
+            isCompatible: info.native_network.includes(_pToken.network)
+              ? true
+              : false
           }
         })
       }
@@ -77,7 +100,27 @@ const setNodeManually = (_pToken, _endpoint) => {
       },
       endpoint: _endpoint
     })
-    const info = await selectedNode.getInfo()
+
+    let info = null
+    try {
+      info = await selectedNode.getInfo()
+    } catch (err) {
+      dispatch({
+        type: PTOKENS_SET_NODE_INFO,
+        payload: {
+          pToken: Object.assign({}, _pToken, {
+            nodeInfo: {
+              contractAddress: null,
+              publicKey: null,
+              endpoint: null,
+              isManuallySelected: true,
+              isCompatible: false
+            }
+          })
+        }
+      })
+      return
+    }
 
     dispatch({
       type: PTOKENS_SET_NODE_INFO,
@@ -86,7 +129,11 @@ const setNodeManually = (_pToken, _endpoint) => {
           nodeInfo: {
             contractAddress: info.smart_contract_address,
             publicKey: info.public_key,
-            endpoint: _endpoint
+            endpoint: _endpoint,
+            isManuallySelected: true,
+            isCompatible: info.native_network.includes(_pToken.network)
+              ? true
+              : false
           }
         })
       }

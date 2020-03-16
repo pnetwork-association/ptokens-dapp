@@ -9,10 +9,6 @@ import {
   PTOKENS_RESET_REDEEM_SUCCESS,
   PTOKENS_RESET_ISSUE_ERROR,
   PTOKENS_RESET_REDEEM_ERROR,
-  PTOKENS_MINT_NONCE_LOADED,
-  PTOKENS_BURN_NONCE_LOADED,
-  PTOKENS_TOTAL_ISSUED_LOADED,
-  PTOKENS_TOTAL_REDEEMED_LOADED,
   PTOKENS_CIRCULATING_SUPPLY_LOADED,
   PTOKENS_SET_DEPOSIT_ADDRESS,
   PTOKENS_RESET_DEPOSIT_ADDRESS,
@@ -28,10 +24,6 @@ const initialState = {
     contractDecimals: 18,
     issueFrom: 'BTC',
     redeemFrom: 'ETH',
-    mintNonce: null,
-    burnNonce: null,
-    totalIssued: null,
-    totalRedeemed: null,
     circulatingSupply: null,
     tokenType: 'ERC-20',
     network: 'mainnet',
@@ -46,7 +38,9 @@ const initialState = {
     nodeInfo: {
       publicKey: null,
       contractAddress: null,
-      endpoint: null
+      endpoint: null,
+      isManuallySelected: null,
+      isCompatible: null
     }
   },
   balance: null,
@@ -108,10 +102,6 @@ const pTokensReducer = (_state = initialState, _action) => {
         tokenType: _action.payload.pToken.tokenType,
         network: _action.payload.pToken.network,
         circulatingSupply: null,
-        totalIssued: null,
-        totalRedeemed: null,
-        mintNonce: null,
-        burnNonce: null,
         depositAddress: {
           value: null,
           waiting: false,
@@ -122,7 +112,9 @@ const pTokensReducer = (_state = initialState, _action) => {
         nodeInfo: {
           publicKey: null,
           contractAddress: null,
-          endpoint: null
+          endpoint: null,
+          isManuallySelected: null,
+          isCompatible: null
         }
       }),
       balance: null,
@@ -242,38 +234,6 @@ const pTokensReducer = (_state = initialState, _action) => {
     return Object.assign({}, _state, {
       redeemError: null,
       isRedeemSuccedeed: null
-    })
-  }
-
-  if (_action.type === PTOKENS_MINT_NONCE_LOADED) {
-    return Object.assign({}, _state, {
-      selected: Object.assign({}, _state.selected, {
-        mintNonce: _action.payload.mintNonce
-      })
-    })
-  }
-
-  if (_action.type === PTOKENS_BURN_NONCE_LOADED) {
-    return Object.assign({}, _state, {
-      selected: Object.assign({}, _state.selected, {
-        burnNonce: _action.payload.burnNonce
-      })
-    })
-  }
-
-  if (_action.type === PTOKENS_TOTAL_ISSUED_LOADED) {
-    return Object.assign({}, _state, {
-      selected: Object.assign({}, _state.selected, {
-        totalIssued: _action.payload.totalIssued
-      })
-    })
-  }
-
-  if (_action.type === PTOKENS_TOTAL_REDEEMED_LOADED) {
-    return Object.assign({}, _state, {
-      selected: Object.assign({}, _state.selected, {
-        totalRedeemed: _action.payload.totalRedeemed
-      })
     })
   }
 

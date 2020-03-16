@@ -5,10 +5,6 @@ import {
   PTOKENS_RESET_REDEEM_SUCCESS,
   PTOKENS_RESET_ISSUE_ERROR,
   PTOKENS_RESET_REDEEM_ERROR,
-  PTOKENS_MINT_NONCE_LOADED,
-  PTOKENS_BURN_NONCE_LOADED,
-  PTOKENS_TOTAL_ISSUED_LOADED,
-  PTOKENS_TOTAL_REDEEMED_LOADED,
   PTOKENS_CIRCULATING_SUPPLY_LOADED,
   PTOKENS_RESET_DEPOSIT_ADDRESS,
   PTOKENS_SET_PARAMS,
@@ -113,13 +109,14 @@ const redeem = (_pToken, _params, _configs) => {
 
 const getBalance = (_pToken, _account, _configs) => {
   return async dispatch => {
-    if (!_pToken.nodeInfo.contractAddress) return
+    if (!_pToken.nodeInfo.isCompatible) return
 
     const provider = getCorrespondingReadOnlyProvider(
       _pToken.name,
       'ETH',
       _pToken.network
     )
+
     const web3 = new Web3(provider)
     const res = await makeContractCall(
       web3,
@@ -140,89 +137,9 @@ const getBalance = (_pToken, _account, _configs) => {
   }
 }
 
-const getMintNonce = (_pToken, _configs) => {
-  return {
-    type: PTOKENS_MINT_NONCE_LOADED,
-    payload: {
-      mintNonce: 0
-    }
-  }
-  /*return async dispatch => {
-    const ptokens = _getSelectedpToken(_pToken, _configs)
-    const mintNonce = await ptokens[_pToken.name.toLowerCase()].getMintNonce()
-    dispatch({
-      type: PTOKENS_MINT_NONCE_LOADED,
-      payload: {
-        mintNonce
-      }
-    })
-  }*/
-}
-
-const getBurnNonce = (_pToken, _configs) => {
-  return {
-    type: PTOKENS_BURN_NONCE_LOADED,
-    payload: {
-      burnNonce: 0
-    }
-  }
-  /*return async dispatch => {
-    const ptokens = _getSelectedpToken(_pToken, _configs)
-    const burnNonce = await ptokens[_pToken.name.toLowerCase()].getBurnNonce()
-    dispatch({
-      type: PTOKENS_BURN_NONCE_LOADED,
-      payload: {
-        burnNonce
-      }
-    })
-  }*/
-}
-
-const getTotalIssued = (_pToken, _configs) => {
-  return {
-    type: PTOKENS_TOTAL_ISSUED_LOADED,
-    payload: {
-      totalIssued: 0
-    }
-  }
-  /*return async dispatch => {
-    const ptokens = _getSelectedpToken(_pToken, _configs)
-    const totalIssued = await ptokens[
-      _pToken.name.toLowerCase()
-    ].getTotalIssued()
-    dispatch({
-      type: PTOKENS_TOTAL_ISSUED_LOADED,
-      payload: {
-        totalIssued
-      }
-    })
-  }*/
-}
-
-const getTotalRedeemed = (_pToken, _configs) => {
-  return {
-    type: PTOKENS_TOTAL_REDEEMED_LOADED,
-    payload: {
-      totalRedeemed: 0
-    }
-  }
-  /*return async dispatch => {
-    const ptokens = _getSelectedpToken(_pToken, _configs)
-    const totalRedeemed = await ptokens[
-      _pToken.name.toLowerCase()
-    ].getTotalRedeemed()
-    dispatch({
-      type: PTOKENS_TOTAL_REDEEMED_LOADED,
-      payload: {
-        totalRedeemed
-      }
-    })
-  }*/
-}
-
 const getCirculatingSupply = (_pToken, _configs) => {
   return async dispatch => {
-    if (!_pToken.nodeInfo.contractAddress) return
+    if (!_pToken.nodeInfo.isCompatible) return
 
     const provider = getCorrespondingReadOnlyProvider(
       _pToken.name,
@@ -342,10 +259,6 @@ export {
   issue,
   redeem,
   getBalance,
-  getMintNonce,
-  getBurnNonce,
-  getTotalIssued,
-  getTotalRedeemed,
   getCirculatingSupply,
   resetDepositAddress,
   resetIssueSuccess,

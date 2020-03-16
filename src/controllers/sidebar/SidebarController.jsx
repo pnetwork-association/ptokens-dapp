@@ -6,8 +6,6 @@ import { setSelectedPage, setCollapseState } from '../../actions/sidebar'
 import { setSelectedpToken, resetParams } from '../../actions/pTokens'
 import { disconnectFromSpecificWallet } from '../../actions/wallets'
 import { resetData } from '../../actions/pNetwork'
-import history from '../../utils/history'
-import queryString from 'query-string'
 
 const mapStateToProps = state => {
   return {
@@ -32,42 +30,11 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const pageNameToNumbers = {
-  '': 0,
-  'issue-redeem': 1,
-  enclave: 2,
-  settings: 3
-}
-
 export class SidebarController extends React.Component {
   constructor(props, context) {
     super(props, context)
 
     this.state = {}
-
-    //getting only the ptoken type -> ../pbtc-on-eth-testnet/....
-    const splittedUrl = history.location.pathname.split('/')[1].split('-')
-
-    const pTokenNameSelected = splittedUrl[0]
-    const pTokenNetworkSelected =
-      splittedUrl[3] === 'testnet' ? 'testnet' : 'mainnet'
-
-    const page = history.location.pathname.split('/')[2]
-    const pToken = this.props.pTokensAvailable.find(
-      pToken =>
-        pToken.name.toLowerCase() === pTokenNameSelected &&
-        pToken.network === pTokenNetworkSelected
-    )
-
-    const { node } = queryString.parse(window.location.search)
-    //if node is present not load the node
-    this.props.setSelectedpToken(pToken, node ? false : true)
-
-    if (!page) {
-      this.props.setSelectedPage(0, pToken)
-    } else {
-      this.props.setSelectedPage(pageNameToNumbers[page], pToken)
-    }
   }
 
   render() {

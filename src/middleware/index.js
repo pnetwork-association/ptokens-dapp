@@ -47,15 +47,6 @@ const middleware = ({ dispatch }) => {
             _action.payload.pToken.nodeInfo.contractAddress
         }
 
-        //enclave page data
-        /*dispatch(getBurnNonce(_action.payload.pToken, configs))
-
-        dispatch(getMintNonce(_action.payload.pToken, configs))
-
-        dispatch(getTotalRedeemed(_action.payload.pToken, configs))
-
-        dispatch(getTotalIssued(_action.payload.pToken, configs))*/
-
         dispatch(getReports(_action.payload.pToken, 'native', 'redeemer'))
 
         dispatch(getReports(_action.payload.pToken, 'host', 'issuer'))
