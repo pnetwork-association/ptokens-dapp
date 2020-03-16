@@ -72,12 +72,21 @@ class App extends React.Component {
 
     const { node } = queryString.parse(window.location.search)
     //if node is present not load the node
-    this.props.setSelectedpToken(pToken, node ? false : true)
+    this.props.setSelectedpToken(
+      pToken ? pToken : this.props.pTokensAvailable[0],
+      node ? false : true
+    )
 
     if (!page) {
-      this.props.setSelectedPage(0, pToken)
+      this.props.setSelectedPage(
+        0,
+        pToken ? pToken : this.props.pTokensAvailable[0]
+      )
     } else {
-      this.props.setSelectedPage(pageNameToNumbers[page], pToken)
+      this.props.setSelectedPage(
+        pageNameToNumbers[page],
+        pToken ? pToken : this.props.pTokensAvailable[0]
+      )
     }
 
     if (node) {
@@ -93,7 +102,7 @@ class App extends React.Component {
       return
     }
 
-    this.props.setNode(pToken)
+    this.props.setNode(pToken ? pToken : this.props.pTokensAvailable[0])
   }
 
   componentDidMount() {
