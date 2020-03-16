@@ -58,7 +58,7 @@ const setNode = _pToken => {
             nodeInfo: {
               contractAddress: null,
               publicKey: null,
-              endpoint: null,
+              endpoint: selectedNode.endpoint,
               isManuallySelected: endpointManuallySelected ? true : false,
               isCompatible: false
             }
@@ -112,7 +112,7 @@ const setNodeManually = (_pToken, _endpoint) => {
             nodeInfo: {
               contractAddress: null,
               publicKey: null,
-              endpoint: null,
+              endpoint: _endpoint,
               isManuallySelected: true,
               isCompatible: false
             }

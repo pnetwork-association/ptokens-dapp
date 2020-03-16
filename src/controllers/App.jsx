@@ -100,17 +100,6 @@ class App extends React.Component {
     ReactGA.pageview(window.location.pathname)
   }
 
-  /*showAlert = (_type, _message) => {
-    const options = {
-      place: 'br',
-      message: <span className="ml-1 font-weight-bold">{_message + '.'}</span>,
-      type: _type,
-      icon: 'fa fa-bell',
-      autoDismiss: 5
-    }
-    this.refs.notify.notificationAlert(options)
-  }*/
-
   render() {
     return (
       <React.Fragment>
@@ -171,6 +160,7 @@ class App extends React.Component {
                 <React.Fragment>
                   <SidebarController />
                   <MainWrapper>
+                    <NodeDetectorController />
                     <NetworkDetectorController />
                     <SettingsController />
                   </MainWrapper>

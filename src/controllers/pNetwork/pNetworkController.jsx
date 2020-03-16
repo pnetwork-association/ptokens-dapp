@@ -110,10 +110,6 @@ class pNetworkController extends React.Component {
         redeemer: redeemerReadOnlyProvider
       }
 
-      this.props.getMintNonce(this.props.pTokenSelected, configs)
-      this.props.getBurnNonce(this.props.pTokenSelected, configs)
-      this.props.getTotalIssued(this.props.pTokenSelected, configs)
-      this.props.getTotalRedeemed(this.props.pTokenSelected, configs)
       this.props.getCirculatingSupply(this.props.pTokenSelected, configs)
 
       this.setState({
