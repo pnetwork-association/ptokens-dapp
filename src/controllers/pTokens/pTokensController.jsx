@@ -381,7 +381,7 @@ export class pTokenControllers extends React.Component {
     if (parsedAmountToRedeem < minimunRedeemableAmount) {
       this.showAlert(
         'danger',
-        `Impossible to mint less than ${minimunRedeemableAmount} ${this.props.pTokenSelected.name}`
+        `Impossible to redeem less than ${minimunRedeemableAmount} ${this.props.pTokenSelected.name}`
       )
       this.setState({
         isRedeemTerminated: true
