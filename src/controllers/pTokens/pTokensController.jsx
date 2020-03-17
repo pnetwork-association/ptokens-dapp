@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import PTokens from '../../components/pTokens/pTokens'
 import NotificationAlert from 'react-notification-alert'
 import * as LogHandler from '../../actions/log'
-import { mask } from '../../utils/utils'
 import {
   issue,
   redeem,
@@ -349,6 +348,9 @@ export class pTokenControllers extends React.Component {
         'danger',
         `${this.props.pTokenSelected.redeemFrom} Wallet Not Connected`
       )
+      this.setState({
+        isRedeemTerminated: true
+      })
       return
     }
 
@@ -363,32 +365,27 @@ export class pTokenControllers extends React.Component {
         'danger',
         `Please insert a valid ${this.props.pTokenSelected.issueFrom} address`
       )
-      return
-    }
-
-    const parsedAmountToRedeem = parseFloat(
-      this.props.pTokensParams.amountToRedeem
-    )
-    if (parsedAmountToRedeem === 0) {
-      this.showAlert(
-        'danger',
-        `Impossible to burn 0 ${this.props.pTokenSelected.name}`
-      )
+      this.setState({
+        isRedeemTerminated: true
+      })
       return
     }
 
     const decimals = this.props.pTokenSelected.realDecimals
-    const parsedAmountToIssue = parseFloat(
+    const parsedAmountToRedeem = parseFloat(
       this.props.pTokensParams.amountToRedeem
     ).toFixed(decimals)
     const minimunRedeemableAmount = getMinumRedeemableAmount(
       this.props.pTokenSelected.name
     )
-    if (parsedAmountToIssue < minimunRedeemableAmount) {
+    if (parsedAmountToRedeem < minimunRedeemableAmount) {
       this.showAlert(
         'danger',
         `Impossible to mint less than ${minimunRedeemableAmount} ${this.props.pTokenSelected.name}`
       )
+      this.setState({
+        isRedeemTerminated: true
+      })
       return
     }
 
@@ -424,8 +421,7 @@ export class pTokenControllers extends React.Component {
   onChangeAmountToIssue = _amount => {
     this.props.setpTokenParams(
       Object.assign({}, this.props.pTokensParams, {
-        amountToIssue: mask(_amount, this.props.pTokenSelected.realDecimals)
-          .maskedValue
+        amountToIssue: _amount
       })
     )
   }
@@ -433,8 +429,7 @@ export class pTokenControllers extends React.Component {
   onChangeAmountToRedeem = _amount => {
     this.props.setpTokenParams(
       Object.assign({}, this.props.pTokensParams, {
-        amountToRedeem: mask(_amount, this.props.pTokenSelected.realDecimals)
-          .maskedValue
+        amountToRedeem: _amount
       })
     )
   }
@@ -478,6 +473,7 @@ export class pTokenControllers extends React.Component {
           logs={this.props.logs}
           issuerProvider={this.props.issuerProvider}
           redeemerProvider={this.props.redeemerProvider}
+          isRedeemTerminated={this.state.isRedeemTerminated}
           onChangeAmountToIssue={this.onChangeAmountToIssue}
           onChangeAmountToRedeem={this.onChangeAmountToRedeem}
           onChangeIssueAccount={this.onChangeTypedIssueAccount}

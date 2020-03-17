@@ -47,7 +47,7 @@ const Input = props => {
               inputTextSizes[props.size]
             }`}
             placeholder=""
-            type="text"
+            type={props.type ? props.type : 'text'}
           />
         </div>
       </div>
@@ -57,11 +57,15 @@ const Input = props => {
 }
 
 Input.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   label: PropTypes.string,
   size: PropTypes.string,
   miniLabel: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  disabled: PropTypes.bool
 }
 
 export default Input

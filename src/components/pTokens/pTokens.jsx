@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { getCorresponsingVisibleAddressFormat } from '../../utils/account-viewer'
 import Process from './process/Process'
@@ -10,7 +10,17 @@ import Alert from '../utils/Alert'
 import Input from '../utils/Input'
 import Button from '../utils/Button'
 
-const pTokens = props => {
+const PTokens = props => {
+
+  const [isRedeeming, setIsRedeeming] = useState(false)
+
+  useEffect(() => {
+    if (
+      props.isRedeemTerminated
+    )
+    setIsRedeeming(false)
+  })
+
   return (
     <React.Fragment>
       <div className="container-fluid mt-20 text-center">
@@ -167,6 +177,7 @@ const pTokens = props => {
               </div>
               <div className="card-body pt-0">
                 <Input
+                  type="number"
                   label="AMOUNT"
                   miniLabel={
                     props.amountToRedeem !== ''
@@ -209,10 +220,14 @@ const pTokens = props => {
                   icon={'burn'}
                   disabled={
                     props.typedRedeemAccount === '' ||
-                    props.amountToRedeem === ''
+                    props.amountToRedeem === '' ||
+                    isRedeeming
                   }
                   text="REDEEM"
-                  onClick={() => props.onRedeem()}
+                  onClick={() => {
+                    props.onRedeem()
+                    setIsRedeeming(true)
+                  }}
                 />
               </div>
             </div>
@@ -233,18 +248,25 @@ const pTokens = props => {
   )
 }
 
-pTokens.propTypes = {
+PTokens.propTypes = {
   pTokenSelected: PropTypes.object,
   balance: PropTypes.string,
   issuerAccount: PropTypes.string,
   redeemerAccount: PropTypes.string,
-  amountToIssue: PropTypes.string,
-  amountToRedeem: PropTypes.string,
+  amountToIssue: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  amountToRedeem: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   typedIssueAccount: PropTypes.string,
   typedRedeemAccount: PropTypes.string,
   logs: PropTypes.array,
   issuerProvider: PropTypes.object,
   redeemerProvider: PropTypes.object,
+  isRedeemTerminated: PropTypes.bool,
   onChangeAmountToIssue: PropTypes.func,
   onChangeAmountToRedeem: PropTypes.func,
   onChangeIssueAccount: PropTypes.func,
@@ -254,4 +276,4 @@ pTokens.propTypes = {
   onResetLogs: PropTypes.func
 }
 
-export default pTokens
+export default PTokens
