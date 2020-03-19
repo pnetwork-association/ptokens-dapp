@@ -11,14 +11,10 @@ import Input from '../utils/Input'
 import Button from '../utils/Button'
 
 const PTokens = props => {
-
   const [isRedeeming, setIsRedeeming] = useState(false)
 
   useEffect(() => {
-    if (
-      props.isRedeemTerminated
-    )
-    setIsRedeeming(false)
+    if (props.isRedeemTerminated) setIsRedeeming(false)
   })
 
   return (
@@ -253,14 +249,8 @@ PTokens.propTypes = {
   balance: PropTypes.string,
   issuerAccount: PropTypes.string,
   redeemerAccount: PropTypes.string,
-  amountToIssue: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
-  amountToRedeem: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
+  amountToIssue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  amountToRedeem: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   typedIssueAccount: PropTypes.string,
   typedRedeemAccount: PropTypes.string,
   logs: PropTypes.array,

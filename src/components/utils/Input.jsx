@@ -57,10 +57,7 @@ const Input = props => {
 }
 
 Input.propTypes = {
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   label: PropTypes.string,
   size: PropTypes.string,
   miniLabel: PropTypes.string,

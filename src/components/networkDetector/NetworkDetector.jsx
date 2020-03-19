@@ -5,7 +5,7 @@ import Alert from '../utils/Alert'
 const networkTextToShow = {
   kovan: 'Kovan Test Network',
   ropsten: 'Ropsten Test Network',
-  mainnet: 'Main Ethereum Network',
+  main: 'Main Ethereum Network',
   goerly: 'Goerly Test Network',
   rinkeby: 'Rinkeby Test Network',
   testnet: 'Ropsten Test Network'
@@ -14,7 +14,7 @@ const networkTextToShow = {
 const networkToType = {
   kovan: 'testnet',
   ropsten: 'testnet',
-  mainnet: 'mainnet',
+  main: 'mainnet',
   goerly: 'testnet',
   rinkeby: 'testnet'
 }

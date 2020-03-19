@@ -12,7 +12,7 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.3.1",
     "eosjs": "^20.0.0",
-    "fortmatic": "^0.8.2",
+    "fortmatic": "^2.0.5",
     "prop-types": "^15.7.2",
     "qrcode.react": "^1.0.0",
     "query-string": "^6.11.1",

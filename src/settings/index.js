@@ -34,7 +34,10 @@ const settings = {
   pbtc: {
     infuraProjectId: '4762c881ac0c4938be76386339358ed6',
     portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
-    formaticKey: 'pk_test_48E59AF566747C40',
+    formaticKey: {
+      testnet: 'pk_test_48E59AF566747C40',
+      mainnet: 'pk_live_D0A703008A4B17B7'
+    },
     testnet: {
       eth: {
         wsInfuraEndpoint: 'wss://ropsten.infura.io/ws/v3/',

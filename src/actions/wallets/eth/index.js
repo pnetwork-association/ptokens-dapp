@@ -2,7 +2,7 @@ import Web3 from 'web3'
 import Web3Connect from 'web3connect'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import Portis from '@portis/web3'
-//import Fortmatic from 'fortmatic'
+import Fortmatic from 'fortmatic'
 //import Torus from "@toruslabs/torus-embed";
 //import Squarelink from 'squarelink'
 import settings from '../../../settings'
@@ -15,7 +15,7 @@ import {
 let web3Connect
 
 const connectWithEthWallet = async (
-  _pTokenName,
+  _pToken,
   _role,
   _currentProvider,
   _dispatch,
@@ -26,22 +26,25 @@ const connectWithEthWallet = async (
       walletconnect: {
         package: WalletConnectProvider,
         options: {
-          infuraId: settings[_pTokenName.toLowerCase()].infuraProjectId
+          infuraId: settings[_pToken.name.toLowerCase()].infuraProjectId
         }
       },
       portis: {
         package: Portis,
         options: {
-          id: settings[_pTokenName.toLowerCase()].portisDappId
-        }
-      }
-      /*fortmatic: {
-        package: Fortmatic,
-        options: {
-          key: settings[_pTokenName.toLowerCase()].eth.formaticKey
+          id: settings[_pToken.name.toLowerCase()].portisDappId
         }
       },
-      torus: {
+      fortmatic: {
+        package: Fortmatic,
+        options: {
+          key:
+            settings[_pToken.name.toLowerCase()].formaticKey[
+              _pToken.network.toLowerCase()
+            ]
+        }
+      }
+      /*torus: {
         package: Torus, 
         options: {
           showTorusButton: true,
@@ -106,6 +109,7 @@ const _getAccount = async _provider => {
 const _getWalletNameByProvider = _provider => {
   if (_provider.isWalletConnect) return 'Wallet Connect'
   if (_provider.isPortis) return 'Portis'
+  if (_provider.isFortmatic) return 'Fortmatic'
   else return 'Metamask'
 }
 
