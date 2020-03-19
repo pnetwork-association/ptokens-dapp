@@ -1,4 +1,4 @@
-const pBTCRedeemerNetworks = ['ropsten', 'mainnet']
+const pBTCRedeemerNetworks = ['ropsten', 'main']
 const pLTCRedeemerNetworks = ['ropsten']
 const pEOSRedeemerNetworks = ['kovan']
 
