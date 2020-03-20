@@ -50,13 +50,13 @@ export class NetworkDetectorController extends Component {
     }
 
     if (
-      _nextProps.pTokenSelected.name !== _prevState.currentPtokenName &&
+      _nextProps.pTokenSelected.id !== _prevState.currentPtokenId &&
       _nextProps.redeemerIsConnected
     ) {
       return {
         toDetectRedeemer: true,
         isDetectedRedeemer: false,
-        currentPtokenName: _nextProps.pTokenSelected.name
+        currentPtokenId: _nextProps.pTokenSelected.id
       }
     }
 

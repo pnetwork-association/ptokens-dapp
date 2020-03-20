@@ -72,7 +72,7 @@ export class pTokenControllers extends React.Component {
       currentRedeemerAccount: null,
       currentpTokenName: null,
       currentSelectedNetwork: null,
-      pTokenSelectedName: null,
+      pTokenSelectedId: null,
       pTokenSelectedNetwork: null
     }
 
@@ -115,46 +115,15 @@ export class pTokenControllers extends React.Component {
   }
 
   async componentDidUpdate(_prevProps, _prevState) {
-    if (
-      !_prevProps.redeemerProvider &&
-      this.props.redeemerProvider &&
-      this.props.pTokenSelected.nodeInfo.contractAddress
-    ) {
-      this.props.getBalance(
-        this.props.pTokenSelected,
-        this.props.redeemerAccount,
-        {
-          redeemer: this.props.redeemerProvider,
-          issuer: this.props.issuerProvider
-        }
-      )
-    }
+
 
     if (
-      this.props.pTokenSelected.name !== this.state.pTokenSelectedName &&
+      this.props.pTokenSelected.id !== this.state.pTokenSelectedId &&
       this.props.redeemerProvider &&
       this.props.pTokenSelected.nodeInfo.contractAddress
     ) {
       this.setState({
-        pTokenSelectedName: this.props.pTokenSelected.name
-      })
-
-      this.props.getBalance(
-        this.props.pTokenSelected,
-        this.props.redeemerAccount,
-        {
-          redeemer: this.props.redeemerProvider,
-          issuer: this.props.issuerProvider
-        }
-      )
-    }
-
-    if (
-      this.props.pTokenSelected.network !== this.state.pTokenSelectedNetwork &&
-      this.props.redeemerProvider &&
-      this.props.pTokenSelected.nodeInfo.contractAddress
-    ) {
-      this.setState({
+        pTokenSelectedId: this.props.pTokenSelected.id,
         pTokenSelectedNetwork: this.props.pTokenSelected.network
       })
 

@@ -50,7 +50,7 @@ export class SettingsController extends React.Component {
 
     this.state = {
       providerNameLoaded: false,
-      pTokenSelectedName: null,
+      pTokenSelectedId: null,
       pTokenSelectedNetwork: null
     }
 
@@ -72,30 +72,12 @@ export class SettingsController extends React.Component {
 
   componentDidUpdate(_prevProps) {
     if (
-      this.props.pTokenSelected.name !== this.state.pTokenSelectedName &&
+      this.props.pTokenSelected.id !== this.state.pTokenSelectedId &&
       this.props.redeemerProvider &&
       this.props.pTokenSelected.nodeInfo.contractAddress
     ) {
       this.setState({
-        pTokenSelectedName: this.props.pTokenSelected.name
-      })
-
-      this.props.getBalance(
-        this.props.pTokenSelected,
-        this.props.redeemerAccount,
-        {
-          redeemer: this.props.redeemerProvider,
-          issuer: this.props.issuerProvider
-        }
-      )
-    }
-
-    if (
-      this.props.pTokenSelected.network !== this.state.pTokenSelectedNetwork &&
-      this.props.redeemerProvider &&
-      this.props.pTokenSelected.nodeInfo.contractAddress
-    ) {
-      this.setState({
+        pTokenSelectedId: this.props.pTokenSelected.id,
         pTokenSelectedNetwork: this.props.pTokenSelected.network
       })
 

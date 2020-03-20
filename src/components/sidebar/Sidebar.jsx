@@ -59,20 +59,19 @@ class Sidebar extends React.Component {
         {this.props.pTokensAvailable
           .filter(
             pToken =>
-              pToken.name !== this.props.pTokenSelected.name ||
-              pToken.network !== this.props.pTokenSelected.network
+              pToken.id !== this.props.pTokenSelected.id
           )
           .map((pToken, index) => {
             return (
               <li
-                key={pToken.name}
+                key={pToken.id}
                 onClick={() => {
                   this.props.onChangeSelectedpToken(pToken)
                   this.props.onChangeCollapseState()
                 }}
               >
                 <span className="pt-5 nav-link pb-5 ml-20 text-xs">
-                  {pToken.name} ({pToken.network})
+                  {pToken.name} on {pToken.redeemFrom} ({pToken.network})
                 </span>
               </li>
             )
@@ -183,7 +182,7 @@ class Sidebar extends React.Component {
                     }}
                   >
                     <span>
-                      {this.props.pTokenSelected.name} (
+                      {this.props.pTokenSelected.name} on {this.props.pTokenSelected.redeemFrom} (
                       {this.props.pTokenSelected.network})
                       {
                         <b

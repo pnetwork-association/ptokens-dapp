@@ -19,6 +19,7 @@ import {
 
 const initialState = {
   selected: {
+    id: 0,
     name: 'pBTC',
     realDecimals: 8,
     contractDecimals: 18,
@@ -46,6 +47,7 @@ const initialState = {
   balance: null,
   available: [
     {
+      id: 1,
       name: 'pBTC',
       tokenType: 'ERC-20',
       issueFrom: 'BTC',
@@ -55,12 +57,23 @@ const initialState = {
       network: 'mainnet'
     },
     {
+      id: 2,
       name: 'pBTC',
       tokenType: 'ERC-20',
       issueFrom: 'BTC',
       redeemFrom: 'ETH',
       realDecimals: 8,
       contractDecimals: 18,
+      network: 'testnet'
+    },
+    {
+      id: 3,
+      name: 'pBTC',
+      tokenType: 'EOSIO Token',
+      issueFrom: 'BTC',
+      redeemFrom: 'EOS',
+      realDecimals: 8,
+      contractDecimals: 8,
       network: 'testnet'
     }
     /*{
@@ -101,6 +114,7 @@ const pTokensReducer = (_state = initialState, _action) => {
         redeemFrom: _action.payload.pToken.redeemFrom,
         tokenType: _action.payload.pToken.tokenType,
         network: _action.payload.pToken.network,
+        id: _action.payload.pToken.id,
         circulatingSupply: null,
         depositAddress: {
           value: null,

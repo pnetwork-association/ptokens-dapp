@@ -816,7 +816,7 @@ table thead th {
     border-radius: 50%;
     float: left;
     margin-right: 11px;
-    margin-left: 21px;
+    margin-left: 0px;
     z-index: 5;
     border: 2px solid rgba(255, 255, 255, 0.3); 
 }
@@ -841,7 +841,7 @@ table thead th {
 }
 
 .navbar-vertical .pTokens .info .caret {
-    margin-left: 20px;
+    margin-left: 15px;
 }
 
 .caret {
