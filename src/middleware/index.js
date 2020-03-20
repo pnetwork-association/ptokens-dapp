@@ -12,7 +12,13 @@ import {
   setNode
 } from '../actions/pNetwork'
 import * as Log from '../actions/log'
-import { SET_SELECTED_PTOKEN, PTOKENS_SET_NODE_INFO, PNETWORK_REPORT_ISSUE_LOADED, PNETWORK_REPORT_REDEEM_LOADED, PTOKENS_CIRCULATING_SUPPLY_LOADED } from '../constants'
+import {
+  SET_SELECTED_PTOKEN,
+  PTOKENS_SET_NODE_INFO,
+  PNETWORK_REPORT_ISSUE_LOADED,
+  PNETWORK_REPORT_REDEEM_LOADED,
+  PTOKENS_CIRCULATING_SUPPLY_LOADED
+} from '../constants'
 import { getCorrespondingReadOnlyProvider } from '../utils/read-only-providers'
 
 let currentContractAddress = null
@@ -24,25 +30,25 @@ const middleware = ({ dispatch }) => {
         if (_action.payload.withNodeSelection)
           dispatch(setNode(_action.payload.pToken))
 
-          //reset dat in order to prevent to populate views with wrong data
-          dispatch({
-            type: PNETWORK_REPORT_ISSUE_LOADED,
-            payload: {
-              reports: []
-            }
-          })
-          dispatch({
-            type: PNETWORK_REPORT_REDEEM_LOADED,
-            payload: {
-              reports: []
-            }
-          })
-          dispatch({
-            type: PTOKENS_CIRCULATING_SUPPLY_LOADED,
-            payload: {
-              circulatingSupply: null
-            }
-          })
+        //reset dat in order to prevent to populate views with wrong data
+        dispatch({
+          type: PNETWORK_REPORT_ISSUE_LOADED,
+          payload: {
+            reports: []
+          }
+        })
+        dispatch({
+          type: PNETWORK_REPORT_REDEEM_LOADED,
+          payload: {
+            reports: []
+          }
+        })
+        dispatch({
+          type: PTOKENS_CIRCULATING_SUPPLY_LOADED,
+          payload: {
+            circulatingSupply: null
+          }
+        })
       }
 
       if (_action.type === PTOKENS_SET_NODE_INFO) {

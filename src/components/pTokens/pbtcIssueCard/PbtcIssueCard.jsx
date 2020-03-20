@@ -183,7 +183,11 @@ const PbtcIssueCard = props => {
           width={280}
           icon={isGenerating ? null : 'add'}
           disabled={
-            props.typedIssueAccount === '' || isGenerating ? true : false
+            props.typedIssueAccount === '' ||
+            props.typedIssueAccount === null ||
+            isGenerating
+              ? true
+              : false
           }
           text={
             isGenerating

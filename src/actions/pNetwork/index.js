@@ -48,7 +48,7 @@ const setNode = _pToken => {
 
       try {
         selectedNode = await nodeSelector.select()
-      } catch(err) {
+      } catch (err) {
         selectedNode = null
       }
     }
@@ -156,7 +156,7 @@ const ping = _pToken => {
       dispatch({
         type: PNETWORK_PING_PONG
       })
-    } catch(err) {}
+    } catch (err) {}
   }
 }
 
