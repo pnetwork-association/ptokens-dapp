@@ -2,7 +2,7 @@ const settings = {
   dappName: 'pTokens Dapp',
   telegram: 'https://t.me/ptokens',
   googleAnalyticsTrackId: 'UA-157173999-1',
-  peos: {
+  /*peos: {
     eth: {
       wsInfuraEndpoint: 'wss://kovan.infura.io/ws/v3/',
       httpsInfuraEndpoint: 'https://kovan.infura.io/v3/',
@@ -30,50 +30,63 @@ const settings = {
       },
       enclaveBlockHeightPollingTime: 3000
     }
-  },
-  pbtc: {
-    infuraProjectId: '4762c881ac0c4938be76386339358ed6',
-    portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
-    formaticKey: {
-      testnet: 'pk_test_48E59AF566747C40',
-      mainnet: 'pk_live_D0A703008A4B17B7'
+  },*/
+  0: {
+    eth: {
+      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
+      formaticKey: 'pk_live_D0A703008A4B17B7',
+      wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
+      httpsInfuraEndpoint: 'https://mainnet.infura.io/v3/',
+      network: 'mainnet',
+      chainId: 1,
+      etherscanLink: 'https://etherscan.io/',
+      enclaveBlockHeightPollingTime: 3000
     },
-    testnet: {
-      eth: {
-        wsInfuraEndpoint: 'wss://ropsten.infura.io/ws/v3/',
-        httpsInfuraEndpoint: 'https://ropsten.infura.io/v3/',
-        network: 'ropsten',
-        chainId: 3,
-        etherscanLink: 'https://ropsten.etherscan.io/',
-        enclaveBlockHeightPollingTime: 3000
-      },
-      btc: {
-        explorer: 'https://blockstream.info/testnet/',
-        enclaveBlockHeightPollingTime: 3000,
-        faucet1: 'https://testnet-faucet.mempool.co',
-        faucet2: 'https://bitcoinfaucet.uo1.net/send.php',
-        publicKey:
-          '0x02157351e30cfcb2603cfbfaab4c87d795839c907c068c9710b2230e8af72bc9d7'
-      }
-    },
-    mainnet: {
-      eth: {
-        wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
-        httpsInfuraEndpoint: 'https://mainnet.infura.io/v3/',
-        network: 'mainnet',
-        chainId: 1,
-        etherscanLink: 'https://etherscan.io/',
-        enclaveBlockHeightPollingTime: 3000
-      },
-      btc: {
-        explorer: 'https://blockstream.info/',
-        enclaveBlockHeightPollingTime: 3000,
-        publicKey:
-          '0x0367663eeb293b978b495c20dee62cbfba551bf7e05a8381b374af84861ab6de39'
-      }
+    btc: {
+      explorer: 'https://blockstream.info/',
+      enclaveBlockHeightPollingTime: 3000
     }
   },
-  pltc: {
+  1: {
+    eth: {
+      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
+      formaticKey: 'pk_test_48E59AF566747C40',
+      wsInfuraEndpoint: 'wss://ropsten.infura.io/ws/v3/',
+      httpsInfuraEndpoint: 'https://ropsten.infura.io/v3/',
+      network: 'ropsten',
+      chainId: 3,
+      etherscanLink: 'https://ropsten.etherscan.io/',
+      enclaveBlockHeightPollingTime: 3000
+    },
+    btc: {
+      explorer: 'https://blockstream.info/testnet/',
+      enclaveBlockHeightPollingTime: 3000,
+      faucet1: 'https://testnet-faucet.mempool.co',
+      faucet2: 'https://bitcoinfaucet.uo1.net/send.php'
+    }
+  },
+  2: {
+    eos: {
+      chainId:
+        'e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473',
+      host: 'ptoken-eos.provable.xyz',
+      port: 443,
+      protocol: 'https',
+      explorer: 'https://jungle.bloks.io/',
+      provableEndpoint: 'https://ptoken-eos.provable.xyz:443',
+      enclaveBlockHeightPollingTime: 3000
+    },
+    btc: {
+      explorer: 'https://blockstream.info/testnet/',
+      enclaveBlockHeightPollingTime: 3000,
+      faucet1: 'https://testnet-faucet.mempool.co',
+      faucet2: 'https://bitcoinfaucet.uo1.net/send.php'
+    }
+  }
+
+  /*pltc: {
     eth: {
       wsInfuraEndpoint: 'wss://ropsten.infura.io/ws/v3/',
       httpsInfuraEndpoint: 'https://ropsten.infura.io/v3/',
@@ -91,7 +104,7 @@ const settings = {
       faucet1: 'https://faucet.xblau.com/',
       faucet2: 'https://tltc.bitaps.com/'
     }
-  }
+  }*/
 }
 
 export default settings

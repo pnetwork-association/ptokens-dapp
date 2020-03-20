@@ -113,7 +113,7 @@ const PbtcIssueCard = props => {
                 Need testnet BTC?
                 <a
                   className="text-primary text-underline ml-5"
-                  href={settings.pbtc.testnet.btc.faucet1}
+                  href={settings[props.pTokenSelected.id].testnet.btc.faucet1}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -122,7 +122,7 @@ const PbtcIssueCard = props => {
                 </a>
                 <a
                   className="text-primary text-underline ml-5"
-                  href={settings.pbtc.testnet.btc.faucet2}
+                  href={settings[props.pTokenSelected.id].testnet.btc.faucet2}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

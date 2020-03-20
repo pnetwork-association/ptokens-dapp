@@ -39,9 +39,7 @@ export class MainController extends React.Component {
   componentDidUpdate(_prevProps) {
     if (!this.state.redeemerDataLoaded) {
       const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(
-        this.props.pTokenSelected.name,
-        this.props.pTokenSelected.redeemFrom,
-        this.props.pTokenSelected.network
+        this.props.pTokenSelected
       )
 
       const configs = {
@@ -59,9 +57,7 @@ export class MainController extends React.Component {
       _prevProps.pTokenSelected.network !== this.props.pTokenSelected.network
     ) {
       const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(
-        this.props.pTokenSelected.name,
-        this.props.pTokenSelected.redeemFrom,
-        this.props.pTokenSelected.network
+        this.props.pTokenSelected
       )
 
       const configs = {

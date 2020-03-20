@@ -26,22 +26,19 @@ const connectWithEthWallet = async (
       walletconnect: {
         package: WalletConnectProvider,
         options: {
-          infuraId: settings[_pToken.name.toLowerCase()].infuraProjectId
+          infuraId: settings[_pToken.id].infuraProjectId
         }
       },
       portis: {
         package: Portis,
         options: {
-          id: settings[_pToken.name.toLowerCase()].portisDappId
+          id: settings[_pToken.id].eth.portisDappId
         }
       },
       fortmatic: {
         package: Fortmatic,
         options: {
-          key:
-            settings[_pToken.name.toLowerCase()].formaticKey[
-              _pToken.network.toLowerCase()
-            ]
+          key: settings[_pToken.id].eth.formaticKey
         }
       }
       /*torus: {

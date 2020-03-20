@@ -97,8 +97,7 @@ const Enclave = props => {
                     <a
                       className="text-xs text-underline text-primary font-monospace show-mobile"
                       href={getCorrespondingExplorerLink(
-                        props.pTokenSelected.name,
-                        props.pTokenSelected.network,
+                        props.pTokenSelected,
                         'redeemer',
                         `0x${props.pTokenSelected.nodeInfo.contractAddress}`
                       )}
@@ -117,8 +116,7 @@ const Enclave = props => {
                     <a
                       className="text-xs text-underline text-primary font-monospace hidden-mobile"
                       href={getCorrespondingExplorerLink(
-                        props.pTokenSelected.name,
-                        props.pTokenSelected.network,
+                        props.pTokenSelected,
                         'redeemer',
                         `0x${props.pTokenSelected.nodeInfo.contractAddress}`
                       )}
@@ -168,16 +166,15 @@ const Enclave = props => {
                       <a
                         className="text-xs text-underline text-primary font-monospace"
                         href={getCorrespondingExplorerLink(
-                          props.pTokenSelected.name,
-                          props.pTokenSelected.network,
-                          'issuer' //TODO 4th parameter (for blockchain with contract as issuer example peos)
+                          props.pTokenSelected,
+                          'issuer'
                         )}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         {getCorresponsingVisibleAddressFormat(
                           props.pTokenSelected.name,
-                          'issuer' //TODO 3th parameter (for blockchain with contract as issuer example peos)
+                          'issuer'
                         )}
                       </a>
                     )}

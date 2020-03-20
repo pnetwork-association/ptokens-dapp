@@ -57,10 +57,7 @@ class Sidebar extends React.Component {
     return (
       <ul className="navbar-nav">
         {this.props.pTokensAvailable
-          .filter(
-            pToken =>
-              pToken.id !== this.props.pTokenSelected.id
-          )
+          .filter(pToken => pToken.id !== this.props.pTokenSelected.id)
           .map((pToken, index) => {
             return (
               <li
@@ -182,7 +179,8 @@ class Sidebar extends React.Component {
                     }}
                   >
                     <span>
-                      {this.props.pTokenSelected.name} on {this.props.pTokenSelected.redeemFrom} (
+                      {this.props.pTokenSelected.name} on{' '}
+                      {this.props.pTokenSelected.redeemFrom} (
                       {this.props.pTokenSelected.network})
                       {
                         <b

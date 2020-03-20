@@ -8,7 +8,10 @@ import {
   PTOKENS_CIRCULATING_SUPPLY_LOADED,
   PTOKENS_RESET_DEPOSIT_ADDRESS,
   PTOKENS_SET_PARAMS,
-  PTOKENS_RESET_PARAMS
+  PTOKENS_RESET_PARAMS,
+  PBTC_ON_ETH_MAINNET,
+  PBTC_ON_ETH_TESTNET,
+  PBTC_ON_EOS_TESTNET
 } from '../../constants/index'
 import pTokens from 'ptokens'
 import { peosLoggedIssue, peosLoggedRedeem } from './loggers/peos'
@@ -23,28 +26,19 @@ import Web3 from 'web3'
 let ptokens = null
 
 let pTokenCurrent = {
-  name: 'pbtc',
-  redeemFrom: 'eth',
-  network: 'mainnet'
+  id: 0
 }
 
 const _selectpToken = (_pToken, _configs) => {
-  const configs = _getCorrectConfigs(_pToken.name, _pToken.network, _configs)
+  const configs = _getCorrectConfigs(_pToken, _configs)
 
-  pTokenCurrent.name = _pToken.name
-  pTokenCurrent.redeemFrom = _pToken.redeemFrom
-  pTokenCurrent.network = _pToken.network
+  pTokenCurrent.id = _pToken.id
 
   return new pTokens(configs)
 }
 
 const _getSelectedpToken = (_pToken, _configs) => {
-  if (
-    !ptokens ||
-    _pToken.name.toLowerCase() !== pTokenCurrent.name ||
-    _pToken.redeemFrom.toLowerCase() !== pTokenCurrent.redeemFrom ||
-    _pToken.network.toLowerCase() !== pTokenCurrent.network
-  ) {
+  if (!ptokens || _pToken.id !== pTokenCurrent.id) {
     ptokens = _selectpToken(_pToken, _configs)
   }
 
@@ -67,15 +61,15 @@ const issue = (_pToken, _params, _configs) => {
 
     switch (_pToken.name) {
       case 'pEOS': {
-        peosLoggedIssue(ptokens, _params, _pToken.network, _dispatch)
+        peosLoggedIssue(ptokens, _params, _pToken, _dispatch)
         break
       }
       case 'pBTC': {
-        pbtcLoggedIssue(ptokens, _params, _pToken.network, _dispatch)
+        pbtcLoggedIssue(ptokens, _params, _pToken, _dispatch)
         break
       }
       case 'pLTC': {
-        pltcLoggedIssue(ptokens, _params, _pToken.network, _dispatch)
+        pltcLoggedIssue(ptokens, _params, _pToken, _dispatch)
         break
       }
       default:
@@ -90,15 +84,15 @@ const redeem = (_pToken, _params, _configs) => {
 
     switch (_pToken.name) {
       case 'pEOS': {
-        peosLoggedRedeem(ptokens, _params, _pToken.network, _dispatch)
+        peosLoggedRedeem(ptokens, _params, _pToken, _dispatch)
         break
       }
       case 'pBTC': {
-        pbtcLoggedRedeem(ptokens, _params, _pToken.network, _dispatch)
+        pbtcLoggedRedeem(ptokens, _params, _pToken, _dispatch)
         break
       }
       case 'pLTC': {
-        pltcLoggedRedeem(ptokens, _params, _pToken.network, _dispatch)
+        pltcLoggedRedeem(ptokens, _params, _pToken, _dispatch)
         break
       }
       default:
@@ -111,11 +105,7 @@ const getBalance = (_pToken, _account, _configs) => {
   return async dispatch => {
     if (!_pToken.nodeInfo.isCompatible) return
 
-    const provider = getCorrespondingReadOnlyProvider(
-      _pToken.name,
-      'ETH',
-      _pToken.network
-    )
+    const provider = getCorrespondingReadOnlyProvider(_pToken)
 
     const web3 = new Web3(provider)
     const res = await makeContractCall(
@@ -141,11 +131,7 @@ const getCirculatingSupply = (_pToken, _configs) => {
   return async dispatch => {
     if (!_pToken.nodeInfo.isCompatible) return
 
-    const provider = getCorrespondingReadOnlyProvider(
-      _pToken.name,
-      'ETH',
-      _pToken.network
-    )
+    const provider = getCorrespondingReadOnlyProvider(_pToken)
     const web3 = new Web3(provider)
     const res = await makeContractCall(
       web3,
@@ -220,10 +206,37 @@ const setBalance = _balance => {
   }
 }
 
-const _getCorrectConfigs = (_type, _network, _configs) => {
+const _getCorrectConfigs = (_pToken, _configs) => {
   const { issuer, redeemer } = _configs
 
-  switch (_type) {
+  if (_pToken.id === PBTC_ON_ETH_MAINNET) {
+    return {
+      pbtc: {
+        btcNetwork: 'mainnet',
+        ethProvider: redeemer
+      }
+    }
+  }
+
+  if (_pToken.id === PBTC_ON_ETH_TESTNET) {
+    return {
+      pbtc: {
+        btcNetwork: 'testnet',
+        ethProvider: redeemer
+      }
+    }
+  }
+
+  if (_pToken.id === PBTC_ON_EOS_TESTNET) {
+    return {
+      pbtc: {
+        btcNetwork: 'testnet',
+        ethProvider: redeemer
+      }
+    }
+  }
+
+  /*switch (_type) {
     case 'pEOS': {
       return {
         peos: {
@@ -251,7 +264,7 @@ const _getCorrectConfigs = (_type, _network, _configs) => {
     }
     default:
       return null
-  }
+  }*/
 }
 
 export {

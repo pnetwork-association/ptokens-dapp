@@ -47,7 +47,7 @@ const initialState = {
   balance: null,
   available: [
     {
-      id: 1,
+      id: 0,
       name: 'pBTC',
       tokenType: 'ERC-20',
       issueFrom: 'BTC',
@@ -57,7 +57,7 @@ const initialState = {
       network: 'mainnet'
     },
     {
-      id: 2,
+      id: 1,
       name: 'pBTC',
       tokenType: 'ERC-20',
       issueFrom: 'BTC',
@@ -67,7 +67,7 @@ const initialState = {
       network: 'testnet'
     },
     {
-      id: 3,
+      id: 2,
       name: 'pBTC',
       tokenType: 'EOSIO Token',
       issueFrom: 'BTC',

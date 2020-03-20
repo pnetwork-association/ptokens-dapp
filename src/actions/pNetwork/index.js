@@ -33,7 +33,7 @@ const setNode = _pToken => {
       selectedNode = selectedNode = new Node({
         pToken: {
           name: _pToken.name,
-          redeemFrom: 'eth'
+          hostBlockchain: 'eth'
         },
         endpoint: endpointManuallySelected
       })
@@ -41,7 +41,7 @@ const setNode = _pToken => {
       const nodeSelector = new NodeSelector({
         pToken: {
           name: _pToken.name,
-          redeemFrom: _pToken.redeemFrom
+          hostBlockchain: _pToken.redeemFrom
         },
         networkType: _pToken.network
       })
@@ -102,7 +102,7 @@ const setNodeManually = (_pToken, _endpoint) => {
     selectedNode = new Node({
       pToken: {
         name: _pToken.name,
-        redeemFrom: 'eth'
+        hostBlockchain: 'eth'
       },
       endpoint: _endpoint
     })
@@ -185,7 +185,7 @@ const getLastProcessedBlock = (_pToken, _type, _role) => {
     }
 
     const status = await getBlockHeightStatusComparedWithTheReals(
-      _pToken.name,
+      _pToken,
       _role,
       value,
       _pToken.network

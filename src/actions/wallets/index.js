@@ -1,22 +1,26 @@
 import { connectWithScatter, disconnectFromScatter } from './eos'
 import { connectWithEthWallet, disconnectFromEthWallet } from './eth'
+import {
+  PBTC_ON_ETH_MAINNET,
+  PBTC_ON_ETH_TESTNET,
+  PBTC_ON_EOS_TESTNET
+} from '../../constants'
 
 const connectWithCorrectWallets = (_pToken, _currentProviders, _force) => {
   return dispatch => {
     const { redeemer } = _currentProviders
 
-    switch (_pToken.name) {
-      case 'pEOS': {
-        connectWithScatter('issuer', dispatch)
+    switch (_pToken.id) {
+      case PBTC_ON_ETH_MAINNET: {
         connectWithEthWallet(_pToken, 'redeemer', redeemer, dispatch, _force)
         break
       }
-      case 'pBTC': {
+      case PBTC_ON_ETH_TESTNET: {
         connectWithEthWallet(_pToken, 'redeemer', redeemer, dispatch, _force)
         break
       }
-      case 'pLTC': {
-        connectWithEthWallet(_pToken, 'redeemer', redeemer, dispatch, _force)
+      case PBTC_ON_EOS_TESTNET: {
+        connectWithScatter(_pToken, 'redeemer', redeemer, dispatch, _force)
         break
       }
       default:
@@ -27,25 +31,28 @@ const connectWithCorrectWallets = (_pToken, _currentProviders, _force) => {
 
 const connectWithSpecificWallet = (_pToken, _role, _force) => {
   return dispatch => {
-    switch (_pToken.name) {
-      case 'pEOS': {
+    switch (_pToken.id) {
+      /*case 'pEOS': {
         _role === 'issuer'
           ? connectWithScatter('issuer', dispatch, _force)
           : connectWithEthWallet(_pToken, 'redeemer', null, dispatch, _force)
         break
-      }
-      case 'pBTC': {
+      }*/
+
+      case PBTC_ON_ETH_MAINNET: {
         //issuer not present in pbtc
         if (_role === 'redeemer')
           connectWithEthWallet(_pToken, 'redeemer', null, dispatch, _force)
-
         break
       }
-      case 'pLTC': {
-        //issuer not present in pbtc
+      case PBTC_ON_ETH_TESTNET: {
         if (_role === 'redeemer')
           connectWithEthWallet(_pToken, 'redeemer', null, dispatch, _force)
-
+        break
+      }
+      case PBTC_ON_EOS_TESTNET: {
+        if (_role === 'redeemer')
+          connectWithEthWallet(_pToken, 'redeemer', null, dispatch, _force)
         break
       }
       default:
@@ -56,19 +63,30 @@ const connectWithSpecificWallet = (_pToken, _role, _force) => {
 
 const disconnectFromSpecificWallet = (_pToken, _role) => {
   return dispatch => {
-    switch (_pToken.name) {
-      case 'pEOS': {
+    switch (_pToken.id) {
+      /*case 'pEOS': {
         _role === 'issuer'
           ? disconnectFromScatter('issuer', dispatch)
           : disconnectFromEthWallet('redeemer', null, dispatch)
         break
-      }
+      }*/
       case 'pBTC': {
         disconnectFromEthWallet('redeemer', null, dispatch)
         break
       }
-      case 'pLTC': {
-        disconnectFromEthWallet('redeemer', null, dispatch)
+      case PBTC_ON_ETH_MAINNET: {
+        if (_role === 'redeemer')
+          disconnectFromEthWallet('redeemer', null, dispatch)
+        break
+      }
+      case PBTC_ON_ETH_TESTNET: {
+        if (_role === 'redeemer')
+          disconnectFromEthWallet('redeemer', null, dispatch)
+        break
+      }
+      case PBTC_ON_EOS_TESTNET: {
+        if (_role === 'redeemer')
+          disconnectFromEthWallet('redeemer', null, dispatch)
         break
       }
       default:
@@ -79,18 +97,22 @@ const disconnectFromSpecificWallet = (_pToken, _role) => {
 
 const changeSpecificWallet = (_pToken, _role) => {
   return dispatch => {
-    switch (_pToken.name) {
-      case 'pEOS': {
+    switch (_pToken.id) {
+      /*case 'pEOS': {
         _role === 'issuer'
-          ? console.log('Available only 1 EOS wallet')
+          ? console.log('Available only PBTC_ON_ETH_TESTNET EOS wallet')
           : connectWithEthWallet(_pToken, 'redeemer', null, dispatch, true)
         break
-      }
-      case 'pBTC': {
+      }*/
+      case PBTC_ON_ETH_MAINNET: {
         connectWithEthWallet(_pToken, 'redeemer', null, dispatch, true)
         break
       }
-      case 'pLTC': {
+      case PBTC_ON_ETH_TESTNET: {
+        connectWithEthWallet(_pToken, 'redeemer', null, dispatch, true)
+        break
+      }
+      case PBTC_ON_EOS_TESTNET: {
         connectWithEthWallet(_pToken, 'redeemer', null, dispatch, true)
         break
       }

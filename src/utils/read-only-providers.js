@@ -1,14 +1,15 @@
 import settings from '../settings'
 import Web3 from 'web3'
 
-const getCorrespondingReadOnlyProvider = (_pTokenName, _type, _network) => {
-  if (_type === 'ETH') {
+//type = issuer or redeemer
+const getCorrespondingReadOnlyProvider = (_pToken, _type) => {
+  if (_pToken.redeemFrom === 'ETH') {
     return new Web3.providers.WebsocketProvider(
-      settings[_pTokenName.toLowerCase()][_network].eth.wsInfuraEndpoint +
-        settings[_pTokenName.toLowerCase()].infuraProjectId
+      settings[_pToken.id].eth.wsInfuraEndpoint +
+        settings[_pToken.id].eth.infuraProjectId
     )
   }
-  if (_type === 'EOS') {
+  if (_pToken.name === 'EOS') {
     return null
   }
 

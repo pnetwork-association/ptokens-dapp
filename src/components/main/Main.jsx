@@ -74,15 +74,13 @@ const Main = props => {
               whichLink={{
                 2: {
                   base: getCorrespondingBaseTxExplorerLink(
-                    props.pTokenSelected.name,
-                    props.pTokenSelected.network,
+                    props.pTokenSelected,
                     'issuer'
                   )
                 },
                 3: {
                   base: getCorrespondingBaseTxExplorerLink(
-                    props.pTokenSelected.name,
-                    props.pTokenSelected.network,
+                    props.pTokenSelected,
                     'redeemer'
                   )
                 }
@@ -150,15 +148,13 @@ const Main = props => {
               whichLink={{
                 2: {
                   base: getCorrespondingBaseTxExplorerLink(
-                    props.pTokenSelected.name,
-                    props.pTokenSelected.network,
+                    props.pTokenSelected,
                     'redeemer'
                   )
                 },
                 3: {
                   base: getCorrespondingBaseTxExplorerLink(
-                    props.pTokenSelected.name,
-                    props.pTokenSelected.network,
+                    props.pTokenSelected,
                     'issuer'
                   )
                 }

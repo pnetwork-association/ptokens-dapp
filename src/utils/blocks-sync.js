@@ -1,4 +1,10 @@
 import { getCorrespondingReadOnlyProvider } from './read-only-providers'
+import {
+  PBTC_ON_ETH_MAINNET,
+  PBTC_ON_ETH_TESTNET,
+  PBTC_ON_EOS_TESTNET
+} from '../constants'
+
 import Web3 from 'web3'
 import settings from '../settings'
 import { Api, JsonRpc } from 'eosjs'
@@ -47,12 +53,12 @@ const _getInsightLiteApi = () =>
   })
 
 const getBlockHeightStatusComparedWithTheReals = async (
-  _pTokenName,
+  _pToken,
   _role,
   _enclaveBlockHeight,
   _network
 ) => {
-  if (_pTokenName === 'pBTC' && _role === 'issuer') {
+  if (_pToken.name === 'pBTC' && _role === 'issuer') {
     const btcLastBlock = await _makeEsploraApiCall(
       'GET',
       '/blocks/tip/height',
@@ -67,12 +73,12 @@ const getBlockHeightStatusComparedWithTheReals = async (
     )
   }
 
-  if (_pTokenName === 'pBTC' && _role === 'redeemer') {
-    const ethProvider = getCorrespondingReadOnlyProvider(
-      'pBTC',
-      'ETH',
-      _network
-    )
+  if (
+    (_pToken.id === PBTC_ON_ETH_MAINNET ||
+      _pToken.id === PBTC_ON_ETH_TESTNET) &&
+    _role === 'redeemer'
+  ) {
+    const ethProvider = getCorrespondingReadOnlyProvider(_pToken)
     const web3 = new Web3(ethProvider)
     const ethLastBlock = await web3.eth.getBlockNumber()
 
@@ -84,8 +90,10 @@ const getBlockHeightStatusComparedWithTheReals = async (
     )
   }
 
-  if (_pTokenName === 'pEOS' && _role === 'issuer') {
-    const rpc = new JsonRpc(settings.peos.eos.provableEndpoint, { fetch })
+  if (_pToken.name === 'pEOS' && _role === 'issuer') {
+    const rpc = new JsonRpc(settings[_pToken.id].eos.provableEndpoint, {
+      fetch
+    })
     const eosjs = new Api({
       rpc,
       textDecoder: new encoding.TextDecoder(),
@@ -103,12 +111,8 @@ const getBlockHeightStatusComparedWithTheReals = async (
     )
   }
 
-  if (_pTokenName === 'pEOS' && _role === 'redeemer') {
-    const ethProvider = getCorrespondingReadOnlyProvider(
-      'pEOS',
-      'ETH',
-      _network
-    )
+  if (_pToken.name === 'pEOS' && _role === 'redeemer') {
+    const ethProvider = getCorrespondingReadOnlyProvider(_pToken)
     const web3 = new Web3(ethProvider)
     const ethLastBlock = await web3.eth.getBlockNumber()
 
@@ -120,7 +124,7 @@ const getBlockHeightStatusComparedWithTheReals = async (
     )
   }
 
-  if (_pTokenName === 'pLTC' && _role === 'issuer') {
+  if (_pToken.name === 'pLTC' && _role === 'issuer') {
     const ltcLastBlock = await _makeInsightLiteApiCall('GET', '/blocks?limit=1')
 
     return _calculateStatus(
@@ -131,12 +135,8 @@ const getBlockHeightStatusComparedWithTheReals = async (
     )
   }
 
-  if (_pTokenName === 'pLTC' && _role === 'redeemer') {
-    const ethProvider = getCorrespondingReadOnlyProvider(
-      'pLTC',
-      'ETH',
-      _network
-    )
+  if (_pToken.name === 'pLTC' && _role === 'redeemer') {
+    const ethProvider = getCorrespondingReadOnlyProvider(_pToken)
     const web3 = new Web3(ethProvider)
     const ethLastBlock = await web3.eth.getBlockNumber()
 

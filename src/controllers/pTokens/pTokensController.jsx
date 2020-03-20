@@ -115,8 +115,6 @@ export class pTokenControllers extends React.Component {
   }
 
   async componentDidUpdate(_prevProps, _prevState) {
-
-
     if (
       this.props.pTokenSelected.id !== this.state.pTokenSelectedId &&
       this.props.redeemerProvider &&
@@ -293,9 +291,7 @@ export class pTokenControllers extends React.Component {
     this.props.clearLogs()
 
     const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(
-      this.props.pTokenSelected.name,
-      this.props.pTokenSelected.redeemFrom,
-      this.props.pTokenSelected.network
+      this.props.pTokenSelected
     )
 
     this.props.issue(
@@ -365,9 +361,8 @@ export class pTokenControllers extends React.Component {
     this.props.clearLogs()
 
     const issuerReadOnlyProvider = getCorrespondingReadOnlyProvider(
-      this.props.pTokenSelected.name,
-      this.props.pTokenSelected.issueFrom,
-      this.props.pTokenSelected.network
+      this.props.pTokenSelected,
+      'redeem'
     )
 
     this.props.redeem(

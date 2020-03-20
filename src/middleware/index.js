@@ -53,9 +53,7 @@ const middleware = ({ dispatch }) => {
 
       if (_action.type === PTOKENS_SET_NODE_INFO) {
         const readOnlyProvider = getCorrespondingReadOnlyProvider(
-          _action.payload.pToken.name,
-          _action.payload.pToken.redeemFrom,
-          _action.payload.pToken.network
+          _action.payload.pToken
         )
 
         const configs = {

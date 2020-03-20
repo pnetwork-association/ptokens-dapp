@@ -115,7 +115,9 @@ class App extends React.Component {
         <Switch>
           <Route
             exact
-            path={'/(pbtc-on-eth|pbtc-on-eth-testnet|pltc-on-eth)'}
+            path={
+              '/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos|pbtc-on-eos-testnet)'
+            }
             render={() => {
               return (
                 <React.Fragment>
@@ -131,7 +133,9 @@ class App extends React.Component {
           />
           <Route
             exact
-            path={'/(pbtc-on-eth|pbtc-on-eth-testnet)/pnetwork'}
+            path={
+              '/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos|pbtc-on-eos-testnet)/pnetwork'
+            }
             render={() => {
               return (
                 <React.Fragment>
@@ -147,7 +151,9 @@ class App extends React.Component {
           />
           <Route
             exact
-            path={'/(pbtc-on-eth|pbtc-on-eth-testnet)/issue-redeem'}
+            path={
+              '/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos|pbtc-on-eos-testnet)/issue-redeem'
+            }
             render={() => {
               return (
                 <React.Fragment>
@@ -163,7 +169,9 @@ class App extends React.Component {
           />
           <Route
             exact
-            path={'/(pbtc-on-eth|pbtc-on-eth-testnet)/settings'}
+            path={
+              '/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos|pbtc-on-eos-testnet)/settings'
+            }
             render={() => {
               return (
                 <React.Fragment>

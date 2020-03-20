@@ -1,12 +1,7 @@
 import Web3 from 'web3'
-import settings from '../settings'
 import pTokenUtils from 'ptokens/node_modules/ptokens-utils'
 
-const web3 = new Web3(
-  new Web3.providers.WebsocketProvider(
-    settings.peos.eth.wsInfuraEndpoint + settings.peos.eth.infuraProjectId
-  )
-)
+const web3 = new Web3()
 
 const isValidAccount = (_pTokenName, _account, _role) => {
   switch (_pTokenName) {

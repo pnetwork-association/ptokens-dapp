@@ -9,12 +9,16 @@ import {
   WALLET_REDEEMER_DISCONNECTED
 } from '../../../constants'
 
-ScatterJS.plugins(new ScatterEOS())
-
-const network = ScatterJS.Network.fromJson(settings.peos.eos)
+let isInitialized = false
+let network = null
 
 const connectWithScatter = async (_role, _dispatch, _force = true) => {
   try {
+    if (!isInitialized) {
+      ScatterJS.plugins(new ScatterEOS())
+      network = ScatterJS.Network.fromJson(settings.peos.eos)
+    }
+
     const scatter = ScatterJS.scatter
 
     let connected = false
@@ -42,6 +46,7 @@ const connectWithScatter = async (_role, _dispatch, _force = true) => {
 const disconnectFromScatter = async (_role, _dispatch) => {
   //already disconnected
   if (!ScatterJS.logout) {
+    isInitialized = false
     _dispatch({
       type:
         _role === 'issuer'
