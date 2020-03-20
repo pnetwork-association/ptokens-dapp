@@ -14,6 +14,9 @@ import {
 import { getBlockHeightStatusComparedWithTheReals } from '../../utils/blocks-sync'
 import { NodeSelector } from 'ptokens-node-selector'
 import { Node } from 'ptokens-node'
+import { Mutex } from 'async-mutex'
+
+const mutex = new Mutex()
 
 let selectedNode = null
 
@@ -43,8 +46,11 @@ const setNode = _pToken => {
         networkType: _pToken.network
       })
 
-      await nodeSelector.select()
-      selectedNode = nodeSelector.selectedNode
+      try {
+        selectedNode = await nodeSelector.select()
+      } catch(err) {
+        selectedNode = null
+      }
     }
 
     let info = null
@@ -58,7 +64,7 @@ const setNode = _pToken => {
             nodeInfo: {
               contractAddress: null,
               publicKey: null,
-              endpoint: selectedNode.endpoint,
+              endpoint: selectedNode ? selectedNode.endpoint : null,
               isManuallySelected: endpointManuallySelected ? true : false,
               isCompatible: false
             }
@@ -75,7 +81,7 @@ const setNode = _pToken => {
           nodeInfo: {
             contractAddress: info.smart_contract_address,
             publicKey: info.public_key,
-            endpoint: selectedNode.endpoint,
+            endpoint: selectedNode ? selectedNode.endpoint : null,
             isManuallySelected: endpointManuallySelected ? true : false,
             isCompatible: info.native_network.includes(_pToken.network)
               ? true
@@ -145,11 +151,12 @@ const ping = _pToken => {
   return async dispatch => {
     if (!selectedNode) return
 
-    await selectedNode.ping()
-
-    dispatch({
-      type: PNETWORK_PING_PONG
-    })
+    try {
+      await selectedNode.ping()
+      dispatch({
+        type: PNETWORK_PING_PONG
+      })
+    } catch(err) {}
   }
 }
 
@@ -213,7 +220,16 @@ const getReports = (_pToken, _type, _role) => {
   return async dispatch => {
     if (!selectedNode) return
 
-    const reports = await selectedNode.getReports(_type)
+    const release = await mutex.acquire()
+
+    let reports = []
+    try {
+      reports = await selectedNode.getReports(_type)
+    } catch (err) {
+      reports = []
+    }
+
+    release()
 
     const actionType =
       _role === 'issuer'
