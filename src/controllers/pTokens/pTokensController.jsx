@@ -76,7 +76,7 @@ export class pTokenControllers extends React.Component {
       pTokenSelectedNetwork: null
     }
 
-    this.props.connectWithCorrectWallets(this.props.pTokenSelected.name, {
+    this.props.connectWithCorrectWallets(this.props.pTokenSelected, {
       redeemer: this.props.redeemerProvider,
       issuer: this.props.issuerProvider
     })
