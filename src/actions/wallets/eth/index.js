@@ -26,7 +26,7 @@ const connectWithEthWallet = async (
       walletconnect: {
         package: WalletConnectProvider,
         options: {
-          infuraId: settings[_pToken.id].infuraProjectId
+          infuraId: settings[_pToken.id].eth.infuraProjectId
         }
       },
       portis: {

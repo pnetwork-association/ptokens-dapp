@@ -74,6 +74,7 @@ const setNode = _pToken => {
       return
     }
 
+    console.log(info)
     dispatch({
       type: PTOKENS_SET_NODE_INFO,
       payload: {
@@ -83,7 +84,9 @@ const setNode = _pToken => {
             publicKey: info.public_key,
             endpoint: selectedNode ? selectedNode.endpoint : null,
             isManuallySelected: endpointManuallySelected ? true : false,
-            isCompatible: info.native_network.includes(_pToken.network)
+            isCompatible: /*info.native_network.includes(_pToken.network) ||*/ /* nedeed for eos*/ info.host_network.includes(
+              _pToken.redeemFrom.toLowerCase()
+            )
               ? true
               : false
           }

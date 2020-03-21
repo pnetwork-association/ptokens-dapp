@@ -71,12 +71,11 @@ const settings = {
     eos: {
       chainId:
         'e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473',
-      host: 'ptoken-eos.provable.xyz',
+      host: 'jungle2.cryptolions.io',
       port: 443,
       protocol: 'https',
       explorer: 'https://jungle.bloks.io/',
-      provableEndpoint: 'https://eosjungle.ptokens.io/',
-      enclaveBlockHeightPollingTime: 3000
+      provableEndpoint: 'https://jungle2.cryptolions.io:443'
     },
     btc: {
       explorer: 'https://blockstream.info/testnet/',

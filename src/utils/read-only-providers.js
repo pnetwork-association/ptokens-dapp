@@ -1,5 +1,7 @@
 import settings from '../settings'
 import Web3 from 'web3'
+import { JsonRpc } from 'eosjs'
+import fetch from 'node-fetch'
 
 //type = issuer or redeemer
 const getCorrespondingReadOnlyProvider = (_pToken, _type) => {
@@ -10,7 +12,7 @@ const getCorrespondingReadOnlyProvider = (_pToken, _type) => {
     )
   }
   if (_pToken.redeemFrom === 'EOS') {
-    return null
+    return new JsonRpc(settings[_pToken.id].eos.provableEndpoint, { fetch })
   }
 
   return null

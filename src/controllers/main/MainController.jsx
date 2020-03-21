@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Main from '../../components/main/Main'
 import { getReports } from '../../actions/pNetwork'
-import { getCirculatingSupply } from '../../actions/pTokens'
+import { getTotalSupply } from '../../actions/pTokens'
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
 
 const mapStateToProps = state => {
@@ -17,8 +17,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    getCirculatingSupply: (_pToken, configs) =>
-      dispatch(getCirculatingSupply(_pToken, configs)),
+    getTotalSupply: (_pToken, configs) =>
+      dispatch(getTotalSupply(_pToken, configs)),
     getReports: (_pToken, _type, role) =>
       dispatch(getReports(_pToken, _type, role))
   }
@@ -47,7 +47,7 @@ export class MainController extends React.Component {
         redeemer: redeemerReadOnlyProvider
       }
 
-      this.props.getCirculatingSupply(this.props.pTokenSelected, configs)
+      this.props.getTotalSupply(this.props.pTokenSelected, configs)
 
       this.setState({ redeemerDataLoaded: true })
     }
@@ -65,7 +65,7 @@ export class MainController extends React.Component {
         redeemer: redeemerReadOnlyProvider
       }
 
-      this.props.getCirculatingSupply(this.props.pTokenSelected, configs)
+      this.props.getTotalSupply(this.props.pTokenSelected, configs)
       this.props.getReports(this.props.pTokenSelected, 'host', 'issuer')
       this.props.getReports(this.props.pTokenSelected, 'native', 'redeemer')
     }
@@ -91,7 +91,7 @@ MainController.propTypes = {
   issueReports: PropTypes.array,
   redeemReports: PropTypes.array,
   isActive: PropTypes.bool,
-  getCirculatingSupply: PropTypes.func,
+  getTotalSupply: PropTypes.func,
   getReport: PropTypes.func
 }
 

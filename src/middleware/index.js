@@ -1,5 +1,5 @@
 import {
-  getCirculatingSupply
+  getTotalSupply
   /*getBurnNonce,
   getMintNonce,
   getTotalIssued,
@@ -12,6 +12,7 @@ import {
   setNode
 } from '../actions/pNetwork'
 import * as Log from '../actions/log'
+import { connectWithSpecificWallet } from '../actions/wallets'
 import {
   SET_SELECTED_PTOKEN,
   PTOKENS_SET_NODE_INFO,
@@ -49,6 +50,8 @@ const middleware = ({ dispatch }) => {
             circulatingSupply: null
           }
         })
+
+        //connectWithSpecificWallet(_action.payload.pToken, 'redeemer', true)
       }
 
       if (_action.type === PTOKENS_SET_NODE_INFO) {
@@ -66,7 +69,7 @@ const middleware = ({ dispatch }) => {
           currentContractAddress !==
           _action.payload.pToken.nodeInfo.contractAddress
         ) {
-          dispatch(getCirculatingSupply(_action.payload.pToken, configs))
+          dispatch(getTotalSupply(_action.payload.pToken, configs))
           currentContractAddress =
             _action.payload.pToken.nodeInfo.contractAddress
         }

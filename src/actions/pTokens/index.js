@@ -18,10 +18,8 @@ import { peosLoggedIssue, peosLoggedRedeem } from './loggers/peos'
 import { pbtcLoggedIssue, pbtcLoggedRedeem } from './loggers/pbtc'
 import { pltcLoggedIssue, pltcLoggedRedeem } from './loggers/pltc'
 import settings from '../../settings'
-import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
-import { makeContractCall } from '../../utils/eth'
-import pTokenAbi from '../../utils/eth-contract-abi'
-import Web3 from 'web3'
+import { getEthBalance, getEosBalance } from './balance'
+import { getEthTotalSupply } from './total-supply'
 
 let ptokens = null
 
@@ -105,50 +103,38 @@ const getBalance = (_pToken, _account, _configs) => {
   return async dispatch => {
     if (!_pToken.nodeInfo.isCompatible) return
 
-    const provider = getCorrespondingReadOnlyProvider(_pToken)
+    let balance = null
+    if (_pToken.redeemFrom === 'ETH') {
+      balance = await getEthBalance(_pToken, _account)
+    }
 
-    const web3 = new Web3(provider)
-    const res = await makeContractCall(
-      web3,
-      'balanceOf',
-      _pToken.nodeInfo.contractAddress,
-      pTokenAbi,
-      [_account]
-    )
+    if (_pToken.redeemFrom === 'EOS') {
+      balance = await getEosBalance(_pToken, _account)
+    }
 
     dispatch({
       type: PTOKENS_BALANCE_LOADED,
       payload: {
-        balance: (res / Math.pow(10, _pToken.contractDecimals)).toFixed(
-          _pToken.realDecimals
-        )
+        balance
       }
     })
   }
 }
 
-const getCirculatingSupply = (_pToken, _configs) => {
+const getTotalSupply = (_pToken, _configs) => {
   return async dispatch => {
     if (!_pToken.nodeInfo.isCompatible) return
 
-    const provider = getCorrespondingReadOnlyProvider(_pToken)
-    const web3 = new Web3(provider)
-    const res = await makeContractCall(
-      web3,
-      'totalSupply',
-      _pToken.nodeInfo.contractAddress,
-      pTokenAbi,
-      []
-    )
+    if (_pToken.redeemFrom === 'ETH') {
+      const circulatingSupply = await getEthTotalSupply(_pToken)
 
-    dispatch({
-      type: PTOKENS_CIRCULATING_SUPPLY_LOADED,
-      payload: {
-        circulatingSupply: (
-          res / Math.pow(10, _pToken.contractDecimals)
-        ).toFixed(_pToken.realDecimals)
-      }
-    })
+      dispatch({
+        type: PTOKENS_CIRCULATING_SUPPLY_LOADED,
+        payload: {
+          circulatingSupply
+        }
+      })
+    }
   }
 }
 
@@ -275,7 +261,7 @@ export {
   issue,
   redeem,
   getBalance,
-  getCirculatingSupply,
+  getTotalSupply,
   resetDepositAddress,
   resetIssueSuccess,
   resetRedeemSuccess,

@@ -140,16 +140,18 @@ export class SettingsController extends React.Component {
     }
 
     if (_wallet.type === 'singleWallet') {
-      this.props.issuerIsConnected
-        ? this.props.disconnectFromSpecificWallet(
-            this.props.pTokenSelected,
-            'redeemer'
-          )
-        : this.props.connectWithSpecificWallet(
-            this.props.pTokenSelected,
-            'redeemer',
-            false
-          )
+      if (this.props.redeemerIsConnected) {
+        this.props.disconnectFromSpecificWallet(
+          this.props.pTokenSelected,
+          'redeemer'
+        )
+      } else {
+        this.props.connectWithSpecificWallet(
+          this.props.pTokenSelected,
+          'redeemer',
+          false
+        )
+      }
     }
 
     if (_wallet.type === 'multiWallet') {

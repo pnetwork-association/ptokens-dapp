@@ -21,6 +21,14 @@ const detectNetwork = (_provider, _pToken, _role) => {
           pToken: _pToken
         }
       })
+    } else {
+      _dispatch({
+        type: NETWORK_DETECTED_REDEEMER,
+        payload: {
+          redeemerNetwork: null,
+          pToken: _pToken
+        }
+      })
     }
   }
 }

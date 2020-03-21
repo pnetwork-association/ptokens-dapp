@@ -14,20 +14,17 @@ let network = null
 
 const connectWithScatter = async (_pToken, _role, _dispatch, _force = true) => {
   try {
+    let connected = false
     if (!isInitialized) {
       ScatterJS.plugins(new ScatterEOS())
       network = ScatterJS.Network.fromJson(settings[_pToken.id].eos)
+      connected = await ScatterJS.connect(settings.dappName, { network })
+      isInitialized = true
     }
 
     const scatter = ScatterJS.scatter
 
-    let connected = false
-    if (_force) {
-      connected = await ScatterJS.connect(settings.dappName, { network })
-    } else {
-      _login(scatter, _role, _dispatch)
-      return
-    }
+    _login(scatter, _role, _dispatch)
 
     if (connected) {
       if (scatter.identity) {
@@ -44,7 +41,6 @@ const connectWithScatter = async (_pToken, _role, _dispatch, _force = true) => {
 }
 
 const disconnectFromScatter = async (_role, _dispatch) => {
-  //already disconnected
   if (!ScatterJS.logout) {
     isInitialized = false
     _dispatch({

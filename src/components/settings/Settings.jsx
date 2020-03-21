@@ -79,19 +79,30 @@ const Settings = props => {
                   }
                 >
                   <div className="col-md-4 col-8 mt-15 mb-15 text-xs text-gray">
-                    {props.pTokenSelected.redeemFrom} injected wallet
+                    {props.pTokenSelected.redeemFrom} wallet
                   </div>
                   <div className="col-md-4 col-4 text-right text-md-center mt-15 mb-15 text-xs text-primary">
                     {props.redeemerWallet ? props.redeemerWallet.name : '-'}
                   </div>
-                  <div className="col-md-4 co-12 text-center text-md-right mt-10-md mt-0 mb-0-md mb-10">
-                    <MultiWallet
-                      isConnected={props.redeemerIsConnected}
-                      onChange={() =>
-                        props.onChangeRedeemerConnection(props.redeemerWallet)
-                      }
-                    />
-                  </div>
+                  {props.pTokenSelected.redeemFrom === 'ETH' ? (
+                    <div className="col-md-4 co-12 text-center text-md-right mt-10-md mt-0 mb-0-md mb-10">
+                      <MultiWallet
+                        isConnected={props.redeemerIsConnected}
+                        onChange={() =>
+                          props.onChangeRedeemerConnection(props.redeemerWallet)
+                        }
+                      />
+                    </div>
+                  ) : (
+                    <div className="col-md-4 col-6 text-right d-flex justify-end justify-content-end mt-15 mb-15 pl-0">
+                      <SingleWallet
+                        isConnected={props.redeemerIsConnected}
+                        onChange={() =>
+                          props.onChangeRedeemerConnection(props.redeemerWallet)
+                        }
+                      />
+                    </div>
+                  )}
                 </div>
                 <hr />
                 {props.pTokenSelected.name !== 'pBTC' ? (
@@ -102,7 +113,7 @@ const Settings = props => {
                     }
                   >
                     <div className="col-md-4 col-6 mt-15 mb-15 text-xs text-gray">
-                      {props.pTokenSelected.issueFrom} injected wallet
+                      {props.pTokenSelected.issueFrom} wallet
                     </div>
                     <div className="col-md-4 d-none d-md-block mt-15 mb-15 text-xs text-center text-primary">
                       {props.issuerWallet ? props.issuerWallet.name : '-'}

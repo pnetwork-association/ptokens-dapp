@@ -8,7 +8,7 @@ import {
   submitBlock,
   resetSubmitBlockSuccess
 } from '../../actions/pNetwork'
-import { getCirculatingSupply } from '../../actions/pTokens'
+import { getTotalSupply } from '../../actions/pTokens'
 import { connect } from 'react-redux'
 import { isJsonString } from '../../utils/utils'
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
@@ -35,8 +35,8 @@ const mapDispatchToProps = dispatch => {
     submitBlock: (_pToken, _type, _block) =>
       dispatch(submitBlock(_pToken, _type, _block)),
     resetSubmitBlockSuccess: () => dispatch(resetSubmitBlockSuccess()),
-    getCirculatingSupply: (_pToken, _configs) =>
-      dispatch(getCirculatingSupply(_pToken, _configs))
+    getTotalSupply: (_pToken, _configs) =>
+      dispatch(getTotalSupply(_pToken, _configs))
   }
 }
 
@@ -108,7 +108,7 @@ class pNetworkController extends React.Component {
         redeemer: redeemerReadOnlyProvider
       }
 
-      this.props.getCirculatingSupply(this.props.pTokenSelected, configs)
+      this.props.getTotalSupply(this.props.pTokenSelected, configs)
 
       this.setState({
         redeemerDataLoaded: true,
@@ -238,7 +238,7 @@ pNetworkController.propTypes = {
   getBurnNonce: PropTypes.func,
   getTotalIssued: PropTypes.func,
   getTotalRedeemed: PropTypes.func,
-  getCirculatingSupply: PropTypes.func
+  getTotalSupply: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(pNetworkController)
