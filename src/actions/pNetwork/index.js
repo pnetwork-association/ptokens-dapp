@@ -74,7 +74,6 @@ const setNode = _pToken => {
       return
     }
 
-    console.log(info)
     dispatch({
       type: PTOKENS_SET_NODE_INFO,
       payload: {

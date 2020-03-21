@@ -39,24 +39,14 @@ export class NetworkDetectorController extends Component {
   }
 
   static getDerivedStateFromProps(_nextProps, _prevState) {
-    if (
-      _nextProps.redeemerProvider !== _prevState.currentRedeemerProvider &&
-      _nextProps.redeemerIsConnected
-    ) {
+    if (_nextProps.pTokenSelected.id !== _prevState.currentPtokenId) {
       return {
-        toDetectRedeemer: true,
-        currentRedeemerProvider: _nextProps.redeemerProvider
-      }
-    }
-
-    if (
-      _nextProps.pTokenSelected.id !== _prevState.currentPtokenId &&
-      _nextProps.redeemerIsConnected
-    ) {
-      return {
-        toDetectRedeemer: true,
-        isDetectedRedeemer: false,
-        currentPtokenId: _nextProps.pTokenSelected.id
+        currentPtokenId: _nextProps.pTokenSelected.id,
+        isCorrectRedeemerNetwork: getNetworkCorrectness(
+          _nextProps.pTokenSelected.name,
+          _nextProps.detectedRedeemerNetwork,
+          'redeemer'
+        )
       }
     }
 
@@ -75,8 +65,6 @@ export class NetworkDetectorController extends Component {
     }
 
     if (
-      (_nextProps.pTokenSelected.name === 'pEOS' ||
-        _nextProps.pTokenSelected.name === 'pBTC') &&
       _nextProps.redeemerIsConnected &&
       _nextProps.redeemerProvider &&
       !_prevState.isDetectedRedeemer

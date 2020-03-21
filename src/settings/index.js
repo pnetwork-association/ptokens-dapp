@@ -75,7 +75,7 @@ const settings = {
       port: 443,
       protocol: 'https',
       explorer: 'https://jungle.bloks.io/',
-      provableEndpoint: 'https://jungle2.cryptolions.io:443'
+      provableEndpoint: 'https://eosjunglehttps.ptokens.io'
     },
     btc: {
       explorer: 'https://blockstream.info/testnet/',

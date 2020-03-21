@@ -25,7 +25,7 @@ const detectNetwork = (_provider, _pToken, _role) => {
       _dispatch({
         type: NETWORK_DETECTED_REDEEMER,
         payload: {
-          redeemerNetwork: null,
+          redeemerNetwork: 'eos',
           pToken: _pToken
         }
       })

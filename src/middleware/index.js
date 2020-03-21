@@ -1,5 +1,6 @@
 import {
-  getTotalSupply
+  getTotalSupply,
+  getBalance
   /*getBurnNonce,
   getMintNonce,
   getTotalIssued,
@@ -18,7 +19,8 @@ import {
   PTOKENS_SET_NODE_INFO,
   PNETWORK_REPORT_ISSUE_LOADED,
   PNETWORK_REPORT_REDEEM_LOADED,
-  PTOKENS_CIRCULATING_SUPPLY_LOADED
+  PTOKENS_CIRCULATING_SUPPLY_LOADED,
+  WALLET_REDEEMER_CONNECTED
 } from '../constants'
 import { getCorrespondingReadOnlyProvider } from '../utils/read-only-providers'
 
@@ -51,7 +53,28 @@ const middleware = ({ dispatch }) => {
           }
         })
 
-        //connectWithSpecificWallet(_action.payload.pToken, 'redeemer', true)
+        //in case an user change pToken "on"
+        dispatch(
+          connectWithSpecificWallet(_action.payload.pToken, 'redeemer', false)
+        )
+      }
+
+      // load balance of the new account selected when wallet changes.
+      // nodeInfo is needeed because one could connect to a wallet before that the node is selected
+      if (
+        _action.type === WALLET_REDEEMER_CONNECTED &&
+        _action.payload.pToken.nodeInfo
+      ) {
+        const readOnlyProvider = getCorrespondingReadOnlyProvider(
+          _action.payload.pToken
+        )
+        const configs = {
+          issuer: null,
+          redeemer: readOnlyProvider
+        }
+        dispatch(
+          getBalance(_action.payload.pToken, _action.payload.account, configs)
+        )
       }
 
       if (_action.type === PTOKENS_SET_NODE_INFO) {
@@ -64,7 +87,7 @@ const middleware = ({ dispatch }) => {
           redeemer: readOnlyProvider
         }
 
-        //main page data
+        // main page data
         if (
           currentContractAddress !==
           _action.payload.pToken.nodeInfo.contractAddress

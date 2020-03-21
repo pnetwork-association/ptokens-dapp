@@ -1,9 +1,5 @@
 import { getCorrespondingReadOnlyProvider } from './read-only-providers'
-import {
-  PBTC_ON_ETH_MAINNET,
-  PBTC_ON_ETH_TESTNET,
-  PBTC_ON_EOS_TESTNET
-} from '../constants'
+import { PBTC_ON_ETH_MAINNET, PBTC_ON_ETH_TESTNET } from '../constants'
 
 import Web3 from 'web3'
 import settings from '../settings'

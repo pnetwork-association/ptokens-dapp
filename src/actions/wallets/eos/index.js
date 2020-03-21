@@ -24,30 +24,33 @@ const connectWithScatter = async (_pToken, _role, _dispatch, _force = true) => {
 
     const scatter = ScatterJS.scatter
 
-    _login(scatter, _role, _dispatch)
+    _login(_pToken, scatter, _role, _dispatch)
 
     if (connected) {
       if (scatter.identity) {
-        _connectionSuccesfull(_role, _dispatch)
+        _connectionSuccesfull(_pToken, _role, _dispatch)
       } else {
-        _login(scatter, _role, _dispatch)
+        _login(_pToken, scatter, _role, _dispatch)
       }
     } else {
-      _login(scatter, _role, _dispatch)
+      _login(_pToken, scatter, _role, _dispatch)
     }
   } catch (err) {
-    _connectionNotSuccesfull(_role, _dispatch)
+    _connectionNotSuccesfull(_pToken, _role, _dispatch)
   }
 }
 
-const disconnectFromScatter = async (_role, _dispatch) => {
+const disconnectFromScatter = async (_pToken, _role, _dispatch) => {
   if (!ScatterJS.logout) {
     isInitialized = false
     _dispatch({
       type:
         _role === 'issuer'
           ? WALLET_ISSUER_DISCONNECTED
-          : WALLET_REDEEMER_DISCONNECTED
+          : WALLET_REDEEMER_DISCONNECTED,
+      payload: {
+        pToken: _pToken
+      }
     })
     return
   }
@@ -58,25 +61,28 @@ const disconnectFromScatter = async (_role, _dispatch) => {
       type:
         _role === 'issuer'
           ? WALLET_ISSUER_DISCONNECTED
-          : WALLET_REDEEMER_DISCONNECTED
+          : WALLET_REDEEMER_DISCONNECTED,
+      payload: {
+        pToken: _pToken
+      }
     })
   }
 }
 
-const _login = async (_scatter, _role, _dispatch) => {
+const _login = async (_pToken, _scatter, _role, _dispatch) => {
   try {
     const isLogged = await _scatter.login()
     if (isLogged) {
-      _connectionSuccesfull(_role, _dispatch)
+      _connectionSuccesfull(_pToken, _role, _dispatch)
     } else {
-      _connectionNotSuccesfull(_role, _dispatch)
+      _connectionNotSuccesfull(_pToken, _role, _dispatch)
     }
   } catch (err) {
-    _connectionNotSuccesfull(_role, _dispatch)
+    _connectionNotSuccesfull(_pToken, _role, _dispatch)
   }
 }
 
-const _connectionSuccesfull = (_role, _dispatch) => {
+const _connectionSuccesfull = (_pToken, _role, _dispatch) => {
   const account = _getAccount()
   _dispatch({
     type:
@@ -87,12 +93,13 @@ const _connectionSuccesfull = (_role, _dispatch) => {
       wallet: {
         name: 'Scatter',
         type: 'singleWallet'
-      }
+      },
+      pToken: _pToken
     }
   })
 }
 
-const _connectionNotSuccesfull = (_role, _dispatch) => {
+const _connectionNotSuccesfull = (_pToken, _role, _dispatch) => {
   _dispatch({
     type:
       _role === 'issuer'
@@ -100,6 +107,7 @@ const _connectionNotSuccesfull = (_role, _dispatch) => {
         : WALLET_REDEEMER_DISCONNECTED,
     payload: {
       //TODO error message
+      pToken: _pToken
     }
   })
 }

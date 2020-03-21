@@ -65,7 +65,7 @@ const connectWithEthWallet = async (
       name: _getWalletNameByProvider(provider),
       type: 'multiWallet'
     }
-    _connectionSuccesfull(provider, _dispatch, _role, wallet)
+    _connectionSuccesfull(_pToken, provider, _dispatch, _role, wallet)
     return
   }
 
@@ -74,7 +74,7 @@ const connectWithEthWallet = async (
       name: _getWalletNameByProvider(provider),
       type: 'multiWallet'
     }
-    _connectionSuccesfull(provider, _dispatch, _role, wallet)
+    _connectionSuccesfull(_pToken, provider, _dispatch, _role, wallet)
   })
 
   if (_force) web3Connect.toggleModal()
@@ -84,7 +84,13 @@ const disconnectFromEthWallet = () => {
   //TODO: disconnect from ETH wallet
 }
 
-const _connectionSuccesfull = async (_provider, _dispatch, _role, _wallet) => {
+const _connectionSuccesfull = async (
+  _pToken,
+  _provider,
+  _dispatch,
+  _role,
+  _wallet
+) => {
   const account = await _getAccount(_provider)
   _dispatch({
     type:
@@ -92,7 +98,8 @@ const _connectionSuccesfull = async (_provider, _dispatch, _role, _wallet) => {
     payload: {
       provider: _provider,
       account,
-      wallet: _wallet
+      wallet: _wallet,
+      pToken: _pToken
     }
   })
 }

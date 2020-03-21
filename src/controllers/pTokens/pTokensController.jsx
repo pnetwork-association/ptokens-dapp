@@ -80,17 +80,6 @@ export class pTokenControllers extends React.Component {
       redeemer: this.props.redeemerProvider,
       issuer: this.props.issuerProvider
     })
-
-    if (this.props.redeemerProvider) {
-      this.props.getBalance(
-        this.props.pTokenSelected,
-        this.props.redeemerAccount,
-        {
-          redeemer: this.props.redeemerProvider,
-          issuer: this.props.issuerProvider
-        }
-      )
-    }
   }
 
   static getDerivedStateFromProps(_prevProps, _prevState) {
@@ -117,19 +106,17 @@ export class pTokenControllers extends React.Component {
   async componentDidUpdate(_prevProps, _prevState) {
     if (
       this.props.pTokenSelected.id !== this.state.pTokenSelectedId &&
-      this.props.redeemerProvider &&
       this.props.pTokenSelected.nodeInfo.contractAddress
     ) {
       this.setState({
-        pTokenSelectedId: this.props.pTokenSelected.id,
-        pTokenSelectedNetwork: this.props.pTokenSelected.network
+        pTokenSelectedId: this.props.pTokenSelected.id
       })
 
       this.props.getBalance(
         this.props.pTokenSelected,
         this.props.redeemerAccount,
         {
-          redeemer: this.props.redeemerProvider,
+          redeemer: getCorrespondingReadOnlyProvider(this.props.pTokenSelected),
           issuer: this.props.issuerProvider
         }
       )
@@ -361,8 +348,7 @@ export class pTokenControllers extends React.Component {
     this.props.clearLogs()
 
     const issuerReadOnlyProvider = getCorrespondingReadOnlyProvider(
-      this.props.pTokenSelected,
-      'redeem'
+      this.props.pTokenSelected
     )
 
     this.props.redeem(

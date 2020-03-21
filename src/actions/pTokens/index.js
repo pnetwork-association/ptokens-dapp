@@ -193,7 +193,7 @@ const setBalance = _balance => {
 }
 
 const _getCorrectConfigs = (_pToken, _configs) => {
-  const { issuer, redeemer } = _configs
+  const { redeemer } = _configs
 
   if (_pToken.id === PBTC_ON_ETH_MAINNET) {
     return {
@@ -219,7 +219,7 @@ const _getCorrectConfigs = (_pToken, _configs) => {
     return {
       pbtc: {
         btcNetwork: 'testnet',
-        eosRpc: settings[2].eos.provableEndpoint,
+        eosRpc: settings[PBTC_ON_EOS_TESTNET].eos.provableEndpoint,
         hostBlockchain: 'eos'
       }
     }
