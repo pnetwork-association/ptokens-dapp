@@ -166,6 +166,9 @@ const getLastProcessedBlock = (_pToken, _type, _role) => {
   return async dispatch => {
     if (!selectedNode) return
 
+    //provisional
+    if (_pToken.redeemFrom === 'EOS' && _type === 'host') return
+
     const lastProcessedBlock = await selectedNode.getLastProcessedBlock(_type)
 
     let value = null

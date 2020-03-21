@@ -37,23 +37,6 @@ const Enclave = props => {
               </div>
               <div className="col-12 col-xl-6 mt-20">
                 <MiniCard
-                  title={`LAST PROCESSED ${props.pTokenSelected.redeemFrom} BLOCK NUMBER`}
-                  value={props.lastRedeemerProcessedBlock}
-                  measure={''}
-                  withSpinner={true}
-                  textColor={
-                    props.redeemerBlockHeightStatus === 1
-                      ? 'gray'
-                      : props.redeemerBlockHeightStatus === 2
-                      ? 'orange'
-                      : props.redeemerBlockHeightStatus === 3
-                      ? 'red'
-                      : ''
-                  }
-                />
-              </div>
-              <div className="col-12 col-xl-6 mt-20">
-                <MiniCard
                   title={`LAST PROCESSED ${props.pTokenSelected.issueFrom} BLOCK NUMBER`}
                   value={props.lastIssuerProcessedBlock}
                   measure={''}
@@ -68,6 +51,27 @@ const Enclave = props => {
                       : ''
                   }
                 />
+              </div>
+              <div className="col-12 col-xl-6 mt-20">
+                {
+                props.pTokenSelected.redeemFrom !== 'EOS'
+                  ? <MiniCard
+                    title={`LAST PROCESSED ${props.pTokenSelected.redeemFrom} BLOCK NUMBER`}
+                    value={props.lastRedeemerProcessedBlock}
+                    measure={''}
+                    withSpinner={true}
+                    textColor={
+                      props.redeemerBlockHeightStatus === 1
+                        ? 'gray'
+                        : props.redeemerBlockHeightStatus === 2
+                        ? 'orange'
+                        : props.redeemerBlockHeightStatus === 3
+                        ? 'red'
+                        : ''
+                    }
+                  />
+                  : null
+                }
               </div>
             </div>
           </div>
@@ -99,7 +103,7 @@ const Enclave = props => {
                       href={getCorrespondingExplorerLink(
                         props.pTokenSelected,
                         'redeemer',
-                        `0x${props.pTokenSelected.nodeInfo.contractAddress}`
+                        `${props.pTokenSelected.nodeInfo.contractAddress}`
                       )}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -108,7 +112,7 @@ const Enclave = props => {
                         ? getCorresponsingVisibleAddressFormat(
                             props.pTokenSelected,
                             'redeemer',
-                            `0x${props.pTokenSelected.nodeInfo.contractAddress}`
+                            `${props.pTokenSelected.nodeInfo.contractAddress}`
                           )
                         : '-'}
                     </a>
@@ -118,13 +122,13 @@ const Enclave = props => {
                       href={getCorrespondingExplorerLink(
                         props.pTokenSelected,
                         'redeemer',
-                        `0x${props.pTokenSelected.nodeInfo.contractAddress}`
+                        `${props.pTokenSelected.nodeInfo.contractAddress}`
                       )}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       {props.pTokenSelected.nodeInfo.contractAddress
-                        ? `0x${props.pTokenSelected.nodeInfo.contractAddress}`
+                        ? `${props.pTokenSelected.nodeInfo.contractAddress}`
                         : '-'}
                     </a>
                   </div>

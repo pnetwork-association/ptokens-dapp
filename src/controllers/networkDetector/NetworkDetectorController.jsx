@@ -95,7 +95,7 @@ export class NetworkDetectorController extends Component {
   render() {
     return (
       <NetworkDetector
-        showIn={[1]} //array of pages where showing the network error (0: main, 1: issue & redeem, 2:enclave 3:settings)
+        show={[1].includes(this.props.pageSelected)} //array of pages where showing the network error (0: main, 1: issue & redeem, 2:enclave 3:settings)
         currentPage={this.props.pageSelected}
         pTokenSelected={this.props.pTokenSelected}
         isCorrectRedeemerNetwork={this.state.isCorrectRedeemerNetwork}

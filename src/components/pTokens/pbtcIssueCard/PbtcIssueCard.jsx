@@ -106,7 +106,7 @@ const PbtcIssueCard = props => {
               <Alert
                 type={'info'}
                 size={'exsmall'}
-                text={`Any BTC deposit sent to this address will mint an equal number of pBTC tokens on the ETH addressed above`}
+                text={`Any BTC deposit sent to this address will mint an equal number of pBTC tokens on the ${props.pTokenSelected.redeemFrom} address above`}
               />
             </div>
 
