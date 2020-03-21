@@ -19,7 +19,7 @@ import { pbtcLoggedIssue, pbtcLoggedRedeem } from './loggers/pbtc'
 import { pltcLoggedIssue, pltcLoggedRedeem } from './loggers/pltc'
 import settings from '../../settings'
 import { getEthBalance, getEosBalance } from './balance'
-import { getEthTotalSupply } from './total-supply'
+import { getEthTotalSupply, getEosTotalSupply } from './total-supply'
 
 let ptokens = null
 
@@ -125,16 +125,21 @@ const getTotalSupply = (_pToken, _configs) => {
   return async dispatch => {
     if (!_pToken.nodeInfo.isCompatible) return
 
+    let circulatingSupply = null
     if (_pToken.redeemFrom === 'ETH') {
-      const circulatingSupply = await getEthTotalSupply(_pToken)
-
-      dispatch({
-        type: PTOKENS_CIRCULATING_SUPPLY_LOADED,
-        payload: {
-          circulatingSupply
-        }
-      })
+      circulatingSupply = await getEthTotalSupply(_pToken)
     }
+
+    if (_pToken.redeemFrom === 'EOS') {
+      circulatingSupply = await getEosTotalSupply(_pToken)
+    }
+
+    dispatch({
+      type: PTOKENS_CIRCULATING_SUPPLY_LOADED,
+      payload: {
+        circulatingSupply
+      }
+    })
   }
 }
 
@@ -216,10 +221,12 @@ const _getCorrectConfigs = (_pToken, _configs) => {
   }
 
   if (_pToken.id === PBTC_ON_EOS_TESTNET) {
+    console.log(redeemer)
     return {
       pbtc: {
         btcNetwork: 'testnet',
         eosRpc: settings[PBTC_ON_EOS_TESTNET].eos.provableEndpoint,
+        eosSignatureProvider: redeemer,
         hostBlockchain: 'eos'
       }
     }

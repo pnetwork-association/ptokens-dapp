@@ -3,7 +3,7 @@ import { makeContractCall } from '../../utils/eth'
 import pTokenAbi from '../../utils/eth-contract-abi'
 import Web3 from 'web3'
 
-const getEthTotalSupply = async (_pToken, _account) => {
+const getEthTotalSupply = async _pToken => {
   const provider = getCorrespondingReadOnlyProvider(_pToken)
   const web3 = new Web3(provider)
   const res = await makeContractCall(
@@ -19,4 +19,16 @@ const getEthTotalSupply = async (_pToken, _account) => {
   )
 }
 
-export { getEthTotalSupply }
+const getEosTotalSupply = async _pToken => {
+  const provider = getCorrespondingReadOnlyProvider(_pToken)
+  const resp = await provider.get_table_rows({
+    json: true,
+    code: _pToken.nodeInfo.contractAddress,
+    scope: 'PBTC',
+    table: 'stat',
+    limit: 1
+  })
+  return resp.rows[0].supply.split(' ')[0]
+}
+
+export { getEthTotalSupply, getEosTotalSupply }

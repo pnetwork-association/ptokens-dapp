@@ -22,13 +22,15 @@ const networkToType = {
 const NetworkDetector = props => {
   return (
     <React.Fragment>
-      {props.pTokenSelected.network !==
-        networkToType[props.currentDetectedRedeemerNetwork] &&
-      props.currentDetectedRedeemerNetwork ? (
-        <div className="container-fluid mt-3">
-          <Alert
-            type={'danger'}
-            text={`
+      {props.pTokenSelected.redeemFrom === 'ETH' ? (
+        
+        props.pTokenSelected.network !==
+          networkToType[props.currentDetectedRedeemerNetwork] &&
+        props.currentDetectedRedeemerNetwork ? (
+          <div className="container-fluid mt-3">
+            <Alert
+              type={'danger'}
+              text={`
                 The current provider (${
                   networkTextToShow[props.currentDetectedRedeemerNetwork]
                 })
@@ -45,22 +47,31 @@ const NetworkDetector = props => {
                       ' is Available only on Ropsten Test Network'
                     : ''
                 }`}
-          />
-        </div>
-      ) : props.isCorrectRedeemerNetwork === false &&
-        props.showIn.includes(props.currentPage) ? (
-        <div className="container-fluid mt-3">
+            />
+          </div>
+        ) : props.isCorrectRedeemerNetwork === false &&
+          props.showIn.includes(props.currentPage) ? (
+          <div className="container-fluid mt-3">
+            <Alert
+              type={'danger'}
+              text={`${props.pTokenSelected.name} is not available on ${
+                networkTextToShow[props.currentDetectedRedeemerNetwork]
+              }. 
+              Please use ${
+                networkTextToShow[props.pTokenSelected.network]
+              }`}
+            />
+          </div>
+        ) : null
+        
+      ) : (
+        <div className="container-fluid mt-3 text-center">
           <Alert
-            type={'danger'}
-            text={`${props.pTokenSelected.name} is not available on ${
-              networkTextToShow[props.currentDetectedRedeemerNetwork]
-            }. 
-                    Please use ${
-                      networkTextToShow[props.pTokenSelected.network]
-                    }`}
+            type={'info'}
+            text={'If you have Scatter connected to the dapp check that it is set on the correct chain before doing a redeem.'}
           />
         </div>
-      ) : null}
+      )}
     </React.Fragment>
   )
 }

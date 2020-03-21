@@ -85,7 +85,8 @@ const disconnectFromSpecificWallet = (_pToken, _role) => {
         break
       }
       case PBTC_ON_EOS_TESTNET: {
-        if (_role === 'redeemer') disconnectFromScatter('redeemer', dispatch)
+        if (_role === 'redeemer')
+          disconnectFromScatter(_pToken, 'redeemer', dispatch)
         break
       }
       default:

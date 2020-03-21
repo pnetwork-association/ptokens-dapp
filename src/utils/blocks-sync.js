@@ -1,11 +1,15 @@
 import { getCorrespondingReadOnlyProvider } from './read-only-providers'
-import { PBTC_ON_ETH_MAINNET, PBTC_ON_ETH_TESTNET } from '../constants'
+import {
+  PBTC_ON_ETH_MAINNET,
+  PBTC_ON_ETH_TESTNET,
+  PBTC_ON_EOS_TESTNET
+} from '../constants'
 
 import Web3 from 'web3'
-import settings from '../settings'
+/*import settings from '../settings'
 import { Api, JsonRpc } from 'eosjs'
 import fetch from 'node-fetch'
-import encoding from 'text-encoding'
+import encoding from 'text-encoding'*/
 import axios from 'axios'
 
 const ETH_GOOD = 2
@@ -17,8 +21,8 @@ const BTC_BAD = 6
 const LTC_GOOD = 4
 const LTC_BAD = 24
 
-const EOS_GOOD = 1200 // (500ms each block -> 2blocks x second -> 120 block x minute -> 1200 blocks each 10 minutes)
-const EOS_BAD = 7200 //each hours
+//const EOS_GOOD = 1200 // (500ms each block -> 2blocks x second -> 120 block x minute -> 1200 blocks each 10 minutes)
+//const EOS_BAD = 7200 //each hours
 
 const BLOCKSTREAM_BASE_MAINNET_ENDPOINT = 'https://blockstream.info/api/'
 const BLOCKSTREAM_BASE_TESTNET_ENDPOINT =
@@ -86,8 +90,8 @@ const getBlockHeightStatusComparedWithTheReals = async (
     )
   }
 
-  if (_pToken.name === 'pEOS' && _role === 'issuer') {
-    const rpc = new JsonRpc(settings[_pToken.id].eos.provableEndpoint, {
+  if (_pToken.id === PBTC_ON_EOS_TESTNET) {
+    /*const rpc = new JsonRpc(settings[2].eos.provableEndpoint, {
       fetch
     })
     const eosjs = new Api({
@@ -104,7 +108,9 @@ const getBlockHeightStatusComparedWithTheReals = async (
       eosLastBlock,
       EOS_GOOD,
       EOS_BAD
-    )
+    )*/
+    // NOTE: get block not implemented in the backend yet
+    return 1
   }
 
   if (_pToken.name === 'pEOS' && _role === 'redeemer') {

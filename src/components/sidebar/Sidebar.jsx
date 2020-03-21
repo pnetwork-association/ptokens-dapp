@@ -83,7 +83,7 @@ class Sidebar extends React.Component {
         {/*MOBILE*/}
         <nav className="show-mobile container-header-menu-mobile sticky-top pb-1">
           <div className="row ">
-            <div className="col-2 pl-0">
+            <div className="col-2">
               <div className="container">
                 <div className="row">
                   <div className="col-12 d-flex justify-content-left cursor-pointer pl-0 pr-0">

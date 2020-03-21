@@ -193,6 +193,11 @@ const pbtcLoggedIssue = async (_ptokens, _params, _pToken, _dispatch) => {
     })
 }
 
+const hostTransactionId = {
+  eos: 'transaction_id',
+  eth: 'transactionHash'
+}
+
 const pbtcLoggedRedeem = (_ptokens, _params, _pToken, _dispatch) => {
   _dispatch(
     LogHandler.addItem({
@@ -216,8 +221,8 @@ const pbtcLoggedRedeem = (_ptokens, _params, _pToken, _dispatch) => {
     .redeem(..._params)
     .once(pTokenEvents[_pToken.redeemFrom.toLowerCase()], _tx => {
       const explorer = `${
-        settings[_pToken.id][_pToken.redeemFrom.toLowerCase()]
-      }tx/${_tx.transactionHash}`
+        settings[_pToken.id][_pToken.redeemFrom.toLowerCase()].explorer
+      }tx/${_tx[hostTransactionId[_pToken.redeemFrom.toLowerCase()]]}`
 
       const message = `Burn Transaction confirmed! ${parseFloat(
         _params[0]

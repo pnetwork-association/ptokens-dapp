@@ -11,6 +11,7 @@ import {
 
 let isInitialized = false
 let network = null
+let firstCall = false
 
 const connectWithScatter = async (_pToken, _role, _dispatch, _force = true) => {
   try {
@@ -23,6 +24,16 @@ const connectWithScatter = async (_pToken, _role, _dispatch, _force = true) => {
     }
 
     const scatter = ScatterJS.scatter
+
+    /* if dapp is loaded with url = .../pxxx-on-eos and
+     * scatter is already enabled we must first wait that scatters estabilishes
+     * the connection with the website because calling scatter.login() before
+     * estabilishing the connection, generates a weird error.
+     */
+    if (!firstCall) {
+      firstCall = true
+      return
+    }
 
     _login(_pToken, scatter, _role, _dispatch)
 

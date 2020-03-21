@@ -61,9 +61,11 @@ const middleware = ({ dispatch }) => {
 
       // load balance of the new account selected when wallet changes.
       // nodeInfo is needeed because one could connect to a wallet before that the node is selected
+      //  _action.payload.account nedeed because a wallet can be connected but not unlocked
       if (
         _action.type === WALLET_REDEEMER_CONNECTED &&
-        _action.payload.pToken.nodeInfo
+        _action.payload.pToken.nodeInfo &&
+        _action.payload.account
       ) {
         const readOnlyProvider = getCorrespondingReadOnlyProvider(
           _action.payload.pToken

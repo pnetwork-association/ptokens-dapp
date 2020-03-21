@@ -71,7 +71,7 @@ const settings = {
     eos: {
       chainId:
         'e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473',
-      host: 'jungle2.cryptolions.io',
+      host: 'eosjunglehttps.ptokens.io',
       port: 443,
       protocol: 'https',
       explorer: 'https://jungle.bloks.io/',
