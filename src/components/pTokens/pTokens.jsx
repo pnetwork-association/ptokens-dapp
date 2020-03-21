@@ -75,12 +75,17 @@ const PTokens = props => {
                       <div className="row">
                         <div className="col-12 mr-0">
                           <div className="text-xxs text-gray line-height-1 font-weight-light">
-                            YOUR {props.pTokenSelected.redeemFrom} ADDRESS
+                            YOUR{' '}
+                            {`${props.pTokenSelected.redeemFrom} ${
+                              props.pTokenSelected.redeemFrom === 'EOS'
+                                ? 'ACCOUNT'
+                                : 'ADDRESS'
+                            }`}
                           </div>
                           <div className="text-gray text-xxl line-height-1 font-weight-light mt-10 text-on-1-row">
                             {props.redeemerAccount
                               ? getCorresponsingVisibleAddressFormat(
-                                  props.pTokenSelected.name,
+                                  props.pTokenSelected,
                                   'redeemer',
                                   props.redeemerAccount
                                 )
@@ -97,8 +102,8 @@ const PTokens = props => {
                   <MiniCard
                     title={`YOUR ${props.pTokenSelected.issueFrom} ACCOUNT`}
                     value={getCorresponsingVisibleAddressFormat(
-                      props.pTokenSelected.name,
-                      'issuer',
+                      props.pTokenSelected,
+                      'redeemer',
                       props.issuerAccount
                     )}
                     measure={''}

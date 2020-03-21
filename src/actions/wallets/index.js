@@ -20,7 +20,7 @@ const connectWithCorrectWallets = (_pToken, _currentProviders, _force) => {
         break
       }
       case PBTC_ON_EOS_TESTNET: {
-        connectWithScatter(_pToken, 'redeemer', redeemer, dispatch, _force)
+        connectWithScatter(_pToken, 'redeemer', dispatch, _force)
         break
       }
       default:
@@ -52,7 +52,7 @@ const connectWithSpecificWallet = (_pToken, _role, _force) => {
       }
       case PBTC_ON_EOS_TESTNET: {
         if (_role === 'redeemer')
-          connectWithEthWallet(_pToken, 'redeemer', null, dispatch, _force)
+          connectWithScatter(_pToken, 'redeemer', dispatch, _force)
         break
       }
       default:
@@ -85,8 +85,7 @@ const disconnectFromSpecificWallet = (_pToken, _role) => {
         break
       }
       case PBTC_ON_EOS_TESTNET: {
-        if (_role === 'redeemer')
-          disconnectFromEthWallet('redeemer', null, dispatch)
+        if (_role === 'redeemer') disconnectFromScatter('redeemer', dispatch)
         break
       }
       default:
@@ -113,7 +112,7 @@ const changeSpecificWallet = (_pToken, _role) => {
         break
       }
       case PBTC_ON_EOS_TESTNET: {
-        connectWithEthWallet(_pToken, 'redeemer', null, dispatch, true)
+        connectWithScatter(_pToken, 'redeemer', dispatch, true)
         break
       }
       default:

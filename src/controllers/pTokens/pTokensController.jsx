@@ -255,7 +255,7 @@ export class pTokenControllers extends React.Component {
 
     if (
       !isValidAccount(
-        this.props.pTokenSelected.name,
+        this.props.pTokenSelected,
         this.props.pTokensParams.typedIssueAccount,
         'redeemer'
       )
@@ -321,7 +321,7 @@ export class pTokenControllers extends React.Component {
 
     if (
       !isValidAccount(
-        this.props.pTokenSelected.name,
+        this.props.pTokenSelected,
         this.props.pTokensParams.typedRedeemAccount,
         'issuer'
       )

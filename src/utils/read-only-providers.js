@@ -9,7 +9,7 @@ const getCorrespondingReadOnlyProvider = (_pToken, _type) => {
         settings[_pToken.id].eth.infuraProjectId
     )
   }
-  if (_pToken.name === 'EOS') {
+  if (_pToken.redeemFrom === 'EOS') {
     return null
   }
 

@@ -8,6 +8,11 @@ import {
 } from '../../../constants/index'
 import settings from '../../../settings'
 
+const pTokenEvents = {
+  eth: 'onEthTxConfirmed',
+  eos: 'onEosTxConfirmed'
+}
+
 const pbtcLoggedIssue = async (_ptokens, _params, _pToken, _dispatch) => {
   //[0] should be the value but here there isn't
   let depositAddress = null
@@ -123,7 +128,7 @@ const pbtcLoggedIssue = async (_ptokens, _params, _pToken, _dispatch) => {
     .once('onNodeBroadcastedTx', report => {
       _dispatch(
         LogHandler.updateItem('enclave-transaction-broadcast', {
-          value: 'ETH Transaction broadcasted by the enclave!',
+          value: `${_pToken.redeemFrom} Transaction broadcasted by the enclave!`,
           success: true,
           waiting: false,
           link: null,
@@ -131,13 +136,13 @@ const pbtcLoggedIssue = async (_ptokens, _params, _pToken, _dispatch) => {
         })
       )
 
-      const explorer = `${settings[_pToken.id].eth.etherscanLink}tx/${
-        report.broadcast_tx_hash
-      }`
+      const explorer = `${
+        settings[_pToken.id][_pToken.redeemFrom.toLowerCase()].explorer
+      }tx/${report.broadcast_tx_hash}`
 
       _dispatch(
         LogHandler.addItem({
-          value: `ETH transaction pending...`,
+          value: `${_pToken.redeemFrom} transaction pending...`,
           success: true,
           link: explorer,
           id: 'transaction-final-pending'
@@ -157,7 +162,7 @@ const pbtcLoggedIssue = async (_ptokens, _params, _pToken, _dispatch) => {
     .then(_result => {
       _dispatch(
         LogHandler.updateItem('confirmation-final-mint', {
-          value: `ETH transaction confirmed!`,
+          value: `${_pToken.redeemFrom} transaction confirmed!`,
           success: true,
           waiting: false,
           link: null
@@ -209,10 +214,10 @@ const pbtcLoggedRedeem = (_ptokens, _params, _pToken, _dispatch) => {
 
   _ptokens.pbtc
     .redeem(..._params)
-    .once('onEthTxConfirmed', _tx => {
-      const explorer = `${settings[_pToken.id].eth.etherscanLink}tx/${
-        _tx.transactionHash
-      }`
+    .once(pTokenEvents[_pToken.redeemFrom.toLowerCase()], _tx => {
+      const explorer = `${
+        settings[_pToken.id][_pToken.redeemFrom.toLowerCase()]
+      }tx/${_tx.transactionHash}`
 
       const message = `Burn Transaction confirmed! ${parseFloat(
         _params[0]

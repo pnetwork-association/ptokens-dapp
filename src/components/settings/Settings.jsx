@@ -16,7 +16,7 @@ const Settings = props => {
                 <MiniCard
                   title={`YOUR ${props.pTokenSelected.redeemFrom} ACCOUNT`}
                   value={getCorresponsingVisibleAddressFormat(
-                    props.pTokenSelected.name,
+                    props.pTokenSelected,
                     'redeemer',
                     props.redeemerAccount
                   )}
@@ -46,7 +46,7 @@ const Settings = props => {
                   <MiniCard
                     title={`YOUR ${props.pTokenSelected.issueFrom} ACCOUNT`}
                     value={getCorresponsingVisibleAddressFormat(
-                      props.pTokenSelected.name,
+                      props.pTokenSelected,
                       'issuer',
                       props.issuerAccount
                     )}

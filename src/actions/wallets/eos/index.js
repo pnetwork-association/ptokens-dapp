@@ -12,11 +12,11 @@ import {
 let isInitialized = false
 let network = null
 
-const connectWithScatter = async (_role, _dispatch, _force = true) => {
+const connectWithScatter = async (_pToken, _role, _dispatch, _force = true) => {
   try {
     if (!isInitialized) {
       ScatterJS.plugins(new ScatterEOS())
-      network = ScatterJS.Network.fromJson(settings.peos.eos)
+      network = ScatterJS.Network.fromJson(settings[_pToken.id].eos)
     }
 
     const scatter = ScatterJS.scatter

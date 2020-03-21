@@ -131,7 +131,7 @@ const pltcLoggedIssue = async (_ptokens, _params, _dispatch) => {
         })
       )
 
-      const explorer = `${settings.pltc.eth.etherscanLink}tx/${report.broadcast_tx_hash}`
+      const explorer = `${settings.pltc.eth.explorer}tx/${report.broadcast_tx_hash}`
 
       _dispatch(
         LogHandler.addItem({
@@ -208,7 +208,7 @@ const pltcLoggedRedeem = (_ptokens, _params, _dispatch) => {
   _ptokens.pltc
     .redeem(..._params)
     .once('onEthTxConfirmed', _tx => {
-      const explorer = `${settings.pltc.eth.etherscanLink}tx/${_tx.transactionHash}`
+      const explorer = `${settings.pltc.eth.explorer}tx/${_tx.transactionHash}`
 
       const message = `Burn Transaction confirmed! ${parseFloat(
         _params[0]

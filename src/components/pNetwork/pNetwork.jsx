@@ -106,7 +106,7 @@ const Enclave = props => {
                     >
                       {props.pTokenSelected.nodeInfo.contractAddress
                         ? getCorresponsingVisibleAddressFormat(
-                            props.pTokenSelected.name,
+                            props.pTokenSelected,
                             'redeemer',
                             `0x${props.pTokenSelected.nodeInfo.contractAddress}`
                           )
@@ -147,7 +147,7 @@ const Enclave = props => {
                           data-tip={`0x${props.pTokenSelected.nodeInfo.publicKey}`}
                         >
                           {getCorresponsingVisibleAddressFormat(
-                            props.pTokenSelected.name,
+                            props.pTokenSelected,
                             'issuer',
                             `0x${props.pTokenSelected.nodeInfo.publicKey}`
                           )}
@@ -173,7 +173,7 @@ const Enclave = props => {
                         rel="noopener noreferrer"
                       >
                         {getCorresponsingVisibleAddressFormat(
-                          props.pTokenSelected.name,
+                          props.pTokenSelected,
                           'issuer'
                         )}
                       </a>

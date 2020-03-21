@@ -64,7 +64,9 @@ const PbtcIssueCard = props => {
       </div>
       <div className="card-body pt-0">
         <Input
-          label={`${props.pTokenSelected.redeemFrom} ADDRESS`}
+          label={`${props.pTokenSelected.redeemFrom} ${
+            props.pTokenSelected.redeemFrom === 'EOS' ? 'ACCOUNT' : 'ADDRESS'
+          }`}
           value={props.typedIssueAccount ? props.typedIssueAccount : ''}
           size={'small'}
           onChange={e => props.onChangeIssueAccount(e.target.value)}
@@ -113,7 +115,7 @@ const PbtcIssueCard = props => {
                 Need testnet BTC?
                 <a
                   className="text-primary text-underline ml-5"
-                  href={settings[props.pTokenSelected.id].testnet.btc.faucet1}
+                  href={settings[props.pTokenSelected.id].btc.faucet1}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -122,7 +124,7 @@ const PbtcIssueCard = props => {
                 </a>
                 <a
                   className="text-primary text-underline ml-5"
-                  href={settings[props.pTokenSelected.id].testnet.btc.faucet2}
+                  href={settings[props.pTokenSelected.id].btc.faucet2}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

@@ -213,7 +213,8 @@ const _getCorrectConfigs = (_pToken, _configs) => {
     return {
       pbtc: {
         btcNetwork: 'mainnet',
-        ethProvider: redeemer
+        ethProvider: redeemer,
+        hostBlockchain: 'eth'
       }
     }
   }
@@ -222,7 +223,8 @@ const _getCorrectConfigs = (_pToken, _configs) => {
     return {
       pbtc: {
         btcNetwork: 'testnet',
-        ethProvider: redeemer
+        ethProvider: redeemer,
+        hostBlockchain: 'eth'
       }
     }
   }
@@ -231,7 +233,8 @@ const _getCorrectConfigs = (_pToken, _configs) => {
     return {
       pbtc: {
         btcNetwork: 'testnet',
-        ethProvider: redeemer
+        eosRpc: settings[2].eos.provableEndpoint,
+        hostBlockchain: 'eos'
       }
     }
   }

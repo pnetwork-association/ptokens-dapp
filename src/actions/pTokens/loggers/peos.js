@@ -105,7 +105,7 @@ const peosLoggedIssue = (_ptokens, _params, _dispatch) => {
       )
     })
     .then(_result => {
-      const explorer = `${settings.peos.eth.etherscanLink}tx/${_result.tx}`
+      const explorer = `${settings.peos.eth.explorer}tx/${_result.tx}`
 
       _dispatch(
         LogHandler.updateItem('confirmation-final-mint', {
@@ -162,7 +162,7 @@ const peosLoggedRedeem = (_ptokens, _params, _dispatch) => {
   _ptokens.peos
     .redeem(..._params)
     .once('onEthTxConfirmed', _tx => {
-      const explorer = `${settings.peos.eth.etherscanLink}tx/${_tx.transactionHash}`
+      const explorer = `${settings.peos.eth.explorer}tx/${_tx.transactionHash}`
 
       const message = `Burn Transaction confirmed! ${parseFloat(
         _params[0]

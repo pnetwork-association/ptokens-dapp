@@ -38,7 +38,7 @@ const connectWithEthWallet = async (
       fortmatic: {
         package: Fortmatic,
         options: {
-          key: settings[_pToken.id].eth.formaticKey
+          key: settings[_pToken.id].eth.fortmaticKey
         }
       }
       /*torus: {

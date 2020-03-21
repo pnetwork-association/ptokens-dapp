@@ -60,6 +60,7 @@ class App extends React.Component {
     const splittedUrl = history.location.pathname.split('/')[1].split('-')
 
     const pTokenNameSelected = splittedUrl[0]
+    const pTokenRedeemFromSelected = splittedUrl[2]
     const pTokenNetworkSelected =
       splittedUrl[3] === 'testnet' ? 'testnet' : 'mainnet'
 
@@ -67,7 +68,8 @@ class App extends React.Component {
     const pToken = this.props.pTokensAvailable.find(
       pToken =>
         pToken.name.toLowerCase() === pTokenNameSelected &&
-        pToken.network === pTokenNetworkSelected
+        pToken.network === pTokenNetworkSelected &&
+        pToken.redeemFrom === pTokenRedeemFromSelected.toUpperCase()
     )
 
     const { node } = queryString.parse(window.location.search)
@@ -93,7 +95,7 @@ class App extends React.Component {
       const pnode = new Node({
         pToken: {
           name: pToken.name.toLowerCase(),
-          redeemFrom: pToken.redeemFrom.toLowerCase()
+          hostBlockchain: pToken.redeemFrom.toLowerCase()
         },
         endpoint: node.includes('https://') ? node : `https://${node}`
       })
@@ -115,9 +117,7 @@ class App extends React.Component {
         <Switch>
           <Route
             exact
-            path={
-              '/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos|pbtc-on-eos-testnet)'
-            }
+            path={'/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos-testnet)'}
             render={() => {
               return (
                 <React.Fragment>
@@ -134,7 +134,7 @@ class App extends React.Component {
           <Route
             exact
             path={
-              '/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos|pbtc-on-eos-testnet)/pnetwork'
+              '/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos-testnet)/pnetwork'
             }
             render={() => {
               return (
@@ -152,7 +152,7 @@ class App extends React.Component {
           <Route
             exact
             path={
-              '/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos|pbtc-on-eos-testnet)/issue-redeem'
+              '/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos-testnet)/issue-redeem'
             }
             render={() => {
               return (
@@ -170,7 +170,7 @@ class App extends React.Component {
           <Route
             exact
             path={
-              '/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos|pbtc-on-eos-testnet)/settings'
+              '/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos-testnet)/settings'
             }
             render={() => {
               return (

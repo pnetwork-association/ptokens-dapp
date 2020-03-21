@@ -8,10 +8,10 @@ const settings = {
       httpsInfuraEndpoint: 'https://kovan.infura.io/v3/',
       infuraProjectId: '4762c881ac0c4938be76386339358ed6',
       portisDappId: 'd1f79009-507e-48a9-be58-30468c67b33c',
-      formaticKey: 'pk_test_48E59AF566747C40',
+      fortmaticKey: 'pk_test_48E59AF566747C40',
       network: 'kovan',
       chainId: 42,
-      etherscanLink: 'https://kovan.etherscan.io/',
+      explorer: 'https://kovan.etherscan.io/',
       enclaveBlockHeightPollingTime: 3000
     },
     eos: {
@@ -35,12 +35,12 @@ const settings = {
     eth: {
       infuraProjectId: '4762c881ac0c4938be76386339358ed6',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
-      formaticKey: 'pk_live_D0A703008A4B17B7',
+      fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
       httpsInfuraEndpoint: 'https://mainnet.infura.io/v3/',
       network: 'mainnet',
       chainId: 1,
-      etherscanLink: 'https://etherscan.io/',
+      explorer: 'https://etherscan.io/',
       enclaveBlockHeightPollingTime: 3000
     },
     btc: {
@@ -52,12 +52,12 @@ const settings = {
     eth: {
       infuraProjectId: '4762c881ac0c4938be76386339358ed6',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
-      formaticKey: 'pk_test_48E59AF566747C40',
+      fortmaticKey: 'pk_test_48E59AF566747C40',
       wsInfuraEndpoint: 'wss://ropsten.infura.io/ws/v3/',
       httpsInfuraEndpoint: 'https://ropsten.infura.io/v3/',
       network: 'ropsten',
       chainId: 3,
-      etherscanLink: 'https://ropsten.etherscan.io/',
+      explorer: 'https://ropsten.etherscan.io/',
       enclaveBlockHeightPollingTime: 3000
     },
     btc: {
@@ -75,7 +75,7 @@ const settings = {
       port: 443,
       protocol: 'https',
       explorer: 'https://jungle.bloks.io/',
-      provableEndpoint: 'https://ptoken-eos.provable.xyz:443',
+      provableEndpoint: 'https://eosjungle.ptokens.io/',
       enclaveBlockHeightPollingTime: 3000
     },
     btc: {
@@ -92,10 +92,10 @@ const settings = {
       httpsInfuraEndpoint: 'https://ropsten.infura.io/v3/',
       infuraProjectId: '4762c881ac0c4938be76386339358ed6',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
-      formaticKey: 'pk_test_48E59AF566747C40',
+      fortmaticKey: 'pk_test_48E59AF566747C40',
       network: 'ropsten',
       chainId: 3,
-      etherscanLink: 'https://ropsten.etherscan.io/',
+      explorer: 'https://ropsten.etherscan.io/',
       enclaveBlockHeightPollingTime: 3000
     },
     ltc: {
