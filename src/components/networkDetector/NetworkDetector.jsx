@@ -50,7 +50,7 @@ const NetworkDetector = props => {
             />
           </div>
         ) : props.isCorrectRedeemerNetwork === false &&
-          props.showIn.includes(props.currentPage) ? (
+          props.show && props.currentDetectedRedeemerNetwork ? (
           <div className="container-fluid mt-3">
             <Alert
               type={'danger'}
