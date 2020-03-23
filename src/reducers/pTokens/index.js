@@ -73,7 +73,7 @@ const initialState = {
       issueFrom: 'BTC',
       redeemFrom: 'EOS',
       realDecimals: 8,
-      contractDecimals: 1,
+      contractDecimals: 8,
       network: 'testnet'
     }
     /*{
