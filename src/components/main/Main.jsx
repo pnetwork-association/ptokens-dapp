@@ -15,7 +15,7 @@ const Main = props => {
               <div className="col-12 col-xl-6 mt-20">
                 <MiniCard
                   title="CIRCULATING SUPPLY"
-                  value={props.pTokenSelected.circulatingSupply}
+                  value={props.pTokenSelected.totalSupply}
                   measure={props.pTokenSelected.name}
                   icon={'coins'}
                 />

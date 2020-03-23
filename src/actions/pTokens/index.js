@@ -20,12 +20,18 @@ import { pltcLoggedIssue, pltcLoggedRedeem } from './loggers/pltc'
 import settings from '../../settings'
 import { getEthBalance, getEosBalance } from './balance'
 import { getEthTotalSupply, getEosTotalSupply } from './total-supply'
+import { Mutex } from 'async-mutex'
+
+const mutex = new Mutex()
 
 let ptokens = null
 
 let pTokenCurrent = {
   id: 0
 }
+
+let numberOfTotalSupplyRequests = 0
+let numberOfBalanceOfRequests = 0
 
 const _selectpToken = (_pToken, _configs) => {
   const configs = _getCorrectConfigs(_pToken, _configs)
@@ -103,21 +109,33 @@ const getBalance = (_pToken, _account, _configs) => {
   return async dispatch => {
     if (!_pToken.nodeInfo.isCompatible) return
 
+    numberOfBalanceOfRequests += 1
+    const release = await mutex.acquire()
+
     let balance = null
-    if (_pToken.redeemFrom === 'ETH') {
-      balance = await getEthBalance(_pToken, _account)
-    }
-
-    if (_pToken.redeemFrom === 'EOS') {
-      balance = await getEosBalance(_pToken, _account)
-    }
-
-    dispatch({
-      type: PTOKENS_BALANCE_LOADED,
-      payload: {
-        balance
+    try {
+      if (_pToken.redeemFrom === 'ETH') {
+        balance = await getEthBalance(_pToken, _account)
       }
-    })
+
+      if (_pToken.redeemFrom === 'EOS') {
+        balance = await getEosBalance(_pToken, _account)
+      }
+    } catch (err) {
+      balance = null
+    }
+
+    numberOfBalanceOfRequests -= 1
+    if (numberOfBalanceOfRequests === 0) {
+      dispatch({
+        type: PTOKENS_BALANCE_LOADED,
+        payload: {
+          balance
+        }
+      })
+    }
+
+    release()
   }
 }
 
@@ -125,21 +143,33 @@ const getTotalSupply = (_pToken, _configs) => {
   return async dispatch => {
     if (!_pToken.nodeInfo.isCompatible) return
 
-    let circulatingSupply = null
-    if (_pToken.redeemFrom === 'ETH') {
-      circulatingSupply = await getEthTotalSupply(_pToken)
-    }
+    numberOfTotalSupplyRequests += 1
+    const release = await mutex.acquire()
 
-    if (_pToken.redeemFrom === 'EOS') {
-      circulatingSupply = await getEosTotalSupply(_pToken)
-    }
+    let totalSupply = null
 
-    dispatch({
-      type: PTOKENS_CIRCULATING_SUPPLY_LOADED,
-      payload: {
-        circulatingSupply
+    try {
+      if (_pToken.redeemFrom === 'ETH') {
+        totalSupply = await getEthTotalSupply(_pToken)
       }
-    })
+
+      if (_pToken.redeemFrom === 'EOS') {
+        totalSupply = await getEosTotalSupply(_pToken)
+      }
+    } catch (err) {
+      totalSupply = null
+    }
+
+    numberOfTotalSupplyRequests -= 1
+    if (numberOfTotalSupplyRequests === 0) {
+      dispatch({
+        type: PTOKENS_CIRCULATING_SUPPLY_LOADED,
+        payload: {
+          totalSupply
+        }
+      })
+    }
+    release()
   }
 }
 
@@ -221,7 +251,6 @@ const _getCorrectConfigs = (_pToken, _configs) => {
   }
 
   if (_pToken.id === PBTC_ON_EOS_TESTNET) {
-    console.log(redeemer)
     return {
       pbtc: {
         btcNetwork: 'testnet',
@@ -231,36 +260,6 @@ const _getCorrectConfigs = (_pToken, _configs) => {
       }
     }
   }
-
-  /*switch (_type) {
-    case 'pEOS': {
-      return {
-        peos: {
-          eosRpc: settings.peos.eos.provableEndpoint,
-          eosSignatureProvider: issuer,
-          ethProvider: redeemer
-        }
-      }
-    }
-    case 'pBTC': {
-      return {
-        pbtc: {
-          btcNetwork: _network === 'mainnet' ? 'bitcoin' : 'testnet',
-          ethProvider: redeemer
-        }
-      }
-    }
-    case 'pLTC': {
-      return {
-        pltc: {
-          ltcNetwork: 'testnet',
-          ethProvider: redeemer
-        }
-      }
-    }
-    default:
-      return null
-  }*/
 }
 
 export {

@@ -22,6 +22,19 @@ let selectedNode = null
 
 const selectedManually = {}
 
+// map used for keep track of pending requests for each type
+// of request (host/native) since this function is called
+// twice for each ptoken
+const typeNumberOfGetReport = {
+  host: 0,
+  native: 0
+}
+
+const typeNumberOfGetBlock = {
+  host: 0,
+  native: 0
+}
+
 const setNode = _pToken => {
   return async dispatch => {
     const endpointManuallySelected =
@@ -169,6 +182,10 @@ const getLastProcessedBlock = (_pToken, _type, _role) => {
     //provisional
     if (_pToken.redeemFrom === 'EOS' && _type === 'host') return
 
+    // same mechanism used into getReport
+    typeNumberOfGetBlock[_type] += 1
+    const release = await mutex.acquire()
+
     const lastProcessedBlock = await selectedNode.getLastProcessedBlock(_type)
 
     let value = null
@@ -189,35 +206,38 @@ const getLastProcessedBlock = (_pToken, _type, _role) => {
         value = null
     }
 
-    const status = await getBlockHeightStatusComparedWithTheReals(
-      _pToken,
-      _role,
-      value,
-      _pToken.network
-    )
+    typeNumberOfGetBlock[_type] -= 1
 
-    const actionTypeBlockStatus =
-      _role === 'issuer'
-        ? PNETWORK_SET_ISSUER_BLOCK_HEIGHT_STATUS
-        : PNETWORK_SET_REDEEMER_BLOCK_HEIGHT_STATUS
+    if (typeNumberOfGetBlock[_type] === 0) {
+      const status = await getBlockHeightStatusComparedWithTheReals(
+        _pToken,
+        _role,
+        value,
+        _pToken.network
+      )
 
-    dispatch({
-      type: actionTypeBlockStatus,
-      payload: {
-        status
-      }
-    })
+      dispatch({
+        type:
+          _role === 'issuer'
+            ? PNETWORK_SET_ISSUER_BLOCK_HEIGHT_STATUS
+            : PNETWORK_SET_REDEEMER_BLOCK_HEIGHT_STATUS,
+        payload: {
+          status
+        }
+      })
 
-    const actionTypeBlockLoaded =
-      _role === 'issuer'
-        ? PNETWORK_LAST_ISSUER_PROCESSED_BLOCK_LOADED
-        : PNETWORK_LAST_REDEEMER_PROCESSED_BLOCK_LOADED
-    dispatch({
-      type: actionTypeBlockLoaded,
-      payload: {
-        block: value
-      }
-    })
+      dispatch({
+        type:
+          _role === 'issuer'
+            ? PNETWORK_LAST_ISSUER_PROCESSED_BLOCK_LOADED
+            : PNETWORK_LAST_REDEEMER_PROCESSED_BLOCK_LOADED,
+        payload: {
+          block: value
+        }
+      })
+    }
+
+    release()
   }
 }
 
@@ -225,6 +245,12 @@ const getReports = (_pToken, _type, _role) => {
   return async dispatch => {
     if (!selectedNode) return
 
+    // increment the number of request in order to dont
+    // dispatch when typeNumberOfGetReport[_type] > 1
+    // (avoiding printing reports when user keep changing ptoken)
+    typeNumberOfGetReport[_type] += 1
+
+    // start critical reagion
     const release = await mutex.acquire()
 
     let reports = []
@@ -234,18 +260,22 @@ const getReports = (_pToken, _type, _role) => {
       reports = []
     }
 
-    release()
+    typeNumberOfGetReport[_type] -= 1
 
-    const actionType =
-      _role === 'issuer'
-        ? PNETWORK_REPORT_ISSUE_LOADED
-        : PNETWORK_REPORT_REDEEM_LOADED
-    dispatch({
-      type: actionType,
-      payload: {
-        reports
-      }
-    })
+    //if there is no pending requests can dispatch
+    if (typeNumberOfGetReport[_type] === 0) {
+      dispatch({
+        type:
+          _role === 'issuer'
+            ? PNETWORK_REPORT_ISSUE_LOADED
+            : PNETWORK_REPORT_REDEEM_LOADED,
+        payload: {
+          reports
+        }
+      })
+    }
+    // end critical reagion
+    release()
   }
 }
 

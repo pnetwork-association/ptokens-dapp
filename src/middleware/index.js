@@ -20,11 +20,10 @@ import {
   PNETWORK_REPORT_ISSUE_LOADED,
   PNETWORK_REPORT_REDEEM_LOADED,
   PTOKENS_CIRCULATING_SUPPLY_LOADED,
-  WALLET_REDEEMER_CONNECTED
+  WALLET_REDEEMER_CONNECTED,
+  PTOKENS_BALANCE_LOADED
 } from '../constants'
 import { getCorrespondingReadOnlyProvider } from '../utils/read-only-providers'
-
-let currentContractAddress = null
 
 const middleware = ({ dispatch }) => {
   return _next => {
@@ -49,7 +48,13 @@ const middleware = ({ dispatch }) => {
         dispatch({
           type: PTOKENS_CIRCULATING_SUPPLY_LOADED,
           payload: {
-            circulatingSupply: null
+            totalSupply: null
+          }
+        })
+        dispatch({
+          type: PTOKENS_BALANCE_LOADED,
+          payload: {
+            balance: null
           }
         })
 
@@ -61,7 +66,7 @@ const middleware = ({ dispatch }) => {
 
       // load balance of the new account selected when wallet changes.
       // nodeInfo is needeed because one could connect to a wallet before that the node is selected
-      //  _action.payload.account nedeed because a wallet can be connected but not unlocked
+      // _action.payload.account nedeed because a wallet can be connected but not unlocked
       if (
         _action.type === WALLET_REDEEMER_CONNECTED &&
         _action.payload.pToken.nodeInfo &&
@@ -89,15 +94,7 @@ const middleware = ({ dispatch }) => {
           redeemer: readOnlyProvider
         }
 
-        // main page data
-        if (
-          currentContractAddress !==
-          _action.payload.pToken.nodeInfo.contractAddress
-        ) {
-          dispatch(getTotalSupply(_action.payload.pToken, configs))
-          currentContractAddress =
-            _action.payload.pToken.nodeInfo.contractAddress
-        }
+        dispatch(getTotalSupply(_action.payload.pToken, configs))
 
         dispatch(getReports(_action.payload.pToken, 'native', 'redeemer'))
 

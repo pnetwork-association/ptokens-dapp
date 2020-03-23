@@ -25,7 +25,7 @@ const initialState = {
     contractDecimals: 18,
     issueFrom: 'BTC',
     redeemFrom: 'ETH',
-    circulatingSupply: null,
+    totalSupply: null,
     tokenType: 'ERC-20',
     network: 'mainnet',
     //only for pbtc
@@ -115,7 +115,7 @@ const pTokensReducer = (_state = initialState, _action) => {
         tokenType: _action.payload.pToken.tokenType,
         network: _action.payload.pToken.network,
         id: _action.payload.pToken.id,
-        circulatingSupply: null,
+        totalSupply: null,
         depositAddress: {
           value: null,
           waiting: false,
@@ -254,7 +254,7 @@ const pTokensReducer = (_state = initialState, _action) => {
   if (_action.type === PTOKENS_CIRCULATING_SUPPLY_LOADED) {
     return Object.assign({}, _state, {
       selected: Object.assign({}, _state.selected, {
-        circulatingSupply: _action.payload.circulatingSupply
+        totalSupply: _action.payload.totalSupply
       })
     })
   }

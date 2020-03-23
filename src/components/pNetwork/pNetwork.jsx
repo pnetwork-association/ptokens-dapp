@@ -53,9 +53,8 @@ const Enclave = props => {
                 />
               </div>
               <div className="col-12 col-xl-6 mt-20">
-                {
-                props.pTokenSelected.redeemFrom !== 'EOS'
-                  ? <MiniCard
+                {props.pTokenSelected.redeemFrom !== 'EOS' ? (
+                  <MiniCard
                     title={`LAST PROCESSED ${props.pTokenSelected.redeemFrom} BLOCK NUMBER`}
                     value={props.lastRedeemerProcessedBlock}
                     measure={''}
@@ -70,8 +69,7 @@ const Enclave = props => {
                         : ''
                     }
                   />
-                  : null
-                }
+                ) : null}
               </div>
             </div>
           </div>
@@ -210,8 +208,8 @@ const Enclave = props => {
                     DEPOSITED {props.pTokenSelected.issueFrom}:
                   </div>
                   <div className="col-7 col-xl-9 text-right text-gray text-md">
-                    {props.pTokenSelected.circulatingSupply
-                      ? props.pTokenSelected.circulatingSupply
+                    {props.pTokenSelected.totalSupply
+                      ? props.pTokenSelected.totalSupply
                       : '-'}
                   </div>
                     </div>*/}
@@ -220,8 +218,8 @@ const Enclave = props => {
                     CIRCULATING {props.pTokenSelected.name}:
                   </div>
                   <div className="col-7 col-xl-9 text-right text-gray text-md">
-                    {props.pTokenSelected.circulatingSupply
-                      ? props.pTokenSelected.circulatingSupply
+                    {props.pTokenSelected.totalSupply
+                      ? props.pTokenSelected.totalSupply
                       : '-'}
                   </div>
                 </div>

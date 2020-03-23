@@ -23,7 +23,6 @@ const NetworkDetector = props => {
   return (
     <React.Fragment>
       {props.pTokenSelected.redeemFrom === 'ETH' && props.show ? (
-        
         props.pTokenSelected.network !==
           networkToType[props.currentDetectedRedeemerNetwork] &&
         props.currentDetectedRedeemerNetwork ? (
@@ -50,31 +49,28 @@ const NetworkDetector = props => {
             />
           </div>
         ) : props.isCorrectRedeemerNetwork === false &&
-          props.show && props.currentDetectedRedeemerNetwork ? (
+          props.show &&
+          props.currentDetectedRedeemerNetwork ? (
           <div className="container-fluid mt-3">
             <Alert
               type={'danger'}
               text={`${props.pTokenSelected.name} is not available on ${
                 networkTextToShow[props.currentDetectedRedeemerNetwork]
               }. 
-              Please use ${
-                networkTextToShow[props.pTokenSelected.network]
-              }`}
+              Please use ${networkTextToShow[props.pTokenSelected.network]}`}
             />
           </div>
         ) : null
-        
-      ) : (
-        props.show
-        ? 
+      ) : props.show ? (
         <div className="container-fluid mt-3 text-center">
           <Alert
             type={'info'}
-            text={'If you have Scatter connected to the dapp check that it is set on the correct chain before doing a redeem.'}
+            text={
+              'If you have Scatter connected to the dapp check that it is set on the correct chain before doing a redeem.'
+            }
           />
         </div>
-        : null
-      )}
+      ) : null}
     </React.Fragment>
   )
 }
