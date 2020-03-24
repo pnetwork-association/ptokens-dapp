@@ -96,9 +96,9 @@ const setNode = _pToken => {
             publicKey: info.public_key,
             endpoint: selectedNode ? selectedNode.endpoint : null,
             isManuallySelected: endpointManuallySelected ? true : false,
-            isCompatible: /*info.native_network.includes(_pToken.network) ||*/ /* nedeed for eos*/ info.host_network.includes(
+            isCompatible: info.native_network.includes(_pToken.network) /*||*/ /* nedeed for eos*/ /*info.host_network.includes(
               _pToken.redeemFrom.toLowerCase()
-            )
+            ) &&*/
               ? true
               : false
           }

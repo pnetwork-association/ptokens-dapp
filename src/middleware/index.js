@@ -17,11 +17,9 @@ import { connectWithSpecificWallet } from '../actions/wallets'
 import {
   SET_SELECTED_PTOKEN,
   PTOKENS_SET_NODE_INFO,
-  PNETWORK_REPORT_ISSUE_LOADED,
-  PNETWORK_REPORT_REDEEM_LOADED,
-  PTOKENS_CIRCULATING_SUPPLY_LOADED,
+  PNETWORK_RESET_DATA,
   WALLET_REDEEMER_CONNECTED,
-  PTOKENS_BALANCE_LOADED
+  PTOKENS_BALANCE_LOADED,
 } from '../constants'
 import { getCorrespondingReadOnlyProvider } from '../utils/read-only-providers'
 
@@ -34,23 +32,9 @@ const middleware = ({ dispatch }) => {
 
         //reset dat in order to prevent to populate views with wrong data
         dispatch({
-          type: PNETWORK_REPORT_ISSUE_LOADED,
-          payload: {
-            reports: []
-          }
+          type: PNETWORK_RESET_DATA
         })
-        dispatch({
-          type: PNETWORK_REPORT_REDEEM_LOADED,
-          payload: {
-            reports: []
-          }
-        })
-        dispatch({
-          type: PTOKENS_CIRCULATING_SUPPLY_LOADED,
-          payload: {
-            totalSupply: null
-          }
-        })
+
         dispatch({
           type: PTOKENS_BALANCE_LOADED,
           payload: {

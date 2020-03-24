@@ -53,8 +53,7 @@ export class MainController extends React.Component {
     }
 
     if (
-      _prevProps.pTokenSelected.name !== this.props.pTokenSelected.name ||
-      _prevProps.pTokenSelected.network !== this.props.pTokenSelected.network
+      _prevProps.pTokenSelected.id !== this.props.pTokenSelected.id
     ) {
       const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(
         this.props.pTokenSelected
@@ -66,8 +65,6 @@ export class MainController extends React.Component {
       }
 
       this.props.getTotalSupply(this.props.pTokenSelected, configs)
-      this.props.getReports(this.props.pTokenSelected, 'host', 'issuer')
-      this.props.getReports(this.props.pTokenSelected, 'native', 'redeemer')
     }
   }
 

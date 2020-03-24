@@ -10,7 +10,7 @@ const getCorresponsingVisibleAddressFormat = (_pToken, _role, _account) => {
   switch (_pToken.id) {
     case PBTC_ON_ETH_MAINNET: {
       return _role === 'redeemer'
-        ? `0x${_account.slice(0, 6)}...${_account.slice(
+        ? `${_account.slice(0, 6)}...${_account.slice(
             _account.length - 4,
             _account.length
           )}`
@@ -21,7 +21,7 @@ const getCorresponsingVisibleAddressFormat = (_pToken, _role, _account) => {
     }
     case PBTC_ON_ETH_TESTNET: {
       return _role === 'redeemer'
-        ? `0x${_account.slice(0, 6)}...${_account.slice(
+        ? `${_account.slice(0, 6)}...${_account.slice(
             _account.length - 4,
             _account.length
           )}`
