@@ -5,9 +5,15 @@ import {
   PBTC_ON_ETH_TESTNET,
   PBTC_ON_EOS_TESTNET
 } from '../../constants'
+import { Mutex } from 'async-mutex'
+
+const mutex = new Mutex()
 
 const connectWithCorrectWallets = (_pToken, _currentProviders, _force) => {
-  return dispatch => {
+  return async dispatch => {
+
+    const release = await mutex.acquire()
+
     const { redeemer } = _currentProviders
 
     switch (_pToken.id) {
@@ -26,19 +32,15 @@ const connectWithCorrectWallets = (_pToken, _currentProviders, _force) => {
       default:
         break
     }
+    release()
   }
 }
 
 const connectWithSpecificWallet = (_pToken, _role, _force) => {
-  return dispatch => {
-    switch (_pToken.id) {
-      /*case 'pEOS': {
-        _role === 'issuer'
-          ? connectWithScatter('issuer', dispatch, _force)
-          : connectWithEthWallet(_pToken, 'redeemer', null, dispatch, _force)
-        break
-      }*/
+  return async dispatch => {
+    const release = await mutex.acquire()
 
+    switch (_pToken.id) {
       case PBTC_ON_ETH_MAINNET: {
         //issuer not present in pbtc
         if (_role === 'redeemer')
@@ -58,18 +60,16 @@ const connectWithSpecificWallet = (_pToken, _role, _force) => {
       default:
         break
     }
+
+    release()
   }
 }
 
 const disconnectFromSpecificWallet = (_pToken, _role) => {
-  return dispatch => {
+  return async dispatch => {
+    const release = await mutex.acquire()
+
     switch (_pToken.id) {
-      /*case 'pEOS': {
-        _role === 'issuer'
-          ? disconnectFromScatter('issuer', dispatch)
-          : disconnectFromEthWallet('redeemer', null, dispatch)
-        break
-      }*/
       case 'pBTC': {
         disconnectFromEthWallet('redeemer', null, dispatch)
         break
@@ -92,18 +92,17 @@ const disconnectFromSpecificWallet = (_pToken, _role) => {
       default:
         break
     }
+
+    release()
   }
 }
 
 const changeSpecificWallet = (_pToken, _role) => {
-  return dispatch => {
+  return async dispatch => {
+
+    const release = await mutex.acquire()
+
     switch (_pToken.id) {
-      /*case 'pEOS': {
-        _role === 'issuer'
-          ? console.log('Available only PBTC_ON_ETH_TESTNET EOS wallet')
-          : connectWithEthWallet(_pToken, 'redeemer', null, dispatch, true)
-        break
-      }*/
       case PBTC_ON_ETH_MAINNET: {
         connectWithEthWallet(_pToken, 'redeemer', null, dispatch, true)
         break
@@ -119,6 +118,8 @@ const changeSpecificWallet = (_pToken, _role) => {
       default:
         break
     }
+
+    release()
   }
 }
 
