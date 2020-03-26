@@ -711,6 +711,32 @@ table thead th {
     font-weight: bold;
 }
 
+@keyframes placeHolderShimmer {
+    0% {
+     background: #F6F7F8;
+   }
+   
+   30% {
+     background: #e2e2e2;
+   }
+  
+   50% {
+     background: #ececec;
+   }
+   
+   80% {
+     background: #f5f5f5;
+   }
+   
+   100% {
+     background: #ffffff;
+   }
+}
+ 
+.loading-animation {
+    animation: placeHolderShimmer 1.5s infinite;
+} 
+
 /* I C O N S */
 .icon {
     display: inline-block;
