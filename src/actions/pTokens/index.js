@@ -86,6 +86,8 @@ const redeem = (_pToken, _params, _configs) => {
   return _dispatch => {
     const ptokens = _getSelectedpToken(_pToken, _configs)
 
+    console.log(_pToken, ptokens)
+
     switch (_pToken.name) {
       case 'pEOS': {
         peosLoggedRedeem(ptokens, _params, _pToken, _dispatch)
@@ -233,7 +235,7 @@ const _getCorrectConfigs = (_pToken, _configs) => {
   if (_pToken.id === PBTC_ON_ETH_MAINNET) {
     return {
       pbtc: {
-        btcNetwork: 'mainnet',
+        btcNetwork: 'bitcoin',
         ethProvider: redeemer,
         hostBlockchain: 'eth'
       }
