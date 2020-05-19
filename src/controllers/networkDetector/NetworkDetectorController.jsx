@@ -93,7 +93,8 @@ export class NetworkDetectorController extends Component {
   }
 
   render() {
-    return (
+    return !this.props.pTokenSelected.customHostRpc &&
+      !this.props.pTokenSelected.customNativeRpc ? (
       <NetworkDetector
         show={[1].includes(this.props.pageSelected)} //array of pages where showing the network error (0: main, 1: issue & redeem, 2:enclave 3:settings)
         currentPage={this.props.pageSelected}
@@ -103,7 +104,7 @@ export class NetworkDetectorController extends Component {
           this.state.currentDetectedRedeemerNetwork
         }
       />
-    )
+    ) : null
   }
 }
 
