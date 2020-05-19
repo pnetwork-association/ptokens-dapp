@@ -2,7 +2,8 @@ import { getCorrespondingReadOnlyProvider } from './read-only-providers'
 import {
   PBTC_ON_ETH_MAINNET,
   PBTC_ON_ETH_TESTNET,
-  PBTC_ON_EOS_TESTNET
+  PBTC_ON_EOS_TESTNET,
+  PBTC_ON_EOS_MAINNET
 } from '../constants'
 
 import Web3 from 'web3'
@@ -90,7 +91,10 @@ const getBlockHeightStatusComparedWithTheReals = async (
     )
   }
 
-  if (_pToken.id === PBTC_ON_EOS_TESTNET) {
+  if (
+    _pToken.id === PBTC_ON_EOS_TESTNET ||
+    _pToken.id === PBTC_ON_EOS_MAINNET
+  ) {
     /*const rpc = new JsonRpc(settings[2].eos.provableEndpoint, {
       fetch
     })

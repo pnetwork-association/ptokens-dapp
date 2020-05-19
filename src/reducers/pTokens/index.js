@@ -14,7 +14,9 @@ import {
   PTOKENS_RESET_DEPOSIT_ADDRESS,
   PTOKENS_SET_PARAMS,
   PTOKENS_RESET_PARAMS,
-  PTOKENS_SET_NODE_INFO
+  PTOKENS_SET_NODE_INFO,
+  PTOKENS_SET_CUSTOM_HOST_RPC,
+  PTOKENS_SET_CUSTOM_NATIVE_RPC
 } from '../../constants/index'
 
 const initialState = {
@@ -42,7 +44,9 @@ const initialState = {
       endpoint: null,
       isManuallySelected: null,
       isCompatible: null
-    }
+    },
+    customHostRpc: null,
+    customNativeRpc: null
   },
   balance: null,
   available: [
@@ -59,6 +63,16 @@ const initialState = {
     {
       id: 1,
       name: 'pBTC',
+      tokenType: 'EOSIO Token',
+      issueFrom: 'BTC',
+      redeemFrom: 'EOS',
+      realDecimals: 8,
+      contractDecimals: 8,
+      network: 'mainnet'
+    },
+    {
+      id: 2,
+      name: 'pBTC',
       tokenType: 'ERC-20',
       issueFrom: 'BTC',
       redeemFrom: 'ETH',
@@ -67,7 +81,7 @@ const initialState = {
       network: 'testnet'
     },
     {
-      id: 2,
+      id: 3,
       name: 'pBTC',
       tokenType: 'EOSIO Token',
       issueFrom: 'BTC',
@@ -76,18 +90,6 @@ const initialState = {
       contractDecimals: 1,
       network: 'testnet'
     }
-    /*{
-      name: 'pLTC',
-      tokenType: 'ERC-20',
-      issueFrom: 'LTC',
-      redeemFrom: 'ETH',
-      decimals: 8,
-      network: 'ropsten'
-    }*/
-    /*{
-      name: 'pDAI',
-      tokenType: 'ERC-20' 
-    }*/
   ],
   isIssueSuccedeed: null,
   isRedeemSuccedeed: null,
@@ -129,7 +131,9 @@ const pTokensReducer = (_state = initialState, _action) => {
           endpoint: null,
           isManuallySelected: null,
           isCompatible: null
-        }
+        },
+        customHostRpc: null,
+        customNativeRpc: null
       }),
       balance: null,
       isIssueSuccedeed: null,
@@ -149,6 +153,22 @@ const pTokensReducer = (_state = initialState, _action) => {
     return Object.assign({}, _state, {
       selected: Object.assign({}, _state.selected, {
         nodeInfo: _action.payload.pToken.nodeInfo
+      })
+    })
+  }
+
+  if (_action.type === PTOKENS_SET_CUSTOM_HOST_RPC) {
+    return Object.assign({}, _state, {
+      selected: Object.assign({}, _state.selected, {
+        customHostRpc: _action.payload.rpc
+      })
+    })
+  }
+
+  if (_action.type === PTOKENS_SET_CUSTOM_NATIVE_RPC) {
+    return Object.assign({}, _state, {
+      selected: Object.assign({}, _state.selected, {
+        customNativeRpc: _action.payload.rpc
       })
     })
   }

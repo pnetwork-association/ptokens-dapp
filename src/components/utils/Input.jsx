@@ -8,12 +8,22 @@ const inputTextSizes = {
 
 const Input = props => {
   let input = null
+  let inputRef = null
 
   const [inputIsClicked, setInputIsClicked] = useState(0)
+
+  const handleClickOutside = _event => {
+    if (inputRef && !inputRef.contains(_event.target)) {
+      setInputIsClicked(false)
+    }
+  }
+
+  document.addEventListener('mousedown', handleClickOutside)
 
   return (
     <Fragment>
       <div
+        ref={ref => (inputRef = ref)}
         onClick={() => {
           setInputIsClicked(true)
           input.focus()
@@ -22,7 +32,7 @@ const Input = props => {
       >
         <div
           className={
-            'col-5 col-md-3 mt-15 ' + (props.size === 'small' ? 'mb-15' : '')
+            'col-3 col-md-3 mt-15 ' + (props.size === 'small' ? 'mb-15' : '')
           }
         >
           <div className="row">
@@ -38,19 +48,61 @@ const Input = props => {
             </div>
           ) : null}
         </div>
-        <div className="col-7 col-md-9 text-right text-xxs font-weight-light my-auto">
+        <div
+          className={
+            (props.withButton ? 'col-6 col-md-6 col-lg-7' : 'col-9 col-md-9') +
+            ' text-right text-xxs font-weight-light my-auto'
+          }
+        >
           <input
             ref={ref => (input = ref)}
             value={props.value}
-            onChange={e => props.onChange(e)}
-            className={`form-control text-xxl caret-primary ${
+            className={`form-control text-xl caret-primary ${
               inputTextSizes[props.size]
             }`}
             placeholder=""
             type={props.type ? props.type : 'text'}
+            onChange={e => props.onChange(e)}
           />
         </div>
+        {props.withButton ? (
+          <div className="col-3 col-md-3 col-lg-2 my-auto text-center">
+            <button
+              type="button"
+              className="btn btn-outline-primary"
+              onClick={() => props.onClickButton()}
+            >
+              {props.textButton}
+            </button>
+          </div>
+        ) : null}
+        {props.withSelection &&
+        props.options &&
+        props.options.length > 0 &&
+        inputIsClicked ? (
+          <div className="col-12 p-0 mt-5">
+            <div id="picklist" className="picklist">
+              {props.options.map((option, index) => {
+                return (
+                  <div
+                    key={index.toString()}
+                    onClick={() => {
+                      props.onChangeFromSelection(option)
+                      setTimeout(() => {
+                        setInputIsClicked(false)
+                      }, 200)
+                    }}
+                    className="picklist-item"
+                  >
+                    {option}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        ) : null}
       </div>
+
       {inputIsClicked ? props.children : null}
     </Fragment>
   )

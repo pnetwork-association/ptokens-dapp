@@ -30,7 +30,7 @@ const Settings = props => {
                     title="YOUR BALANCE"
                     value={
                       props.balance || props.balance === 0
-                        ? parseFloat(props.balance).toFixed(
+                        ? props.balance.toFixed(
                             props.pTokenSelected.realDecimals
                           )
                         : null
@@ -151,6 +151,7 @@ const Settings = props => {
 
 Settings.propTypes = {
   pTokenSelected: PropTypes.object,
+  balance: PropTypes.number,
   issuerIsConnected: PropTypes.bool,
   redeemerIsConnected: PropTypes.bool,
   issuerAccount: PropTypes.string,

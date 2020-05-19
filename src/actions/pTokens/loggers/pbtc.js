@@ -16,6 +16,7 @@ const pTokenEvents = {
 const pbtcLoggedIssue = async (_ptokens, _params, _pToken, _dispatch) => {
   //[0] should be the value but here there isn't
   let depositAddress = null
+
   try {
     depositAddress = await _ptokens.pbtc.getDepositAddress(_params[1])
   } catch (err) {

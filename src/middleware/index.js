@@ -19,7 +19,7 @@ import {
   PTOKENS_SET_NODE_INFO,
   PNETWORK_RESET_DATA,
   WALLET_REDEEMER_CONNECTED,
-  PTOKENS_BALANCE_LOADED,
+  PTOKENS_BALANCE_LOADED
 } from '../constants'
 import { getCorrespondingReadOnlyProvider } from '../utils/read-only-providers'
 

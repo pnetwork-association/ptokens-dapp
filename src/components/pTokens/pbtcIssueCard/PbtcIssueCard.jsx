@@ -16,12 +16,14 @@ const PbtcIssueCard = props => {
   useEffect(() => {
     if (
       props.pTokenSelected.depositAddress.value ||
-      props.pTokenSelected.depositAddress.error
+      props.pTokenSelected.depositAddress.error ||
+      props.localError
     )
       setIsGenerating(false)
   }, [
     props.pTokenSelected.depositAddress.value,
-    props.pTokenSelected.depositAddress.error
+    props.pTokenSelected.depositAddress.error,
+    props.localError
   ])
 
   useEffect(() => {
@@ -64,14 +66,20 @@ const PbtcIssueCard = props => {
       </div>
       <div className="card-body pt-0">
         <Input
+          withSelection={
+            props.pTokenSelected.redeemFrom === 'EOS' ? true : false
+          }
+          options={props.suggestedRedimeerAccounts}
           label={`${props.pTokenSelected.redeemFrom} ${
             props.pTokenSelected.redeemFrom === 'EOS' ? 'ACCOUNT' : 'ADDRESS'
           }`}
           value={props.typedIssueAccount ? props.typedIssueAccount : ''}
           size={'small'}
           onChange={e => props.onChangeIssueAccount(e.target.value)}
+          onChangeFromSelection={value => props.onChangeIssueAccount(value)}
         />
         <hr />
+
         {props.pTokenSelected.depositAddress.value &&
         !props.pTokenSelected.depositAddress.waiting &&
         !props.pTokenSelected.depositAddress.terminated ? (
@@ -211,6 +219,7 @@ const PbtcIssueCard = props => {
 PbtcIssueCard.propTypes = {
   pTokenSelected: PropTypes.object,
   typedIssueAccount: PropTypes.string,
+  localError: PropTypes.bool,
   onChangeIssueAccount: PropTypes.func,
   onIssue: PropTypes.func
 }

@@ -14,6 +14,13 @@ let network = null
 let firstCall = false
 
 const connectWithScatter = async (_pToken, _role, _dispatch, _force = true) => {
+  _dispatch({
+    type:
+      _role === 'issuer'
+        ? WALLET_ISSUER_DISCONNECTED
+        : WALLET_REDEEMER_DISCONNECTED
+  })
+
   try {
     let connected = false
     if (!isInitialized) {

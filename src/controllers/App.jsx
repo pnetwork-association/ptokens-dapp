@@ -15,7 +15,7 @@ import { connect } from 'react-redux'
 import { Node } from 'ptokens-node'
 import { setNodeManually, setNode } from '../actions/pNetwork/'
 import { setSelectedPage } from '../actions/sidebar'
-import { setSelectedpToken } from '../actions/pTokens'
+import { setSelectedpToken, setCustomRpc } from '../actions/pTokens'
 import PropTypes from 'prop-types'
 
 history.listen(location => {
@@ -37,7 +37,8 @@ const mapDispatchToProps = dispatch => {
     setSelectedPage: (_selected, _pToken) =>
       dispatch(setSelectedPage(_selected, _pToken)),
     setSelectedpToken: (_pToken, _withNodeSelection) =>
-      dispatch(setSelectedpToken(_pToken, _withNodeSelection))
+      dispatch(setSelectedpToken(_pToken, _withNodeSelection)),
+    setCustomRpc: (_rpc, _type) => dispatch(setCustomRpc(_rpc, _type))
   }
 }
 
@@ -72,7 +73,8 @@ class App extends React.Component {
         pToken.redeemFrom === pTokenRedeemFromSelected.toUpperCase()
     )
 
-    const { node } = queryString.parse(window.location.search)
+    const { node, hostRpc } = queryString.parse(window.location.search)
+
     //if node is present not load the node
     this.props.setSelectedpToken(
       pToken ? pToken : this.props.pTokensAvailable[0],
@@ -104,6 +106,12 @@ class App extends React.Component {
       return
     }
 
+    // before setSelectedpToken since it reloads data
+    if (hostRpc) {
+      console.log(hostRpc)
+      this.props.setCustomRpc(hostRpc, 'host')
+    }
+
     this.props.setNode(pToken ? pToken : this.props.pTokensAvailable[0])
   }
 
@@ -117,7 +125,9 @@ class App extends React.Component {
         <Switch>
           <Route
             exact
-            path={'/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos-testnet)'}
+            path={
+              '/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos)'
+            }
             render={() => {
               return (
                 <React.Fragment>
@@ -134,7 +144,7 @@ class App extends React.Component {
           <Route
             exact
             path={
-              '/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos-testnet)/pnetwork'
+              '/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos)/pnetwork'
             }
             render={() => {
               return (
@@ -152,7 +162,7 @@ class App extends React.Component {
           <Route
             exact
             path={
-              '/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos-testnet)/issue-redeem'
+              '/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos)/issue-redeem'
             }
             render={() => {
               return (
@@ -170,7 +180,7 @@ class App extends React.Component {
           <Route
             exact
             path={
-              '/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos-testnet)/settings'
+              '/(pbtc-on-eth|pbtc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos)/settings'
             }
             render={() => {
               return (

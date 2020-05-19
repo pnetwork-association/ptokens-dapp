@@ -52,7 +52,7 @@ const PTokens = props => {
                     title="YOUR BALANCE"
                     value={
                       props.balance || props.balance === 0
-                        ? parseFloat(props.balance).toFixed(
+                        ? props.balance.toFixed(
                             props.pTokenSelected.realDecimals
                           )
                         : null
@@ -119,8 +119,11 @@ const PTokens = props => {
           <div className="col-xl-6 ">
             {props.pTokenSelected.name === 'pBTC' ? (
               <PbtcIssueCard
+                localError={props.localError}
+                suggestedRedimeerAccounts={props.suggestedRedimeerAccounts}
                 pTokenSelected={props.pTokenSelected}
                 typedIssueAccount={props.typedIssueAccount}
+                isIssueTerminated={props.isIssueTerminated}
                 onChangeIssueAccount={props.onChangeIssueAccount}
                 onIssue={props.onIssue}
               />
@@ -146,13 +149,13 @@ const PTokens = props => {
             <div className="card bg-light-gray no-shadow border-0 height-max">
               <div className="card-header mb-0 bg-light-gray pl-0 pt-0">
                 <div className="row align-items-center">
-                  <div className="col-12 col-md-8">
+                  <div className="col-12 col-md-9">
                     <div className="text-left text-gray text-xxl font-weight-light">
                       Redeem {props.pTokenSelected.name}{' '}
                       <span className="text-md">(Peg-out)</span>
                     </div>
                   </div>
-                  <div className="col-12 col-md-4 text-md-right pl-0 pr-0 mt-10 mt-0-md mb-10 mb-0-md">
+                  <div className="col-12 col-md-3 text-md-right pl-0 pr-0 mt-10 mt-0-md mb-10 mb-0-md">
                     <img
                       className="ml-20 mr-10"
                       src={`../assets/${props.pTokenSelected.name}-${props.pTokenSelected.network}.png`}
@@ -178,6 +181,8 @@ const PTokens = props => {
               </div>
               <div className="card-body pt-0">
                 <Input
+                  withButton={true}
+                  textButton="max"
                   type="number"
                   label="AMOUNT"
                   miniLabel={
@@ -188,6 +193,7 @@ const PTokens = props => {
                   value={props.amountToRedeem}
                   size={'xxlarge'}
                   onChange={e => props.onChangeAmountToRedeem(e.target.value)}
+                  onClickButton={() => props.onMaxAmountToRedeem()}
                 />
                 <hr />
                 <Input
@@ -251,7 +257,7 @@ const PTokens = props => {
 
 PTokens.propTypes = {
   pTokenSelected: PropTypes.object,
-  balance: PropTypes.string,
+  balance: PropTypes.number,
   issuerAccount: PropTypes.string,
   redeemerAccount: PropTypes.string,
   amountToIssue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

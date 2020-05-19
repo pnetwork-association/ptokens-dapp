@@ -73,7 +73,8 @@ class Table extends Component {
                                     className={
                                       (gindex === 0 || gindex % 2 === 0
                                         ? 'bg-white loading-animation'
-                                        : '') + ' container-intern-td loading-animation'
+                                        : '') +
+                                      ' container-intern-td loading-animation'
                                     }
                                   ></div>
                                 </div>

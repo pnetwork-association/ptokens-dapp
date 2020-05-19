@@ -11,7 +11,10 @@ import {
   PTOKENS_RESET_PARAMS,
   PBTC_ON_ETH_MAINNET,
   PBTC_ON_ETH_TESTNET,
-  PBTC_ON_EOS_TESTNET
+  PBTC_ON_EOS_TESTNET,
+  PBTC_ON_EOS_MAINNET,
+  PTOKENS_SET_CUSTOM_HOST_RPC,
+  PTOKENS_SET_CUSTOM_NATIVE_RPC
 } from '../../constants/index'
 import pTokens from 'ptokens'
 import { peosLoggedIssue, peosLoggedRedeem } from './loggers/peos'
@@ -63,6 +66,10 @@ const issue = (_pToken, _params, _configs) => {
   return async _dispatch => {
     const ptokens = _getSelectedpToken(_pToken, _configs)
 
+    ptokens[_pToken.name.toLowerCase()].nodeSelector.setEndpoint(
+      _pToken.nodeInfo.endpoint
+    )
+
     switch (_pToken.name) {
       case 'pEOS': {
         peosLoggedIssue(ptokens, _params, _pToken, _dispatch)
@@ -86,7 +93,9 @@ const redeem = (_pToken, _params, _configs) => {
   return _dispatch => {
     const ptokens = _getSelectedpToken(_pToken, _configs)
 
-    console.log(_pToken, ptokens)
+    ptokens[_pToken.name.toLowerCase()].nodeSelector.setEndpoint(
+      _pToken.nodeInfo.endpoint
+    )
 
     switch (_pToken.name) {
       case 'pEOS': {
@@ -229,6 +238,18 @@ const setBalance = _balance => {
   }
 }
 
+const setCustomRpc = (_rpc, _type) => {
+  return {
+    type:
+      _type === 'host'
+        ? PTOKENS_SET_CUSTOM_HOST_RPC
+        : PTOKENS_SET_CUSTOM_NATIVE_RPC,
+    payload: {
+      rpc: _rpc
+    }
+  }
+}
+
 const _getCorrectConfigs = (_pToken, _configs) => {
   const { redeemer } = _configs
 
@@ -262,6 +283,16 @@ const _getCorrectConfigs = (_pToken, _configs) => {
       }
     }
   }
+  if (_pToken.id === PBTC_ON_EOS_MAINNET) {
+    return {
+      pbtc: {
+        btcNetwork: 'bitcoin',
+        eosRpc: settings[PBTC_ON_EOS_MAINNET].eos.provableEndpoint,
+        eosSignatureProvider: redeemer,
+        hostBlockchain: 'eos'
+      }
+    }
+  }
 }
 
 export {
@@ -277,5 +308,6 @@ export {
   resetParams,
   resetRedeemError,
   setParams,
-  setBalance
+  setBalance,
+  setCustomRpc
 }

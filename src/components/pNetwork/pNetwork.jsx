@@ -90,12 +90,12 @@ const Enclave = props => {
               </div>
 
               <div className="card-body">
-                <div className="row mt-5">
+                {/*<div className="row mt-5">
                   <div className="col-5 col-xl-3 text-gray text-xs font-weight-light">
                     {props.pTokenSelected.redeemFrom} ACCOUNT:
                   </div>
                   <div className="col-7 col-xl-9 text-right text-gray text-md">
-                    {/*MOBILE*/}
+                    {/*MOBILE}
                     <a
                       className="text-xs text-underline text-primary font-monospace show-mobile"
                       href={getCorrespondingExplorerLink(
@@ -114,7 +114,7 @@ const Enclave = props => {
                           )
                         : '-'}
                     </a>
-                    {/*DESKTOP & TABLET*/}
+                    {/*DESKTOP & TABLET}
                     <a
                       className="text-xs text-underline text-primary font-monospace hidden-mobile"
                       href={getCorrespondingExplorerLink(
@@ -130,7 +130,7 @@ const Enclave = props => {
                         : '-'}
                     </a>
                   </div>
-                </div>
+                </div>*/}
 
                 <div className="row mt-15 mb-15">
                   <div className="col-4 col-sm-2 text-gray text-xs font-weight-light">

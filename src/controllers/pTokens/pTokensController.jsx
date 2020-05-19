@@ -20,6 +20,7 @@ import { isValidAccount } from '../../utils/account-validator'
 import { getMinumIssuableAmount } from '../../utils/minum-issuable-amount'
 import { getMinumRedeemableAmount } from '../../utils/minimun-redeeamble-amount'
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
+import { getPossiblesAccounts } from '../../utils/accounts-autocomplete'
 
 const sleep = _ms => new Promise(resolve => setTimeout(resolve, _ms))
 
@@ -73,7 +74,9 @@ export class pTokenControllers extends React.Component {
       currentpTokenName: null,
       currentSelectedNetwork: null,
       pTokenSelectedId: null,
-      pTokenSelectedNetwork: null
+      pTokenSelectedNetwork: null,
+      localError: null,
+      suggestedRedimeerAccounts: []
     }
 
     this.props.connectWithCorrectWallets(this.props.pTokenSelected, {
@@ -89,7 +92,8 @@ export class pTokenControllers extends React.Component {
       _prevProps.issueError
     ) {
       return {
-        isIssueTerminated: true
+        isIssueTerminated: true,
+        localError: false
       }
     }
     if (
@@ -126,7 +130,8 @@ export class pTokenControllers extends React.Component {
       this.props.resetIssueSuccess()
 
       this.setState({
-        isIssueTerminated: false
+        isIssueTerminated: false,
+        localError: false
       })
 
       await sleep(10000)
@@ -229,67 +234,87 @@ export class pTokenControllers extends React.Component {
     this.refs.notify.notificationAlert(options)
   }
 
-  onIssue = () => {
-    if (this.props.pTokenSelected.name === 'pEOS') {
-      if (!this.props.issuerIsConnected) {
-        this.showAlert(
-          'danger',
-          `${this.props.pTokenSelected.issueFrom} Wallet Not Connected`
-        )
-        return
-      }
-    }
-
-    if (
-      !isValidAccount(
-        this.props.pTokenSelected,
-        this.props.pTokensParams.typedIssueAccount,
-        'redeemer'
-      )
-    ) {
-      this.showAlert(
-        'danger',
-        `Please insert a valid ${this.props.pTokenSelected.redeemFrom} address`
-      )
-      return
-    }
-
-    this.props.resetDepositAddress()
-
-    const decimals = this.props.pTokenSelected.realDecimals
-    const parsedAmountToIssue = parseFloat(
-      this.props.pTokensParams.amountToIssue
-    ).toFixed(decimals)
-    const minimunIssuableAmount = getMinumIssuableAmount(
-      this.props.pTokenSelected.name
-    )
-    if (parsedAmountToIssue < minimunIssuableAmount) {
-      this.showAlert(
-        'danger',
-        `Impossible to mint less than ${minimunIssuableAmount} ${this.props.pTokenSelected.name}`
-      )
-      return
-    }
-
-    this.setState({
-      isIssueTerminated: null
-    })
-
-    this.props.clearLogs()
-
-    const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(
-      this.props.pTokenSelected
-    )
-
-    this.props.issue(
-      this.props.pTokenSelected,
-      [
-        parseFloat(this.props.pTokensParams.amountToIssue),
-        this.props.pTokensParams.typedIssueAccount
-      ],
+  onIssue = async () => {
+    this.setState(
       {
-        issuer: this.props.issuerProvider,
-        redeemer: redeemerReadOnlyProvider
+        localError: false
+      },
+      async () => {
+        if (
+          !isValidAccount(
+            this.props.pTokenSelected,
+            this.props.pTokensParams.typedIssueAccount,
+            'redeemer'
+          ) ||
+          this.props.pTokensParams.typedIssueAccount.length < 4
+        ) {
+          this.showAlert(
+            'danger',
+            `Please insert a valid ${this.props.pTokenSelected.redeemFrom} address`
+          )
+          this.setState({
+            localError: true
+          })
+          return
+        }
+
+        if (this.props.pTokenSelected.redeemFrom === 'EOS') {
+          const rpc = getCorrespondingReadOnlyProvider(
+            this.props.pTokenSelected,
+            'redeemer'
+          )
+
+          try {
+            await rpc.get_account(this.props.pTokensParams.typedIssueAccount)
+          } catch (err) {
+            this.showAlert('danger', "This EOS account doesn't exist yet")
+
+            this.setState({
+              localError: true
+            })
+            return
+          }
+        }
+
+        this.props.resetDepositAddress()
+
+        const decimals = this.props.pTokenSelected.realDecimals
+        const parsedAmountToIssue = parseFloat(
+          this.props.pTokensParams.amountToIssue
+        ).toFixed(decimals)
+        const minimunIssuableAmount = getMinumIssuableAmount(
+          this.props.pTokenSelected.name
+        )
+        if (parsedAmountToIssue < minimunIssuableAmount) {
+          this.showAlert(
+            'danger',
+            `Impossible to mint less than ${minimunIssuableAmount} ${this.props.pTokenSelected.name}`
+          )
+          return
+        }
+
+        this.setState({
+          isIssueTerminated: null
+        })
+
+        this.props.clearLogs()
+
+        const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(
+          this.props.pTokenSelected
+        )
+        console.log(this.props.pTokenSelected)
+
+        this.props.issue(
+          this.props.pTokenSelected,
+          [
+            parseFloat(this.props.pTokensParams.amountToIssue),
+            this.props.pTokensParams.typedIssueAccount
+          ],
+          {
+            issuer: this.props.issuerProvider,
+            redeemer: redeemerReadOnlyProvider
+          }
+        )
       }
     )
   }
@@ -323,10 +348,15 @@ export class pTokenControllers extends React.Component {
       return
     }
 
-    const decimals = this.props.pTokenSelected.realDecimals
-    const parsedAmountToRedeem = parseFloat(
-      this.props.pTokensParams.amountToRedeem
-    ).toFixed(decimals)
+    const parsedAmountToRedeem =
+      Math.trunc(
+        this.props.pTokensParams.amountToRedeem *
+          Math.pow(10, this.props.pTokensParams.realDecimals)
+      ) /
+      Math.pow(10, this.props.pTokensParams.realDecimals).toFixed(
+        this.props.pTokensParams.realDecimals
+      )
+
     const minimunRedeemableAmount = getMinumRedeemableAmount(
       this.props.pTokenSelected.name
     )
@@ -335,6 +365,14 @@ export class pTokenControllers extends React.Component {
         'danger',
         `Impossible to redeem less than ${minimunRedeemableAmount} ${this.props.pTokenSelected.name}`
       )
+      this.setState({
+        isRedeemTerminated: true
+      })
+      return
+    }
+
+    if (parsedAmountToRedeem > this.props.pTokenBalance) {
+      this.showAlert('danger', `Impossible to redeem more than what you have`)
       this.setState({
         isRedeemTerminated: true
       })
@@ -353,10 +391,7 @@ export class pTokenControllers extends React.Component {
 
     this.props.redeem(
       this.props.pTokenSelected,
-      [
-        parseFloat(this.props.pTokensParams.amountToRedeem),
-        this.props.pTokensParams.typedRedeemAccount
-      ],
+      [parsedAmountToRedeem, this.props.pTokensParams.typedRedeemAccount],
       {
         issuer: issuerReadOnlyProvider,
         redeemer: this.props.redeemerProvider
@@ -384,13 +419,27 @@ export class pTokenControllers extends React.Component {
     )
   }
 
-  onChangeTypedIssueAccount = _typedIssueAccount => {
+  onChangeTypedIssueAccount = async _typedIssueAccount => {
     if (
       (this.props.pTokenSelected.name === 'pBTC' ||
         this.props.pTokenSelected.name === 'pLTC') &&
       !this.props.pTokenSelected.depositAddress.waiting
     ) {
       this.props.resetDepositAddress()
+    }
+
+    // NOTE: get lists of possible account
+    if (this.props.pTokenSelected.redeemFrom === 'EOS') {
+      getPossiblesAccounts(
+        this.props.pTokenSelected,
+        _typedIssueAccount,
+        this.state.suggestedRedimeerAccounts,
+        'redeemer'
+      ).then(accounts => {
+        this.setState({
+          suggestedRedimeerAccounts: accounts
+        })
+      })
     }
 
     this.props.setpTokenParams(
@@ -404,6 +453,17 @@ export class pTokenControllers extends React.Component {
     this.props.setpTokenParams(
       Object.assign({}, this.props.pTokensParams, {
         typedRedeemAccount: _typedRedeemAccount
+      })
+    )
+  }
+
+  setMaxAmountToRedeem = () => {
+    this.props.setpTokenParams(
+      Object.assign({}, this.props.pTokensParams, {
+        amountToRedeem:
+          !this.props.pTokenBalance || this.props.pTokenBalance === 0
+            ? 0
+            : this.props.pTokenBalance
       })
     )
   }
@@ -424,6 +484,8 @@ export class pTokenControllers extends React.Component {
           issuerProvider={this.props.issuerProvider}
           redeemerProvider={this.props.redeemerProvider}
           isRedeemTerminated={this.state.isRedeemTerminated}
+          localError={this.state.localError}
+          suggestedRedimeerAccounts={this.state.suggestedRedimeerAccounts}
           onChangeAmountToIssue={this.onChangeAmountToIssue}
           onChangeAmountToRedeem={this.onChangeAmountToRedeem}
           onChangeIssueAccount={this.onChangeTypedIssueAccount}
@@ -431,6 +493,7 @@ export class pTokenControllers extends React.Component {
           onIssue={this.onIssue}
           onRedeem={this.onRedeem}
           onResetLogs={this.onResetLogs}
+          onMaxAmountToRedeem={this.setMaxAmountToRedeem}
         />
         <NotificationAlert ref="notify" />
       </React.Fragment>
@@ -441,7 +504,7 @@ export class pTokenControllers extends React.Component {
 pTokenControllers.propTypes = {
   logs: PropTypes.array,
   pTokenSelected: PropTypes.object,
-  pTokenBalance: PropTypes.string,
+  pTokenBalance: PropTypes.number,
   pTokensParams: PropTypes.object,
   issuerIsConnected: PropTypes.bool,
   issuerProvider: PropTypes.object,

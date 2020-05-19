@@ -96,10 +96,14 @@ const setNode = _pToken => {
             publicKey: info.public_key,
             endpoint: selectedNode ? selectedNode.endpoint : null,
             isManuallySelected: endpointManuallySelected ? true : false,
-            isCompatible: info.native_network.includes(_pToken.network) /*||*/ /* nedeed for eos*/ /*info.host_network.includes(
+            isCompatible: info.native_network.includes(
+              _pToken.network
+            ) /*info.host_network.includes(
               _pToken.redeemFrom.toLowerCase()
             ) &&*/
-              ? true
+              ? /*||*/
+                /* nedeed for eos*/
+                true
               : false
           }
         })
@@ -148,7 +152,7 @@ const setNodeManually = (_pToken, _endpoint) => {
       payload: {
         pToken: Object.assign({}, _pToken, {
           nodeInfo: {
-            contractAddress: info.smart_contract_address,
+            contractAddress: '0x' + info.smart_contract_address,
             publicKey: info.public_key,
             endpoint: _endpoint,
             isManuallySelected: true,
@@ -259,6 +263,8 @@ const getReports = (_pToken, _type, _role) => {
     } catch (err) {
       reports = []
     }
+
+    reports = reports.filter(report => report.broadcast_tx_hash)
 
     typeNumberOfGetReport[_type] -= 1
 

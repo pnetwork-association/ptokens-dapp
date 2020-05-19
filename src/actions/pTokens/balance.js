@@ -14,19 +14,24 @@ const getEthBalance = async (_pToken, _account) => {
     [_account]
   )
 
-  return (res / Math.pow(10, _pToken.contractDecimals)).toFixed(
-    _pToken.realDecimals
+  const real = res / Math.pow(10, _pToken.contractDecimals)
+
+  return (
+    Math.trunc(real * Math.pow(10, _pToken.realDecimals)) /
+    Math.pow(10, _pToken.realDecimals).toFixed(_pToken.realDecimals)
   )
 }
 
 const getEosBalance = async (_pToken, _account) => {
+  if (!_account) return null
+
   const provider = getCorrespondingReadOnlyProvider(_pToken)
   const balance = await provider.get_currency_balance(
     _pToken.nodeInfo.contractAddress,
     _account,
     'PBTC'
   )
-  return balance[0].split(' ')[0]
+  return parseFloat(balance[0].split(' ')[0])
 }
 
 export { getEthBalance, getEosBalance }
