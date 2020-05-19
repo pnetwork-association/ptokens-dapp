@@ -93,6 +93,11 @@ class App extends React.Component {
       )
     }
 
+    // after setSelectedpToken since it reloads data
+    if (hostRpc) {
+      this.props.setCustomRpc(hostRpc, 'host')
+    }
+
     if (node) {
       const pnode = new Node({
         pToken: {
@@ -104,12 +109,6 @@ class App extends React.Component {
 
       this.props.setNodeManually(pToken, pnode.endpoint)
       return
-    }
-
-    // before setSelectedpToken since it reloads data
-    if (hostRpc) {
-      console.log(hostRpc)
-      this.props.setCustomRpc(hostRpc, 'host')
     }
 
     this.props.setNode(pToken ? pToken : this.props.pTokensAvailable[0])

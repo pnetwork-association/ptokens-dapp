@@ -302,7 +302,6 @@ export class pTokenControllers extends React.Component {
         const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(
           this.props.pTokenSelected
         )
-        console.log(this.props.pTokenSelected)
 
         this.props.issue(
           this.props.pTokenSelected,
