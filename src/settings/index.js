@@ -57,7 +57,7 @@ const settings = {
       protocol: 'https',
       explorer: 'https://bloks.io/',
       provableEndpoint:
-        'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
+        'https://eos-mainnet-4.ptokens.io'
     },
     btc: {
       explorer: 'https://blockstream.info/',
