@@ -1,3 +1,4 @@
+// NOTE: once used the new version of ptokens.js there will not be need of more logger files because of event name normalized
 import * as LogHandler from '../../log'
 import {
   PTOKENS_ISSUE_SUCCEDEED,
@@ -8,7 +9,7 @@ import {
 } from '../../../constants/index'
 import settings from '../../../settings'
 
-const pltcLoggedIssue = async (_ptokens, _params, _dispatch) => {
+const pltcLoggedIssue = async (_ptokens, _params, _pToken, _dispatch) => {
   //[0] should be the value but here there isn't
   let depositAddress = null
   try {
@@ -65,7 +66,7 @@ const pltcLoggedIssue = async (_ptokens, _params, _dispatch) => {
         LogHandler.updateItem('broadcasting-pending', {
           value: `new LTC deposit detected`,
           success: true,
-          link: `${settings.pltc.ltc.explorer}tx/${txid}`,
+          link: `${settings[_pToken.id].ltc.explorer}tx/${txid}`,
           id: 'broadcasting-pending'
         })
       )
@@ -131,11 +132,23 @@ const pltcLoggedIssue = async (_ptokens, _params, _dispatch) => {
         })
       )
 
-      const explorer = `${settings.pltc.eth.explorer}tx/${report.broadcast_tx_hash}`
+      _dispatch(
+        LogHandler.updateItem('enclave-transaction-broadcast', {
+          value: `${_pToken.redeemFrom} Transaction broadcasted by the enclave!`,
+          success: true,
+          waiting: false,
+          link: null,
+          id: 'enclave-transaction-broadcast'
+        })
+      )
+
+      const explorer = `${
+        settings[_pToken.id][_pToken.redeemFrom.toLowerCase()].explorer
+      }tx/${report.broadcast_tx_hash}`
 
       _dispatch(
         LogHandler.addItem({
-          value: `ETH transaction pending...`,
+          value: `${_pToken.redeemFrom} transaction pending...`,
           success: true,
           link: explorer,
           id: 'transaction-final-pending'
@@ -155,7 +168,7 @@ const pltcLoggedIssue = async (_ptokens, _params, _dispatch) => {
     .then(_result => {
       _dispatch(
         LogHandler.updateItem('confirmation-final-mint', {
-          value: `ETH transaction confirmed!`,
+          value: `${_pToken.redeemFrom} transaction confirmed!`,
           success: true,
           waiting: false,
           link: null
@@ -186,7 +199,12 @@ const pltcLoggedIssue = async (_ptokens, _params, _dispatch) => {
     })
 }
 
-const pltcLoggedRedeem = (_ptokens, _params, _dispatch) => {
+const hostTransactionId = {
+  eos: 'transaction_id',
+  eth: 'transactionHash'
+}
+
+const pltcLoggedRedeem = (_ptokens, _params, _pToken, _dispatch) => {
   _dispatch(
     LogHandler.addItem({
       value: `pLTC burn transaction pending...`,
@@ -208,7 +226,9 @@ const pltcLoggedRedeem = (_ptokens, _params, _dispatch) => {
   _ptokens.pltc
     .redeem(..._params)
     .once('onEthTxConfirmed', _tx => {
-      const explorer = `${settings.pltc.eth.explorer}tx/${_tx.transactionHash}`
+      const explorer = `${
+        settings[_pToken.id][_pToken.redeemFrom.toLowerCase()].explorer
+      }tx/${_tx[hostTransactionId[_pToken.redeemFrom.toLowerCase()]]}`
 
       const message = `Burn Transaction confirmed! ${parseFloat(
         _params[0]
@@ -265,7 +285,9 @@ const pltcLoggedRedeem = (_ptokens, _params, _dispatch) => {
         })
       )
 
-      const explorer = `${settings.pltc.ltc.explorer}tx/${report.broadcast_tx_hash}`
+      const explorer = `${settings[_pToken.id].ltc.explorer}tx/${
+        report.broadcast_tx_hash
+      }`
 
       _dispatch(
         LogHandler.addItem({

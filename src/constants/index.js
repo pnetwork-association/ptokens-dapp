@@ -64,5 +64,7 @@ export const RESET_DETECTED_NETWORK_REDEEMER = 'RESET_DETECTED_NETWORK_REDEEMER'
 //ptokens id
 export const PBTC_ON_ETH_MAINNET = 0
 export const PBTC_ON_EOS_MAINNET = 1
-export const PBTC_ON_ETH_TESTNET = 2
-export const PBTC_ON_EOS_TESTNET = 3
+export const PLTC_ON_ETH_MAINNET = 2
+export const PBTC_ON_ETH_TESTNET = 3
+export const PBTC_ON_EOS_TESTNET = 4
+export const PLTC_ON_ETH_TESTNET = 5

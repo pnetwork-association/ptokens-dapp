@@ -1,5 +1,5 @@
 const pBTCRedeemerNetworks = ['ropsten', 'main', 'eos'] //remove eos
-const pLTCRedeemerNetworks = ['ropsten']
+const pLTCRedeemerNetworks = ['ropsten', 'main']
 const pEOSRedeemerNetworks = ['kovan']
 
 const getNetworkCorrectness = (_pTokenName, _network, _role) => {

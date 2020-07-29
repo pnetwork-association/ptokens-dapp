@@ -4,7 +4,9 @@ import {
   PBTC_ON_ETH_MAINNET,
   PBTC_ON_ETH_TESTNET,
   PBTC_ON_EOS_TESTNET,
-  PBTC_ON_EOS_MAINNET
+  PBTC_ON_EOS_MAINNET,
+  PLTC_ON_ETH_MAINNET,
+  PLTC_ON_ETH_TESTNET
 } from '../../constants'
 import { Mutex } from 'async-mutex'
 
@@ -31,6 +33,14 @@ const connectWithCorrectWallets = (_pToken, _currentProviders, _force) => {
       }
       case PBTC_ON_EOS_TESTNET: {
         connectWithScatter(_pToken, 'redeemer', dispatch, _force)
+        break
+      }
+      case PLTC_ON_ETH_MAINNET: {
+        connectWithEthWallet(_pToken, 'redeemer', redeemer, dispatch, _force)
+        break
+      }
+      case PLTC_ON_ETH_TESTNET: {
+        connectWithEthWallet(_pToken, 'redeemer', redeemer, dispatch, _force)
         break
       }
       default:
@@ -66,6 +76,16 @@ const connectWithSpecificWallet = (_pToken, _role, _force) => {
           connectWithScatter(_pToken, 'redeemer', dispatch, _force)
         break
       }
+      case PLTC_ON_ETH_MAINNET: {
+        if (_role === 'redeemer')
+          connectWithEthWallet(_pToken, 'redeemer', null, dispatch, _force)
+        break
+      }
+      case PLTC_ON_ETH_TESTNET: {
+        if (_role === 'redeemer')
+          connectWithEthWallet(_pToken, 'redeemer', null, dispatch, _force)
+        break
+      }
       default:
         break
     }
@@ -79,10 +99,6 @@ const disconnectFromSpecificWallet = (_pToken, _role) => {
     const release = await mutex.acquire()
 
     switch (_pToken.id) {
-      case 'pBTC': {
-        disconnectFromEthWallet('redeemer', null, dispatch)
-        break
-      }
       case PBTC_ON_ETH_MAINNET: {
         if (_role === 'redeemer')
           disconnectFromEthWallet('redeemer', null, dispatch)
@@ -101,6 +117,16 @@ const disconnectFromSpecificWallet = (_pToken, _role) => {
       case PBTC_ON_EOS_TESTNET: {
         if (_role === 'redeemer')
           disconnectFromScatter(_pToken, 'redeemer', dispatch)
+        break
+      }
+      case PLTC_ON_ETH_MAINNET: {
+        if (_role === 'redeemer')
+          disconnectFromEthWallet('redeemer', null, dispatch)
+        break
+      }
+      case PLTC_ON_ETH_TESTNET: {
+        if (_role === 'redeemer')
+          disconnectFromEthWallet('redeemer', null, dispatch)
         break
       }
       default:
@@ -130,6 +156,14 @@ const changeSpecificWallet = (_pToken, _role) => {
       }
       case PBTC_ON_EOS_TESTNET: {
         connectWithScatter(_pToken, 'redeemer', dispatch, true)
+        break
+      }
+      case PLTC_ON_ETH_MAINNET: {
+        connectWithEthWallet(_pToken, 'redeemer', null, dispatch, true)
+        break
+      }
+      case PLTC_ON_ETH_TESTNET: {
+        connectWithEthWallet(_pToken, 'redeemer', null, dispatch, true)
         break
       }
       default:

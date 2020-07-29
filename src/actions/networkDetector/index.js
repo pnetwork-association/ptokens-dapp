@@ -9,7 +9,7 @@ const detectNetwork = (_provider, _pToken, _role) => {
     if (!_provider) return
 
     if (
-      _pToken.name === 'pBTC' &&
+      (_pToken.name === 'pBTC' || _pToken.name === 'pLTC') &&
       _pToken.redeemFrom === 'ETH' &&
       _role === 'redeemer'
     ) {

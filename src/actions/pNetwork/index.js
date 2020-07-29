@@ -43,7 +43,7 @@ const setNode = _pToken => {
       ]
 
     if (endpointManuallySelected) {
-      selectedNode = selectedNode = new Node({
+      selectedNode = new Node({
         pToken: {
           name: _pToken.name,
           hostBlockchain: 'eth'
@@ -59,10 +59,29 @@ const setNode = _pToken => {
         networkType: _pToken.network
       })
 
-      try {
-        selectedNode = await nodeSelector.select()
-      } catch (err) {
-        selectedNode = null
+      // TODO: REMOVE
+      if (_pToken.name === 'pLTC' && _pToken.network === 'mainnet') {
+        selectedNode = new Node({
+          endpoint: 'http://pltconeth-node-1a.ngrok.io',
+          pToken: {
+            name: _pToken.name,
+            hostBlockchain: _pToken.redeemFrom
+          }
+        })
+      } else if (_pToken.name === 'pLTC' && _pToken.network === 'testnet') {
+        selectedNode = new Node({
+          endpoint: 'http://4f2ac459f0e2.ngrok.io/',
+          pToken: {
+            name: _pToken.name,
+            hostBlockchain: _pToken.redeemFrom
+          }
+        })
+      } else {
+        try {
+          selectedNode = await nodeSelector.select()
+        } catch (err) {
+          selectedNode = null
+        }
       }
     }
 

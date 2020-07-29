@@ -68,6 +68,23 @@ const settings = {
     eth: {
       infuraProjectId: '4762c881ac0c4938be76386339358ed6',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
+      fortmaticKey: 'pk_live_D0A703008A4B17B7',
+      wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
+      httpsInfuraEndpoint: 'https://mainnet.infura.io/v3/',
+      network: 'mainnet',
+      chainId: 1,
+      explorer: 'https://etherscan.io/',
+      enclaveBlockHeightPollingTime: 3000
+    },
+    ltc: {
+      explorer: 'https://live.blockcypher.com/ltc/',
+      enclaveBlockHeightPollingTime: 3000
+    }
+  },
+  3: {
+    eth: {
+      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_test_48E59AF566747C40',
       wsInfuraEndpoint: 'wss://ropsten.infura.io/ws/v3/',
       httpsInfuraEndpoint: 'https://ropsten.infura.io/v3/',
@@ -83,7 +100,7 @@ const settings = {
       faucet2: 'https://bitcoinfaucet.uo1.net/send.php'
     }
   },
-  3: {
+  4: {
     eos: {
       chainId:
         '2a02a0053e5a8cf73a56ba0fda11e4d92e0238a4a2aa74fccf46d5a910746840',
@@ -101,7 +118,30 @@ const settings = {
       faucet1: 'https://testnet-faucet.mempool.co',
       faucet2: 'https://bitcoinfaucet.uo1.net/send.php'
     }
-  }
+  },
+  5: {
+    eth: {
+      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
+      fortmaticKey: 'pk_test_48E59AF566747C40',
+      wsInfuraEndpoint: 'wss://ropsten.infura.io/ws/v3/',
+      httpsInfuraEndpoint: 'https://ropsten.infura.io/v3/',
+      network: 'ropsten',
+      chainId: 3,
+      explorer: 'https://ropsten.etherscan.io/',
+      enclaveBlockHeightPollingTime: 3000
+    },
+    ltc: {
+      explorer: 'https://testnet.litecore.io/',
+      enclaveBlockHeightPollingTime: 3000,
+      faucet1: 'http://faucet.thonguyen.net/ltc'
+    }
+  },
+  BLOCKSTREAM_BASE_MAINNET_ENDPOINT: 'https://blockstream.info/api/',
+  BLOCKSTREAM_BASE_TESTNET_ENDPOINT: 'https://blockstream.info/testnet/api/',
+  LTC_PTOKENS_NODE_MAINNET_API:
+    'https://ltc-node-1.ptokens.io/insight-lite-api',
+  LTC_PTOKENS_NODE_TESTNET_API: 'https://ltc-testnet-node-1.ptokens.io'
 }
 
 export default settings

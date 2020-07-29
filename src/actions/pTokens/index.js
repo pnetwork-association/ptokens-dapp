@@ -13,8 +13,10 @@ import {
   PBTC_ON_ETH_TESTNET,
   PBTC_ON_EOS_TESTNET,
   PBTC_ON_EOS_MAINNET,
+  PLTC_ON_ETH_MAINNET,
   PTOKENS_SET_CUSTOM_HOST_RPC,
-  PTOKENS_SET_CUSTOM_NATIVE_RPC
+  PTOKENS_SET_CUSTOM_NATIVE_RPC,
+  PLTC_ON_ETH_TESTNET
 } from '../../constants/index'
 import pTokens from 'ptokens'
 import { peosLoggedIssue, peosLoggedRedeem } from './loggers/peos'
@@ -290,6 +292,24 @@ const _getCorrectConfigs = (_pToken, _configs) => {
         eosRpc: settings[PBTC_ON_EOS_MAINNET].eos.provableEndpoint,
         eosSignatureProvider: redeemer,
         hostBlockchain: 'eos'
+      }
+    }
+  }
+  if (_pToken.id === PLTC_ON_ETH_MAINNET) {
+    return {
+      pltc: {
+        ltcNetwork: 'litecoin',
+        ethProvider: redeemer,
+        hostBlockchain: 'eth'
+      }
+    }
+  }
+  if (_pToken.id === PLTC_ON_ETH_TESTNET) {
+    return {
+      pltc: {
+        ltcNetwork: 'testnet',
+        ethProvider: redeemer,
+        hostBlockchain: 'eth'
       }
     }
   }

@@ -72,6 +72,16 @@ const initialState = {
     },
     {
       id: 2,
+      name: 'pLTC',
+      tokenType: 'ERC-20',
+      issueFrom: 'LTC',
+      redeemFrom: 'ETH',
+      realDecimals: 8,
+      contractDecimals: 18,
+      network: 'mainnet'
+    },
+    {
+      id: 3,
       name: 'pBTC',
       tokenType: 'ERC-20',
       issueFrom: 'BTC',
@@ -81,13 +91,23 @@ const initialState = {
       network: 'testnet'
     },
     {
-      id: 3,
+      id: 4,
       name: 'pBTC',
       tokenType: 'EOSIO Token',
       issueFrom: 'BTC',
       redeemFrom: 'EOS',
       realDecimals: 8,
       contractDecimals: 8,
+      network: 'testnet'
+    },
+    {
+      id: 5,
+      name: 'pLTC',
+      tokenType: 'ERC-20',
+      issueFrom: 'LTC',
+      redeemFrom: 'ETH',
+      realDecimals: 8,
+      contractDecimals: 18,
       network: 'testnet'
     }
   ],

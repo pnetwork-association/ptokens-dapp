@@ -12,6 +12,7 @@ import { Api, JsonRpc } from 'eosjs'
 import fetch from 'node-fetch'
 import encoding from 'text-encoding'*/
 import axios from 'axios'
+import settings from '../settings'
 
 const ETH_GOOD = 2
 const ETH_BAD = 180
@@ -25,28 +26,24 @@ const LTC_BAD = 24
 //const EOS_GOOD = 1200 // (500ms each block -> 2blocks x second -> 120 block x minute -> 1200 blocks each 10 minutes)
 //const EOS_BAD = 7200 //each hours
 
-const BLOCKSTREAM_BASE_MAINNET_ENDPOINT = 'https://blockstream.info/api/'
-const BLOCKSTREAM_BASE_TESTNET_ENDPOINT =
-  'https://blockstream.info/testnet/api/'
-
-const LTC_PTOKENS_NODE_TESTNET_API =
-  'https://ltcnode.ptokens.io/insight-lite-api'
-
 const _getEsploraApi = _network =>
   axios.create({
     baseURL:
       _network === 'mainnet'
-        ? BLOCKSTREAM_BASE_MAINNET_ENDPOINT
-        : BLOCKSTREAM_BASE_TESTNET_ENDPOINT,
+        ? settings.BLOCKSTREAM_BASE_MAINNET_ENDPOINT
+        : settings.BLOCKSTREAM_BASE_TESTNET_ENDPOINT,
     timeout: 50000,
     headers: {
       'Content-Type': 'text/plain'
     }
   })
 
-const _getInsightLiteApi = () =>
+const _getInsightLiteApi = _network =>
   axios.create({
-    baseURL: LTC_PTOKENS_NODE_TESTNET_API,
+    baseURL:
+      _network === 'mainnet'
+        ? settings.LTC_PTOKENS_NODE_MAINNET_API
+        : settings.LTC_PTOKENS_NODE_TESTNET_API,
     timeout: 50000,
     headers: {
       'Content-Type': 'application/json'
@@ -131,7 +128,11 @@ const getBlockHeightStatusComparedWithTheReals = async (
   }
 
   if (_pToken.name === 'pLTC' && _role === 'issuer') {
-    const ltcLastBlock = await _makeInsightLiteApiCall('GET', '/blocks?limit=1')
+    const ltcLastBlock = await _makeInsightLiteApiCall(
+      'GET',
+      '/blocks?limit=1',
+      _network
+    )
 
     return _calculateStatus(
       _enclaveBlockHeight,
@@ -179,9 +180,9 @@ const _makeEsploraApiCall = (_callType, _apiPath, _network, _params) =>
       .catch(_err => reject(_err))
   })
 
-const _makeInsightLiteApiCall = (_callType, _apiPath, _params) =>
+const _makeInsightLiteApiCall = (_callType, _apiPath, _network, _params) =>
   new Promise((resolve, reject) => {
-    _getInsightLiteApi()
+    _getInsightLiteApi(_network)
       [_callType.toLowerCase()](_apiPath, _params)
       .then(_res => resolve(_res.data))
       .catch(_err => reject(_err))

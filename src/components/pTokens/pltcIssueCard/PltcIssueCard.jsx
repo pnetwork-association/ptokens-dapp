@@ -59,29 +59,20 @@ const PltcIssueCard = props => {
             <div className="col-12 font-weight-bold text-center mt-2">
               {props.pTokenSelected.depositAddress.value}
             </div>
-            <div className="col-12 text-primary text-center mt-2 text-xs">
-              Need testnet LTC?
-              <a
-                className="text-primary text-underline ml-5"
-                href={settings.pltc.ltc.faucet1}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {' '}
-                Faucet 1
-              </a>
-              {
+            {props.pTokenSelected.network !== 'mainnet' ? (
+              <div className="col-12 text-primary text-center mt-2 text-xs">
+                Need testnet LTC?
                 <a
                   className="text-primary text-underline ml-5"
-                  href={settings.pltc.ltc.faucet2}
+                  href={settings[props.pTokenSelected.id].ltc.faucet1}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   {' '}
-                  Faucet 2
+                  Faucet 1
                 </a>
-              }
-            </div>
+              </div>
+            ) : null}
           </div>
         ) : null}
         {props.pTokenSelected.depositAddress.value &&

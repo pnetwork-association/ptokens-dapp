@@ -41,7 +41,8 @@ const Settings = props => {
               ) : (
                 ''
               )}
-              {props.pTokenSelected.name !== 'pBTC' ? (
+              {props.pTokenSelected.name !== 'pBTC' &&
+              props.pTokenSelected.name !== 'pLTC' ? (
                 <div className="col-12 col-xl-4 mt-20">
                   <MiniCard
                     title={`YOUR ${props.pTokenSelected.issueFrom} ACCOUNT`}
@@ -105,7 +106,8 @@ const Settings = props => {
                   )}
                 </div>
                 <hr />
-                {props.pTokenSelected.name !== 'pBTC' ? (
+                {props.pTokenSelected.name !== 'pBTC' &&
+                props.pTokenSelected.name !== 'pLTC' ? (
                   <div
                     className={
                       'row ml-0 mr-0 mt-5 mb-5 ' +
