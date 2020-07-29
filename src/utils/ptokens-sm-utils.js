@@ -37,8 +37,8 @@ const getCorrespondingExplorerLink = (_pToken, _role, _address) => {
     }
     case PLTC_ON_ETH_TESTNET: {
       return _role === 'issuer'
-        ? `${settings[PLTC_ON_ETH_MAINNET].ltc.explorer}address/${_address}`
-        : `${settings[PLTC_ON_ETH_MAINNET].eth.explorer}address/${_address}`
+        ? `${settings[PLTC_ON_ETH_TESTNET].ltc.explorer}address/${_address}`
+        : `${settings[PLTC_ON_ETH_TESTNET].eth.explorer}address/${_address}`
     }
     default:
       break
@@ -74,8 +74,8 @@ const getCorrespondingBaseTxExplorerLink = (_pToken, _role) => {
     }
     case PLTC_ON_ETH_TESTNET: {
       return _role === 'issuer'
-        ? `${settings[PLTC_ON_ETH_MAINNET].ltc.explorer}tx/`
-        : `${settings[PLTC_ON_ETH_MAINNET].eth.explorer}tx/`
+        ? `${settings[PLTC_ON_ETH_TESTNET].ltc.explorer}tx/`
+        : `${settings[PLTC_ON_ETH_TESTNET].eth.explorer}tx/`
     }
     default:
       break
