@@ -62,7 +62,7 @@ const setNode = _pToken => {
       // TODO: REMOVE
       if (_pToken.name === 'pLTC' && _pToken.network === 'mainnet') {
         selectedNode = new Node({
-          endpoint: 'http://pltconeth-node-1a.ngrok.io',
+          endpoint: 'https://pltconeth-node-1a.ngrok.io',
           pToken: {
             name: _pToken.name,
             hostBlockchain: _pToken.redeemFrom
@@ -70,7 +70,7 @@ const setNode = _pToken => {
         })
       } else if (_pToken.name === 'pLTC' && _pToken.network === 'testnet') {
         selectedNode = new Node({
-          endpoint: 'http://4f2ac459f0e2.ngrok.io/',
+          endpoint: 'https://4f2ac459f0e2.ngrok.io/',
           pToken: {
             name: _pToken.name,
             hostBlockchain: _pToken.redeemFrom
