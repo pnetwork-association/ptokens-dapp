@@ -29,8 +29,9 @@ const getEosBalance = async (_pToken, _account) => {
   const balance = await provider.get_currency_balance(
     _pToken.nodeInfo.contractAddress,
     _account,
-    'PBTC'
+    _pToken.name.toUpperCase()
   )
+
   return parseFloat(balance[0].split(' ')[0])
 }
 

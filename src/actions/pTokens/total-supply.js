@@ -24,7 +24,7 @@ const getEosTotalSupply = async _pToken => {
   const resp = await provider.get_table_rows({
     json: true,
     code: _pToken.nodeInfo.contractAddress,
-    scope: 'PBTC',
+    scope: _pToken.name.toUpperCase(),
     table: 'stat',
     limit: 1
   })

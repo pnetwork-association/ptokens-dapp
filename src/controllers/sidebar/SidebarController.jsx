@@ -39,7 +39,6 @@ export class SidebarController extends React.Component {
   }
 
   render() {
-    console.log(this.props.withTestnetInstances)
     return (
       <Sidebar
         page={this.props.selected}
