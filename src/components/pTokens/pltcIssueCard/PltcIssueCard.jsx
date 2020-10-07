@@ -46,6 +46,7 @@ const PltcIssueCard = props => {
           withSelection={
             props.pTokenSelected.redeemFrom === 'EOS' ? true : false
           }
+          showAtCharacter={3}
           options={props.suggestedRedimeerAccounts}
           label={`${props.pTokenSelected.redeemFrom} ${
             props.pTokenSelected.redeemFrom === 'EOS' ? 'ACCOUNT' : 'ADDRESS'

@@ -79,6 +79,7 @@ const Input = props => {
         {props.withSelection &&
         props.options &&
         props.options.length > 0 &&
+        props.value.length >= props.showAtCharacter &&
         inputIsClicked ? (
           <div className="col-12 p-0 mt-5">
             <div id="picklist" className="picklist">
@@ -111,6 +112,7 @@ const Input = props => {
 Input.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   label: PropTypes.string,
+  showAtCharacter: PropTypes.number,
   size: PropTypes.string,
   miniLabel: PropTypes.string,
   onChange: PropTypes.func,
