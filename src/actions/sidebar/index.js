@@ -1,4 +1,8 @@
-import { SET_SELECTED_PAGE, SET_COLLAPSE_STATE } from '../../constants/index'
+import {
+  SET_SELECTED_PAGE,
+  SET_COLLAPSE_STATE,
+  ENABLE_TESTNET_INSTANCE
+} from '../../constants/index'
 import history from '../../utils/history'
 
 const setSelectedPage = (_page, _pToken) => {
@@ -45,6 +49,13 @@ const setSelectedPage = (_page, _pToken) => {
   }
 }
 
+const enableTestnetInstances = () => {
+  return {
+    type: ENABLE_TESTNET_INSTANCE,
+    payload: {}
+  }
+}
+
 const setCollapseState = state => {
   return {
     type: SET_COLLAPSE_STATE,
@@ -52,4 +63,4 @@ const setCollapseState = state => {
   }
 }
 
-export { setSelectedPage, setCollapseState }
+export { setSelectedPage, setCollapseState, enableTestnetInstances }

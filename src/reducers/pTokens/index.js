@@ -87,7 +87,7 @@ const initialState = {
       issueFrom: 'LTC',
       redeemFrom: 'EOS',
       realDecimals: 8,
-      contractDecimals: 18,
+      contractDecimals: 8,
       network: 'mainnet'
     },
     {

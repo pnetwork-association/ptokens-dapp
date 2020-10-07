@@ -1,22 +1,33 @@
-import { SET_SELECTED_PAGE, SET_COLLAPSE_STATE } from '../../constants/index'
+import {
+  SET_SELECTED_PAGE,
+  SET_COLLAPSE_STATE,
+  ENABLE_TESTNET_INSTANCE
+} from '../../constants/index'
 
 const initialState = {
   selected: 0,
-  isCollapseOpened: false
+  isCollapseOpened: false,
+  withTestnetInstances: false
 }
 
-const sidebarReducer = (state = initialState, action) => {
-  if (action.type === SET_SELECTED_PAGE) {
-    return Object.assign({}, state, {
-      selected: action.payload
+const sidebarReducer = (_state = initialState, _action) => {
+  if (_action.type === SET_SELECTED_PAGE) {
+    return Object.assign({}, _state, {
+      selected: _action.payload
     })
   }
-  if (action.type === SET_COLLAPSE_STATE) {
-    return Object.assign({}, state, {
-      isCollapseOpened: action.payload
+  if (_action.type === SET_COLLAPSE_STATE) {
+    return Object.assign({}, _state, {
+      isCollapseOpened: _action.payload
     })
   }
-  return state
+
+  if (_action.type === ENABLE_TESTNET_INSTANCE) {
+    return Object.assign({}, _state, {
+      withTestnetInstances: true
+    })
+  }
+  return _state
 }
 
 export default sidebarReducer

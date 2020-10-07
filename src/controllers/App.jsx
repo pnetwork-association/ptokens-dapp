@@ -14,7 +14,7 @@ import queryString from 'query-string'
 import { connect } from 'react-redux'
 import { Node } from 'ptokens-node'
 import { setNodeManually, setNode } from '../actions/pNetwork/'
-import { setSelectedPage } from '../actions/sidebar'
+import { setSelectedPage, enableTestnetInstances } from '../actions/sidebar'
 import { setSelectedpToken, setCustomRpc } from '../actions/pTokens'
 import PropTypes from 'prop-types'
 
@@ -38,7 +38,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(setSelectedPage(_selected, _pToken)),
     setSelectedpToken: (_pToken, _withNodeSelection) =>
       dispatch(setSelectedpToken(_pToken, _withNodeSelection)),
-    setCustomRpc: (_rpc, _type) => dispatch(setCustomRpc(_rpc, _type))
+    setCustomRpc: (_rpc, _type) => dispatch(setCustomRpc(_rpc, _type)),
+    enableTestnetInstances: () => dispatch(enableTestnetInstances())
   }
 }
 
@@ -73,7 +74,13 @@ class App extends React.Component {
         pToken.redeemFrom === pTokenRedeemFromSelected.toUpperCase()
     )
 
-    const { node, hostRpc } = queryString.parse(window.location.search)
+    const { node, hostRpc, withTestnetInstances } = queryString.parse(
+      window.location.search
+    )
+
+    if (withTestnetInstances || pTokenNetworkSelected === 'testnet') {
+      this.props.enableTestnetInstances()
+    }
 
     //if node is present not load the node
     this.props.setSelectedpToken(

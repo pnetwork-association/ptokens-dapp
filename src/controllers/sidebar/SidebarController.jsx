@@ -10,6 +10,7 @@ import { resetData } from '../../actions/pNetwork'
 const mapStateToProps = state => {
   return {
     selected: state.sidebar.selected,
+    withTestnetInstances: state.sidebar.withTestnetInstances,
     isCollapseOpened: state.sidebar.isCollapseOpened,
     pTokenSelected: state.pTokens.selected,
     pTokensAvailable: state.pTokens.available
@@ -38,11 +39,14 @@ export class SidebarController extends React.Component {
   }
 
   render() {
+    console.log(this.props.withTestnetInstances)
     return (
       <Sidebar
         page={this.props.selected}
         pTokenSelected={this.props.pTokenSelected}
-        pTokensAvailable={this.props.pTokensAvailable}
+        pTokensAvailable={this.props.pTokensAvailable.filter(({ network }) =>
+          this.props.withTestnetInstances ? true : network === 'mainnet'
+        )}
         onChangePage={_page =>
           this.props.setSelectedPage(_page, this.props.pTokenSelected)
         }
