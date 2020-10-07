@@ -60,7 +60,8 @@ const setNode = _pToken => {
       })
 
       // TODO: REMOVE
-      if (_pToken.name === 'pLTC' && _pToken.network === 'mainnet') {
+      // prettier-ignore
+      if (_pToken.name === 'pLTC' && _pToken.network === 'mainnet' && _pToken.redeemFrom === 'ETH') {
         selectedNode = new Node({
           endpoint: 'https://pltconeth-node-1a.ngrok.io',
           pToken: {
@@ -68,9 +69,19 @@ const setNode = _pToken => {
             hostBlockchain: _pToken.redeemFrom
           }
         })
-      } else if (_pToken.name === 'pLTC' && _pToken.network === 'testnet') {
+      // prettier-ignore
+      } else if (_pToken.name === 'pLTC' && _pToken.network === 'testnet' && _pToken.redeemFrom === 'ETH') {
         selectedNode = new Node({
           endpoint: 'https://4f2ac459f0e2.ngrok.io/',
+          pToken: {
+            name: _pToken.name,
+            hostBlockchain: _pToken.redeemFrom
+          }
+        })
+      // prettier-ignore
+      } else if (_pToken.name === 'pLTC' && _pToken.network === 'mainnet' && _pToken.redeemFrom === 'EOS') {
+        selectedNode = new Node({
+          endpoint: 'https://pltconeos-node-1a.ngrok.io/',
           pToken: {
             name: _pToken.name,
             hostBlockchain: _pToken.redeemFrom

@@ -5,9 +5,8 @@
   "author": "alle.manfredi@gmail.com @Provable",
   "dependencies": {
     "@portis/web3": "^2.0.0-beta.43",
-    "@scatterjs/core": "^2.7.51",
-    "@scatterjs/eosjs2": "^1.5.26",
-    "@toruslabs/torus-embed": "^0.1.2",
+    "@scatterjs/core": "^2.7.54",
+    "@scatterjs/eosjs2": "^1.5.36",
     "@walletconnect/web3-provider": "^1.0.0-beta.37",
     "async-mutex": "^0.1.4",
     "axios": "^0.19.2",

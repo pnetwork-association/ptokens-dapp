@@ -9,6 +9,11 @@ import {
 } from '../../../constants/index'
 import settings from '../../../settings'
 
+const pTokenEvents = {
+  eth: 'onEthTxConfirmed',
+  eos: 'onEosTxConfirmed'
+}
+
 const pltcLoggedIssue = async (_ptokens, _params, _pToken, _dispatch) => {
   //[0] should be the value but here there isn't
   let depositAddress = null
@@ -124,7 +129,7 @@ const pltcLoggedIssue = async (_ptokens, _params, _pToken, _dispatch) => {
     .once('onNodeBroadcastedTx', report => {
       _dispatch(
         LogHandler.updateItem('enclave-transaction-broadcast', {
-          value: 'ETH Transaction broadcasted by the enclave!',
+          value: `${_pToken.redeemFrom} Transaction broadcasted by the enclave!`,
           success: true,
           waiting: false,
           link: null,
@@ -225,7 +230,7 @@ const pltcLoggedRedeem = (_ptokens, _params, _pToken, _dispatch) => {
 
   _ptokens.pltc
     .redeem(..._params)
-    .once('onEthTxConfirmed', _tx => {
+    .once(pTokenEvents[_pToken.redeemFrom.toLowerCase()], _tx => {
       const explorer = `${
         settings[_pToken.id][_pToken.redeemFrom.toLowerCase()].explorer
       }tx/${_tx[hostTransactionId[_pToken.redeemFrom.toLowerCase()]]}`

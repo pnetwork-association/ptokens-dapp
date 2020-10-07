@@ -1,36 +1,7 @@
 const settings = {
-  dappName: 'pTokens Dapp',
+  dappName: 'pTokens',
   telegram: 'https://t.me/ptokens',
   googleAnalyticsTrackId: 'UA-157173999-1',
-  /*peos: {
-    eth: {
-      wsInfuraEndpoint: 'wss://kovan.infura.io/ws/v3/',
-      httpsInfuraEndpoint: 'https://kovan.infura.io/v3/',
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
-      portisDappId: 'd1f79009-507e-48a9-be58-30468c67b33c',
-      fortmaticKey: 'pk_test_48E59AF566747C40',
-      network: 'kovan',
-      chainId: 42,
-      explorer: 'https://kovan.etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
-    },
-    eos: {
-      blockchain: 'eos',
-      chainId:
-        'e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473',
-      host: 'ptoken-eos.provable.xyz',
-      port: 443,
-      protocol: 'https',
-      explorer: 'https://jungle.bloks.io/',
-      provableEndpoint: 'https://ptoken-eos.provable.xyz:443',
-      token: {
-        symbol: 'SYS',
-        contract: 'eosio.token',
-        decimals: 4
-      },
-      enclaveBlockHeightPollingTime: 3000
-    }
-  },*/
   0: {
     eth: {
       infuraProjectId: '4762c881ac0c4938be76386339358ed6',
@@ -57,7 +28,7 @@ const settings = {
       protocol: 'https',
       explorer: 'https://bloks.io/',
       provableEndpoint:
-        'https://corsproxy.ptokens.io/v1/?apiurl=https://eos-mainnet-4.ptokens.io'
+        'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     btc: {
       explorer: 'https://blockstream.info/',
@@ -82,6 +53,22 @@ const settings = {
     }
   },
   3: {
+    eos: {
+      chainId:
+        'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+      host: 'eos.greymass.com',
+      port: 443,
+      protocol: 'https',
+      explorer: 'https://bloks.io/',
+      provableEndpoint:
+        'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
+    },
+    ltc: {
+      explorer: 'https://live.blockcypher.com/ltc/',
+      enclaveBlockHeightPollingTime: 3000
+    }
+  },
+  4: {
     eth: {
       infuraProjectId: '4762c881ac0c4938be76386339358ed6',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
@@ -100,7 +87,7 @@ const settings = {
       faucet2: 'https://bitcoinfaucet.uo1.net/send.php'
     }
   },
-  4: {
+  5: {
     eos: {
       chainId:
         '2a02a0053e5a8cf73a56ba0fda11e4d92e0238a4a2aa74fccf46d5a910746840',
@@ -119,7 +106,7 @@ const settings = {
       faucet2: 'https://bitcoinfaucet.uo1.net/send.php'
     }
   },
-  5: {
+  6: {
     eth: {
       infuraProjectId: '4762c881ac0c4938be76386339358ed6',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',

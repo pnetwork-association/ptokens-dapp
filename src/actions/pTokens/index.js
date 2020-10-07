@@ -16,7 +16,8 @@ import {
   PLTC_ON_ETH_MAINNET,
   PTOKENS_SET_CUSTOM_HOST_RPC,
   PTOKENS_SET_CUSTOM_NATIVE_RPC,
-  PLTC_ON_ETH_TESTNET
+  PLTC_ON_ETH_TESTNET,
+  PLTC_ON_EOS_MAINNET
 } from '../../constants/index'
 import pTokens from 'ptokens'
 import { peosLoggedIssue, peosLoggedRedeem } from './loggers/peos'
@@ -301,6 +302,16 @@ const _getCorrectConfigs = (_pToken, _configs) => {
         ltcNetwork: 'litecoin',
         ethProvider: redeemer,
         hostBlockchain: 'eth'
+      }
+    }
+  }
+  if (_pToken.id === PLTC_ON_EOS_MAINNET) {
+    return {
+      pltc: {
+        ltcNetwork: 'litecoin',
+        eosRpc: settings[PLTC_ON_EOS_MAINNET].eos.provableEndpoint,
+        eosSignatureProvider: redeemer,
+        hostBlockchain: 'eos'
       }
     }
   }

@@ -6,7 +6,8 @@ import {
   PBTC_ON_EOS_TESTNET,
   PBTC_ON_EOS_MAINNET,
   PLTC_ON_ETH_MAINNET,
-  PLTC_ON_ETH_TESTNET
+  PLTC_ON_ETH_TESTNET,
+  PLTC_ON_EOS_MAINNET
 } from '../constants'
 
 const web3 = new Web3()
@@ -41,6 +42,11 @@ const isValidAccount = (_pToken, _account, _role) => {
     case PBTC_ON_EOS_MAINNET: {
       return _role === 'issuer'
         ? pTokenUtils.btc.isValidAddress(_account)
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PLTC_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? pTokenUtils.ltc.isValidAddress('mainnet', _account)
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PBTC_ON_EOS_TESTNET: {

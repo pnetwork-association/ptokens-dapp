@@ -5,7 +5,8 @@ import {
   PBTC_ON_EOS_TESTNET,
   PBTC_ON_EOS_MAINNET,
   PLTC_ON_ETH_MAINNET,
-  PLTC_ON_ETH_TESTNET
+  PLTC_ON_ETH_TESTNET,
+  PLTC_ON_EOS_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_pToken, _role, _address) => {
@@ -29,6 +30,11 @@ const getCorrespondingExplorerLink = (_pToken, _role, _address) => {
       return _role === 'issuer'
         ? `${settings[PBTC_ON_EOS_MAINNET].btc.explorer}address/${_address}`
         : `${settings[PBTC_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+    }
+    case PLTC_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PLTC_ON_EOS_MAINNET].ltc.explorer}address/${_address}`
+        : `${settings[PLTC_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
     }
     case PLTC_ON_ETH_MAINNET: {
       return _role === 'issuer'
@@ -66,6 +72,11 @@ const getCorrespondingBaseTxExplorerLink = (_pToken, _role) => {
       return _role === 'issuer'
         ? `${settings[PBTC_ON_EOS_MAINNET].btc.explorer}tx/`
         : `${settings[PBTC_ON_EOS_MAINNET].eos.explorer}transaction/`
+    }
+    case PLTC_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PLTC_ON_EOS_MAINNET].ltc.explorer}tx/`
+        : `${settings[PLTC_ON_EOS_MAINNET].eos.explorer}transaction/`
     }
     case PLTC_ON_ETH_MAINNET: {
       return _role === 'issuer'

@@ -3,8 +3,6 @@ import Web3Connect from 'web3connect'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import Portis from '@portis/web3'
 import Fortmatic from 'fortmatic'
-//import Torus from "@toruslabs/torus-embed";
-//import Squarelink from 'squarelink'
 import settings from '../../../settings'
 
 import {
@@ -41,17 +39,6 @@ const connectWithEthWallet = async (
           key: settings[_pToken.id].eth.fortmaticKey
         }
       }
-      /*torus: {
-        package: Torus, 
-        options: {
-          showTorusButton: true,
-          enableLogging: true,
-          network: {
-            host: settings[_pTokenName.toLowerCase()].eth.network,
-            chainId: settings[_pTokenName.toLowerCase()].eth.chainId,
-          },
-        }
-      }*/
     }
   })
 

@@ -267,12 +267,11 @@ export class pTokenControllers extends React.Component {
           try {
             await rpc.get_account(this.props.pTokensParams.typedIssueAccount)
           } catch (err) {
-            this.showAlert('danger', "This EOS account doesn't exist yet")
-
+            /*this.showAlert('danger', "This EOS account doesn't exist yet")
             this.setState({
               localError: true
             })
-            return
+            return*/
           }
         }
 
@@ -370,13 +369,13 @@ export class pTokenControllers extends React.Component {
       return
     }
 
-    if (parsedAmountToRedeem > this.props.pTokenBalance) {
+    /*if (parsedAmountToRedeem > this.props.pTokenBalance) {
       this.showAlert('danger', `Impossible to redeem more than what you have`)
       this.setState({
         isRedeemTerminated: true
       })
       return
-    }
+    }*/
 
     this.setState({
       isRedeemTerminated: null
