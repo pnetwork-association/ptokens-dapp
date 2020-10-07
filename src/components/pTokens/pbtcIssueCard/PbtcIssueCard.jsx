@@ -219,6 +219,7 @@ const PbtcIssueCard = props => {
 PbtcIssueCard.propTypes = {
   pTokenSelected: PropTypes.object,
   typedIssueAccount: PropTypes.string,
+  suggestedRedimeerAccounts: PropTypes.array,
   localError: PropTypes.bool,
   onChangeIssueAccount: PropTypes.func,
   onIssue: PropTypes.func

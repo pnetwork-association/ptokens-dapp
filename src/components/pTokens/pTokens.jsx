@@ -139,6 +139,7 @@ const PTokens = props => {
             ) : props.pTokenSelected.name === 'pLTC' ? (
               <PltcIssueCard
                 pTokenSelected={props.pTokenSelected}
+                suggestedRedimeerAccounts={props.suggestedRedimeerAccounts}
                 typedIssueAccount={props.typedIssueAccount}
                 onChangeIssueAccount={props.onChangeIssueAccount}
                 onIssue={props.onIssue}

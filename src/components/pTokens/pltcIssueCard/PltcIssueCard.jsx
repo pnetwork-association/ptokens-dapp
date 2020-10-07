@@ -43,10 +43,17 @@ const PltcIssueCard = props => {
       </div>
       <div className="card-body pt-0">
         <Input
-          label={`${props.pTokenSelected.redeemFrom} ADDRESS`}
-          value={props.typedIssueAccount}
+          withSelection={
+            props.pTokenSelected.redeemFrom === 'EOS' ? true : false
+          }
+          options={props.suggestedRedimeerAccounts}
+          label={`${props.pTokenSelected.redeemFrom} ${
+            props.pTokenSelected.redeemFrom === 'EOS' ? 'ACCOUNT' : 'ADDRESS'
+          }`}
+          value={props.typedIssueAccount ? props.typedIssueAccount : ''}
           size={'small'}
           onChange={e => props.onChangeIssueAccount(e.target.value)}
+          onChangeFromSelection={value => props.onChangeIssueAccount(value)}
         />
         <hr />
         {props.pTokenSelected.depositAddress.value &&
@@ -137,6 +144,7 @@ const PltcIssueCard = props => {
 
 PltcIssueCard.propTypes = {
   pTokenSelected: PropTypes.object,
+  suggestedRedimeerAccounts: PropTypes.array,
   typedIssueAccount: PropTypes.string,
   onChangeIssueAccount: PropTypes.func,
   onIssue: PropTypes.func
