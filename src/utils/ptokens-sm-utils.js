@@ -6,7 +6,8 @@ import {
   PBTC_ON_EOS_MAINNET,
   PLTC_ON_ETH_MAINNET,
   PLTC_ON_ETH_TESTNET,
-  PLTC_ON_EOS_MAINNET
+  PLTC_ON_EOS_MAINNET,
+  PETH_ON_EOS_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_pToken, _role, _address) => {
@@ -45,6 +46,11 @@ const getCorrespondingExplorerLink = (_pToken, _role, _address) => {
       return _role === 'issuer'
         ? `${settings[PLTC_ON_ETH_TESTNET].ltc.explorer}address/${_address}`
         : `${settings[PLTC_ON_ETH_TESTNET].eth.explorer}address/${_address}`
+    }
+    case PETH_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PETH_ON_EOS_MAINNET].eth.explorer}address/${_address}`
+        : `${settings[PETH_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
     }
     default:
       break
@@ -87,6 +93,11 @@ const getCorrespondingBaseTxExplorerLink = (_pToken, _role) => {
       return _role === 'issuer'
         ? `${settings[PLTC_ON_ETH_TESTNET].ltc.explorer}tx/`
         : `${settings[PLTC_ON_ETH_TESTNET].eth.explorer}tx/`
+    }
+    case PETH_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PETH_ON_EOS_MAINNET].eth.explorer}tx/`
+        : `${settings[PETH_ON_EOS_MAINNET].eos.explorer}transaction/`
     }
     default:
       break

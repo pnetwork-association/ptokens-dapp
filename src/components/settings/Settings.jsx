@@ -6,6 +6,17 @@ import MultiWallet from './multiWallet/MultiWallet'
 import MiniCard from '../utils/MiniCard'
 
 const Settings = props => {
+  const {
+    pTokenSelected,
+    redeemerWallet,
+    issuerWallet,
+    redeemerIsConnected,
+    issuerIsConnected,
+    redeemerAccount,
+    issuerAccount,
+    onChangeRedeemerConnection,
+    onChangeIssuerConnection
+  } = props
   return (
     <React.Fragment>
       <div className="header">
@@ -14,47 +25,26 @@ const Settings = props => {
             <div className="row">
               <div className="col-12 col-xl-6 mt-20">
                 <MiniCard
-                  title={`YOUR ${props.pTokenSelected.redeemFrom} ACCOUNT`}
+                  title={`YOUR ${pTokenSelected.redeemFrom} ACCOUNT`}
                   value={getCorresponsingVisibleAddressFormat(
-                    props.pTokenSelected,
+                    pTokenSelected,
                     'redeemer',
-                    props.redeemerAccount
+                    redeemerAccount
                   )}
                   measure={''}
                 />
               </div>
-              {props.pTokenSelected.name === 'pBTC' ||
-              props.pTokenSelected.name === 'pLTC' ? (
-                <div className="col-12 col-xl-6 mt-20">
-                  <MiniCard
-                    title="YOUR BALANCE"
-                    value={
-                      props.balance || props.balance === 0
-                        ? props.balance.toFixed(
-                            props.pTokenSelected.realDecimals
-                          )
-                        : null
-                    }
-                    measure={props.pTokenSelected.name}
-                  />
-                </div>
-              ) : (
-                ''
-              )}
-              {props.pTokenSelected.name !== 'pBTC' &&
-              props.pTokenSelected.name !== 'pLTC' ? (
-                <div className="col-12 col-xl-4 mt-20">
-                  <MiniCard
-                    title={`YOUR ${props.pTokenSelected.issueFrom} ACCOUNT`}
-                    value={getCorresponsingVisibleAddressFormat(
-                      props.pTokenSelected,
-                      'issuer',
-                      props.issuerAccount
-                    )}
-                    measure={''}
-                  />
-                </div>
-              ) : null}
+              <div className="col-12 col-xl-6 mt-20">
+                <MiniCard
+                  title={`YOUR ${pTokenSelected.issueFrom} ACCOUNT`}
+                  value={getCorresponsingVisibleAddressFormat(
+                    pTokenSelected,
+                    'issuer',
+                    issuerAccount
+                  )}
+                  measure={''}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -76,58 +66,70 @@ const Settings = props => {
                 <div
                   className={
                     'row ml-0 mr-0 mt-5 mb-5 ' +
-                    (!props.redeemerIsConnected ? 'bg-gray' : '')
+                    (!redeemerIsConnected ? 'bg-gray' : '')
                   }
                 >
                   <div className="col-md-4 col-8 mt-15 mb-15 text-xs text-gray">
-                    {props.pTokenSelected.redeemFrom} wallet
+                    {pTokenSelected.redeemFrom} wallet
                   </div>
                   <div className="col-md-4 col-4 text-right text-md-center mt-15 mb-15 text-xs text-primary">
-                    {props.redeemerWallet ? props.redeemerWallet.name : '-'}
+                    {redeemerWallet ? redeemerWallet.name : '-'}
                   </div>
-                  {props.pTokenSelected.redeemFrom === 'ETH' ? (
+                  {pTokenSelected.redeemFrom === 'ETH' ? (
                     <div className="col-md-4 co-12 text-center text-md-right mt-10-md mt-0 mb-0-md mb-10">
                       <MultiWallet
-                        isConnected={props.redeemerIsConnected}
+                        isConnected={redeemerIsConnected}
                         onChange={() =>
-                          props.onChangeRedeemerConnection(props.redeemerWallet)
+                          onChangeRedeemerConnection(redeemerWallet)
                         }
                       />
                     </div>
                   ) : (
                     <div className="col-md-4 col-6 text-right d-flex justify-end justify-content-end mt-15 mb-15 pl-0">
                       <SingleWallet
-                        isConnected={props.redeemerIsConnected}
+                        isConnected={redeemerIsConnected}
                         onChange={() =>
-                          props.onChangeRedeemerConnection(props.redeemerWallet)
+                          onChangeRedeemerConnection(redeemerWallet)
                         }
                       />
                     </div>
                   )}
                 </div>
                 <hr />
-                {props.pTokenSelected.name !== 'pBTC' &&
-                props.pTokenSelected.name !== 'pLTC' ? (
+                {pTokenSelected.name !== 'pBTC' &&
+                pTokenSelected.name !== 'pLTC' ? (
                   <div
                     className={
                       'row ml-0 mr-0 mt-5 mb-5 ' +
-                      (!props.issuerIsConnected ? 'bg-gray' : '')
+                      (!issuerIsConnected ? 'bg-gray' : '')
                     }
                   >
                     <div className="col-md-4 col-6 mt-15 mb-15 text-xs text-gray">
-                      {props.pTokenSelected.issueFrom} wallet
+                      {pTokenSelected.issueFrom} wallet
                     </div>
                     <div className="col-md-4 d-none d-md-block mt-15 mb-15 text-xs text-center text-primary">
-                      {props.issuerWallet ? props.issuerWallet.name : '-'}
+                      {issuerWallet ? issuerWallet.name : '-'}
                     </div>
-                    <div className="col-md-4 col-6 text-right d-flex justify-end justify-content-end mt-15 mb-15 pl-0">
-                      <SingleWallet
-                        isConnected={props.issuerIsConnected}
-                        onChange={() =>
-                          props.onChangeIssuerConnection(props.issuerWallet)
-                        }
-                      />
-                    </div>
+                    {pTokenSelected.redeemFrom === 'ETH' ||
+                    pTokenSelected.redeemFrom === 'EOS' ? (
+                      <div className="col-md-4 co-12 text-center text-md-right mt-10-md mt-0 mb-0-md mb-10">
+                        <MultiWallet
+                          isConnected={issuerIsConnected}
+                          onChange={() =>
+                            onChangeIssuerConnection(issuerWallet)
+                          }
+                        />
+                      </div>
+                    ) : (
+                      <div className="col-md-4 col-6 text-right d-flex justify-end justify-content-end mt-15 mb-15 pl-0">
+                        <SingleWallet
+                          isConnected={issuerIsConnected}
+                          onChange={() =>
+                            onChangeIssuerConnection(issuerWallet)
+                          }
+                        />
+                      </div>
+                    )}
                   </div>
                 ) : null}
                 <div className="row ml-0 mr-0 mt-5 mb-5">
@@ -135,8 +137,8 @@ const Settings = props => {
                     Connected to:
                   </div>
                   <div className="col-6 text-right mt-15 mb-15 text-xs text-primary font-weight-bold">
-                    {props.pTokenSelected.nodeInfo.endpoint
-                      ? props.pTokenSelected.nodeInfo.endpoint
+                    {pTokenSelected.nodeInfo.endpoint
+                      ? pTokenSelected.nodeInfo.endpoint
                       : '-'}
                   </div>
                 </div>

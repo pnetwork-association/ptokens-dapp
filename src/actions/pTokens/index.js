@@ -17,10 +17,11 @@ import {
   PTOKENS_SET_CUSTOM_HOST_RPC,
   PTOKENS_SET_CUSTOM_NATIVE_RPC,
   PLTC_ON_ETH_TESTNET,
-  PLTC_ON_EOS_MAINNET
+  PLTC_ON_EOS_MAINNET,
+  PETH_ON_EOS_MAINNET
 } from '../../constants/index'
 import pTokens from 'ptokens'
-import { peosLoggedIssue, peosLoggedRedeem } from './loggers/peos'
+import { perc20LoggedIssue, perc20LoggedRedeem } from './loggers/perc20'
 import { pbtcLoggedIssue, pbtcLoggedRedeem } from './loggers/pbtc'
 import { pltcLoggedIssue, pltcLoggedRedeem } from './loggers/pltc'
 import settings from '../../settings'
@@ -74,8 +75,8 @@ const issue = (_pToken, _params, _configs) => {
     )
 
     switch (_pToken.name) {
-      case 'pEOS': {
-        peosLoggedIssue(ptokens, _params, _pToken, _dispatch)
+      case 'pETH': {
+        perc20LoggedIssue(ptokens, _params, _pToken, _dispatch)
         break
       }
       case 'pBTC': {
@@ -101,8 +102,8 @@ const redeem = (_pToken, _params, _configs) => {
     )
 
     switch (_pToken.name) {
-      case 'pEOS': {
-        peosLoggedRedeem(ptokens, _params, _pToken, _dispatch)
+      case 'pETH': {
+        perc20LoggedRedeem(ptokens, _params, _pToken, _dispatch)
         break
       }
       case 'pBTC': {
@@ -323,6 +324,10 @@ const _getCorrectConfigs = (_pToken, _configs) => {
         hostBlockchain: 'eth'
       }
     }
+  }
+  if (_pToken.id === PETH_ON_EOS_MAINNET) {
+    console.log('TODO actions peth on eos')
+    return {}
   }
 }
 

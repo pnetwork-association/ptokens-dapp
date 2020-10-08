@@ -8,6 +8,25 @@ const detectNetwork = (_provider, _pToken, _role) => {
   return async _dispatch => {
     if (!_provider) return
 
+    if (_pToken.name === 'pETH') {
+      const web3 = new Web3(_provider)
+      _dispatch({
+        type: NETWORK_DETECTED_REDEEMER,
+        payload: {
+          redeemerNetwork: await web3.eth.net.getNetworkType(),
+          pToken: _pToken
+        }
+      })
+
+      _dispatch({
+        type: NETWORK_DETECTED_REDEEMER,
+        payload: {
+          redeemerNetwork: 'eos',
+          pToken: _pToken
+        }
+      })
+    }
+
     if (
       (_pToken.name === 'pBTC' || _pToken.name === 'pLTC') &&
       _pToken.redeemFrom === 'ETH' &&

@@ -12,11 +12,11 @@ class Sidebar extends React.Component {
 
   renderpTokensAvatar = () => {
     switch (this.props.pTokenSelected.name) {
-      case 'pEOS':
+      case 'pETH':
         return (
           <img
-            src="../assets/pEOS.png"
-            alt="pEOS avatar"
+            src="../assets/pETH.png"
+            alt="pETH avatar"
             height="30"
             width="30"
           />

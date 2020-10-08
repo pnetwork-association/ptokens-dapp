@@ -16,12 +16,14 @@ import {
   PTOKENS_RESET_PARAMS,
   PTOKENS_SET_NODE_INFO,
   PTOKENS_SET_CUSTOM_HOST_RPC,
-  PTOKENS_SET_CUSTOM_NATIVE_RPC
+  PTOKENS_SET_CUSTOM_NATIVE_RPC,
+  PBTC_ON_ETH_MAINNET
 } from '../../constants/index'
+import settings from '../../settings'
 
 const initialState = {
   selected: {
-    id: 0,
+    id: PBTC_ON_ETH_MAINNET,
     name: 'pBTC',
     realDecimals: 8,
     contractDecimals: 18,
@@ -49,78 +51,7 @@ const initialState = {
     customNativeRpc: null
   },
   balance: null,
-  available: [
-    {
-      id: 0,
-      name: 'pBTC',
-      tokenType: 'ERC-20',
-      issueFrom: 'BTC',
-      redeemFrom: 'ETH',
-      realDecimals: 8,
-      contractDecimals: 18,
-      network: 'mainnet'
-    },
-    {
-      id: 1,
-      name: 'pBTC',
-      tokenType: 'EOSIO Token',
-      issueFrom: 'BTC',
-      redeemFrom: 'EOS',
-      realDecimals: 8,
-      contractDecimals: 8,
-      network: 'mainnet'
-    },
-    {
-      id: 2,
-      name: 'pLTC',
-      tokenType: 'ERC-20',
-      issueFrom: 'LTC',
-      redeemFrom: 'ETH',
-      realDecimals: 8,
-      contractDecimals: 18,
-      network: 'mainnet'
-    },
-    {
-      id: 3,
-      name: 'pLTC',
-      tokenType: 'EOSIO Token',
-      issueFrom: 'LTC',
-      redeemFrom: 'EOS',
-      realDecimals: 8,
-      contractDecimals: 8,
-      network: 'mainnet'
-    },
-    {
-      id: 4,
-      name: 'pBTC',
-      tokenType: 'ERC-20',
-      issueFrom: 'BTC',
-      redeemFrom: 'ETH',
-      realDecimals: 8,
-      contractDecimals: 18,
-      network: 'testnet'
-    },
-    {
-      id: 5,
-      name: 'pBTC',
-      tokenType: 'EOSIO Token',
-      issueFrom: 'BTC',
-      redeemFrom: 'EOS',
-      realDecimals: 8,
-      contractDecimals: 8,
-      network: 'testnet'
-    },
-    {
-      id: 6,
-      name: 'pLTC',
-      tokenType: 'ERC-20',
-      issueFrom: 'LTC',
-      redeemFrom: 'ETH',
-      realDecimals: 8,
-      contractDecimals: 18,
-      network: 'testnet'
-    }
-  ],
+  available: settings.pTokensAvailable,
   isIssueSuccedeed: null,
   isRedeemSuccedeed: null,
   issueError: null,

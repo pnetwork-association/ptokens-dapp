@@ -8,6 +8,7 @@ import Button from '../../utils/Button'
 import ReactTooltip from 'react-tooltip'
 import { copyToClipboard } from '../../../utils/utils'
 import Alert from '../../utils/Alert'
+import CardHeader from '../CardHeader/CardHeader'
 
 const PbtcIssueCard = props => {
   const [isGenerating, setIsGenerating] = useState(0)
@@ -32,38 +33,7 @@ const PbtcIssueCard = props => {
 
   return (
     <div className="card shadow bg-light-gray no-shadow height-max">
-      <div className="card-header mb-0 bg-light-gray pl-0 pt-0 pr-0">
-        <div className="row align-items-center">
-          <div className="col-12 col-md-8">
-            <div className="text-left text-gray text-xxl font-weight-light">
-              Issue {props.pTokenSelected.name}{' '}
-              <span className="text-md">(Peg-in)</span>
-            </div>
-          </div>
-          <div className="col-12 col-md-4 text-md-right pl-0 mt-10 mt-0-md mb-10 mb-0-md">
-            <img
-              className="ml-20 mr-10"
-              src={`../assets/${props.pTokenSelected.issueFrom}.png`}
-              height="22"
-              width="22"
-              alt="redeem from logo"
-            />
-            <img
-              src="../assets/right.png"
-              height="22"
-              width="22"
-              alt="redeem from logo"
-            />
-            <img
-              className="ml-10"
-              src={`../assets/${props.pTokenSelected.name}-${props.pTokenSelected.network}.png`}
-              height="22"
-              width="22"
-              alt="redeem to logo"
-            />
-          </div>
-        </div>
-      </div>
+      <CardHeader type="issue" pTokenSelected={props.pTokenSelected} />
       <div className="card-body pt-0">
         <Input
           withSelection={
@@ -71,9 +41,7 @@ const PbtcIssueCard = props => {
           }
           showAtCharacter={3}
           options={props.suggestedRedimeerAccounts}
-          label={`${props.pTokenSelected.redeemFrom} ${
-            props.pTokenSelected.redeemFrom === 'EOS' ? 'ACCOUNT' : 'ADDRESS'
-          }`}
+          label={`${props.pTokenSelected.redeemFrom} ACCOUNT`}
           value={props.typedIssueAccount ? props.typedIssueAccount : ''}
           size={'small'}
           onChange={e => props.onChangeIssueAccount(e.target.value)}

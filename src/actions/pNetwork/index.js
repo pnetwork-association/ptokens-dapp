@@ -51,6 +51,7 @@ const setNode = _pToken => {
         endpoint: endpointManuallySelected
       })
     } else {
+      return
       const nodeSelector = new NodeSelector({
         pToken: {
           name: _pToken.name,
@@ -87,6 +88,9 @@ const setNode = _pToken => {
             hostBlockchain: _pToken.redeemFrom
           }
         })
+      // prettier-ignore
+      } else if (_pToken.name === 'pETH' && _pToken.network === 'mainnet') {
+        console.log('TODO peth node selection')
       } else {
         try {
           selectedNode = await nodeSelector.select()
@@ -126,14 +130,8 @@ const setNode = _pToken => {
             publicKey: info.public_key,
             endpoint: selectedNode ? selectedNode.endpoint : null,
             isManuallySelected: endpointManuallySelected ? true : false,
-            isCompatible: info.native_network.includes(
-              _pToken.network
-            ) /*info.host_network.includes(
-              _pToken.redeemFrom.toLowerCase()
-            ) &&*/
-              ? /*||*/
-                /* nedeed for eos*/
-                true
+            isCompatible: info.native_network.includes(_pToken.network)
+              ? true
               : false
           }
         })
@@ -222,31 +220,13 @@ const getLastProcessedBlock = (_pToken, _type, _role) => {
 
     const lastProcessedBlock = await selectedNode.getLastProcessedBlock(_type)
 
-    let value = null
-    switch (_pToken.name) {
-      case 'pEOS': {
-        value = lastProcessedBlock.latestBlockNum
-        break
-      }
-      case 'pBTC': {
-        value = lastProcessedBlock.block_num
-        break
-      }
-      case 'pLTC': {
-        value = lastProcessedBlock.block_num
-        break
-      }
-      default:
-        value = null
-    }
-
     typeNumberOfGetBlock[_type] -= 1
 
     if (typeNumberOfGetBlock[_type] === 0) {
       const status = await getBlockHeightStatusComparedWithTheReals(
         _pToken,
         _role,
-        value,
+        lastProcessedBlock.block_num,
         _pToken.network
       )
 
@@ -266,7 +246,7 @@ const getLastProcessedBlock = (_pToken, _type, _role) => {
             ? PNETWORK_LAST_ISSUER_PROCESSED_BLOCK_LOADED
             : PNETWORK_LAST_REDEEMER_PROCESSED_BLOCK_LOADED,
         payload: {
-          block: value
+          block: lastProcessedBlock.block_num
         }
       })
     }

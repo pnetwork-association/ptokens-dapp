@@ -7,45 +7,51 @@ import {
   PBTC_ON_EOS_MAINNET,
   PLTC_ON_ETH_MAINNET,
   PLTC_ON_ETH_TESTNET,
-  PLTC_ON_EOS_MAINNET
+  PLTC_ON_EOS_MAINNET,
+  PETH_ON_EOS_MAINNET
 } from '../../constants'
 import { Mutex } from 'async-mutex'
 
 const mutex = new Mutex()
 
 const connectWithCorrectWallets = (_pToken, _currentProviders, _force) => {
-  return async dispatch => {
+  return async _dispatch => {
     const release = await mutex.acquire()
 
     const { redeemer } = _currentProviders
 
     switch (_pToken.id) {
       case PBTC_ON_ETH_MAINNET: {
-        connectWithEthWallet(_pToken, 'redeemer', redeemer, dispatch, _force)
+        connectWithEthWallet(_pToken, 'redeemer', redeemer, _dispatch, _force)
         break
       }
       case PBTC_ON_ETH_TESTNET: {
-        connectWithEthWallet(_pToken, 'redeemer', redeemer, dispatch, _force)
+        connectWithEthWallet(_pToken, 'redeemer', redeemer, _dispatch, _force)
         break
       }
       case PBTC_ON_EOS_MAINNET: {
-        connectWithScatter(_pToken, 'redeemer', dispatch)
+        connectWithScatter(_pToken, 'redeemer', _dispatch)
         break
       }
       case PLTC_ON_EOS_MAINNET: {
-        connectWithScatter(_pToken, 'redeemer', dispatch)
+        connectWithScatter(_pToken, 'redeemer', _dispatch)
         break
       }
       case PBTC_ON_EOS_TESTNET: {
-        connectWithScatter(_pToken, 'redeemer', dispatch)
+        connectWithScatter(_pToken, 'redeemer', _dispatch)
         break
       }
       case PLTC_ON_ETH_MAINNET: {
-        connectWithEthWallet(_pToken, 'redeemer', redeemer, dispatch, _force)
+        connectWithEthWallet(_pToken, 'redeemer', redeemer, _dispatch, _force)
         break
       }
       case PLTC_ON_ETH_TESTNET: {
-        connectWithEthWallet(_pToken, 'redeemer', redeemer, dispatch, _force)
+        connectWithEthWallet(_pToken, 'redeemer', redeemer, _dispatch, _force)
+        break
+      }
+      case PETH_ON_EOS_MAINNET: {
+        connectWithEthWallet(_pToken, 'issuer', redeemer, _dispatch, _force)
+        connectWithScatter(_pToken, 'redeemer', _dispatch)
         break
       }
       default:
@@ -56,43 +62,51 @@ const connectWithCorrectWallets = (_pToken, _currentProviders, _force) => {
 }
 
 const connectWithSpecificWallet = (_pToken, _role, _force) => {
-  return async dispatch => {
+  return async _dispatch => {
     const release = await mutex.acquire()
 
     switch (_pToken.id) {
       case PBTC_ON_ETH_MAINNET: {
         if (_role === 'redeemer')
-          connectWithEthWallet(_pToken, 'redeemer', null, dispatch, _force)
+          connectWithEthWallet(_pToken, 'redeemer', null, _dispatch, _force)
         break
       }
       case PBTC_ON_ETH_TESTNET: {
         if (_role === 'redeemer')
-          connectWithEthWallet(_pToken, 'redeemer', null, dispatch, _force)
+          connectWithEthWallet(_pToken, 'redeemer', null, _dispatch, _force)
         break
       }
       case PBTC_ON_EOS_MAINNET: {
         if (_role === 'redeemer')
-          connectWithScatter(_pToken, 'redeemer', dispatch)
+          connectWithScatter(_pToken, 'redeemer', _dispatch)
         break
       }
       case PLTC_ON_EOS_MAINNET: {
         if (_role === 'redeemer')
-          connectWithScatter(_pToken, 'redeemer', dispatch)
+          connectWithScatter(_pToken, 'redeemer', _dispatch)
         break
       }
       case PBTC_ON_EOS_TESTNET: {
         if (_role === 'redeemer')
-          connectWithScatter(_pToken, 'redeemer', dispatch)
+          connectWithScatter(_pToken, 'redeemer', _dispatch)
         break
       }
       case PLTC_ON_ETH_MAINNET: {
         if (_role === 'redeemer')
-          connectWithEthWallet(_pToken, 'redeemer', null, dispatch, _force)
+          connectWithEthWallet(_pToken, 'redeemer', null, _dispatch, _force)
         break
       }
       case PLTC_ON_ETH_TESTNET: {
         if (_role === 'redeemer')
-          connectWithEthWallet(_pToken, 'redeemer', null, dispatch, _force)
+          connectWithEthWallet(_pToken, 'redeemer', null, _dispatch, _force)
+        break
+      }
+      case PETH_ON_EOS_MAINNET: {
+        if (_role === 'redeemer')
+          connectWithScatter(_pToken, 'redeemer', _dispatch)
+        else if (_role === 'issuer') {
+          connectWithEthWallet(_pToken, 'issuer', null, _dispatch, _force)
+        }
         break
       }
       default:
@@ -104,43 +118,51 @@ const connectWithSpecificWallet = (_pToken, _role, _force) => {
 }
 
 const disconnectFromSpecificWallet = (_pToken, _role) => {
-  return async dispatch => {
+  return async _dispatch => {
     const release = await mutex.acquire()
 
     switch (_pToken.id) {
       case PBTC_ON_ETH_MAINNET: {
         if (_role === 'redeemer')
-          disconnectFromEthWallet('redeemer', null, dispatch)
+          disconnectFromEthWallet('redeemer', null, _dispatch)
         break
       }
       case PBTC_ON_ETH_TESTNET: {
         if (_role === 'redeemer')
-          disconnectFromEthWallet('redeemer', null, dispatch)
+          disconnectFromEthWallet('redeemer', null, _dispatch)
         break
       }
       case PBTC_ON_EOS_MAINNET: {
         if (_role === 'redeemer')
-          disconnectFromScatter(_pToken, 'redeemer', dispatch)
+          disconnectFromScatter(_pToken, 'redeemer', _dispatch)
         break
       }
       case PLTC_ON_EOS_MAINNET: {
         if (_role === 'redeemer')
-          disconnectFromScatter(_pToken, 'redeemer', dispatch)
+          disconnectFromScatter(_pToken, 'redeemer', _dispatch)
         break
       }
       case PBTC_ON_EOS_TESTNET: {
         if (_role === 'redeemer')
-          disconnectFromScatter(_pToken, 'redeemer', dispatch)
+          disconnectFromScatter(_pToken, 'redeemer', _dispatch)
         break
       }
       case PLTC_ON_ETH_MAINNET: {
         if (_role === 'redeemer')
-          disconnectFromEthWallet('redeemer', null, dispatch)
+          disconnectFromEthWallet('redeemer', null, _dispatch)
         break
       }
       case PLTC_ON_ETH_TESTNET: {
         if (_role === 'redeemer')
-          disconnectFromEthWallet('redeemer', null, dispatch)
+          disconnectFromEthWallet('redeemer', null, _dispatch)
+        break
+      }
+      case PETH_ON_EOS_MAINNET: {
+        if (_role === 'redeemer')
+          disconnectFromScatter(_pToken, 'redeemer', _dispatch)
+        else if (_role === 'issuer') {
+          disconnectFromEthWallet('issuer', null, _dispatch)
+        }
         break
       }
       default:
@@ -152,36 +174,44 @@ const disconnectFromSpecificWallet = (_pToken, _role) => {
 }
 
 const changeSpecificWallet = (_pToken, _role) => {
-  return async dispatch => {
+  return async _dispatch => {
     const release = await mutex.acquire()
 
     switch (_pToken.id) {
       case PBTC_ON_ETH_MAINNET: {
-        connectWithEthWallet(_pToken, 'redeemer', null, dispatch, true)
+        connectWithEthWallet(_pToken, 'redeemer', null, _dispatch, true)
         break
       }
       case PBTC_ON_ETH_TESTNET: {
-        connectWithEthWallet(_pToken, 'redeemer', null, dispatch, true)
+        connectWithEthWallet(_pToken, 'redeemer', null, _dispatch, true)
         break
       }
       case PBTC_ON_EOS_MAINNET: {
-        connectWithScatter(_pToken, 'redeemer', dispatch)
+        connectWithScatter(_pToken, 'redeemer', _dispatch)
         break
       }
       case PLTC_ON_EOS_MAINNET: {
-        connectWithScatter(_pToken, 'redeemer', dispatch)
+        connectWithScatter(_pToken, 'redeemer', _dispatch)
         break
       }
       case PBTC_ON_EOS_TESTNET: {
-        connectWithScatter(_pToken, 'redeemer', dispatch)
+        connectWithScatter(_pToken, 'redeemer', _dispatch)
         break
       }
       case PLTC_ON_ETH_MAINNET: {
-        connectWithEthWallet(_pToken, 'redeemer', null, dispatch, true)
+        connectWithEthWallet(_pToken, 'redeemer', null, _dispatch, true)
         break
       }
       case PLTC_ON_ETH_TESTNET: {
-        connectWithEthWallet(_pToken, 'redeemer', null, dispatch, true)
+        connectWithEthWallet(_pToken, 'redeemer', null, _dispatch, true)
+        break
+      }
+      case PETH_ON_EOS_MAINNET: {
+        if (_role === 'redeemer')
+          connectWithScatter(_pToken, 'redeemer', _dispatch)
+        else if (_role === 'issuer') {
+          connectWithEthWallet(_pToken, 'issuer', null, _dispatch, true)
+        }
         break
       }
       default:

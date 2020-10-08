@@ -46,7 +46,7 @@ const Main = props => {
                       src={`./assets/${props.pTokenSelected.issueFrom}.png`}
                       height="22"
                       width="22"
-                      alt="redeem from logo"
+                      alt="issue from logo"
                     />
                     <img
                       src="./assets/right.png"
@@ -59,7 +59,7 @@ const Main = props => {
                       src={`./assets/${props.pTokenSelected.name}-${props.pTokenSelected.network}.png`}
                       height="22"
                       width="22"
-                      alt="redeem to logo"
+                      alt="redeem from logo"
                     />
                   </div>
                 </div>
@@ -120,7 +120,7 @@ const Main = props => {
                       src={`./assets/${props.pTokenSelected.name}-${props.pTokenSelected.network}.png`}
                       height="22"
                       width="22"
-                      alt="redeem from logo"
+                      alt="issue from logo"
                     />
                     <img
                       src="./assets/right.png"

@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 import { getCorresponsingVisibleAddressFormat } from '../../utils/account-viewer'
 import Process from './process/Process'
 import PbtcIssueCard from './pbtcIssueCard/PbtcIssueCard'
-import PeosIssueCard from './peosIssueCard/PeosIssueCard'
+import PethIssueCard from './pethIssueCard/PethIssueCard'
 import PltcIssueCard from './pltcIssueCard/PltcIssueCard'
 import MiniCard from '../utils/MiniCard'
 import Alert from '../utils/Alert'
 import Input from '../utils/Input'
 import Button from '../utils/Button'
+import CardHeader from './CardHeader/CardHeader'
 
 const PTokens = props => {
   const [isRedeeming, setIsRedeeming] = useState(false)
@@ -70,31 +71,19 @@ const PTokens = props => {
                       : 'col-xl-4') + ' col-12 mt-10'
                   }
                 >
-                  <div className="card bg-gray">
-                    <div className="card-body">
-                      <div className="row">
-                        <div className="col-12 mr-0">
-                          <div className="text-xxs text-gray line-height-1 font-weight-light">
-                            YOUR{' '}
-                            {`${props.pTokenSelected.redeemFrom} ${
-                              props.pTokenSelected.redeemFrom === 'EOS'
-                                ? 'ACCOUNT'
-                                : 'ADDRESS'
-                            }`}
-                          </div>
-                          <div className="text-gray text-xxl line-height-1 font-weight-light mt-10 text-on-1-row">
-                            {props.redeemerAccount
-                              ? getCorresponsingVisibleAddressFormat(
-                                  props.pTokenSelected,
-                                  'redeemer',
-                                  props.redeemerAccount
-                                )
-                              : '-'}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <MiniCard
+                    title={`YOUR ${`${props.pTokenSelected.redeemFrom} ${
+                      props.pTokenSelected.redeemFrom === 'EOS'
+                        ? 'ACCOUNT'
+                        : 'ADDRESS'
+                    }`}`}
+                    value={getCorresponsingVisibleAddressFormat(
+                      props.pTokenSelected,
+                      'redeemer',
+                      props.redeemerAccount
+                    )}
+                    measure={''}
+                  />
                 </div>
               ) : null}
               {props.pTokenSelected.name !== 'pBTC' && props.issuerAccount ? (
@@ -103,7 +92,7 @@ const PTokens = props => {
                     title={`YOUR ${props.pTokenSelected.issueFrom} ACCOUNT`}
                     value={getCorresponsingVisibleAddressFormat(
                       props.pTokenSelected,
-                      'redeemer',
+                      'issuer',
                       props.issuerAccount
                     )}
                     measure={''}
@@ -127,9 +116,10 @@ const PTokens = props => {
                 onChangeIssueAccount={props.onChangeIssueAccount}
                 onIssue={props.onIssue}
               />
-            ) : props.pTokenSelected.name === 'pEOS' ? (
-              <PeosIssueCard
+            ) : props.pTokenSelected.name === 'pETH' ? (
+              <PethIssueCard
                 pTokenSelected={props.pTokenSelected}
+                suggestedRedimeerAccounts={props.suggestedRedimeerAccounts}
                 typedIssueAccount={props.typedIssueAccount}
                 amountToIssue={props.amountToIssue}
                 onChangeAmountToIssue={props.onChangeAmountToIssue}
@@ -148,38 +138,7 @@ const PTokens = props => {
           </div>
           <div className="col-xl-6 mt-xl-0 mt-3">
             <div className="card bg-light-gray no-shadow border-0 height-max">
-              <div className="card-header mb-0 bg-light-gray pl-0 pt-0">
-                <div className="row align-items-center">
-                  <div className="col-12 col-md-9">
-                    <div className="text-left text-gray text-xxl font-weight-light">
-                      Redeem {props.pTokenSelected.name}{' '}
-                      <span className="text-md">(Peg-out)</span>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-3 text-md-right pl-0 pr-0 mt-10 mt-0-md mb-10 mb-0-md">
-                    <img
-                      className="ml-20 mr-10"
-                      src={`../assets/${props.pTokenSelected.name}-${props.pTokenSelected.network}.png`}
-                      height="22"
-                      width="22"
-                      alt="redeem from logo"
-                    />
-                    <img
-                      src="../assets/right.png"
-                      height="22"
-                      width="22"
-                      alt="redeem from logo"
-                    />
-                    <img
-                      className="ml-10"
-                      src={`../assets/${props.pTokenSelected.issueFrom}.png`}
-                      height="22"
-                      width="22"
-                      alt="redeem to logo"
-                    />
-                  </div>
-                </div>
-              </div>
+              <CardHeader type="redeem" pTokenSelected={props.pTokenSelected} />
               <div className="card-body pt-0">
                 <Input
                   withButton={true}

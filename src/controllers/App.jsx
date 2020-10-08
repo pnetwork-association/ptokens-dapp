@@ -132,7 +132,7 @@ class App extends React.Component {
           <Route
             exact
             path={
-              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pltc-on-eos)'
+              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pltc-on-eos|peth-on-eos)'
             }
             render={() => {
               return (
@@ -150,7 +150,7 @@ class App extends React.Component {
           <Route
             exact
             path={
-              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pltc-on-eos)/pnetwork'
+              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pltc-on-eos|peth-on-eos)/pnetwork'
             }
             render={() => {
               return (
@@ -168,7 +168,7 @@ class App extends React.Component {
           <Route
             exact
             path={
-              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pltc-on-eos)/issue-redeem'
+              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pltc-on-eos|peth-on-eos)/issue-redeem'
             }
             render={() => {
               return (
@@ -186,7 +186,7 @@ class App extends React.Component {
           <Route
             exact
             path={
-              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pltc-on-eos)/settings'
+              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pltc-on-eos|peth-on-eos)/settings'
             }
             render={() => {
               return (
