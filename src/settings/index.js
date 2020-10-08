@@ -213,7 +213,8 @@ const settings = {
       redeemFrom: 'EOS',
       realDecimals: 18,
       contractDecimals: 18,
-      network: 'mainnet'
+      network: 'mainnet',
+      tokenAddress: '0x0000000000000000000000000000000000000000'
     },
     {
       id: PBTC_ON_ETH_TESTNET,

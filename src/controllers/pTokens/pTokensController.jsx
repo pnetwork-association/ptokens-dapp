@@ -21,6 +21,7 @@ import { getMinumIssuableAmount } from '../../utils/minum-issuable-amount'
 import { getMinumRedeemableAmount } from '../../utils/minimun-redeeamble-amount'
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
 import { getPossiblesAccounts } from '../../utils/accounts-autocomplete'
+import BigNumber from 'bignumber.js'
 
 const sleep = _ms => new Promise(resolve => setTimeout(resolve, _ms))
 
@@ -177,7 +178,7 @@ export class pTokenControllers extends React.Component {
     }
 
     //filling input with eth address when pToken is pBTC
-    const enablers = ['pBTC', 'pLTC']
+    const enablers = ['pBTC', 'pLTC', 'pETH']
     if (
       (_prevProps.redeemerAccount !== this.state.currentRedeemerAccount &&
         enablers.includes(this.props.pTokenSelected.name)) ||
@@ -258,36 +259,24 @@ export class pTokenControllers extends React.Component {
           return
         }
 
-        if (this.props.pTokenSelected.redeemFrom === 'EOS') {
-          const rpc = getCorrespondingReadOnlyProvider(
-            this.props.pTokenSelected,
-            'redeemer'
-          )
-
-          try {
-            await rpc.get_account(this.props.pTokensParams.typedIssueAccount)
-          } catch (err) {
-            /*this.showAlert('danger', "This EOS account doesn't exist yet")
-            this.setState({
-              localError: true
-            })
-            return*/
+        if (this.props.pTokenSelected.name === 'pETH') {
+          if (!this.props.issuerIsConnected) {
+            this.showAlert('danger', `Please connect your Ethereum wallet`)
+            return
           }
         }
 
         this.props.resetDepositAddress()
 
         const decimals = this.props.pTokenSelected.realDecimals
-        const parsedAmountToIssue = parseFloat(
-          this.props.pTokensParams.amountToIssue
-        ).toFixed(decimals)
-        const minimunIssuableAmount = getMinumIssuableAmount(
-          this.props.pTokenSelected.name
-        )
-        if (parsedAmountToIssue < minimunIssuableAmount) {
+        // prettier-ignore
+        const parsedAmountToIssue = parseFloat(this.props.pTokensParams.amountToIssue).toFixed(decimals)
+        // prettier-ignore
+        const minimumIssuableAmount = getMinumIssuableAmount(this.props.pTokenSelected.name)
+        if (parsedAmountToIssue < minimumIssuableAmount) {
           this.showAlert(
             'danger',
-            `Impossible to mint less than ${minimunIssuableAmount} ${this.props.pTokenSelected.name}`
+            `Impossible to mint less than ${minimumIssuableAmount} ${this.props.pTokenSelected.name}`
           )
           return
         }
@@ -302,12 +291,16 @@ export class pTokenControllers extends React.Component {
           this.props.pTokenSelected
         )
 
+        let amountToIssue = this.props.pTokensParams.amountToIssue
+        if (this.props.pTokenSelected.name === 'pETH') {
+          amountToIssue = BigNumber(
+            this.props.pTokensParams.amountToIssue
+          ).multipliedBy(1e18)
+        }
+
         this.props.issue(
           this.props.pTokenSelected,
-          [
-            parseFloat(this.props.pTokensParams.amountToIssue),
-            this.props.pTokensParams.typedIssueAccount
-          ],
+          [amountToIssue, this.props.pTokensParams.typedIssueAccount],
           {
             issuer: this.props.issuerProvider,
             redeemer: redeemerReadOnlyProvider

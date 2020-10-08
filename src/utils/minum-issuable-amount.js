@@ -1,4 +1,4 @@
-const MINIMUM_ISSUABLE_PETH_AMOUNT = 1e-9
+const MINIMUM_ISSUABLE_PETH_AMOUNT = 0.000000001
 const PETH_DECIMALS = 18
 
 const getMinumIssuableAmount = _type => {

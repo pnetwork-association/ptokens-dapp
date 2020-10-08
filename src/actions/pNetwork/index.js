@@ -51,10 +51,9 @@ const setNode = _pToken => {
         endpoint: endpointManuallySelected
       })
     } else {
-      return
       const nodeSelector = new NodeSelector({
         pToken: {
-          name: _pToken.name,
+          name: _pToken.name === 'pETH' ? 'pweth' : _pToken.name,
           hostBlockchain: _pToken.redeemFrom
         },
         networkType: _pToken.network
@@ -90,7 +89,13 @@ const setNode = _pToken => {
         })
       // prettier-ignore
       } else if (_pToken.name === 'pETH' && _pToken.network === 'mainnet') {
-        console.log('TODO peth node selection')
+        selectedNode = new Node({
+          endpoint: 'https://pethoneos-node-1a.ngrok.io',
+          pToken: {
+            name: 'pweth',
+            hostBlockchain: _pToken.redeemFrom
+          }
+        })
       } else {
         try {
           selectedNode = await nodeSelector.select()
@@ -126,7 +131,10 @@ const setNode = _pToken => {
       payload: {
         pToken: Object.assign({}, _pToken, {
           nodeInfo: {
-            contractAddress: info.smart_contract_address,
+            contractAddress:
+              _pToken.name === 'pETH'
+                ? info.host_smart_contract_address
+                : info.smart_contract_address,
             publicKey: info.public_key,
             endpoint: selectedNode ? selectedNode.endpoint : null,
             isManuallySelected: endpointManuallySelected ? true : false,
@@ -180,7 +188,10 @@ const setNodeManually = (_pToken, _endpoint) => {
       payload: {
         pToken: Object.assign({}, _pToken, {
           nodeInfo: {
-            contractAddress: '0x' + info.smart_contract_address,
+            contractAddress:
+              _pToken.name === 'pETH'
+                ? info.host_smart_contract_address
+                : info.smart_contract_address,
             publicKey: info.public_key,
             endpoint: _endpoint,
             isManuallySelected: true,

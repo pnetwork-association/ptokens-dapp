@@ -69,10 +69,9 @@ const setSelectedpToken = (_pToken, _withNodeSelection = true) => {
 const issue = (_pToken, _params, _configs) => {
   return async _dispatch => {
     const ptokens = _getSelectedpToken(_pToken, _configs)
-
-    ptokens[_pToken.name.toLowerCase()].nodeSelector.setEndpoint(
-      _pToken.nodeInfo.endpoint
-    )
+    ptokens[
+      _pToken.name === 'pETH' ? 'pweth' : _pToken.name.toLowerCase()
+    ].nodeSelector.setEndpoint(_pToken.nodeInfo.endpoint)
 
     switch (_pToken.name) {
       case 'pETH': {
@@ -97,9 +96,9 @@ const redeem = (_pToken, _params, _configs) => {
   return _dispatch => {
     const ptokens = _getSelectedpToken(_pToken, _configs)
 
-    ptokens[_pToken.name.toLowerCase()].nodeSelector.setEndpoint(
-      _pToken.nodeInfo.endpoint
-    )
+    ptokens[
+      _pToken.name === 'pETH' ? 'pweth' : _pToken.name.toLowerCase()
+    ].nodeSelector.setEndpoint(_pToken.nodeInfo.endpoint)
 
     switch (_pToken.name) {
       case 'pETH': {
@@ -255,7 +254,7 @@ const setCustomRpc = (_rpc, _type) => {
 }
 
 const _getCorrectConfigs = (_pToken, _configs) => {
-  const { redeemer } = _configs
+  const { redeemer, issuer } = _configs
 
   if (_pToken.id === PBTC_ON_ETH_MAINNET) {
     return {
@@ -326,8 +325,17 @@ const _getCorrectConfigs = (_pToken, _configs) => {
     }
   }
   if (_pToken.id === PETH_ON_EOS_MAINNET) {
-    console.log('TODO actions peth on eos')
-    return {}
+    return {
+      perc20: {
+        pToken: 'pweth',
+        ethNetwork: 'mainnet',
+        ethProvider: issuer,
+        eosRpc: settings[PETH_ON_EOS_MAINNET].eos.provableEndpoint,
+        eosSignatureProvider: redeemer,
+        hostBlockchain: 'eos',
+        tokenAddress: '0x0000000000000000000000000000000000000000'
+      }
+    }
   }
 }
 

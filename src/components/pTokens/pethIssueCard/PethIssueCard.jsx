@@ -31,6 +31,7 @@ const PethIssueCard = props => {
           value={props.typedIssueAccount}
           size={'small'}
           onChange={e => props.onChangeIssueAccount(e.target.value)}
+          onChangeFromSelection={value => props.onChangeIssueAccount(value)}
         />
         <hr />
       </div>

@@ -50,8 +50,8 @@ const connectWithCorrectWallets = (_pToken, _currentProviders, _force) => {
         break
       }
       case PETH_ON_EOS_MAINNET: {
-        connectWithEthWallet(_pToken, 'issuer', redeemer, _dispatch, _force)
         connectWithScatter(_pToken, 'redeemer', _dispatch)
+        connectWithEthWallet(_pToken, 'issuer', redeemer, _dispatch, _force)
         break
       }
       default:
