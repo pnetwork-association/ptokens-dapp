@@ -46,9 +46,6 @@ const middleware = ({ dispatch }) => {
         dispatch(
           connectWithSpecificWallet(_action.payload.pToken, 'redeemer', false)
         )
-        dispatch(
-          connectWithSpecificWallet(_action.payload.pToken, 'issuer', false)
-        )
       }
 
       // load balance of the new account selected when wallet changes.

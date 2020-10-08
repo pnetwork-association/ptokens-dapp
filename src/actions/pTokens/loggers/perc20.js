@@ -70,10 +70,8 @@ const perc20LoggedIssue = async (_ptokens, _params, _pToken, _dispatch) => {
           id: 'enclave-transaction-broadcast'
         })
       )
-
-      const explorer = `${
-        settings[_pToken.id][_pToken.redeemFrom.toLowerCase()].explorer
-      }tx/${report.broadcast_tx_hash}`
+      // prettier-ignore
+      const explorer = `${settings[_pToken.id][_pToken.redeemFrom.toLowerCase()].explorer}tx/${report.broadcast_tx_hash}`
 
       _dispatch(
         LogHandler.addItem({
@@ -129,20 +127,10 @@ const perc20LoggedIssue = async (_ptokens, _params, _pToken, _dispatch) => {
 }
 
 const hostTransactionId = {
-  eos: 'transaction_id',
-  eth: 'transactionHash'
+  eos: 'transaction_id'
 }
 
 const perc20LoggedRedeem = (_ptokens, _params, _pToken, _dispatch) => {
-  _dispatch(
-    LogHandler.addItem({
-      value: `${_pToken.name} burn transaction pending...`,
-      success: true,
-      waiting: false,
-      id: 'burn-pending'
-    })
-  )
-
   _dispatch(
     LogHandler.addItem({
       value: 'Waiting for confirmation...',
@@ -152,16 +140,13 @@ const perc20LoggedRedeem = (_ptokens, _params, _pToken, _dispatch) => {
     })
   )
 
-  _ptokens.erc20
+  _ptokens[_pToken.name === 'pETH' ? 'pweth' : _pToken.name.toLowerCase()]
     .redeem(..._params)
     .once('hostTxConfirmed', _tx => {
-      const explorer = `${
-        settings[_pToken.id][_pToken.redeemFrom.toLowerCase()].explorer
-      }tx/${_tx[hostTransactionId[_pToken.redeemFrom.toLowerCase()]]}`
-
-      const message = `Burn Transaction confirmed! ${parseFloat(
-        _params[0]
-      ).toFixed(18)} ${_pToken.name} Burnt`
+      // prettier-ignore
+      const explorer = `${settings[_pToken.id][_pToken.redeemFrom.toLowerCase()].explorer}tx/${_tx[hostTransactionId[_pToken.redeemFrom.toLowerCase()]]}`
+      // prettier-ignore
+      const message = `Burn Transaction confirmed! ${parseFloat(_params[0]).toFixed(18)} ${_pToken.name} Burnt`
 
       _dispatch(
         LogHandler.updateItem('burn-confirmation', {
@@ -214,9 +199,8 @@ const perc20LoggedRedeem = (_ptokens, _params, _pToken, _dispatch) => {
         })
       )
 
-      const explorer = `${settings[_pToken.id].btc.explorer}tx/${
-        report.broadcast_tx_hash
-      }`
+      // prettier-ignore
+      const explorer = `${settings[_pToken.id].eth.explorer}tx/${report.broadcast_tx_hash}`
 
       _dispatch(
         LogHandler.addItem({
@@ -237,7 +221,7 @@ const perc20LoggedRedeem = (_ptokens, _params, _pToken, _dispatch) => {
         })
       )
     })
-    .then(() => {
+    .once('nativeTxConfirmed', () => {
       _dispatch(
         LogHandler.updateItem('confirmation-final-burn', {
           value: 'ETH transaction confirmed!',

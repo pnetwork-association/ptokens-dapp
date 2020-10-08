@@ -212,7 +212,7 @@ const settings = {
       issueFrom: 'ETH',
       redeemFrom: 'EOS',
       realDecimals: 18,
-      contractDecimals: 18,
+      contractDecimals: 1,
       network: 'mainnet',
       tokenAddress: '0x0000000000000000000000000000000000000000'
     },

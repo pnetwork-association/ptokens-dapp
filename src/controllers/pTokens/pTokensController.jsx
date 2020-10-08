@@ -348,9 +348,8 @@ export class pTokenControllers extends React.Component {
         this.props.pTokensParams.realDecimals
       )
 
-    const minimunRedeemableAmount = getMinumRedeemableAmount(
-      this.props.pTokenSelected.name
-    )
+    // prettier-ignore
+    const minimunRedeemableAmount = getMinumRedeemableAmount(this.props.pTokenSelected.name)
     if (parsedAmountToRedeem < minimunRedeemableAmount) {
       this.showAlert(
         'danger',
