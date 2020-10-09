@@ -18,7 +18,7 @@ const connectWithCorrectWallets = (_pToken, _currentProviders, _force) => {
   return async _dispatch => {
     const release = await mutex.acquire()
 
-    const { redeemer } = _currentProviders
+    const { redeemer, issuer } = _currentProviders
 
     switch (_pToken.id) {
       case PBTC_ON_ETH_MAINNET: {
@@ -51,7 +51,7 @@ const connectWithCorrectWallets = (_pToken, _currentProviders, _force) => {
       }
       case PETH_ON_EOS_MAINNET: {
         connectWithScatter(_pToken, 'redeemer', _dispatch)
-        connectWithEthWallet(_pToken, 'issuer', redeemer, _dispatch, _force)
+        connectWithEthWallet(_pToken, 'issuer', issuer, _dispatch, _force)
         break
       }
       default:

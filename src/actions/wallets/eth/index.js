@@ -46,8 +46,8 @@ const connectWithEthWallet = async (
     return
   }
 
-  if (web3Connect.injectedProvider && !_force) {
-    const provider = await Web3Connect.ConnectToInjected()
+  if (web3Connect.providerController.injectedProvider && !_force) {
+    const provider = await web3Connect.connectTo('injected')
     const wallet = {
       name: _getWalletNameByProvider(provider),
       type: 'multiWallet'

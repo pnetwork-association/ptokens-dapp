@@ -51,8 +51,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(issue(_pToken, _params, _configs)),
     redeem: (_pToken, _params, _configs) =>
       dispatch(redeem(_pToken, _params, _configs)),
-    getBalance: (_pToken, _account, _redeemerNetwork, configs) =>
-      dispatch(getBalance(_pToken, _account, configs)),
+    getBalance: (_pToken, _account) => dispatch(getBalance(_pToken, _account)),
     resetDepositAddress: () => dispatch(resetDepositAddress()),
     resetIssueSuccess: () => dispatch(resetIssueSuccess()),
     resetRedeemSuccess: () => dispatch(resetRedeemSuccess()),
@@ -80,10 +79,21 @@ export class pTokenControllers extends React.Component {
       suggestedRedimeerAccounts: []
     }
 
-    this.props.connectWithCorrectWallets(this.props.pTokenSelected, {
-      redeemer: this.props.redeemerProvider,
-      issuer: this.props.issuerProvider
-    })
+    if (this.props.redeemerAccount) {
+      this.props.setpTokenParams(
+        Object.assign({}, this.props.pTokensParams, {
+          typedIssueAccount: this.props.redeemerAccount
+        })
+      )
+    }
+
+    if (this.props.issuerAccount) {
+      this.props.setpTokenParams(
+        Object.assign({}, this.props.pTokensParams, {
+          typedRedeemAccount: this.props.issuerAccount
+        })
+      )
+    }
   }
 
   static getDerivedStateFromProps(_prevProps, _prevState) {
@@ -109,26 +119,44 @@ export class pTokenControllers extends React.Component {
   }
 
   async componentDidUpdate(_prevProps, _prevState) {
+    const {
+      pTokenSelected,
+      getBalance,
+      isRedeemSuccedeed,
+      setpTokenParams,
+      pTokensParams,
+      redeemerAccount,
+      isIssueSuccedeed,
+      resetIssueSuccess,
+      resetIssueError,
+      issueError,
+      resetRedeemSuccess,
+      redeemError
+    } = this.props
+
+    const {
+      pTokenSelectedId,
+      isIssueTerminated,
+      isRedeemTerminated,
+      currentIssuerAccount,
+      currentRedeemerAccount,
+      currentpTokenName,
+      currentSelectedNetwork
+    } = this.state
+
     if (
-      this.props.pTokenSelected.id !== this.state.pTokenSelectedId &&
-      this.props.pTokenSelected.nodeInfo.contractAddress
+      // prettier-ignore
+      pTokenSelected.id !== pTokenSelectedId && pTokenSelected.nodeInfo.contractAddress
     ) {
       this.setState({
-        pTokenSelectedId: this.props.pTokenSelected.id
+        pTokenSelectedId: pTokenSelected.id
       })
 
-      this.props.getBalance(
-        this.props.pTokenSelected,
-        this.props.redeemerAccount,
-        {
-          redeemer: getCorrespondingReadOnlyProvider(this.props.pTokenSelected),
-          issuer: this.props.issuerProvider
-        }
-      )
+      getBalance(pTokenSelected, redeemerAccount)
     }
 
-    if (this.props.isIssueSuccedeed && this.state.isIssueTerminated) {
-      this.props.resetIssueSuccess()
+    if (isIssueSuccedeed && isIssueTerminated) {
+      resetIssueSuccess()
 
       this.setState({
         isIssueTerminated: false,
@@ -136,81 +164,69 @@ export class pTokenControllers extends React.Component {
       })
 
       await sleep(10000)
-      this.props.getBalance(
-        this.props.pTokenSelected,
-        this.props.redeemerAccount,
-        {
-          redeemer: this.props.redeemerProvider,
-          issuer: this.props.issuerProvider
-        }
-      )
+      getBalance(pTokenSelected, redeemerAccount)
     }
 
-    if (
-      _prevProps.issueError !== this.props.issueError &&
-      this.props.issueError
-    ) {
-      this.props.resetIssueError()
+    if (_prevProps.issueError !== issueError && issueError) {
+      resetIssueError()
     }
 
-    if (this.props.isRedeemSuccedeed && this.state.isRedeemTerminated) {
-      this.props.resetRedeemSuccess()
+    if (isRedeemSuccedeed && isRedeemTerminated) {
+      resetRedeemSuccess()
 
       this.setState({
         isRedeemTerminated: false
       })
 
-      this.props.getBalance(
-        this.props.pTokenSelected,
-        this.props.redeemerAccount,
-        {
-          redeemer: this.props.redeemerProvider,
-          issuer: this.props.issuerProvider
-        }
-      )
+      getBalance(pTokenSelected, redeemerAccount)
     }
 
-    if (
-      _prevProps.redeemError !== this.props.redeemError &&
-      this.props.redeemError
-    ) {
-      this.props.resetRedeemError()
+    if (_prevProps.redeemError !== redeemError && redeemError) {
+      resetRedeemError()
     }
 
-    //filling input with eth address when pToken is pBTC
-    const enablers = ['pBTC', 'pLTC', 'pETH']
-    if (
-      (_prevProps.redeemerAccount !== this.state.currentRedeemerAccount &&
-        enablers.includes(this.props.pTokenSelected.name)) ||
-      (_prevProps.pTokenSelected.name !== this.state.currentpTokenName &&
-        enablers.includes(this.props.pTokenSelected.name) &&
-        _prevProps.redeemerAccount)
-    ) {
+    // issue input auto filling
+    if (_prevProps.redeemerAccount !== currentRedeemerAccount) {
       this.setState({
-        currentRedeemerAccount: _prevProps.redeemerAccount,
-        currentpTokenName: _prevProps.pTokenSelected.name
+        currentRedeemerAccount: _prevProps.redeemerAccount
       })
 
-      this.props.setpTokenParams(
-        Object.assign({}, this.props.pTokensParams, {
+      setpTokenParams(
+        Object.assign({}, pTokensParams, {
           typedIssueAccount: _prevProps.redeemerAccount
         })
       )
     }
 
+    // redeem input auto filling
+    const enablers = ['pETH']
+    const { name } = _prevProps.pTokenSelected
     if (
-      this.props.pTokenSelected.network !== this.state.currentSelectedNetwork &&
-      enablers.includes(this.props.pTokenSelected.name)
+      // prettier-ignore
+      (_prevProps.issuerAccount !== currentIssuerAccount || name !== currentpTokenName) &&
+      enablers.includes(name)
     ) {
       this.setState({
-        currentSelectedNetwork: this.props.pTokenSelected.network
+        currentIssuerAccount: _prevProps.issuerAccount
       })
 
-      this.props.setpTokenParams(
-        Object.assign({}, this.props.pTokensParams, {
-          typedIssueAccount: this.props.redeemerAccount
+      setpTokenParams(
+        Object.assign({}, pTokensParams, {
+          typedRedeemAccount: _prevProps.issuerAccount
         })
       )
+    }
+
+    if (_prevProps.pTokenSelected.name !== currentpTokenName) {
+      this.setState({
+        currentpTokenName: _prevProps.pTokenSelected.name
+      })
+    }
+
+    if (pTokenSelected.network !== currentSelectedNetwork) {
+      this.setState({
+        currentSelectedNetwork: pTokenSelected.network
+      })
     }
   }
 

@@ -3,9 +3,7 @@ import Web3 from 'web3'
 import { JsonRpc } from 'eosjs'
 import fetch from 'node-fetch'
 
-//type = issuer or redeemer
-const getCorrespondingReadOnlyProvider = (_pToken, _type) => {
-  // custom rpc
+const getCorrespondingReadOnlyProvider = _pToken => {
   if (_pToken.customHostRpc) {
     if (_pToken.redeemFrom === 'ETH') {
       return new Web3.providers.WebsocketProvider(_pToken.customHostRpc)

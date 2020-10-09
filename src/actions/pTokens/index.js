@@ -119,7 +119,7 @@ const redeem = (_pToken, _params, _configs) => {
   }
 }
 
-const getBalance = (_pToken, _account, _configs) => {
+const getBalance = (_pToken, _account) => {
   return async dispatch => {
     if (!_pToken.nodeInfo.isCompatible) return
 

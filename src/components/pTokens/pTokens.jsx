@@ -39,6 +39,7 @@ const PTokens = props => {
                 <a
                   href="https://medium.com/pnetwork/pnetwork-security-and-progressive-decentralisation-c5552216ca23"
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   you can read this article
                 </a>

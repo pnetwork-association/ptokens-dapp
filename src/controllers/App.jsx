@@ -15,6 +15,7 @@ import { connect } from 'react-redux'
 import { Node } from 'ptokens-node'
 import { setNodeManually, setNode } from '../actions/pNetwork/'
 import { setSelectedPage, enableTestnetInstances } from '../actions/sidebar'
+import { connectWithSpecificWallet } from '../actions/wallets'
 import { setSelectedpToken, setCustomRpc } from '../actions/pTokens'
 import PropTypes from 'prop-types'
 
@@ -39,6 +40,8 @@ const mapDispatchToProps = dispatch => {
     setSelectedpToken: (_pToken, _withNodeSelection) =>
       dispatch(setSelectedpToken(_pToken, _withNodeSelection)),
     setCustomRpc: (_rpc, _type) => dispatch(setCustomRpc(_rpc, _type)),
+    connectWithSpecificWallet: (_pToken, _role, _force) =>
+      dispatch(connectWithSpecificWallet(_pToken, _role, _force)),
     enableTestnetInstances: () => dispatch(enableTestnetInstances())
   }
 }
@@ -74,6 +77,8 @@ class App extends React.Component {
         pToken.redeemFrom === pTokenRedeemFromSelected.toUpperCase()
     )
 
+    const pTokenSelected = pToken ? pToken : this.props.pTokensAvailable[0]
+
     const { node, hostRpc, withTestnetInstances } = queryString.parse(
       window.location.search
     )
@@ -83,21 +88,12 @@ class App extends React.Component {
     }
 
     //if node is present not load the node
-    this.props.setSelectedpToken(
-      pToken ? pToken : this.props.pTokensAvailable[0],
-      node ? false : true
-    )
+    this.props.setSelectedpToken(pTokenSelected, node ? false : true)
 
     if (!page) {
-      this.props.setSelectedPage(
-        0,
-        pToken ? pToken : this.props.pTokensAvailable[0]
-      )
+      this.props.setSelectedPage(0, pTokenSelected)
     } else {
-      this.props.setSelectedPage(
-        pageNameToNumbers[page],
-        pToken ? pToken : this.props.pTokensAvailable[0]
-      )
+      this.props.setSelectedPage(pageNameToNumbers[page], pTokenSelected)
     }
 
     // after setSelectedpToken since it reloads data
@@ -118,7 +114,14 @@ class App extends React.Component {
       return
     }
 
-    this.props.setNode(pToken ? pToken : this.props.pTokensAvailable[0])
+    this.props.setNode(pTokenSelected)
+
+    if (!this.props.issuerIsConnected) {
+      this.props.connectWithSpecificWallet(pTokenSelected, 'issuer', false)
+    }
+    if (!this.props.redeemerIsConnected) {
+      this.props.connectWithSpecificWallet(pTokenSelected, 'redeemer', false)
+    }
   }
 
   componentDidMount() {

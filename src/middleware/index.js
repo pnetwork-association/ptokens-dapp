@@ -1,11 +1,4 @@
-import {
-  getTotalSupply,
-  getBalance
-  /*getBurnNonce,
-  getMintNonce,
-  getTotalIssued,
-  getTotalRedeemed*/
-} from '../actions/pTokens'
+import { getTotalSupply, getBalance } from '../actions/pTokens'
 import {
   getReports,
   getLastProcessedBlock,
@@ -27,8 +20,9 @@ const middleware = ({ dispatch }) => {
   return _next => {
     return async _action => {
       if (_action.type === SET_SELECTED_PTOKEN) {
-        if (_action.payload.withNodeSelection)
-          dispatch(setNode(_action.payload.pToken))
+        const { pToken } = _action.payload
+
+        if (_action.payload.withNodeSelection) dispatch(setNode(pToken))
 
         //reset dat in order to prevent to populate views with wrong data
         dispatch({
@@ -43,9 +37,8 @@ const middleware = ({ dispatch }) => {
         })
 
         //in case an user change pToken "on"
-        dispatch(
-          connectWithSpecificWallet(_action.payload.pToken, 'redeemer', false)
-        )
+        dispatch(connectWithSpecificWallet(pToken, 'redeemer', false))
+        dispatch(connectWithSpecificWallet(pToken, 'issuer', false))
       }
 
       // load balance of the new account selected when wallet changes.
@@ -56,16 +49,7 @@ const middleware = ({ dispatch }) => {
         _action.payload.pToken.nodeInfo &&
         _action.payload.account
       ) {
-        const readOnlyProvider = getCorrespondingReadOnlyProvider(
-          _action.payload.pToken
-        )
-        const configs = {
-          issuer: null,
-          redeemer: readOnlyProvider
-        }
-        dispatch(
-          getBalance(_action.payload.pToken, _action.payload.account, configs)
-        )
+        dispatch(getBalance(_action.payload.pToken, _action.payload.account))
       }
 
       if (_action.type === PTOKENS_SET_NODE_INFO) {
