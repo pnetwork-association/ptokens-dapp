@@ -121,6 +121,15 @@ export class SettingsController extends React.Component {
   }
 
   onChangeRedeemerConnection = _wallet => {
+    if (!_wallet) {
+      this.props.connectWithSpecificWallet(
+        this.props.pTokenSelected,
+        'redeemer',
+        true
+      )
+      return
+    }
+
     this.props.resetDetectedNetwork('redeemer')
     this.props.setpTokenParams(
       Object.assign({}, this.props.pTokensParams, {

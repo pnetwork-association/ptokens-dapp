@@ -38,8 +38,7 @@ const settings = {
   },
   [PBTC_ON_EOS_MAINNET]: {
     eos: {
-      chainId:
-        'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+      chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
       host: 'eos.greymass.com',
       port: 443,
       protocol: 'https',
@@ -71,8 +70,7 @@ const settings = {
   },
   [PLTC_ON_EOS_MAINNET]: {
     eos: {
-      chainId:
-        'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+      chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
       host: 'eos.greymass.com',
       port: 443,
       protocol: 'https',
@@ -87,14 +85,12 @@ const settings = {
   },
   [PETH_ON_EOS_MAINNET]: {
     eos: {
-      chainId:
-        'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+      chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
       host: 'eos.greymass.com',
       port: 443,
       protocol: 'https',
       explorer: 'https://bloks.io/',
-      provableEndpoint:
-        'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
+      provableEndpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
       infuraProjectId: '4762c881ac0c4938be76386339358ed6',
@@ -134,10 +130,8 @@ const settings = {
       host: '23.97.190.44',
       port: 8888,
       protocol: 'http',
-      explorer:
-        'https://local.bloks.io/?nodeUrl=jungle3.cryptolions.io&systemDomain=eosio&hyperionUrl=https%3A%2F%2Fjungle3history.cryptolions.io/',
-      provableEndpoint:
-        'https://corsproxy.ptokens.io/v1/?apiurl=https://pbtc-on-eos-jungle-3.ptokens.io'
+      explorer: 'https://local.bloks.io/?nodeUrl=jungle3.cryptolions.io&systemDomain=eosio&hyperionUrl=https%3A%2F%2Fjungle3history.cryptolions.io/',
+      provableEndpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://pbtc-on-eos-jungle-3.ptokens.io'
     },
     btc: {
       explorer: 'https://blockstream.info/testnet/',

@@ -65,8 +65,8 @@ const getCorresponsingVisibleAddressFormat = (_pToken, _role, _account) => {
     case PETH_ON_EOS_MAINNET: {
       return _role === 'redeemer'
         ? _account
-        : `${_account.slice(0, 9)}...${_account.slice(
-            _account.length - 6,
+        : `${_account.slice(0, 6)}...${_account.slice(
+            _account.length - 4,
             _account.length
           )}`
     }

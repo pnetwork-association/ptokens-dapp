@@ -2,8 +2,6 @@ import {
   PNETWORK_PING_PONG,
   PNETWORK_LAST_ISSUER_PROCESSED_BLOCK_LOADED,
   PNETWORK_LAST_REDEEMER_PROCESSED_BLOCK_LOADED,
-  PNETWORK_BLOCK_SUBMITTED,
-  PNETWORK_RESET_BLOCK_SUBMIT_SUCCESS,
   PNETWORK_REPORT_ISSUE_LOADED,
   PNETWORK_REPORT_REDEEM_LOADED,
   PNETWORK_RESET_DATA,
@@ -15,7 +13,6 @@ const initialState = {
   isActive: false,
   lastIssuerProcessedBlock: null,
   lastRedeemerProcessedBlock: null,
-  isBlockSubmissionSucceeded: null,
   issueReports: [],
   redeemReports: [],
   issuerBlockHeightStatus: null,
@@ -38,18 +35,6 @@ const pNetworkReducer = (_state = initialState, _action) => {
   if (_action.type === PNETWORK_LAST_REDEEMER_PROCESSED_BLOCK_LOADED) {
     return Object.assign({}, _state, {
       lastRedeemerProcessedBlock: _action.payload.block
-    })
-  }
-
-  if (_action.type === PNETWORK_BLOCK_SUBMITTED) {
-    return Object.assign({}, _state, {
-      isBlockSubmissionSucceeded: true
-    })
-  }
-
-  if (_action.type === PNETWORK_RESET_BLOCK_SUBMIT_SUCCESS) {
-    return Object.assign({}, _state, {
-      isBlockSubmissionSucceeded: null
     })
   }
 

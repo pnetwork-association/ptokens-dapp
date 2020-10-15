@@ -18,6 +18,7 @@ import { setSelectedPage, enableTestnetInstances } from '../actions/sidebar'
 import { connectWithSpecificWallet } from '../actions/wallets'
 import { setSelectedpToken, setCustomRpc } from '../actions/pTokens'
 import PropTypes from 'prop-types'
+import Notifications from '../components/utils/Notifications'
 
 history.listen(location => {
   ReactGA.set({ page: location.pathname })
@@ -142,6 +143,8 @@ class App extends React.Component {
                 <React.Fragment>
                   <SidebarController />
                   <MainWrapper>
+                    <Notifications />
+                    <SettingsController />
                     <NodeDetectorController />
                     <NetworkDetectorController />
                     <MainController />
@@ -160,6 +163,8 @@ class App extends React.Component {
                 <React.Fragment>
                   <SidebarController />
                   <MainWrapper>
+                    <Notifications />
+                    <SettingsController />
                     <NodeDetectorController />
                     <NetworkDetectorController />
                     <PNetworkController />
@@ -178,27 +183,11 @@ class App extends React.Component {
                 <React.Fragment>
                   <SidebarController />
                   <MainWrapper>
+                    <Notifications />
+                    <SettingsController />
                     <NodeDetectorController />
                     <NetworkDetectorController />
                     <PTokensController />
-                  </MainWrapper>
-                </React.Fragment>
-              )
-            }}
-          />
-          <Route
-            exact
-            path={
-              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pltc-on-eos|peth-on-eos)/settings'
-            }
-            render={() => {
-              return (
-                <React.Fragment>
-                  <SidebarController />
-                  <MainWrapper>
-                    <NodeDetectorController />
-                    <NetworkDetectorController />
-                    <SettingsController />
                   </MainWrapper>
                 </React.Fragment>
               )

@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import PTokens from '../../components/pTokens/pTokens'
-import NotificationAlert from 'react-notification-alert'
 import * as LogHandler from '../../actions/log'
 import {
   issue,
@@ -22,6 +21,7 @@ import { getMinumRedeemableAmount } from '../../utils/minimun-redeeamble-amount'
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
 import { getPossiblesAccounts } from '../../utils/accounts-autocomplete'
 import BigNumber from 'bignumber.js'
+import { toastr } from 'react-redux-toastr'
 
 const sleep = _ms => new Promise(resolve => setTimeout(resolve, _ms))
 
@@ -230,27 +230,6 @@ export class pTokenControllers extends React.Component {
     }
   }
 
-  showAlert = (_type, _message, _link) => {
-    const options = {
-      place: 'br',
-      message: (
-        <span className="ml-1 font-weight-bold">
-          {_message + '.'}
-          {_link ? (
-            <a href={_link} target="_blank" rel="noopener noreferrer">
-              {' '}
-              link
-            </a>
-          ) : null}
-        </span>
-      ),
-      type: _type,
-      icon: 'fa fa-bell',
-      autoDismiss: 7
-    }
-    this.refs.notify.notificationAlert(options)
-  }
-
   onIssue = async () => {
     this.setState(
       {
@@ -265,8 +244,7 @@ export class pTokenControllers extends React.Component {
           ) ||
           this.props.pTokensParams.typedIssueAccount.length < 4
         ) {
-          this.showAlert(
-            'danger',
+          toastr.error(
             `Please insert a valid ${this.props.pTokenSelected.redeemFrom} address`
           )
           this.setState({
@@ -277,7 +255,7 @@ export class pTokenControllers extends React.Component {
 
         if (this.props.pTokenSelected.name === 'pETH') {
           if (!this.props.issuerIsConnected) {
-            this.showAlert('danger', `Please connect your Ethereum wallet`)
+            toastr.error('Please connect your Ethereum wallet')
             return
           }
         }
@@ -290,8 +268,7 @@ export class pTokenControllers extends React.Component {
         // prettier-ignore
         const minimumIssuableAmount = getMinumIssuableAmount(this.props.pTokenSelected.name)
         if (parsedAmountToIssue < minimumIssuableAmount) {
-          this.showAlert(
-            'danger',
+          toastr.error(
             `Impossible to mint less than ${minimumIssuableAmount} ${this.props.pTokenSelected.name}`
           )
           return
@@ -328,8 +305,7 @@ export class pTokenControllers extends React.Component {
 
   onRedeem = () => {
     if (!this.props.redeemerIsConnected) {
-      this.showAlert(
-        'danger',
+      toastr.error(
         `${this.props.pTokenSelected.redeemFrom} Wallet Not Connected`
       )
       this.setState({
@@ -345,8 +321,7 @@ export class pTokenControllers extends React.Component {
         'issuer'
       )
     ) {
-      this.showAlert(
-        'danger',
+      toastr.error(
         `Please insert a valid ${this.props.pTokenSelected.issueFrom} address`
       )
       this.setState({
@@ -367,8 +342,7 @@ export class pTokenControllers extends React.Component {
     // prettier-ignore
     const minimunRedeemableAmount = getMinumRedeemableAmount(this.props.pTokenSelected.name)
     if (parsedAmountToRedeem < minimunRedeemableAmount) {
-      this.showAlert(
-        'danger',
+      toastr.error(
         `Impossible to redeem less than ${minimunRedeemableAmount} ${this.props.pTokenSelected.name}`
       )
       this.setState({
@@ -501,7 +475,6 @@ export class pTokenControllers extends React.Component {
           onResetLogs={this.onResetLogs}
           onMaxAmountToRedeem={this.setMaxAmountToRedeem}
         />
-        <NotificationAlert ref="notify" />
       </React.Fragment>
     )
   }

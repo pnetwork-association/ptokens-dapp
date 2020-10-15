@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import NotificationAlert from 'react-notification-alert'
 import PNetwork from '../../components/pNetwork/pNetwork'
 import {
   ping,
@@ -10,7 +9,6 @@ import {
 } from '../../actions/pNetwork'
 import { getTotalSupply } from '../../actions/pTokens'
 import { connect } from 'react-redux'
-import { isJsonString } from '../../utils/utils'
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
 import settings from '../../settings'
 
@@ -20,7 +18,6 @@ const mapStateToProps = state => {
     isActive: state.pNetwork.isActive,
     lastIssuerProcessedBlock: state.pNetwork.lastIssuerProcessedBlock,
     lastRedeemerProcessedBlock: state.pNetwork.lastRedeemerProcessedBlock,
-    isBlockSubmissionSucceeded: state.pNetwork.isBlockSubmissionSucceeded,
     issuerBlockHeightStatus: state.pNetwork.issuerBlockHeightStatus,
     redeemerBlockHeightStatus: state.pNetwork.redeemerBlockHeightStatus,
     redeemerReadOnlyProvider: state.wallets.redeemerReadOnlyProvider
@@ -117,46 +114,11 @@ class pNetworkController extends React.Component {
         blockType: null
       })
     }
-
-    if (
-      this.props.isBlockSubmissionSucceeded &&
-      this.state.isBlockSubmissionTerminated &&
-      !_prevState.isBlockSubmissionTerminated
-    ) {
-      this.setState({
-        isBlockSubmissionTerminated: false,
-        blockData: '',
-        blockType: null
-      })
-      this.props.resetSubmitBlockSuccess()
-      this.showAlert('success', 'Block submitted succesfully')
-    }
   }
 
   componentWillUnmount() {
     clearInterval(this.intervalIssuerBlockGetter)
     clearInterval(this.intervalRedeemerBlockGetter)
-  }
-
-  showAlert = (_type, _message, _link) => {
-    const options = {
-      place: 'br',
-      message: (
-        <span className="ml-1 font-weight-bold">
-          {_message + '.'}
-          {_link ? (
-            <a href={_link} target="_blank" rel="noopener noreferrer">
-              {' '}
-              link
-            </a>
-          ) : null}
-        </span>
-      ),
-      type: _type,
-      icon: 'fa fa-bell',
-      autoDismiss: 7
-    }
-    this.refs.notify.notificationAlert(options)
   }
 
   handleChangeBlockType = _blockType => {
@@ -186,16 +148,7 @@ class pNetworkController extends React.Component {
   }
 
   onSubmit = () => {
-    if (!isJsonString(this.state.blockData)) {
-      this.showAlert('danger', 'Please insert a valid JSON string')
-      return
-    }
-
-    this.props.submitBlock(
-      this.props.pTokenSelected,
-      this.state.blockType === 'issuerBlock' ? 'native' : 'host',
-      this.state.blockData
-    )
+    console.log('disabled')
   }
 
   render() {
@@ -215,7 +168,6 @@ class pNetworkController extends React.Component {
           onChangeBlockData={this.handleBlockData}
           onSubmit={this.onSubmit}
         />
-        <NotificationAlert ref="notify" />
       </React.Fragment>
     )
   }

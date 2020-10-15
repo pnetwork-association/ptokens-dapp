@@ -125,38 +125,19 @@ class Sidebar extends React.Component {
             <div className="col-10 pr-0 my-auto">
               <div className="container">
                 <div className="row">
-                  <div
-                    onClick={() => this.props.onChangePage(0)}
-                    className="col-3 d-flex justify-content-center cursor-pointer my-auto pr-0"
-                  >
-                    <div className="text-center">
-                      <i className="icon home"></i>
-                    </div>
-                  </div>
-                  <div
-                    onClick={() => this.props.onChangePage(1)}
-                    className="col-3 d-flex justify-content-center cursor-pointer my-auto pr-0"
-                  >
-                    <div className="text-center">
-                      <i className="icon add"></i>
-                    </div>
-                  </div>
-                  <div
-                    onClick={() => this.props.onChangePage(2)}
-                    className="col-3 d-flex justify-content-center cursor-pointer my-auto pr-0"
-                  >
-                    <div className="text-center">
-                      <i className="icon shape"></i>
-                    </div>
-                  </div>
-                  <div
-                    onClick={() => this.props.onChangePage(3)}
-                    className="col-3 d-flex justify-content-center cursor-pointer my-auto pr-0"
-                  >
-                    <div className="text-center">
-                      <i className="icon settings"></i>
-                    </div>
-                  </div>
+                  {['home', 'add', 'shape'].map((_option, _index) => {
+                    return (
+                      <div
+                        key={_index}
+                        onClick={() => this.props.onChangePage(_index)}
+                        className="col-4 d-flex justify-content-center cursor-pointer my-auto pr-0"
+                      >
+                        <div className="text-center">
+                          <i className={`icon ${_option}`}></i>
+                        </div>
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             </div>
@@ -204,46 +185,36 @@ class Sidebar extends React.Component {
 
               <div className="navbar-divider mb-10"></div>
               <ul className="navbar-nav">
-                <li className="nav-item">
-                  <span
-                    onClick={() => this.props.onChangePage(0)}
-                    className={
-                      this.props.page === 0 ? 'nav-link active' : 'nav-link'
-                    }
-                  >
-                    <i className="icon home"></i>Dashboard
-                  </span>
-                </li>
-                <li className="nav-item">
-                  <span
-                    onClick={() => this.props.onChangePage(1)}
-                    className={
-                      this.props.page === 1 ? 'nav-link active' : 'nav-link'
-                    }
-                  >
-                    <i className="icon add"></i>Issue & Redeem
-                  </span>
-                </li>
-                <li className="nav-item">
-                  <span
-                    onClick={() => this.props.onChangePage(2)}
-                    className={
-                      this.props.page === 2 ? 'nav-link active' : 'nav-link'
-                    }
-                  >
-                    <i className="icon shape"></i>pNetwork
-                  </span>
-                </li>
-                <li className="nav-item">
-                  <span
-                    onClick={() => this.props.onChangePage(3)}
-                    className={
-                      this.props.page === 3 ? 'nav-link active' : 'nav-link'
-                    }
-                  >
-                    <i className="icon settings"></i>Settings
-                  </span>
-                </li>
+                {[
+                  {
+                    name: 'Dashboard',
+                    icon: 'home'
+                  },
+                  {
+                    name: 'Issue & Redeem',
+                    icon: 'add'
+                  },
+                  {
+                    name: 'pNetwork',
+                    icon: 'shape'
+                  }
+                ].map(({ name, icon }, _index) => {
+                  return (
+                    <li className="nav-item" key={_index}>
+                      <span
+                        onClick={() => this.props.onChangePage(_index)}
+                        className={
+                          this.props.page === _index
+                            ? 'nav-link active'
+                            : 'nav-link'
+                        }
+                      >
+                        <i className={`icon ${icon}`}></i>
+                        {name}
+                      </span>
+                    </li>
+                  )
+                })}
               </ul>
               <div className="navbar-divider mt-10"></div>
             </div>

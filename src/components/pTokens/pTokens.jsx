@@ -20,98 +20,25 @@ const PTokens = props => {
 
   return (
     <React.Fragment>
-      <div className="container-fluid mt-20 text-center">
-        <Alert
-          type={'warning'}
-          size={'exsmall'}
-          text={
-            props.pTokenSelected.name === 'pETH' ? (
-              <React.Fragment>
-                Disclaimer: the security audits of pETH-on-EOS are currently in
-                progress, use with caution and proceed just if you know what you
-                are doing!{' '}
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                Make sure you know what you are doing, DeFi isn't for the faint
-                of heart just yet! To know more about the security model of
-                pTokens and its progressive decentralisation approach{' '}
-                <a
-                  href="https://medium.com/pnetwork/pnetwork-security-and-progressive-decentralisation-c5552216ca23"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  you can read this article
-                </a>
-                .
-              </React.Fragment>
-            )
-          }
-        />
-      </div>
       <div className="header">
         <div className="container-fluid">
           <div className="header-body">
             <div className="row">
-              {props.redeemerProvider ? (
-                <div
-                  className={
-                    (props.pTokenSelected.name === 'pBTC' ||
-                    props.pTokenSelected.name === 'pLTC'
-                      ? 'col-xl-6'
-                      : 'col-xl-4') + ' col-12 mt-10'
+              <div className="col-6">
+                <MiniCard
+                  title="YOUR BALANCE"
+                  value={
+                    props.balance || props.balance === 0
+                      ? props.balance.toFixed(
+                          props.pTokenSelected.name === 'pETH'
+                            ? 10
+                            : props.pTokenSelected.realDecimals
+                        )
+                      : null
                   }
-                >
-                  <MiniCard
-                    title="YOUR BALANCE"
-                    value={
-                      props.balance || props.balance === 0
-                        ? props.balance.toFixed(
-                            props.pTokenSelected.realDecimals
-                          )
-                        : null
-                    }
-                    measure={props.pTokenSelected.name}
-                  />
-                </div>
-              ) : null}
-              {props.redeemerProvider ? (
-                <div
-                  className={
-                    (props.pTokenSelected.name === 'pBTC' ||
-                    props.pTokenSelected.name === 'pLTC'
-                      ? 'col-xl-6'
-                      : 'col-xl-4') + ' col-12 mt-10'
-                  }
-                >
-                  <MiniCard
-                    title={`YOUR ${`${props.pTokenSelected.redeemFrom} ${
-                      props.pTokenSelected.redeemFrom === 'EOS'
-                        ? 'ACCOUNT'
-                        : 'ADDRESS'
-                    }`}`}
-                    value={getCorresponsingVisibleAddressFormat(
-                      props.pTokenSelected,
-                      'redeemer',
-                      props.redeemerAccount
-                    )}
-                    measure={''}
-                  />
-                </div>
-              ) : null}
-              {props.pTokenSelected.name !== 'pBTC' && props.issuerAccount ? (
-                <div className="col-12 col-xl-4 mt-10">
-                  <MiniCard
-                    title={`YOUR ${props.pTokenSelected.issueFrom} ACCOUNT`}
-                    value={getCorresponsingVisibleAddressFormat(
-                      props.pTokenSelected,
-                      'issuer',
-                      props.issuerAccount
-                    )}
-                    measure={''}
-                  />
-                </div>
-              ) : null}
+                  measure={props.pTokenSelected.name}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -223,6 +150,35 @@ const PTokens = props => {
             />
           </div>
         </div>
+      </div>
+      <div className="container-fluid mt-20 text-center">
+        <Alert
+          type={'warning'}
+          size={'medium'}
+          text={
+            props.pTokenSelected.name === 'pETH' ? (
+              <React.Fragment>
+                Disclaimer: the security audits of pETH-on-EOS are currently in
+                progress, use with caution and proceed just if you know what you
+                are doing!{' '}
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                Make sure you know what you are doing, DeFi isn't for the faint
+                of heart just yet! To know more about the security model of
+                pTokens and its progressive decentralisation approach{' '}
+                <a
+                  href="https://medium.com/pnetwork/pnetwork-security-and-progressive-decentralisation-c5552216ca23"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  you can read this article
+                </a>
+                .
+              </React.Fragment>
+            )
+          }
+        />
       </div>
     </React.Fragment>
   )

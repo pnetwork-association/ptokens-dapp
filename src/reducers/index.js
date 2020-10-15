@@ -5,6 +5,7 @@ import pNetworkReducer from './pNetwork'
 import pTokensReducer from './pTokens'
 import walletsReducer from './wallets'
 import networkDetectorReducer from './networkDetector'
+import { reducer as toastrReducer } from 'react-redux-toastr'
 
 const rootReducer = combineReducers({
   sidebar: sidebarReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   log: logReducer,
   pNetwork: pNetworkReducer,
   pTokens: pTokensReducer,
-  networkDetector: networkDetectorReducer
+  networkDetector: networkDetectorReducer,
+  toastr: toastrReducer
 })
 
 export default rootReducer

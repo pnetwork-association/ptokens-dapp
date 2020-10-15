@@ -1,6 +1,7 @@
 import ScatterJS from '@scatterjs/core'
 import ScatterEOS from '@scatterjs/eosjs2'
 import settings from '../../../settings'
+import { toastr } from 'react-redux-toastr'
 
 import {
   WALLET_ISSUER_CONNECTED,
@@ -118,6 +119,8 @@ const _connectionSuccesfull = (_pToken, _role, _dispatch) => {
 }
 
 const _connectionNotSuccesfull = (_pToken, _role, _dispatch) => {
+  toastr.error('Scatter Not Found. Please check that is opened.')
+
   _dispatch({
     type:
       _role === 'issuer'

@@ -31,14 +31,6 @@ const setSelectedPage = (_page, _pToken) => {
       )
       break
     }
-    case 3: {
-      history.push(
-        `/${_pToken.name.toLowerCase()}-on-${_pToken.redeemFrom.toLowerCase()}${
-          _pToken.network === 'testnet' ? '-testnet' : ''
-        }/settings`
-      )
-      break
-    }
     default:
       break
   }

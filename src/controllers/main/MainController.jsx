@@ -37,11 +37,6 @@ export class MainController extends React.Component {
 
     this.props.getReports(this.props.pTokenSelected, 'host', 'issuer')
     this.props.getReports(this.props.pTokenSelected, 'native', 'redeemer')
-
-    this.props.connectWithCorrectWallets(this.props.pTokenSelected, {
-      redeemer: this.props.redeemerProvider,
-      issuer: this.props.issuerProvider
-    })
   }
 
   componentDidUpdate(_prevProps) {

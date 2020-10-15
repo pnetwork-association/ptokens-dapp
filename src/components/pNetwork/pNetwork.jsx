@@ -6,7 +6,7 @@ import { getCorresponsingVisibleAddressFormat } from '../../utils/account-viewer
 //import Button from '../utils/Button'
 import ReactTooltip from 'react-tooltip'
 
-const Enclave = props => {
+const PNetwork = props => {
   useEffect(() => {
     ReactTooltip.rebuild()
   })
@@ -18,7 +18,7 @@ const Enclave = props => {
         <div className="container-fluid">
           <div className="header-body">
             <div className="row">
-              <div className="col-12 col-xl-6 mt-20">
+              <div className="col-12 col-xl-6">
                 <MiniCard
                   title="NETWORK STATUS"
                   icon={props.isActive ? 'done' : 'timer'}
@@ -26,7 +26,7 @@ const Enclave = props => {
                   measure={''}
                 />
               </div>
-              <div className="col-12 col-xl-6 mt-20">
+              <div className="col-12 col-xl-6">
                 <MiniCard
                   title="NUMBER OF VALIDATORS"
                   value={1}
@@ -137,6 +137,16 @@ const Enclave = props => {
                     )}
                   </div>
                 </div>
+                <div className="row mt-15 mb-15">
+                  <div className="col-4 col-sm-3 text-gray text-xs font-weight-light">
+                    CONNECTED T0:
+                  </div>
+                  <div className="col-8 col-xl-9 text-right text-gray text-md font-weight-bold">
+                    {props.pTokenSelected.nodeInfo
+                      ? props.pTokenSelected.nodeInfo.endpoint
+                      : '-'}
+                  </div>
+                </div>
                 <hr />
                 <div className="row mt-15 mb-15">
                   <div className="col-5 col-xl-3  text-gray text-xs font-weight-light">
@@ -149,7 +159,6 @@ const Enclave = props => {
                   </div>
                 </div>
                 <hr />
-                <hr />
               </div>
               <div className="card-footer border-0 pt-0" />
             </div>
@@ -160,7 +169,7 @@ const Enclave = props => {
   )
 }
 
-Enclave.propTypes = {
+PNetwork.propTypes = {
   pTokenSelected: PropTypes.object,
   isActive: PropTypes.bool,
   lastIssuerProcessedBlock: PropTypes.number,
@@ -175,4 +184,4 @@ Enclave.propTypes = {
   onSubmit: PropTypes.func
 }
 
-export default Enclave
+export default PNetwork

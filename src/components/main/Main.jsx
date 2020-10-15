@@ -12,7 +12,7 @@ const Main = props => {
         <div className="container-fluid">
           <div className="header-body">
             <div className="row">
-              <div className="col-12 col-xl-6 mt-20">
+              <div className="col-12 col-xl-6">
                 <MiniCard
                   title="CIRCULATING SUPPLY"
                   value={props.pTokenSelected.totalSupply}
@@ -20,7 +20,7 @@ const Main = props => {
                   icon={'coins'}
                 />
               </div>
-              <div className="col-12 col-xl-6 mt-20">
+              <div className="col-12 col-xl-6">
                 <MiniCard
                   title="NETWORK STATUS"
                   icon={props.isActive ? 'blockchain' : 'timer'}
