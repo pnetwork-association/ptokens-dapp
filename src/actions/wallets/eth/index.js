@@ -47,7 +47,6 @@ const connectWithEthWallet = async (
   if (web3Connect.providerController.injectedProvider && !_force) {
     const provider = await web3Connect.connectTo('injected')
     const wallet = {
-      name: _getWalletNameByProvider(provider),
       type: 'multiWallet'
     }
     _connectionSuccesfull(_pToken, provider, _dispatch, _role, wallet)
@@ -56,7 +55,6 @@ const connectWithEthWallet = async (
 
   web3Connect.on('connect', provider => {
     const wallet = {
-      name: _getWalletNameByProvider(provider),
       type: 'multiWallet'
     }
     _connectionSuccesfull(_pToken, provider, _dispatch, _role, wallet)
@@ -87,11 +85,12 @@ const _connectionSuccesfull = async (
         provider: _provider,
         account,
         wallet: _wallet,
-        pToken: _pToken
+        pToken: _pToken,
+        type: 'ETH'
       }
     })
   } catch (_err) {
-    toastr.error('Error during connecting with Ethereum wallet')
+    toastr.error('Error during connection with Ethereum wallet')
   }
 }
 
@@ -99,13 +98,6 @@ const _getAccount = async _provider => {
   const web3 = new Web3(_provider)
   const accounts = await web3.eth.getAccounts()
   return accounts[0]
-}
-
-const _getWalletNameByProvider = _provider => {
-  if (_provider.isWalletConnect) return 'Wallet Connect'
-  if (_provider.isPortis) return 'Portis'
-  if (_provider.isFortmatic) return 'Fortmatic'
-  else return 'Metamask'
 }
 
 export { connectWithEthWallet, disconnectFromEthWallet }

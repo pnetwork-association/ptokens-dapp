@@ -11,7 +11,7 @@ import {
 
 const settings = {
   dappName: 'pTokens',
-  telegram: 'https://t.me/ptokens',
+  telegram: 'https://t.me/pNetworkDefi',
   googleAnalyticsTrackId: 'UA-157173999-1',
   BLOCKSTREAM_BASE_MAINNET_ENDPOINT: 'https://blockstream.info/api/',
   BLOCKSTREAM_BASE_TESTNET_ENDPOINT: 'https://blockstream.info/testnet/api/',

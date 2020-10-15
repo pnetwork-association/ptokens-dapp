@@ -32,7 +32,8 @@ const connectWithEosWallet = async (
           name: 'Scatter',
           type: 'multiWallet'
         },
-        pToken: _pToken
+        pToken: _pToken,
+        type: 'EOS'
       }
     })
   })

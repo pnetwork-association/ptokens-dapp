@@ -8,7 +8,9 @@ import {
   PLTC_ON_ETH_MAINNET,
   PLTC_ON_ETH_TESTNET,
   PLTC_ON_EOS_MAINNET,
-  PETH_ON_EOS_MAINNET
+  PETH_ON_EOS_MAINNET,
+  WALLET_RESET_ISSUER,
+  WALLET_RESET_REDEEMER
 } from '../../constants'
 import { Mutex } from 'async-mutex'
 
@@ -222,9 +224,25 @@ const changeSpecificWallet = (_pToken, _role) => {
   }
 }
 
+const resetIssuer = () => {
+  return {
+    type: WALLET_RESET_ISSUER,
+    payload: {}
+  }
+}
+
+const resetRedeemer = () => {
+  return {
+    type: WALLET_RESET_REDEEMER,
+    payload: {}
+  }
+}
+
 export {
   connectWithCorrectWallets,
   connectWithSpecificWallet,
   disconnectFromSpecificWallet,
-  changeSpecificWallet
+  changeSpecificWallet,
+  resetIssuer,
+  resetRedeemer
 }

@@ -6,15 +6,21 @@ import {
   setNode
 } from '../actions/pNetwork'
 import * as Log from '../actions/log'
-import { connectWithSpecificWallet } from '../actions/wallets'
+import {
+  connectWithSpecificWallet,
+  resetRedeemer,
+  resetIssuer
+} from '../actions/wallets'
 import {
   SET_SELECTED_PTOKEN,
   PTOKENS_SET_NODE_INFO,
   PNETWORK_RESET_DATA,
   WALLET_REDEEMER_CONNECTED,
+  WALLET_ISSUER_CONNECTED,
   PTOKENS_BALANCE_LOADED
 } from '../constants'
 import { getCorrespondingReadOnlyProvider } from '../utils/read-only-providers'
+import store from '../store'
 
 const middleware = ({ dispatch }) => {
   return _next => {
@@ -22,9 +28,69 @@ const middleware = ({ dispatch }) => {
       if (_action.type === SET_SELECTED_PTOKEN) {
         const { pToken } = _action.payload
 
+        // NOTE: handle wallet connections
+        const { wallets } = store.getState()
+        const { walletsPerType } = wallets
+        if (pToken.redeemFrom === 'ETH' && walletsPerType['ETH']) {
+          if (!walletsPerType['ETH']) {
+            dispatch(resetRedeemer())
+          } else {
+            dispatch({
+              type: WALLET_REDEEMER_CONNECTED,
+              payload: {
+                provider: walletsPerType['ETH'].provider,
+                account: walletsPerType['ETH'].account,
+                wallet: {
+                  type: 'multiWallet'
+                },
+                pToken,
+                type: 'ETH'
+              }
+            })
+          }
+        }
+
+        if (pToken.issueFrom === 'ETH' && walletsPerType['ETH']) {
+          if (!walletsPerType['ETH']) {
+            dispatch(resetIssuer())
+          } else {
+            dispatch({
+              type: WALLET_ISSUER_CONNECTED,
+              payload: {
+                provider: walletsPerType['ETH'].provider,
+                account: walletsPerType['ETH'].account,
+                wallet: {
+                  type: 'multiWallet'
+                },
+                pToken,
+                type: 'ETH'
+              }
+            })
+          }
+        }
+
+        if (pToken.redeemFrom === 'EOS') {
+          if (!walletsPerType['EOS']) {
+            dispatch(resetRedeemer())
+          } else {
+            dispatch({
+              type: WALLET_REDEEMER_CONNECTED,
+              payload: {
+                provider: walletsPerType['EOS'].provider,
+                account: walletsPerType['EOS'].account,
+                wallet: {
+                  type: 'multiWallet'
+                },
+                pToken,
+                type: 'EOS'
+              }
+            })
+          }
+        }
+
         if (_action.payload.withNodeSelection) dispatch(setNode(pToken))
 
-        //reset dat in order to prevent to populate views with wrong data
+        //reset data in order to prevent to populate views with wrong data
         dispatch({
           type: PNETWORK_RESET_DATA
         })

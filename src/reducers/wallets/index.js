@@ -1,8 +1,8 @@
 import {
   WALLET_ISSUER_CONNECTED,
   WALLET_REDEEMER_CONNECTED,
-  WALLET_ISSUER_DISCONNECTED,
-  WALLET_REDEEMER_DISCONNECTED
+  WALLET_RESET_REDEEMER,
+  WALLET_RESET_ISSUER
 } from '../../constants/index'
 
 const initialState = {
@@ -13,29 +13,44 @@ const initialState = {
   issuerAccount: null,
   redeemerAccount: null,
   issuerWallet: null,
-  redeemerWallet: null
+  redeemerWallet: null,
+  walletsPerType: {}
 }
 
 const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_ISSUER_CONNECTED) {
+    const { provider, account, wallet, type } = _action.payload
     return Object.assign({}, _state, {
       issuerIsConnected: true,
-      issuerProvider: _action.payload.provider,
-      issuerAccount: _action.payload.account,
-      issuerWallet: _action.payload.wallet
+      issuerProvider: provider,
+      issuerAccount: account,
+      issuerWallet: wallet,
+      walletsPerType: {
+        [type]: {
+          provider,
+          account
+        }
+      }
     })
   }
 
   if (_action.type === WALLET_REDEEMER_CONNECTED) {
+    const { provider, account, wallet, type } = _action.payload
     return Object.assign({}, _state, {
       redeemerIsConnected: true,
-      redeemerProvider: _action.payload.provider,
-      redeemerAccount: _action.payload.account,
-      redeemerWallet: _action.payload.wallet
+      redeemerProvider: provider,
+      redeemerAccount: account,
+      redeemerWallet: wallet,
+      walletsPerType: {
+        [type]: {
+          provider,
+          account
+        }
+      }
     })
   }
 
-  if (_action.type === WALLET_ISSUER_DISCONNECTED) {
+  if (_action.type === WALLET_RESET_ISSUER) {
     return Object.assign({}, _state, {
       issuerIsConnected: null,
       issuerProvider: null,
@@ -44,7 +59,7 @@ const walletsReducer = (_state = initialState, _action) => {
     })
   }
 
-  if (_action.type === WALLET_REDEEMER_DISCONNECTED) {
+  if (_action.type === WALLET_RESET_REDEEMER) {
     return Object.assign({}, _state, {
       redeemerIsConnected: null,
       redeemerProvider: null,
