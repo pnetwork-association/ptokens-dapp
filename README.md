@@ -75,17 +75,3 @@ It is possible to run tests in __`development mode`__ in order to don't see all 
 ```
 npm run test-dev
 ```
-
-&nbsp;
-
-***
-
-&nbsp;
-
-### :exclamation: 
-
-This is the pToken id mapping. Changing these values could cause a lot of errors
-
-* __0__ : __pbtc-on-eth-mainnet__
-* __1__ : __pbtc-on-eth-testnet__
-* __2__ : __pbtc-on-eos-testnet__

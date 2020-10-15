@@ -10,20 +10,26 @@ export default class AnchorProvider {
 
   connect = async () => {
     try {
-      const provider = await this.link.login(this.dappName)
-      if (provider) {
+      const res = await this.link.login(this.dappName)
+      if (res) {
+        const { signerKey, account } = res
         return {
           account: {
-            name: provider.account.account_name
+            name: account.account_name
           },
           success: true,
-          provider
+          provider: this.link.makeSignatureProvider([signerKey])
+        }
+      } else {
+        return {
+          success: false,
+          message: 'Anchor Not Found'
         }
       }
     } catch (_err) {
       return {
         success: false,
-        message: _err.message
+        message: 'User Canceled the request'
       }
     }
   }

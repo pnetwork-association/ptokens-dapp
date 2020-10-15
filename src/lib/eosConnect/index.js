@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import Modal from './Modal'
+import Modal from './components/Modal'
 import EventEmitter from 'eventemitter3'
 import ScatterProvider from './providers/scatter'
 import AnchorProvider from './providers/anchor'
@@ -17,7 +17,6 @@ const THEME_COLORS = {
 
 // TODO
 // - user options passed in constructor in order to enable user to choose the wallet
-// - generalize onClick
 class EosConnect extends EventEmitter {
   show = false
   lightboxOpacity = 0.4

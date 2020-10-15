@@ -7,7 +7,7 @@ import {
   MODAL_CONTAINER_CLASSNAME,
   MODAL_HITBOX_CLASSNAME,
   MODAL_CARD_CLASSNAME
-} from './constants'
+} from '../constants'
 
 const SLightbox = styled.div`
   transition: opacity 0.1s ease-in-out;

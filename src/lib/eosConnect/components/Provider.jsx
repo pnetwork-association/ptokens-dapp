@@ -6,7 +6,7 @@ import {
   PROVIDER_ICON_CLASSNAME,
   PROVIDER_NAME_CLASSNAME,
   PROVIDER_DESCRIPTION_CLASSNAME
-} from './constants'
+} from '../constants'
 
 const SIcon = styled.div`
   width: 45px;
