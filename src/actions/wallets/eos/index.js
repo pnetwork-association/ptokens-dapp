@@ -40,7 +40,9 @@ const connectWithEosWallet = async (
     toastr.error(message)
   })
 
-  eosConnect.toggleModal()
+  if (_force) {
+    eosConnect.toggleModal()
+  }
 }
 
 const disconnectFromEosWallet = () => {

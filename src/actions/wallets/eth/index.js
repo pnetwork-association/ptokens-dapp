@@ -4,7 +4,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider'
 import Portis from '@portis/web3'
 import Fortmatic from 'fortmatic'
 import settings from '../../../settings'
-
+import { toastr } from 'react-redux-toastr'
 import {
   WALLET_ISSUER_CONNECTED,
   WALLET_REDEEMER_CONNECTED
@@ -76,17 +76,23 @@ const _connectionSuccesfull = async (
   _role,
   _wallet
 ) => {
-  const account = await _getAccount(_provider)
-  _dispatch({
-    type:
-      _role === 'issuer' ? WALLET_ISSUER_CONNECTED : WALLET_REDEEMER_CONNECTED,
-    payload: {
-      provider: _provider,
-      account,
-      wallet: _wallet,
-      pToken: _pToken
-    }
-  })
+  try {
+    const account = await _getAccount(_provider)
+    _dispatch({
+      type:
+        _role === 'issuer'
+          ? WALLET_ISSUER_CONNECTED
+          : WALLET_REDEEMER_CONNECTED,
+      payload: {
+        provider: _provider,
+        account,
+        wallet: _wallet,
+        pToken: _pToken
+      }
+    })
+  } catch (_err) {
+    toastr.error('Error during connecting with Ethereum wallet')
+  }
 }
 
 const _getAccount = async _provider => {

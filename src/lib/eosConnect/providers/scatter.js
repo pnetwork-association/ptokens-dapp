@@ -32,7 +32,7 @@ export default class ScatterProvider {
       if (!this.scatter.login) {
         return {
           success: false,
-          message: 'Scatter Not Found'
+          message: 'Scatter Not Opened'
         }
       }
 

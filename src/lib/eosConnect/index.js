@@ -39,7 +39,7 @@ class EosConnect extends EventEmitter {
         logo: '../assets/scatter.svg',
         description: 'Scatter Wallet',
         themeColors: THEME_COLORS,
-        onClick: this.handleClick(this.scatterProvider)
+        onClick: () => this.handleClick(this.scatterProvider)
       },
       {
         name: 'Anchor',
