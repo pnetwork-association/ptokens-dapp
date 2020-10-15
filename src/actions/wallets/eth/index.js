@@ -75,7 +75,8 @@ const _connectionSuccesfull = async (
   _wallet
 ) => {
   try {
-    const account = await _getAccount(_provider)
+    const { accounts } = _provider
+    const account = accounts ? accounts[0] : await _getAccount(_provider)
     _dispatch({
       type:
         _role === 'issuer'
