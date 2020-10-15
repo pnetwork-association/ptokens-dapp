@@ -2,17 +2,48 @@ import ScatterJS from '@scatterjs/core'
 import ScatterEOS from '@scatterjs/eosjs2'
 import settings from '../../../settings'
 import { toastr } from 'react-redux-toastr'
-
+import AnchorLink from 'anchor-link'
+import AnchorLinkBrowserTransport from 'anchor-link-browser-transport'
 import {
   WALLET_ISSUER_CONNECTED,
   WALLET_REDEEMER_CONNECTED,
   WALLET_ISSUER_DISCONNECTED,
   WALLET_REDEEMER_DISCONNECTED
 } from '../../../constants'
+import EventEmitter from 'eventemitter3'
+import EosConnectCore from '../../../utils/eosConnect/'
 
 let isInitialized = false
 let network = null
 let firstCall = false
+
+const transport = new AnchorLinkBrowserTransport()
+const link = new AnchorLink({ transport })
+const eventEmitter = new EventEmitter()
+
+const eosConnect = new EosConnectCore()
+
+const connectWithAnchor = async (_pToken, _role, _dispatch, _force = true) => {
+  try {
+    const s = await link.login(settings.dappName)
+    console.log(s)
+  } catch (_err) {
+    console.error(_err.message)
+    _connectionNotSuccesfull(_pToken, _role, _dispatch)
+  }
+}
+
+const connectWithEosWallet = async (
+  _pToken,
+  _role,
+  _dispatch,
+  _force = true
+) => {
+  eventEmitter.emit('triggerEosConnectModal')
+  eosConnect.toggleModal()
+
+  console.log('connect with eos wallet')
+}
 
 const connectWithScatter = async (_pToken, _role, _dispatch, _force = true) => {
   _dispatch({
@@ -21,6 +52,9 @@ const connectWithScatter = async (_pToken, _role, _dispatch, _force = true) => {
         ? WALLET_ISSUER_DISCONNECTED
         : WALLET_REDEEMER_DISCONNECTED
   })
+
+  connectWithAnchor(_pToken, _role, _dispatch)
+  return
 
   try {
     let connected = false
@@ -47,14 +81,20 @@ const connectWithScatter = async (_pToken, _role, _dispatch, _force = true) => {
 
     if (connected) {
       if (scatter.identity) {
-        _connectionSuccesfull(_pToken, _role, _dispatch)
+        _connectionSuccesfull(
+          _pToken,
+          _role,
+          ScatterJS.eosHook(network),
+          _dispatch
+        )
       } else {
         _login(_pToken, scatter, _role, _dispatch)
       }
     } else {
       _login(_pToken, scatter, _role, _dispatch)
     }
-  } catch (err) {
+  } catch (_err) {
+    console.error(_err.message)
     _connectionNotSuccesfull(_pToken, _role, _dispatch)
   }
 }
@@ -92,7 +132,12 @@ const _login = async (_pToken, _scatter, _role, _dispatch) => {
   try {
     const isLogged = await _scatter.login()
     if (isLogged) {
-      _connectionSuccesfull(_pToken, _role, _dispatch)
+      _connectionSuccesfull(
+        _pToken,
+        _role,
+        ScatterJS.eosHook(network),
+        _dispatch
+      )
     } else {
       _connectionNotSuccesfull(_pToken, _role, _dispatch)
     }
@@ -101,13 +146,13 @@ const _login = async (_pToken, _scatter, _role, _dispatch) => {
   }
 }
 
-const _connectionSuccesfull = (_pToken, _role, _dispatch) => {
+const _connectionSuccesfull = (_pToken, _role, _provider, _dispatch) => {
   const account = _getAccount()
   _dispatch({
     type:
       _role === 'issuer' ? WALLET_ISSUER_CONNECTED : WALLET_REDEEMER_CONNECTED,
     payload: {
-      provider: ScatterJS.eosHook(network),
+      provider: _provider, //ScatterJS.eosHook(network),
       account: account.name,
       wallet: {
         name: 'Scatter',
@@ -140,4 +185,4 @@ const _getAccount = () => {
   return account
 }
 
-export { connectWithScatter, disconnectFromScatter }
+export { connectWithEosWallet, disconnectFromScatter }

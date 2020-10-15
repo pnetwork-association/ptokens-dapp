@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { getCorresponsingVisibleAddressFormat } from '../../utils/account-viewer'
 import Process from './process/Process'
 import PbtcIssueCard from './pbtcIssueCard/PbtcIssueCard'
 import PethIssueCard from './pethIssueCard/PethIssueCard'

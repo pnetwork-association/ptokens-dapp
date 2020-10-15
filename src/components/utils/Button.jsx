@@ -6,19 +6,19 @@ const widths = {
   280: 'btn-width-280'
 }
 
-const Button = props => {
+const Button = _props => {
+  const { width, icon, text, disabled } = _props
+
   return (
     <button
-      onClick={e => props.onClick(e)}
+      onClick={e => _props.onClick(e)}
       type="button"
-      className={`btn btn-primary font-weight-light ${
-        widths[props.width]
-      } text-center`}
-      disabled={props.disabled}
+      className={`btn btn-primary font-weight-light ${widths[width]} text-center`}
+      disabled={disabled}
     >
-      <i className={`icon ${props.icon}`} />
-      <span className={`${props.icon ? 'ml-10' : ''} vertical-align-middle`}>
-        {props.text}
+      <i className={`icon ${icon}`} />
+      <span className={`${icon ? 'ml-10' : ''} vertical-align-middle`}>
+        {text}
       </span>
     </button>
   )

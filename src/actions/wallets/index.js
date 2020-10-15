@@ -1,4 +1,4 @@
-import { connectWithScatter, disconnectFromScatter } from './eos'
+import { connectWithEosWallet, disconnectFromScatter } from './eos'
 import { connectWithEthWallet, disconnectFromEthWallet } from './eth'
 import {
   PBTC_ON_ETH_MAINNET,
@@ -30,15 +30,15 @@ const connectWithCorrectWallets = (_pToken, _currentProviders, _force) => {
         break
       }
       case PBTC_ON_EOS_MAINNET: {
-        connectWithScatter(_pToken, 'redeemer', _dispatch)
+        connectWithEosWallet(_pToken, 'redeemer', _dispatch)
         break
       }
       case PLTC_ON_EOS_MAINNET: {
-        connectWithScatter(_pToken, 'redeemer', _dispatch)
+        connectWithEosWallet(_pToken, 'redeemer', _dispatch)
         break
       }
       case PBTC_ON_EOS_TESTNET: {
-        connectWithScatter(_pToken, 'redeemer', _dispatch)
+        connectWithEosWallet(_pToken, 'redeemer', _dispatch)
         break
       }
       case PLTC_ON_ETH_MAINNET: {
@@ -50,7 +50,7 @@ const connectWithCorrectWallets = (_pToken, _currentProviders, _force) => {
         break
       }
       case PETH_ON_EOS_MAINNET: {
-        connectWithScatter(_pToken, 'redeemer', _dispatch)
+        connectWithEosWallet(_pToken, 'redeemer', _dispatch)
         connectWithEthWallet(_pToken, 'issuer', issuer, _dispatch, _force)
         break
       }
@@ -78,17 +78,17 @@ const connectWithSpecificWallet = (_pToken, _role, _force) => {
       }
       case PBTC_ON_EOS_MAINNET: {
         if (_role === 'redeemer')
-          connectWithScatter(_pToken, 'redeemer', _dispatch)
+          connectWithEosWallet(_pToken, 'redeemer', _dispatch)
         break
       }
       case PLTC_ON_EOS_MAINNET: {
         if (_role === 'redeemer')
-          connectWithScatter(_pToken, 'redeemer', _dispatch)
+          connectWithEosWallet(_pToken, 'redeemer', _dispatch)
         break
       }
       case PBTC_ON_EOS_TESTNET: {
         if (_role === 'redeemer')
-          connectWithScatter(_pToken, 'redeemer', _dispatch)
+          connectWithEosWallet(_pToken, 'redeemer', _dispatch)
         break
       }
       case PLTC_ON_ETH_MAINNET: {
@@ -103,7 +103,7 @@ const connectWithSpecificWallet = (_pToken, _role, _force) => {
       }
       case PETH_ON_EOS_MAINNET: {
         if (_role === 'redeemer')
-          connectWithScatter(_pToken, 'redeemer', _dispatch)
+          connectWithEosWallet(_pToken, 'redeemer', _dispatch)
         else if (_role === 'issuer') {
           connectWithEthWallet(_pToken, 'issuer', null, _dispatch, _force)
         }
@@ -187,15 +187,15 @@ const changeSpecificWallet = (_pToken, _role) => {
         break
       }
       case PBTC_ON_EOS_MAINNET: {
-        connectWithScatter(_pToken, 'redeemer', _dispatch)
+        connectWithEosWallet(_pToken, 'redeemer', _dispatch)
         break
       }
       case PLTC_ON_EOS_MAINNET: {
-        connectWithScatter(_pToken, 'redeemer', _dispatch)
+        connectWithEosWallet(_pToken, 'redeemer', _dispatch)
         break
       }
       case PBTC_ON_EOS_TESTNET: {
-        connectWithScatter(_pToken, 'redeemer', _dispatch)
+        connectWithEosWallet(_pToken, 'redeemer', _dispatch)
         break
       }
       case PLTC_ON_ETH_MAINNET: {
@@ -208,7 +208,7 @@ const changeSpecificWallet = (_pToken, _role) => {
       }
       case PETH_ON_EOS_MAINNET: {
         if (_role === 'redeemer')
-          connectWithScatter(_pToken, 'redeemer', _dispatch)
+          connectWithEosWallet(_pToken, 'redeemer', _dispatch)
         else if (_role === 'issuer') {
           connectWithEthWallet(_pToken, 'issuer', null, _dispatch, true)
         }

@@ -10,7 +10,28 @@ import {
   WALLET_REDEEMER_CONNECTED
 } from '../../../constants'
 
-let web3Connect
+const web3Connect = new Web3Connect.Core({
+  providerOptions: {
+    walletconnect: {
+      package: WalletConnectProvider,
+      options: {
+        infuraId: settings[0].eth.infuraProjectId
+      }
+    },
+    portis: {
+      package: Portis,
+      options: {
+        id: settings[0].eth.portisDappId
+      }
+    },
+    fortmatic: {
+      package: Fortmatic,
+      options: {
+        key: settings[0].eth.fortmaticKey
+      }
+    }
+  }
+})
 
 const connectWithEthWallet = async (
   _pToken,
@@ -19,29 +40,6 @@ const connectWithEthWallet = async (
   _dispatch,
   _force = null
 ) => {
-  web3Connect = new Web3Connect.Core({
-    providerOptions: {
-      walletconnect: {
-        package: WalletConnectProvider,
-        options: {
-          infuraId: settings[_pToken.id].eth.infuraProjectId
-        }
-      },
-      portis: {
-        package: Portis,
-        options: {
-          id: settings[_pToken.id].eth.portisDappId
-        }
-      },
-      fortmatic: {
-        package: Fortmatic,
-        options: {
-          key: settings[_pToken.id].eth.fortmaticKey
-        }
-      }
-    }
-  })
-
   if (_currentProvider) {
     return
   }

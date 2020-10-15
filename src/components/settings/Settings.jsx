@@ -1,15 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import MultiWallet from './multiWallet/MultiWallet'
+import styled from 'styled-components'
+
+const SettingsWrapper = styled.div`
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+`
 
 const Settings = props => {
   return (
-    <div
-      style={{
-        borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
-        marginBottom: '30px'
-      }}
-    >
+    <SettingsWrapper>
       <div className="container-fluid">
         <div className="row ml-0 mr-0">
           <div className="col-12 text-right mt-15 mb-15">
@@ -191,7 +192,7 @@ const Settings = props => {
         </div>
       </div>
     */}
-    </div>
+    </SettingsWrapper>
   )
 }
 
