@@ -10,8 +10,7 @@ import {
   WALLET_ISSUER_DISCONNECTED,
   WALLET_REDEEMER_DISCONNECTED
 } from '../../../constants'
-import EventEmitter from 'eventemitter3'
-import EosConnectCore from '../../../utils/eosConnect/'
+import EosConnect from '../../../lib/eosConnect/'
 
 let isInitialized = false
 let network = null
@@ -19,9 +18,13 @@ let firstCall = false
 
 const transport = new AnchorLinkBrowserTransport()
 const link = new AnchorLink({ transport })
-const eventEmitter = new EventEmitter()
 
-const eosConnect = new EosConnectCore()
+const eosConnect = new EosConnect({
+  dappName: 'pTokens',
+  scatter: {
+    settings: settings[1].eos
+  }
+})
 
 const connectWithAnchor = async (_pToken, _role, _dispatch, _force = true) => {
   try {
@@ -33,15 +36,31 @@ const connectWithAnchor = async (_pToken, _role, _dispatch, _force = true) => {
   }
 }
 
+// TODO: move all this logic within eos connect and return only the provider
 const connectWithEosWallet = async (
   _pToken,
   _role,
   _dispatch,
   _force = true
 ) => {
-  eventEmitter.emit('triggerEosConnectModal')
   eosConnect.toggleModal()
-
+  eosConnect.on('connect', ({ provider, account }) => {
+    _dispatch({
+      type:
+        _role === 'issuer'
+          ? WALLET_ISSUER_CONNECTED
+          : WALLET_REDEEMER_CONNECTED,
+      payload: {
+        provider,
+        account: account.name,
+        wallet: {
+          name: 'Scatter',
+          type: 'multiWallet'
+        },
+        pToken: _pToken
+      }
+    })
+  })
   console.log('connect with eos wallet')
 }
 
@@ -52,9 +71,6 @@ const connectWithScatter = async (_pToken, _role, _dispatch, _force = true) => {
         ? WALLET_ISSUER_DISCONNECTED
         : WALLET_REDEEMER_DISCONNECTED
   })
-
-  connectWithAnchor(_pToken, _role, _dispatch)
-  return
 
   try {
     let connected = false
@@ -164,7 +180,7 @@ const _connectionSuccesfull = (_pToken, _role, _provider, _dispatch) => {
 }
 
 const _connectionNotSuccesfull = (_pToken, _role, _dispatch) => {
-  toastr.error('Scatter Not Found. Please check that is opened.')
+  //toastr.error('Scatter Not Found. Please check that is opened.')
 
   _dispatch({
     type:

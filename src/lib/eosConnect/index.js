@@ -1,6 +1,8 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import Modal from './Modal'
+import EventEmitter from 'eventemitter3'
+import ScatterProvider from './providers/scatter'
 
 const INITIAL_STATE = { show: false }
 
@@ -12,28 +14,51 @@ const THEME_COLORS = {
   hover: 'rgba(195, 195, 195, 0.14)'
 }
 
-class EosConnectCore {
+// TODO
+// - user options passed in constructor in order to enable user to choose the wallet
+// - generalize onClick
+class EosConnect extends EventEmitter {
   show = false
   lightboxOpacity = 0.4
-  userOptions = [
-    {
-      name: 'Scatter',
-      logo: '../assets/scatter.svg',
-      description: 'Scatter Wallet',
-      themeColors: THEME_COLORS,
-      onClick: () => console.log('scatter')
-    },
-    {
-      name: 'Anchor',
-      logo: '../assets/anchor.svg',
-      description: 'Anchor Wallet',
-      themeColors: THEME_COLORS,
-      onClick: () => console.log('anchor')
-    }
-  ]
   themeColors = THEME_COLORS
 
-  constructor() {
+  constructor({ dappName, scatter }) {
+    super()
+
+    this.scatterProvider = new ScatterProvider({
+      dappName,
+      settings: scatter.settings
+    })
+    this.userOptions = [
+      {
+        name: 'Scatter',
+        logo: '../assets/scatter.svg',
+        description: 'Scatter Wallet',
+        themeColors: THEME_COLORS,
+        onClick: async () => {
+          await this.onClose()
+          const {
+            success,
+            provider,
+            account,
+            message
+          } = await this.scatterProvider.connect()
+          if (success) {
+            this.emit('connect', { provider, account })
+          } else {
+            this.emit('error', message)
+          }
+        }
+      },
+      {
+        name: 'Anchor',
+        logo: '../assets/anchor.svg',
+        description: 'Anchor Wallet',
+        themeColors: THEME_COLORS,
+        onClick: () => this.emit('connect', 'anchor')
+      }
+    ]
+
     this.renderModal()
   }
 
@@ -83,4 +108,4 @@ class EosConnectCore {
   resetState = () => this.updateState({ ...INITIAL_STATE })
 }
 
-export default EosConnectCore
+export default EosConnect

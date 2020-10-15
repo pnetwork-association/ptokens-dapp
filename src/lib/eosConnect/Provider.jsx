@@ -82,7 +82,6 @@ const SProviderWrapper = styled.div`
 
 export function Provider(props) {
   const { name, logo, description, themeColors, onClick, ...otherProps } = props
-  console.log(props)
   return (
     <SProviderWrapper
       themeColors={themeColors}
