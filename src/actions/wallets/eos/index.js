@@ -43,7 +43,6 @@ const connectWithEosWallet = async (
   _dispatch,
   _force = true
 ) => {
-  eosConnect.toggleModal()
   eosConnect.on('connect', ({ provider, account }) => {
     _dispatch({
       type:
@@ -61,7 +60,11 @@ const connectWithEosWallet = async (
       }
     })
   })
-  console.log('connect with eos wallet')
+  eosConnect.on('error', message => {
+    toastr.error(message)
+  })
+
+  eosConnect.toggleModal()
 }
 
 const connectWithScatter = async (_pToken, _role, _dispatch, _force = true) => {
@@ -164,7 +167,8 @@ const _login = async (_pToken, _scatter, _role, _dispatch) => {
 
 const _connectionSuccesfull = (_pToken, _role, _provider, _dispatch) => {
   const account = _getAccount()
-  _dispatch({
+  console.log(account)
+  /*_dispatch({
     type:
       _role === 'issuer' ? WALLET_ISSUER_CONNECTED : WALLET_REDEEMER_CONNECTED,
     payload: {
@@ -176,7 +180,7 @@ const _connectionSuccesfull = (_pToken, _role, _provider, _dispatch) => {
       },
       pToken: _pToken
     }
-  })
+  })*/
 }
 
 const _connectionNotSuccesfull = (_pToken, _role, _dispatch) => {

@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom'
 import Modal from './Modal'
 import EventEmitter from 'eventemitter3'
 import ScatterProvider from './providers/scatter'
+import AnchorProvider from './providers/anchor'
 
 const INITIAL_STATE = { show: false }
 
@@ -29,33 +30,24 @@ class EosConnect extends EventEmitter {
       dappName,
       settings: scatter.settings
     })
+
+    this.anchorProvider = new AnchorProvider({
+      dappName
+    })
     this.userOptions = [
       {
         name: 'Scatter',
         logo: '../assets/scatter.svg',
         description: 'Scatter Wallet',
         themeColors: THEME_COLORS,
-        onClick: async () => {
-          await this.onClose()
-          const {
-            success,
-            provider,
-            account,
-            message
-          } = await this.scatterProvider.connect()
-          if (success) {
-            this.emit('connect', { provider, account })
-          } else {
-            this.emit('error', message)
-          }
-        }
+        onClick: this.handleClick(this.scatterProvider)
       },
       {
         name: 'Anchor',
         logo: '../assets/anchor.svg',
         description: 'Anchor Wallet',
         themeColors: THEME_COLORS,
-        onClick: () => this.emit('connect', 'anchor')
+        onClick: () => this.handleClick(this.anchorProvider)
       }
     ]
 
@@ -106,6 +98,17 @@ class EosConnect extends EventEmitter {
   }
 
   resetState = () => this.updateState({ ...INITIAL_STATE })
+
+  handleClick = async _provider => {
+    const { success, provider, account, message } = await _provider.connect()
+    await this.onClose()
+
+    if (success) {
+      this.emit('connect', { provider, account })
+    } else {
+      this.emit('error', message)
+    }
+  }
 }
 
 export default EosConnect

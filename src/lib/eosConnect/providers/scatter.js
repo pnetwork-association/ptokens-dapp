@@ -10,7 +10,6 @@ export default class ScatterProvider {
 
   connect = async () => {
     try {
-      let connected = false
       if (!this.isInitialized) {
         ScatterJS.plugins(new ScatterEOS())
         this.network = ScatterJS.Network.fromJson(this.settings)
@@ -30,10 +29,26 @@ export default class ScatterProvider {
 
   _login = async () => {
     try {
+      if (!this.scatter.login) {
+        return {
+          success: false,
+          message: 'Scatter Not Found'
+        }
+      }
+
+      await ScatterJS.logout()
       const isLogged = await this.scatter.login()
+      const account = ScatterJS.account('eos')
+      if (!account) {
+        return {
+          success: false,
+          message: 'Error while detecting your account'
+        }
+      }
+
       if (isLogged && ScatterJS.identity) {
         return {
-          account: ScatterJS.identity,
+          account: ScatterJS.account('eos'),
           success: true,
           provider: ScatterJS.eosHook(this.network)
         }
