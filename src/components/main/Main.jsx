@@ -90,7 +90,9 @@ const Main = props => {
                 0: n =>
                   (
                     parseFloat(n) /
-                    Math.pow(10, props.pTokenSelected.contractDecimals)
+                    (props.pTokenSelected.contractDecimals === 0
+                      ? 1
+                      : Math.pow(10, props.pTokenSelected.contractDecimals))
                   ).toFixed(props.pTokenSelected.realDecimals),
                 1: t => timestampInSecondsToDate(t)
               }}
@@ -164,7 +166,9 @@ const Main = props => {
                 0: n =>
                   (
                     parseFloat(n) /
-                    Math.pow(10, props.pTokenSelected.realDecimals)
+                    (props.pTokenSelected.contractDecimals === 0
+                      ? 1
+                      : Math.pow(10, props.pTokenSelected.contractDecimals))
                   ).toFixed(props.pTokenSelected.realDecimals),
                 1: t => timestampInSecondsToDate(t)
               }}

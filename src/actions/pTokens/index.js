@@ -325,7 +325,6 @@ const _getCorrectConfigs = (_pToken, _configs) => {
     }
   }
   if (_pToken.id === PETH_ON_EOS_MAINNET) {
-    console.log(redeemer)
     return {
       perc20: {
         pToken: 'pweth',
