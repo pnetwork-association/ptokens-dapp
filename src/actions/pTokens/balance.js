@@ -31,7 +31,6 @@ const getEosBalance = async (_pToken, _account) => {
     _account,
     _pToken.name.toUpperCase()
   )
-
   return parseFloat(balance[0].split(' ')[0])
 }
 

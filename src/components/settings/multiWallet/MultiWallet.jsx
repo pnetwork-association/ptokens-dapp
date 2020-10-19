@@ -35,7 +35,7 @@ const MultiWallet = _props => {
 MultiWallet.propTypes = {
   role: PropTypes.string,
   pToken: PropTypes.object,
-  account: PropTypes.bool,
+  account: PropTypes.string,
   isConnected: PropTypes.bool,
   onChange: PropTypes.func
 }

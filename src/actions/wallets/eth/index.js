@@ -40,19 +40,6 @@ const connectWithEthWallet = async (
   _dispatch,
   _force = null
 ) => {
-  if (_currentProvider) {
-    return
-  }
-
-  if (web3Connect.providerController.injectedProvider && !_force) {
-    const provider = await web3Connect.connectTo('injected')
-    const wallet = {
-      type: 'multiWallet'
-    }
-    _connectionSuccesfull(_pToken, provider, _dispatch, _role, wallet)
-    return
-  }
-
   web3Connect.on('connect', provider => {
     const wallet = {
       type: 'multiWallet'

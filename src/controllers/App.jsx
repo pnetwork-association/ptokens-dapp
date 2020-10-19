@@ -12,7 +12,6 @@ import history from './../utils/history'
 import ReactGA from 'react-ga'
 import queryString from 'query-string'
 import { connect } from 'react-redux'
-import { Node } from 'ptokens-node'
 import { setNodeManually, setNode } from '../actions/pNetwork/'
 import { setSelectedPage, enableTestnetInstances } from '../actions/sidebar'
 import { connectWithSpecificWallet } from '../actions/wallets'
@@ -103,15 +102,10 @@ class App extends React.Component {
     }
 
     if (node) {
-      const pnode = new Node({
-        pToken: {
-          name: pToken.name.toLowerCase(),
-          hostBlockchain: pToken.redeemFrom.toLowerCase()
-        },
-        endpoint: node.includes('https://') ? node : `https://${node}`
-      })
-
-      this.props.setNodeManually(pToken, pnode.endpoint)
+      this.props.setNodeManually(
+        pToken,
+        node.includes('https://') ? node : `https://${node}`
+      )
       return
     }
 
@@ -203,7 +197,12 @@ class App extends React.Component {
 SidebarController.propTypes = {
   pTokensAvailable: PropTypes.array,
   setSelectedPage: PropTypes.func,
-  setSelectedpToken: PropTypes.func
+  setSelectedpToken: PropTypes.func,
+  setNodeManually: PropTypes.func,
+  setNode: PropTypes.func,
+  setCustomRpc: PropTypes.func,
+  connectWithSpecificWallet: PropTypes.func,
+  enableTestnetInstances: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

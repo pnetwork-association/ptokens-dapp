@@ -15,6 +15,7 @@ import { getBlockHeightStatusComparedWithTheReals } from '../../utils/blocks-syn
 import { NodeSelector } from 'ptokens-node-selector'
 import { Node } from 'ptokens-node'
 import { Mutex } from 'async-mutex'
+import { helpers } from 'ptokens-utils'
 
 const mutex = new Mutex()
 
@@ -37,272 +38,245 @@ const typeNumberOfGetBlock = {
 
 const setNode = _pToken => {
   return async dispatch => {
-    const endpointManuallySelected =
-      selectedManually[
-        `${_pToken.name.toLowerCase()}-on-${_pToken.redeemFrom.toLowerCase()}-${_pToken.network.toLowerCase()}`
-      ]
+    try {
+      const endpointManuallySelected =
+        selectedManually[
+          `${_pToken.name.toLowerCase()}-on-${_pToken.redeemFrom.toLowerCase()}-${_pToken.network.toLowerCase()}`
+        ]
 
-    if (endpointManuallySelected) {
-      selectedNode = new Node({
-        pToken: {
-          name: _pToken.name,
-          hostBlockchain: 'eth'
-        },
-        endpoint: endpointManuallySelected
-      })
-    } else {
-      const nodeSelector = new NodeSelector({
-        pToken: {
-          name: _pToken.name === 'pETH' ? 'pweth' : _pToken.name,
-          hostBlockchain: _pToken.redeemFrom
-        },
-        networkType: _pToken.network
-      })
-
-      // TODO: REMOVE
-      // prettier-ignore
-      if (_pToken.name === 'pLTC' && _pToken.network === 'mainnet' && _pToken.redeemFrom === 'ETH') {
-        selectedNode = new Node({
-          endpoint: 'https://pltconeth-node-1a.ngrok.io',
-          pToken: {
-            name: _pToken.name,
-            hostBlockchain: _pToken.redeemFrom
-          }
-        })
-      // prettier-ignore
-      } else if (_pToken.name === 'pLTC' && _pToken.network === 'testnet' && _pToken.redeemFrom === 'ETH') {
-        selectedNode = new Node({
-          endpoint: 'https://4f2ac459f0e2.ngrok.io/',
-          pToken: {
-            name: _pToken.name,
-            hostBlockchain: _pToken.redeemFrom
-          }
-        })
-      // prettier-ignore
-      } else if (_pToken.name === 'pLTC' && _pToken.network === 'mainnet' && _pToken.redeemFrom === 'EOS') {
-        selectedNode = new Node({
-          endpoint: 'https://pltconeos-node-1a.ngrok.io/',
-          pToken: {
-            name: _pToken.name,
-            hostBlockchain: _pToken.redeemFrom
-          }
-        })
-      // prettier-ignore
-      } else if (_pToken.name === 'pETH' && _pToken.network === 'mainnet') {
-        selectedNode = new Node({
-          endpoint: 'https://pethoneos-node-1a.ngrok.io',
-          pToken: {
-            name: 'pweth',
-            hostBlockchain: _pToken.redeemFrom
-          }
+      if (endpointManuallySelected) {
+        selectedNode = selectedNode = new Node({
+          pToken: _pToken.name,
+          blockchain: 'eth',
+          network: _pToken.network,
+          endpoint: endpointManuallySelected
         })
       } else {
+        const nodeSelector = new NodeSelector({
+          pToken: _pToken.name,
+          blockchain: helpers.getBlockchainType(
+            _pToken.redeemFrom.toLowerCase()
+          ),
+          network: _pToken.network
+        })
+
         try {
           selectedNode = await nodeSelector.select()
         } catch (err) {
           selectedNode = null
         }
       }
-    }
 
-    let info = null
-    try {
-      info = await selectedNode.getInfo()
-    } catch (err) {
+      let info = null
+      try {
+        info = await selectedNode.getInfo()
+      } catch (err) {
+        dispatch({
+          type: PTOKENS_SET_NODE_INFO,
+          payload: {
+            pToken: Object.assign({}, _pToken, {
+              nodeInfo: {
+                contractAddress: null,
+                publicKey: null,
+                endpoint: selectedNode ? selectedNode.provider.endpoint : null,
+                isManuallySelected: endpointManuallySelected ? true : false,
+                isCompatible: false
+              }
+            })
+          }
+        })
+        return
+      }
+
       dispatch({
         type: PTOKENS_SET_NODE_INFO,
         payload: {
           pToken: Object.assign({}, _pToken, {
             nodeInfo: {
-              contractAddress: null,
-              publicKey: null,
-              endpoint: selectedNode ? selectedNode.endpoint : null,
+              contractAddress: info.smart_contract_address,
+              publicKey: info.public_key,
+              endpoint: selectedNode ? selectedNode.provider.endpoint : null,
               isManuallySelected: endpointManuallySelected ? true : false,
-              isCompatible: false
+              isCompatible: info.native_network.includes(_pToken.network)
+                ? true
+                : false
             }
           })
         }
       })
-      return
+    } catch (_err) {
+      console.error(_err.message)
     }
-
-    dispatch({
-      type: PTOKENS_SET_NODE_INFO,
-      payload: {
-        pToken: Object.assign({}, _pToken, {
-          nodeInfo: {
-            contractAddress:
-              _pToken.name === 'pETH'
-                ? info.host_smart_contract_address
-                : info.smart_contract_address,
-            publicKey: info.public_key,
-            endpoint: selectedNode ? selectedNode.endpoint : null,
-            isManuallySelected: endpointManuallySelected ? true : false,
-            isCompatible: info.native_network.includes(_pToken.network)
-              ? true
-              : false
-          }
-        })
-      }
-    })
   }
 }
 
 const setNodeManually = (_pToken, _endpoint) => {
   return async dispatch => {
-    selectedManually[
-      `${_pToken.name.toLowerCase()}-on-${_pToken.redeemFrom.toLowerCase()}-${_pToken.network.toLowerCase()}`
-    ] = _endpoint
-
-    selectedNode = new Node({
-      pToken: {
-        name: _pToken.name,
-        hostBlockchain: 'eth'
-      },
-      endpoint: _endpoint
-    })
-
-    let info = null
     try {
-      info = await selectedNode.getInfo()
-    } catch (err) {
+      // prettier-ignore
+      selectedManually[`${_pToken.name.toLowerCase()}-on-${_pToken.redeemFrom.toLowerCase()}-${_pToken.network.toLowerCase()}`] = _endpoint
+
+      selectedNode = new Node({
+        pToken: _pToken.name,
+        blockchain: helpers.getBlockchainType(_pToken.redeemFrom.toLowerCase()),
+        endpoint: _endpoint
+      })
+
+      let info = null
+      try {
+        info = await selectedNode.getInfo()
+      } catch (err) {
+        dispatch({
+          type: PTOKENS_SET_NODE_INFO,
+          payload: {
+            pToken: Object.assign({}, _pToken, {
+              nodeInfo: {
+                contractAddress: null,
+                publicKey: null,
+                endpoint: _endpoint,
+                isManuallySelected: true,
+                isCompatible: false
+              }
+            })
+          }
+        })
+        return
+      }
+
       dispatch({
         type: PTOKENS_SET_NODE_INFO,
         payload: {
           pToken: Object.assign({}, _pToken, {
             nodeInfo: {
-              contractAddress: null,
-              publicKey: null,
+              contractAddress: info.smart_contract_address,
+              publicKey: info.public_key,
               endpoint: _endpoint,
               isManuallySelected: true,
-              isCompatible: false
+              isCompatible: info.native_network.includes(_pToken.network)
+                ? true
+                : false
             }
           })
         }
       })
-      return
+    } catch (_err) {
+      console.error(_err.message)
     }
-
-    dispatch({
-      type: PTOKENS_SET_NODE_INFO,
-      payload: {
-        pToken: Object.assign({}, _pToken, {
-          nodeInfo: {
-            contractAddress:
-              _pToken.name === 'pETH'
-                ? info.host_smart_contract_address
-                : info.smart_contract_address,
-            publicKey: info.public_key,
-            endpoint: _endpoint,
-            isManuallySelected: true,
-            isCompatible: info.native_network.includes(_pToken.network)
-              ? true
-              : false
-          }
-        })
-      }
-    })
   }
 }
-
 const ping = _pToken => {
   return async dispatch => {
-    if (!selectedNode) return
-
     try {
+      if (!selectedNode) return
+
       await selectedNode.ping()
       dispatch({
         type: PNETWORK_PING_PONG
       })
-    } catch (err) {}
+    } catch (_err) {
+      console.error(_err.message)
+    }
   }
 }
 
 const getLastProcessedBlock = (_pToken, _type, _role) => {
   return async dispatch => {
-    if (!selectedNode) return
+    try {
+      if (!selectedNode) return
 
-    //provisional
-    if (_pToken.redeemFrom === 'EOS' && _type === 'host') return
+      //provisional
+      if (_pToken.redeemFrom === 'EOS' && _type === 'host') return
 
-    // same mechanism used into getReport
-    typeNumberOfGetBlock[_type] += 1
-    const release = await mutex.acquire()
+      // same mechanism used into getReport
+      typeNumberOfGetBlock[_type] += 1
+      const release = await mutex.acquire()
 
-    const lastProcessedBlock = await selectedNode.getLastProcessedBlock(_type)
+      const lastProcessedBlock =
+        _type === 'native'
+          ? await selectedNode.getLastProcessedNativeBlock()
+          : await selectedNode.getLastProcessedHostBlock()
 
-    typeNumberOfGetBlock[_type] -= 1
+      typeNumberOfGetBlock[_type] -= 1
 
-    if (typeNumberOfGetBlock[_type] === 0) {
-      const status = await getBlockHeightStatusComparedWithTheReals(
-        _pToken,
-        _role,
-        lastProcessedBlock.block_num,
-        _pToken.network
-      )
+      if (typeNumberOfGetBlock[_type] === 0) {
+        const status = await getBlockHeightStatusComparedWithTheReals(
+          _pToken,
+          _role,
+          lastProcessedBlock.block_num,
+          _pToken.network
+        )
 
-      dispatch({
-        type:
-          _role === 'issuer'
-            ? PNETWORK_SET_ISSUER_BLOCK_HEIGHT_STATUS
-            : PNETWORK_SET_REDEEMER_BLOCK_HEIGHT_STATUS,
-        payload: {
-          status
-        }
-      })
+        dispatch({
+          type:
+            _role === 'issuer'
+              ? PNETWORK_SET_ISSUER_BLOCK_HEIGHT_STATUS
+              : PNETWORK_SET_REDEEMER_BLOCK_HEIGHT_STATUS,
+          payload: {
+            status
+          }
+        })
 
-      dispatch({
-        type:
-          _role === 'issuer'
-            ? PNETWORK_LAST_ISSUER_PROCESSED_BLOCK_LOADED
-            : PNETWORK_LAST_REDEEMER_PROCESSED_BLOCK_LOADED,
-        payload: {
-          block: lastProcessedBlock.block_num
-        }
-      })
+        dispatch({
+          type:
+            _role === 'issuer'
+              ? PNETWORK_LAST_ISSUER_PROCESSED_BLOCK_LOADED
+              : PNETWORK_LAST_REDEEMER_PROCESSED_BLOCK_LOADED,
+          payload: {
+            block: lastProcessedBlock.block_num
+          }
+        })
+      }
+
+      release()
+    } catch (_err) {
+      console.error(_err.message)
     }
-
-    release()
   }
 }
 
 const getReports = (_pToken, _type, _role) => {
   return async dispatch => {
-    if (!selectedNode) return
-
-    // increment the number of request in order to dont
-    // dispatch when typeNumberOfGetReport[_type] > 1
-    // (avoiding printing reports when user keep changing ptoken)
-    typeNumberOfGetReport[_type] += 1
-
-    // start critical reagion
-    const release = await mutex.acquire()
-
-    let reports = []
     try {
-      reports = await selectedNode.getReports(_type)
-    } catch (err) {
-      reports = []
+      if (!selectedNode) return
+
+      // increment the number of request in order to dont
+      // dispatch when typeNumberOfGetReport[_type] > 1
+      // (avoiding printing reports when user keep changing ptoken)
+      typeNumberOfGetReport[_type] += 1
+
+      // start critical reagion
+      const release = await mutex.acquire()
+
+      let reports = []
+      try {
+        reports =
+          _type === 'native'
+            ? await selectedNode.getNativeReports()
+            : await selectedNode.getHostReports()
+      } catch (err) {
+        reports = []
+      }
+
+      reports = reports.filter(report => report.broadcast_tx_hash)
+
+      typeNumberOfGetReport[_type] -= 1
+
+      //if there is no pending requests can dispatch
+      if (typeNumberOfGetReport[_type] === 0) {
+        dispatch({
+          type:
+            _role === 'issuer'
+              ? PNETWORK_REPORT_ISSUE_LOADED
+              : PNETWORK_REPORT_REDEEM_LOADED,
+          payload: {
+            reports
+          }
+        })
+      }
+      release()
+    } catch (_err) {
+      console.error(_err.message)
     }
-
-    reports = reports.filter(report => report.broadcast_tx_hash)
-
-    typeNumberOfGetReport[_type] -= 1
-
-    //if there is no pending requests can dispatch
-    if (typeNumberOfGetReport[_type] === 0) {
-      dispatch({
-        type:
-          _role === 'issuer'
-            ? PNETWORK_REPORT_ISSUE_LOADED
-            : PNETWORK_REPORT_REDEEM_LOADED,
-        payload: {
-          reports
-        }
-      })
-    }
-    // end critical reagion
-    release()
   }
 }
 

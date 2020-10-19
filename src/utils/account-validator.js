@@ -37,7 +37,7 @@ const isValidAccount = (_pToken, _account, _role) => {
     }
     case PLTC_ON_EOS_MAINNET: {
       return _role === 'issuer'
-        ? pTokenUtils.ltc.isValidAddress('mainnet', _account)
+        ? pTokenUtils.ltc.isValidAddress(_account)
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PBTC_ON_EOS_TESTNET: {
@@ -47,12 +47,12 @@ const isValidAccount = (_pToken, _account, _role) => {
     }
     case PLTC_ON_ETH_MAINNET: {
       return _role === 'issuer'
-        ? pTokenUtils.ltc.isValidAddress('mainnet', _account)
+        ? pTokenUtils.ltc.isValidAddress(_account)
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case PLTC_ON_ETH_TESTNET: {
       return _role === 'issuer'
-        ? pTokenUtils.ltc.isValidAddress('mainnet', _account)
+        ? pTokenUtils.ltc.isValidAddress(_account)
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     default:
