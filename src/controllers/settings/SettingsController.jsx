@@ -8,7 +8,6 @@ import {
   disconnectFromSpecificWallet,
   changeSpecificWallet
 } from '../../actions/wallets'
-import { resetDetectedNetwork } from '../../actions/networkDetector'
 import { setParams, setBalance, getBalance } from '../../actions/pTokens'
 
 const mapStateToProps = state => {
@@ -35,7 +34,6 @@ const mapDispatchToProps = dispatch => {
       dispatch(disconnectFromSpecificWallet(_pToken, _role)),
     changeSpecificWallet: (_pToken, _role) =>
       dispatch(changeSpecificWallet(_pToken, _role)),
-    resetDetectedNetwork: _role => dispatch(resetDetectedNetwork(_role)),
     setpTokenParams: _params => dispatch(setParams(_params)),
     setBalance: _balance => dispatch(setBalance(_balance)),
     getBalance: (_pToken, _account, _redeemerNetwork, configs) =>
@@ -129,7 +127,6 @@ export class SettingsController extends React.Component {
       return
     }
 
-    this.props.resetDetectedNetwork('redeemer')
     this.props.setpTokenParams(
       Object.assign({}, this.props.pTokensParams, {
         typedIssueAccount: ''
@@ -199,7 +196,6 @@ Settings.propTypes = {
   connectWithSpecificWallet: PropTypes.func,
   disconnectFromSpecificWallet: PropTypes.func,
   changeSpecificWallet: PropTypes.func,
-  resetDetectedNetwork: PropTypes.func,
   setpTokenParams: PropTypes.func,
   setBalance: PropTypes.func,
   getBalance: PropTypes.func
