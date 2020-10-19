@@ -4,6 +4,7 @@ import Modal from './components/Modal'
 import EventEmitter from 'eventemitter3'
 import ScatterProvider from './providers/scatter'
 import AnchorProvider from './providers/anchor'
+import TokenPocketProvider from './providers/token-pocket'
 
 const INITIAL_STATE = { show: false }
 
@@ -22,17 +23,24 @@ class EosConnect extends EventEmitter {
   lightboxOpacity = 0.4
   themeColors = THEME_COLORS
 
-  constructor({ dappName, scatter }) {
+  constructor({ dappName, scatter, tokenPocket }) {
     super()
 
     this.scatterProvider = new ScatterProvider({
       dappName,
       settings: scatter.settings
     })
-
     this.anchorProvider = new AnchorProvider({
       dappName
     })
+    this.tokenPocketProvider = new ScatterProvider({
+      settings: {
+        ...tokenPocket.settings,
+        host: 'eospush.tokenpocket.pro'
+      },
+      dappName
+    })
+
     this.userOptions = [
       {
         name: 'Scatter',
@@ -47,6 +55,13 @@ class EosConnect extends EventEmitter {
         description: 'Anchor Wallet',
         themeColors: THEME_COLORS,
         onClick: () => this.handleClick(this.anchorProvider)
+      },
+      {
+        name: 'Token Pocket',
+        logo: '../assets/token-pocket.png',
+        description: 'Token Pocket Wallet',
+        themeColors: THEME_COLORS,
+        onClick: () => this.handleClick(this.tokenPocketProvider)
       }
     ]
 

@@ -14,6 +14,8 @@ import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 
 ReactGA.initialize(settings.googleAnalyticsTrackId)
 
+if (window.ethereum) window.ethereum.autoRefreshOnNetworkChange = false
+
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>

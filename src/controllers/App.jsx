@@ -7,7 +7,6 @@ import SettingsController from './settings/SettingsController'
 import NodeDetectorController from './nodeDetector/NodeDetectorController'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import MainWrapper from '../components/utils/MainWrapper'
-import NetworkDetectorController from './networkDetector/NetworkDetectorController'
 import history from './../utils/history'
 import ReactGA from 'react-ga'
 import queryString from 'query-string'
@@ -140,7 +139,6 @@ class App extends React.Component {
                     <Notifications />
                     <SettingsController />
                     <NodeDetectorController />
-                    <NetworkDetectorController />
                     <MainController />
                   </MainWrapper>
                 </React.Fragment>
@@ -160,7 +158,6 @@ class App extends React.Component {
                     <Notifications />
                     <SettingsController />
                     <NodeDetectorController />
-                    <NetworkDetectorController />
                     <PNetworkController />
                   </MainWrapper>
                 </React.Fragment>
@@ -180,7 +177,6 @@ class App extends React.Component {
                     <Notifications />
                     <SettingsController />
                     <NodeDetectorController />
-                    <NetworkDetectorController />
                     <PTokensController />
                   </MainWrapper>
                 </React.Fragment>

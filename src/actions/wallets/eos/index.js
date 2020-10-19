@@ -10,6 +10,9 @@ const eosConnect = new EosConnect({
   dappName: settings.dappName,
   scatter: {
     settings: settings[1].eos
+  },
+  tokenPocket: {
+    settings: settings[1].eos
   }
 })
 
@@ -33,7 +36,8 @@ const connectWithEosWallet = async (
           type: 'multiWallet'
         },
         pToken: _pToken,
-        type: 'EOS'
+        type: 'EOS',
+        network: 'mainnet'
       }
     })
   })

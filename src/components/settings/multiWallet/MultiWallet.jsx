@@ -5,12 +5,12 @@ import styled from 'styled-components'
 
 const StyledButton = styled.button`
   width: auto;
-  background: #33B1F5;
+  background: #33b1f5;
   border-radius: 3px;
   font-family: Helvetica;
   font-size: 14px;
   font-weight: 300;
-  color: #FFFFFF;
+  color: #ffffff;
   height: 40px;
   border: 0;
   margin-left: 15px;
@@ -22,12 +22,12 @@ const StyledButton = styled.button`
 const MultiWallet = _props => {
   const { account, pToken, role, isConnected, onChange } = _props
   return (
-    <StyledButton
-      onClick={() => onChange()}
-    >
+    <StyledButton onClick={() => onChange()}>
       {isConnected
-          ? getCorresponsingVisibleAddressFormat(pToken, role, account)
-          : `CONNECT ${role === 'redeemer' ? pToken.redeemFrom : pToken.issueFrom} WALLET`}
+        ? getCorresponsingVisibleAddressFormat(pToken, role, account)
+        : `CONNECT ${
+            role === 'redeemer' ? pToken.redeemFrom : pToken.issueFrom
+          } WALLET`}
     </StyledButton>
   )
 }

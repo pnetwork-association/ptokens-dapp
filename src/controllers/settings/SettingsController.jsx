@@ -15,7 +15,6 @@ const mapStateToProps = state => {
   return {
     pTokenSelected: state.pTokens.selected,
     pTokensParams: state.pTokens.params,
-    pTokenBalance: state.pTokens.balance,
     issuerIsConnected: state.wallets.issuerIsConnected,
     issuerProvider: state.wallets.issuerProvider,
     issuerAccount: state.wallets.issuerAccount,
@@ -23,7 +22,7 @@ const mapStateToProps = state => {
     redeemerProvider: state.wallets.redeemerProvider,
     redeemerAccount: state.wallets.redeemerAccount,
     issuerWallet: state.wallets.issuerWallet,
-    redeemerWallet: state.wallets.redeemerWallet
+    redeemerWallet: state.wallets.redeemerWallet,
   }
 }
 const mapDispatchToProps = dispatch => {
@@ -176,16 +175,9 @@ export class SettingsController extends React.Component {
     return (
       <React.Fragment>
         <Settings
-          pTokenSelected={this.props.pTokenSelected}
-          balance={this.props.pTokenBalance}
-          issuerIsConnected={this.props.issuerIsConnected}
-          redeemerIsConnected={this.props.redeemerIsConnected}
-          issuerAccount={this.props.issuerAccount}
-          redeemerAccount={this.props.redeemerAccount}
-          issuerWallet={this.props.issuerWallet}
-          redeemerWallet={this.props.redeemerWallet}
           onChangeIssuerConnection={this.onChangeIssuerConnection}
           onChangeRedeemerConnection={this.onChangeRedeemerConnection}
+          {...this.props}
         />
       </React.Fragment>
     )
@@ -195,7 +187,6 @@ export class SettingsController extends React.Component {
 Settings.propTypes = {
   pTokenSelected: PropTypes.object,
   pTokensParams: PropTypes.object,
-  pTokenBalance: PropTypes.number,
   issuerIsConnected: PropTypes.bool,
   issuerProvider: PropTypes.bool,
   issuerAccount: PropTypes.string,
@@ -203,7 +194,7 @@ Settings.propTypes = {
   redeemerProvider: PropTypes.object,
   redeemerAccount: PropTypes.string,
   issuerWallet: PropTypes.object,
-  redeemerWallet: PropTypes.object,
+  redeemerNetwork: PropTypes.string,
   connectWithCorrectWallets: PropTypes.func,
   connectWithSpecificWallet: PropTypes.func,
   disconnectFromSpecificWallet: PropTypes.func,
