@@ -155,27 +155,19 @@ const PTokens = props => {
           type={'warning'}
           size={'medium'}
           text={
-            props.pTokenSelected.name === 'pETH' ? (
-              <React.Fragment>
-                Disclaimer: the security audits of pETH-on-EOS are currently in
-                progress, use with caution and proceed just if you know what you
-                are doing!{' '}
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                Make sure you know what you are doing, DeFi isn't for the faint
-                of heart just yet! To know more about the security model of
-                pTokens and its progressive decentralisation approach{' '}
-                <a
-                  href="https://medium.com/pnetwork/pnetwork-security-and-progressive-decentralisation-c5552216ca23"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  you can read this article
-                </a>
-                .
-              </React.Fragment>
-            )
+            <React.Fragment>
+              Make sure you know what you are doing, DeFi isn't for the faint of
+              heart just yet! To know more about the security model of pTokens
+              and its progressive decentralisation approach{' '}
+              <a
+                href="https://medium.com/pnetwork/pnetwork-security-and-progressive-decentralisation-c5552216ca23"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                you can read this article
+              </a>
+              .
+            </React.Fragment>
           }
         />
       </div>
