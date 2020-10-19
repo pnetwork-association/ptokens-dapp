@@ -3,20 +3,16 @@ import ScatterEOS from '@scatterjs/eosjs2'
 
 export default class ScatterProvider {
   constructor({ dappName, settings }) {
-    this.isInitialized = false
     this.dappName = dappName
-    this.settings = settings
+    ScatterJS.plugins(new ScatterEOS())
+    this.network = ScatterJS.Network.fromJson(settings)
   }
 
   connect = async () => {
     try {
-      if (!this.isInitialized) {
-        ScatterJS.plugins(new ScatterEOS())
-        this.network = ScatterJS.Network.fromJson(this.settings)
-        this.connected = await ScatterJS.connect(this.dappName)
-        this.isInitialized = true
-      }
-
+      this.connected = await ScatterJS.connect(this.dappName, {
+        network: this.network
+      })
       this.scatter = ScatterJS.scatter
       return this._login()
     } catch (_err) {

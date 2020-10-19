@@ -7,7 +7,7 @@ import {
 import EosConnect from '../../../lib/eosConnect/'
 
 const eosConnect = new EosConnect({
-  dappName: 'pTokens',
+  dappName: settings.dappName,
   scatter: {
     settings: settings[1].eos
   }

@@ -137,9 +137,8 @@ const pbtcLoggedIssue = async (_ptokens, _params, _pToken, _dispatch) => {
         })
       )
 
-      const explorer = `${
-        settings[_pToken.id][_pToken.redeemFrom.toLowerCase()].explorer
-      }tx/${report.broadcast_tx_hash}`
+      // prettier-ignore
+      const explorer = `${settings[_pToken.id][_pToken.redeemFrom.toLowerCase()].explorer}tx/${report.broadcast_tx_hash}`
 
       _dispatch(
         LogHandler.addItem({
