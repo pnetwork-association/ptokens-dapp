@@ -2,26 +2,24 @@ import {
   PNETWORK_PING_PONG,
   PNETWORK_LAST_ISSUER_PROCESSED_BLOCK_LOADED,
   PNETWORK_LAST_REDEEMER_PROCESSED_BLOCK_LOADED,
-  PNETWORK_BLOCK_SUBMITTED,
   PNETWORK_RESET_BLOCK_SUBMIT_SUCCESS,
   PNETWORK_REPORT_ISSUE_LOADED,
   PNETWORK_REPORT_REDEEM_LOADED,
   PNETWORK_RESET_DATA,
   PNETWORK_SET_ISSUER_BLOCK_HEIGHT_STATUS,
   PNETWORK_SET_REDEEMER_BLOCK_HEIGHT_STATUS,
-  PTOKENS_SET_NODE_INFO
+  PTOKENS_SET_NODE_INFO,
+  PNETWORK_SELECTED_NODE,
+  PNETWORK_SELECTED_NODE_MANUALLY
 } from '../../constants'
 import { getBlockHeightStatusComparedWithTheReals } from '../../utils/blocks-sync'
 import { NodeSelector } from 'ptokens-node-selector'
 import { Node } from 'ptokens-node'
 import { Mutex } from 'async-mutex'
 import { helpers } from 'ptokens-utils'
+import store from '../../store'
 
 const mutex = new Mutex()
-
-let selectedNode = null
-
-const selectedManually = {}
 
 // map used for keep track of pending requests for each type
 // of request (host/native) since this function is called
@@ -37,8 +35,13 @@ const typeNumberOfGetBlock = {
 }
 
 const setNode = _pToken => {
-  return async dispatch => {
+  return async _dispatch => {
     try {
+      let selectedNode = null
+
+      // prettier-ignore
+      const { pNetwork } = store.getState()
+      const { selectedManually } = pNetwork
       const endpointManuallySelected =
         selectedManually[
           `${_pToken.name.toLowerCase()}-on-${_pToken.redeemFrom.toLowerCase()}-${_pToken.network.toLowerCase()}`
@@ -51,6 +54,20 @@ const setNode = _pToken => {
           network: _pToken.network,
           endpoint: endpointManuallySelected
         })
+
+        _dispatch({
+          type: PNETWORK_SELECTED_NODE,
+          payload: {
+            node: selectedNode
+          }
+        })
+
+        _dispatch({
+          type: PNETWORK_SELECTED_NODE_MANUALLY,
+          payload: {
+            node: selectedManually
+          }
+        })
       } else {
         const nodeSelector = new NodeSelector({
           pToken: _pToken.name,
@@ -60,18 +77,21 @@ const setNode = _pToken => {
           network: _pToken.network
         })
 
-        try {
-          selectedNode = await nodeSelector.select()
-        } catch (err) {
-          selectedNode = null
-        }
+        selectedNode = await nodeSelector.select()
+        _dispatch({
+          type: PNETWORK_SELECTED_NODE,
+          payload: {
+            node: selectedNode
+          }
+        })
       }
 
+      // NOTE: node info stored within ptoken obj to facilitate data handling
       let info = null
       try {
         info = await selectedNode.getInfo()
       } catch (err) {
-        dispatch({
+        _dispatch({
           type: PTOKENS_SET_NODE_INFO,
           payload: {
             pToken: Object.assign({}, _pToken, {
@@ -88,7 +108,7 @@ const setNode = _pToken => {
         return
       }
 
-      dispatch({
+      _dispatch({
         type: PTOKENS_SET_NODE_INFO,
         payload: {
           pToken: Object.assign({}, _pToken, {
@@ -111,8 +131,12 @@ const setNode = _pToken => {
 }
 
 const setNodeManually = (_pToken, _endpoint) => {
-  return async dispatch => {
+  return async _dispatch => {
     try {
+      let selectedNode = null
+
+      const { pNetwork } = store.getState()
+      const { selectedManually } = pNetwork
       // prettier-ignore
       selectedManually[`${_pToken.name.toLowerCase()}-on-${_pToken.redeemFrom.toLowerCase()}-${_pToken.network.toLowerCase()}`] = _endpoint
 
@@ -122,11 +146,25 @@ const setNodeManually = (_pToken, _endpoint) => {
         endpoint: _endpoint
       })
 
+      _dispatch({
+        type: PNETWORK_SELECTED_NODE,
+        payload: {
+          node: selectedNode
+        }
+      })
+
+      _dispatch({
+        type: PNETWORK_SELECTED_NODE_MANUALLY,
+        payload: {
+          node: selectedManually
+        }
+      })
+
       let info = null
       try {
         info = await selectedNode.getInfo()
       } catch (err) {
-        dispatch({
+        _dispatch({
           type: PTOKENS_SET_NODE_INFO,
           payload: {
             pToken: Object.assign({}, _pToken, {
@@ -143,7 +181,7 @@ const setNodeManually = (_pToken, _endpoint) => {
         return
       }
 
-      dispatch({
+      _dispatch({
         type: PTOKENS_SET_NODE_INFO,
         payload: {
           pToken: Object.assign({}, _pToken, {
@@ -165,12 +203,14 @@ const setNodeManually = (_pToken, _endpoint) => {
   }
 }
 const ping = _pToken => {
-  return async dispatch => {
+  return async _dispatch => {
     try {
+      const { pNetwork } = store.getState()
+      const { selectedNode } = pNetwork
       if (!selectedNode) return
 
       await selectedNode.ping()
-      dispatch({
+      _dispatch({
         type: PNETWORK_PING_PONG
       })
     } catch (_err) {
@@ -180,8 +220,10 @@ const ping = _pToken => {
 }
 
 const getLastProcessedBlock = (_pToken, _type, _role) => {
-  return async dispatch => {
+  return async _dispatch => {
     try {
+      const { pNetwork } = store.getState()
+      const { selectedNode } = pNetwork
       if (!selectedNode) return
 
       //provisional
@@ -206,7 +248,7 @@ const getLastProcessedBlock = (_pToken, _type, _role) => {
           _pToken.network
         )
 
-        dispatch({
+        _dispatch({
           type:
             _role === 'issuer'
               ? PNETWORK_SET_ISSUER_BLOCK_HEIGHT_STATUS
@@ -216,13 +258,13 @@ const getLastProcessedBlock = (_pToken, _type, _role) => {
           }
         })
 
-        dispatch({
+        _dispatch({
           type:
             _role === 'issuer'
               ? PNETWORK_LAST_ISSUER_PROCESSED_BLOCK_LOADED
               : PNETWORK_LAST_REDEEMER_PROCESSED_BLOCK_LOADED,
           payload: {
-            block: lastProcessedBlock.block_num
+            block: lastProcessedBlock
           }
         })
       }
@@ -235,12 +277,14 @@ const getLastProcessedBlock = (_pToken, _type, _role) => {
 }
 
 const getReports = (_pToken, _type, _role) => {
-  return async dispatch => {
+  return async _dispatch => {
     try {
+      const { pNetwork } = store.getState()
+      const { selectedNode } = pNetwork
       if (!selectedNode) return
 
       // increment the number of request in order to dont
-      // dispatch when typeNumberOfGetReport[_type] > 1
+      // _dispatch when typeNumberOfGetReport[_type] > 1
       // (avoiding printing reports when user keep changing ptoken)
       typeNumberOfGetReport[_type] += 1
 
@@ -261,9 +305,9 @@ const getReports = (_pToken, _type, _role) => {
 
       typeNumberOfGetReport[_type] -= 1
 
-      //if there is no pending requests can dispatch
+      //if there is no pending requests can _dispatch
       if (typeNumberOfGetReport[_type] === 0) {
-        dispatch({
+        _dispatch({
           type:
             _role === 'issuer'
               ? PNETWORK_REPORT_ISSUE_LOADED
@@ -281,15 +325,7 @@ const getReports = (_pToken, _type, _role) => {
 }
 
 const submitBlock = (_pToken, _type, _block) => {
-  return async dispatch => {
-    if (!selectedNode) return
-
-    await selectedNode.submitBlock(_type, _block)
-
-    dispatch({
-      type: PNETWORK_BLOCK_SUBMITTED
-    })
-  }
+  // TODO
 }
 
 const resetSubmitBlockSuccess = () => {

@@ -54,8 +54,8 @@ const connectWithEthWallet = async (
 
     provider.on('chainChanged', _chainId => {
       if (Number(_chainId) !== 1) {
-        toastr.error('Invalid Ethereum Network. Please switch on Mainnet')
-      } 
+        toastr.error('Invalid Ethereum Network. Please switch on Mainnet!')
+      }
 
       // NOTE: store network even if is not used for possible future uses
       _dispatch({
@@ -99,8 +99,8 @@ const _connectionSuccesfull = async (
   try {
     const { accounts, chainId } = _provider
     if (Number(chainId) !== 1) {
-      toastr.error('Invalid Ethereum Network. Please switch on Mainnet')
-    } 
+      toastr.error('Invalid Ethereum Network. Please switch on Mainnet!')
+    }
 
     const account = accounts ? accounts[0] : await _getAccount(_provider)
     _dispatch({

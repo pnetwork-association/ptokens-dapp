@@ -21,7 +21,7 @@ const mapStateToProps = state => {
     redeemerProvider: state.wallets.redeemerProvider,
     redeemerAccount: state.wallets.redeemerAccount,
     issuerWallet: state.wallets.issuerWallet,
-    redeemerWallet: state.wallets.redeemerWallet,
+    redeemerWallet: state.wallets.redeemerWallet
   }
 }
 const mapDispatchToProps = dispatch => {
@@ -185,7 +185,7 @@ Settings.propTypes = {
   pTokenSelected: PropTypes.object,
   pTokensParams: PropTypes.object,
   issuerIsConnected: PropTypes.bool,
-  issuerProvider: PropTypes.bool,
+  issuerProvider: PropTypes.object,
   issuerAccount: PropTypes.string,
   redeemerIsConnected: PropTypes.bool,
   redeemerProvider: PropTypes.object,

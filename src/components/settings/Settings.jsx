@@ -18,7 +18,7 @@ const Settings = _props => {
     onChangeRedeemerConnection,
     issuerAccount,
     issuerIsConnected,
-    issuerWallet,
+    issuerWallet
   } = _props
 
   return (

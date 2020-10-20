@@ -6,7 +6,9 @@ import {
   PNETWORK_REPORT_REDEEM_LOADED,
   PNETWORK_RESET_DATA,
   PNETWORK_SET_ISSUER_BLOCK_HEIGHT_STATUS,
-  PNETWORK_SET_REDEEMER_BLOCK_HEIGHT_STATUS
+  PNETWORK_SET_REDEEMER_BLOCK_HEIGHT_STATUS,
+  PNETWORK_SELECTED_NODE,
+  PNETWORK_SELECTED_NODE_MANUALLY
 } from '../../constants/index'
 
 const initialState = {
@@ -16,7 +18,9 @@ const initialState = {
   issueReports: [],
   redeemReports: [],
   issuerBlockHeightStatus: null,
-  redeemerBlockHeightStatus: null
+  redeemerBlockHeightStatus: null,
+  selectedNode: null,
+  selectedManually: {}
 }
 
 const pNetworkReducer = (_state = initialState, _action) => {
@@ -59,6 +63,18 @@ const pNetworkReducer = (_state = initialState, _action) => {
   if (_action.type === PNETWORK_SET_REDEEMER_BLOCK_HEIGHT_STATUS) {
     return Object.assign({}, _state, {
       redeemerBlockHeightStatus: _action.payload.status
+    })
+  }
+
+  if (_action.type === PNETWORK_SELECTED_NODE) {
+    return Object.assign({}, _state, {
+      selectedNode: _action.payload.node
+    })
+  }
+
+  if (_action.type === PNETWORK_SELECTED_NODE_MANUALLY) {
+    return Object.assign({}, _state, {
+      selectedManually: _action.payload.selectedManually
     })
   }
 
