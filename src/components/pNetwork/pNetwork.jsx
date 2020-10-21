@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import MiniCard from '../utils/MiniCard'
 import { getCorrespondingExplorerLink } from '../../utils/ptokens-sm-utils'
 import { getCorresponsingVisibleAddressFormat } from '../../utils/account-viewer'
-//import Button from '../utils/Button'
 import ReactTooltip from 'react-tooltip'
 
 const PNetwork = props => {

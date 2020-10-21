@@ -33,10 +33,9 @@ class EosConnect extends EventEmitter {
     this.anchorProvider = new AnchorProvider({
       dappName
     })
-    this.tokenPocketProvider = new ScatterProvider({
+    this.tokenPocketProvider = new TokenPocketProvider({
       settings: {
-        ...tokenPocket.settings,
-        host: 'eospush.tokenpocket.pro'
+        ...tokenPocket.settings
       },
       dappName
     })
