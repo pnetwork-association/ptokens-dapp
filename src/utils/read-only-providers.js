@@ -24,10 +24,7 @@ const getCorrespondingReadOnlyProvider = _pToken => {
     )
   }
   if (_pToken.redeemFrom === 'EOS') {
-    return new JsonRpc(
-      'https://corsproxy.ptokens.io/v1/?apiurl=https://eos-mainnet-7.ptokens.io',
-      { fetch }
-    )
+    return new JsonRpc(settings[_pToken.id].eos.endpoint, { fetch })
   }
 
   return null

@@ -55,11 +55,7 @@ const PTokens = props => {
                 onChangeIssueAccount={props.onChangeIssueAccount}
                 onIssue={props.onIssue}
               />
-            ) : props.pTokenSelected.name === 'pETH' ||
-              props.pTokenSelected.name === 'pMKR' ||
-              props.pTokenSelected.name === 'pYFI' ||
-              props.pTokenSelected.name === 'PNT' ||
-              props.pTokenSelected.name === 'pLINK' ? (
+            ) : props.pTokenSelected.isPerc20 ? (
               <Perc20IssueCard
                 pTokenSelected={props.pTokenSelected}
                 suggestedRedimeerAccounts={props.suggestedRedimeerAccounts}

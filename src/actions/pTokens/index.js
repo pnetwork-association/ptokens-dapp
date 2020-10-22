@@ -263,7 +263,6 @@ const _getCorrectConfigs = (_pToken, _configs) => {
       }
     }
   }
-
   if (_pToken.id === PBTC_ON_ETH_TESTNET) {
     return {
       pbtc: {
@@ -273,13 +272,12 @@ const _getCorrectConfigs = (_pToken, _configs) => {
       }
     }
   }
-
   if (_pToken.id === PBTC_ON_EOS_TESTNET) {
     return {
       pbtc: {
         network: networks.Testnet,
         blockchain: blockchains.Eosio,
-        eosRpc: settings[PBTC_ON_EOS_TESTNET].eos.provableEndpoint,
+        eosRpc: settings[PBTC_ON_EOS_TESTNET].eos.endpoint,
         eosSignatureProvider: redeemer
       }
     }
@@ -289,7 +287,7 @@ const _getCorrectConfigs = (_pToken, _configs) => {
       pbtc: {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
-        eosRpc: settings[PBTC_ON_EOS_MAINNET].eos.provableEndpoint,
+        eosRpc: settings[PBTC_ON_EOS_MAINNET].eos.endpoint,
         eosSignatureProvider: redeemer
       }
     }
@@ -309,7 +307,7 @@ const _getCorrectConfigs = (_pToken, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider: redeemer,
-        eosRpc: settings[PLTC_ON_EOS_MAINNET].eos.provableEndpoint,
+        eosRpc: settings[PLTC_ON_EOS_MAINNET].eos.endpoint,
         eosSignatureProvider: redeemer
       }
     }
@@ -330,7 +328,7 @@ const _getCorrectConfigs = (_pToken, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider: issuer,
-        eosRpc: settings[PETH_ON_EOS_MAINNET].eos.provableEndpoint,
+        eosRpc: settings[PETH_ON_EOS_MAINNET].eos.endpoint,
         eosSignatureProvider: redeemer
       }
     }
@@ -342,7 +340,7 @@ const _getCorrectConfigs = (_pToken, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider: issuer,
-        eosRpc: settings[PNT_ON_EOS_MAINNET].eos.provableEndpoint,
+        eosRpc: settings[PNT_ON_EOS_MAINNET].eos.endpoint,
         eosSignatureProvider: redeemer
       }
     }
@@ -354,7 +352,7 @@ const _getCorrectConfigs = (_pToken, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider: issuer,
-        eosRpc: settings[PMKR_ON_EOS_MAINNET].eos.provableEndpoint,
+        eosRpc: settings[PMKR_ON_EOS_MAINNET].eos.endpoint,
         eosSignatureProvider: redeemer
       }
     }
@@ -366,7 +364,7 @@ const _getCorrectConfigs = (_pToken, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider: issuer,
-        eosRpc: settings[PLINK_ON_EOS_MAINNET].eos.provableEndpoint,
+        eosRpc: settings[PLINK_ON_EOS_MAINNET].eos.endpoint,
         eosSignatureProvider: redeemer
       }
     }
@@ -378,7 +376,7 @@ const _getCorrectConfigs = (_pToken, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider: issuer,
-        eosRpc: settings[PYFI_ON_EOS_MAINNET].eos.provableEndpoint,
+        eosRpc: settings[PYFI_ON_EOS_MAINNET].eos.endpoint,
         eosSignatureProvider: redeemer
       }
     }

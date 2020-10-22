@@ -48,7 +48,7 @@ const settings = {
       port: 443,
       protocol: 'https',
       explorer: 'https://bloks.io/',
-      provableEndpoint:
+      endpoint:
         'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     btc: {
@@ -81,7 +81,7 @@ const settings = {
       port: 443,
       protocol: 'https',
       explorer: 'https://bloks.io/',
-      provableEndpoint:
+      endpoint:
         'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     ltc: {
@@ -97,7 +97,7 @@ const settings = {
       port: 443,
       protocol: 'https',
       explorer: 'https://bloks.io/',
-      provableEndpoint:
+      endpoint:
         'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
@@ -120,7 +120,7 @@ const settings = {
       port: 443,
       protocol: 'https',
       explorer: 'https://bloks.io/',
-      provableEndpoint:
+      endpoint:
         'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
@@ -143,7 +143,7 @@ const settings = {
       port: 443,
       protocol: 'https',
       explorer: 'https://bloks.io/',
-      provableEndpoint:
+      endpoint:
         'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
@@ -166,7 +166,7 @@ const settings = {
       port: 443,
       protocol: 'https',
       explorer: 'https://bloks.io/',
-      provableEndpoint:
+      endpoint:
         'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
@@ -189,7 +189,7 @@ const settings = {
       port: 443,
       protocol: 'https',
       explorer: 'https://bloks.io/',
-      provableEndpoint:
+      endpoint:
         'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
@@ -232,7 +232,7 @@ const settings = {
       protocol: 'http',
       explorer:
         'https://local.bloks.io/?nodeUrl=jungle3.cryptolions.io&systemDomain=eosio&hyperionUrl=https%3A%2F%2Fjungle3history.cryptolions.io/',
-      provableEndpoint:
+      endpoint:
         'https://corsproxy.ptokens.io/v1/?apiurl=https://pbtc-on-eos-jungle-3.ptokens.io'
     },
     btc: {
@@ -309,7 +309,8 @@ const settings = {
       redeemFrom: 'EOS',
       realDecimals: 18,
       contractDecimals: 0,
-      network: 'mainnet'
+      network: 'mainnet',
+      isPerc20: true
     },
     {
       id: PNT_ON_EOS_MAINNET,
@@ -319,7 +320,8 @@ const settings = {
       redeemFrom: 'EOS',
       realDecimals: 18,
       contractDecimals: 0,
-      network: 'mainnet'
+      network: 'mainnet',
+      isPerc20: true
     },
     {
       id: PMKR_ON_EOS_MAINNET,
@@ -329,7 +331,8 @@ const settings = {
       redeemFrom: 'EOS',
       realDecimals: 18,
       contractDecimals: 0,
-      network: 'mainnet'
+      network: 'mainnet',
+      isPerc20: true
     },
     {
       id: PLINK_ON_EOS_MAINNET,
@@ -339,7 +342,8 @@ const settings = {
       redeemFrom: 'EOS',
       realDecimals: 18,
       contractDecimals: 0,
-      network: 'mainnet'
+      network: 'mainnet',
+      isPerc20: true
     },
     {
       id: PYFI_ON_EOS_MAINNET,
@@ -349,7 +353,8 @@ const settings = {
       redeemFrom: 'EOS',
       realDecimals: 18,
       contractDecimals: 0,
-      network: 'mainnet'
+      network: 'mainnet',
+      isPerc20: true
     },
     {
       id: PBTC_ON_ETH_TESTNET,

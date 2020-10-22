@@ -92,7 +92,7 @@ const getBlockHeightStatusComparedWithTheReals = async (
     _pToken.id === PBTC_ON_EOS_TESTNET ||
     _pToken.id === PBTC_ON_EOS_MAINNET
   ) {
-    /*const rpc = new JsonRpc(settings[2].eos.provableEndpoint, {
+    /*const rpc = new JsonRpc(settings[2].eos.endpoint, {
       fetch
     })
     const eosjs = new Api({

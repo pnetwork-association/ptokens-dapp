@@ -113,7 +113,9 @@ const setNode = _pToken => {
         payload: {
           pToken: Object.assign({}, _pToken, {
             nodeInfo: {
-              contractAddress: info.smart_contract_address,
+              contractAddress: _pToken.isPerc20
+                ? info.host_smart_contract_address
+                : info.smart_contract_address,
               publicKey: info.public_key,
               endpoint: selectedNode ? selectedNode.provider.endpoint : null,
               isManuallySelected: endpointManuallySelected ? true : false,
@@ -186,7 +188,9 @@ const setNodeManually = (_pToken, _endpoint) => {
         payload: {
           pToken: Object.assign({}, _pToken, {
             nodeInfo: {
-              contractAddress: info.smart_contract_address,
+              contractAddress: _pToken.isPerc20
+                ? info.host_smart_contract_address
+                : info.smart_contract_address,
               publicKey: info.public_key,
               endpoint: _endpoint,
               isManuallySelected: true,
