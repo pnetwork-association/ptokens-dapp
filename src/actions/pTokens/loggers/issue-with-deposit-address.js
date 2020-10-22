@@ -16,7 +16,7 @@ const loggedIssueWithDepositAddress = async (
   let depositAddress = null
 
   try {
-    depositAddress = await _ptokens.pbtc.getDepositAddress(_params[1])
+    depositAddress = await _ptokens[_pToken.name.toLowerCase()].getDepositAddress(_params[1])
   } catch (err) {
     _dispatch({
       type: PTOKENS_ISSUE_NOT_SUCCEDEED,
