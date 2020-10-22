@@ -48,10 +48,7 @@ const loggedIssueWithWallet = async (_ptokens, _params, _pToken, _dispatch) => {
 
       if (!BigNumber(allowance).isGreaterThanOrEqualTo(_params[0])) {
         await toApprove.methods
-          .approve(
-            eth.addHexPrefix(info.native_vault_address),
-            _params[0]
-          )
+          .approve(eth.addHexPrefix(info.native_vault_address), _params[0])
           .send({ from: wallets.issuerAccount })
 
         _dispatch(
@@ -88,15 +85,39 @@ const loggedIssueWithWallet = async (_ptokens, _params, _pToken, _dispatch) => {
 
   _dispatch(
     LogHandler.addItem({
-      value: 'Waiting for confirmation...',
+      value: 'Waiting for broadcasting...',
       success: false,
       waiting: true,
-      id: 'mint-confirmation'
+      id: 'broadcast-confirmation'
     })
   )
 
   _ptokens[_pToken.name.toLowerCase()]
     .issue(..._params)
+    .once('nativeTxBroadcasted', _hash => {
+      const explorer = `${getCorrespondingBaseTxExplorerLink(
+        _pToken,
+        'issuer'
+      )}${_hash}`
+
+      _dispatch(
+        LogHandler.updateItem('broadcast-confirmation', {
+          value: `Minting transaction broadcasted`,
+          success: true,
+          link: explorer,
+          id: 'broadcast-confirmation'
+        })
+      )
+
+      _dispatch(
+        LogHandler.addItem({
+          value: 'Waiting for confirmation...',
+          success: false,
+          waiting: true,
+          id: 'mint-confirmation'
+        })
+      )
+    })
     .once('nativeTxConfirmed', () => {
       _dispatch(
         LogHandler.updateItem('mint-confirmation', {
