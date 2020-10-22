@@ -20,7 +20,7 @@ const Main = props => {
                   icon={'coins'}
                 />
               </div>
-              <div className="col-12 col-xl-6">
+              <div className="col-12 col-xl-6 mt-15 mt-0-xl">
                 <MiniCard
                   title="NETWORK STATUS"
                   icon={props.isActive ? 'blockchain' : 'timer'}

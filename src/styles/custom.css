@@ -279,8 +279,8 @@ html * {
 }
 
 @media (min-width: 1200px) {
-    .mt-xl-20 {
-        margin-top: 20px !important;
+    .mt-0-xl {
+        margin-top: 0px !important;
     }
 }
 @media (min-width: 768px) {
