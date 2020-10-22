@@ -8,7 +8,11 @@ import {
   PLTC_ON_ETH_MAINNET,
   PLTC_ON_ETH_TESTNET,
   PLTC_ON_EOS_MAINNET,
-  PETH_ON_EOS_MAINNET
+  PETH_ON_EOS_MAINNET,
+  PNT_ON_EOS_MAINNET,
+  PMKR_ON_EOS_MAINNET,
+  PLINK_ON_EOS_MAINNET,
+  PYFI_ON_EOS_MAINNET
 } from '../constants'
 
 const web3 = new Web3()
@@ -31,6 +35,26 @@ const isValidAccount = (_pToken, _account, _role) => {
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PETH_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PNT_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PLINK_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PMKR_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PYFI_ON_EOS_MAINNET: {
       return _role === 'issuer'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)

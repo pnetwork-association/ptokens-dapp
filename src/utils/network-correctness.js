@@ -1,16 +1,30 @@
 const pBTCRedeemerNetworks = ['ropsten', 'main', 'eos'] //remove eos
 const pLTCRedeemerNetworks = ['ropsten', 'main']
 const pETHRedeemerNetworks = ['eos']
+const PNTRedeemerNetworks = ['eos']
+const pLINKRedeemerNetworks = ['eos']
+const pMKRRedeemerNetworks = ['eos']
+const pYFIRedeemerNetworks = ['eos']
 
 const getNetworkCorrectness = (_pTokenName, _network, _role) => {
   if (_pTokenName === 'pETH' && _role === 'redeemer') {
     return pETHRedeemerNetworks.includes(_network)
   }
-
+  if (_pTokenName === 'pLINK' && _role === 'redeemer') {
+    return pLINKRedeemerNetworks.includes(_network)
+  }
+  if (_pTokenName === 'pYFI' && _role === 'redeemer') {
+    return pYFIRedeemerNetworks.includes(_network)
+  }
+  if (_pTokenName === 'PNT' && _role === 'redeemer') {
+    return PNTRedeemerNetworks.includes(_network)
+  }
+  if (_pTokenName === 'pMKR' && _role === 'redeemer') {
+    return pMKRRedeemerNetworks.includes(_network)
+  }
   if (_pTokenName === 'pBTC' && _role === 'redeemer') {
     return pBTCRedeemerNetworks.includes(_network)
   }
-
   if (_pTokenName === 'pLTC' && _role === 'redeemer') {
     return pLTCRedeemerNetworks.includes(_network)
   }

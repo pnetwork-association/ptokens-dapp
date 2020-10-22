@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Process from './process/Process'
 import PbtcIssueCard from './pbtcIssueCard/PbtcIssueCard'
-import PethIssueCard from './pethIssueCard/PethIssueCard'
+import Perc20IssueCard from './perc20IssueCard/Perc20IssueCard'
 import PltcIssueCard from './pltcIssueCard/PltcIssueCard'
 import MiniCard from '../utils/MiniCard'
 import Alert from '../utils/Alert'
@@ -23,7 +23,7 @@ const PTokens = props => {
         <div className="container-fluid">
           <div className="header-body">
             <div className="row">
-              <div className="col-6">
+              <div className="col-12 col-lg-6">
                 <MiniCard
                   title="YOUR BALANCE"
                   value={
@@ -55,8 +55,12 @@ const PTokens = props => {
                 onChangeIssueAccount={props.onChangeIssueAccount}
                 onIssue={props.onIssue}
               />
-            ) : props.pTokenSelected.name === 'pETH' ? (
-              <PethIssueCard
+            ) : props.pTokenSelected.name === 'pETH' ||
+              props.pTokenSelected.name === 'pMKR' ||
+              props.pTokenSelected.name === 'pYFI' ||
+              props.pTokenSelected.name === 'PNT' ||
+              props.pTokenSelected.name === 'pLINK' ? (
+              <Perc20IssueCard
                 pTokenSelected={props.pTokenSelected}
                 suggestedRedimeerAccounts={props.suggestedRedimeerAccounts}
                 typedIssueAccount={props.typedIssueAccount}

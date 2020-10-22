@@ -4,7 +4,7 @@ import Input from '../../utils/Input'
 import Button from '../../utils/Button'
 import CardHeader from '../CardHeader/CardHeader'
 
-const PethIssueCard = props => {
+const Perc20IssueCard = props => {
   return (
     <div className="card shadow bg-light-gray no-shadow height-max">
       <CardHeader type="issue" pTokenSelected={props.pTokenSelected} />
@@ -50,7 +50,7 @@ const PethIssueCard = props => {
   )
 }
 
-PethIssueCard.propTypes = {
+Perc20IssueCard.propTypes = {
   pTokenSelected: PropTypes.object,
   amountToIssue: PropTypes.string,
   typedIssueAccount: PropTypes.string,
@@ -59,4 +59,4 @@ PethIssueCard.propTypes = {
   onIssue: PropTypes.func
 }
 
-export default PethIssueCard
+export default Perc20IssueCard

@@ -7,7 +7,11 @@ import {
   PLTC_ON_ETH_MAINNET,
   PLTC_ON_ETH_TESTNET,
   PLTC_ON_EOS_MAINNET,
-  PETH_ON_EOS_MAINNET
+  PETH_ON_EOS_MAINNET,
+  PNT_ON_EOS_MAINNET,
+  PMKR_ON_EOS_MAINNET,
+  PLINK_ON_EOS_MAINNET,
+  PYFI_ON_EOS_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_pToken, _role, _address) => {
@@ -51,6 +55,26 @@ const getCorrespondingExplorerLink = (_pToken, _role, _address) => {
       return _role === 'issuer'
         ? `${settings[PETH_ON_EOS_MAINNET].eth.explorer}address/${_address}`
         : `${settings[PETH_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+    }
+    case PMKR_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PMKR_ON_EOS_MAINNET].eth.explorer}address/${_address}`
+        : `${settings[PMKR_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+    }
+    case PNT_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PNT_ON_EOS_MAINNET].eth.explorer}address/${_address}`
+        : `${settings[PNT_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+    }
+    case PLINK_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PLINK_ON_EOS_MAINNET].eth.explorer}address/${_address}`
+        : `${settings[PLINK_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+    }
+    case PYFI_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PYFI_ON_EOS_MAINNET].eth.explorer}address/${_address}`
+        : `${settings[PYFI_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
     }
     default:
       break
@@ -98,6 +122,26 @@ const getCorrespondingBaseTxExplorerLink = (_pToken, _role) => {
       return _role === 'issuer'
         ? `${settings[PETH_ON_EOS_MAINNET].eth.explorer}tx/`
         : `${settings[PETH_ON_EOS_MAINNET].eos.explorer}transaction/`
+    }
+    case PLINK_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PLINK_ON_EOS_MAINNET].eth.explorer}tx/`
+        : `${settings[PLINK_ON_EOS_MAINNET].eos.explorer}transaction/`
+    }
+    case PMKR_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PMKR_ON_EOS_MAINNET].eth.explorer}tx/`
+        : `${settings[PMKR_ON_EOS_MAINNET].eos.explorer}transaction/`
+    }
+    case PYFI_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PYFI_ON_EOS_MAINNET].eth.explorer}tx/`
+        : `${settings[PYFI_ON_EOS_MAINNET].eos.explorer}transaction/`
+    }
+    case PNT_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PNT_ON_EOS_MAINNET].eth.explorer}tx/`
+        : `${settings[PNT_ON_EOS_MAINNET].eos.explorer}transaction/`
     }
     default:
       break

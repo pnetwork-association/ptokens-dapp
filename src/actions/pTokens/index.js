@@ -18,7 +18,11 @@ import {
   PTOKENS_SET_CUSTOM_NATIVE_RPC,
   PLTC_ON_ETH_TESTNET,
   PLTC_ON_EOS_MAINNET,
-  PETH_ON_EOS_MAINNET
+  PETH_ON_EOS_MAINNET,
+  PNT_ON_EOS_MAINNET,
+  PMKR_ON_EOS_MAINNET,
+  PLINK_ON_EOS_MAINNET,
+  PYFI_ON_EOS_MAINNET
 } from '../../constants/index'
 import pTokens from 'ptokens'
 import { constants } from 'ptokens-utils'
@@ -99,23 +103,7 @@ const redeem = (_pToken, _params, _configs) => {
       const ptokens = _getSelectedpToken(_pToken, _configs)
       // prettier-ignore
       ptokens[_pToken.name.toLowerCase()].setSelectedNode(_pToken.nodeInfo.endpoint)
-
-      switch (_pToken.name) {
-        case 'pETH': {
-          loggedRedeem(ptokens, _params, _pToken, _dispatch)
-          break
-        }
-        case 'pBTC': {
-          loggedRedeem(ptokens, _params, _pToken, _dispatch)
-          break
-        }
-        case 'pLTC': {
-          loggedRedeem(ptokens, _params, _pToken, _dispatch)
-          break
-        }
-        default:
-          break
-      }
+      loggedRedeem(ptokens, _params, _pToken, _dispatch)
     } catch (_err) {
       console.error(_err.message)
     }
@@ -343,6 +331,54 @@ const _getCorrectConfigs = (_pToken, _configs) => {
         blockchain: blockchains.Eosio,
         ethProvider: issuer,
         eosRpc: settings[PETH_ON_EOS_MAINNET].eos.provableEndpoint,
+        eosSignatureProvider: redeemer
+      }
+    }
+  }
+  if (_pToken.id === PNT_ON_EOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.PNT,
+        network: networks.Mainnet,
+        blockchain: blockchains.Eosio,
+        ethProvider: issuer,
+        eosRpc: settings[PNT_ON_EOS_MAINNET].eos.provableEndpoint,
+        eosSignatureProvider: redeemer
+      }
+    }
+  }
+  if (_pToken.id === PMKR_ON_EOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pMKR,
+        network: networks.Mainnet,
+        blockchain: blockchains.Eosio,
+        ethProvider: issuer,
+        eosRpc: settings[PMKR_ON_EOS_MAINNET].eos.provableEndpoint,
+        eosSignatureProvider: redeemer
+      }
+    }
+  }
+  if (_pToken.id === PLINK_ON_EOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pLINK,
+        network: networks.Mainnet,
+        blockchain: blockchains.Eosio,
+        ethProvider: issuer,
+        eosRpc: settings[PLINK_ON_EOS_MAINNET].eos.provableEndpoint,
+        eosSignatureProvider: redeemer
+      }
+    }
+  }
+  if (_pToken.id === PYFI_ON_EOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pYFI,
+        network: networks.Mainnet,
+        blockchain: blockchains.Eosio,
+        ethProvider: issuer,
+        eosRpc: settings[PYFI_ON_EOS_MAINNET].eos.provableEndpoint,
         eosSignatureProvider: redeemer
       }
     }

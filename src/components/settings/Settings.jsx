@@ -8,6 +8,10 @@ const SettingsWrapper = styled.div`
   margin-bottom: 30px;
 `
 
+const MultiWalletContainer = styled.div`
+  margin-left: 15px;
+`
+
 const Settings = _props => {
   const {
     pTokenSelected,
@@ -23,10 +27,51 @@ const Settings = _props => {
 
   return (
     <SettingsWrapper>
-      <div className="container-fluid">
+      {/* DESKTOP */}
+      <div className="container-fluid hidden-mobile">
         <div className="row ml-0 mr-0">
-          <div className="col-12 text-right mt-15 mb-15">
+          <div className="col-12 text-right mt-15 mb-15 d-flex flex-row-reverse">
             {pTokenSelected.redeemFrom === 'EOS' ? (
+              <MultiWalletContainer>
+                <MultiWallet
+                  pToken={pTokenSelected}
+                  account={redeemerAccount}
+                  role={'redeemer'}
+                  isConnected={redeemerIsConnected}
+                  onChange={() => onChangeRedeemerConnection(redeemerWallet)}
+                />
+              </MultiWalletContainer>
+            ) : null}
+            {pTokenSelected.issueFrom === 'ETH' ? (
+              <MultiWalletContainer>
+                <MultiWallet
+                  pToken={pTokenSelected}
+                  account={issuerAccount}
+                  role={'issuer'}
+                  isConnected={issuerIsConnected}
+                  onChange={() => onChangeIssuerConnection(issuerWallet)}
+                />
+              </MultiWalletContainer>
+            ) : null}
+            {pTokenSelected.redeemFrom === 'ETH' ? (
+              <MultiWalletContainer>
+                <MultiWallet
+                  pToken={pTokenSelected}
+                  account={redeemerAccount}
+                  role={'redeemer'}
+                  isConnected={redeemerIsConnected}
+                  onChange={() => onChangeRedeemerConnection(redeemerWallet)}
+                />
+              </MultiWalletContainer>
+            ) : null}
+          </div>
+        </div>
+      </div>
+      {/* MOBILE */}
+      <div className="container-fluid show-mobile">
+        <div className="row ml-0 mr-0 justify-content-center">
+          {pTokenSelected.redeemFrom === 'EOS' ? (
+            <div className="col-6 text-right mt-5 mb-15 pl-0 pr-1">
               <MultiWallet
                 pToken={pTokenSelected}
                 account={redeemerAccount}
@@ -34,8 +79,10 @@ const Settings = _props => {
                 isConnected={redeemerIsConnected}
                 onChange={() => onChangeRedeemerConnection(redeemerWallet)}
               />
-            ) : null}
-            {pTokenSelected.issueFrom === 'ETH' ? (
+            </div>
+          ) : null}
+          {pTokenSelected.issueFrom === 'ETH' ? (
+            <div className="col-6 text-right mt-5 mb-15 pl-1 pr-0">
               <MultiWallet
                 pToken={pTokenSelected}
                 account={issuerAccount}
@@ -43,8 +90,10 @@ const Settings = _props => {
                 isConnected={issuerIsConnected}
                 onChange={() => onChangeIssuerConnection(issuerWallet)}
               />
-            ) : null}
-            {pTokenSelected.redeemFrom === 'ETH' ? (
+            </div>
+          ) : null}
+          {pTokenSelected.redeemFrom === 'ETH' ? (
+            <div className="col-6 text-right mt-5 mb-15 pl-1 pr-0">
               <MultiWallet
                 pToken={pTokenSelected}
                 account={redeemerAccount}
@@ -52,8 +101,8 @@ const Settings = _props => {
                 isConnected={redeemerIsConnected}
                 onChange={() => onChangeRedeemerConnection(redeemerWallet)}
               />
-            ) : null}
-          </div>
+            </div>
+          ) : null}
         </div>
       </div>
     </SettingsWrapper>

@@ -6,7 +6,11 @@ import {
   PLTC_ON_ETH_MAINNET,
   PLTC_ON_ETH_TESTNET,
   PLTC_ON_EOS_MAINNET,
-  PETH_ON_EOS_MAINNET
+  PETH_ON_EOS_MAINNET,
+  PNT_ON_EOS_MAINNET,
+  PMKR_ON_EOS_MAINNET,
+  PLINK_ON_EOS_MAINNET,
+  PYFI_ON_EOS_MAINNET
 } from '../constants'
 
 const getCorresponsingVisibleAddressFormat = (_pToken, _role, _account) => {
@@ -63,6 +67,38 @@ const getCorresponsingVisibleAddressFormat = (_pToken, _role, _account) => {
           )}`
     }
     case PETH_ON_EOS_MAINNET: {
+      return _role === 'redeemer'
+        ? _account
+        : `${_account.slice(0, 6)}...${_account.slice(
+            _account.length - 4,
+            _account.length
+          )}`
+    }
+    case PYFI_ON_EOS_MAINNET: {
+      return _role === 'redeemer'
+        ? _account
+        : `${_account.slice(0, 6)}...${_account.slice(
+            _account.length - 4,
+            _account.length
+          )}`
+    }
+    case PMKR_ON_EOS_MAINNET: {
+      return _role === 'redeemer'
+        ? _account
+        : `${_account.slice(0, 6)}...${_account.slice(
+            _account.length - 4,
+            _account.length
+          )}`
+    }
+    case PLINK_ON_EOS_MAINNET: {
+      return _role === 'redeemer'
+        ? _account
+        : `${_account.slice(0, 6)}...${_account.slice(
+            _account.length - 4,
+            _account.length
+          )}`
+    }
+    case PNT_ON_EOS_MAINNET: {
       return _role === 'redeemer'
         ? _account
         : `${_account.slice(0, 6)}...${_account.slice(
