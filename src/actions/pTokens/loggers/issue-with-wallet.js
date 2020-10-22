@@ -7,6 +7,8 @@ import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-ut
 import { eth } from 'ptokens-utils'
 import store from '../../../store'
 import Web3 from 'web3'
+import ERC20Abi from '../../../utils/abi/ERC20.json'
+import BigNumber from 'bignumber.js'
 
 const loggedIssueWithWallet = async (_ptokens, _params, _pToken, _dispatch) => {
   if (
@@ -33,54 +35,54 @@ const loggedIssueWithWallet = async (_ptokens, _params, _pToken, _dispatch) => {
 
       const web3 = new Web3(wallets.issuerProvider)
       const toApprove = new web3.eth.Contract(
-        [
-          {
-            constant: false,
-            inputs: [
-              {
-                name: '_spender',
-                type: 'address'
-              },
-              {
-                name: '_value',
-                type: 'uint256'
-              }
-            ],
-            name: 'approve',
-            outputs: [
-              {
-                name: '',
-                type: 'bool'
-              }
-            ],
-            payable: false,
-            stateMutability: 'nonpayable',
-            type: 'function'
-          }
-        ],
+        ERC20Abi,
         eth.addHexPrefix(info.native_smart_contract_address)
       )
 
-      await toApprove.methods
-        .approve(eth.addHexPrefix(info.native_vault_address), _params[0])
-        .send({ from: wallets.issuerAccount })
+      const allowance = await toApprove.methods
+        .allowance(
+          wallets.issuerAccount,
+          eth.addHexPrefix(info.native_vault_address)
+        )
+        .call()
 
+      if (!BigNumber(allowance).isGreaterThanOrEqualTo(_params[0])) {
+        await toApprove.methods
+          .approve(
+            eth.addHexPrefix(info.native_vault_address),
+            _params[0]
+          )
+          .send({ from: wallets.issuerAccount })
+
+        _dispatch(
+          LogHandler.updateItem('approve', {
+            value: `Approve confirmed`,
+            waiting: false,
+            success: true,
+            link: null,
+            id: 'approve'
+          })
+        )
+      } else {
+        _dispatch(
+          LogHandler.updateItem('approve', {
+            value: `Amount already approved`,
+            waiting: false,
+            success: true,
+            link: null,
+            id: 'approve'
+          })
+        )
+      }
+      return
+    } catch (_err) {
+      _dispatch(LogHandler.clearWaitingItem())
       _dispatch(
-        LogHandler.updateItem('approve', {
-          value: `Approve confirmed`,
-          waiting: false,
-          success: true,
-          link: null,
-          id: 'approve'
+        LogHandler.addItem({
+          value: _err.message,
+          success: false
         })
       )
-    } catch (_err) {
-      _dispatch({
-        type: PTOKENS_ISSUE_NOT_SUCCEDEED,
-        payload: {
-          error: _err.message
-        }
-      })
       return
     }
   }
@@ -183,13 +185,13 @@ const loggedIssueWithWallet = async (_ptokens, _params, _pToken, _dispatch) => {
         type: PTOKENS_ISSUE_SUCCEDEED
       })
     })
-    .catch(err => {
-      const { message } = err
+    .catch(_err => {
+      const { message } = _err
 
       _dispatch(LogHandler.clearWaitingItem())
       _dispatch(
         LogHandler.addItem({
-          value: message,
+          value: message ? message : _err,
           success: false
         })
       )
@@ -197,7 +199,7 @@ const loggedIssueWithWallet = async (_ptokens, _params, _pToken, _dispatch) => {
       _dispatch({
         type: PTOKENS_ISSUE_NOT_SUCCEDEED,
         payload: {
-          error: message
+          error: message ? message : _err
         }
       })
     })

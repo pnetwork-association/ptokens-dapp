@@ -80,6 +80,18 @@ const issue = (_pToken, _params, _configs) => {
           loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
           break
         }
+        case 'PNT': {
+          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          break
+        }
+        case 'pYFI': {
+          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          break
+        }
+        case 'pLINK': {
+          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          break
+        }
         case 'pMKR': {
           loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
           break

@@ -39,9 +39,7 @@ const Perc20IssueCard = props => {
         <Button
           width={140}
           icon={'add'}
-          disabled={
-            props.typedIssueAccount === '' || props.amountToIssue === ''
-          }
+          disabled={!props.issuerAccount}
           text="ISSUE"
           onClick={() => props.onIssue()}
         />
@@ -54,6 +52,7 @@ Perc20IssueCard.propTypes = {
   pTokenSelected: PropTypes.object,
   amountToIssue: PropTypes.string,
   typedIssueAccount: PropTypes.string,
+  issuerAccount: PropTypes.string,
   onChangeAmountToIssue: PropTypes.func,
   onChangeIssueAccount: PropTypes.func,
   onIssue: PropTypes.func

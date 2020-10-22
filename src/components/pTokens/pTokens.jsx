@@ -61,6 +61,7 @@ const PTokens = props => {
                 suggestedRedimeerAccounts={props.suggestedRedimeerAccounts}
                 typedIssueAccount={props.typedIssueAccount}
                 amountToIssue={props.amountToIssue}
+                issuerAccount={props.issuerAccount}
                 onChangeAmountToIssue={props.onChangeAmountToIssue}
                 onChangeIssueAccount={props.onChangeIssueAccount}
                 onIssue={props.onIssue}
