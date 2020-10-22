@@ -74,7 +74,6 @@ const loggedIssueWithWallet = async (_ptokens, _params, _pToken, _dispatch) => {
           })
         )
       }
-      return
     } catch (_err) {
       _dispatch(LogHandler.clearWaitingItem())
       _dispatch(
