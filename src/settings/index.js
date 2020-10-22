@@ -269,7 +269,8 @@ const settings = {
       redeemFrom: 'ETH',
       realDecimals: 8,
       contractDecimals: 18,
-      network: 'mainnet'
+      network: 'mainnet',
+      isHidden: false
     },
     {
       id: PBTC_ON_EOS_MAINNET,
@@ -279,7 +280,8 @@ const settings = {
       redeemFrom: 'EOS',
       realDecimals: 8,
       contractDecimals: 8,
-      network: 'mainnet'
+      network: 'mainnet',
+      isHidden: false
     },
     {
       id: PLTC_ON_ETH_MAINNET,
@@ -289,7 +291,8 @@ const settings = {
       redeemFrom: 'ETH',
       realDecimals: 8,
       contractDecimals: 18,
-      network: 'mainnet'
+      network: 'mainnet',
+      isHidden: false
     },
     {
       id: PLTC_ON_EOS_MAINNET,
@@ -299,7 +302,8 @@ const settings = {
       redeemFrom: 'EOS',
       realDecimals: 8,
       contractDecimals: 8,
-      network: 'mainnet'
+      network: 'mainnet',
+      isHidden: false
     },
     {
       id: PETH_ON_EOS_MAINNET,
@@ -310,7 +314,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
-      isPerc20: true
+      isPerc20: true,
+      isHidden: false
     },
     {
       id: PNT_ON_EOS_MAINNET,
@@ -321,7 +326,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
-      isPerc20: true
+      isPerc20: true,
+      isHidden: true
     },
     {
       id: PMKR_ON_EOS_MAINNET,
@@ -332,7 +338,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
-      isPerc20: true
+      isPerc20: true,
+      isHidden: true
     },
     {
       id: PLINK_ON_EOS_MAINNET,
@@ -343,7 +350,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
-      isPerc20: true
+      isPerc20: true,
+      isHidden: true
     },
     {
       id: PYFI_ON_EOS_MAINNET,
@@ -354,7 +362,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
-      isPerc20: true
+      isPerc20: true,
+      isHidden: true
     },
     {
       id: PBTC_ON_ETH_TESTNET,

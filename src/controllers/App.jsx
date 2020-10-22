@@ -12,7 +12,11 @@ import ReactGA from 'react-ga'
 import queryString from 'query-string'
 import { connect } from 'react-redux'
 import { setNodeManually, setNode } from '../actions/pNetwork/'
-import { setSelectedPage, enableTestnetInstances } from '../actions/sidebar'
+import {
+  setSelectedPage,
+  enableTestnetInstances,
+  showHiddenPtokens
+} from '../actions/sidebar'
 import { connectWithSpecificWallet } from '../actions/wallets'
 import { setSelectedpToken, setCustomRpc } from '../actions/pTokens'
 import PropTypes from 'prop-types'
@@ -41,7 +45,8 @@ const mapDispatchToProps = dispatch => {
     setCustomRpc: (_rpc, _type) => dispatch(setCustomRpc(_rpc, _type)),
     connectWithSpecificWallet: (_pToken, _role, _force) =>
       dispatch(connectWithSpecificWallet(_pToken, _role, _force)),
-    enableTestnetInstances: () => dispatch(enableTestnetInstances())
+    enableTestnetInstances: () => dispatch(enableTestnetInstances()),
+    showHiddenPtokens: () => dispatch(showHiddenPtokens())
   }
 }
 
@@ -78,9 +83,16 @@ class App extends React.Component {
 
     const pTokenSelected = pToken ? pToken : this.props.pTokensAvailable[0]
 
-    const { node, hostRpc, withTestnetInstances } = queryString.parse(
-      window.location.search
-    )
+    const {
+      node,
+      hostRpc,
+      withTestnetInstances,
+      iamthomas
+    } = queryString.parse(window.location.search)
+
+    if (Boolean(iamthomas) === true) {
+      this.props.showHiddenPtokens()
+    }
 
     if (withTestnetInstances || pTokenNetworkSelected === 'testnet') {
       this.props.enableTestnetInstances()
@@ -198,7 +210,8 @@ SidebarController.propTypes = {
   setNode: PropTypes.func,
   setCustomRpc: PropTypes.func,
   connectWithSpecificWallet: PropTypes.func,
-  enableTestnetInstances: PropTypes.func
+  enableTestnetInstances: PropTypes.func,
+  showHiddenPtokens: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

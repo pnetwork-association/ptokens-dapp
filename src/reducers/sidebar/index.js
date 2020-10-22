@@ -1,13 +1,15 @@
 import {
   SET_SELECTED_PAGE,
   SET_COLLAPSE_STATE,
-  ENABLE_TESTNET_INSTANCE
+  ENABLE_TESTNET_INSTANCE,
+  SHOW_HIDDEN_PTOKENS
 } from '../../constants/index'
 
 const initialState = {
   selected: 0,
   isCollapseOpened: false,
-  withTestnetInstances: false
+  withTestnetInstances: false,
+  showHiddenPtokens: false
 }
 
 const sidebarReducer = (_state = initialState, _action) => {
@@ -21,10 +23,14 @@ const sidebarReducer = (_state = initialState, _action) => {
       isCollapseOpened: _action.payload
     })
   }
-
   if (_action.type === ENABLE_TESTNET_INSTANCE) {
     return Object.assign({}, _state, {
       withTestnetInstances: true
+    })
+  }
+  if (_action.type === SHOW_HIDDEN_PTOKENS) {
+    return Object.assign({}, _state, {
+      showHiddenPtokens: true
     })
   }
   return _state

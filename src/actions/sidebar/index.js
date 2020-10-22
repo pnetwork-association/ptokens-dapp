@@ -1,7 +1,8 @@
 import {
   SET_SELECTED_PAGE,
   SET_COLLAPSE_STATE,
-  ENABLE_TESTNET_INSTANCE
+  ENABLE_TESTNET_INSTANCE,
+  SHOW_HIDDEN_PTOKENS
 } from '../../constants/index'
 import history from '../../utils/history'
 
@@ -55,4 +56,16 @@ const setCollapseState = state => {
   }
 }
 
-export { setSelectedPage, setCollapseState, enableTestnetInstances }
+const showHiddenPtokens = state => {
+  return {
+    type: SHOW_HIDDEN_PTOKENS,
+    payload: state
+  }
+}
+
+export {
+  setSelectedPage,
+  setCollapseState,
+  enableTestnetInstances,
+  showHiddenPtokens
+}

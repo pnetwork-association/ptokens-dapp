@@ -79,6 +79,7 @@ const pTokensReducer = (_state = initialState, _action) => {
         network: _action.payload.pToken.network,
         id: _action.payload.pToken.id,
         isPerc20: _action.payload.pToken.isPerc20,
+        isHidden: _action.payload.pToken.isHidden,
         totalSupply: null,
         depositAddress: {
           value: null,

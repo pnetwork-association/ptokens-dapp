@@ -13,7 +13,8 @@ const mapStateToProps = state => {
     withTestnetInstances: state.sidebar.withTestnetInstances,
     isCollapseOpened: state.sidebar.isCollapseOpened,
     pTokenSelected: state.pTokens.selected,
-    pTokensAvailable: state.pTokens.available
+    pTokensAvailable: state.pTokens.available,
+    showHiddenPtokens: state.sidebar.showHiddenPtokens
   }
 }
 
@@ -31,50 +32,56 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export class SidebarController extends React.Component {
-  constructor(props, context) {
-    super(props, context)
+const SidebarController = _props => {
+  const {
+    selected,
+    pTokenSelected,
+    setSelectedPage,
+    setCollapseState,
+    disconnectFromSpecificWallet,
+    isCollapseOpened,
+    resetParams,
+    setSelectedpToken,
+    pTokensAvailable,
+    withTestnetInstances,
+    showHiddenPtokens,
+    pNetworkDataReset,
+    detectedRedeemerNetwork
+  } = _props
 
-    this.state = {}
-  }
-
-  render() {
-    return (
-      <Sidebar
-        page={this.props.selected}
-        pTokenSelected={this.props.pTokenSelected}
-        pTokensAvailable={this.props.pTokensAvailable.filter(({ network }) =>
-          this.props.withTestnetInstances ? true : network === 'mainnet'
+  return (
+    <Sidebar
+      page={selected}
+      pTokenSelected={pTokenSelected}
+      pTokensAvailable={pTokensAvailable
+        .filter(({ isHidden }) =>
+          isHidden === true && showHiddenPtokens
+            ? true
+            : isHidden === true && !showHiddenPtokens
+            ? false
+            : true
+        )
+        .filter(({ network }) =>
+          withTestnetInstances ? true : network === 'mainnet'
         )}
-        onChangePage={_page =>
-          this.props.setSelectedPage(_page, this.props.pTokenSelected)
-        }
-        onChangeCollapseState={state => {
-          !state
-            ? this.props.setCollapseState(!this.props.isCollapseOpened)
-            : this.props.setCollapseState(state)
-        }}
-        onChangeSelectedpToken={pToken => {
-          this.props.disconnectFromSpecificWallet(
-            this.props.pTokenSelected.name,
-            'issuer'
-          )
+      onChangePage={_page => setSelectedPage(_page, pTokenSelected)}
+      onChangeCollapseState={state => {
+        !state ? setCollapseState(!isCollapseOpened) : setCollapseState(state)
+      }}
+      onChangeSelectedpToken={pToken => {
+        disconnectFromSpecificWallet(pTokenSelected.name, 'issuer')
 
-          //reset token page params
-          this.props.resetParams()
+        //reset token page params
+        resetParams()
 
-          this.props.pNetworkDataReset()
-          this.props.setSelectedpToken(
-            pToken,
-            this.props.detectedRedeemerNetwork
-          )
+        pNetworkDataReset()
+        setSelectedpToken(pToken, detectedRedeemerNetwork)
 
-          this.props.setSelectedPage(this.props.selected, pToken)
-        }}
-        isCollapseOpened={this.props.isCollapseOpened}
-      />
-    )
-  }
+        setSelectedPage(selected, pToken)
+      }}
+      isCollapseOpened={isCollapseOpened}
+    />
+  )
 }
 
 SidebarController.propTypes = {
@@ -82,6 +89,8 @@ SidebarController.propTypes = {
   isCollapseOpened: PropTypes.bool,
   pTokenSelected: PropTypes.object,
   pTokensAvailable: PropTypes.array,
+  showHiddenPtokens: PropTypes.bool,
+  withTestnetInstances: PropTypes.bool,
   setSelectedPage: PropTypes.func,
   setSelectedPageFromPathname: PropTypes.func,
   setCollapseState: PropTypes.func,
