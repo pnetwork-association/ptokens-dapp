@@ -29,8 +29,8 @@ const PTokens = props => {
                   value={
                     props.balance || props.balance === 0
                       ? props.balance.toFixed(
-                          props.pTokenSelected.name === 'pETH'
-                            ? 10
+                          props.pTokenSelected.isPerc20
+                            ? 9
                             : props.pTokenSelected.realDecimals
                         )
                       : null

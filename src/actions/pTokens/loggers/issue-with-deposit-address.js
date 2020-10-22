@@ -16,6 +16,7 @@ const loggedIssueWithDepositAddress = async (
   let depositAddress = null
 
   try {
+    // prettier-ignore
     depositAddress = await _ptokens[_pToken.name.toLowerCase()].getDepositAddress(_params[1])
   } catch (err) {
     _dispatch({

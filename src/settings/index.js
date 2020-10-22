@@ -339,7 +339,7 @@ const settings = {
       contractDecimals: 0,
       network: 'mainnet',
       isPerc20: true,
-      isHidden: true
+      isHidden: false
     },
     {
       id: PLINK_ON_EOS_MAINNET,

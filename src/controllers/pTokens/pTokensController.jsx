@@ -285,7 +285,7 @@ export class pTokenControllers extends React.Component {
         )
 
         let amountToIssue = this.props.pTokensParams.amountToIssue
-        if (this.props.pTokenSelected.name === 'pETH') {
+        if (this.props.pTokenSelected.isPerc20) {
           amountToIssue = BigNumber(
             this.props.pTokensParams.amountToIssue
           ).multipliedBy(1e18)

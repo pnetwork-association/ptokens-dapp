@@ -9,6 +9,10 @@ import {
   PLTC_ON_ETH_TESTNET,
   PLTC_ON_EOS_MAINNET,
   PETH_ON_EOS_MAINNET,
+  PNT_ON_EOS_MAINNET,
+  PMKR_ON_EOS_MAINNET,
+  PLINK_ON_EOS_MAINNET,
+  PYFI_ON_EOS_MAINNET,
   WALLET_RESET_ISSUER,
   WALLET_RESET_REDEEMER
 } from '../../constants'
@@ -52,6 +56,26 @@ const connectWithCorrectWallets = (_pToken, _currentProviders, _force) => {
         break
       }
       case PETH_ON_EOS_MAINNET: {
+        connectWithEosWallet(_pToken, 'redeemer', _dispatch)
+        connectWithEthWallet(_pToken, 'issuer', issuer, _dispatch, _force)
+        break
+      }
+      case PMKR_ON_EOS_MAINNET: {
+        connectWithEosWallet(_pToken, 'redeemer', _dispatch)
+        connectWithEthWallet(_pToken, 'issuer', issuer, _dispatch, _force)
+        break
+      }
+      case PNT_ON_EOS_MAINNET: {
+        connectWithEosWallet(_pToken, 'redeemer', _dispatch)
+        connectWithEthWallet(_pToken, 'issuer', issuer, _dispatch, _force)
+        break
+      }
+      case PLINK_ON_EOS_MAINNET: {
+        connectWithEosWallet(_pToken, 'redeemer', _dispatch)
+        connectWithEthWallet(_pToken, 'issuer', issuer, _dispatch, _force)
+        break
+      }
+      case PYFI_ON_EOS_MAINNET: {
         connectWithEosWallet(_pToken, 'redeemer', _dispatch)
         connectWithEthWallet(_pToken, 'issuer', issuer, _dispatch, _force)
         break
@@ -104,6 +128,38 @@ const connectWithSpecificWallet = (_pToken, _role, _force) => {
         break
       }
       case PETH_ON_EOS_MAINNET: {
+        if (_role === 'redeemer')
+          connectWithEosWallet(_pToken, 'redeemer', _dispatch, _force)
+        else if (_role === 'issuer') {
+          connectWithEthWallet(_pToken, 'issuer', null, _dispatch, _force)
+        }
+        break
+      }
+      case PMKR_ON_EOS_MAINNET: {
+        if (_role === 'redeemer')
+          connectWithEosWallet(_pToken, 'redeemer', _dispatch, _force)
+        else if (_role === 'issuer') {
+          connectWithEthWallet(_pToken, 'issuer', null, _dispatch, _force)
+        }
+        break
+      }
+      case PLINK_ON_EOS_MAINNET: {
+        if (_role === 'redeemer')
+          connectWithEosWallet(_pToken, 'redeemer', _dispatch, _force)
+        else if (_role === 'issuer') {
+          connectWithEthWallet(_pToken, 'issuer', null, _dispatch, _force)
+        }
+        break
+      }
+      case PNT_ON_EOS_MAINNET: {
+        if (_role === 'redeemer')
+          connectWithEosWallet(_pToken, 'redeemer', _dispatch, _force)
+        else if (_role === 'issuer') {
+          connectWithEthWallet(_pToken, 'issuer', null, _dispatch, _force)
+        }
+        break
+      }
+      case PYFI_ON_EOS_MAINNET: {
         if (_role === 'redeemer')
           connectWithEosWallet(_pToken, 'redeemer', _dispatch, _force)
         else if (_role === 'issuer') {
@@ -167,6 +223,38 @@ const disconnectFromSpecificWallet = (_pToken, _role) => {
         }
         break
       }
+      case PLINK_ON_EOS_MAINNET: {
+        if (_role === 'redeemer')
+          disconnectFromEosWallet(_pToken, 'redeemer', _dispatch)
+        else if (_role === 'issuer') {
+          disconnectFromEthWallet('issuer', null, _dispatch)
+        }
+        break
+      }
+      case PYFI_ON_EOS_MAINNET: {
+        if (_role === 'redeemer')
+          disconnectFromEosWallet(_pToken, 'redeemer', _dispatch)
+        else if (_role === 'issuer') {
+          disconnectFromEthWallet('issuer', null, _dispatch)
+        }
+        break
+      }
+      case PMKR_ON_EOS_MAINNET: {
+        if (_role === 'redeemer')
+          disconnectFromEosWallet(_pToken, 'redeemer', _dispatch)
+        else if (_role === 'issuer') {
+          disconnectFromEthWallet('issuer', null, _dispatch)
+        }
+        break
+      }
+      case PNT_ON_EOS_MAINNET: {
+        if (_role === 'redeemer')
+          disconnectFromEosWallet(_pToken, 'redeemer', _dispatch)
+        else if (_role === 'issuer') {
+          disconnectFromEthWallet('issuer', null, _dispatch)
+        }
+        break
+      }
       default:
         break
     }
@@ -209,6 +297,38 @@ const changeSpecificWallet = (_pToken, _role) => {
         break
       }
       case PETH_ON_EOS_MAINNET: {
+        if (_role === 'redeemer')
+          connectWithEosWallet(_pToken, 'redeemer', _dispatch, true)
+        else if (_role === 'issuer') {
+          connectWithEthWallet(_pToken, 'issuer', null, _dispatch, true)
+        }
+        break
+      }
+      case PNT_ON_EOS_MAINNET: {
+        if (_role === 'redeemer')
+          connectWithEosWallet(_pToken, 'redeemer', _dispatch, true)
+        else if (_role === 'issuer') {
+          connectWithEthWallet(_pToken, 'issuer', null, _dispatch, true)
+        }
+        break
+      }
+      case PMKR_ON_EOS_MAINNET: {
+        if (_role === 'redeemer')
+          connectWithEosWallet(_pToken, 'redeemer', _dispatch, true)
+        else if (_role === 'issuer') {
+          connectWithEthWallet(_pToken, 'issuer', null, _dispatch, true)
+        }
+        break
+      }
+      case PYFI_ON_EOS_MAINNET: {
+        if (_role === 'redeemer')
+          connectWithEosWallet(_pToken, 'redeemer', _dispatch, true)
+        else if (_role === 'issuer') {
+          connectWithEthWallet(_pToken, 'issuer', null, _dispatch, true)
+        }
+        break
+      }
+      case PLINK_ON_EOS_MAINNET: {
         if (_role === 'redeemer')
           connectWithEosWallet(_pToken, 'redeemer', _dispatch, true)
         else if (_role === 'issuer') {
