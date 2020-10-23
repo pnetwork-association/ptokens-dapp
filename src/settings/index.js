@@ -327,7 +327,7 @@ const settings = {
       contractDecimals: 0,
       network: 'mainnet',
       isPerc20: true,
-      isHidden: true
+      isHidden: false
     },
     {
       id: PMKR_ON_EOS_MAINNET,
@@ -351,7 +351,7 @@ const settings = {
       contractDecimals: 0,
       network: 'mainnet',
       isPerc20: true,
-      isHidden: true
+      isHidden: false
     },
     {
       id: PYFI_ON_EOS_MAINNET,
@@ -363,7 +363,7 @@ const settings = {
       contractDecimals: 0,
       network: 'mainnet',
       isPerc20: true,
-      isHidden: true
+      isHidden: false
     },
     {
       id: PBTC_ON_ETH_TESTNET,
