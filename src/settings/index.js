@@ -61,7 +61,7 @@ const settings = {
     telos: {
       chainId:
         '4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11',
-      host: 'eos.greymass.com',
+      host: 'telos-mainnet-1.ptokens.io',
       port: 443,
       protocol: 'https',
       explorer: 'https://telos.bloks.io',
