@@ -18,7 +18,8 @@ const IssueCardHeader = _props => {
         <div className="col-12 col-md-4 text-md-right pl-0 mt-10 mt-0-md mb-10 mb-0-md">
           <img
             className="ml-20 mr-10"
-            src={`../assets/${pTokenSelected.issueFrom}.png`}
+            // prettier-ignore
+            src={`../assets/${type === 'issue' ? pTokenSelected.issueFrom : `${pTokenSelected.name}-${pTokenSelected.network}` }.png`}
             height="22"
             width="22"
             alt="redeem from logo"
@@ -31,7 +32,8 @@ const IssueCardHeader = _props => {
           />
           <img
             className="ml-10"
-            src={`../assets/${pTokenSelected.name}-${pTokenSelected.network}.png`}
+            // prettier-ignore
+            src={`../assets/${type === 'issue' ? `${pTokenSelected.name}-${pTokenSelected.network}` : pTokenSelected.issueFrom}.png`}
             height="22"
             width="22"
             alt="redeem to logo"
