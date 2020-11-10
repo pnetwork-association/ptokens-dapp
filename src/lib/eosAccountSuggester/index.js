@@ -1,18 +1,17 @@
-import { getCorrespondingReadOnlyProvider } from './read-only-providers'
+import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
 import { Mutex } from 'async-mutex'
 
 const mutex = new Mutex()
 
-const getPossiblesAccounts = async (
-  _pToken,
-  _currentTypedAccount,
-  _currentAccounts,
-  _role
-) => {
-  const release = await mutex.acquire()
-
-  try {
-    if (_pToken.redeemFrom === 'EOS') {
+class EosAccountSuggester {
+  static getPossiblesAccounts = async (
+    _pToken,
+    _currentTypedAccount,
+    _currentAccounts,
+    _role
+  ) => {
+    const release = await mutex.acquire()
+    try {
       if (_currentTypedAccount.length === 0) {
         release()
         return []
@@ -37,11 +36,11 @@ const getPossiblesAccounts = async (
       if (!res.rows) return _currentAccounts
 
       return res.rows.map(row => row.scope)
+    } catch (_err) {
+      release()
+      return _currentAccounts
     }
-  } catch (err) {
-    release()
-    return _currentAccounts
   }
 }
 
-export { getPossiblesAccounts }
+export default EosAccountSuggester

@@ -141,7 +141,7 @@ class App extends React.Component {
           <Route
             exact
             path={
-              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos)'
+              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos)'
             }
             render={() => {
               return (
@@ -160,7 +160,7 @@ class App extends React.Component {
           <Route
             exact
             path={
-              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos)/pnetwork'
+              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos)/pnetwork'
             }
             render={() => {
               return (
@@ -179,7 +179,7 @@ class App extends React.Component {
           <Route
             exact
             path={
-              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos)/issue-redeem'
+              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos)/issue-redeem'
             }
             render={() => {
               return (

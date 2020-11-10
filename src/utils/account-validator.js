@@ -5,6 +5,7 @@ import {
   PBTC_ON_ETH_TESTNET,
   PBTC_ON_EOS_TESTNET,
   PBTC_ON_EOS_MAINNET,
+  PBTC_ON_TELOS_MAINNET,
   PLTC_ON_ETH_MAINNET,
   PLTC_ON_ETH_TESTNET,
   PLTC_ON_EOS_MAINNET,
@@ -30,6 +31,11 @@ const isValidAccount = (_pToken, _account, _role) => {
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case PBTC_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? pTokenUtils.btc.isValidAddress(_account)
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PBTC_ON_TELOS_MAINNET: {
       return _role === 'issuer'
         ? pTokenUtils.btc.isValidAddress(_account)
         : pTokenUtils.eos.isValidAccountName(_account)

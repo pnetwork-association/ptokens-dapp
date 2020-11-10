@@ -19,8 +19,8 @@ import { isValidAccount } from '../../utils/account-validator'
 import { getMinumIssuableAmount } from '../../utils/minum-issuable-amount'
 import { getMinumRedeemableAmount } from '../../utils/minimun-redeeamble-amount'
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
-import { getPossiblesAccounts } from '../../utils/accounts-autocomplete'
 import BigNumber from 'bignumber.js'
+import EosAccountSuggester from '../../lib/eosAccountSuggester'
 import { toastr } from 'react-redux-toastr'
 
 const sleep = _ms => new Promise(resolve => setTimeout(resolve, _ms))
@@ -409,8 +409,11 @@ export class pTokenControllers extends React.Component {
     }
 
     // NOTE: get lists of possible account
-    if (this.props.pTokenSelected.redeemFrom === 'EOS') {
-      getPossiblesAccounts(
+    if (
+      this.props.pTokenSelected.redeemFrom === 'EOS' ||
+      this.props.pTokenSelected.redeemFrom === 'TELOS'
+    ) {
+      EosAccountSuggester.getPossiblesAccounts(
         this.props.pTokenSelected,
         _typedIssueAccount,
         this.state.suggestedRedimeerAccounts,

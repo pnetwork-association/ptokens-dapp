@@ -77,7 +77,13 @@ const setNode = _pToken => {
           network: _pToken.network
         })
 
-        selectedNode = await nodeSelector.select()
+        if (_pToken.redeemFrom === 'TELOS') {
+          // prettier-ignore
+          selectedNode = nodeSelector.setSelectedNode('https://pbtcontelos-node-1a.ngrok.io')
+        } else {
+          selectedNode = await nodeSelector.select()
+        }
+
         _dispatch({
           type: PNETWORK_SELECTED_NODE,
           payload: {

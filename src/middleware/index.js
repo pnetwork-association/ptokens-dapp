@@ -88,6 +88,25 @@ const middleware = ({ dispatch }) => {
           }
         }
 
+        if (pToken.redeemFrom === 'TELOS') {
+          if (!walletsPerType['TELOS']) {
+            dispatch(resetRedeemer())
+          } else {
+            dispatch({
+              type: WALLET_REDEEMER_CONNECTED,
+              payload: {
+                provider: walletsPerType['TELOS'].provider,
+                account: walletsPerType['TELOS'].account,
+                wallet: {
+                  type: 'multiWallet'
+                },
+                pToken,
+                type: 'TELOS'
+              }
+            })
+          }
+        }
+
         if (_action.payload.withNodeSelection) dispatch(setNode(pToken))
 
         //reset data in order to prevent to populate views with wrong data

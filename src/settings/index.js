@@ -1,6 +1,7 @@
 import {
   PBTC_ON_ETH_MAINNET,
   PBTC_ON_EOS_MAINNET,
+  PBTC_ON_TELOS_MAINNET,
   PLTC_ON_ETH_MAINNET,
   PLTC_ON_EOS_MAINNET,
   PETH_ON_EOS_MAINNET,
@@ -50,6 +51,22 @@ const settings = {
       explorer: 'https://bloks.io/',
       endpoint:
         'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
+    },
+    btc: {
+      explorer: 'https://blockstream.info/',
+      enclaveBlockHeightPollingTime: 3000
+    }
+  },
+  [PBTC_ON_TELOS_MAINNET]: {
+    telos: {
+      chainId:
+        '4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11',
+      host: 'eos.greymass.com',
+      port: 443,
+      protocol: 'https',
+      explorer: 'https://telos.bloks.io',
+      endpoint:
+        'https://corsproxy.ptokens.io/v1/?apiurl=https://telos-mainnet-1.ptokens.io'
     },
     btc: {
       explorer: 'https://blockstream.info/',
@@ -278,6 +295,17 @@ const settings = {
       tokenType: 'EOSIO Token',
       issueFrom: 'BTC',
       redeemFrom: 'EOS',
+      realDecimals: 8,
+      contractDecimals: 8,
+      network: 'mainnet',
+      isHidden: false
+    },
+    {
+      id: PBTC_ON_TELOS_MAINNET,
+      name: 'pBTC',
+      tokenType: 'TELOS Token',
+      issueFrom: 'BTC',
+      redeemFrom: 'TELOS',
       realDecimals: 8,
       contractDecimals: 8,
       network: 'mainnet',

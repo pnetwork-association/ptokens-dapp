@@ -4,6 +4,7 @@ import {
   PBTC_ON_ETH_MAINNET,
   PBTC_ON_ETH_TESTNET,
   PBTC_ON_EOS_TESTNET,
+  PBTC_ON_TELOS_MAINNET,
   PBTC_ON_EOS_MAINNET,
   PLTC_ON_ETH_MAINNET,
   PLTC_ON_ETH_TESTNET,
@@ -36,6 +37,10 @@ const connectWithCorrectWallets = (_pToken, _currentProviders, _force) => {
         break
       }
       case PBTC_ON_EOS_MAINNET: {
+        connectWithEosWallet(_pToken, 'redeemer', _dispatch, _force)
+        break
+      }
+      case PBTC_ON_TELOS_MAINNET: {
         connectWithEosWallet(_pToken, 'redeemer', _dispatch, _force)
         break
       }
@@ -103,6 +108,11 @@ const connectWithSpecificWallet = (_pToken, _role, _force) => {
         break
       }
       case PBTC_ON_EOS_MAINNET: {
+        if (_role === 'redeemer')
+          connectWithEosWallet(_pToken, 'redeemer', _dispatch, _force)
+        break
+      }
+      case PBTC_ON_TELOS_MAINNET: {
         if (_role === 'redeemer')
           connectWithEosWallet(_pToken, 'redeemer', _dispatch, _force)
         break
@@ -195,6 +205,11 @@ const disconnectFromSpecificWallet = (_pToken, _role) => {
           disconnectFromEosWallet(_pToken, 'redeemer', _dispatch)
         break
       }
+      case PBTC_ON_TELOS_MAINNET: {
+        if (_role === 'redeemer')
+          disconnectFromEosWallet(_pToken, 'redeemer', _dispatch)
+        break
+      }
       case PLTC_ON_EOS_MAINNET: {
         if (_role === 'redeemer')
           disconnectFromEosWallet(_pToken, 'redeemer', _dispatch)
@@ -277,6 +292,10 @@ const changeSpecificWallet = (_pToken, _role) => {
         break
       }
       case PBTC_ON_EOS_MAINNET: {
+        connectWithEosWallet(_pToken, 'redeemer', _dispatch, true)
+        break
+      }
+      case PBTC_ON_TELOS_MAINNET: {
         connectWithEosWallet(_pToken, 'redeemer', _dispatch, true)
         break
       }

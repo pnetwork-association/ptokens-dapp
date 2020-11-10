@@ -1,6 +1,7 @@
 import {
   PBTC_ON_ETH_MAINNET,
   PBTC_ON_ETH_TESTNET,
+  PBTC_ON_TELOS_MAINNET,
   PBTC_ON_EOS_TESTNET,
   PBTC_ON_EOS_MAINNET,
   PLTC_ON_ETH_MAINNET,
@@ -40,6 +41,14 @@ const getCorresponsingVisibleAddressFormat = (_pToken, _role, _account) => {
           )}`
     }
     case PBTC_ON_EOS_MAINNET: {
+      return _role === 'redeemer'
+        ? _account
+        : `${_account.slice(0, 12)}...${_account.slice(
+            _account.length - 9,
+            _account.length
+          )}`
+    }
+    case PBTC_ON_TELOS_MAINNET: {
       return _role === 'redeemer'
         ? _account
         : `${_account.slice(0, 12)}...${_account.slice(

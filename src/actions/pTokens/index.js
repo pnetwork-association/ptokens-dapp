@@ -22,7 +22,8 @@ import {
   PNT_ON_EOS_MAINNET,
   PMKR_ON_EOS_MAINNET,
   PLINK_ON_EOS_MAINNET,
-  PYFI_ON_EOS_MAINNET
+  PYFI_ON_EOS_MAINNET,
+  PBTC_ON_TELOS_MAINNET
 } from '../../constants/index'
 import pTokens from 'ptokens'
 import { constants } from 'ptokens-utils'
@@ -136,12 +137,21 @@ const getBalance = (_pToken, _account) => {
 
       let balance = null
       try {
-        if (_pToken.redeemFrom === 'ETH') {
-          balance = await getEthBalance(_pToken, _account)
-        }
-
-        if (_pToken.redeemFrom === 'EOS') {
-          balance = await getEosBalance(_pToken, _account)
+        switch (_pToken.redeemFrom) {
+          case 'ETH': {
+            balance = await getEthBalance(_pToken, _account)
+            break
+          }
+          case 'EOS': {
+            balance = await getEosBalance(_pToken, _account)
+            break
+          }
+          case 'TELOS': {
+            balance = await getEosBalance(_pToken, _account)
+            break
+          }
+          default:
+            break
         }
       } catch (err) {
         balance = null
@@ -175,12 +185,21 @@ const getTotalSupply = (_pToken, _configs) => {
       let totalSupply = null
 
       try {
-        if (_pToken.redeemFrom === 'ETH') {
-          totalSupply = await getEthTotalSupply(_pToken)
-        }
-
-        if (_pToken.redeemFrom === 'EOS') {
-          totalSupply = await getEosTotalSupply(_pToken)
+        switch (_pToken.redeemFrom) {
+          case 'ETH': {
+            totalSupply = await getEthTotalSupply(_pToken)
+            break
+          }
+          case 'EOS': {
+            totalSupply = await getEosTotalSupply(_pToken)
+            break
+          }
+          case 'TELOS': {
+            totalSupply = await getEosTotalSupply(_pToken)
+            break
+          }
+          default:
+            break
         }
       } catch (err) {
         totalSupply = null
@@ -304,6 +323,18 @@ const _getCorrectConfigs = (_pToken, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         eosRpc: settings[PBTC_ON_EOS_MAINNET].eos.endpoint,
+        eosSignatureProvider: redeemer
+      }
+    }
+  }
+  if (_pToken.id === PBTC_ON_TELOS_MAINNET) {
+    return {
+      pbtc: {
+        nativeNetwork: networks.BitcoinMainnet,
+        nativeBlockchain: blockchains.Bitcoin,
+        hostNetwork: networks.TelosMainnet,
+        hostBlockchain: blockchains.Telos,
+        eosRpc: settings[PBTC_ON_TELOS_MAINNET].telos.endpoint,
         eosSignatureProvider: redeemer
       }
     }

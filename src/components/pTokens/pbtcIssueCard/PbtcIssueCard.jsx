@@ -37,7 +37,10 @@ const PbtcIssueCard = props => {
       <div className="card-body pt-0">
         <Input
           withSelection={
-            props.pTokenSelected.redeemFrom === 'EOS' ? true : false
+            props.pTokenSelected.redeemFrom === 'EOS' ||
+            props.pTokenSelected.redeemFrom === 'TELOS'
+              ? true
+              : false
           }
           showAtCharacter={3}
           options={props.suggestedRedimeerAccounts}

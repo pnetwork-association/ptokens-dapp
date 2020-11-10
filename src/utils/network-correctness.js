@@ -1,4 +1,4 @@
-const pBTCRedeemerNetworks = ['ropsten', 'main', 'eos'] //remove eos
+const pBTCRedeemerNetworks = ['ropsten', 'main', 'eos', 'telos'] //remove eos
 const pLTCRedeemerNetworks = ['ropsten', 'main']
 const pETHRedeemerNetworks = ['eos']
 const PNTRedeemerNetworks = ['eos']

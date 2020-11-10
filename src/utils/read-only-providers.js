@@ -26,6 +26,9 @@ const getCorrespondingReadOnlyProvider = _pToken => {
   if (_pToken.redeemFrom === 'EOS') {
     return new JsonRpc(settings[_pToken.id].eos.endpoint, { fetch })
   }
+  if (_pToken.redeemFrom === 'TELOS') {
+    return new JsonRpc(settings[_pToken.id].telos.endpoint, { fetch })
+  }
 
   return null
 }

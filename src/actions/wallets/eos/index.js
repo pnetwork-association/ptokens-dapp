@@ -36,7 +36,7 @@ const connectWithEosWallet = async (
           type: 'multiWallet'
         },
         pToken: _pToken,
-        type: 'EOS',
+        type: _pToken.redeemfrom,
         network: 'mainnet'
       }
     })
