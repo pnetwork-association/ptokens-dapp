@@ -6,22 +6,29 @@ import {
 } from '../../../constants'
 import EosConnect from '../../../lib/eosConnect/'
 
-const eosConnect = new EosConnect({
-  dappName: settings.dappName,
-  scatter: {
-    settings: settings[1].eos
-  },
-  tokenPocket: {
-    settings: settings[1].eos
-  }
-})
-
+let eosConnect = null
 const connectWithEosWallet = async (
   _pToken,
   _role,
   _dispatch,
   _force = true
 ) => {
+  const configs = {
+    dappName: settings.dappName,
+    scatter: {
+      settings: settings[_pToken.id][_pToken.redeemFrom.toLowerCase()]
+    },
+    tokenPocket: {
+      settings: settings[_pToken.id][_pToken.redeemFrom.toLowerCase()]
+    }
+  }
+
+  if (!eosConnect) {
+    eosConnect = new EosConnect(configs)
+  } else {
+    eosConnect.setConfigs(configs)
+  }
+
   eosConnect.on('connect', ({ provider, account }) => {
     _dispatch({
       type:

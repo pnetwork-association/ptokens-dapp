@@ -23,22 +23,10 @@ class EosConnect extends EventEmitter {
   lightboxOpacity = 0.4
   themeColors = THEME_COLORS
 
-  constructor({ dappName, scatter, tokenPocket }) {
+  constructor(_configs) {
     super()
 
-    this.scatterProvider = new ScatterProvider({
-      dappName,
-      settings: scatter.settings
-    })
-    this.anchorProvider = new AnchorProvider({
-      dappName
-    })
-    this.tokenPocketProvider = new TokenPocketProvider({
-      settings: {
-        ...tokenPocket.settings
-      },
-      dappName
-    })
+    this.setConfigs(_configs)
 
     this.userOptions = [
       {
@@ -65,6 +53,22 @@ class EosConnect extends EventEmitter {
     ]
 
     this.renderModal()
+  }
+
+  setConfigs = ({ dappName, scatter, tokenPocket }) => {
+    this.scatterProvider = new ScatterProvider({
+      dappName,
+      settings: scatter.settings
+    })
+    this.anchorProvider = new AnchorProvider({
+      dappName
+    })
+    this.tokenPocketProvider = new TokenPocketProvider({
+      settings: {
+        ...tokenPocket.settings
+      },
+      dappName
+    })
   }
 
   renderModal = async () => {

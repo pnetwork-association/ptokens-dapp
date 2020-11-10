@@ -309,7 +309,7 @@ const settings = {
       realDecimals: 8,
       contractDecimals: 8,
       network: 'mainnet',
-      isHidden: false
+      isHidden: true
     },
     {
       id: PLTC_ON_ETH_MAINNET,
