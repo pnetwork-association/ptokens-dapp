@@ -25,56 +25,65 @@ class EosConnect extends EventEmitter {
 
   constructor(_configs) {
     super()
-
     this.setConfigs(_configs)
+    this.renderModal()
+  }
 
-    this.userOptions = [
-      {
+  setConfigs = ({ dappName, scatter, tokenPocket, anchor }) => {
+    this.userOptions = []
+    if (scatter) {
+      this.scatterProvider = new ScatterProvider({
+        dappName,
+        settings: scatter.settings
+      })
+
+      this.userOptions.push({
         name: 'Scatter',
         logo: '../assets/scatter.svg',
         description: 'Scatter Wallet',
         themeColors: THEME_COLORS,
         onClick: () => this.handleClick(this.scatterProvider)
-      },
-      {
+      })
+    }
+    if (anchor) {
+      this.anchorProvider = new AnchorProvider({
+        dappName
+      })
+
+      this.userOptions.push({
         name: 'Anchor',
         logo: '../assets/anchor.svg',
         description: 'Anchor Wallet',
         themeColors: THEME_COLORS,
         onClick: () => this.handleClick(this.anchorProvider)
-      },
-      {
+      })
+    }
+    if (tokenPocket) {
+      this.tokenPocketProvider = new TokenPocketProvider({
+        settings: {
+          ...tokenPocket.settings
+        },
+        dappName
+      })
+
+      this.userOptions.push({
         name: 'Token Pocket',
         logo: '../assets/token-pocket.png',
         description: 'Token Pocket Wallet',
         themeColors: THEME_COLORS,
         onClick: () => this.handleClick(this.tokenPocketProvider)
-      }
-    ]
-
+      })
+    }
     this.renderModal()
   }
 
-  setConfigs = ({ dappName, scatter, tokenPocket }) => {
-    this.scatterProvider = new ScatterProvider({
-      dappName,
-      settings: scatter.settings
-    })
-    this.anchorProvider = new AnchorProvider({
-      dappName
-    })
-    this.tokenPocketProvider = new TokenPocketProvider({
-      settings: {
-        ...tokenPocket.settings
-      },
-      dappName
-    })
-  }
-
   renderModal = async () => {
-    const el = document.createElement('div')
-    el.id = 'eos-connect'
-    document.body.appendChild(el)
+    let el = document.getElementById('eos-connect')
+    if (!el) {
+      el = document.createElement('div')
+      el.id = 'eos-connect'
+      document.body.appendChild(el)
+    }
 
     ReactDOM.render(
       <Modal

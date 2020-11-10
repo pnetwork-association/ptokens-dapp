@@ -6,6 +6,7 @@ import {
 import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
 
 const hostTransactionHash = {
+  telos: 'transaction_id',
   eos: 'transaction_id',
   eth: 'transactionHash'
 }

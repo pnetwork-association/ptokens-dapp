@@ -13,15 +13,24 @@ const connectWithEosWallet = async (
   _dispatch,
   _force = true
 ) => {
-  const configs = {
-    dappName: settings.dappName,
-    scatter: {
-      settings: settings[_pToken.id][_pToken.redeemFrom.toLowerCase()]
-    },
-    tokenPocket: {
-      settings: settings[_pToken.id][_pToken.redeemFrom.toLowerCase()]
-    }
-  }
+  const configs =
+    _pToken.redeemFrom !== 'TELOS'
+      ? {
+          dappName: settings.dappName,
+          scatter: {
+            settings: settings[_pToken.id][_pToken.redeemFrom.toLowerCase()]
+          },
+          tokenPocket: {
+            settings: settings[_pToken.id][_pToken.redeemFrom.toLowerCase()]
+          },
+          anchor: true
+        }
+      : {
+          dappName: settings.dappName,
+          scatter: {
+            settings: settings[_pToken.id][_pToken.redeemFrom.toLowerCase()]
+          }
+        }
 
   if (!eosConnect) {
     eosConnect = new EosConnect(configs)

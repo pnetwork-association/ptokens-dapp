@@ -61,12 +61,12 @@ const settings = {
     telos: {
       chainId:
         '4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11',
-      host: 'telos-mainnet-1.ptokens.io',
+      host: 'api.telosfoundation.io',
       port: 443,
       protocol: 'https',
-      explorer: 'https://telos.bloks.io',
+      explorer: 'https://telos.bloks.io/',
       endpoint:
-        'https://corsproxy.ptokens.io/v1/?apiurl=https://telos-mainnet-1.ptokens.io'
+        'https://corsproxy.ptokens.io/v1/?apiurl=https://api.telosfoundation.io'
     },
     btc: {
       explorer: 'https://blockstream.info/',
@@ -309,7 +309,7 @@ const settings = {
       realDecimals: 8,
       contractDecimals: 8,
       network: 'mainnet',
-      isHidden: true
+      isHidden: false
     },
     {
       id: PLTC_ON_ETH_MAINNET,
