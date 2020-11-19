@@ -15,6 +15,7 @@ const loggedIssueWithWallet = async (_ptokens, _params, _pToken, _dispatch) => {
     _pToken.isPerc20 &&
     (_pToken.name === 'pMKR' ||
       _pToken.name === 'PNT' ||
+      _pToken.name === 'PTERIA' ||
       _pToken.name === 'pLINK' ||
       _pToken.name === 'pYFI')
   ) {

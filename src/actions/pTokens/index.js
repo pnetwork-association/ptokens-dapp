@@ -23,7 +23,8 @@ import {
   PMKR_ON_EOS_MAINNET,
   PLINK_ON_EOS_MAINNET,
   PYFI_ON_EOS_MAINNET,
-  PBTC_ON_TELOS_MAINNET
+  PBTC_ON_TELOS_MAINNET,
+  PTERIA_ON_EOS_MAINNET
 } from '../../constants/index'
 import pTokens from 'ptokens'
 import { constants } from 'ptokens-utils'
@@ -82,6 +83,10 @@ const issue = (_pToken, _params, _configs) => {
           break
         }
         case 'PNT': {
+          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          break
+        }
+        case 'PTERIA': {
           loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
           break
         }
@@ -424,6 +429,18 @@ const _getCorrectConfigs = (_pToken, _configs) => {
         blockchain: blockchains.Eosio,
         ethProvider: issuer,
         eosRpc: settings[PYFI_ON_EOS_MAINNET].eos.endpoint,
+        eosSignatureProvider: redeemer
+      }
+    }
+  }
+  if (_pToken.id === PTERIA_ON_EOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.PTERIA,
+        network: networks.Mainnet,
+        blockchain: blockchains.Eosio,
+        ethProvider: issuer,
+        eosRpc: settings[PTERIA_ON_EOS_MAINNET].eos.endpoint,
         eosSignatureProvider: redeemer
       }
     }

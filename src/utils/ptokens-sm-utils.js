@@ -12,7 +12,8 @@ import {
   PNT_ON_EOS_MAINNET,
   PMKR_ON_EOS_MAINNET,
   PLINK_ON_EOS_MAINNET,
-  PYFI_ON_EOS_MAINNET
+  PYFI_ON_EOS_MAINNET,
+  PTERIA_ON_EOS_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_pToken, _role, _address) => {
@@ -81,6 +82,11 @@ const getCorrespondingExplorerLink = (_pToken, _role, _address) => {
       return _role === 'issuer'
         ? `${settings[PYFI_ON_EOS_MAINNET].eth.explorer}address/${_address}`
         : `${settings[PYFI_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+    }
+    case PTERIA_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PTERIA_ON_EOS_MAINNET].eth.explorer}address/${_address}`
+        : `${settings[PTERIA_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
     }
     default:
       break
@@ -153,6 +159,11 @@ const getCorrespondingBaseTxExplorerLink = (_pToken, _role) => {
       return _role === 'issuer'
         ? `${settings[PNT_ON_EOS_MAINNET].eth.explorer}tx/`
         : `${settings[PNT_ON_EOS_MAINNET].eos.explorer}transaction/`
+    }
+    case PTERIA_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PTERIA_ON_EOS_MAINNET].eth.explorer}tx/`
+        : `${settings[PTERIA_ON_EOS_MAINNET].eos.explorer}transaction/`
     }
     default:
       break

@@ -5,6 +5,7 @@ const PNTRedeemerNetworks = ['eos']
 const pLINKRedeemerNetworks = ['eos']
 const pMKRRedeemerNetworks = ['eos']
 const pYFIRedeemerNetworks = ['eos']
+const PTERIAedeemerNetworks = ['eos']
 
 const getNetworkCorrectness = (_pTokenName, _network, _role) => {
   if (_pTokenName === 'pETH' && _role === 'redeemer') {
@@ -18,6 +19,9 @@ const getNetworkCorrectness = (_pTokenName, _network, _role) => {
   }
   if (_pTokenName === 'PNT' && _role === 'redeemer') {
     return PNTRedeemerNetworks.includes(_network)
+  }
+  if (_pTokenName === 'PTERIA' && _role === 'redeemer') {
+    return PTERIAedeemerNetworks.includes(_network)
   }
   if (_pTokenName === 'pMKR' && _role === 'redeemer') {
     return pMKRRedeemerNetworks.includes(_network)

@@ -11,7 +11,8 @@ import {
   PNT_ON_EOS_MAINNET,
   PMKR_ON_EOS_MAINNET,
   PLINK_ON_EOS_MAINNET,
-  PYFI_ON_EOS_MAINNET
+  PYFI_ON_EOS_MAINNET,
+  PTERIA_ON_EOS_MAINNET
 } from '../constants'
 
 const getCorresponsingVisibleAddressFormat = (_pToken, _role, _account) => {
@@ -108,6 +109,14 @@ const getCorresponsingVisibleAddressFormat = (_pToken, _role, _account) => {
           )}`
     }
     case PNT_ON_EOS_MAINNET: {
+      return _role === 'redeemer'
+        ? _account
+        : `${_account.slice(0, 6)}...${_account.slice(
+            _account.length - 4,
+            _account.length
+          )}`
+    }
+    case PTERIA_ON_EOS_MAINNET: {
       return _role === 'redeemer'
         ? _account
         : `${_account.slice(0, 6)}...${_account.slice(

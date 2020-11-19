@@ -5,6 +5,7 @@ const MINIMUM_REDEEMABLE_PMKR_AMOUNT = 0.000000001
 const MINIMUM_REDEEMABLE_PNT_AMOUNT = 0.000000001
 const MINIMUM_REDEEMABLE_PYFI_AMOUNT = 0.000000001
 const MINIMUM_REDEEMABLE_PLINK_AMOUNT = 0.000000001
+const MINIMUM_REDEEMABLE_PTERIA_AMOUNT = 0.000000001
 const PBTC_DECIMALS = 8
 const PLTC_DECIMALS = 8
 const PETH_DECIMALS = 18
@@ -12,6 +13,7 @@ const PNT_DECIMALS = 18
 const PMKR_DECIMALS = 18
 const PLINK_DECIMALS = 18
 const PYFI_DECIMALS = 18
+const PTERIA_DECIMALS = 18
 
 const getMinumRedeemableAmount = _pTokenName => {
   switch (_pTokenName) {
@@ -29,6 +31,11 @@ const getMinumRedeemableAmount = _pTokenName => {
     }
     case 'pLINK': {
       return parseFloat(MINIMUM_REDEEMABLE_PLINK_AMOUNT).toFixed(PLINK_DECIMALS)
+    }
+    case 'PTERIA': {
+      return parseFloat(MINIMUM_REDEEMABLE_PTERIA_AMOUNT).toFixed(
+        PTERIA_DECIMALS
+      )
     }
     case 'pBTC': {
       return parseFloat(MINIMUM_REDEEMABLE_PBTC_AMOUNT).toFixed(PBTC_DECIMALS)
