@@ -50,7 +50,7 @@ const loggedIssueWithWallet = async (_ptokens, _params, _pToken, _dispatch) => {
       if (!BigNumber(allowance).isGreaterThanOrEqualTo(_params[0])) {
         await toApprove.methods
           .approve(eth.addHexPrefix(info.native_vault_address), _params[0])
-          .send({ from: wallets.issuerAccount })
+          .send({ from: wallets.issuerAccount, gas: 150000 })
 
         _dispatch(
           LogHandler.updateItem('approve', {
@@ -93,6 +93,8 @@ const loggedIssueWithWallet = async (_ptokens, _params, _pToken, _dispatch) => {
     })
   )
 
+  // NOTE: avoids brave metamask gas estimation fails
+  _params[_params.length] = { gas: 200000 }
   _ptokens[_pToken.name.toLowerCase()]
     .issue(..._params)
     .once('nativeTxBroadcasted', _hash => {

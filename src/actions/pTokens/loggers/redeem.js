@@ -21,6 +21,9 @@ const loggedRedeem = (_ptokens, _params, _pToken, _dispatch) => {
     })
   )
 
+  // NOTE: avoids brave metamask gas estimation fails
+  _params[_params.length] = { gas: 80000 }
+
   _ptokens[_pToken.name.toLowerCase()]
     .redeem(..._params)
     .once('hostTxConfirmed', _tx => {
