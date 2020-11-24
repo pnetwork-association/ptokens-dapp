@@ -382,18 +382,6 @@ const settings = {
       isHidden: false
     },
     {
-      id: PTERIA_ON_EOS_MAINNET,
-      name: 'PNT',
-      tokenType: 'EOSIO Token',
-      issueFrom: 'ETH',
-      redeemFrom: 'EOS',
-      realDecimals: 18,
-      contractDecimals: 0,
-      network: 'mainnet',
-      isPerc20: true,
-      isHidden: false
-    },
-    {
       id: PMKR_ON_EOS_MAINNET,
       name: 'pMKR',
       tokenType: 'EOSIO Token',
@@ -420,18 +408,6 @@ const settings = {
     {
       id: PYFI_ON_EOS_MAINNET,
       name: 'pYFI',
-      tokenType: 'EOSIO Token',
-      issueFrom: 'ETH',
-      redeemFrom: 'EOS',
-      realDecimals: 18,
-      contractDecimals: 0,
-      network: 'mainnet',
-      isPerc20: true,
-      isHidden: false
-    },
-    {
-      id: PTERIA_ON_EOS_MAINNET,
-      name: 'PTERIA',
       tokenType: 'EOSIO Token',
       issueFrom: 'ETH',
       redeemFrom: 'EOS',
@@ -470,6 +446,18 @@ const settings = {
       realDecimals: 8,
       contractDecimals: 18,
       network: 'testnet'
+    },
+    {
+      id: PTERIA_ON_EOS_MAINNET,
+      name: 'PTERIA',
+      tokenType: 'EOSIO Token',
+      issueFrom: 'ETH',
+      redeemFrom: 'EOS',
+      realDecimals: 18,
+      contractDecimals: 0,
+      network: 'mainnet',
+      isPerc20: true,
+      isHidden: false
     }
   ]
 }
