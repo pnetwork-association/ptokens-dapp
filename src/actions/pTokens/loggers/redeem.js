@@ -4,6 +4,13 @@ import {
   PTOKENS_REDEEM_SUCCEDEED
 } from '../../../constants/index'
 import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
+import BigNumber from 'bignumber.js'
+import {
+  PBTC_ON_ETH_MAINNET,
+  PBTC_ON_ETH_TESTNET,
+  PLTC_ON_ETH_MAINNET,
+  PLTC_ON_ETH_TESTNET
+} from '../../../constants'
 
 const hostTransactionHash = {
   telos: 'transaction_id',
@@ -11,33 +18,75 @@ const hostTransactionHash = {
   eth: 'transactionHash'
 }
 
-const loggedRedeem = (_ptokens, _params, _pToken, _dispatch) => {
-  _dispatch(
-    LogHandler.addItem({
-      value: 'Waiting for confirmation...',
-      success: false,
-      waiting: true,
-      id: 'burn-confirmation'
-    })
-  )
-
+const loggedRedeem = async (_ptokens, _params, _pToken, _dispatch) => {
   // NOTE: avoids brave metamask gas estimation fails
   _params[_params.length] = { gas: 80000 }
 
+  const burnedAmount = new BigNumber(_params[0])
+  let withBroadcast = false
+  if (
+    _pToken.id === PBTC_ON_ETH_MAINNET ||
+    _pToken.id === PBTC_ON_ETH_TESTNET ||
+    _pToken.id === PLTC_ON_ETH_MAINNET ||
+    _pToken.id === PLTC_ON_ETH_TESTNET
+  ) {
+    _params[0] = BigNumber(_params[0]).multipliedBy(10 ** 18)
+    withBroadcast = true
+
+    _dispatch(
+      LogHandler.addItem({
+        value: 'Waiting for broadcasting...',
+        success: false,
+        waiting: true,
+        id: 'burn-broadcasting'
+      })
+    )
+  } else {
+    _dispatch(
+      LogHandler.addItem({
+        value: 'Waiting for confirmation...',
+        success: false,
+        waiting: true,
+        id: 'burn-confirmation'
+      })
+    )
+  }
+
   _ptokens[_pToken.name.toLowerCase()]
     .redeem(..._params)
+    .once('hostTxBroadcasted', _tx => {
+      // prettier-ignore
+      const explorer = `${getCorrespondingBaseTxExplorerLink(_pToken, 'redeemer')}${_tx}`
+      _dispatch(
+        LogHandler.updateItem('burn-broadcasting', {
+          value: `Burn transaction broadcasted!`,
+          success: true,
+          link: explorer,
+          id: 'burn-broadcasting'
+        })
+      )
+
+      _dispatch(
+        LogHandler.addItem({
+          value: 'Waiting for confirmation...',
+          success: false,
+          waiting: true,
+          id: 'burn-confirmation'
+        })
+      )
+    })
     .once('hostTxConfirmed', _tx => {
       // prettier-ignore
       const explorer = `${getCorrespondingBaseTxExplorerLink(_pToken, 'redeemer')}${_tx[hostTransactionHash[_pToken.redeemFrom.toLowerCase()]]}`
       // prettier-ignore
-      const message = `Burn Transaction confirmed! ${parseFloat(_params[0]).toFixed(_pToken.realDecimals)} ${_pToken.name} Burnt`
+      const message = `Burn Transaction confirmed! ${burnedAmount.toFixed(_pToken.realDecimals)} ${_pToken.name} Burnt`
 
       _dispatch(
         LogHandler.updateItem('burn-confirmation', {
           value: message,
           success: true,
           waiting: false,
-          link: explorer
+          link: withBroadcast ? null : explorer
         })
       )
 
