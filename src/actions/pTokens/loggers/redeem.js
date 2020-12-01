@@ -22,8 +22,6 @@ const loggedRedeem = async (_ptokens, _params, _pToken, _dispatch) => {
   // NOTE: avoids brave metamask gas estimation fails
   _params[_params.length] = { gas: 80000 }
 
-  console.log(_ptokens)
-
   const burnedAmount = new BigNumber(_params[0])
   let withBroadcast = false
   if (
