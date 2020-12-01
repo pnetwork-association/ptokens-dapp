@@ -2,9 +2,12 @@ import AnchorLink from 'anchor-link'
 import AnchorLinkBrowserTransport from 'anchor-link-browser-transport'
 
 export default class AnchorProvider {
-  constructor({ dappName }) {
+  constructor({ dappName, settings }) {
     this.transport = new AnchorLinkBrowserTransport()
-    this.link = new AnchorLink({ transport: this.transport })
+    this.link = new AnchorLink({
+      transport: this.transport,
+      chainId: settings.chainId
+    })
     this.dappName = dappName
   }
 

@@ -47,6 +47,7 @@ class EosConnect extends EventEmitter {
     }
     if (anchor) {
       this.anchorProvider = new AnchorProvider({
+        settings: anchor.settings,
         dappName
       })
 
