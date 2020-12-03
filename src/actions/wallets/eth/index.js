@@ -123,9 +123,13 @@ const _connectionSuccesfull = async (
 }
 
 const _getAccount = async _provider => {
-  const web3 = new Web3(_provider)
-  const accounts = await web3.eth.getAccounts()
-  return accounts[0]
+  try {
+    const web3 = new Web3(_provider)
+    const accounts = await web3.eth.getAccounts()
+    return accounts[0]
+  } catch (_err) {
+    console.error(`Error during getting Ethereum account ${_err.message}`)
+  }
 }
 
 export { connectWithEthWallet, disconnectFromEthWallet }

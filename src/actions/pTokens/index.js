@@ -38,27 +38,8 @@ import loggedIssueWithWallet from './loggers/issue-with-wallet'
 
 const mutex = new Mutex()
 
-let ptokens = null
-
-let pTokenCurrent = {
-  id: 0
-}
-
 let numberOfTotalSupplyRequests = 0
 let numberOfBalanceOfRequests = 0
-
-const _selectpToken = (_pToken, _configs) => {
-  const configs = _getCorrectConfigs(_pToken, _configs)
-  pTokenCurrent.id = _pToken.id
-  return new pTokens(configs)
-}
-
-const _getSelectedpToken = (_pToken, _configs) => {
-  if (!ptokens || _pToken.id !== pTokenCurrent.id) {
-    ptokens = _selectpToken(_pToken, _configs)
-  }
-  return ptokens
-}
 
 const setSelectedpToken = (_pToken, _withNodeSelection = true) => {
   return {
@@ -73,7 +54,7 @@ const setSelectedpToken = (_pToken, _withNodeSelection = true) => {
 const issue = (_pToken, _params, _configs) => {
   return async _dispatch => {
     try {
-      const ptokens = _getSelectedpToken(_pToken, _configs)
+      const ptokens = new pTokens(_getCorrectConfigs(_pToken, _configs))
       // prettier-ignore
       ptokens[_pToken.name.toLowerCase()].setSelectedNode(_pToken.nodeInfo.endpoint)
 
@@ -122,7 +103,7 @@ const issue = (_pToken, _params, _configs) => {
 const redeem = (_pToken, _params, _configs) => {
   return _dispatch => {
     try {
-      const ptokens = _getSelectedpToken(_pToken, _configs)
+      const ptokens = new pTokens(_getCorrectConfigs(_pToken, _configs))
       // prettier-ignore
       ptokens[_pToken.name.toLowerCase()].setSelectedNode(_pToken.nodeInfo.endpoint)
       loggedRedeem(ptokens, _params, _pToken, _dispatch)
@@ -293,6 +274,8 @@ const setCustomRpc = (_rpc, _type) => {
 const _getCorrectConfigs = (_pToken, _configs) => {
   const { redeemer, issuer } = _configs
   const { networks, blockchains, pTokens } = constants
+
+  console.log(redeemer)
 
   if (_pToken.id === PBTC_ON_ETH_MAINNET) {
     return {
