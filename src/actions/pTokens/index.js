@@ -275,8 +275,6 @@ const _getCorrectConfigs = (_pToken, _configs) => {
   const { redeemer, issuer } = _configs
   const { networks, blockchains, pTokens } = constants
 
-  console.log(redeemer)
-
   if (_pToken.id === PBTC_ON_ETH_MAINNET) {
     return {
       pbtc: {
