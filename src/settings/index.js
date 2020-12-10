@@ -589,7 +589,7 @@ const settings = {
       contractDecimals: 0,
       network: 'mainnet',
       isPerc20: true,
-      isHidden: true
+      isHidden: false
     },
     {
       id: PBAL_ON_EOS_MAINNET,
@@ -601,7 +601,7 @@ const settings = {
       contractDecimals: 0,
       network: 'mainnet',
       isPerc20: true,
-      isHidden: true
+      isHidden: false
     },
     {
       id: PBAND_ON_EOS_MAINNET,
@@ -613,7 +613,7 @@ const settings = {
       contractDecimals: 0,
       network: 'mainnet',
       isPerc20: true,
-      isHidden: true
+      isHidden: false
     },
     {
       id: PCOMP_ON_EOS_MAINNET,
@@ -625,7 +625,7 @@ const settings = {
       contractDecimals: 0,
       network: 'mainnet',
       isPerc20: true,
-      isHidden: true
+      isHidden: false
     },
     {
       id: PSNX_ON_EOS_MAINNET,
@@ -637,7 +637,7 @@ const settings = {
       contractDecimals: 0,
       network: 'mainnet',
       isPerc20: true,
-      isHidden: true
+      isHidden: false
     }
   ]
 }
