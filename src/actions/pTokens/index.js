@@ -97,23 +97,23 @@ const issue = (_pToken, _params, _configs) => {
           break
         }
         case 'pUNI': {
-          loggedIssueWithDepositAddress(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
           break
         }
         case 'pBAND': {
-          loggedIssueWithDepositAddress(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
           break
         }
         case 'pBAL': {
-          loggedIssueWithDepositAddress(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
           break
         }
         case 'pCOMP': {
-          loggedIssueWithDepositAddress(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
           break
         }
         case 'pSNX': {
-          loggedIssueWithDepositAddress(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
           break
         }
         default:

@@ -253,7 +253,7 @@ export class pTokenControllers extends React.Component {
           return
         }
 
-        if (this.props.pTokenSelected.name === 'pETH') {
+        if (this.props.pTokenSelected.isPerc20) {
           if (!this.props.issuerIsConnected) {
             toastr.error('Please connect your Ethereum wallet')
             return
