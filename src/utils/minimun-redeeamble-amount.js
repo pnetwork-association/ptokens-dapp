@@ -6,6 +6,11 @@ const MINIMUM_REDEEMABLE_PNT_AMOUNT = 0.000000001
 const MINIMUM_REDEEMABLE_PYFI_AMOUNT = 0.000000001
 const MINIMUM_REDEEMABLE_PLINK_AMOUNT = 0.000000001
 const MINIMUM_REDEEMABLE_PTERIA_AMOUNT = 0.000000001
+const MINIMUM_REDEEMABLE_PUNI_AMOUNT = 0.000000001
+const MINIMUM_REDEEMABLE_PBAND_AMOUNT = 0.000000001
+const MINIMUM_REDEEMABLE_PBAL_AMOUNT = 0.000000001
+const MINIMUM_REDEEMABLE_PCOMP_AMOUNT = 0.000000001
+const MINIMUM_REDEEMABLE_PSNX_AMOUNT = 0.000000001
 const PBTC_DECIMALS = 8
 const PLTC_DECIMALS = 8
 const PETH_DECIMALS = 18
@@ -14,6 +19,11 @@ const PMKR_DECIMALS = 18
 const PLINK_DECIMALS = 18
 const PYFI_DECIMALS = 18
 const PTERIA_DECIMALS = 18
+const PUNI_DECIMALS = 18
+const PBAND_DECIMALS = 18
+const PBAL_DECIMALS = 18
+const PCOMP_DECIMALS = 18
+const PSNX_DECIMALS = 18
 
 const getMinumRedeemableAmount = _pTokenName => {
   switch (_pTokenName) {
@@ -36,6 +46,21 @@ const getMinumRedeemableAmount = _pTokenName => {
       return parseFloat(MINIMUM_REDEEMABLE_PTERIA_AMOUNT).toFixed(
         PTERIA_DECIMALS
       )
+    }
+    case 'pUNI': {
+      return parseFloat(MINIMUM_REDEEMABLE_PUNI_AMOUNT).toFixed(PUNI_DECIMALS)
+    }
+    case 'pBAND': {
+      return parseFloat(MINIMUM_REDEEMABLE_PBAND_AMOUNT).toFixed(PBAND_DECIMALS)
+    }
+    case 'pBAL': {
+      return parseFloat(MINIMUM_REDEEMABLE_PBAL_AMOUNT).toFixed(PBAL_DECIMALS)
+    }
+    case 'pCOMP': {
+      return parseFloat(MINIMUM_REDEEMABLE_PCOMP_AMOUNT).toFixed(PCOMP_DECIMALS)
+    }
+    case 'pSNX': {
+      return parseFloat(MINIMUM_REDEEMABLE_PSNX_AMOUNT).toFixed(PSNX_DECIMALS)
     }
     case 'pBTC': {
       return parseFloat(MINIMUM_REDEEMABLE_PBTC_AMOUNT).toFixed(PBTC_DECIMALS)

@@ -11,14 +11,8 @@ import ERC20Abi from '../../../utils/abi/ERC20.json'
 import BigNumber from 'bignumber.js'
 
 const loggedIssueWithWallet = async (_ptokens, _params, _pToken, _dispatch) => {
-  if (
-    _pToken.isPerc20 &&
-    (_pToken.name === 'pMKR' ||
-      _pToken.name === 'PNT' ||
-      _pToken.name === 'PTERIA' ||
-      _pToken.name === 'pLINK' ||
-      _pToken.name === 'pYFI')
-  ) {
+  // NOTE: peth uses ethers
+  if (_pToken.isPerc20 && _pToken.name !== 'pETH') {
     try {
       _dispatch(
         LogHandler.addItem({

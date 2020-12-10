@@ -12,7 +12,12 @@ import {
   PMKR_ON_EOS_MAINNET,
   PLINK_ON_EOS_MAINNET,
   PYFI_ON_EOS_MAINNET,
-  PTERIA_ON_EOS_MAINNET
+  PTERIA_ON_EOS_MAINNET,
+  PUNI_ON_EOS_MAINNET,
+  PBAL_ON_EOS_MAINNET,
+  PBAND_ON_EOS_MAINNET,
+  PCOMP_ON_EOS_MAINNET,
+  PSNX_ON_EOS_MAINNET
 } from '../constants'
 
 const getCorresponsingVisibleAddressFormat = (_pToken, _role, _account) => {
@@ -76,6 +81,25 @@ const getCorresponsingVisibleAddressFormat = (_pToken, _role, _account) => {
             _account.length
           )}`
     }
+    case PBTC_ON_EOS_TESTNET: {
+      return _role === 'redeemer'
+        ? _account
+        : `${_account.slice(0, 12)}...${_account.slice(
+            _account.length - 9,
+            _account.length
+          )}`
+    }
+    case PLTC_ON_ETH_TESTNET: {
+      return _role === 'redeemer'
+        ? `${_account.slice(0, 6)}...${_account.slice(
+            _account.length - 4,
+            _account.length
+          )}`
+        : `${_account.slice(0, 12)}...${_account.slice(
+            _account.length - 9,
+            _account.length
+          )}`
+    }
     case PETH_ON_EOS_MAINNET: {
       return _role === 'redeemer'
         ? _account
@@ -124,22 +148,43 @@ const getCorresponsingVisibleAddressFormat = (_pToken, _role, _account) => {
             _account.length
           )}`
     }
-    case PBTC_ON_EOS_TESTNET: {
+    case PUNI_ON_EOS_MAINNET: {
       return _role === 'redeemer'
         ? _account
-        : `${_account.slice(0, 12)}...${_account.slice(
-            _account.length - 9,
-            _account.length
-          )}`
-    }
-    case PLTC_ON_ETH_TESTNET: {
-      return _role === 'redeemer'
-        ? `${_account.slice(0, 6)}...${_account.slice(
+        : `${_account.slice(0, 6)}...${_account.slice(
             _account.length - 4,
             _account.length
           )}`
-        : `${_account.slice(0, 12)}...${_account.slice(
-            _account.length - 9,
+    }
+    case PBAND_ON_EOS_MAINNET: {
+      return _role === 'redeemer'
+        ? _account
+        : `${_account.slice(0, 6)}...${_account.slice(
+            _account.length - 4,
+            _account.length
+          )}`
+    }
+    case PBAL_ON_EOS_MAINNET: {
+      return _role === 'redeemer'
+        ? _account
+        : `${_account.slice(0, 6)}...${_account.slice(
+            _account.length - 4,
+            _account.length
+          )}`
+    }
+    case PCOMP_ON_EOS_MAINNET: {
+      return _role === 'redeemer'
+        ? _account
+        : `${_account.slice(0, 6)}...${_account.slice(
+            _account.length - 4,
+            _account.length
+          )}`
+    }
+    case PSNX_ON_EOS_MAINNET: {
+      return _role === 'redeemer'
+        ? _account
+        : `${_account.slice(0, 6)}...${_account.slice(
+            _account.length - 4,
             _account.length
           )}`
     }

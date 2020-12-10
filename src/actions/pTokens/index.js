@@ -24,7 +24,12 @@ import {
   PLINK_ON_EOS_MAINNET,
   PYFI_ON_EOS_MAINNET,
   PBTC_ON_TELOS_MAINNET,
-  PTERIA_ON_EOS_MAINNET
+  PTERIA_ON_EOS_MAINNET,
+  PUNI_ON_EOS_MAINNET,
+  PBAL_ON_EOS_MAINNET,
+  PBAND_ON_EOS_MAINNET,
+  PCOMP_ON_EOS_MAINNET,
+  PSNX_ON_EOS_MAINNET
 } from '../../constants/index'
 import pTokens from 'ptokens'
 import { constants } from 'ptokens-utils'
@@ -88,6 +93,26 @@ const issue = (_pToken, _params, _configs) => {
           break
         }
         case 'pLTC': {
+          loggedIssueWithDepositAddress(ptokens, _params, _pToken, _dispatch)
+          break
+        }
+        case 'pUNI': {
+          loggedIssueWithDepositAddress(ptokens, _params, _pToken, _dispatch)
+          break
+        }
+        case 'pBAND': {
+          loggedIssueWithDepositAddress(ptokens, _params, _pToken, _dispatch)
+          break
+        }
+        case 'pBAL': {
+          loggedIssueWithDepositAddress(ptokens, _params, _pToken, _dispatch)
+          break
+        }
+        case 'pCOMP': {
+          loggedIssueWithDepositAddress(ptokens, _params, _pToken, _dispatch)
+          break
+        }
+        case 'pSNX': {
           loggedIssueWithDepositAddress(ptokens, _params, _pToken, _dispatch)
           break
         }
@@ -422,6 +447,66 @@ const _getCorrectConfigs = (_pToken, _configs) => {
         blockchain: blockchains.Eosio,
         ethProvider: issuer,
         eosRpc: settings[PTERIA_ON_EOS_MAINNET].eos.endpoint,
+        eosSignatureProvider: redeemer
+      }
+    }
+  }
+  if (_pToken.id === PUNI_ON_EOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pUNI,
+        network: networks.Mainnet,
+        blockchain: blockchains.Eosio,
+        ethProvider: issuer,
+        eosRpc: settings[PUNI_ON_EOS_MAINNET].eos.endpoint,
+        eosSignatureProvider: redeemer
+      }
+    }
+  }
+  if (_pToken.id === PBAND_ON_EOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pBAND,
+        network: networks.Mainnet,
+        blockchain: blockchains.Eosio,
+        ethProvider: issuer,
+        eosRpc: settings[PBAND_ON_EOS_MAINNET].eos.endpoint,
+        eosSignatureProvider: redeemer
+      }
+    }
+  }
+  if (_pToken.id === PBAL_ON_EOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pBAL,
+        network: networks.Mainnet,
+        blockchain: blockchains.Eosio,
+        ethProvider: issuer,
+        eosRpc: settings[PBAL_ON_EOS_MAINNET].eos.endpoint,
+        eosSignatureProvider: redeemer
+      }
+    }
+  }
+  if (_pToken.id === PCOMP_ON_EOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pCOMP,
+        network: networks.Mainnet,
+        blockchain: blockchains.Eosio,
+        ethProvider: issuer,
+        eosRpc: settings[PCOMP_ON_EOS_MAINNET].eos.endpoint,
+        eosSignatureProvider: redeemer
+      }
+    }
+  }
+  if (_pToken.id === PSNX_ON_EOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pSNX,
+        network: networks.Mainnet,
+        blockchain: blockchains.Eosio,
+        ethProvider: issuer,
+        eosRpc: settings[PSNX_ON_EOS_MAINNET].eos.endpoint,
         eosSignatureProvider: redeemer
       }
     }

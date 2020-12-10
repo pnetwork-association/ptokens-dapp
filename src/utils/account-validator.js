@@ -14,7 +14,12 @@ import {
   PMKR_ON_EOS_MAINNET,
   PLINK_ON_EOS_MAINNET,
   PYFI_ON_EOS_MAINNET,
-  PTERIA_ON_EOS_MAINNET
+  PTERIA_ON_EOS_MAINNET,
+  PUNI_ON_EOS_MAINNET,
+  PBAL_ON_EOS_MAINNET,
+  PBAND_ON_EOS_MAINNET,
+  PCOMP_ON_EOS_MAINNET,
+  PSNX_ON_EOS_MAINNET
 } from '../constants'
 
 const web3 = new Web3()
@@ -40,6 +45,26 @@ const isValidAccount = (_pToken, _account, _role) => {
       return _role === 'issuer'
         ? pTokenUtils.btc.isValidAddress(_account)
         : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PLTC_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? pTokenUtils.ltc.isValidAddress(_account)
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PBTC_ON_EOS_TESTNET: {
+      return _role === 'issuer'
+        ? pTokenUtils.btc.isValidAddress(_account)
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PLTC_ON_ETH_MAINNET: {
+      return _role === 'issuer'
+        ? pTokenUtils.ltc.isValidAddress(_account)
+        : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case PLTC_ON_ETH_TESTNET: {
+      return _role === 'issuer'
+        ? pTokenUtils.ltc.isValidAddress(_account)
+        : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case PETH_ON_EOS_MAINNET: {
       return _role === 'issuer'
@@ -71,25 +96,30 @@ const isValidAccount = (_pToken, _account, _role) => {
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
-    case PLTC_ON_EOS_MAINNET: {
+    case PUNI_ON_EOS_MAINNET: {
       return _role === 'issuer'
-        ? pTokenUtils.ltc.isValidAddress(_account)
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
-    case PBTC_ON_EOS_TESTNET: {
+    case PBAND_ON_EOS_MAINNET: {
       return _role === 'issuer'
-        ? pTokenUtils.btc.isValidAddress(_account)
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
-    case PLTC_ON_ETH_MAINNET: {
+    case PBAL_ON_EOS_MAINNET: {
       return _role === 'issuer'
-        ? pTokenUtils.ltc.isValidAddress(_account)
-        : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
     }
-    case PLTC_ON_ETH_TESTNET: {
+    case PCOMP_ON_EOS_MAINNET: {
       return _role === 'issuer'
-        ? pTokenUtils.ltc.isValidAddress(_account)
-        : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PSNX_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
     }
     default:
       break

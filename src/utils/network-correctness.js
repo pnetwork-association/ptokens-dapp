@@ -23,6 +23,21 @@ const getNetworkCorrectness = (_pTokenName, _network, _role) => {
   if (_pTokenName === 'PTERIA' && _role === 'redeemer') {
     return PTERIAedeemerNetworks.includes(_network)
   }
+  if (_pTokenName === 'pUNI' && _role === 'redeemer') {
+    return PTERIAedeemerNetworks.includes(_network)
+  }
+  if (_pTokenName === 'pBAND' && _role === 'redeemer') {
+    return PTERIAedeemerNetworks.includes(_network)
+  }
+  if (_pTokenName === 'pBAL' && _role === 'redeemer') {
+    return PTERIAedeemerNetworks.includes(_network)
+  }
+  if (_pTokenName === 'pCOMP' && _role === 'redeemer') {
+    return PTERIAedeemerNetworks.includes(_network)
+  }
+  if (_pTokenName === 'pSNX' && _role === 'redeemer') {
+    return PTERIAedeemerNetworks.includes(_network)
+  }
   if (_pTokenName === 'pMKR' && _role === 'redeemer') {
     return pMKRRedeemerNetworks.includes(_network)
   }
