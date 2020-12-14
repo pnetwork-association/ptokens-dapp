@@ -9,6 +9,10 @@ const MINIMUM_ISSUABLE_PBAND_AMOUNT = 0.000000001
 const MINIMUM_ISSUABLE_PBAL_AMOUNT = 0.000000001
 const MINIMUM_ISSUABLE_PCOMP_AMOUNT = 0.000000001
 const MINIMUM_ISSUABLE_PSNX_AMOUNT = 0.000000001
+const MINIMUM_ISSUABLE_POMG_AMOUNT = 0.000000001
+const MINIMUM_ISSUABLE_PDAI_AMOUNT = 0.000000001
+const MINIMUM_ISSUABLE_PANT_AMOUNT = 0.000000001
+const MINIMUM_ISSUABLE_PLRC_AMOUNT = 0.000000001
 const PETH_DECIMALS = 18
 const PNT_DECIMALS = 18
 const PMKR_DECIMALS = 18
@@ -20,6 +24,10 @@ const PBAND_DECIMALS = 18
 const PBAL_DECIMALS = 18
 const PCOMP_DECIMALS = 18
 const PSNX_DECIMALS = 18
+const POMG_DECIMALS = 18
+const PDAI_DECIMALS = 18
+const PANT_DECIMALS = 18
+const PLRC_DECIMALS = 18
 
 const getMinumIssuableAmount = _type => {
   switch (_type) {
@@ -55,6 +63,18 @@ const getMinumIssuableAmount = _type => {
     }
     case 'pSNX': {
       return parseFloat(MINIMUM_ISSUABLE_PSNX_AMOUNT).toFixed(PSNX_DECIMALS)
+    }
+    case 'pOMG': {
+      return parseFloat(MINIMUM_ISSUABLE_POMG_AMOUNT).toFixed(POMG_DECIMALS)
+    }
+    case 'pDAI': {
+      return parseFloat(MINIMUM_ISSUABLE_PDAI_AMOUNT).toFixed(PDAI_DECIMALS)
+    }
+    case 'pANT': {
+      return parseFloat(MINIMUM_ISSUABLE_PANT_AMOUNT).toFixed(PANT_DECIMALS)
+    }
+    case 'pLRC': {
+      return parseFloat(MINIMUM_ISSUABLE_PLRC_AMOUNT).toFixed(PLRC_DECIMALS)
     }
     case 'pBTC': {
       return 0

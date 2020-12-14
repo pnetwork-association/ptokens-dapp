@@ -29,7 +29,11 @@ import {
   PBAL_ON_EOS_MAINNET,
   PBAND_ON_EOS_MAINNET,
   PCOMP_ON_EOS_MAINNET,
-  PSNX_ON_EOS_MAINNET
+  PSNX_ON_EOS_MAINNET,
+  POMG_ON_EOS_MAINNET,
+  PDAI_ON_EOS_MAINNET,
+  PANT_ON_EOS_MAINNET,
+  PLRC_ON_EOS_MAINNET
 } from '../../constants/index'
 import pTokens from 'ptokens'
 import { constants } from 'ptokens-utils'
@@ -113,6 +117,22 @@ const issue = (_pToken, _params, _configs) => {
           break
         }
         case 'pSNX': {
+          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          break
+        }
+        case 'pOMG': {
+          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          break
+        }
+        case 'pDAI': {
+          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          break
+        }
+        case 'pANT': {
+          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          break
+        }
+        case 'pLRC': {
           loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
           break
         }
@@ -507,6 +527,54 @@ const _getCorrectConfigs = (_pToken, _configs) => {
         blockchain: blockchains.Eosio,
         ethProvider: issuer,
         eosRpc: settings[PSNX_ON_EOS_MAINNET].eos.endpoint,
+        eosSignatureProvider: redeemer
+      }
+    }
+  }
+  if (_pToken.id === POMG_ON_EOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pOMG,
+        network: networks.Mainnet,
+        blockchain: blockchains.Eosio,
+        ethProvider: issuer,
+        eosRpc: settings[POMG_ON_EOS_MAINNET].eos.endpoint,
+        eosSignatureProvider: redeemer
+      }
+    }
+  }
+  if (_pToken.id === PDAI_ON_EOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pDAI,
+        network: networks.Mainnet,
+        blockchain: blockchains.Eosio,
+        ethProvider: issuer,
+        eosRpc: settings[PDAI_ON_EOS_MAINNET].eos.endpoint,
+        eosSignatureProvider: redeemer
+      }
+    }
+  }
+  if (_pToken.id === PANT_ON_EOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pANT,
+        network: networks.Mainnet,
+        blockchain: blockchains.Eosio,
+        ethProvider: issuer,
+        eosRpc: settings[PANT_ON_EOS_MAINNET].eos.endpoint,
+        eosSignatureProvider: redeemer
+      }
+    }
+  }
+  if (_pToken.id === PLRC_ON_EOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pLRC,
+        network: networks.Mainnet,
+        blockchain: blockchains.Eosio,
+        ethProvider: issuer,
+        eosRpc: settings[PLRC_ON_EOS_MAINNET].eos.endpoint,
         eosSignatureProvider: redeemer
       }
     }

@@ -17,7 +17,11 @@ import {
   PBAL_ON_EOS_MAINNET,
   PBAND_ON_EOS_MAINNET,
   PCOMP_ON_EOS_MAINNET,
-  PSNX_ON_EOS_MAINNET
+  PSNX_ON_EOS_MAINNET,
+  POMG_ON_EOS_MAINNET,
+  PDAI_ON_EOS_MAINNET,
+  PANT_ON_EOS_MAINNET,
+  PLRC_ON_EOS_MAINNET
 } from '../constants'
 
 const settings = {
@@ -365,6 +369,99 @@ const settings = {
       enclaveBlockHeightPollingTime: 3000
     }
   },
+  [POMG_ON_EOS_MAINNET]: {
+    eos: {
+      chainId:
+        'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+      host: 'eos.greymass.com',
+      port: 443,
+      protocol: 'https',
+      explorer: 'https://bloks.io/',
+      endpoint:
+        'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
+    },
+    eth: {
+      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
+      fortmaticKey: 'pk_live_D0A703008A4B17B7',
+      wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
+      httpsInfuraEndpoint: 'https://mainnet.infura.io/v3/',
+      network: 'mainnet',
+      chainId: 1,
+      explorer: 'https://etherscan.io/',
+      enclaveBlockHeightPollingTime: 3000
+    }
+  },
+  [PDAI_ON_EOS_MAINNET]: {
+    eos: {
+      chainId:
+        'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+      host: 'eos.greymass.com',
+      port: 443,
+      protocol: 'https',
+      explorer: 'https://bloks.io/',
+      endpoint:
+        'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
+    },
+    eth: {
+      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
+      fortmaticKey: 'pk_live_D0A703008A4B17B7',
+      wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
+      httpsInfuraEndpoint: 'https://mainnet.infura.io/v3/',
+      network: 'mainnet',
+      chainId: 1,
+      explorer: 'https://etherscan.io/',
+      enclaveBlockHeightPollingTime: 3000
+    }
+  },
+  [PANT_ON_EOS_MAINNET]: {
+    eos: {
+      chainId:
+        'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+      host: 'eos.greymass.com',
+      port: 443,
+      protocol: 'https',
+      explorer: 'https://bloks.io/',
+      endpoint:
+        'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
+    },
+    eth: {
+      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
+      fortmaticKey: 'pk_live_D0A703008A4B17B7',
+      wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
+      httpsInfuraEndpoint: 'https://mainnet.infura.io/v3/',
+      network: 'mainnet',
+      chainId: 1,
+      explorer: 'https://etherscan.io/',
+      enclaveBlockHeightPollingTime: 3000
+    }
+  },
+  [PLRC_ON_EOS_MAINNET]: {
+    eos: {
+      chainId:
+        'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+      host: 'eos.greymass.com',
+      port: 443,
+      protocol: 'https',
+      explorer: 'https://bloks.io/',
+      endpoint:
+        'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
+    },
+    eth: {
+      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
+      fortmaticKey: 'pk_live_D0A703008A4B17B7',
+      wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
+      httpsInfuraEndpoint: 'https://mainnet.infura.io/v3/',
+      network: 'mainnet',
+      chainId: 1,
+      explorer: 'https://etherscan.io/',
+      enclaveBlockHeightPollingTime: 3000
+    }
+  },
+
   [PBTC_ON_ETH_TESTNET]: {
     eth: {
       infuraProjectId: '4762c881ac0c4938be76386339358ed6',
@@ -638,6 +735,54 @@ const settings = {
       network: 'mainnet',
       isPerc20: true,
       isHidden: false
+    },
+    {
+      id: POMG_ON_EOS_MAINNET,
+      name: 'pOMG',
+      tokenType: 'EOSIO Token',
+      issueFrom: 'ETH',
+      redeemFrom: 'EOS',
+      realDecimals: 18,
+      contractDecimals: 0,
+      network: 'mainnet',
+      isPerc20: true,
+      isHidden: true
+    },
+    {
+      id: PANT_ON_EOS_MAINNET,
+      name: 'pANT',
+      tokenType: 'EOSIO Token',
+      issueFrom: 'ETH',
+      redeemFrom: 'EOS',
+      realDecimals: 18,
+      contractDecimals: 0,
+      network: 'mainnet',
+      isPerc20: true,
+      isHidden: true
+    },
+    {
+      id: PDAI_ON_EOS_MAINNET,
+      name: 'pDAI',
+      tokenType: 'EOSIO Token',
+      issueFrom: 'ETH',
+      redeemFrom: 'EOS',
+      realDecimals: 18,
+      contractDecimals: 0,
+      network: 'mainnet',
+      isPerc20: true,
+      isHidden: true
+    },
+    {
+      id: PLRC_ON_EOS_MAINNET,
+      name: 'pLRC',
+      tokenType: 'EOSIO Token',
+      issueFrom: 'ETH',
+      redeemFrom: 'EOS',
+      realDecimals: 18,
+      contractDecimals: 0,
+      network: 'mainnet',
+      isPerc20: true,
+      isHidden: true
     }
   ]
 }
