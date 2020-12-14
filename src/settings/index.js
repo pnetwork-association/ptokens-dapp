@@ -746,7 +746,7 @@ const settings = {
       contractDecimals: 0,
       network: 'mainnet',
       isPerc20: true,
-      isHidden: true
+      isHidden: false
     },
     {
       id: PANT_ON_EOS_MAINNET,
@@ -758,7 +758,7 @@ const settings = {
       contractDecimals: 0,
       network: 'mainnet',
       isPerc20: true,
-      isHidden: true
+      isHidden: false
     },
     {
       id: PDAI_ON_EOS_MAINNET,
@@ -770,7 +770,7 @@ const settings = {
       contractDecimals: 0,
       network: 'mainnet',
       isPerc20: true,
-      isHidden: true
+      isHidden: false
     },
     {
       id: PLRC_ON_EOS_MAINNET,
@@ -782,7 +782,7 @@ const settings = {
       contractDecimals: 0,
       network: 'mainnet',
       isPerc20: true,
-      isHidden: true
+      isHidden: false
     }
   ]
 }
