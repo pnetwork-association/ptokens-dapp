@@ -23,7 +23,7 @@ const loggedRedeem = async (_ptokens, _params, _pToken, _dispatch) => {
     _pToken.id === PLTC_ON_ETH_TESTNET
   ) {
     _params[0] = BigNumber(_params[0])
-      .multipliedBy(10 ** 18)
+      .multipliedBy(10 ** _pToken.contractDecimals)
       .toFixed()
     withBroadcast = true
 

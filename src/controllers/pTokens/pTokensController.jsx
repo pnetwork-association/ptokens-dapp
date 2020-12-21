@@ -294,27 +294,14 @@ export class pTokenControllers extends React.Component {
       return
     }
 
-    const parsedAmountToRedeem =
-      Math.trunc(this.props.pTokensParams.amountToRedeem * Math.pow(10, this.props.pTokensParams.realDecimals)) /
-      Math.pow(10, this.props.pTokensParams.realDecimals).toFixed(this.props.pTokensParams.realDecimals)
-
-    // prettier-ignore
-    const minimunRedeemableAmount = parseFloat(this.props.pTokenSelected.minimumRedeamable).toFixed(this.props.pTokenSelected.realDecimals)
-    if (parsedAmountToRedeem < minimunRedeemableAmount) {
+    const minimunRedeemableAmount = parseFloat(this.props.pTokenSelected.minimumRedeamable)
+    if (BigNumber(this.props.pTokensParams.amountToRedeem).isLessThan(minimunRedeemableAmount)) {
       toastr.error(`Impossible to redeem less than ${minimunRedeemableAmount} ${this.props.pTokenSelected.name}`)
       this.setState({
         isRedeemTerminated: true
       })
       return
     }
-
-    /*if (parsedAmountToRedeem > this.props.pTokenBalance) {
-      this.showAlert('danger', `Impossible to redeem more than what you have`)
-      this.setState({
-        isRedeemTerminated: true
-      })
-      return
-    }*/
 
     this.setState({
       isRedeemTerminated: null
@@ -324,7 +311,7 @@ export class pTokenControllers extends React.Component {
 
     const issuerReadOnlyProvider = getCorrespondingReadOnlyProvider(this.props.pTokenSelected)
 
-    this.props.redeem(this.props.pTokenSelected, [parsedAmountToRedeem, this.props.pTokensParams.typedRedeemAccount], {
+    this.props.redeem(this.props.pTokenSelected, [this.props.pTokensParams.amountToRedeem , this.props.pTokensParams.typedRedeemAccount], {
       issuer: issuerReadOnlyProvider,
       redeemer: this.props.redeemerProvider
     })
