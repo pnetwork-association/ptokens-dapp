@@ -528,6 +528,8 @@ const settings = {
       realDecimals: 8,
       contractDecimals: 18,
       network: 'mainnet',
+      minimumIssuable: '0',
+      minimumRedeamable: '0.00005',
       isHidden: false
     },
     {
@@ -539,6 +541,8 @@ const settings = {
       realDecimals: 8,
       contractDecimals: 8,
       network: 'mainnet',
+      minimumIssuable: '0',
+      minimumRedeamable: '0.00005',
       isHidden: false
     },
     {
@@ -550,6 +554,8 @@ const settings = {
       realDecimals: 8,
       contractDecimals: 8,
       network: 'mainnet',
+      minimumIssuable: '0',
+      minimumRedeamable: '0.00005',
       isHidden: false
     },
     {
@@ -561,6 +567,8 @@ const settings = {
       realDecimals: 8,
       contractDecimals: 18,
       network: 'mainnet',
+      minimumIssuable: '0',
+      minimumRedeamable: '0.0000546',
       isHidden: false
     },
     {
@@ -572,6 +580,8 @@ const settings = {
       realDecimals: 8,
       contractDecimals: 8,
       network: 'mainnet',
+      minimumIssuable: '0',
+      minimumRedeamable: '0.0000546',
       isHidden: false
     },
     {
@@ -583,6 +593,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false
     },
@@ -595,6 +607,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false
     },
@@ -607,6 +621,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false
     },
@@ -619,6 +635,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false
     },
@@ -631,6 +649,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false
     },
@@ -642,7 +662,9 @@ const settings = {
       redeemFrom: 'ETH',
       realDecimals: 8,
       contractDecimals: 18,
-      network: 'testnet'
+      network: 'testnet',
+      minimumIssuable: '0',
+      minimumRedeamable: '0.00005'
     },
     {
       id: PBTC_ON_EOS_TESTNET,
@@ -652,7 +674,9 @@ const settings = {
       redeemFrom: 'EOS',
       realDecimals: 8,
       contractDecimals: 8,
-      network: 'testnet'
+      network: 'testnet',
+      minimumIssuable: '0',
+      minimumRedeamable: '0.00005'
     },
     {
       id: PLTC_ON_ETH_TESTNET,
@@ -673,6 +697,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false
     },
@@ -685,6 +711,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false
     },
@@ -697,6 +725,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false
     },
@@ -709,6 +739,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false
     },
@@ -721,6 +753,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false
     },
@@ -733,6 +767,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false
     },
@@ -745,6 +781,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false
     },
@@ -757,6 +795,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false
     },
@@ -781,6 +821,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false
     }

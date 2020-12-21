@@ -16,8 +16,6 @@ import {
 } from '../../actions/pTokens'
 import { connectWithCorrectWallets } from '../../actions/wallets'
 import { isValidAccount } from '../../utils/account-validator'
-import { getMinumIssuableAmount } from '../../utils/minum-issuable-amount'
-import { getMinumRedeemableAmount } from '../../utils/minimun-redeeamble-amount'
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
 import BigNumber from 'bignumber.js'
 import EosAccountSuggester from '../../lib/eosAccountSuggester'
@@ -266,7 +264,7 @@ export class pTokenControllers extends React.Component {
         // prettier-ignore
         const parsedAmountToIssue = parseFloat(this.props.pTokensParams.amountToIssue).toFixed(decimals)
         // prettier-ignore
-        const minimumIssuableAmount = getMinumIssuableAmount(this.props.pTokenSelected.name)
+        const minimumIssuableAmount = parseFloat(this.props.pTokenSelected.minimumIssuable).toFixed(this.props.pTokenSelected.realDecimals)
         if (parsedAmountToIssue < minimumIssuableAmount) {
           toastr.error(
             `Impossible to mint less than ${minimumIssuableAmount} ${this.props.pTokenSelected.name}`
@@ -340,7 +338,7 @@ export class pTokenControllers extends React.Component {
       )
 
     // prettier-ignore
-    const minimunRedeemableAmount = getMinumRedeemableAmount(this.props.pTokenSelected.name)
+    const minimunRedeemableAmount = parseFloat(this.props.pTokenSelected.minimumRedeamable).toFixed(this.props.pTokenSelected.realDecimals)
     if (parsedAmountToRedeem < minimunRedeemableAmount) {
       toastr.error(
         `Impossible to redeem less than ${minimunRedeemableAmount} ${this.props.pTokenSelected.name}`

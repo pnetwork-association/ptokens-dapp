@@ -80,6 +80,8 @@ const pTokensReducer = (_state = initialState, _action) => {
         id: _action.payload.pToken.id,
         isPerc20: _action.payload.pToken.isPerc20,
         isHidden: _action.payload.pToken.isHidden,
+        minimumIssuable: _action.payload.pToken.minimumIssuable,
+        minimumRedeamable: _action.payload.pToken.minimumRedeamable,
         totalSupply: null,
         depositAddress: {
           value: null,
