@@ -6,6 +6,7 @@ import { setSelectedPage, setCollapseState } from '../../actions/sidebar'
 import { setSelectedpToken, resetParams } from '../../actions/pTokens'
 import { disconnectFromSpecificWallet } from '../../actions/wallets'
 import { resetData } from '../../actions/pNetwork'
+import { useSidebarPtokensAvailable } from '../../hooks/use-sidebar-ptokens-available'
 
 const mapStateToProps = state => {
   return {
@@ -39,22 +40,23 @@ const SidebarController = _props => {
     isCollapseOpened,
     resetParams,
     setSelectedpToken,
-    pTokensAvailable,
-    withTestnetInstances,
     showHiddenPtokens,
     pNetworkDataReset,
-    detectedRedeemerNetwork
+    detectedRedeemerNetwork,
+    withTestnetInstances
   } = _props
+
+  const [pTokensAvailable] = useSidebarPtokensAvailable(
+    _props.pTokensAvailable,
+    showHiddenPtokens,
+    withTestnetInstances
+  )
 
   return (
     <Sidebar
       page={selected}
       pTokenSelected={pTokenSelected}
-      pTokensAvailable={pTokensAvailable
-        .filter(({ isHidden }) =>
-          isHidden === true && showHiddenPtokens ? true : isHidden === true && !showHiddenPtokens ? false : true
-        )
-        .filter(({ network }) => (withTestnetInstances ? true : network === 'mainnet'))}
+      pTokensAvailable={pTokensAvailable}
       onChangePage={_page => setSelectedPage(_page, pTokenSelected)}
       onChangeCollapseState={state => {
         !state ? setCollapseState(!isCollapseOpened) : setCollapseState(state)

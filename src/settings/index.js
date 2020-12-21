@@ -771,6 +771,8 @@ const settings = {
       realDecimals: 18,
       contractDecimals: 0,
       network: 'mainnet',
+      minimumIssuable: '0.0001',
+      minimumRedeamable: '0.0001',
       isPerc20: true,
       isHidden: false
     },
