@@ -81,4 +81,4 @@ export const PANT_ON_EOS_MAINNET = 18
 export const PLRC_ON_EOS_MAINNET = 19
 export const PBTC_ON_ETH_TESTNET = 20
 export const PBTC_ON_EOS_TESTNET = 21
-export const PLTC_ON_ETH_TESTNET = 2
+export const PLTC_ON_ETH_TESTNET = 22
