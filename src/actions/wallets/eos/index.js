@@ -1,18 +1,10 @@
 import settings from '../../../settings'
 import { toastr } from 'react-redux-toastr'
-import {
-  WALLET_ISSUER_CONNECTED,
-  WALLET_REDEEMER_CONNECTED
-} from '../../../constants'
+import { WALLET_ISSUER_CONNECTED, WALLET_REDEEMER_CONNECTED } from '../../../constants'
 import EosConnect from '../../../lib/eosConnect/'
 
 let eosConnect = null
-const connectWithEosWallet = async (
-  _pToken,
-  _role,
-  _dispatch,
-  _force = true
-) => {
+const connectWithEosWallet = async (_pToken, _role, _dispatch, _force = true) => {
   const configs = {
     dappName: settings.dappName,
     scatter: {
@@ -34,10 +26,7 @@ const connectWithEosWallet = async (
 
   eosConnect.on('connect', ({ provider, account }) => {
     _dispatch({
-      type:
-        _role === 'issuer'
-          ? WALLET_ISSUER_CONNECTED
-          : WALLET_REDEEMER_CONNECTED,
+      type: _role === 'issuer' ? WALLET_ISSUER_CONNECTED : WALLET_REDEEMER_CONNECTED,
       payload: {
         provider,
         account: account.name,

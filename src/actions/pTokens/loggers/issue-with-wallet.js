@@ -1,8 +1,5 @@
 import * as LogHandler from '../../log'
-import {
-  PTOKENS_ISSUE_SUCCEDEED,
-  PTOKENS_ISSUE_NOT_SUCCEDEED
-} from '../../../constants/index'
+import { PTOKENS_ISSUE_SUCCEDEED, PTOKENS_ISSUE_NOT_SUCCEDEED } from '../../../constants/index'
 import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
 import { eth } from 'ptokens-utils'
 import store from '../../../store'
@@ -29,16 +26,10 @@ const loggedIssueWithWallet = async (_ptokens, _params, _pToken, _dispatch) => {
       const { wallets } = store.getState()
 
       const web3 = new Web3(wallets.issuerProvider)
-      const toApprove = new web3.eth.Contract(
-        ERC20Abi,
-        eth.addHexPrefix(info.native_smart_contract_address)
-      )
+      const toApprove = new web3.eth.Contract(ERC20Abi, eth.addHexPrefix(info.native_smart_contract_address))
 
       const allowance = await toApprove.methods
-        .allowance(
-          wallets.issuerAccount,
-          eth.addHexPrefix(info.native_vault_address)
-        )
+        .allowance(wallets.issuerAccount, eth.addHexPrefix(info.native_vault_address))
         .call()
 
       if (!BigNumber(allowance).isGreaterThanOrEqualTo(_params[0])) {
@@ -92,10 +83,7 @@ const loggedIssueWithWallet = async (_ptokens, _params, _pToken, _dispatch) => {
   _ptokens[_pToken.name.toLowerCase()]
     .issue(..._params)
     .once('nativeTxBroadcasted', _hash => {
-      const explorer = `${getCorrespondingBaseTxExplorerLink(
-        _pToken,
-        'issuer'
-      )}${_hash}`
+      const explorer = `${getCorrespondingBaseTxExplorerLink(_pToken, 'issuer')}${_hash}`
 
       _dispatch(
         LogHandler.updateItem('broadcast-confirmation', {

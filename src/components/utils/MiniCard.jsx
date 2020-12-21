@@ -17,9 +17,7 @@ const MiniCard = props => {
         <div className="row">
           <div className="col-12">
             <div className="row">
-              <div className="col-12 text-xxs text-gray line-height-1 font-weight-light">
-                {props.title}
-              </div>
+              <div className="col-12 text-xxs text-gray line-height-1 font-weight-light">{props.title}</div>
             </div>
             <div className="row">
               <div className="col-12">
@@ -28,17 +26,11 @@ const MiniCard = props => {
                     props.textColor ? colors[props.textColor] : ''
                   }`}
                 >
-                  {props.icon ? (
-                    <i className={`icon mr-10 mb-5 ${props.icon}`} />
-                  ) : null}
+                  {props.icon ? <i className={`icon mr-10 mb-5 ${props.icon}`} /> : null}
                   {props.value || props.value === 0 ? props.value : '-'}
-                  <span className="text-gray">
-                    {props.description ? ` ${props.description}` : null}
-                  </span>
+                  <span className="text-gray">{props.description ? ` ${props.description}` : null}</span>
                   <span className="text-md text-gray">
-                    {props.value || props.value === 0
-                      ? ` ${props.measure}`
-                      : null}
+                    {props.value || props.value === 0 ? ` ${props.measure}` : null}
                   </span>
                   {props.value && props.withSpinner ? <Spinner /> : null}
                 </div>

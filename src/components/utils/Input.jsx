@@ -30,21 +30,13 @@ const Input = props => {
         }}
         className="row mt-5 bg-white ml-0 mr-0 mb-5 cursor-text"
       >
-        <div
-          className={
-            'col-3 col-md-3 mt-15 ' + (props.size === 'small' ? 'mb-15' : '')
-          }
-        >
+        <div className={'col-3 col-md-3 mt-15 ' + (props.size === 'small' ? 'mb-15' : '')}>
           <div className="row">
-            <div className="col-12 text-xxs text-gray font-weight-light mt-2">
-              {props.label}
-            </div>
+            <div className="col-12 text-xxs text-gray font-weight-light mt-2">{props.label}</div>
           </div>
           {props.miniLabel ? (
             <div className="row">
-              <div className="col-12 text-xxs text-primary mt-5 mb-15">
-                {props.miniLabel}
-              </div>
+              <div className="col-12 text-xxs text-primary mt-5 mb-15">{props.miniLabel}</div>
             </div>
           ) : null}
         </div>
@@ -57,9 +49,7 @@ const Input = props => {
           <input
             ref={ref => (input = ref)}
             value={props.value}
-            className={`form-control text-xl caret-primary ${
-              inputTextSizes[props.size]
-            }`}
+            className={`form-control text-xl caret-primary ${inputTextSizes[props.size]}`}
             placeholder=""
             type={props.type ? props.type : 'text'}
             onChange={e => props.onChange(e)}
@@ -67,11 +57,7 @@ const Input = props => {
         </div>
         {props.withButton ? (
           <div className="col-3 col-md-3 col-lg-2 my-auto text-center">
-            <button
-              type="button"
-              className="btn btn-outline-primary"
-              onClick={() => props.onClickButton()}
-            >
+            <button type="button" className="btn btn-outline-primary" onClick={() => props.onClickButton()}>
               {props.textButton}
             </button>
           </div>

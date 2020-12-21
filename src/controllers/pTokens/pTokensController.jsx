@@ -45,10 +45,8 @@ const mapDispatchToProps = dispatch => {
   return {
     addItemLogs: item => dispatch(LogHandler.addItem(item)),
     clearLogs: () => dispatch(LogHandler.clear()),
-    issue: (_pToken, _params, _configs) =>
-      dispatch(issue(_pToken, _params, _configs)),
-    redeem: (_pToken, _params, _configs) =>
-      dispatch(redeem(_pToken, _params, _configs)),
+    issue: (_pToken, _params, _configs) => dispatch(issue(_pToken, _params, _configs)),
+    redeem: (_pToken, _params, _configs) => dispatch(redeem(_pToken, _params, _configs)),
     getBalance: (_pToken, _account) => dispatch(getBalance(_pToken, _account)),
     resetDepositAddress: () => dispatch(resetDepositAddress()),
     resetIssueSuccess: () => dispatch(resetIssueSuccess()),
@@ -95,21 +93,13 @@ export class pTokenControllers extends React.Component {
   }
 
   static getDerivedStateFromProps(_prevProps, _prevState) {
-    if (
-      (_prevProps.isIssueSuccedeed === true &&
-        !_prevState.isRedeemTerminated) ||
-      _prevProps.issueError
-    ) {
+    if ((_prevProps.isIssueSuccedeed === true && !_prevState.isRedeemTerminated) || _prevProps.issueError) {
       return {
         isIssueTerminated: true,
         localError: false
       }
     }
-    if (
-      (_prevProps.isRedeemSuccedeed === true &&
-        !_prevState.isRedeemTerminated) ||
-      _prevProps.redeemError
-    ) {
+    if ((_prevProps.isRedeemSuccedeed === true && !_prevState.isRedeemTerminated) || _prevProps.redeemError) {
       return {
         isRedeemTerminated: true
       }
@@ -235,16 +225,10 @@ export class pTokenControllers extends React.Component {
       },
       async () => {
         if (
-          !isValidAccount(
-            this.props.pTokenSelected,
-            this.props.pTokensParams.typedIssueAccount,
-            'redeemer'
-          ) ||
+          !isValidAccount(this.props.pTokenSelected, this.props.pTokensParams.typedIssueAccount, 'redeemer') ||
           this.props.pTokensParams.typedIssueAccount.length < 4
         ) {
-          toastr.error(
-            `Please insert a valid ${this.props.pTokenSelected.redeemFrom} address`
-          )
+          toastr.error(`Please insert a valid ${this.props.pTokenSelected.redeemFrom} address`)
           this.setState({
             localError: true
           })
@@ -266,9 +250,7 @@ export class pTokenControllers extends React.Component {
         // prettier-ignore
         const minimumIssuableAmount = parseFloat(this.props.pTokenSelected.minimumIssuable).toFixed(this.props.pTokenSelected.realDecimals)
         if (parsedAmountToIssue < minimumIssuableAmount) {
-          toastr.error(
-            `Impossible to mint less than ${minimumIssuableAmount} ${this.props.pTokenSelected.name}`
-          )
+          toastr.error(`Impossible to mint less than ${minimumIssuableAmount} ${this.props.pTokenSelected.name}`)
           return
         }
 
@@ -278,9 +260,7 @@ export class pTokenControllers extends React.Component {
 
         this.props.clearLogs()
 
-        const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(
-          this.props.pTokenSelected
-        )
+        const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(this.props.pTokenSelected)
 
         let amountToIssue = this.props.pTokensParams.amountToIssue
         if (this.props.pTokenSelected.isPerc20) {
@@ -289,39 +269,25 @@ export class pTokenControllers extends React.Component {
             .toFixed()
         }
 
-        this.props.issue(
-          this.props.pTokenSelected,
-          [amountToIssue, this.props.pTokensParams.typedIssueAccount],
-          {
-            issuer: this.props.issuerProvider,
-            redeemer: redeemerReadOnlyProvider
-          }
-        )
+        this.props.issue(this.props.pTokenSelected, [amountToIssue, this.props.pTokensParams.typedIssueAccount], {
+          issuer: this.props.issuerProvider,
+          redeemer: redeemerReadOnlyProvider
+        })
       }
     )
   }
 
   onRedeem = () => {
     if (!this.props.redeemerIsConnected) {
-      toastr.error(
-        `${this.props.pTokenSelected.redeemFrom} Wallet Not Connected`
-      )
+      toastr.error(`${this.props.pTokenSelected.redeemFrom} Wallet Not Connected`)
       this.setState({
         isRedeemTerminated: true
       })
       return
     }
 
-    if (
-      !isValidAccount(
-        this.props.pTokenSelected,
-        this.props.pTokensParams.typedRedeemAccount,
-        'issuer'
-      )
-    ) {
-      toastr.error(
-        `Please insert a valid ${this.props.pTokenSelected.issueFrom} address`
-      )
+    if (!isValidAccount(this.props.pTokenSelected, this.props.pTokensParams.typedRedeemAccount, 'issuer')) {
+      toastr.error(`Please insert a valid ${this.props.pTokenSelected.issueFrom} address`)
       this.setState({
         isRedeemTerminated: true
       })
@@ -329,20 +295,13 @@ export class pTokenControllers extends React.Component {
     }
 
     const parsedAmountToRedeem =
-      Math.trunc(
-        this.props.pTokensParams.amountToRedeem *
-          Math.pow(10, this.props.pTokensParams.realDecimals)
-      ) /
-      Math.pow(10, this.props.pTokensParams.realDecimals).toFixed(
-        this.props.pTokensParams.realDecimals
-      )
+      Math.trunc(this.props.pTokensParams.amountToRedeem * Math.pow(10, this.props.pTokensParams.realDecimals)) /
+      Math.pow(10, this.props.pTokensParams.realDecimals).toFixed(this.props.pTokensParams.realDecimals)
 
     // prettier-ignore
     const minimunRedeemableAmount = parseFloat(this.props.pTokenSelected.minimumRedeamable).toFixed(this.props.pTokenSelected.realDecimals)
     if (parsedAmountToRedeem < minimunRedeemableAmount) {
-      toastr.error(
-        `Impossible to redeem less than ${minimunRedeemableAmount} ${this.props.pTokenSelected.name}`
-      )
+      toastr.error(`Impossible to redeem less than ${minimunRedeemableAmount} ${this.props.pTokenSelected.name}`)
       this.setState({
         isRedeemTerminated: true
       })
@@ -363,18 +322,12 @@ export class pTokenControllers extends React.Component {
 
     this.props.clearLogs()
 
-    const issuerReadOnlyProvider = getCorrespondingReadOnlyProvider(
-      this.props.pTokenSelected
-    )
+    const issuerReadOnlyProvider = getCorrespondingReadOnlyProvider(this.props.pTokenSelected)
 
-    this.props.redeem(
-      this.props.pTokenSelected,
-      [parsedAmountToRedeem, this.props.pTokensParams.typedRedeemAccount],
-      {
-        issuer: issuerReadOnlyProvider,
-        redeemer: this.props.redeemerProvider
-      }
-    )
+    this.props.redeem(this.props.pTokenSelected, [parsedAmountToRedeem, this.props.pTokensParams.typedRedeemAccount], {
+      issuer: issuerReadOnlyProvider,
+      redeemer: this.props.redeemerProvider
+    })
   }
 
   onResetLogs = () => {
@@ -399,18 +352,14 @@ export class pTokenControllers extends React.Component {
 
   onChangeTypedIssueAccount = async _typedIssueAccount => {
     if (
-      (this.props.pTokenSelected.name === 'pBTC' ||
-        this.props.pTokenSelected.name === 'pLTC') &&
+      (this.props.pTokenSelected.name === 'pBTC' || this.props.pTokenSelected.name === 'pLTC') &&
       !this.props.pTokenSelected.depositAddress.waiting
     ) {
       this.props.resetDepositAddress()
     }
 
     // NOTE: get lists of possible account
-    if (
-      this.props.pTokenSelected.redeemFrom === 'EOS' ||
-      this.props.pTokenSelected.redeemFrom === 'TELOS'
-    ) {
+    if (this.props.pTokenSelected.redeemFrom === 'EOS' || this.props.pTokenSelected.redeemFrom === 'TELOS') {
       EosAccountSuggester.getPossiblesAccounts(
         this.props.pTokenSelected,
         _typedIssueAccount,
@@ -441,10 +390,7 @@ export class pTokenControllers extends React.Component {
   setMaxAmountToRedeem = () => {
     this.props.setpTokenParams(
       Object.assign({}, this.props.pTokensParams, {
-        amountToRedeem:
-          !this.props.pTokenBalance || this.props.pTokenBalance === 0
-            ? 0
-            : this.props.pTokenBalance
+        amountToRedeem: !this.props.pTokenBalance || this.props.pTokenBalance === 0 ? 0 : this.props.pTokenBalance
       })
     )
   }

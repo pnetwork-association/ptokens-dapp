@@ -31,8 +31,7 @@ const Settings = _props => {
       <div className="container-fluid hidden-mobile">
         <div className="row ml-0 mr-0">
           <div className="col-12 text-right mt-15 mb-15 d-flex flex-row-reverse">
-            {pTokenSelected.redeemFrom === 'EOS' ||
-            pTokenSelected.redeemFrom === 'TELOS' ? (
+            {pTokenSelected.redeemFrom === 'EOS' || pTokenSelected.redeemFrom === 'TELOS' ? (
               <MultiWalletContainer>
                 <MultiWallet
                   pToken={pTokenSelected}

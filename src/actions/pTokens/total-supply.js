@@ -6,17 +6,9 @@ import Web3 from 'web3'
 const getEthTotalSupply = async _pToken => {
   const provider = getCorrespondingReadOnlyProvider(_pToken)
   const web3 = new Web3(provider)
-  const res = await makeContractCall(
-    web3,
-    'totalSupply',
-    _pToken.nodeInfo.contractAddress,
-    pTokenAbi,
-    []
-  )
+  const res = await makeContractCall(web3, 'totalSupply', _pToken.nodeInfo.contractAddress, pTokenAbi, [])
 
-  return (res / Math.pow(10, _pToken.contractDecimals)).toFixed(
-    _pToken.realDecimals
-  )
+  return (res / Math.pow(10, _pToken.contractDecimals)).toFixed(_pToken.realDecimals)
 }
 
 const getEosTotalSupply = async _pToken => {

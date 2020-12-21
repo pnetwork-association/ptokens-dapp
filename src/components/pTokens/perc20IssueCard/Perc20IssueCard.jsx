@@ -22,9 +22,7 @@ const Perc20IssueCard = props => {
         />
         <hr />
         <Input
-          withSelection={
-            props.pTokenSelected.redeemFrom === 'EOS' ? true : false
-          }
+          withSelection={props.pTokenSelected.redeemFrom === 'EOS' ? true : false}
           showAtCharacter={3}
           options={props.suggestedRedimeerAccounts}
           label={`${props.pTokenSelected.redeemFrom} ACCOUNT`}
@@ -36,13 +34,7 @@ const Perc20IssueCard = props => {
         <hr />
       </div>
       <div className="card-footer border-0 pb-20 pt-10 d-flex">
-        <Button
-          width={140}
-          icon={'add'}
-          disabled={!props.issuerAccount}
-          text="ISSUE"
-          onClick={() => props.onIssue()}
-        />
+        <Button width={140} icon={'add'} disabled={!props.issuerAccount} text="ISSUE" onClick={() => props.onIssue()} />
       </div>
     </div>
   )

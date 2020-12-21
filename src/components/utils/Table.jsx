@@ -33,18 +33,11 @@ class Table extends Component {
     return (
       <div className="card bg-light-gray no-shadow">
         <div className="card-header border-0 pb-0 pl-0 pt-0">
-          <div className="text-xxl text-gray font-weight-light">
-            {this.props.title}
-          </div>
+          <div className="text-xxl text-gray font-weight-light">{this.props.title}</div>
         </div>
         <div className="card-body pb-5 pt-5">
           <div className="table-responsive">
-            <table
-              className={
-                'table align-items-center ' +
-                (this.props.values.length === 0 ? 'opacity-05' : '')
-              }
-            >
+            <table className={'table align-items-center ' + (this.props.values.length === 0 ? 'opacity-05' : '')}>
               <thead className="text-xxs">
                 <tr>
                   {this.props.headers.map(item => {
@@ -63,17 +56,11 @@ class Table extends Component {
                         <tr key={`${this.props.id}${gindex}`}>
                           {this.props.headers.map((header, index) => {
                             return (
-                              <td
-                                key={`${
-                                  this.props.id
-                                }${header}${index.toString()}${obj.toString()}`}
-                              >
+                              <td key={`${this.props.id}${header}${index.toString()}${obj.toString()}`}>
                                 <div className="container-extern-td">
                                   <div
                                     className={
-                                      (gindex === 0 || gindex % 2 === 0
-                                        ? 'bg-white loading-animation'
-                                        : '') +
+                                      (gindex === 0 || gindex % 2 === 0 ? 'bg-white loading-animation' : '') +
                                       ' container-intern-td loading-animation'
                                     }
                                   ></div>
@@ -88,65 +75,40 @@ class Table extends Component {
                 {this.props.values
                   .filter(
                     (obj, index) =>
-                      index >=
-                        this.state.tableWindow * this.state.currentTableWindow -
-                          this.state.tableWindow &&
-                      index <
-                        this.state.tableWindow * this.state.currentTableWindow
+                      index >= this.state.tableWindow * this.state.currentTableWindow - this.state.tableWindow &&
+                      index < this.state.tableWindow * this.state.currentTableWindow
                   )
                   .map((item, gindex) => {
                     return (
                       <tr key={gindex}>
                         {this.props.headers.map((header, index) => {
                           return (
-                            <td
-                              key={`${calculateObjectValuesString(
-                                item[header]
-                              )}${index.toString()}`}
-                            >
+                            <td key={`${calculateObjectValuesString(item[header])}${index.toString()}`}>
                               <div className="container-extern-td">
                                 <div
                                   className={
-                                    (gindex === 0 || gindex % 2 === 0
-                                      ? 'bg-white'
-                                      : '') + ' container-intern-td'
+                                    (gindex === 0 || gindex % 2 === 0 ? 'bg-white' : '') + ' container-intern-td'
                                   }
                                 >
                                   {this.props.whichLink[index] ? (
                                     <a
                                       className="text-xs text-underline text-primary font-monospace"
-                                      href={
-                                        this.props.whichLink[index].base +
-                                        item[header]
-                                      }
+                                      href={this.props.whichLink[index].base + item[header]}
                                       target="_blank"
                                       rel="noopener noreferrer"
                                     >
                                       {item[header]
                                         ? item[header].slice(0, 6) +
                                           '...' +
-                                          item[header].slice(
-                                            item[header].length - 4,
-                                            item[header].length
-                                          )
+                                          item[header].slice(item[header].length - 4, item[header].length)
                                         : null}
                                     </a>
-                                  ) : this.props.whichAnimation.includes(
-                                      index
-                                    ) ? (
-                                    <i
-                                      className={
-                                        item[header]
-                                          ? 'icon done'
-                                          : 'icon timer'
-                                      }
-                                    />
+                                  ) : this.props.whichAnimation.includes(index) ? (
+                                    <i className={item[header] ? 'icon done' : 'icon timer'} />
                                   ) : (
                                     <span className="text-xs text-gray">
                                       {this.props.conversions[index]
-                                        ? this.props.conversions[index](
-                                            item[header]
-                                          )
+                                        ? this.props.conversions[index](item[header])
                                         : item[header]}
                                     </span>
                                   )}
@@ -174,10 +136,7 @@ class Table extends Component {
                       })
                     }
                     disabled={this.state.currentTableWindow === 1}
-                    className={
-                      'btn-page-prev mr-50 ' +
-                      (this.state.currentTableWindow === 1 ? 'disabled' : null)
-                    }
+                    className={'btn-page-prev mr-50 ' + (this.state.currentTableWindow === 1 ? 'disabled' : null)}
                   >
                     PREV
                   </button>
@@ -189,14 +148,10 @@ class Table extends Component {
                         currentTableWindow: this.state.currentTableWindow + 1
                       })
                     }
-                    disabled={
-                      this.state.currentTableWindow >=
-                      this.props.values.length / this.state.tableWindow
-                    }
+                    disabled={this.state.currentTableWindow >= this.props.values.length / this.state.tableWindow}
                     className={
                       'btn-page-prev ' +
-                      (this.state.currentTableWindow >=
-                      this.props.values.length / this.state.tableWindow
+                      (this.state.currentTableWindow >= this.props.values.length / this.state.tableWindow
                         ? 'disabled'
                         : null)
                     }
@@ -213,10 +168,7 @@ class Table extends Component {
                     })
                   }
                   disabled={this.state.currentTableWindow === 1}
-                  className={
-                    'btn-page-prev mr-50 ' +
-                    (this.state.currentTableWindow === 1 ? 'disabled' : null)
-                  }
+                  className={'btn-page-prev mr-50 ' + (this.state.currentTableWindow === 1 ? 'disabled' : null)}
                 >
                   PREV
                 </button>
@@ -226,14 +178,10 @@ class Table extends Component {
                       currentTableWindow: this.state.currentTableWindow + 1
                     })
                   }
-                  disabled={
-                    this.state.currentTableWindow >=
-                    this.props.values.length / this.state.tableWindow
-                  }
+                  disabled={this.state.currentTableWindow >= this.props.values.length / this.state.tableWindow}
                   className={
                     'btn-page-prev ' +
-                    (this.state.currentTableWindow >=
-                    this.props.values.length / this.state.tableWindow
+                    (this.state.currentTableWindow >= this.props.values.length / this.state.tableWindow
                       ? 'disabled'
                       : null)
                   }

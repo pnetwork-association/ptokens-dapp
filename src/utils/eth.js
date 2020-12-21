@@ -13,13 +13,7 @@ const getAccount = _web3 =>
       .catch(err => reject(err))
   })
 
-const makeContractCall = async (
-  _web3,
-  _method,
-  _contractAddress,
-  _abi,
-  _params = []
-) => {
+const makeContractCall = async (_web3, _method, _contractAddress, _abi, _params = []) => {
   try {
     const account = await getAccount(_web3)
     const contract = getContract(_web3, _abi, _contractAddress, account)

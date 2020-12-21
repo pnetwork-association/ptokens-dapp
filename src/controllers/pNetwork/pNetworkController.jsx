@@ -1,12 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import PNetwork from '../../components/pNetwork/pNetwork'
-import {
-  ping,
-  getLastProcessedBlock,
-  submitBlock,
-  resetSubmitBlockSuccess
-} from '../../actions/pNetwork'
+import { ping, getLastProcessedBlock, submitBlock, resetSubmitBlockSuccess } from '../../actions/pNetwork'
 import { getTotalSupply } from '../../actions/pTokens'
 import { connect } from 'react-redux'
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
@@ -27,13 +22,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     ping: _pToken => dispatch(ping(_pToken)),
-    getLastProcessedBlock: (_pToken, _type, _role) =>
-      dispatch(getLastProcessedBlock(_pToken, _type, _role)),
-    submitBlock: (_pToken, _type, _block) =>
-      dispatch(submitBlock(_pToken, _type, _block)),
+    getLastProcessedBlock: (_pToken, _type, _role) => dispatch(getLastProcessedBlock(_pToken, _type, _role)),
+    submitBlock: (_pToken, _type, _block) => dispatch(submitBlock(_pToken, _type, _block)),
     resetSubmitBlockSuccess: () => dispatch(resetSubmitBlockSuccess()),
-    getTotalSupply: (_pToken, _configs) =>
-      dispatch(getTotalSupply(_pToken, _configs))
+    getTotalSupply: (_pToken, _configs) => dispatch(getTotalSupply(_pToken, _configs))
   }
 }
 
@@ -50,39 +42,20 @@ class pNetworkController extends React.Component {
     }
 
     this.props.ping(this.props.pTokenSelected)
-    this.props.getLastProcessedBlock(
-      this.props.pTokenSelected,
-      'native',
-      'issuer'
-    )
-    this.props.getLastProcessedBlock(
-      this.props.pTokenSelected,
-      'host',
-      'redeemer'
-    )
+    this.props.getLastProcessedBlock(this.props.pTokenSelected, 'native', 'issuer')
+    this.props.getLastProcessedBlock(this.props.pTokenSelected, 'host', 'redeemer')
 
     this.intervalIssuerBlockGetter = setInterval(() => {
-      this.props.getLastProcessedBlock(
-        this.props.pTokenSelected,
-        'native',
-        'issuer'
-      )
+      this.props.getLastProcessedBlock(this.props.pTokenSelected, 'native', 'issuer')
     }, settings[this.props.pTokenSelected.id][this.props.pTokenSelected.issueFrom.toLowerCase()].enclaveBlockHeightPollingTime)
 
     this.intervalRedeemerBlockGetter = setInterval(() => {
-      this.props.getLastProcessedBlock(
-        this.props.pTokenSelected,
-        'host',
-        'redeemer'
-      )
+      this.props.getLastProcessedBlock(this.props.pTokenSelected, 'host', 'redeemer')
     }, settings[this.props.pTokenSelected.id][this.props.pTokenSelected.redeemFrom.toLowerCase()].enclaveBlockHeightPollingTime)
   }
 
   static getDerivedStateFromProps(props, prevState) {
-    if (
-      props.isBlockSubmissionSucceeded === true &&
-      !prevState.isBlockSubmissionTerminated
-    ) {
+    if (props.isBlockSubmissionSucceeded === true && !prevState.isBlockSubmissionTerminated) {
       return {
         isBlockSubmissionTerminated: true
       }
@@ -92,13 +65,10 @@ class pNetworkController extends React.Component {
 
   componentDidUpdate(_prevProps, _prevState) {
     if (
-      (!_prevProps.redeemerReadOnlyProvider &&
-        this.props.redeemerReadOnlyProvider) ||
+      (!_prevProps.redeemerReadOnlyProvider && this.props.redeemerReadOnlyProvider) ||
       !this.state.redeemerDataLoaded
     ) {
-      const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(
-        this.props.pTokenSelected
-      )
+      const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(this.props.pTokenSelected)
 
       const configs = {
         issuer: null,

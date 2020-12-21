@@ -115,10 +115,7 @@ export default class Modal extends React.Component {
       const lightboxRect = this.lightboxRef.getBoundingClientRect()
       const lightboxOffset = lightboxRect.top > 0 ? lightboxRect.top : 0
 
-      if (
-        lightboxOffset !== INITIAL_STATE.lightboxOffset &&
-        lightboxOffset !== this.state.lightboxOffset
-      ) {
+      if (lightboxOffset !== INITIAL_STATE.lightboxOffset && lightboxOffset !== this.state.lightboxOffset) {
         this.setState({ lightboxOffset })
       }
     }

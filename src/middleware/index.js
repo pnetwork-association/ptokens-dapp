@@ -1,16 +1,7 @@
 import { getTotalSupply, getBalance } from '../actions/pTokens'
-import {
-  getReports,
-  getLastProcessedBlock,
-  ping,
-  setNode
-} from '../actions/pNetwork'
+import { getReports, getLastProcessedBlock, ping, setNode } from '../actions/pNetwork'
 import * as Log from '../actions/log'
-import {
-  connectWithSpecificWallet,
-  resetRedeemer,
-  resetIssuer
-} from '../actions/wallets'
+import { connectWithSpecificWallet, resetRedeemer, resetIssuer } from '../actions/wallets'
 import {
   SET_SELECTED_PTOKEN,
   PTOKENS_SET_NODE_INFO,
@@ -129,18 +120,12 @@ const middleware = ({ dispatch }) => {
       // load balance of the new account selected when wallet changes.
       // nodeInfo is needeed because one could connect to a wallet before that the node is selected
       // _action.payload.account nedeed because a wallet can be connected but not unlocked
-      if (
-        _action.type === WALLET_REDEEMER_CONNECTED &&
-        _action.payload.pToken.nodeInfo &&
-        _action.payload.account
-      ) {
+      if (_action.type === WALLET_REDEEMER_CONNECTED && _action.payload.pToken.nodeInfo && _action.payload.account) {
         dispatch(getBalance(_action.payload.pToken, _action.payload.account))
       }
 
       if (_action.type === PTOKENS_SET_NODE_INFO) {
-        const readOnlyProvider = getCorrespondingReadOnlyProvider(
-          _action.payload.pToken
-        )
+        const readOnlyProvider = getCorrespondingReadOnlyProvider(_action.payload.pToken)
 
         const configs = {
           issuer: null,
@@ -153,13 +138,9 @@ const middleware = ({ dispatch }) => {
 
         dispatch(getReports(_action.payload.pToken, 'host', 'issuer'))
 
-        dispatch(
-          getLastProcessedBlock(_action.payload.pToken, 'native', 'issuer')
-        )
+        dispatch(getLastProcessedBlock(_action.payload.pToken, 'native', 'issuer'))
 
-        dispatch(
-          getLastProcessedBlock(_action.payload.pToken, 'host', 'redeemer')
-        )
+        dispatch(getLastProcessedBlock(_action.payload.pToken, 'host', 'redeemer'))
 
         dispatch(ping(_action.payload.pToken))
 

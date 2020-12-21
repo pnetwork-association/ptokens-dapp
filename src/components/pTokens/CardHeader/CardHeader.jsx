@@ -10,9 +10,7 @@ const IssueCardHeader = _props => {
         <div className="col-12 col-md-8">
           <div className="text-left text-gray text-xxl font-weight-light">
             {type === 'issue' ? 'Issue' : 'Redeem'} {pTokenSelected.name}{' '}
-            <span className="text-md">
-              {type === 'issue' ? '(Peg-in)' : '(Peg-out)'}
-            </span>
+            <span className="text-md">{type === 'issue' ? '(Peg-in)' : '(Peg-out)'}</span>
           </div>
         </div>
         <div className="col-12 col-md-4 text-md-right pl-0 mt-10 mt-0-md mb-10 mb-0-md">
@@ -24,12 +22,7 @@ const IssueCardHeader = _props => {
             width="22"
             alt="redeem from logo"
           />
-          <img
-            src="../assets/right.png"
-            height="22"
-            width="22"
-            alt="redeem from logo"
-          />
+          <img src="../assets/right.png" height="22" width="22" alt="redeem from logo" />
           <img
             className="ml-10"
             // prettier-ignore

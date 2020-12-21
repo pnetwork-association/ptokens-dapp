@@ -28,11 +28,7 @@ const PTokens = props => {
                   title="YOUR BALANCE"
                   value={
                     props.balance || props.balance === 0
-                      ? props.balance.toFixed(
-                          props.pTokenSelected.isPerc20
-                            ? 9
-                            : props.pTokenSelected.realDecimals
-                        )
+                      ? props.balance.toFixed(props.pTokenSelected.isPerc20 ? 9 : props.pTokenSelected.realDecimals)
                       : null
                   }
                   measure={props.pTokenSelected.name}
@@ -102,8 +98,7 @@ const PTokens = props => {
                   size={'small'}
                   onChange={e => props.onChangeRedeemAccount(e.target.value)}
                 >
-                  {props.pTokenSelected.name === 'pBTC' ||
-                  props.pTokenSelected.name === 'pLTC' ? (
+                  {props.pTokenSelected.name === 'pBTC' || props.pTokenSelected.name === 'pLTC' ? (
                     <div className="mt-10">
                       <Alert
                         type={'warning'}
@@ -125,11 +120,7 @@ const PTokens = props => {
                 <Button
                   width={140}
                   icon={'burn'}
-                  disabled={
-                    props.typedRedeemAccount === '' ||
-                    props.amountToRedeem === '' ||
-                    isRedeeming
-                  }
+                  disabled={props.typedRedeemAccount === '' || props.amountToRedeem === '' || isRedeeming}
                   text="REDEEM"
                   onClick={() => {
                     props.onRedeem()
@@ -144,10 +135,7 @@ const PTokens = props => {
       <div className="container-fluid mb-20">
         <div className="row">
           <div className="col-xl-12 mt-20 mb-5">
-            <Process
-              logs={props.logs}
-              onResetLogs={() => props.onResetLogs()}
-            />
+            <Process logs={props.logs} onResetLogs={() => props.onResetLogs()} />
           </div>
         </div>
       </div>
@@ -157,9 +145,8 @@ const PTokens = props => {
           size={'medium'}
           text={
             <React.Fragment>
-              Make sure you know what you are doing, DeFi isn't for the faint of
-              heart just yet! To know more about the security model of pTokens
-              and its progressive decentralisation approach{' '}
+              Make sure you know what you are doing, DeFi isn't for the faint of heart just yet! To know more about the
+              security model of pTokens and its progressive decentralisation approach{' '}
               <a
                 href="https://medium.com/pnetwork/pnetwork-security-and-progressive-decentralisation-c5552216ca23"
                 target="_blank"

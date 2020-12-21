@@ -71,9 +71,7 @@ const setNode = _pToken => {
       } else {
         const nodeSelector = new NodeSelector({
           pToken: _pToken.name,
-          blockchain: helpers.getBlockchainType(
-            _pToken.redeemFrom.toLowerCase()
-          ),
+          blockchain: helpers.getBlockchainType(_pToken.redeemFrom.toLowerCase()),
           network: _pToken.network
         })
 
@@ -119,15 +117,11 @@ const setNode = _pToken => {
         payload: {
           pToken: Object.assign({}, _pToken, {
             nodeInfo: {
-              contractAddress: _pToken.isPerc20
-                ? info.host_smart_contract_address
-                : info.smart_contract_address,
+              contractAddress: _pToken.isPerc20 ? info.host_smart_contract_address : info.smart_contract_address,
               publicKey: info.public_key,
               endpoint: selectedNode ? selectedNode.provider.endpoint : null,
               isManuallySelected: endpointManuallySelected ? true : false,
-              isCompatible: info.native_network.includes(_pToken.network)
-                ? true
-                : false
+              isCompatible: info.native_network.includes(_pToken.network) ? true : false
             }
           })
         }
@@ -194,15 +188,11 @@ const setNodeManually = (_pToken, _endpoint) => {
         payload: {
           pToken: Object.assign({}, _pToken, {
             nodeInfo: {
-              contractAddress: _pToken.isPerc20
-                ? info.host_smart_contract_address
-                : info.smart_contract_address,
+              contractAddress: _pToken.isPerc20 ? info.host_smart_contract_address : info.smart_contract_address,
               publicKey: info.public_key,
               endpoint: _endpoint,
               isManuallySelected: true,
-              isCompatible: info.native_network.includes(_pToken.network)
-                ? true
-                : false
+              isCompatible: info.native_network.includes(_pToken.network) ? true : false
             }
           })
         }
@@ -260,9 +250,7 @@ const getLastProcessedBlock = (_pToken, _type, _role) => {
 
         _dispatch({
           type:
-            _role === 'issuer'
-              ? PNETWORK_SET_ISSUER_BLOCK_HEIGHT_STATUS
-              : PNETWORK_SET_REDEEMER_BLOCK_HEIGHT_STATUS,
+            _role === 'issuer' ? PNETWORK_SET_ISSUER_BLOCK_HEIGHT_STATUS : PNETWORK_SET_REDEEMER_BLOCK_HEIGHT_STATUS,
           payload: {
             status
           }
@@ -303,10 +291,7 @@ const getReports = (_pToken, _type, _role) => {
 
       let reports = []
       try {
-        reports =
-          _type === 'native'
-            ? await selectedNode.getNativeReports()
-            : await selectedNode.getHostReports()
+        reports = _type === 'native' ? await selectedNode.getNativeReports() : await selectedNode.getHostReports()
       } catch (err) {
         reports = []
       }
@@ -318,10 +303,7 @@ const getReports = (_pToken, _type, _role) => {
       //if there is no pending requests can _dispatch
       if (typeNumberOfGetReport[_type] === 0) {
         _dispatch({
-          type:
-            _role === 'issuer'
-              ? PNETWORK_REPORT_ISSUE_LOADED
-              : PNETWORK_REPORT_REDEEM_LOADED,
+          type: _role === 'issuer' ? PNETWORK_REPORT_ISSUE_LOADED : PNETWORK_REPORT_REDEEM_LOADED,
           payload: {
             reports
           }

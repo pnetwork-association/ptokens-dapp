@@ -28,16 +28,12 @@ const mapDispatchToProps = dispatch => {
   return {
     connectWithCorrectWallets: (_pToken, _currentProviders) =>
       dispatch(connectWithCorrectWallets(_pToken, _currentProviders)),
-    connectWithSpecificWallet: (_pToken, _role, _force) =>
-      dispatch(connectWithSpecificWallet(_pToken, _role, _force)),
-    disconnectFromSpecificWallet: (_pToken, _role) =>
-      dispatch(disconnectFromSpecificWallet(_pToken, _role)),
-    changeSpecificWallet: (_pToken, _role) =>
-      dispatch(changeSpecificWallet(_pToken, _role)),
+    connectWithSpecificWallet: (_pToken, _role, _force) => dispatch(connectWithSpecificWallet(_pToken, _role, _force)),
+    disconnectFromSpecificWallet: (_pToken, _role) => dispatch(disconnectFromSpecificWallet(_pToken, _role)),
+    changeSpecificWallet: (_pToken, _role) => dispatch(changeSpecificWallet(_pToken, _role)),
     setpTokenParams: _params => dispatch(setParams(_params)),
     setBalance: _balance => dispatch(setBalance(_balance)),
-    getBalance: (_pToken, _account, _redeemerNetwork, configs) =>
-      dispatch(getBalance(_pToken, _account, configs))
+    getBalance: (_pToken, _account, _redeemerNetwork, configs) => dispatch(getBalance(_pToken, _account, configs))
   }
 }
 
@@ -52,18 +48,10 @@ export class SettingsController extends React.Component {
     }
 
     if (!this.props.issuerIsConnected) {
-      this.props.connectWithSpecificWallet(
-        this.props.pTokenSelected,
-        'issuer',
-        false
-      )
+      this.props.connectWithSpecificWallet(this.props.pTokenSelected, 'issuer', false)
     }
     if (!this.props.redeemerIsConnected) {
-      this.props.connectWithSpecificWallet(
-        this.props.pTokenSelected,
-        'redeemer',
-        false
-      )
+      this.props.connectWithSpecificWallet(this.props.pTokenSelected, 'redeemer', false)
     }
   }
 
@@ -78,38 +66,23 @@ export class SettingsController extends React.Component {
         pTokenSelectedNetwork: this.props.pTokenSelected.network
       })
 
-      this.props.getBalance(
-        this.props.pTokenSelected,
-        this.props.redeemerAccount,
-        {
-          redeemer: this.props.redeemerProvider,
-          issuer: this.props.issuerProvider
-        }
-      )
+      this.props.getBalance(this.props.pTokenSelected, this.props.redeemerAccount, {
+        redeemer: this.props.redeemerProvider,
+        issuer: this.props.issuerProvider
+      })
     }
   }
 
   onChangeIssuerConnection = _wallet => {
     if (!_wallet) {
-      this.props.connectWithSpecificWallet(
-        this.props.pTokenSelected,
-        'issuer',
-        true
-      )
+      this.props.connectWithSpecificWallet(this.props.pTokenSelected, 'issuer', true)
       return
     }
 
     if (_wallet.type === 'singleWallet') {
       this.props.issuerIsConnected
-        ? this.props.disconnectFromSpecificWallet(
-            this.props.pTokenSelected,
-            'issuer'
-          )
-        : this.props.connectWithSpecificWallet(
-            this.props.pTokenSelected,
-            'issuer',
-            false
-          )
+        ? this.props.disconnectFromSpecificWallet(this.props.pTokenSelected, 'issuer')
+        : this.props.connectWithSpecificWallet(this.props.pTokenSelected, 'issuer', false)
     }
 
     if (_wallet.type === 'multiWallet') {
@@ -119,11 +92,7 @@ export class SettingsController extends React.Component {
 
   onChangeRedeemerConnection = _wallet => {
     if (!_wallet) {
-      this.props.connectWithSpecificWallet(
-        this.props.pTokenSelected,
-        'redeemer',
-        true
-      )
+      this.props.connectWithSpecificWallet(this.props.pTokenSelected, 'redeemer', true)
       return
     }
 
@@ -136,35 +105,20 @@ export class SettingsController extends React.Component {
     this.props.setBalance(null)
 
     if (!_wallet) {
-      this.props.connectWithSpecificWallet(
-        this.props.pTokenSelected,
-        'redeemer',
-        true
-      )
+      this.props.connectWithSpecificWallet(this.props.pTokenSelected, 'redeemer', true)
       return
     }
 
     if (_wallet.type === 'singleWallet') {
       if (this.props.redeemerIsConnected) {
-        this.props.disconnectFromSpecificWallet(
-          this.props.pTokenSelected,
-          'redeemer'
-        )
+        this.props.disconnectFromSpecificWallet(this.props.pTokenSelected, 'redeemer')
       } else {
-        this.props.connectWithSpecificWallet(
-          this.props.pTokenSelected,
-          'redeemer',
-          false
-        )
+        this.props.connectWithSpecificWallet(this.props.pTokenSelected, 'redeemer', false)
       }
     }
 
     if (_wallet.type === 'multiWallet') {
-      this.props.changeSpecificWallet(
-        this.props.pTokenSelected,
-        'redeemer',
-        true
-      )
+      this.props.changeSpecificWallet(this.props.pTokenSelected, 'redeemer', true)
     }
   }
 

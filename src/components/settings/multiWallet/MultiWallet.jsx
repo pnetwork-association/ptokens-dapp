@@ -24,9 +24,7 @@ const MultiWallet = _props => {
     <StyledButton onClick={() => onChange()}>
       {isConnected
         ? getCorresponsingVisibleAddressFormat(pToken, role, account)
-        : `CONNECT ${
-            role === 'redeemer' ? pToken.redeemFrom : pToken.issueFrom
-          } WALLET`}
+        : `CONNECT ${role === 'redeemer' ? pToken.redeemFrom : pToken.issueFrom} WALLET`}
     </StyledButton>
   )
 }

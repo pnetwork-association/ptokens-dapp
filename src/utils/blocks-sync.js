@@ -1,10 +1,5 @@
 import { getCorrespondingReadOnlyProvider } from './read-only-providers'
-import {
-  PBTC_ON_ETH_MAINNET,
-  PBTC_ON_ETH_TESTNET,
-  PBTC_ON_EOS_TESTNET,
-  PBTC_ON_EOS_MAINNET
-} from '../constants'
+import { PBTC_ON_ETH_MAINNET, PBTC_ON_ETH_TESTNET, PBTC_ON_EOS_TESTNET, PBTC_ON_EOS_MAINNET } from '../constants'
 
 import Web3 from 'web3'
 /*import settings from '../settings'
@@ -29,9 +24,7 @@ const LTC_BAD = 24
 const _getEsploraApi = _network =>
   axios.create({
     baseURL:
-      _network === 'mainnet'
-        ? settings.BLOCKSTREAM_BASE_MAINNET_ENDPOINT
-        : settings.BLOCKSTREAM_BASE_TESTNET_ENDPOINT,
+      _network === 'mainnet' ? settings.BLOCKSTREAM_BASE_MAINNET_ENDPOINT : settings.BLOCKSTREAM_BASE_TESTNET_ENDPOINT,
     timeout: 50000,
     headers: {
       'Content-Type': 'text/plain'
@@ -40,58 +33,29 @@ const _getEsploraApi = _network =>
 
 const _getInsightLiteApi = _network =>
   axios.create({
-    baseURL:
-      _network === 'mainnet'
-        ? settings.LTC_PTOKENS_NODE_MAINNET_API
-        : settings.LTC_PTOKENS_NODE_TESTNET_API,
+    baseURL: _network === 'mainnet' ? settings.LTC_PTOKENS_NODE_MAINNET_API : settings.LTC_PTOKENS_NODE_TESTNET_API,
     timeout: 50000,
     headers: {
       'Content-Type': 'application/json'
     }
   })
 
-const getBlockHeightStatusComparedWithTheReals = async (
-  _pToken,
-  _role,
-  _enclaveBlockHeight,
-  _network
-) => {
+const getBlockHeightStatusComparedWithTheReals = async (_pToken, _role, _enclaveBlockHeight, _network) => {
   if (_pToken.name === 'pBTC' && _role === 'issuer') {
-    const btcLastBlock = await _makeEsploraApiCall(
-      'GET',
-      '/blocks/tip/height',
-      _network
-    )
+    const btcLastBlock = await _makeEsploraApiCall('GET', '/blocks/tip/height', _network)
 
-    return _calculateStatus(
-      _enclaveBlockHeight,
-      btcLastBlock,
-      BTC_GOOD,
-      BTC_BAD
-    )
+    return _calculateStatus(_enclaveBlockHeight, btcLastBlock, BTC_GOOD, BTC_BAD)
   }
 
-  if (
-    (_pToken.id === PBTC_ON_ETH_MAINNET ||
-      _pToken.id === PBTC_ON_ETH_TESTNET) &&
-    _role === 'redeemer'
-  ) {
+  if ((_pToken.id === PBTC_ON_ETH_MAINNET || _pToken.id === PBTC_ON_ETH_TESTNET) && _role === 'redeemer') {
     const ethProvider = getCorrespondingReadOnlyProvider(_pToken)
     const web3 = new Web3(ethProvider)
     const ethLastBlock = await web3.eth.getBlockNumber()
 
-    return _calculateStatus(
-      _enclaveBlockHeight,
-      ethLastBlock,
-      ETH_GOOD,
-      ETH_BAD
-    )
+    return _calculateStatus(_enclaveBlockHeight, ethLastBlock, ETH_GOOD, ETH_BAD)
   }
 
-  if (
-    _pToken.id === PBTC_ON_EOS_TESTNET ||
-    _pToken.id === PBTC_ON_EOS_MAINNET
-  ) {
+  if (_pToken.id === PBTC_ON_EOS_TESTNET || _pToken.id === PBTC_ON_EOS_MAINNET) {
     /*const rpc = new JsonRpc(settings[2].eos.endpoint, {
       fetch
     })
@@ -119,27 +83,13 @@ const getBlockHeightStatusComparedWithTheReals = async (
     const web3 = new Web3(ethProvider)
     const ethLastBlock = await web3.eth.getBlockNumber()
 
-    return _calculateStatus(
-      _enclaveBlockHeight,
-      ethLastBlock,
-      ETH_GOOD,
-      ETH_BAD
-    )
+    return _calculateStatus(_enclaveBlockHeight, ethLastBlock, ETH_GOOD, ETH_BAD)
   }
 
   if (_pToken.name === 'pLTC' && _role === 'issuer') {
-    const ltcLastBlock = await _makeInsightLiteApiCall(
-      'GET',
-      '/blocks?limit=1',
-      _network
-    )
+    const ltcLastBlock = await _makeInsightLiteApiCall('GET', '/blocks?limit=1', _network)
 
-    return _calculateStatus(
-      _enclaveBlockHeight,
-      ltcLastBlock.blocks[0].height,
-      LTC_GOOD,
-      LTC_BAD
-    )
+    return _calculateStatus(_enclaveBlockHeight, ltcLastBlock.blocks[0].height, LTC_GOOD, LTC_BAD)
   }
 
   if (_pToken.name === 'pLTC' && _role === 'redeemer') {
@@ -147,12 +97,7 @@ const getBlockHeightStatusComparedWithTheReals = async (
     const web3 = new Web3(ethProvider)
     const ethLastBlock = await web3.eth.getBlockNumber()
 
-    return _calculateStatus(
-      _enclaveBlockHeight,
-      ethLastBlock,
-      ETH_GOOD,
-      ETH_BAD
-    )
+    return _calculateStatus(_enclaveBlockHeight, ethLastBlock, ETH_GOOD, ETH_BAD)
   }
 }
 

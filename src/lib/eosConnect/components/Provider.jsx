@@ -89,10 +89,7 @@ export function Provider(props) {
       onClick={onClick}
       {...otherProps}
     >
-      <SProviderContainer
-        themeColors={themeColors}
-        className={PROVIDER_CONTAINER_CLASSNAME}
-      >
+      <SProviderContainer themeColors={themeColors} className={PROVIDER_CONTAINER_CLASSNAME}>
         {
           <SIcon className={PROVIDER_ICON_CLASSNAME}>
             <img src={logo} alt={name} />
@@ -101,10 +98,7 @@ export function Provider(props) {
         <SName themeColors={themeColors} className={PROVIDER_NAME_CLASSNAME}>
           {name}
         </SName>
-        <SDescription
-          themeColors={themeColors}
-          className={PROVIDER_DESCRIPTION_CLASSNAME}
-        >
+        <SDescription themeColors={themeColors} className={PROVIDER_DESCRIPTION_CLASSNAME}>
           {description}
         </SDescription>
       </SProviderContainer>

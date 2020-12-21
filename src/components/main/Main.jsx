@@ -48,12 +48,7 @@ const Main = props => {
                       width="22"
                       alt="issue from logo"
                     />
-                    <img
-                      src="./assets/right.png"
-                      height="22"
-                      width="22"
-                      alt="redeem from logo"
-                    />
+                    <img src="./assets/right.png" height="22" width="22" alt="redeem from logo" />
                     <img
                       className="ml-10"
                       src={`./assets/${props.pTokenSelected.name}-${props.pTokenSelected.network}.png`}
@@ -73,16 +68,10 @@ const Main = props => {
               }}
               whichLink={{
                 2: {
-                  base: getCorrespondingBaseTxExplorerLink(
-                    props.pTokenSelected,
-                    'issuer'
-                  )
+                  base: getCorrespondingBaseTxExplorerLink(props.pTokenSelected, 'issuer')
                 },
                 3: {
-                  base: getCorrespondingBaseTxExplorerLink(
-                    props.pTokenSelected,
-                    'redeemer'
-                  )
+                  base: getCorrespondingBaseTxExplorerLink(props.pTokenSelected, 'redeemer')
                 }
               }}
               whichAnimation={[4]}
@@ -124,12 +113,7 @@ const Main = props => {
                       width="22"
                       alt="issue from logo"
                     />
-                    <img
-                      src="./assets/right.png"
-                      height="22"
-                      width="22"
-                      alt="redeem from logo"
-                    />
+                    <img src="./assets/right.png" height="22" width="22" alt="redeem from logo" />
                     <img
                       className="ml-10"
                       src={`./assets/${props.pTokenSelected.issueFrom}.png`}
@@ -149,25 +133,18 @@ const Main = props => {
               }}
               whichLink={{
                 2: {
-                  base: getCorrespondingBaseTxExplorerLink(
-                    props.pTokenSelected,
-                    'redeemer'
-                  )
+                  base: getCorrespondingBaseTxExplorerLink(props.pTokenSelected, 'redeemer')
                 },
                 3: {
-                  base: getCorrespondingBaseTxExplorerLink(
-                    props.pTokenSelected,
-                    'issuer'
-                  )
+                  base: getCorrespondingBaseTxExplorerLink(props.pTokenSelected, 'issuer')
                 }
               }}
               whichAnimation={[4]}
               conversions={{
                 0: n =>
-                  (
-                    parseFloat(n) /
-                    Math.pow(10, props.pTokenSelected.realDecimals)
-                  ).toFixed(props.pTokenSelected.realDecimals),
+                  (parseFloat(n) / Math.pow(10, props.pTokenSelected.realDecimals)).toFixed(
+                    props.pTokenSelected.realDecimals
+                  ),
                 1: t => timestampInSecondsToDate(t)
               }}
               headers={[

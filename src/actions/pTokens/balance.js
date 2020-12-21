@@ -6,13 +6,7 @@ import Web3 from 'web3'
 const getEthBalance = async (_pToken, _account) => {
   const provider = getCorrespondingReadOnlyProvider(_pToken)
   const web3 = new Web3(provider)
-  const res = await makeContractCall(
-    web3,
-    'balanceOf',
-    _pToken.nodeInfo.contractAddress,
-    pTokenAbi,
-    [_account]
-  )
+  const res = await makeContractCall(web3, 'balanceOf', _pToken.nodeInfo.contractAddress, pTokenAbi, [_account])
 
   const real = res / Math.pow(10, _pToken.contractDecimals)
 

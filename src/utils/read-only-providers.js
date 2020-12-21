@@ -19,8 +19,7 @@ const getCorrespondingReadOnlyProvider = _pToken => {
   // default rpc
   if (_pToken.redeemFrom === 'ETH') {
     return new Web3.providers.WebsocketProvider(
-      settings[_pToken.id].eth.wsInfuraEndpoint +
-        settings[_pToken.id].eth.infuraProjectId
+      settings[_pToken.id].eth.wsInfuraEndpoint + settings[_pToken.id].eth.infuraProjectId
     )
   }
   if (_pToken.redeemFrom === 'EOS') {

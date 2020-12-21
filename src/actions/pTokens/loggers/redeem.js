@@ -1,16 +1,8 @@
 import * as LogHandler from '../../log'
-import {
-  PTOKENS_REDEEM_NOT_SUCCEDEED,
-  PTOKENS_REDEEM_SUCCEDEED
-} from '../../../constants/index'
+import { PTOKENS_REDEEM_NOT_SUCCEDEED, PTOKENS_REDEEM_SUCCEDEED } from '../../../constants/index'
 import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
 import BigNumber from 'bignumber.js'
-import {
-  PBTC_ON_ETH_MAINNET,
-  PBTC_ON_ETH_TESTNET,
-  PLTC_ON_ETH_MAINNET,
-  PLTC_ON_ETH_TESTNET
-} from '../../../constants'
+import { PBTC_ON_ETH_MAINNET, PBTC_ON_ETH_TESTNET, PLTC_ON_ETH_MAINNET, PLTC_ON_ETH_TESTNET } from '../../../constants'
 
 const hostTransactionHash = {
   telos: 'transaction_id',

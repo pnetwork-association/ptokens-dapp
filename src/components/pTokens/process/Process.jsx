@@ -8,14 +8,9 @@ const Process = props => {
       <div className="card-header mb-0 bg-light-gray pl-0 pt-0">
         <div className="row align-items-center">
           <div className="col-10">
-            <div className="text-left text-gray text-xxl font-weight-light">
-              Process
-            </div>
+            <div className="text-left text-gray text-xxl font-weight-light">Process</div>
           </div>
-          <div
-            onClick={() => props.onResetLogs()}
-            className="col-2 text-right cursor-pointer"
-          >
+          <div onClick={() => props.onResetLogs()} className="col-2 text-right cursor-pointer">
             <i className="icon empty" />
           </div>
         </div>
@@ -27,29 +22,15 @@ const Process = props => {
                 <div key={index} className="row">
                   <div
                     className={
-                      'col ml-10' +
-                      (index > 0 ? ' mt-5' : '') +
-                      (index === props.logs.length - 1 ? ' mb-15' : '')
+                      'col ml-10' + (index > 0 ? ' mt-5' : '') + (index === props.logs.length - 1 ? ' mb-15' : '')
                     }
                   >
                     {log.waiting === true ? (
                       <Spinner />
                     ) : (
-                      <i
-                        className={
-                          log.success === true
-                            ? 'icon verified'
-                            : 'icon not-verified'
-                        }
-                      />
+                      <i className={log.success === true ? 'icon verified' : 'icon not-verified'} />
                     )}
-                    <span
-                      className={
-                        (!log.waiting
-                          ? 'text-gray ml-10'
-                          : 'text-super-light-gray ml-15') + ' text-sm'
-                      }
-                    >
+                    <span className={(!log.waiting ? 'text-gray ml-10' : 'text-super-light-gray ml-15') + ' text-sm'}>
                       {log.value}
                     </span>
                     {log.link ? (

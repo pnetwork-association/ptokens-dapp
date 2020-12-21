@@ -306,10 +306,7 @@ const setBalance = _balance => {
 
 const setCustomRpc = (_rpc, _type) => {
   return {
-    type:
-      _type === 'host'
-        ? PTOKENS_SET_CUSTOM_HOST_RPC
-        : PTOKENS_SET_CUSTOM_NATIVE_RPC,
+    type: _type === 'host' ? PTOKENS_SET_CUSTOM_HOST_RPC : PTOKENS_SET_CUSTOM_NATIVE_RPC,
     payload: {
       rpc: _rpc
     }

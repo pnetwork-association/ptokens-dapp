@@ -63,9 +63,4 @@ const showHiddenPtokens = state => {
   }
 }
 
-export {
-  setSelectedPage,
-  setCollapseState,
-  enableTestnetInstances,
-  showHiddenPtokens
-}
+export { setSelectedPage, setCollapseState, enableTestnetInstances, showHiddenPtokens }

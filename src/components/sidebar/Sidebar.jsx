@@ -19,8 +19,7 @@ const Sidebar = _props => {
                 }}
               >
                 <span className="pt-5 nav-link pb-5 ml-20 text-xs">
-                  {pToken.name} on {pToken.redeemFrom}{' '}
-                  {pToken.network === 'testnet' ? '(testnet)' : ''}
+                  {pToken.name} on {pToken.redeemFrom} {pToken.network === 'testnet' ? '(testnet)' : ''}
                 </span>
               </li>
             )
@@ -40,11 +39,7 @@ const Sidebar = _props => {
                 <div className="col-12 d-flex justify-content-left cursor-pointer pl-0 pr-0">
                   <div className="text-center">
                     {
-                      <div
-                        className={
-                          _props.isCollapseOpened ? 'dropdown show' : 'dropdown'
-                        }
-                      >
+                      <div className={_props.isCollapseOpened ? 'dropdown show' : 'dropdown'}>
                         <div
                           onClick={e => {
                             e.preventDefault()
@@ -58,13 +53,7 @@ const Sidebar = _props => {
                             height="30"
                             width="30"
                           />
-                          <div
-                            className={
-                              _props.isCollapseOpened
-                                ? 'dropdown-menu show'
-                                : 'dropdown-menu'
-                            }
-                          >
+                          <div className={_props.isCollapseOpened ? 'dropdown-menu show' : 'dropdown-menu'}>
                             {renderpTokensList()}
                           </div>
                         </div>
@@ -121,23 +110,12 @@ const Sidebar = _props => {
                   }}
                 >
                   <span>
-                    {_props.pTokenSelected.name} on{' '}
-                    {_props.pTokenSelected.redeemFrom}{' '}
-                    {_props.pTokenSelected.network === 'testnet'
-                      ? '(testnet)'
-                      : ''}
-                    {
-                      <b
-                        className={
-                          _props.isCollapseOpened ? 'caret rotate-180' : 'caret'
-                        }
-                      />
-                    }
+                    {_props.pTokenSelected.name} on {_props.pTokenSelected.redeemFrom}{' '}
+                    {_props.pTokenSelected.network === 'testnet' ? '(testnet)' : ''}
+                    {<b className={_props.isCollapseOpened ? 'caret rotate-180' : 'caret'} />}
                   </span>
                 </p>
-                <Collapse in={_props.isCollapseOpened}>
-                  {renderpTokensList()}
-                </Collapse>
+                <Collapse in={_props.isCollapseOpened}>{renderpTokensList()}</Collapse>
               </div>
             </div>
 
@@ -161,9 +139,7 @@ const Sidebar = _props => {
                   <li className="nav-item" key={_index}>
                     <span
                       onClick={() => _props.onChangePage(_index)}
-                      className={
-                        _props.page === _index ? 'nav-link active' : 'nav-link'
-                      }
+                      className={_props.page === _index ? 'nav-link active' : 'nav-link'}
                     >
                       <i className={`icon ${icon}`}></i>
                       {name}
@@ -178,14 +154,8 @@ const Sidebar = _props => {
           <ul className="navbar-nav m-0">
             <li className="nav-item">
               <span className="nav-link active text-xxs justify-content-center">
-                <a
-                  href={settings.telegram}
-                  className="text-white text-sm"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i className="fa fa-telegram fa-lg" aria-hidden="true" /> Join
-                  us on Telegram
+                <a href={settings.telegram} className="text-white text-sm" target="_blank" rel="noopener noreferrer">
+                  <i className="fa fa-telegram fa-lg" aria-hidden="true" /> Join us on Telegram
                 </a>
               </span>
             </li>

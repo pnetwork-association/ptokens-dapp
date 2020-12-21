@@ -37,13 +37,7 @@ const web3Modal = new Web3Modal({
   }
 })
 
-const connectWithEthWallet = async (
-  _pToken,
-  _role,
-  _currentProvider,
-  _dispatch,
-  _force = null
-) => {
+const connectWithEthWallet = async (_pToken, _role, _currentProvider, _dispatch, _force = null) => {
   try {
     if (!_force) return
 
@@ -59,10 +53,7 @@ const connectWithEthWallet = async (
 
       // NOTE: store network even if is not used for possible future uses
       _dispatch({
-        type:
-          _role === 'issuer'
-            ? WALLET_ISSUER_NETWORK_CHANGED
-            : WALLET_REDEEMER_NETWORK_CHANGED,
+        type: _role === 'issuer' ? WALLET_ISSUER_NETWORK_CHANGED : WALLET_REDEEMER_NETWORK_CHANGED,
         payload: {
           network: Number(_chainId) === 1 ? 'mainnet' : 'testnet'
         }
@@ -71,10 +62,7 @@ const connectWithEthWallet = async (
 
     provider.on('accountsChanged', _accounts => {
       _dispatch({
-        type:
-          _role === 'issuer'
-            ? WALLET_ISSUER_ACCOUNT_CHANGED
-            : WALLET_REDEEMER_ACCOUNT_CHANGED,
+        type: _role === 'issuer' ? WALLET_ISSUER_ACCOUNT_CHANGED : WALLET_REDEEMER_ACCOUNT_CHANGED,
         payload: {
           account: _accounts[0]
         }
@@ -89,13 +77,7 @@ const disconnectFromEthWallet = () => {
   //TODO: disconnect from ETH wallet
 }
 
-const _connectionSuccesfull = async (
-  _pToken,
-  _provider,
-  _dispatch,
-  _role,
-  _wallet
-) => {
+const _connectionSuccesfull = async (_pToken, _provider, _dispatch, _role, _wallet) => {
   try {
     const { accounts, chainId } = _provider
     if (Number(chainId) !== 1) {
@@ -104,10 +86,7 @@ const _connectionSuccesfull = async (
 
     const account = accounts ? accounts[0] : await _getAccount(_provider)
     _dispatch({
-      type:
-        _role === 'issuer'
-          ? WALLET_ISSUER_CONNECTED
-          : WALLET_REDEEMER_CONNECTED,
+      type: _role === 'issuer' ? WALLET_ISSUER_CONNECTED : WALLET_REDEEMER_CONNECTED,
       payload: {
         provider: _provider,
         account,

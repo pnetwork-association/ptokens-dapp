@@ -109,9 +109,7 @@ const timestampInSecondsToDate = timestamp => {
   const hours = date.getHours()
   const minutes = `0${date.getMinutes()}`
   const seconds = `0${date.getSeconds()}`
-  return `${hours}:${minutes.substr(-2)}:${seconds.substr(
-    -2
-  )} - ${tomonth}/${todate}/${toyear}`
+  return `${hours}:${minutes.substr(-2)}:${seconds.substr(-2)} - ${tomonth}/${todate}/${toyear}`
 }
 
 const calculateObjectValuesString = obj => {
@@ -132,11 +130,4 @@ const copyToClipboard = _value => {
   textField.remove()
 }
 
-export {
-  sleep,
-  isJsonString,
-  mask,
-  timestampInSecondsToDate,
-  calculateObjectValuesString,
-  copyToClipboard
-}
+export { sleep, isJsonString, mask, timestampInSecondsToDate, calculateObjectValuesString, copyToClipboard }

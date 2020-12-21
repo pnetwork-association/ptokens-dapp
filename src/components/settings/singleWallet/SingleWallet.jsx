@@ -13,10 +13,7 @@ const SingleWallet = props => {
       >
         DEACTIVATED
       </div>
-      <Toogle
-        value={props.isConnected ? props.isConnected : false}
-        onChange={() => props.onChange()}
-      />
+      <Toogle value={props.isConnected ? props.isConnected : false} onChange={() => props.onChange()} />
       <div
         className={
           'text-xxs font-weigth-light ml-10 my-auto d-none d-sm-block ' +

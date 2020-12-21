@@ -6,12 +6,7 @@ import {
 } from '../../../constants/index'
 import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
 
-const loggedIssueWithDepositAddress = async (
-  _ptokens,
-  _params,
-  _pToken,
-  _dispatch
-) => {
+const loggedIssueWithDepositAddress = async (_ptokens, _params, _pToken, _dispatch) => {
   //[0] should be the value but here there isn't
   let depositAddress = null
 
@@ -70,10 +65,7 @@ const loggedIssueWithDepositAddress = async (
         LogHandler.updateItem('broadcasting-pending', {
           value: `new ${_pToken.issueFrom.toUpperCase()} deposit detected`,
           success: true,
-          link: `${getCorrespondingBaseTxExplorerLink(
-            _pToken,
-            'issuer'
-          )}${txid}`,
+          link: `${getCorrespondingBaseTxExplorerLink(_pToken, 'issuer')}${txid}`,
           id: 'broadcasting-pending'
         })
       )

@@ -4,12 +4,7 @@ import { Mutex } from 'async-mutex'
 const mutex = new Mutex()
 
 class EosAccountSuggester {
-  static getPossiblesAccounts = async (
-    _pToken,
-    _currentTypedAccount,
-    _currentAccounts,
-    _role
-  ) => {
+  static getPossiblesAccounts = async (_pToken, _currentTypedAccount, _currentAccounts, _role) => {
     const release = await mutex.acquire()
     try {
       if (_currentTypedAccount.length === 0) {

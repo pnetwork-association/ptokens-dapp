@@ -15,17 +15,9 @@ const PbtcIssueCard = props => {
   const [isCopiedToClipboard, setIsCopiedToClipboard] = useState(0)
 
   useEffect(() => {
-    if (
-      props.pTokenSelected.depositAddress.value ||
-      props.pTokenSelected.depositAddress.error ||
-      props.localError
-    )
+    if (props.pTokenSelected.depositAddress.value || props.pTokenSelected.depositAddress.error || props.localError)
       setIsGenerating(false)
-  }, [
-    props.pTokenSelected.depositAddress.value,
-    props.pTokenSelected.depositAddress.error,
-    props.localError
-  ])
+  }, [props.pTokenSelected.depositAddress.value, props.pTokenSelected.depositAddress.error, props.localError])
 
   useEffect(() => {
     ReactTooltip.rebuild()
@@ -37,10 +29,7 @@ const PbtcIssueCard = props => {
       <div className="card-body pt-0">
         <Input
           withSelection={
-            props.pTokenSelected.redeemFrom === 'EOS' ||
-            props.pTokenSelected.redeemFrom === 'TELOS'
-              ? true
-              : false
+            props.pTokenSelected.redeemFrom === 'EOS' || props.pTokenSelected.redeemFrom === 'TELOS' ? true : false
           }
           showAtCharacter={3}
           options={props.suggestedRedimeerAccounts}
@@ -62,11 +51,7 @@ const PbtcIssueCard = props => {
             <ReactTooltip />
             <div
               className="col-12 font-weight-bold text-center mt-2 cursor-pointer"
-              key={
-                isCopiedToClipboard
-                  ? 'is-copied-to-clipboard'
-                  : 'is-not-copied-to-clipboard'
-              }
+              key={isCopiedToClipboard ? 'is-copied-to-clipboard' : 'is-not-copied-to-clipboard'}
               data-tip={isCopiedToClipboard ? 'Copied!' : 'Copy to clipboard'}
               onClick={() => {
                 setIsCopiedToClipboard(true)
@@ -77,9 +62,7 @@ const PbtcIssueCard = props => {
                 }, 3000)
               }}
             >
-              <span className="gray-on-hover-with-border-radius">
-                {props.pTokenSelected.depositAddress.value}
-              </span>
+              <span className="gray-on-hover-with-border-radius">{props.pTokenSelected.depositAddress.value}</span>
             </div>
 
             <div className="col-12 text-center mt-10">
@@ -130,25 +113,14 @@ const PbtcIssueCard = props => {
           <div className="row mt-4 mb-4">
             <div className="col-12 text-center">
               {props.pTokenSelected.depositAddress.success ? (
-                <img
-                  src="../assets/tick.svg"
-                  height="100"
-                  width="100"
-                  alt="success"
-                />
+                <img src="../assets/tick.svg" height="100" width="100" alt="success" />
               ) : (
-                <img
-                  src="../assets/error.svg"
-                  height="100"
-                  width="100"
-                  alt="error"
-                />
+                <img src="../assets/error.svg" height="100" width="100" alt="error" />
               )}
             </div>
           </div>
         ) : null}
-        {props.pTokenSelected.depositAddress.terminated &&
-        props.pTokenSelected.depositAddress.error ? (
+        {props.pTokenSelected.depositAddress.terminated && props.pTokenSelected.depositAddress.error ? (
           <div className="row mt-4 mb-4">
             <div className="col-12 text-center text-sm text-red font-weight-bold">
               {props.pTokenSelected.depositAddress.error}
@@ -156,21 +128,11 @@ const PbtcIssueCard = props => {
           </div>
         ) : null}
       </div>
-      <div
-        className={
-          'card-footer border-0 pb-20 pt-10 d-flex justify-content-center'
-        }
-      >
+      <div className={'card-footer border-0 pb-20 pt-10 d-flex justify-content-center'}>
         <Button
           width={280}
           icon={isGenerating ? null : 'add'}
-          disabled={
-            props.typedIssueAccount === '' ||
-            props.typedIssueAccount === null ||
-            isGenerating
-              ? true
-              : false
-          }
+          disabled={props.typedIssueAccount === '' || props.typedIssueAccount === null || isGenerating ? true : false}
           text={
             isGenerating
               ? 'Generating...'

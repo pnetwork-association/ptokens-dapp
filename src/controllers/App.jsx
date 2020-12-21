@@ -12,11 +12,7 @@ import ReactGA from 'react-ga'
 import queryString from 'query-string'
 import { connect } from 'react-redux'
 import { setNodeManually, setNode } from '../actions/pNetwork/'
-import {
-  setSelectedPage,
-  enableTestnetInstances,
-  showHiddenPtokens
-} from '../actions/sidebar'
+import { setSelectedPage, enableTestnetInstances, showHiddenPtokens } from '../actions/sidebar'
 import { connectWithSpecificWallet } from '../actions/wallets'
 import { setSelectedpToken, setCustomRpc } from '../actions/pTokens'
 import PropTypes from 'prop-types'
@@ -35,16 +31,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setNodeManually: (_pToken, _endpoint) =>
-      dispatch(setNodeManually(_pToken, _endpoint)),
+    setNodeManually: (_pToken, _endpoint) => dispatch(setNodeManually(_pToken, _endpoint)),
     setNode: _pToken => dispatch(setNode(_pToken)),
-    setSelectedPage: (_selected, _pToken) =>
-      dispatch(setSelectedPage(_selected, _pToken)),
-    setSelectedpToken: (_pToken, _withNodeSelection) =>
-      dispatch(setSelectedpToken(_pToken, _withNodeSelection)),
+    setSelectedPage: (_selected, _pToken) => dispatch(setSelectedPage(_selected, _pToken)),
+    setSelectedpToken: (_pToken, _withNodeSelection) => dispatch(setSelectedpToken(_pToken, _withNodeSelection)),
     setCustomRpc: (_rpc, _type) => dispatch(setCustomRpc(_rpc, _type)),
-    connectWithSpecificWallet: (_pToken, _role, _force) =>
-      dispatch(connectWithSpecificWallet(_pToken, _role, _force)),
+    connectWithSpecificWallet: (_pToken, _role, _force) => dispatch(connectWithSpecificWallet(_pToken, _role, _force)),
     enableTestnetInstances: () => dispatch(enableTestnetInstances()),
     showHiddenPtokens: () => dispatch(showHiddenPtokens())
   }
@@ -70,8 +62,7 @@ class App extends React.Component {
 
     const pTokenNameSelected = splittedUrl[0]
     const pTokenRedeemFromSelected = splittedUrl[2]
-    const pTokenNetworkSelected =
-      splittedUrl[3] === 'testnet' ? 'testnet' : 'mainnet'
+    const pTokenNetworkSelected = splittedUrl[3] === 'testnet' ? 'testnet' : 'mainnet'
 
     const page = history.location.pathname.split('/')[2]
     const pToken = this.props.pTokensAvailable.find(
@@ -83,12 +74,7 @@ class App extends React.Component {
 
     const pTokenSelected = pToken ? pToken : this.props.pTokensAvailable[0]
 
-    const {
-      node,
-      hostRpc,
-      withTestnetInstances,
-      iamthomas
-    } = queryString.parse(window.location.search)
+    const { node, hostRpc, withTestnetInstances, iamthomas } = queryString.parse(window.location.search)
 
     if (Boolean(iamthomas) === true) {
       this.props.showHiddenPtokens()
@@ -113,10 +99,7 @@ class App extends React.Component {
     }
 
     if (node) {
-      this.props.setNodeManually(
-        pToken,
-        node.includes('https://') ? node : `https://${node}`
-      )
+      this.props.setNodeManually(pToken, node.includes('https://') ? node : `https://${node}`)
       return
     }
 

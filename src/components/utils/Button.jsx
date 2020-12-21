@@ -17,9 +17,7 @@ const Button = _props => {
       disabled={disabled}
     >
       <i className={`icon ${icon}`} />
-      <span className={`${icon ? 'ml-10' : ''} vertical-align-middle`}>
-        {text}
-      </span>
+      <span className={`${icon ? 'ml-10' : ''} vertical-align-middle`}>{text}</span>
     </button>
   )
 }

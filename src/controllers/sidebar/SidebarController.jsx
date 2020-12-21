@@ -20,14 +20,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setSelectedPage: (_selected, _pToken) =>
-      dispatch(setSelectedPage(_selected, _pToken)),
+    setSelectedPage: (_selected, _pToken) => dispatch(setSelectedPage(_selected, _pToken)),
     setCollapseState: state => dispatch(setCollapseState(state)),
-    setSelectedpToken: (_pToken, _withNodeSelection) =>
-      dispatch(setSelectedpToken(_pToken, _withNodeSelection)),
+    setSelectedpToken: (_pToken, _withNodeSelection) => dispatch(setSelectedpToken(_pToken, _withNodeSelection)),
     pNetworkDataReset: () => dispatch(resetData()),
-    disconnectFromSpecificWallet: (pTokenName, role) =>
-      dispatch(disconnectFromSpecificWallet(pTokenName, role)),
+    disconnectFromSpecificWallet: (pTokenName, role) => dispatch(disconnectFromSpecificWallet(pTokenName, role)),
     resetParams: () => dispatch(resetParams())
   }
 }
@@ -55,15 +52,9 @@ const SidebarController = _props => {
       pTokenSelected={pTokenSelected}
       pTokensAvailable={pTokensAvailable
         .filter(({ isHidden }) =>
-          isHidden === true && showHiddenPtokens
-            ? true
-            : isHidden === true && !showHiddenPtokens
-            ? false
-            : true
+          isHidden === true && showHiddenPtokens ? true : isHidden === true && !showHiddenPtokens ? false : true
         )
-        .filter(({ network }) =>
-          withTestnetInstances ? true : network === 'mainnet'
-        )}
+        .filter(({ network }) => (withTestnetInstances ? true : network === 'mainnet'))}
       onChangePage={_page => setSelectedPage(_page, pTokenSelected)}
       onChangeCollapseState={state => {
         !state ? setCollapseState(!isCollapseOpened) : setCollapseState(state)

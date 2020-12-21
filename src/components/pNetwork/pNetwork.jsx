@@ -81,9 +81,7 @@ const PNetwork = props => {
               <div className="card-header mb-0 bg-light-gray pl-0 pt-0">
                 <div className="row align-items-center">
                   <div className="col">
-                    <div className="text-left text-gray text-xxl font-weight-light">
-                      pTokens Setup
-                    </div>
+                    <div className="text-left text-gray text-xxl font-weight-light">pTokens Setup</div>
                   </div>
                 </div>
               </div>
@@ -94,14 +92,10 @@ const PNetwork = props => {
                     {`${props.pTokenSelected.issueFrom} PUBKEY:`}
                   </div>
                   <div className="col-8 col-sm-10 text-right text-gray text-md">
-                    {props.pTokenSelected.name === 'pBTC' ||
-                    props.pTokenSelected.name === 'pLTC' ? (
+                    {props.pTokenSelected.name === 'pBTC' || props.pTokenSelected.name === 'pLTC' ? (
                       <React.Fragment>
                         {/*MOBILE*/}
-                        <div
-                          className="show-mobile"
-                          data-tip={`0x${props.pTokenSelected.nodeInfo.publicKey}`}
-                        >
+                        <div className="show-mobile" data-tip={`0x${props.pTokenSelected.nodeInfo.publicKey}`}>
                           {getCorresponsingVisibleAddressFormat(
                             props.pTokenSelected,
                             'issuer',
@@ -109,10 +103,7 @@ const PNetwork = props => {
                           )}
                         </div>
                         {/*DESKTOP & TABLET*/}
-                        <div
-                          className="hidden-mobile"
-                          data-tip={`0x${props.pTokenSelected.nodeInfo.publicKey}`}
-                        >
+                        <div className="hidden-mobile" data-tip={`0x${props.pTokenSelected.nodeInfo.publicKey}`}>
                           {props.pTokenSelected.nodeInfo.publicKey
                             ? `0x${props.pTokenSelected.nodeInfo.publicKey}`
                             : '-'}
@@ -121,29 +112,19 @@ const PNetwork = props => {
                     ) : (
                       <a
                         className="text-xs text-underline text-primary font-monospace"
-                        href={getCorrespondingExplorerLink(
-                          props.pTokenSelected,
-                          'issuer'
-                        )}
+                        href={getCorrespondingExplorerLink(props.pTokenSelected, 'issuer')}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {getCorresponsingVisibleAddressFormat(
-                          props.pTokenSelected,
-                          'issuer'
-                        )}
+                        {getCorresponsingVisibleAddressFormat(props.pTokenSelected, 'issuer')}
                       </a>
                     )}
                   </div>
                 </div>
                 <div className="row mt-15 mb-15">
-                  <div className="col-4 col-sm-3 text-gray text-xs font-weight-light">
-                    CONNECTED T0:
-                  </div>
+                  <div className="col-4 col-sm-3 text-gray text-xs font-weight-light">CONNECTED T0:</div>
                   <div className="col-8 col-xl-9 text-right text-gray text-md font-weight-bold">
-                    {props.pTokenSelected.nodeInfo
-                      ? props.pTokenSelected.nodeInfo.endpoint
-                      : '-'}
+                    {props.pTokenSelected.nodeInfo ? props.pTokenSelected.nodeInfo.endpoint : '-'}
                   </div>
                 </div>
                 <hr />
@@ -152,9 +133,7 @@ const PNetwork = props => {
                     CIRCULATING {props.pTokenSelected.name}:
                   </div>
                   <div className="col-7 col-xl-9 text-right text-gray text-md">
-                    {props.pTokenSelected.totalSupply
-                      ? props.pTokenSelected.totalSupply
-                      : '-'}
+                    {props.pTokenSelected.totalSupply ? props.pTokenSelected.totalSupply : '-'}
                   </div>
                 </div>
                 <hr />

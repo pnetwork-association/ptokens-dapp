@@ -18,10 +18,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    getTotalSupply: (_pToken, configs) =>
-      dispatch(getTotalSupply(_pToken, configs)),
-    getReports: (_pToken, _type, role) =>
-      dispatch(getReports(_pToken, _type, role)),
+    getTotalSupply: (_pToken, configs) => dispatch(getTotalSupply(_pToken, configs)),
+    getReports: (_pToken, _type, role) => dispatch(getReports(_pToken, _type, role)),
     connectWithCorrectWallets: (pTokenName, currentProviders, force) =>
       dispatch(connectWithCorrectWallets(pTokenName, currentProviders, force))
   }
@@ -41,9 +39,7 @@ export class MainController extends React.Component {
 
   componentDidUpdate(_prevProps) {
     if (!this.state.redeemerDataLoaded) {
-      const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(
-        this.props.pTokenSelected
-      )
+      const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(this.props.pTokenSelected)
 
       const configs = {
         issuer: null,
@@ -56,9 +52,7 @@ export class MainController extends React.Component {
     }
 
     if (_prevProps.pTokenSelected.id !== this.props.pTokenSelected.id) {
-      const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(
-        this.props.pTokenSelected
-      )
+      const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(this.props.pTokenSelected)
 
       const configs = {
         issuer: null,
