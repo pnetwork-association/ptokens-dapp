@@ -311,10 +311,14 @@ export class pTokenControllers extends React.Component {
 
     const issuerReadOnlyProvider = getCorrespondingReadOnlyProvider(this.props.pTokenSelected)
 
-    this.props.redeem(this.props.pTokenSelected, [this.props.pTokensParams.amountToRedeem , this.props.pTokensParams.typedRedeemAccount], {
-      issuer: issuerReadOnlyProvider,
-      redeemer: this.props.redeemerProvider
-    })
+    this.props.redeem(
+      this.props.pTokenSelected,
+      [this.props.pTokensParams.amountToRedeem, this.props.pTokensParams.typedRedeemAccount],
+      {
+        issuer: issuerReadOnlyProvider,
+        redeemer: this.props.redeemerProvider
+      }
+    )
   }
 
   onResetLogs = () => {
