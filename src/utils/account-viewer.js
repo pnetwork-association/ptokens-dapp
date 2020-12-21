@@ -21,7 +21,12 @@ import {
   POMG_ON_EOS_MAINNET,
   PDAI_ON_EOS_MAINNET,
   PANT_ON_EOS_MAINNET,
-  PLRC_ON_EOS_MAINNET
+  PLRC_ON_EOS_MAINNET,
+  PUOS_ON_EOS_MAINNET,
+  PBAT_ON_EOS_MAINNET,
+  PREP_ON_EOS_MAINNET,
+  PZRX_ON_EOS_MAINNET,
+  PPNK_ON_EOS_MAINNET
 } from '../constants'
 
 const getCorresponsingVisibleAddressFormat = (_pToken, _role, _account) => {
@@ -139,6 +144,31 @@ const getCorresponsingVisibleAddressFormat = (_pToken, _role, _account) => {
         : `${_account.slice(0, 6)}...${_account.slice(_account.length - 4, _account.length)}`
     }
     case PLRC_ON_EOS_MAINNET: {
+      return _role === 'redeemer'
+        ? _account
+        : `${_account.slice(0, 6)}...${_account.slice(_account.length - 4, _account.length)}`
+    }
+    case PUOS_ON_EOS_MAINNET: {
+      return _role === 'redeemer'
+        ? _account
+        : `${_account.slice(0, 6)}...${_account.slice(_account.length - 4, _account.length)}`
+    }
+    case PBAT_ON_EOS_MAINNET: {
+      return _role === 'redeemer'
+        ? _account
+        : `${_account.slice(0, 6)}...${_account.slice(_account.length - 4, _account.length)}`
+    }
+    case PREP_ON_EOS_MAINNET: {
+      return _role === 'redeemer'
+        ? _account
+        : `${_account.slice(0, 6)}...${_account.slice(_account.length - 4, _account.length)}`
+    }
+    case PZRX_ON_EOS_MAINNET: {
+      return _role === 'redeemer'
+        ? _account
+        : `${_account.slice(0, 6)}...${_account.slice(_account.length - 4, _account.length)}`
+    }
+    case PPNK_ON_EOS_MAINNET: {
       return _role === 'redeemer'
         ? _account
         : `${_account.slice(0, 6)}...${_account.slice(_account.length - 4, _account.length)}`

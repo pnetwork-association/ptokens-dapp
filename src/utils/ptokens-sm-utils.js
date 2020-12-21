@@ -22,7 +22,12 @@ import {
   POMG_ON_EOS_MAINNET,
   PDAI_ON_EOS_MAINNET,
   PANT_ON_EOS_MAINNET,
-  PLRC_ON_EOS_MAINNET
+  PLRC_ON_EOS_MAINNET,
+  PUOS_ON_EOS_MAINNET,
+  PBAT_ON_EOS_MAINNET,
+  PREP_ON_EOS_MAINNET,
+  PZRX_ON_EOS_MAINNET,
+  PPNK_ON_EOS_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_pToken, _role, _address) => {
@@ -141,6 +146,31 @@ const getCorrespondingExplorerLink = (_pToken, _role, _address) => {
       return _role === 'issuer'
         ? `${settings[PLRC_ON_EOS_MAINNET].eth.explorer}address/${_address}`
         : `${settings[PLRC_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+    }
+    case PUOS_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PUOS_ON_EOS_MAINNET].eth.explorer}address/${_address}`
+        : `${settings[PUOS_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+    }
+    case PBAT_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PBAT_ON_EOS_MAINNET].eth.explorer}address/${_address}`
+        : `${settings[PBAT_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+    }
+    case PREP_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PREP_ON_EOS_MAINNET].eth.explorer}address/${_address}`
+        : `${settings[PREP_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+    }
+    case PZRX_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PZRX_ON_EOS_MAINNET].eth.explorer}address/${_address}`
+        : `${settings[PZRX_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+    }
+    case PPNK_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PPNK_ON_EOS_MAINNET].eth.explorer}address/${_address}`
+        : `${settings[PPNK_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
     }
     default:
       break
@@ -263,6 +293,31 @@ const getCorrespondingBaseTxExplorerLink = (_pToken, _role) => {
       return _role === 'issuer'
         ? `${settings[PLRC_ON_EOS_MAINNET].eth.explorer}tx/`
         : `${settings[PLRC_ON_EOS_MAINNET].eos.explorer}transaction/`
+    }
+    case PUOS_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PUOS_ON_EOS_MAINNET].eth.explorer}tx/`
+        : `${settings[PUOS_ON_EOS_MAINNET].eos.explorer}transaction/`
+    }
+    case PBAT_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PBAT_ON_EOS_MAINNET].eth.explorer}tx/`
+        : `${settings[PBAT_ON_EOS_MAINNET].eos.explorer}transaction/`
+    }
+    case PREP_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PREP_ON_EOS_MAINNET].eth.explorer}tx/`
+        : `${settings[PREP_ON_EOS_MAINNET].eos.explorer}transaction/`
+    }
+    case PZRX_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PZRX_ON_EOS_MAINNET].eth.explorer}tx/`
+        : `${settings[PZRX_ON_EOS_MAINNET].eos.explorer}transaction/`
+    }
+    case PPNK_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PPNK_ON_EOS_MAINNET].eth.explorer}tx/`
+        : `${settings[PPNK_ON_EOS_MAINNET].eos.explorer}transaction/`
     }
     default:
       break

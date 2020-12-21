@@ -53,6 +53,21 @@ const getNetworkCorrectness = (_pTokenName, _network, _role) => {
   if (_pTokenName === 'pMKR' && _role === 'redeemer') {
     return pMKRRedeemerNetworks.includes(_network)
   }
+  if (_pTokenName === 'pUOS' && _role === 'redeemer') {
+    return pMKRRedeemerNetworks.includes(_network)
+  }
+  if (_pTokenName === 'pBAT' && _role === 'redeemer') {
+    return pMKRRedeemerNetworks.includes(_network)
+  }
+  if (_pTokenName === 'pREP' && _role === 'redeemer') {
+    return pMKRRedeemerNetworks.includes(_network)
+  }
+  if (_pTokenName === 'pZRX' && _role === 'redeemer') {
+    return pMKRRedeemerNetworks.includes(_network)
+  }
+  if (_pTokenName === 'pPNK' && _role === 'redeemer') {
+    return pMKRRedeemerNetworks.includes(_network)
+  }
   if (_pTokenName === 'pBTC' && _role === 'redeemer') {
     return pBTCRedeemerNetworks.includes(_network)
   }

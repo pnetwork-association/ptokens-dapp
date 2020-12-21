@@ -23,7 +23,12 @@ import {
   POMG_ON_EOS_MAINNET,
   PDAI_ON_EOS_MAINNET,
   PANT_ON_EOS_MAINNET,
-  PLRC_ON_EOS_MAINNET
+  PLRC_ON_EOS_MAINNET,
+  PUOS_ON_EOS_MAINNET,
+  PBAT_ON_EOS_MAINNET,
+  PREP_ON_EOS_MAINNET,
+  PZRX_ON_EOS_MAINNET,
+  PPNK_ON_EOS_MAINNET
 } from '../constants'
 
 const web3 = new Web3()
@@ -141,6 +146,31 @@ const isValidAccount = (_pToken, _account, _role) => {
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PLRC_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PUOS_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PBAT_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PREP_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PZRX_ON_EOS_MAINNET: {
+      return _role === 'issuer'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PPNK_ON_EOS_MAINNET: {
       return _role === 'issuer'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
