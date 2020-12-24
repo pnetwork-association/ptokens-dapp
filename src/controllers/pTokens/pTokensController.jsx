@@ -224,7 +224,7 @@ export class pTokenControllers extends React.Component {
         localError: false
       },
       async () => {
-        if (
+        /*if (
           !isValidAccount(this.props.pTokenSelected, this.props.pTokensParams.typedIssueAccount, 'redeemer') ||
           this.props.pTokensParams.typedIssueAccount.length < 4
         ) {
@@ -235,18 +235,17 @@ export class pTokenControllers extends React.Component {
           return
         }
 
-        if (this.props.pTokenSelected.isPerc20) {
+        if (this.props.pTokenSelected.isPerc20 || this.props.pTokenSelected.name === 'pETH') {
           if (!this.props.issuerIsConnected) {
             toastr.error('Please connect your Ethereum wallet')
             return
           }
-        }
+        }*/
 
         this.props.resetDepositAddress()
 
-        const decimals = this.props.pTokenSelected.realDecimals
         // prettier-ignore
-        const parsedAmountToIssue = parseFloat(this.props.pTokensParams.amountToIssue).toFixed(decimals)
+        const parsedAmountToIssue = parseFloat(this.props.pTokensParams.amountToIssue).toFixed(this.props.pTokenSelected.realDecimals)
         // prettier-ignore
         const minimumIssuableAmount = parseFloat(this.props.pTokenSelected.minimumIssuable).toFixed(this.props.pTokenSelected.realDecimals)
         if (parsedAmountToIssue < minimumIssuableAmount) {
@@ -263,9 +262,9 @@ export class pTokenControllers extends React.Component {
         const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(this.props.pTokenSelected)
 
         let amountToIssue = this.props.pTokensParams.amountToIssue
-        if (this.props.pTokenSelected.isPerc20) {
+        if (this.props.pTokenSelected.isPerc20 || this.props.pTokenSelected.name === 'pETH') {
           amountToIssue = BigNumber(this.props.pTokensParams.amountToIssue)
-            .multipliedBy(10 ** this.props.pTokensParams.realDecimals)
+            .multipliedBy(10 ** this.props.pTokenSelected.realDecimals)
             .toFixed()
         }
 
