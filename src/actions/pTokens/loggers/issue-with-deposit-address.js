@@ -47,7 +47,11 @@ const loggedIssueWithDepositAddress = async (_ptokens, _params, _pToken, _dispat
   depositAddress
     .waitForDeposit()
     .once('nativeTxBroadcasted', tx => {
-      const { txid } = tx
+      const map = {
+        btc: 'txid',
+        ltc: 'txid',
+        doge: 'tx_hash'
+      }
 
       _dispatch({
         type: PTOKENS_SET_DEPOSIT_ADDRESS,
@@ -65,7 +69,7 @@ const loggedIssueWithDepositAddress = async (_ptokens, _params, _pToken, _dispat
         LogHandler.updateItem('broadcasting-pending', {
           value: `new ${_pToken.issueFrom.toUpperCase()} deposit detected`,
           success: true,
-          link: `${getCorrespondingBaseTxExplorerLink(_pToken, 'issuer')}${txid}`,
+          link: `${getCorrespondingBaseTxExplorerLink(_pToken, 'issuer')}${tx[map[_pToken.issueFrom.toLowerCase()]]}`,
           id: 'broadcasting-pending'
         })
       )

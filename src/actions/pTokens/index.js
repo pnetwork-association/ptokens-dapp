@@ -668,8 +668,8 @@ const _getCorrectConfigs = (_pToken, _configs) => {
   }
   if (_pToken.id === PDOGE_ON_ETH_MAINNET) {
     return {
-      doge: {
-        network: networks.Testnet,
+      pdoge: {
+        network: networks.Mainnet,
         blockchain: blockchains.Ethereum,
         ethProvider: redeemer
       }

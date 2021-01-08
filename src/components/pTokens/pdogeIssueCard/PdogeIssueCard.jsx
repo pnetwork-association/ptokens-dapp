@@ -68,7 +68,7 @@ const PdogeIssueCard = props => {
               <Alert
                 type={'info'}
                 size={'exsmall'}
-                text={`Any DOGE deposit sent to this address will mint an equal number of pBTC tokens on the ${props.pTokenSelected.redeemFrom} address above`}
+                text={`Any DOGE deposit sent to this address will mint an equal number of pDOGE tokens on the ${props.pTokenSelected.redeemFrom} address above`}
               />
             </div>
           </div>
