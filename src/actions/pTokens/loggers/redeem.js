@@ -1,8 +1,15 @@
 import * as LogHandler from '../../log'
-import { PTOKENS_REDEEM_NOT_SUCCEDEED, PTOKENS_REDEEM_SUCCEDEED } from '../../../constants/index'
 import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
 import BigNumber from 'bignumber.js'
-import { PBTC_ON_ETH_MAINNET, PBTC_ON_ETH_TESTNET, PLTC_ON_ETH_MAINNET, PLTC_ON_ETH_TESTNET } from '../../../constants'
+import {
+  PBTC_ON_ETH_MAINNET,
+  PBTC_ON_ETH_TESTNET,
+  PLTC_ON_ETH_MAINNET,
+  PLTC_ON_ETH_TESTNET,
+  PDOGE_ON_ETH_MAINNET,
+  PTOKENS_REDEEM_NOT_SUCCEDEED,
+  PTOKENS_REDEEM_SUCCEDEED
+} from '../../../constants'
 
 const hostTransactionHash = {
   telos: 'transaction_id',
@@ -20,7 +27,8 @@ const loggedRedeem = async (_ptokens, _params, _pToken, _dispatch) => {
     _pToken.id === PBTC_ON_ETH_MAINNET ||
     _pToken.id === PBTC_ON_ETH_TESTNET ||
     _pToken.id === PLTC_ON_ETH_MAINNET ||
-    _pToken.id === PLTC_ON_ETH_TESTNET
+    _pToken.id === PLTC_ON_ETH_TESTNET ||
+    _pToken.id === PDOGE_ON_ETH_MAINNET
   ) {
     _params[0] = BigNumber(_params[0])
       .multipliedBy(10 ** _pToken.contractDecimals)

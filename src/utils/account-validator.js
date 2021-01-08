@@ -28,7 +28,8 @@ import {
   PBAT_ON_EOS_MAINNET,
   PREP_ON_EOS_MAINNET,
   PZRX_ON_EOS_MAINNET,
-  PPNK_ON_EOS_MAINNET
+  PPNK_ON_EOS_MAINNET,
+  PDOGE_ON_ETH_MAINNET
 } from '../constants'
 
 const web3 = new Web3()
@@ -174,6 +175,11 @@ const isValidAccount = (_pToken, _account, _role) => {
       return _role === 'issuer'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PDOGE_ON_ETH_MAINNET: {
+      return _role === 'issuer'
+        ? pTokenUtils.doge.isValidAddress(_account)
+        : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     default:
       break

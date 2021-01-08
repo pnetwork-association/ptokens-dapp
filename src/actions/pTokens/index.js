@@ -38,7 +38,8 @@ import {
   PBAT_ON_EOS_MAINNET,
   PREP_ON_EOS_MAINNET,
   PZRX_ON_EOS_MAINNET,
-  PPNK_ON_EOS_MAINNET
+  PPNK_ON_EOS_MAINNET,
+  PDOGE_ON_ETH_MAINNET
 } from '../../constants/index'
 import pTokens from 'ptokens'
 import { constants } from 'ptokens-utils'
@@ -159,6 +160,10 @@ const issue = (_pToken, _params, _configs) => {
         }
         case 'pPNK': {
           loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          break
+        }
+        case 'pDOGE': {
+          loggedIssueWithDepositAddress(ptokens, _params, _pToken, _dispatch)
           break
         }
         default:
@@ -658,6 +663,15 @@ const _getCorrectConfigs = (_pToken, _configs) => {
         ethProvider: issuer,
         eosRpc: settings[PPNK_ON_EOS_MAINNET].eos.endpoint,
         eosSignatureProvider: redeemer
+      }
+    }
+  }
+  if (_pToken.id === PDOGE_ON_ETH_MAINNET) {
+    return {
+      doge: {
+        network: networks.Testnet,
+        blockchain: blockchains.Ethereum,
+        ethProvider: redeemer
       }
     }
   }

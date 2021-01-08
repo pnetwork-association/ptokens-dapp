@@ -224,7 +224,7 @@ export class pTokenControllers extends React.Component {
         localError: false
       },
       async () => {
-        /*if (
+        if (
           !isValidAccount(this.props.pTokenSelected, this.props.pTokensParams.typedIssueAccount, 'redeemer') ||
           this.props.pTokensParams.typedIssueAccount.length < 4
         ) {
@@ -240,7 +240,7 @@ export class pTokenControllers extends React.Component {
             toastr.error('Please connect your Ethereum wallet')
             return
           }
-        }*/
+        }
 
         this.props.resetDepositAddress()
 

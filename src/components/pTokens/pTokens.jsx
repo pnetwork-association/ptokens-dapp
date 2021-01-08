@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Process from './process/Process'
+import PdogeIssueCard from './pdogeIssueCard/PdogeIssueCard'
 import PbtcIssueCard from './pbtcIssueCard/PbtcIssueCard'
 import Perc20IssueCard from './perc20IssueCard/Perc20IssueCard'
 import PltcIssueCard from './pltcIssueCard/PltcIssueCard'
@@ -70,6 +71,14 @@ const PTokens = props => {
                 onChangeIssueAccount={props.onChangeIssueAccount}
                 onIssue={props.onIssue}
               />
+            ) : props.pTokenSelected.name === 'pDOGE' ? (
+              <PdogeIssueCard
+                pTokenSelected={props.pTokenSelected}
+                suggestedRedimeerAccounts={props.suggestedRedimeerAccounts}
+                typedIssueAccount={props.typedIssueAccount}
+                onChangeIssueAccount={props.onChangeIssueAccount}
+                onIssue={props.onIssue}
+              />
             ) : null}
           </div>
           <div className="col-xl-6 mt-xl-0 mt-3">
@@ -98,7 +107,9 @@ const PTokens = props => {
                   size={'small'}
                   onChange={e => props.onChangeRedeemAccount(e.target.value)}
                 >
-                  {props.pTokenSelected.name === 'pBTC' || props.pTokenSelected.name === 'pLTC' ? (
+                  {props.pTokenSelected.name === 'pBTC' ||
+                  props.pTokenSelected.name === 'pLTC' ||
+                  props.pTokenSelected.name === 'pDOGE' ? (
                     <div className="mt-10">
                       <Alert
                         type={'warning'}
@@ -108,6 +119,8 @@ const PTokens = props => {
                             ? 'bitcoin'
                             : props.pTokenSelected.name === 'pLTC'
                             ? 'litecoin'
+                            : props.pTokenSelected.name === 'pDOGE'
+                            ? 'dogecoin'
                             : ''
                         } address is one you own, or funds may be permanently lost`}
                       />

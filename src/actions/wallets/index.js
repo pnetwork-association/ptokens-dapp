@@ -29,6 +29,7 @@ import {
   PREP_ON_EOS_MAINNET,
   PZRX_ON_EOS_MAINNET,
   PPNK_ON_EOS_MAINNET,
+  PDOGE_ON_ETH_MAINNET,
   WALLET_RESET_ISSUER,
   WALLET_RESET_REDEEMER
 } from '../../constants'
@@ -173,6 +174,10 @@ const connectWithCorrectWallets = (_pToken, _currentProviders, _force) => {
       case PPNK_ON_EOS_MAINNET: {
         connectWithEosWallet(_pToken, 'redeemer', _dispatch)
         connectWithEthWallet(_pToken, 'issuer', issuer, _dispatch, _force)
+        break
+      }
+      case PDOGE_ON_ETH_MAINNET: {
+        connectWithEthWallet(_pToken, 'redeemer', redeemer, _dispatch, _force)
         break
       }
       default:
@@ -357,6 +362,10 @@ const connectWithSpecificWallet = (_pToken, _role, _force) => {
         else if (_role === 'issuer') {
           connectWithEthWallet(_pToken, 'issuer', null, _dispatch, _force)
         }
+        break
+      }
+      case PDOGE_ON_ETH_MAINNET: {
+        if (_role === 'redeemer') connectWithEthWallet(_pToken, 'redeemer', null, _dispatch, _force)
         break
       }
       default:
@@ -544,6 +553,10 @@ const disconnectFromSpecificWallet = (_pToken, _role) => {
         }
         break
       }
+      case PDOGE_ON_ETH_MAINNET: {
+        if (_role === 'redeemer') disconnectFromEthWallet('redeemer', null, _dispatch)
+        break
+      }
       default:
         break
     }
@@ -727,6 +740,10 @@ const changeSpecificWallet = (_pToken, _role) => {
         else if (_role === 'issuer') {
           connectWithEthWallet(_pToken, 'issuer', null, _dispatch, true)
         }
+        break
+      }
+      case PDOGE_ON_ETH_MAINNET: {
+        connectWithEthWallet(_pToken, 'redeemer', null, _dispatch, true)
         break
       }
       default:

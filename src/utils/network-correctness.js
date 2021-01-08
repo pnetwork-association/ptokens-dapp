@@ -74,6 +74,9 @@ const getNetworkCorrectness = (_pTokenName, _network, _role) => {
   if (_pTokenName === 'pLTC' && _role === 'redeemer') {
     return pLTCRedeemerNetworks.includes(_network)
   }
+  if (_pTokenName === 'pDOGE' && _role === 'redeemer') {
+    return pBTCRedeemerNetworks.includes(_network)
+  }
 }
 
 export { getNetworkCorrectness }

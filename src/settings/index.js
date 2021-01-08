@@ -26,7 +26,8 @@ import {
   PBAT_ON_EOS_MAINNET,
   PREP_ON_EOS_MAINNET,
   PZRX_ON_EOS_MAINNET,
-  PPNK_ON_EOS_MAINNET
+  PPNK_ON_EOS_MAINNET,
+  PDOGE_ON_ETH_MAINNET
 } from '../constants'
 
 const settings = {
@@ -535,6 +536,23 @@ const settings = {
       enclaveBlockHeightPollingTime: 3000
     }
   },
+  [PDOGE_ON_ETH_MAINNET]: {
+    eth: {
+      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
+      fortmaticKey: 'pk_live_D0A703008A4B17B7',
+      wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
+      httpsInfuraEndpoint: 'https://mainnet.infura.io/v3/',
+      network: 'mainnet',
+      chainId: 1,
+      explorer: 'https://etherscan.io/',
+      enclaveBlockHeightPollingTime: 3000
+    },
+    doge: {
+      explorer: 'https://dogechain.info/',
+      enclaveBlockHeightPollingTime: 3000
+    }
+  },
   [PBTC_ON_ETH_TESTNET]: {
     eth: {
       infuraProjectId: '4762c881ac0c4938be76386339358ed6',
@@ -967,6 +985,19 @@ const settings = {
       minimumIssuable: '0.000000001',
       minimumRedeamable: '0.000000001',
       isPerc20: true,
+      isHidden: false
+    },
+    {
+      id: PDOGE_ON_ETH_MAINNET,
+      name: 'pDOGE',
+      tokenType: 'ERC-20',
+      issueFrom: 'DOGE',
+      redeemFrom: 'ETH',
+      realDecimals: 8,
+      contractDecimals: 18,
+      network: 'mainnet',
+      minimumIssuable: '0',
+      minimumRedeamable: '0.0000546',
       isHidden: false
     }
   ]
