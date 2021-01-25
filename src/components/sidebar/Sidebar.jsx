@@ -19,7 +19,7 @@ const Sidebar = _props => {
                 }}
               >
                 <span className="pt-5 nav-link pb-5 ml-20 text-xs">
-                  {pToken.name} on {pToken.redeemFrom} {pToken.network === 'testnet' ? '(testnet)' : ''}
+                  {pToken.name} on {pToken.redeemFrom === 'TELOS' ? 'TLOS' : pToken.redeemFrom} {pToken.network === 'testnet' ? '(testnet)' : ''}
                 </span>
               </li>
             )
