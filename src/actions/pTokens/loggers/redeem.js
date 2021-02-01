@@ -8,7 +8,8 @@ import {
   PLTC_ON_ETH_TESTNET,
   PDOGE_ON_ETH_MAINNET,
   PTOKENS_REDEEM_NOT_SUCCEDEED,
-  PTOKENS_REDEEM_SUCCEDEED
+  PTOKENS_REDEEM_SUCCEDEED,
+  PEOS_ON_ETH_MAINNET
 } from '../../../constants'
 
 const hostTransactionHash = {
@@ -28,7 +29,8 @@ const loggedRedeem = async (_ptokens, _params, _pToken, _dispatch) => {
     _pToken.id === PBTC_ON_ETH_TESTNET ||
     _pToken.id === PLTC_ON_ETH_MAINNET ||
     _pToken.id === PLTC_ON_ETH_TESTNET ||
-    _pToken.id === PDOGE_ON_ETH_MAINNET
+    _pToken.id === PDOGE_ON_ETH_MAINNET ||
+    _pToken.id === PEOS_ON_ETH_MAINNET
   ) {
     _params[0] = BigNumber(_params[0])
       .multipliedBy(10 ** _pToken.contractDecimals)
@@ -81,7 +83,7 @@ const loggedRedeem = async (_ptokens, _params, _pToken, _dispatch) => {
       // prettier-ignore
       const explorer = `${getCorrespondingBaseTxExplorerLink(_pToken, 'redeemer')}${_tx[hostTransactionHash[_pToken.redeemFrom.toLowerCase()]]}`
       // prettier-ignore
-      const message = `Burn Transaction confirmed! ${burnedAmount.toFixed(_pToken.realDecimals)} ${_pToken.name} Burnt`
+      const message = `Burn Transaction confirmed! ${BigNumber(burnedAmount).toFixed()} ${_pToken.name} Burnt`
 
       _dispatch(
         LogHandler.updateItem('burn-confirmation', {
@@ -171,6 +173,7 @@ const loggedRedeem = async (_ptokens, _params, _pToken, _dispatch) => {
       })
     })
     .catch(err => {
+      console.log(err)
       const { message } = err
 
       _dispatch(LogHandler.clearWaitingItem())

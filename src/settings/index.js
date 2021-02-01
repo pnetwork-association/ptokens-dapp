@@ -564,7 +564,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -1032,7 +1032,7 @@ const settings = {
       contractDecimals: 18,
       network: 'mainnet',
       // TODO: change amounts
-      minimumIssuable: '0.00001',
+      minimumIssuable: '0.0001',
       minimumRedeamable: '0.00001',
       isPeosioToken: true,
       isHidden: false
