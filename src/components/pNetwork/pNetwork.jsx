@@ -27,7 +27,7 @@ const PNetwork = props => {
               </div>
               <div className="col-12 col-xl-6">
                 <MiniCard
-                  title="NUMBER OF VALIDATORS"
+                  title="NUMBER OF NODES"
                   value={props.validators ? props.validators.length : '-'}
                   textColor={'gray'}
                   icon={'blockchain'}
