@@ -15,7 +15,8 @@ const mapStateToProps = state => {
     lastRedeemerProcessedBlock: state.pNetwork.lastRedeemerProcessedBlock,
     issuerBlockHeightStatus: state.pNetwork.issuerBlockHeightStatus,
     redeemerBlockHeightStatus: state.pNetwork.redeemerBlockHeightStatus,
-    redeemerReadOnlyProvider: state.wallets.redeemerReadOnlyProvider
+    redeemerReadOnlyProvider: state.wallets.redeemerReadOnlyProvider,
+    validators: state.pNetwork.validators
   }
 }
 
@@ -131,6 +132,7 @@ class pNetworkController extends React.Component {
           lastRedeemerProcessedBlock={this.props.lastRedeemerProcessedBlock}
           blockType={this.state.blockType}
           blockData={this.state.blockData}
+          validators={this.props.validators}
           canSubmit={this.state.canSubmit}
           issuerBlockHeightStatus={this.props.issuerBlockHeightStatus}
           redeemerBlockHeightStatus={this.props.redeemerBlockHeightStatus}
@@ -152,6 +154,7 @@ pNetworkController.propTypes = {
   issuerBlockHeightStatus: PropTypes.number,
   redeemerBlockHeightStatus: PropTypes.number,
   redeemerReadOnlyProvider: PropTypes.object,
+  validators: PropTypes.array,
   ping: PropTypes.func,
   getLastProcessedBlock: PropTypes.func,
   submitBlock: PropTypes.func,

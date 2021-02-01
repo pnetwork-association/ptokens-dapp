@@ -10,7 +10,8 @@ import {
   PNETWORK_SET_REDEEMER_BLOCK_HEIGHT_STATUS,
   PTOKENS_SET_NODE_INFO,
   PNETWORK_SELECTED_NODE,
-  PNETWORK_SELECTED_NODE_MANUALLY
+  PNETWORK_SELECTED_NODE_MANUALLY,
+  PNETWORK_SET_VALIDATORS
 } from '../../constants'
 import { getBlockHeightStatusComparedWithTheReals } from '../../utils/blocks-sync'
 import { NodeSelector } from 'ptokens-node-selector'
@@ -18,6 +19,8 @@ import { Node } from 'ptokens-node'
 import { Mutex } from 'async-mutex'
 import { helpers } from 'ptokens-utils'
 import store from '../../store'
+import axios from 'axios'
+import settings from '../../settings'
 
 const mutex = new Mutex()
 
@@ -32,6 +35,24 @@ const typeNumberOfGetReport = {
 const typeNumberOfGetBlock = {
   host: 0,
   native: 0
+}
+
+const getValidators = () => {
+  return async _dispatch => {
+    try {
+      const {
+        data: { registered }
+      } = await axios.get(settings.pNetworkStats)
+      _dispatch({
+        type: PNETWORK_SET_VALIDATORS,
+        payload: {
+          validators: new Array(registered)
+        }
+      })
+    } catch (_err) {
+      console.error('Error during getting validators')
+    }
+  }
 }
 
 const setNode = _pToken => {
@@ -117,7 +138,10 @@ const setNode = _pToken => {
         payload: {
           pToken: Object.assign({}, _pToken, {
             nodeInfo: {
-              contractAddress: _pToken.isPerc20 ? info.host_smart_contract_address : info.smart_contract_address,
+              contractAddress:
+                _pToken.isPerc20 || _pToken.isPeosioToken
+                  ? info.host_smart_contract_address
+                  : info.smart_contract_address,
               publicKey: info.public_key,
               endpoint: selectedNode ? selectedNode.provider.endpoint : null,
               isManuallySelected: endpointManuallySelected ? true : false,
@@ -188,7 +212,10 @@ const setNodeManually = (_pToken, _endpoint) => {
         payload: {
           pToken: Object.assign({}, _pToken, {
             nodeInfo: {
-              contractAddress: _pToken.isPerc20 ? info.host_smart_contract_address : info.smart_contract_address,
+              contractAddress:
+                _pToken.isPerc20 || _pToken.isPeosioToken
+                  ? info.host_smart_contract_address
+                  : info.smart_contract_address,
               publicKey: info.public_key,
               endpoint: _endpoint,
               isManuallySelected: true,
@@ -296,7 +323,7 @@ const getReports = (_pToken, _type, _role) => {
         reports = []
       }
 
-      reports = reports.filter(report => report.broadcast_tx_hash)
+      reports = reports ? reports.filter(report => report.broadcast_tx_hash) : []
 
       typeNumberOfGetReport[_type] -= 1
 
@@ -351,6 +378,7 @@ const setRedeemerBlockHeightStatus = _status => {
 }
 
 export {
+  getValidators,
   getLastProcessedBlock,
   getReports,
   submitBlock,

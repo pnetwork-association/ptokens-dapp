@@ -11,7 +11,7 @@ import history from './../utils/history'
 import ReactGA from 'react-ga'
 import queryString from 'query-string'
 import { connect } from 'react-redux'
-import { setNodeManually, setNode } from '../actions/pNetwork/'
+import { setNodeManually, setNode, getValidators } from '../actions/pNetwork/'
 import { setSelectedPage, enableTestnetInstances, showHiddenPtokens } from '../actions/sidebar'
 import { connectWithSpecificWallet } from '../actions/wallets'
 import { setSelectedpToken, setCustomRpc } from '../actions/pTokens'
@@ -38,7 +38,8 @@ const mapDispatchToProps = dispatch => {
     setCustomRpc: (_rpc, _type) => dispatch(setCustomRpc(_rpc, _type)),
     connectWithSpecificWallet: (_pToken, _role, _force) => dispatch(connectWithSpecificWallet(_pToken, _role, _force)),
     enableTestnetInstances: () => dispatch(enableTestnetInstances()),
-    showHiddenPtokens: () => dispatch(showHiddenPtokens())
+    showHiddenPtokens: () => dispatch(showHiddenPtokens()),
+    getValidators: () => dispatch(getValidators())
   }
 }
 
@@ -57,6 +58,8 @@ class App extends React.Component {
   }
 
   async componentWillMount() {
+    this.props.getValidators()
+
     //getting only the ptoken type -> ../pbtc-on-eth-testnet/....
     const splittedUrl = history.location.pathname.split('/')[1].split('-')
 
@@ -194,7 +197,8 @@ SidebarController.propTypes = {
   setCustomRpc: PropTypes.func,
   connectWithSpecificWallet: PropTypes.func,
   enableTestnetInstances: PropTypes.func,
-  showHiddenPtokens: PropTypes.func
+  showHiddenPtokens: PropTypes.func,
+  getValidators: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

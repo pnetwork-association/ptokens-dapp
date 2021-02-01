@@ -30,7 +30,7 @@ const MiniCard = props => {
                   {props.value || props.value === 0 ? props.value : '-'}
                   <span className="text-gray">{props.description ? ` ${props.description}` : null}</span>
                   <span className="text-md text-gray">
-                    {props.value || props.value === 0 ? ` ${props.measure}` : null}
+                    {props.value || props.value === 0 ? ` ${props.measure ? props.measure : ''}` : null}
                   </span>
                   {props.value && props.withSpinner ? <Spinner /> : null}
                 </div>

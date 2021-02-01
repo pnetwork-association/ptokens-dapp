@@ -8,7 +8,8 @@ import {
   PNETWORK_SET_ISSUER_BLOCK_HEIGHT_STATUS,
   PNETWORK_SET_REDEEMER_BLOCK_HEIGHT_STATUS,
   PNETWORK_SELECTED_NODE,
-  PNETWORK_SELECTED_NODE_MANUALLY
+  PNETWORK_SELECTED_NODE_MANUALLY,
+  PNETWORK_SET_VALIDATORS
 } from '../../constants/index'
 
 const initialState = {
@@ -20,13 +21,20 @@ const initialState = {
   issuerBlockHeightStatus: null,
   redeemerBlockHeightStatus: null,
   selectedNode: null,
-  selectedManually: {}
+  selectedManually: {},
+  validators: null
 }
 
 const pNetworkReducer = (_state = initialState, _action) => {
   if (_action.type === PNETWORK_PING_PONG) {
     return Object.assign({}, _state, {
       isActive: true
+    })
+  }
+
+  if (_action.type === PNETWORK_SET_VALIDATORS) {
+    return Object.assign({}, _state, {
+      validators: _action.payload.validators
     })
   }
 

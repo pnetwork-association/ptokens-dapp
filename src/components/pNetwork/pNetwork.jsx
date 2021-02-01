@@ -28,9 +28,8 @@ const PNetwork = props => {
               <div className="col-12 col-xl-6">
                 <MiniCard
                   title="NUMBER OF VALIDATORS"
-                  value={1}
-                  textColor={'yellow'}
-                  measure="(on Strongbox)"
+                  value={props.validators ? props.validators.length : '-'}
+                  textColor={'gray'}
                   icon={'blockchain'}
                 />
               </div>
