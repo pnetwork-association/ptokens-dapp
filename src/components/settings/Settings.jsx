@@ -42,7 +42,7 @@ const Settings = _props => {
                 />
               </MultiWalletContainer>
             ) : null}
-            {pTokenSelected.issueFrom === 'ETH' ? (
+            {pTokenSelected.issueFrom === 'ETH' || pTokenSelected.issueFrom === 'EOS' ? (
               <MultiWalletContainer>
                 <MultiWallet
                   pToken={pTokenSelected}
@@ -70,7 +70,7 @@ const Settings = _props => {
       {/* MOBILE */}
       <div className="container-fluid show-mobile">
         <div className="row ml-0 mr-0 justify-content-center">
-          {pTokenSelected.redeemFrom === 'EOS' ? (
+          {pTokenSelected.redeemFrom === 'EOS' || pTokenSelected.redeemFrom === 'TELOS' ? (
             <div className="col-6 text-right mt-5 mb-15 pl-0 pr-1">
               <MultiWallet
                 pToken={pTokenSelected}
@@ -81,7 +81,7 @@ const Settings = _props => {
               />
             </div>
           ) : null}
-          {pTokenSelected.issueFrom === 'ETH' ? (
+          {pTokenSelected.issueFrom === 'ETH' || pTokenSelected.issueFrom === 'EOS' ? (
             <div className="col-6 text-right mt-5 mb-15 pl-1 pr-0">
               <MultiWallet
                 pToken={pTokenSelected}

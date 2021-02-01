@@ -28,7 +28,8 @@ import {
   PREP_ON_EOS_MAINNET,
   PZRX_ON_EOS_MAINNET,
   PPNK_ON_EOS_MAINNET,
-  PDOGE_ON_ETH_MAINNET
+  PDOGE_ON_ETH_MAINNET,
+  PEOS_ON_ETH_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_pToken, _role, _address) => {
@@ -177,6 +178,11 @@ const getCorrespondingExplorerLink = (_pToken, _role, _address) => {
       return _role === 'issuer'
         ? `${settings[PDOGE_ON_ETH_MAINNET].doge.explorer}address/${_address}`
         : `${settings[PDOGE_ON_ETH_MAINNET].eth.explorer}address/${_address}`
+    }
+    case PEOS_ON_ETH_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PEOS_ON_ETH_MAINNET].eos.explorer}accounts/${_address}`
+        : `${settings[PEOS_ON_ETH_MAINNET].eth.explorer}address/${_address}`
     }
     default:
       break
@@ -329,6 +335,11 @@ const getCorrespondingBaseTxExplorerLink = (_pToken, _role) => {
       return _role === 'issuer'
         ? `${settings[PDOGE_ON_ETH_MAINNET].doge.explorer}tx/`
         : `${settings[PDOGE_ON_ETH_MAINNET].eth.explorer}tx/`
+    }
+    case PEOS_ON_ETH_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PEOS_ON_ETH_MAINNET].eos.explorer}transaction/`
+        : `${settings[PEOS_ON_ETH_MAINNET].eth.explorer}tx/`
     }
     default:
       break

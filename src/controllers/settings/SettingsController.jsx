@@ -79,6 +79,14 @@ export class SettingsController extends React.Component {
       return
     }
 
+    this.props.setpTokenParams(
+      Object.assign({}, this.props.pTokensParams, {
+        typedRedeemAccount: ''
+      })
+    )
+
+    this.props.setBalance(null)
+
     if (_wallet.type === 'singleWallet') {
       this.props.issuerIsConnected
         ? this.props.disconnectFromSpecificWallet(this.props.pTokenSelected, 'issuer')

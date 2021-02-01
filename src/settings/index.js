@@ -27,7 +27,8 @@ import {
   PREP_ON_EOS_MAINNET,
   PZRX_ON_EOS_MAINNET,
   PPNK_ON_EOS_MAINNET,
-  PDOGE_ON_ETH_MAINNET
+  PDOGE_ON_ETH_MAINNET,
+  PEOS_ON_ETH_MAINNET
 } from '../constants'
 
 const settings = {
@@ -553,6 +554,27 @@ const settings = {
       enclaveBlockHeightPollingTime: 3000
     }
   },
+  [PEOS_ON_ETH_MAINNET]: {
+    eos: {
+      chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+      host: 'eos.greymass.com',
+      port: 443,
+      protocol: 'https',
+      explorer: 'https://bloks.io/',
+      endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
+    },
+    eth: {
+      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
+      fortmaticKey: 'pk_live_D0A703008A4B17B7',
+      wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
+      httpsInfuraEndpoint: 'https://mainnet.infura.io/v3/',
+      network: 'mainnet',
+      chainId: 1,
+      explorer: 'https://etherscan.io/',
+      enclaveBlockHeightPollingTime: 3000
+    }
+  },
   [PBTC_ON_ETH_TESTNET]: {
     eth: {
       infuraProjectId: '4762c881ac0c4938be76386339358ed6',
@@ -998,6 +1020,21 @@ const settings = {
       network: 'mainnet',
       minimumIssuable: '0',
       minimumRedeamable: '0.0000546',
+      isHidden: false
+    },
+    {
+      id: PEOS_ON_ETH_MAINNET,
+      name: 'pEOS',
+      tokenType: 'ERC-20',
+      issueFrom: 'EOS',
+      redeemFrom: 'ETH',
+      realDecimals: 0,
+      contractDecimals: 18,
+      network: 'mainnet',
+      // TODO: change amounts
+      minimumIssuable: '0.00001',
+      minimumRedeamable: '0.00001',
+      isPeosioToken: true,
       isHidden: false
     }
   ]

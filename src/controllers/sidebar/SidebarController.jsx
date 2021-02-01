@@ -63,6 +63,7 @@ const SidebarController = _props => {
       }}
       onChangeSelectedpToken={pToken => {
         disconnectFromSpecificWallet(pTokenSelected.name, 'issuer')
+        disconnectFromSpecificWallet(pTokenSelected.name, 'redeemer')
 
         //reset token page params
         resetParams()

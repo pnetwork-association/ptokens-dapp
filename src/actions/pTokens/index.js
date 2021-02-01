@@ -39,7 +39,8 @@ import {
   PREP_ON_EOS_MAINNET,
   PZRX_ON_EOS_MAINNET,
   PPNK_ON_EOS_MAINNET,
-  PDOGE_ON_ETH_MAINNET
+  PDOGE_ON_ETH_MAINNET,
+  PEOS_ON_ETH_MAINNET
 } from '../../constants/index'
 import pTokens from 'ptokens'
 import { constants } from 'ptokens-utils'
@@ -164,6 +165,10 @@ const issue = (_pToken, _params, _configs) => {
         }
         case 'pDOGE': {
           loggedIssueWithDepositAddress(ptokens, _params, _pToken, _dispatch)
+          break
+        }
+        case 'pEOS': {
+          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
           break
         }
         default:
@@ -672,6 +677,18 @@ const _getCorrectConfigs = (_pToken, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Ethereum,
         ethProvider: redeemer
+      }
+    }
+  }
+  if (_pToken.id === PEOS_ON_ETH_MAINNET) {
+    return {
+      peosioToken: {
+        pToken: pTokens.pEOS,
+        network: networks.Mainnet,
+        blockchain: blockchains.Ethereum,
+        ethProvider: redeemer,
+        eosRpc: settings[PEOS_ON_ETH_MAINNET].eos.endpoint,
+        eosSignatureProvider: issuer
       }
     }
   }

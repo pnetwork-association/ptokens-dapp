@@ -4,6 +4,7 @@ import Process from './process/Process'
 import PdogeIssueCard from './pdogeIssueCard/PdogeIssueCard'
 import PbtcIssueCard from './pbtcIssueCard/PbtcIssueCard'
 import Perc20IssueCard from './perc20IssueCard/Perc20IssueCard'
+import PeosTokenCard from './peosTokenCard/PeosTokenCard'
 import PltcIssueCard from './pltcIssueCard/PltcIssueCard'
 import MiniCard from '../utils/MiniCard'
 import Alert from '../utils/Alert'
@@ -63,6 +64,17 @@ const PTokens = props => {
                 onChangeIssueAccount={props.onChangeIssueAccount}
                 onIssue={props.onIssue}
               />
+            ) : props.pTokenSelected.isPeosioToken ? (
+              <PeosTokenCard
+                pTokenSelected={props.pTokenSelected}
+                typedIssueAccount={props.typedIssueAccount}
+                amountToIssue={props.amountToIssue}
+                issuerAccount={props.issuerAccount}
+                onChangeAmountToIssue={props.onChangeAmountToIssue}
+                onChangeIssueAccount={props.onChangeIssueAccount}
+                onIssue={props.onIssue}
+                onMaxAmountToIssue={props.onMaxAmountToIssue}
+              />
             ) : props.pTokenSelected.name === 'pLTC' ? (
               <PltcIssueCard
                 pTokenSelected={props.pTokenSelected}
@@ -86,6 +98,9 @@ const PTokens = props => {
               <CardHeader type="redeem" pTokenSelected={props.pTokenSelected} />
               <div className="card-body pt-0">
                 <Input
+                  withSelection={props.pTokenSelected.issueFrom === 'EOS' ? true : false}
+                  showAtCharacter={3}
+                  options={props.pTokenSelected.issueFrom === 'EOS' ? props.suggestedIssuerAccounts : null}
                   withButton={true}
                   textButton="max"
                   type="number"
@@ -189,6 +204,8 @@ PTokens.propTypes = {
   issuerProvider: PropTypes.object,
   redeemerProvider: PropTypes.object,
   isRedeemTerminated: PropTypes.bool,
+  suggestedIssuerAccounts: PropTypes.array,
+  suggestedRedeemerAccounts: PropTypes.array,
   onChangeAmountToIssue: PropTypes.func,
   onChangeAmountToRedeem: PropTypes.func,
   onChangeIssueAccount: PropTypes.func,

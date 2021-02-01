@@ -8,6 +8,8 @@ import ERC20Abi from '../../../utils/abi/ERC20.json'
 import BigNumber from 'bignumber.js'
 
 const loggedIssueWithWallet = async (_ptokens, _params, _pToken, _dispatch) => {
+  _params[_params.length] = { blocksBehind: 3, expireSeconds: 60, permission: 'active' }
+
   // NOTE: peth uses ethers
   if (_pToken.isPerc20 && _pToken.name !== 'pETH') {
     try {
@@ -21,7 +23,6 @@ const loggedIssueWithWallet = async (_ptokens, _params, _pToken, _dispatch) => {
       )
 
       await _ptokens[_pToken.name.toLowerCase()].select()
-      // prettier-ignore
       const info = await _ptokens[_pToken.name.toLowerCase()].selectedNode.getInfo()
       const { wallets } = store.getState()
 
@@ -103,7 +104,19 @@ const loggedIssueWithWallet = async (_ptokens, _params, _pToken, _dispatch) => {
         })
       )
     })
-    .once('nativeTxConfirmed', () => {
+    .once('nativeTxConfirmed', _e => {
+      if (_pToken.issueFrom === 'EOS') {
+        const explorer = `${getCorrespondingBaseTxExplorerLink(_pToken, 'issuer')}${_e.transaction_id}`
+        _dispatch(
+          LogHandler.updateItem('broadcast-confirmation', {
+            value: `Minting transaction broadcasted`,
+            success: true,
+            link: explorer,
+            id: 'broadcast-confirmation'
+          })
+        )
+      }
+
       _dispatch(
         LogHandler.updateItem('mint-confirmation', {
           value: `Minting transaction confirmed`,

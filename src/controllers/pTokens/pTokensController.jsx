@@ -72,7 +72,8 @@ export class pTokenControllers extends React.Component {
       pTokenSelectedId: null,
       pTokenSelectedNetwork: null,
       localError: null,
-      suggestedRedimeerAccounts: []
+      suggestedRedemeerAccounts: [],
+      suggestedIssuerAccounts: []
     }
 
     if (this.props.redeemerAccount) {
@@ -353,11 +354,11 @@ export class pTokenControllers extends React.Component {
       EosAccountSuggester.getPossiblesAccounts(
         this.props.pTokenSelected,
         _typedIssueAccount,
-        this.state.suggestedRedimeerAccounts,
+        this.state.suggestedRedemeerAccounts,
         'redeemer'
-      ).then(accounts => {
+      ).then(_accounts => {
         this.setState({
-          suggestedRedimeerAccounts: accounts
+          suggestedRedemeerAccounts: _accounts
         })
       })
     }
@@ -370,6 +371,19 @@ export class pTokenControllers extends React.Component {
   }
 
   onChangeTypedRedeemAccount = _typedRedeemAccount => {
+    if (this.props.pTokenSelected.issueFrom === 'EOS') {
+      EosAccountSuggester.getPossiblesAccounts(
+        this.props.pTokenSelected,
+        _typedRedeemAccount,
+        this.state.suggestedIssuerAccounts,
+        'issuer'
+      ).then(_accounts => {
+        this.setState({
+          suggestedIssuerAccounts: _accounts
+        })
+      })
+    }
+
     this.props.setpTokenParams(
       Object.assign({}, this.props.pTokensParams, {
         typedRedeemAccount: _typedRedeemAccount
@@ -383,6 +397,15 @@ export class pTokenControllers extends React.Component {
         amountToRedeem: !this.props.pTokenBalance || this.props.pTokenBalance === 0 ? 0 : this.props.pTokenBalance
       })
     )
+  }
+
+  setMaxAmountToIssue = () => {
+    // TODO: get EOS balance
+    /*this.props.setpTokenParams(
+      Object.assign({}, this.props.pTokensParams, {
+        amountToIssue: !this.props.pTokenBalance || this.props.pTokenBalance === 0 ? 0 : this.props.pTokenBalance
+      })
+    )*/
   }
 
   render() {
@@ -402,7 +425,8 @@ export class pTokenControllers extends React.Component {
           redeemerProvider={this.props.redeemerProvider}
           isRedeemTerminated={this.state.isRedeemTerminated}
           localError={this.state.localError}
-          suggestedRedimeerAccounts={this.state.suggestedRedimeerAccounts}
+          suggestedRedemeerAccounts={this.state.suggestedRedemeerAccounts}
+          suggestedIssuerAccounts={this.state.suggestedIssuerAccounts}
           onChangeAmountToIssue={this.onChangeAmountToIssue}
           onChangeAmountToRedeem={this.onChangeAmountToRedeem}
           onChangeIssueAccount={this.onChangeTypedIssueAccount}
@@ -411,6 +435,7 @@ export class pTokenControllers extends React.Component {
           onRedeem={this.onRedeem}
           onResetLogs={this.onResetLogs}
           onMaxAmountToRedeem={this.setMaxAmountToRedeem}
+          onMaxAmountToIssue={this.setMaxAmountToIssue}
         />
       </React.Fragment>
     )

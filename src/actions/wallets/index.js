@@ -30,6 +30,7 @@ import {
   PZRX_ON_EOS_MAINNET,
   PPNK_ON_EOS_MAINNET,
   PDOGE_ON_ETH_MAINNET,
+  PEOS_ON_ETH_MAINNET,
   WALLET_RESET_ISSUER,
   WALLET_RESET_REDEEMER
 } from '../../constants'
@@ -177,6 +178,11 @@ const connectWithCorrectWallets = (_pToken, _currentProviders, _force) => {
         break
       }
       case PDOGE_ON_ETH_MAINNET: {
+        connectWithEthWallet(_pToken, 'redeemer', redeemer, _dispatch, _force)
+        break
+      }
+      case PEOS_ON_ETH_MAINNET: {
+        connectWithEosWallet(_pToken, 'issuer', _dispatch)
         connectWithEthWallet(_pToken, 'redeemer', redeemer, _dispatch, _force)
         break
       }
@@ -368,6 +374,13 @@ const connectWithSpecificWallet = (_pToken, _role, _force) => {
         if (_role === 'redeemer') connectWithEthWallet(_pToken, 'redeemer', null, _dispatch, _force)
         break
       }
+      case PEOS_ON_ETH_MAINNET: {
+        if (_role === 'redeemer') connectWithEthWallet(_pToken, 'redeemer', null, _dispatch, _force)
+        else if (_role === 'issuer') {
+          connectWithEosWallet(_pToken, 'issuer', _dispatch, _force)
+        }
+        break
+      }
       default:
         break
     }
@@ -557,6 +570,13 @@ const disconnectFromSpecificWallet = (_pToken, _role) => {
         if (_role === 'redeemer') disconnectFromEthWallet('redeemer', null, _dispatch)
         break
       }
+      case PEOS_ON_ETH_MAINNET: {
+        if (_role === 'redeemer') disconnectFromEthWallet('redeemer', null, _dispatch)
+        else if (_role === 'issuer') {
+          disconnectFromEosWallet(_pToken, 'issuer', _dispatch)
+        }
+        break
+      }
       default:
         break
     }
@@ -744,6 +764,13 @@ const changeSpecificWallet = (_pToken, _role) => {
       }
       case PDOGE_ON_ETH_MAINNET: {
         connectWithEthWallet(_pToken, 'redeemer', null, _dispatch, true)
+        break
+      }
+      case PEOS_ON_ETH_MAINNET: {
+        if (_role === 'redeemer') connectWithEthWallet(_pToken, 'redeemer', null, _dispatch, true)
+        else if (_role === 'issuer') {
+          connectWithEosWallet(_pToken, 'issuer', _dispatch, true)
+        }
         break
       }
       default:
