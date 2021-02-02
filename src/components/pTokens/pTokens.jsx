@@ -11,6 +11,7 @@ import Alert from '../utils/Alert'
 import Input from '../utils/Input'
 import Button from '../utils/Button'
 import CardHeader from './CardHeader/CardHeader'
+import BigNumber from 'bignumber.js'
 
 const PTokens = props => {
   const [isRedeeming, setIsRedeeming] = useState(false)
@@ -29,8 +30,10 @@ const PTokens = props => {
                 <MiniCard
                   title="YOUR BALANCE"
                   value={
-                    props.balance || props.balance === 0
-                      ? props.balance.toFixed(props.pTokenSelected.isPerc20 ? 9 : props.pTokenSelected.realDecimals)
+                    props.balance
+                      ? BigNumber(props.balance).toFixed(
+                          props.pTokenSelected.isPerc20 ? 9 : props.pTokenSelected.realDecimals
+                        )
                       : null
                   }
                   measure={props.pTokenSelected.name}

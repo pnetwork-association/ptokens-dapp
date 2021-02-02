@@ -1036,7 +1036,7 @@ const settings = {
       minimumIssuable: '0.0001',
       minimumRedeamable: '0.00001',
       isPeosioToken: true,
-      isHidden: true
+      isHidden: false
     }
   ]
 }

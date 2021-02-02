@@ -2,18 +2,18 @@ import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-provider
 import { makeContractCall } from '../../utils/eth'
 import pTokenAbi from '../../utils/eth-contract-abi'
 import Web3 from 'web3'
+import BigNumber from 'bignumber.js'
 
 const getEthBalance = async (_pToken, _account) => {
   const provider = getCorrespondingReadOnlyProvider(_pToken)
   const web3 = new Web3(provider)
-  const res = await makeContractCall(web3, 'balanceOf', _pToken.nodeInfo.contractAddress, pTokenAbi, [_account])
+  const onChainBalance = await makeContractCall(web3, 'balanceOf', _pToken.nodeInfo.contractAddress, pTokenAbi, [
+    _account
+  ])
 
-  const real = res / Math.pow(10, _pToken.contractDecimals)
-
-  return (
-    Math.trunc(real * Math.pow(10, _pToken.realDecimals)) /
-    Math.pow(10, _pToken.realDecimals).toFixed(_pToken.realDecimals)
-  )
+  return BigNumber(onChainBalance)
+    .dividedBy(10 ** _pToken.contractDecimals)
+    .toFixed()
 }
 
 const getEosBalance = async (_pToken, _account) => {

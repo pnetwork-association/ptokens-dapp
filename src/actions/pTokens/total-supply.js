@@ -2,13 +2,16 @@ import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-provider
 import { makeContractCall } from '../../utils/eth'
 import pTokenAbi from '../../utils/eth-contract-abi'
 import Web3 from 'web3'
+import BigNumber from 'bignumber.js'
 
 const getEthTotalSupply = async _pToken => {
   const provider = getCorrespondingReadOnlyProvider(_pToken)
   const web3 = new Web3(provider)
   const res = await makeContractCall(web3, 'totalSupply', _pToken.nodeInfo.contractAddress, pTokenAbi, [])
 
-  return (res / Math.pow(10, _pToken.contractDecimals)).toFixed(_pToken.realDecimals)
+  return BigNumber(res)
+    .dividedBy(10 ** _pToken.contractDecimals)
+    .toFixed()
 }
 
 const getEosTotalSupply = async _pToken => {

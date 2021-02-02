@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { timestampInSecondsToDate } from '../../utils/utils'
 import { getCorrespondingBaseTxExplorerLink } from '../../utils/ptokens-sm-utils'
 import MiniCard from '../utils/MiniCard'
+import BigNumber from 'bignumber.js'
 
 const Main = props => {
   return (
@@ -77,12 +78,12 @@ const Main = props => {
               whichAnimation={[4]}
               conversions={{
                 0: n =>
-                  (
-                    parseFloat(n) /
-                    (props.pTokenSelected.contractDecimals === 0
-                      ? 1
-                      : Math.pow(10, props.pTokenSelected.contractDecimals))
-                  ).toFixed(props.pTokenSelected.realDecimals),
+                  BigNumber(n)
+                    .dividedBy(
+                      props.pTokenSelected.contractDecimals === 0 ? 1 : 10 ** props.pTokenSelected.contractDecimals
+                    )
+                    .toFixed(),
+
                 1: t => timestampInSecondsToDate(t)
               }}
               headers={[
@@ -124,13 +125,23 @@ const Main = props => {
                   </div>
                 </div>
               }
-              headerMap={{
-                native_tx_amount: `AMOUNT ${props.pTokenSelected.name}`,
-                broadcast_timestamp: 'TIMESTAMP',
-                originating_tx_hash: `${props.pTokenSelected.redeemFrom} TX ID (FROM)`,
-                broadcast_tx_hash: `${props.pTokenSelected.issueFrom} TX HASH (TO)`
-                //prooved: 'VERIFIED'
-              }}
+              headerMap={
+                props.pTokenSelected.issueFrom === 'EOS'
+                  ? {
+                      host_tx_amount: `AMOUNT ${props.pTokenSelected.name}`,
+                      broadcast_timestamp: 'TIMESTAMP',
+                      originating_tx_hash: `${props.pTokenSelected.redeemFrom} TX ID (FROM)`,
+                      broadcast_tx_hash: `${props.pTokenSelected.issueFrom} TX HASH (TO)`
+                      //prooved: 'VERIFIED'
+                    }
+                  : {
+                      native_tx_amount: `AMOUNT ${props.pTokenSelected.name}`,
+                      broadcast_timestamp: 'TIMESTAMP',
+                      originating_tx_hash: `${props.pTokenSelected.redeemFrom} TX ID (FROM)`,
+                      broadcast_tx_hash: `${props.pTokenSelected.issueFrom} TX HASH (TO)`
+                      //prooved: 'VERIFIED'
+                    }
+              }
               whichLink={{
                 2: {
                   base: getCorrespondingBaseTxExplorerLink(props.pTokenSelected, 'redeemer')
@@ -142,18 +153,34 @@ const Main = props => {
               whichAnimation={[4]}
               conversions={{
                 0: n =>
-                  (parseFloat(n) / Math.pow(10, props.pTokenSelected.realDecimals)).toFixed(
-                    props.pTokenSelected.realDecimals
-                  ),
+                  props.pTokenSelected.issueFrom === 'EOS'
+                    ? BigNumber(n)
+                        .dividedBy(
+                          props.pTokenSelected.contractDecimals === 0 ? 1 : 10 ** props.pTokenSelected.contractDecimals
+                        )
+                        .toFixed()
+                    : BigNumber(n)
+                        .dividedBy(10 ** props.pTokenSelected.realDecimals)
+                        .toFixed(),
                 1: t => timestampInSecondsToDate(t)
               }}
-              headers={[
-                'native_tx_amount',
-                'broadcast_timestamp',
-                'originating_tx_hash',
-                'broadcast_tx_hash'
-                //'prooved'
-              ]}
+              headers={
+                props.pTokenSelected.issueFrom === 'EOS'
+                  ? [
+                      'host_tx_amount',
+                      'broadcast_timestamp',
+                      'originating_tx_hash',
+                      'broadcast_tx_hash'
+                      //'prooved'
+                    ]
+                  : [
+                      'native_tx_amount',
+                      'broadcast_timestamp',
+                      'originating_tx_hash',
+                      'broadcast_tx_hash'
+                      //'prooved'
+                    ]
+              }
               values={props.redeemReports}
             />
           </div>
