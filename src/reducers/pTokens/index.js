@@ -70,19 +70,7 @@ const pTokensReducer = (_state = initialState, _action) => {
   if (_action.type === SET_SELECTED_PTOKEN) {
     return Object.assign({}, _state, {
       selected: Object.assign({}, _state.selected, {
-        name: _action.payload.pToken.name,
-        realDecimals: _action.payload.pToken.realDecimals,
-        contractDecimals: _action.payload.pToken.contractDecimals,
-        issueFrom: _action.payload.pToken.issueFrom,
-        redeemFrom: _action.payload.pToken.redeemFrom,
-        tokenType: _action.payload.pToken.tokenType,
-        network: _action.payload.pToken.network,
-        id: _action.payload.pToken.id,
-        isPerc20: _action.payload.pToken.isPerc20,
-        isPeosioToken: _action.payload.pToken.isPeosioToken,
-        isHidden: _action.payload.pToken.isHidden,
-        minimumIssuable: _action.payload.pToken.minimumIssuable,
-        minimumRedeamable: _action.payload.pToken.minimumRedeamable,
+        ..._action.payload.pToken,
         totalSupply: null,
         depositAddress: {
           value: null,

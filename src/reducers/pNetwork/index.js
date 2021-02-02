@@ -87,7 +87,9 @@ const pNetworkReducer = (_state = initialState, _action) => {
   }
 
   if (_action.type === PNETWORK_RESET_DATA) {
-    return initialState
+    return Object.assign({}, _state, {
+      validators: _state.validators
+    })
   }
 
   return _state

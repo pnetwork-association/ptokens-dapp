@@ -48,7 +48,7 @@ const Input = props => {
         >
           <input
             ref={ref => (input = ref)}
-            value={props.value}
+            value={props.value ? props.value : ''}
             className={`form-control text-xl caret-primary ${inputTextSizes[props.size]}`}
             placeholder=""
             type={props.type ? props.type : 'text'}

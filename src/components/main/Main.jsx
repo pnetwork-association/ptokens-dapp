@@ -16,7 +16,13 @@ const Main = props => {
               <div className="col-12 col-xl-6">
                 <MiniCard
                   title="CIRCULATING SUPPLY"
-                  value={props.pTokenSelected.totalSupply}
+                  value={
+                    props.pTokenSelected.totalSupply
+                      ? BigNumber(props.pTokenSelected.totalSupply).toFixed(
+                          props.pTokenSelected.totalSupplyFixedDecimals
+                        )
+                      : null
+                  }
                   measure={props.pTokenSelected.name}
                   icon={'coins'}
                 />
@@ -78,7 +84,7 @@ const Main = props => {
               whichAnimation={[4]}
               conversions={{
                 0: n =>
-                  BigNumber(n)
+                  BigNumber(parseFloat(n))
                     .dividedBy(
                       props.pTokenSelected.contractDecimals === 0 ? 1 : 10 ** props.pTokenSelected.contractDecimals
                     )
@@ -154,12 +160,12 @@ const Main = props => {
               conversions={{
                 0: n =>
                   props.pTokenSelected.issueFrom === 'EOS'
-                    ? BigNumber(n)
+                    ? BigNumber(parseFloat(n))
                         .dividedBy(
                           props.pTokenSelected.contractDecimals === 0 ? 1 : 10 ** props.pTokenSelected.contractDecimals
                         )
                         .toFixed()
-                    : BigNumber(n)
+                    : BigNumber(parseFloat(n))
                         .dividedBy(10 ** props.pTokenSelected.realDecimals)
                         .toFixed(),
                 1: t => timestampInSecondsToDate(t)

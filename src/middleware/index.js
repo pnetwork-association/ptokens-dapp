@@ -22,7 +22,7 @@ const middleware = ({ dispatch }) => {
         // NOTE: handle wallet connections
         const { wallets } = store.getState()
         const { walletsPerType } = wallets
-        if (pToken.redeemFrom === 'ETH' && walletsPerType['ETH']) {
+        if (pToken.redeemFrom === 'ETH') {
           if (!walletsPerType['ETH']) {
             dispatch(resetRedeemer())
           } else {
@@ -41,7 +41,26 @@ const middleware = ({ dispatch }) => {
           }
         }
 
-        if (pToken.issueFrom === 'ETH' && walletsPerType['ETH']) {
+        if (pToken.issueFrom === 'EOS') {
+          if (!walletsPerType['EOS']) {
+            dispatch(resetIssuer())
+          } else {
+            dispatch({
+              type: WALLET_ISSUER_CONNECTED,
+              payload: {
+                provider: walletsPerType['EOS'].provider,
+                account: walletsPerType['EOS'].account,
+                wallet: {
+                  type: 'multiWallet'
+                },
+                pToken,
+                type: 'EOS'
+              }
+            })
+          }
+        }
+
+        if (pToken.issueFrom === 'ETH') {
           if (!walletsPerType['ETH']) {
             dispatch(resetIssuer())
           } else {

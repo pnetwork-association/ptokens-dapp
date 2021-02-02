@@ -30,11 +30,7 @@ const PTokens = props => {
                 <MiniCard
                   title="YOUR BALANCE"
                   value={
-                    props.balance
-                      ? BigNumber(props.balance).toFixed(
-                          props.pTokenSelected.isPerc20 ? 9 : props.pTokenSelected.realDecimals
-                        )
-                      : null
+                    props.balance ? BigNumber(props.balance).toFixed(props.pTokenSelected.balanceFixedDecimals) : null
                   }
                   measure={props.pTokenSelected.name}
                 />
