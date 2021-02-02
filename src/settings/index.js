@@ -76,11 +76,11 @@ const settings = {
   [PBTC_ON_TELOS_MAINNET]: {
     telos: {
       chainId: '4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11',
-      host: 'api.telosfoundation.io',
+      host: 'telos.greymass.com',
       port: 443,
       protocol: 'https',
       explorer: 'https://telos.bloks.io/',
-      endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://api.telosfoundation.io'
+      endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://telos.greymass.com'
     },
     btc: {
       explorer: 'https://blockstream.info/',
