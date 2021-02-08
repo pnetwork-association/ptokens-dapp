@@ -15,6 +15,7 @@ import {
 } from '../../constants'
 import { getBlockHeightStatusComparedWithTheReals } from '../../utils/blocks-sync'
 import { NodeSelector } from 'ptokens-node-selector'
+import { HttpProvider } from 'ptokens-providers'
 import { Node } from 'ptokens-node'
 import { Mutex } from 'async-mutex'
 import { helpers } from 'ptokens-utils'
@@ -71,9 +72,8 @@ const setNode = _pToken => {
       if (endpointManuallySelected) {
         selectedNode = selectedNode = new Node({
           pToken: _pToken.name,
-          blockchain: 'eth',
-          network: _pToken.network,
-          endpoint: endpointManuallySelected
+          blockchain: _pToken.redeemFrom.toLowerCase(),
+          provider: new HttpProvider(endpointManuallySelected)
         })
 
         _dispatch({
@@ -169,7 +169,7 @@ const setNodeManually = (_pToken, _endpoint) => {
       selectedNode = new Node({
         pToken: _pToken.name,
         blockchain: helpers.getBlockchainType(_pToken.redeemFrom.toLowerCase()),
-        endpoint: _endpoint
+        provider: new HttpProvider(_endpoint)
       })
 
       _dispatch({
