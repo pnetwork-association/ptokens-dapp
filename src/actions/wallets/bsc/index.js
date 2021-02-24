@@ -1,9 +1,5 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
-import WalletConnectProvider from '@walletconnect/web3-provider'
-import Portis from '@portis/web3'
-import Fortmatic from 'fortmatic'
-import settings from '../../../settings'
 import { toastr } from 'react-redux-toastr'
 import {
   WALLET_ISSUER_CONNECTED,
@@ -14,30 +10,9 @@ import {
   WALLET_REDEEMER_NETWORK_CHANGED
 } from '../../../constants'
 
-const web3Modal = new Web3Modal({
-  providerOptions: {
-    walletconnect: {
-      package: WalletConnectProvider,
-      options: {
-        infuraId: settings[0].eth.infuraProjectId
-      }
-    },
-    portis: {
-      package: Portis,
-      options: {
-        id: settings[0].eth.portisDappId
-      }
-    },
-    fortmatic: {
-      package: Fortmatic,
-      options: {
-        key: settings[0].eth.fortmaticKey
-      }
-    }
-  }
-})
+const web3Modal = new Web3Modal({})
 
-const connectWithEthWallet = async (_pToken, _role, _currentProvider, _dispatch, _force = null) => {
+const connectWithBscWallet = async (_pToken, _role, _currentProvider, _dispatch, _force = null) => {
   try {
     if (!_force) return
 
@@ -55,7 +30,7 @@ const connectWithEthWallet = async (_pToken, _role, _currentProvider, _dispatch,
       _dispatch({
         type: _role === 'issuer' ? WALLET_ISSUER_NETWORK_CHANGED : WALLET_REDEEMER_NETWORK_CHANGED,
         payload: {
-          network: Number(_chainId) === 1 ? 'mainnet' : 'testnet'
+          network: Number(_chainId) === 56 ? 'mainnet' : 'testnet'
         }
       })
     })
@@ -73,15 +48,15 @@ const connectWithEthWallet = async (_pToken, _role, _currentProvider, _dispatch,
   }
 }
 
-const disconnectFromEthWallet = () => {
+const disconnectFromBscWallet = () => {
   //TODO: disconnect from ETH wallet
 }
 
 const _connectionSuccesfull = async (_pToken, _provider, _dispatch, _role, _wallet) => {
   try {
     const { accounts, chainId } = _provider
-    if (Number(chainId) !== 1 && _pToken.redeemFrom === 'ETH') {
-      toastr.error('Invalid Ethereum Network. Please switch on Mainnet!')
+    if (Number(chainId) !== 56 && _pToken.redeemFrom === 'BSC') {
+      toastr.error('Invalid Binance Smart Chain Network. Please use chain id = 56')
     }
 
     const account = accounts ? accounts[0] : await _getAccount(_provider)
@@ -93,11 +68,11 @@ const _connectionSuccesfull = async (_pToken, _provider, _dispatch, _role, _wall
         wallet: _wallet,
         pToken: _pToken,
         type: _pToken.redeemFrom,
-        network: Number(chainId) === 1 ? 'mainnet' : 'testnet'
+        network: Number(chainId) === 56 ? 'mainnet' : 'testnet'
       }
     })
   } catch (_err) {
-    toastr.error('Error during connection with Ethereum wallet')
+    toastr.error('Error during connection with Binance Smart Chain wallet')
   }
 }
 
@@ -107,8 +82,8 @@ const _getAccount = async _provider => {
     const accounts = await web3.eth.getAccounts()
     return accounts[0]
   } catch (_err) {
-    console.error(`Error during getting Ethereum account ${_err.message}`)
+    console.error(`Error during getting Binance Smart Chain account ${_err.message}`)
   }
 }
 
-export { connectWithEthWallet, disconnectFromEthWallet }
+export { connectWithBscWallet, disconnectFromBscWallet }

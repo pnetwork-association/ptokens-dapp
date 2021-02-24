@@ -40,7 +40,8 @@ import {
   PZRX_ON_EOS_MAINNET,
   PPNK_ON_EOS_MAINNET,
   PDOGE_ON_ETH_MAINNET,
-  PEOS_ON_ETH_MAINNET
+  PEOS_ON_ETH_MAINNET,
+  PBTC_ON_BSC_MAINNET
 } from '../../constants/index'
 import pTokens from 'ptokens'
 import { constants } from 'ptokens-utils'
@@ -51,6 +52,7 @@ import { Mutex } from 'async-mutex'
 import loggedRedeem from './loggers/redeem'
 import loggedIssueWithDepositAddress from './loggers/issue-with-deposit-address'
 import loggedIssueWithWallet from './loggers/issue-with-wallet'
+import store from '../../store'
 
 const mutex = new Mutex()
 
@@ -67,108 +69,112 @@ const setSelectedpToken = (_pToken, _withNodeSelection = true) => {
   }
 }
 
-const issue = (_pToken, _params, _configs) => {
+const issue = (_params, _configs) => {
   return async _dispatch => {
     try {
-      const ptokens = new pTokens(_getCorrectConfigs(_pToken, _configs))
-      // prettier-ignore
-      ptokens[_pToken.name.toLowerCase()].setSelectedNode(_pToken.nodeInfo.endpoint)
+      const {
+        pTokens: { selected: pToken }
+      } = store.getState()
 
-      switch (_pToken.name) {
+      const ptokens = new pTokens(_getCorrectConfigs(pToken, _configs))
+      // prettier-ignore
+      ptokens[pToken.name.toLowerCase()].setSelectedNode(pToken.nodeInfo.endpoint)
+
+      switch (pToken.name) {
         case 'pETH': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'PNT': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'PTERIA': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pYFI': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pLINK': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pMKR': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pBTC': {
-          loggedIssueWithDepositAddress(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithDepositAddress(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pLTC': {
-          loggedIssueWithDepositAddress(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithDepositAddress(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pUNI': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pBAND': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pBAL': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pCOMP': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pSNX': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pOMG': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pDAI': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pANT': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pLRC': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pUOS': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pBAT': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pREP': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pZRX': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pPNK': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pDOGE': {
-          loggedIssueWithDepositAddress(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithDepositAddress(ptokens, _params, pToken, _dispatch)
           break
         }
         case 'pEOS': {
-          loggedIssueWithWallet(ptokens, _params, _pToken, _dispatch)
+          loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
           break
         }
         default:
@@ -180,40 +186,51 @@ const issue = (_pToken, _params, _configs) => {
   }
 }
 
-const redeem = (_pToken, _params, _configs) => {
+const redeem = (_params, _configs) => {
   return _dispatch => {
     try {
-      const ptokens = new pTokens(_getCorrectConfigs(_pToken, _configs))
+      const {
+        pTokens: { selected: pToken }
+      } = store.getState()
+
+      const ptokens = new pTokens(_getCorrectConfigs(pToken, _configs))
       // prettier-ignore
-      ptokens[_pToken.name.toLowerCase()].setSelectedNode(_pToken.nodeInfo.endpoint)
-      loggedRedeem(ptokens, _params, _pToken, _dispatch)
+      ptokens[pToken.name.toLowerCase()].setSelectedNode(pToken.nodeInfo.endpoint)
+      loggedRedeem(ptokens, _params, pToken, _dispatch)
     } catch (_err) {
       console.error(_err.message)
     }
   }
 }
 
-const getBalance = (_pToken, _account) => {
+const getBalance = _account => {
   return async _dispatch => {
     try {
-      if (!_pToken.nodeInfo.isCompatible) return
+      const {
+        pTokens: { selected: pToken }
+      } = store.getState()
+      if (!pToken.nodeInfo.isCompatible) return
 
       numberOfBalanceOfRequests += 1
       const release = await mutex.acquire()
 
       let balance = null
       try {
-        switch (_pToken.redeemFrom) {
+        switch (pToken.redeemFrom) {
           case 'ETH': {
-            balance = await getEthBalance(_pToken, _account)
+            balance = await getEthBalance(pToken, _account)
+            break
+          }
+          case 'BSC': {
+            balance = await getEthBalance(pToken, _account)
             break
           }
           case 'EOS': {
-            balance = await getEosBalance(_pToken, _account)
+            balance = await getEosBalance(pToken, _account)
             break
           }
           case 'TELOS': {
-            balance = await getEosBalance(_pToken, _account)
+            balance = await getEosBalance(pToken, _account)
             break
           }
           default:
@@ -240,10 +257,13 @@ const getBalance = (_pToken, _account) => {
   }
 }
 
-const getTotalSupply = (_pToken, _configs) => {
+const getTotalSupply = () => {
   return async _dispatch => {
     try {
-      if (!_pToken.nodeInfo.isCompatible) return
+      const {
+        pTokens: { selected: pToken }
+      } = store.getState()
+      if (!pToken.nodeInfo.isCompatible) return
 
       numberOfTotalSupplyRequests += 1
       const release = await mutex.acquire()
@@ -251,17 +271,21 @@ const getTotalSupply = (_pToken, _configs) => {
       let totalSupply = null
 
       try {
-        switch (_pToken.redeemFrom) {
+        switch (pToken.redeemFrom) {
           case 'ETH': {
-            totalSupply = await getEthTotalSupply(_pToken)
+            totalSupply = await getEthTotalSupply(pToken)
+            break
+          }
+          case 'BSC': {
+            totalSupply = await getEthTotalSupply(pToken)
             break
           }
           case 'EOS': {
-            totalSupply = await getEosTotalSupply(_pToken)
+            totalSupply = await getEosTotalSupply(pToken)
             break
           }
           case 'TELOS': {
-            totalSupply = await getEosTotalSupply(_pToken)
+            totalSupply = await getEosTotalSupply(pToken)
             break
           }
           default:
@@ -689,6 +713,15 @@ const _getCorrectConfigs = (_pToken, _configs) => {
         ethProvider: redeemer,
         eosRpc: settings[PEOS_ON_ETH_MAINNET].eos.endpoint,
         eosSignatureProvider: issuer
+      }
+    }
+  }
+  if (_pToken.id === PBTC_ON_BSC_MAINNET) {
+    return {
+      pbtc: {
+        network: networks.Mainnet,
+        blockchain: blockchains.BinanceSmartChain,
+        ethProvider: redeemer
       }
     }
   }

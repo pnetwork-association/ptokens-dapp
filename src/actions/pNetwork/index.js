@@ -56,9 +56,12 @@ const getValidators = () => {
   }
 }
 
-const setNode = _pToken => {
+const setNode = () => {
   return async _dispatch => {
     try {
+      const {
+        pTokens: { selected: pToken }
+      } = store.getState()
       let selectedNode = null
 
       // prettier-ignore
@@ -66,13 +69,13 @@ const setNode = _pToken => {
       const { selectedManually } = pNetwork
       const endpointManuallySelected =
         selectedManually[
-          `${_pToken.name.toLowerCase()}-on-${_pToken.redeemFrom.toLowerCase()}-${_pToken.network.toLowerCase()}`
+          `${pToken.name.toLowerCase()}-on-${pToken.redeemFrom.toLowerCase()}-${pToken.network.toLowerCase()}`
         ]
 
       if (endpointManuallySelected) {
         selectedNode = selectedNode = new Node({
-          pToken: _pToken.name,
-          blockchain: _pToken.redeemFrom.toLowerCase(),
+          pToken: pToken.name,
+          blockchain: pToken.redeemFrom.toLowerCase(),
           provider: new HttpProvider(endpointManuallySelected)
         })
 
@@ -91,14 +94,16 @@ const setNode = _pToken => {
         })
       } else {
         const nodeSelector = new NodeSelector({
-          pToken: _pToken.name,
-          blockchain: helpers.getBlockchainType(_pToken.redeemFrom.toLowerCase()),
-          network: _pToken.network
+          pToken: pToken.name,
+          blockchain: helpers.getBlockchainType(pToken.redeemFrom.toLowerCase()),
+          network: pToken.network
         })
 
-        if (_pToken.redeemFrom === 'TELOS') {
+        if (pToken.redeemFrom === 'TELOS') {
           // prettier-ignore
           selectedNode = nodeSelector.setSelectedNode('https://pbtcontelos-node-1a.ngrok.io')
+        } else if (pToken.redeemFrom === 'BSC') {
+          selectedNode = nodeSelector.setSelectedNode('https://pbtconbsc-node-1a.ngrok.io')
         } else {
           selectedNode = await nodeSelector.select()
         }
@@ -119,7 +124,7 @@ const setNode = _pToken => {
         _dispatch({
           type: PTOKENS_SET_NODE_INFO,
           payload: {
-            pToken: Object.assign({}, _pToken, {
+            pToken: Object.assign({}, pToken, {
               nodeInfo: {
                 contractAddress: null,
                 publicKey: null,
@@ -136,16 +141,16 @@ const setNode = _pToken => {
       _dispatch({
         type: PTOKENS_SET_NODE_INFO,
         payload: {
-          pToken: Object.assign({}, _pToken, {
+          pToken: Object.assign({}, pToken, {
             nodeInfo: {
               contractAddress:
-                _pToken.isPerc20 || _pToken.isPeosioToken
+                pToken.isPerc20 || pToken.isPeosioToken
                   ? info.host_smart_contract_address
                   : info.smart_contract_address,
               publicKey: info.public_key,
               endpoint: selectedNode ? selectedNode.provider.endpoint : null,
               isManuallySelected: endpointManuallySelected ? true : false,
-              isCompatible: info.native_network.includes(_pToken.network) ? true : false
+              isCompatible: info.native_network.includes(pToken.network) ? true : false
             }
           })
         }
@@ -156,19 +161,22 @@ const setNode = _pToken => {
   }
 }
 
-const setNodeManually = (_pToken, _endpoint) => {
+const setNodeManually = _endpoint => {
   return async _dispatch => {
     try {
+      const {
+        pTokens: { selected: pToken }
+      } = store.getState()
       let selectedNode = null
 
       const { pNetwork } = store.getState()
       const { selectedManually } = pNetwork
       // prettier-ignore
-      selectedManually[`${_pToken.name.toLowerCase()}-on-${_pToken.redeemFrom.toLowerCase()}-${_pToken.network.toLowerCase()}`] = _endpoint
+      selectedManually[`${pToken.name.toLowerCase()}-on-${pToken.redeemFrom.toLowerCase()}-${pToken.network.toLowerCase()}`] = _endpoint
 
       selectedNode = new Node({
-        pToken: _pToken.name,
-        blockchain: helpers.getBlockchainType(_pToken.redeemFrom.toLowerCase()),
+        pToken: pToken.name,
+        blockchain: helpers.getBlockchainType(pToken.redeemFrom.toLowerCase()),
         provider: new HttpProvider(_endpoint)
       })
 
@@ -193,7 +201,7 @@ const setNodeManually = (_pToken, _endpoint) => {
         _dispatch({
           type: PTOKENS_SET_NODE_INFO,
           payload: {
-            pToken: Object.assign({}, _pToken, {
+            pToken: Object.assign({}, pToken, {
               nodeInfo: {
                 contractAddress: null,
                 publicKey: null,
@@ -210,16 +218,16 @@ const setNodeManually = (_pToken, _endpoint) => {
       _dispatch({
         type: PTOKENS_SET_NODE_INFO,
         payload: {
-          pToken: Object.assign({}, _pToken, {
+          pToken: Object.assign({}, pToken, {
             nodeInfo: {
               contractAddress:
-                _pToken.isPerc20 || _pToken.isPeosioToken
+                pToken.isPerc20 || pToken.isPeosioToken
                   ? info.host_smart_contract_address
                   : info.smart_contract_address,
               publicKey: info.public_key,
               endpoint: _endpoint,
               isManuallySelected: true,
-              isCompatible: info.native_network.includes(_pToken.network) ? true : false
+              isCompatible: info.native_network.includes(pToken.network) ? true : false
             }
           })
         }
@@ -229,7 +237,7 @@ const setNodeManually = (_pToken, _endpoint) => {
     }
   }
 }
-const ping = _pToken => {
+const ping = () => {
   return async _dispatch => {
     try {
       const { pNetwork } = store.getState()
@@ -246,15 +254,18 @@ const ping = _pToken => {
   }
 }
 
-const getLastProcessedBlock = (_pToken, _type, _role) => {
+const getLastProcessedBlock = (_type, _role) => {
   return async _dispatch => {
     try {
+      const {
+        pTokens: { selected: pToken }
+      } = store.getState()
       const { pNetwork } = store.getState()
       const { selectedNode } = pNetwork
       if (!selectedNode) return
 
       //provisional
-      if (_pToken.redeemFrom === 'EOS' && _type === 'host') return
+      if (pToken.redeemFrom === 'EOS' && _type === 'host') return
 
       // same mechanism used into getReport
       typeNumberOfGetBlock[_type] += 1
@@ -269,10 +280,10 @@ const getLastProcessedBlock = (_pToken, _type, _role) => {
 
       if (typeNumberOfGetBlock[_type] === 0) {
         const status = await getBlockHeightStatusComparedWithTheReals(
-          _pToken,
+          pToken,
           _role,
           lastProcessedBlock.block_num,
-          _pToken.network
+          pToken.network
         )
 
         _dispatch({
@@ -301,7 +312,7 @@ const getLastProcessedBlock = (_pToken, _type, _role) => {
   }
 }
 
-const getReports = (_pToken, _type, _role) => {
+const getReports = (_type, _role) => {
   return async _dispatch => {
     try {
       const { pNetwork } = store.getState()
@@ -343,7 +354,7 @@ const getReports = (_pToken, _type, _role) => {
   }
 }
 
-const submitBlock = (_pToken, _type, _block) => {
+const submitBlock = (_type, _block) => {
   // TODO
 }
 

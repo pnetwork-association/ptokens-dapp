@@ -10,7 +10,6 @@ import {
   WALLET_ISSUER_CONNECTED,
   PTOKENS_BALANCE_LOADED
 } from '../constants'
-import { getCorrespondingReadOnlyProvider } from '../utils/read-only-providers'
 import store from '../store'
 
 const middleware = ({ dispatch }) => {
@@ -140,26 +139,19 @@ const middleware = ({ dispatch }) => {
       // nodeInfo is needeed because one could connect to a wallet before that the node is selected
       // _action.payload.account nedeed because a wallet can be connected but not unlocked
       if (_action.type === WALLET_REDEEMER_CONNECTED && _action.payload.pToken.nodeInfo && _action.payload.account) {
-        dispatch(getBalance(_action.payload.pToken, _action.payload.account))
+        dispatch(getBalance(_action.payload.account))
       }
 
       if (_action.type === PTOKENS_SET_NODE_INFO) {
-        const readOnlyProvider = getCorrespondingReadOnlyProvider(_action.payload.pToken)
+        dispatch(getTotalSupply())
 
-        const configs = {
-          issuer: null,
-          redeemer: readOnlyProvider
-        }
+        dispatch(getReports('native', 'redeemer'))
 
-        dispatch(getTotalSupply(_action.payload.pToken, configs))
+        dispatch(getReports('host', 'issuer'))
 
-        dispatch(getReports(_action.payload.pToken, 'native', 'redeemer'))
+        dispatch(getLastProcessedBlock('native', 'issuer'))
 
-        dispatch(getReports(_action.payload.pToken, 'host', 'issuer'))
-
-        dispatch(getLastProcessedBlock(_action.payload.pToken, 'native', 'issuer'))
-
-        dispatch(getLastProcessedBlock(_action.payload.pToken, 'host', 'redeemer'))
+        dispatch(getLastProcessedBlock('host', 'redeemer'))
 
         dispatch(ping(_action.payload.pToken))
 

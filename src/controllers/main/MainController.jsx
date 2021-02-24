@@ -4,8 +4,6 @@ import PropTypes from 'prop-types'
 import Main from '../../components/main/Main'
 import { getReports } from '../../actions/pNetwork'
 import { getTotalSupply } from '../../actions/pTokens'
-import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
-import { connectWithCorrectWallets } from '../../actions/wallets'
 
 const mapStateToProps = state => {
   return {
@@ -18,10 +16,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    getTotalSupply: (_pToken, configs) => dispatch(getTotalSupply(_pToken, configs)),
-    getReports: (_pToken, _type, role) => dispatch(getReports(_pToken, _type, role)),
-    connectWithCorrectWallets: (pTokenName, currentProviders, force) =>
-      dispatch(connectWithCorrectWallets(pTokenName, currentProviders, force))
+    getTotalSupply: () => dispatch(getTotalSupply()),
+    getReports: (_type, role) => dispatch(getReports(_type, role))
   }
 }
 
@@ -33,33 +29,18 @@ export class MainController extends React.Component {
       redeemerDataLoaded: null
     }
 
-    this.props.getReports(this.props.pTokenSelected, 'host', 'issuer')
-    this.props.getReports(this.props.pTokenSelected, 'native', 'redeemer')
+    this.props.getReports('host', 'issuer')
+    this.props.getReports('native', 'redeemer')
   }
 
   componentDidUpdate(_prevProps) {
     if (!this.state.redeemerDataLoaded) {
-      const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(this.props.pTokenSelected)
-
-      const configs = {
-        issuer: null,
-        redeemer: redeemerReadOnlyProvider
-      }
-
-      this.props.getTotalSupply(this.props.pTokenSelected, configs)
-
+      this.props.getTotalSupply()
       this.setState({ redeemerDataLoaded: true })
     }
 
     if (_prevProps.pTokenSelected.id !== this.props.pTokenSelected.id) {
-      const redeemerReadOnlyProvider = getCorrespondingReadOnlyProvider(this.props.pTokenSelected)
-
-      const configs = {
-        issuer: null,
-        redeemer: redeemerReadOnlyProvider
-      }
-
-      this.props.getTotalSupply(this.props.pTokenSelected, configs)
+      this.props.getTotalSupply()
     }
   }
 

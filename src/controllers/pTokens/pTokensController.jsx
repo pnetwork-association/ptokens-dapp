@@ -14,7 +14,6 @@ import {
   resetIssueError,
   setParams
 } from '../../actions/pTokens'
-import { connectWithCorrectWallets } from '../../actions/wallets'
 import { isValidAccount } from '../../utils/account-validator'
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
 import BigNumber from 'bignumber.js'
@@ -45,17 +44,15 @@ const mapDispatchToProps = dispatch => {
   return {
     addItemLogs: item => dispatch(LogHandler.addItem(item)),
     clearLogs: () => dispatch(LogHandler.clear()),
-    issue: (_pToken, _params, _configs) => dispatch(issue(_pToken, _params, _configs)),
-    redeem: (_pToken, _params, _configs) => dispatch(redeem(_pToken, _params, _configs)),
-    getBalance: (_pToken, _account) => dispatch(getBalance(_pToken, _account)),
+    issue: (_params, _configs) => dispatch(issue(_params, _configs)),
+    redeem: (_params, _configs) => dispatch(redeem(_params, _configs)),
+    getBalance: _account => dispatch(getBalance(_account)),
     resetDepositAddress: () => dispatch(resetDepositAddress()),
     resetIssueSuccess: () => dispatch(resetIssueSuccess()),
     resetRedeemSuccess: () => dispatch(resetRedeemSuccess()),
     resetIssueError: () => dispatch(resetIssueError()),
     resetRedeemError: () => dispatch(resetRedeemError()),
-    setpTokenParams: _params => dispatch(setParams(_params)),
-    connectWithCorrectWallets: (pTokenName, currentProviders, force) =>
-      dispatch(connectWithCorrectWallets(pTokenName, currentProviders, force))
+    setpTokenParams: _params => dispatch(setParams(_params))
   }
 }
 
@@ -133,15 +130,12 @@ export class pTokenControllers extends React.Component {
       currentSelectedNetwork
     } = this.state
 
-    if (
-      // prettier-ignore
-      pTokenSelected.id !== pTokenSelectedId && pTokenSelected.nodeInfo.contractAddress
-    ) {
+    if (pTokenSelected.id !== pTokenSelectedId && pTokenSelected.nodeInfo.contractAddress) {
       this.setState({
         pTokenSelectedId: pTokenSelected.id
       })
 
-      getBalance(pTokenSelected, redeemerAccount)
+      getBalance(redeemerAccount)
     }
 
     if (isIssueSuccedeed && isIssueTerminated) {
@@ -153,7 +147,7 @@ export class pTokenControllers extends React.Component {
       })
 
       await sleep(10000)
-      getBalance(pTokenSelected, redeemerAccount)
+      getBalance(redeemerAccount)
     }
 
     if (_prevProps.issueError !== issueError && issueError) {
@@ -167,7 +161,7 @@ export class pTokenControllers extends React.Component {
         isRedeemTerminated: false
       })
 
-      getBalance(pTokenSelected, redeemerAccount)
+      getBalance(redeemerAccount)
     }
 
     if (_prevProps.redeemError !== redeemError && redeemError) {
@@ -269,7 +263,7 @@ export class pTokenControllers extends React.Component {
             .toFixed()
         }
 
-        this.props.issue(this.props.pTokenSelected, [amountToIssue, this.props.pTokensParams.typedIssueAccount], {
+        this.props.issue([amountToIssue, this.props.pTokensParams.typedIssueAccount], {
           issuer: this.props.issuerProvider,
           redeemer: redeemerReadOnlyProvider
         })
@@ -311,14 +305,10 @@ export class pTokenControllers extends React.Component {
 
     const issuerReadOnlyProvider = getCorrespondingReadOnlyProvider(this.props.pTokenSelected)
 
-    this.props.redeem(
-      this.props.pTokenSelected,
-      [this.props.pTokensParams.amountToRedeem, this.props.pTokensParams.typedRedeemAccount],
-      {
-        issuer: issuerReadOnlyProvider,
-        redeemer: this.props.redeemerProvider
-      }
-    )
+    this.props.redeem([this.props.pTokensParams.amountToRedeem, this.props.pTokensParams.typedRedeemAccount], {
+      issuer: issuerReadOnlyProvider,
+      redeemer: this.props.redeemerProvider
+    })
   }
 
   onResetLogs = () => {
@@ -466,8 +456,7 @@ pTokenControllers.propTypes = {
   resetRedeemSuccess: PropTypes.func,
   resetIssueError: PropTypes.func,
   resetRedeemError: PropTypes.func,
-  setpTokenParams: PropTypes.func,
-  connectWithCorrectWallets: PropTypes.func
+  setpTokenParams: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(pTokenControllers)

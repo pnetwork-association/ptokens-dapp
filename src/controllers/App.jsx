@@ -13,7 +13,6 @@ import queryString from 'query-string'
 import { connect } from 'react-redux'
 import { setNodeManually, setNode, getValidators } from '../actions/pNetwork/'
 import { setSelectedPage, enableTestnetInstances, showHiddenPtokens } from '../actions/sidebar'
-import { connectWithSpecificWallet } from '../actions/wallets'
 import { setSelectedpToken, setCustomRpc } from '../actions/pTokens'
 import PropTypes from 'prop-types'
 import Notifications from '../components/utils/Notifications'
@@ -31,12 +30,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setNodeManually: (_pToken, _endpoint) => dispatch(setNodeManually(_pToken, _endpoint)),
-    setNode: _pToken => dispatch(setNode(_pToken)),
+    setNodeManually: _endpoint => dispatch(setNodeManually(_endpoint)),
+    setNode: () => dispatch(setNode()),
     setSelectedPage: (_selected, _pToken) => dispatch(setSelectedPage(_selected, _pToken)),
     setSelectedpToken: (_pToken, _withNodeSelection) => dispatch(setSelectedpToken(_pToken, _withNodeSelection)),
     setCustomRpc: (_rpc, _type) => dispatch(setCustomRpc(_rpc, _type)),
-    connectWithSpecificWallet: (_pToken, _role, _force) => dispatch(connectWithSpecificWallet(_pToken, _role, _force)),
     enableTestnetInstances: () => dispatch(enableTestnetInstances()),
     showHiddenPtokens: () => dispatch(showHiddenPtokens()),
     getValidators: () => dispatch(getValidators())
@@ -78,7 +76,6 @@ class App extends React.Component {
     const pTokenSelected = pToken ? pToken : this.props.pTokensAvailable[0]
 
     const { node, hostRpc, withTestnetInstances, iamthomas } = queryString.parse(window.location.search)
-
     if (Boolean(iamthomas) === true) {
       this.props.showHiddenPtokens()
     }
@@ -102,18 +99,11 @@ class App extends React.Component {
     }
 
     if (node) {
-      this.props.setNodeManually(pToken, node.includes('https://') ? node : `https://${node}`)
+      this.props.setNodeManually(node.includes('https://') ? node : `https://${node}`)
       return
     }
 
-    this.props.setNode(pTokenSelected)
-
-    if (!this.props.issuerIsConnected) {
-      this.props.connectWithSpecificWallet(pTokenSelected, 'issuer', false)
-    }
-    if (!this.props.redeemerIsConnected) {
-      this.props.connectWithSpecificWallet(pTokenSelected, 'redeemer', false)
-    }
+    this.props.setNode()
   }
 
   componentDidMount() {
@@ -127,7 +117,7 @@ class App extends React.Component {
           <Route
             exact
             path={
-              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos|pteria-on-eos|puni-on-eos|pband-on-eos|pbal-on-eos|pcomp-on-eos|psnx-on-eos|pomg-on-eos|pdai-on-eos|pant-on-eos|plrc-on-eos|puos-on-eos|pbat-on-eos|prep-on-eos|pzrx-on-eos|ppnk-on-eos|pdoge-on-eth|peos-on-eth)'
+              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos|pteria-on-eos|puni-on-eos|pband-on-eos|pbal-on-eos|pcomp-on-eos|psnx-on-eos|pomg-on-eos|pdai-on-eos|pant-on-eos|plrc-on-eos|puos-on-eos|pbat-on-eos|prep-on-eos|pzrx-on-eos|ppnk-on-eos|pdoge-on-eth|peos-on-eth|pbtc-on-bsc)'
             }
             render={() => {
               return (
@@ -146,7 +136,7 @@ class App extends React.Component {
           <Route
             exact
             path={
-              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos|pteria-on-eos|puni-on-eos|pband-on-eos|pbal-on-eos|pcomp-on-eos|psnx-on-eos|pomg-on-eos|pdai-on-eos|pant-on-eos|plrc-on-eos|puos-on-eos|pbat-on-eos|prep-on-eos|pzrx-on-eos|ppnk-on-eos|pdoge-on-eth|peos-on-eth)/pnetwork'
+              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos|pteria-on-eos|puni-on-eos|pband-on-eos|pbal-on-eos|pcomp-on-eos|psnx-on-eos|pomg-on-eos|pdai-on-eos|pant-on-eos|plrc-on-eos|puos-on-eos|pbat-on-eos|prep-on-eos|pzrx-on-eos|ppnk-on-eos|pdoge-on-eth|peos-on-eth|pbtc-on-bsc)/pnetwork'
             }
             render={() => {
               return (
@@ -165,7 +155,7 @@ class App extends React.Component {
           <Route
             exact
             path={
-              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos|pteria-on-eos|puni-on-eos|pband-on-eos|pbal-on-eos|pcomp-on-eos|psnx-on-eos|pomg-on-eos|pdai-on-eos|pant-on-eos|plrc-on-eos|puos-on-eos|pbat-on-eos|prep-on-eos|pzrx-on-eos|ppnk-on-eos|pdoge-on-eth|peos-on-eth)/issue-redeem'
+              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos|pteria-on-eos|puni-on-eos|pband-on-eos|pbal-on-eos|pcomp-on-eos|psnx-on-eos|pomg-on-eos|pdai-on-eos|pant-on-eos|plrc-on-eos|puos-on-eos|pbat-on-eos|prep-on-eos|pzrx-on-eos|ppnk-on-eos|pdoge-on-eth|peos-on-eth|pbtc-on-bsc)/issue-redeem'
             }
             render={() => {
               return (

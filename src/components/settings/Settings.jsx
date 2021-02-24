@@ -53,7 +53,7 @@ const Settings = _props => {
                 />
               </MultiWalletContainer>
             ) : null}
-            {pTokenSelected.redeemFrom === 'ETH' ? (
+            {pTokenSelected.redeemFrom === 'ETH' || pTokenSelected.redeemFrom === 'BSC' ? (
               <MultiWalletContainer>
                 <MultiWallet
                   pToken={pTokenSelected}
@@ -92,7 +92,7 @@ const Settings = _props => {
               />
             </div>
           ) : null}
-          {pTokenSelected.redeemFrom === 'ETH' ? (
+          {pTokenSelected.redeemFrom === 'ETH' || pTokenSelected.redeemFrom === 'TELOS' ? (
             <div className="col-6 text-right mt-5 mb-15 pl-1 pr-0">
               <MultiWallet
                 pToken={pTokenSelected}

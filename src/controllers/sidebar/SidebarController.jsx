@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { setSelectedPage, setCollapseState } from '../../actions/sidebar'
 import { setSelectedpToken, resetParams } from '../../actions/pTokens'
-import { disconnectFromSpecificWallet } from '../../actions/wallets'
 import { resetData } from '../../actions/pNetwork'
 import { useSidebarPtokensAvailable } from '../../hooks/use-sidebar-ptokens-available'
 
@@ -25,7 +24,6 @@ const mapDispatchToProps = dispatch => {
     setCollapseState: state => dispatch(setCollapseState(state)),
     setSelectedpToken: (_pToken, _withNodeSelection) => dispatch(setSelectedpToken(_pToken, _withNodeSelection)),
     pNetworkDataReset: () => dispatch(resetData()),
-    disconnectFromSpecificWallet: (pTokenName, role) => dispatch(disconnectFromSpecificWallet(pTokenName, role)),
     resetParams: () => dispatch(resetParams())
   }
 }
@@ -36,7 +34,6 @@ const SidebarController = _props => {
     pTokenSelected,
     setSelectedPage,
     setCollapseState,
-    disconnectFromSpecificWallet,
     isCollapseOpened,
     resetParams,
     setSelectedpToken,
@@ -62,9 +59,6 @@ const SidebarController = _props => {
         !state ? setCollapseState(!isCollapseOpened) : setCollapseState(state)
       }}
       onChangeSelectedpToken={pToken => {
-        disconnectFromSpecificWallet(pTokenSelected.name, 'issuer')
-        disconnectFromSpecificWallet(pTokenSelected.name, 'redeemer')
-
         //reset token page params
         resetParams()
 

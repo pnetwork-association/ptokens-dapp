@@ -28,7 +28,8 @@ import {
   PZRX_ON_EOS_MAINNET,
   PPNK_ON_EOS_MAINNET,
   PDOGE_ON_ETH_MAINNET,
-  PEOS_ON_ETH_MAINNET
+  PEOS_ON_ETH_MAINNET,
+  PBTC_ON_BSC_MAINNET
 } from '../constants'
 
 const getCorresponsingVisibleAddressFormat = (_pToken, _role, _account) => {
@@ -184,6 +185,11 @@ const getCorresponsingVisibleAddressFormat = (_pToken, _role, _account) => {
       return _role === 'redeemer'
         ? `${_account.slice(0, 6)}...${_account.slice(_account.length - 4, _account.length)}`
         : _account
+    }
+    case PBTC_ON_BSC_MAINNET: {
+      return _role === 'redeemer'
+        ? `${_account.slice(0, 6)}...${_account.slice(_account.length - 4, _account.length)}`
+        : `${_account.slice(0, 12)}...${_account.slice(_account.length - 9, _account.length)}`
     }
     default:
       break

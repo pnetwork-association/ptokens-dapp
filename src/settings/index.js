@@ -28,7 +28,8 @@ import {
   PZRX_ON_EOS_MAINNET,
   PPNK_ON_EOS_MAINNET,
   PDOGE_ON_ETH_MAINNET,
-  PEOS_ON_ETH_MAINNET
+  PEOS_ON_ETH_MAINNET,
+  PBTC_ON_BSC_MAINNET
 } from '../constants'
 
 const settings = {
@@ -630,6 +631,20 @@ const settings = {
       faucet1: 'http://faucet.thonguyen.net/ltc'
     }
   },
+  [PBTC_ON_BSC_MAINNET]: {
+    bsc: {
+      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      httpsBinanceSeedEndpoint: 'https://bsc-dataseed.binance.org/',
+      network: 'mainnet',
+      chainId: 56,
+      explorer: 'https://https://bscscan.com//',
+      enclaveBlockHeightPollingTime: 3000
+    },
+    btc: {
+      explorer: 'https://blockstream.info/',
+      enclaveBlockHeightPollingTime: 3000
+    }
+  },
   pTokensAvailable: [
     {
       id: PBTC_ON_ETH_MAINNET,
@@ -1096,6 +1111,21 @@ const settings = {
       minimumIssuable: '0.0001',
       minimumRedeamable: '0.00001',
       isPeosioToken: true,
+      isHidden: false
+    },
+    {
+      id: PBTC_ON_BSC_MAINNET,
+      name: 'pBTC',
+      tokenType: 'ERC-20',
+      issueFrom: 'BTC',
+      redeemFrom: 'BSC',
+      realDecimals: 8,
+      contractDecimals: 18,
+      balanceFixedDecimals: 8,
+      totalSupplyFixedDecimals: 8,
+      network: 'mainnet',
+      minimumIssuable: '0',
+      minimumRedeamable: '0.00005',
       isHidden: false
     }
   ]
