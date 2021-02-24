@@ -30,8 +30,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setNodeManually: _endpoint => dispatch(setNodeManually(_endpoint)),
-    setNode: () => dispatch(setNode()),
+    setNodeManually: (_pToken, _endpoint) => dispatch(setNodeManually(_pToken, _endpoint)),
+    setNode: _pToken => dispatch(setNode(_pToken)),
     setSelectedPage: (_selected, _pToken) => dispatch(setSelectedPage(_selected, _pToken)),
     setSelectedpToken: (_pToken, _withNodeSelection) => dispatch(setSelectedpToken(_pToken, _withNodeSelection)),
     setCustomRpc: (_rpc, _type) => dispatch(setCustomRpc(_rpc, _type)),
@@ -99,11 +99,11 @@ class App extends React.Component {
     }
 
     if (node) {
-      this.props.setNodeManually(node.includes('https://') ? node : `https://${node}`)
+      this.props.setNodeManually(pTokenSelected, node.includes('https://') ? node : `https://${node}`)
       return
     }
 
-    this.props.setNode()
+    this.props.setNode(pTokenSelected)
   }
 
   componentDidMount() {

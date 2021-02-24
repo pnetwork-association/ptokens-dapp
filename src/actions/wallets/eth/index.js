@@ -14,32 +14,36 @@ import {
   WALLET_REDEEMER_NETWORK_CHANGED
 } from '../../../constants'
 
-const web3Modal = new Web3Modal({
-  providerOptions: {
-    walletconnect: {
-      package: WalletConnectProvider,
-      options: {
-        infuraId: settings[0].eth.infuraProjectId
-      }
-    },
-    portis: {
-      package: Portis,
-      options: {
-        id: settings[0].eth.portisDappId
-      }
-    },
-    fortmatic: {
-      package: Fortmatic,
-      options: {
-        key: settings[0].eth.fortmaticKey
-      }
-    }
-  }
-})
-
 const connectWithEthWallet = async (_pToken, _role, _currentProvider, _dispatch, _force = null) => {
   try {
     if (!_force) return
+
+    if (document.getElementById('WEB3_CONNECT_MODAL_ID')) {
+      document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
+    }
+
+    const web3Modal = new Web3Modal({
+      providerOptions: {
+        walletconnect: {
+          package: WalletConnectProvider,
+          options: {
+            infuraId: settings[0].eth.infuraProjectId
+          }
+        },
+        portis: {
+          package: Portis,
+          options: {
+            id: settings[0].eth.portisDappId
+          }
+        },
+        fortmatic: {
+          package: Fortmatic,
+          options: {
+            key: settings[0].eth.fortmaticKey
+          }
+        }
+      }
+    })
 
     const provider = await web3Modal.connect()
     _connectionSuccesfull(_pToken, provider, _dispatch, _role, {

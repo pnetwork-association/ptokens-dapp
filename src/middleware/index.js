@@ -131,8 +131,8 @@ const middleware = ({ dispatch }) => {
         })
 
         //in case an user change pToken "on"
-        dispatch(connectWithSpecificWallet(pToken, 'redeemer', false))
-        dispatch(connectWithSpecificWallet(pToken, 'issuer', false))
+        dispatch(connectWithSpecificWallet('redeemer', false))
+        dispatch(connectWithSpecificWallet('issuer', false))
       }
 
       // load balance of the new account selected when wallet changes.
@@ -143,11 +143,13 @@ const middleware = ({ dispatch }) => {
       }
 
       if (_action.type === PTOKENS_SET_NODE_INFO) {
-        dispatch(getTotalSupply())
+        if (!_action.payload.pToken.nodeInfo.isCompatible) return
 
-        dispatch(getReports('native', 'redeemer'))
+        dispatch(getTotalSupply(_action.payload.pToken.nodeInfo.contractAddress))
 
-        dispatch(getReports('host', 'issuer'))
+        dispatch(getReports(_action.payload.pToken.nodeInfo, 'native', 'redeemer'))
+
+        dispatch(getReports(_action.payload.pToken.nodeInfo, 'host', 'issuer'))
 
         dispatch(getLastProcessedBlock('native', 'issuer'))
 

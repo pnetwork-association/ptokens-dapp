@@ -209,7 +209,6 @@ const getBalance = _account => {
       const {
         pTokens: { selected: pToken }
       } = store.getState()
-      if (!pToken.nodeInfo.isCompatible) return
 
       numberOfBalanceOfRequests += 1
       const release = await mutex.acquire()
@@ -257,13 +256,12 @@ const getBalance = _account => {
   }
 }
 
-const getTotalSupply = () => {
+const getTotalSupply = _address => {
   return async _dispatch => {
     try {
       const {
         pTokens: { selected: pToken }
       } = store.getState()
-      if (!pToken.nodeInfo.isCompatible) return
 
       numberOfTotalSupplyRequests += 1
       const release = await mutex.acquire()
@@ -273,19 +271,19 @@ const getTotalSupply = () => {
       try {
         switch (pToken.redeemFrom) {
           case 'ETH': {
-            totalSupply = await getEthTotalSupply(pToken)
+            totalSupply = await getEthTotalSupply(pToken, _address)
             break
           }
           case 'BSC': {
-            totalSupply = await getEthTotalSupply(pToken)
+            totalSupply = await getEthTotalSupply(pToken, _address)
             break
           }
           case 'EOS': {
-            totalSupply = await getEosTotalSupply(pToken)
+            totalSupply = await getEosTotalSupply(pToken, _address)
             break
           }
           case 'TELOS': {
-            totalSupply = await getEosTotalSupply(pToken)
+            totalSupply = await getEosTotalSupply(pToken, _address)
             break
           }
           default:
@@ -294,7 +292,6 @@ const getTotalSupply = () => {
       } catch (err) {
         totalSupply = null
       }
-
       numberOfTotalSupplyRequests -= 1
       if (numberOfTotalSupplyRequests === 0) {
         _dispatch({
