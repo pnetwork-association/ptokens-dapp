@@ -637,7 +637,7 @@ const settings = {
       httpsBinanceSeedEndpoint: 'https://bsc-dataseed.binance.org/',
       network: 'mainnet',
       chainId: 56,
-      explorer: 'https://https://bscscan.com//',
+      explorer: 'https://bscscan.com/',
       enclaveBlockHeightPollingTime: 3000
     },
     btc: {

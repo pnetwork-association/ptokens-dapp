@@ -97,10 +97,7 @@ const setNode = _pToken => {
         })
 
         if (_pToken.redeemFrom === 'TELOS') {
-          // prettier-ignore
           selectedNode = nodeSelector.setSelectedNode('https://pbtcontelos-node-1a.ngrok.io')
-        } else if (_pToken.redeemFrom === 'BSC') {
-          selectedNode = nodeSelector.setSelectedNode('https://pbtconbsc-node-1a.ngrok.io')
         } else {
           selectedNode = await nodeSelector.select()
         }
