@@ -173,7 +173,6 @@ const loggedRedeem = async (_ptokens, _params, _pToken, _dispatch) => {
       })
     })
     .catch(err => {
-      console.log(err)
       const { message } = err
 
       _dispatch(LogHandler.clearWaitingItem())
