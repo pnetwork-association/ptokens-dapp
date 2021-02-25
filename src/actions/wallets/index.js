@@ -1,6 +1,7 @@
 import { connectWithEosWallet, disconnectFromEosWallet } from './eos'
 import { connectWithEthWallet, disconnectFromEthWallet } from './eth'
 import { connectWithBscWallet, disconnectFromBscWallet } from './bsc'
+import { connectWithPolygonWallet, disconnectFromPolygonWallet } from './polygon'
 import {
   PBTC_ON_ETH_MAINNET,
   PBTC_ON_ETH_TESTNET,
@@ -33,6 +34,7 @@ import {
   PDOGE_ON_ETH_MAINNET,
   PEOS_ON_ETH_MAINNET,
   PBTC_ON_BSC_MAINNET,
+  PEOS_ON_POLYGON_MAINNET,
   WALLET_RESET_ISSUER,
   WALLET_RESET_REDEEMER
 } from '../../constants'
@@ -235,6 +237,13 @@ const connectWithSpecificWallet = (_role, _force) => {
       }
       case PBTC_ON_BSC_MAINNET: {
         if (_role === 'redeemer') connectWithBscWallet(pToken, 'redeemer', null, _dispatch, _force)
+        break
+      }
+      case PEOS_ON_POLYGON_MAINNET: {
+        if (_role === 'redeemer') connectWithPolygonWallet(pToken, 'redeemer', null, _dispatch, _force)
+        else if (_role === 'issuer') {
+          connectWithEosWallet(pToken, 'issuer', _dispatch, _force)
+        }
         break
       }
       default:
@@ -441,6 +450,13 @@ const disconnectFromSpecificWallet = _role => {
         if (_role === 'redeemer') disconnectFromBscWallet('redeemer', null, _dispatch)
         break
       }
+      case PEOS_ON_POLYGON_MAINNET: {
+        if (_role === 'redeemer') disconnectFromPolygonWallet('redeemer', null, _dispatch)
+        else if (_role === 'issuer') {
+          disconnectFromEosWallet(pToken, 'issuer', _dispatch)
+        }
+        break
+      }
       default:
         break
     }
@@ -643,6 +659,13 @@ const changeSpecificWallet = _role => {
       }
       case PBTC_ON_BSC_MAINNET: {
         connectWithBscWallet(pToken, 'redeemer', null, _dispatch, true)
+        break
+      }
+      case PEOS_ON_POLYGON_MAINNET: {
+        if (_role === 'redeemer') connectWithPolygonWallet(pToken, 'redeemer', null, _dispatch, true)
+        else if (_role === 'issuer') {
+          connectWithEosWallet(pToken, 'issuer', _dispatch, true)
+        }
         break
       }
       default:

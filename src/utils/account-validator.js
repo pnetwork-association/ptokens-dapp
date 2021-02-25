@@ -31,7 +31,8 @@ import {
   PPNK_ON_EOS_MAINNET,
   PDOGE_ON_ETH_MAINNET,
   PEOS_ON_ETH_MAINNET,
-  PBTC_ON_BSC_MAINNET
+  PBTC_ON_BSC_MAINNET,
+  PEOS_ON_POLYGON_MAINNET
 } from '../constants'
 
 const web3 = new Web3()
@@ -191,6 +192,11 @@ const isValidAccount = (_pToken, _account, _role) => {
     case PBTC_ON_BSC_MAINNET: {
       return _role === 'issuer'
         ? pTokenUtils.btc.isValidAddress(_account)
+        : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case PEOS_ON_POLYGON_MAINNET: {
+      return _role === 'issuer'
+        ? pTokenUtils.eos.isValidAccountName(_account)
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     default:

@@ -41,7 +41,8 @@ import {
   PPNK_ON_EOS_MAINNET,
   PDOGE_ON_ETH_MAINNET,
   PEOS_ON_ETH_MAINNET,
-  PBTC_ON_BSC_MAINNET
+  PBTC_ON_BSC_MAINNET,
+  PEOS_ON_POLYGON_MAINNET
 } from '../../constants/index'
 import pTokens from 'ptokens'
 import { constants } from 'ptokens-utils'
@@ -224,6 +225,10 @@ const getBalance = _account => {
             balance = await getEthBalance(pToken, _account)
             break
           }
+          case 'POLYGON': {
+            balance = await getEthBalance(pToken, _account)
+            break
+          }
           case 'EOS': {
             balance = await getEosBalance(pToken, _account)
             break
@@ -275,6 +280,10 @@ const getTotalSupply = _address => {
             break
           }
           case 'BSC': {
+            totalSupply = await getEthTotalSupply(pToken, _address)
+            break
+          }
+          case 'POLYGON': {
             totalSupply = await getEthTotalSupply(pToken, _address)
             break
           }
@@ -719,6 +728,18 @@ const _getCorrectConfigs = (_pToken, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.BinanceSmartChain,
         ethProvider: redeemer
+      }
+    }
+  }
+  if (_pToken.id === PEOS_ON_POLYGON_MAINNET) {
+    return {
+      peosioToken: {
+        pToken: pTokens.pEOS,
+        network: networks.Mainnet,
+        blockchain: blockchains.Polygon,
+        ethProvider: redeemer,
+        eosRpc: settings[PEOS_ON_POLYGON_MAINNET].eos.endpoint,
+        eosSignatureProvider: issuer
       }
     }
   }

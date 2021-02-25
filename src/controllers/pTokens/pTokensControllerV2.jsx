@@ -33,6 +33,7 @@ const mapStateToProps = state => {
     redeemerProvider: state.wallets.redeemerProvider
   }
 }
+
 const mapDispatchToProps = dispatch => {
   return {
     addItemLogs: item => dispatch(LogHandler.addItem(item)),

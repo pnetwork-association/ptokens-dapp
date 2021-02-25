@@ -30,7 +30,8 @@ import {
   PPNK_ON_EOS_MAINNET,
   PDOGE_ON_ETH_MAINNET,
   PEOS_ON_ETH_MAINNET,
-  PBTC_ON_BSC_MAINNET
+  PBTC_ON_BSC_MAINNET,
+  PEOS_ON_POLYGON_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_pToken, _role, _address) => {
@@ -351,6 +352,11 @@ const getCorrespondingBaseTxExplorerLink = (_pToken, _role) => {
       return _role === 'issuer'
         ? `${settings[PBTC_ON_BSC_MAINNET].btc.explorer}tx/`
         : `${settings[PBTC_ON_BSC_MAINNET].bsc.explorer}tx/`
+    }
+    case PEOS_ON_POLYGON_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PEOS_ON_POLYGON_MAINNET].eos.explorer}transaction/`
+        : `${settings[PEOS_ON_POLYGON_MAINNET].polygon.explorer}tx/`
     }
     default:
       break

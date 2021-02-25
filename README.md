@@ -8,16 +8,6 @@ The pTokens dapp
 
 &nbsp;
 
-## :exclamation: Important
-
-At the moment there are a lot of inconsistencies within the code because of differences within ptokens.js The only supported pToken is pBTC (for now)
-
-&nbsp;
-
-***
-
-&nbsp;
-
 ### :house_with_garden: Setting the environment:
 
 Clone the __`ptokens-dapp`__ repo
@@ -44,20 +34,6 @@ npm install
 
 &nbsp;
 
-### :guardsman: Tests:
-
-Start __`ptokens-dapp tests`__ to see al test results via:
-
-```
-npm test
-```
-
-&nbsp;
-
-***
-
-&nbsp;
-
 ### :wrench: Development:
 
 Before running it you must clone __`ptokens.js`__, build it and copy all packages within this __`node_modules `__
@@ -68,10 +44,4 @@ Start __`ptokens-dapp`__ via:
 
 ```
 npm start
-```
-
-It is possible to run tests in __`development mode`__ in order to don't see all the messages:
-
-```
-npm run test-dev
 ```

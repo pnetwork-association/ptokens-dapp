@@ -29,7 +29,8 @@ import {
   PPNK_ON_EOS_MAINNET,
   PDOGE_ON_ETH_MAINNET,
   PEOS_ON_ETH_MAINNET,
-  PBTC_ON_BSC_MAINNET
+  PBTC_ON_BSC_MAINNET,
+  PEOS_ON_POLYGON_MAINNET
 } from '../constants'
 
 const settings = {
@@ -577,6 +578,38 @@ const settings = {
       enclaveBlockHeightPollingTime: 15000
     }
   },
+
+  [PBTC_ON_BSC_MAINNET]: {
+    bsc: {
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
+      httpsBinanceSeedEndpoint: 'https://bsc-dataseed.binance.org/',
+      network: 'mainnet',
+      chainId: 56,
+      explorer: 'https://bscscan.com/',
+      enclaveBlockHeightPollingTime: 15000
+    },
+    btc: {
+      explorer: 'https://blockstream.info/',
+      enclaveBlockHeightPollingTime: 15000
+    }
+  },
+  [PEOS_ON_POLYGON_MAINNET]: {
+    eos: {
+      chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+      host: 'eos.greymass.com',
+      port: 443,
+      protocol: 'https',
+      explorer: 'https://bloks.io/',
+      endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
+    },
+    polygon: {
+      httpMaticEndpoint: 'https://rpc-mainnet.matic.network',
+      network: 'mainnet',
+      chainId: 137,
+      explorer: 'https://explorer-mainnet.maticvigil.com/',
+      enclaveBlockHeightPollingTime: 15000
+    }
+  },
   [PBTC_ON_ETH_TESTNET]: {
     eth: {
       infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
@@ -629,20 +662,6 @@ const settings = {
       explorer: 'https://testnet.litecore.io/',
       enclaveBlockHeightPollingTime: 15000,
       faucet1: 'http://faucet.thonguyen.net/ltc'
-    }
-  },
-  [PBTC_ON_BSC_MAINNET]: {
-    bsc: {
-      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
-      httpsBinanceSeedEndpoint: 'https://bsc-dataseed.binance.org/',
-      network: 'mainnet',
-      chainId: 56,
-      explorer: 'https://bscscan.com/',
-      enclaveBlockHeightPollingTime: 15000
-    },
-    btc: {
-      explorer: 'https://blockstream.info/',
-      enclaveBlockHeightPollingTime: 15000
     }
   },
   pTokensAvailable: [
@@ -1126,6 +1145,23 @@ const settings = {
       network: 'mainnet',
       minimumIssuable: '0',
       minimumRedeamable: '0.00005',
+      isHidden: false
+    },
+    {
+      id: PEOS_ON_POLYGON_MAINNET,
+      name: 'pEOS',
+      tokenType: 'ERC-20',
+      issueFrom: 'EOS',
+      redeemFrom: 'POLYGON',
+      realDecimals: 0,
+      contractDecimals: 18,
+      balanceFixedDecimals: 4,
+      totalSupplyFixedDecimals: 4,
+      network: 'mainnet',
+      // TODO: change amounts
+      minimumIssuable: '0.0001',
+      minimumRedeamable: '0.00001',
+      isPeosioToken: true,
       isHidden: false
     }
   ]
