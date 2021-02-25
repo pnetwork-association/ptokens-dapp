@@ -11,7 +11,6 @@ import {
   PTOKENS_BALANCE_LOADED
 } from '../constants'
 import store from '../store'
-import settings from '../settings'
 
 let intervalIssuerBlockGetter, intervalRedeemerBlockGetter
 
@@ -57,11 +56,11 @@ const middleware = ({ dispatch }) => {
 
         intervalIssuerBlockGetter = setInterval(() => {
           dispatch(getLastProcessedBlock('native', 'issuer'))
-        }, settings[pToken.id][pToken.issueFrom.toLowerCase()].enclaveBlockHeightPollingTime)
+        }, 1000 * 15)
 
         intervalRedeemerBlockGetter = setInterval(() => {
           dispatch(getLastProcessedBlock('host', 'redeemer'))
-        }, settings[pToken.id][pToken.redeemFrom.toLowerCase()].enclaveBlockHeightPollingTime)
+        }, 1000 * 15)
 
         // NOTE: handle wallet connections
         const { wallets } = store.getState()

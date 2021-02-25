@@ -10,7 +10,8 @@ import {
   PTOKENS_REDEEM_NOT_SUCCEDEED,
   PTOKENS_REDEEM_SUCCEDEED,
   PEOS_ON_ETH_MAINNET,
-  PBTC_ON_BSC_MAINNET
+  PBTC_ON_BSC_MAINNET,
+  PEOS_ON_POLYGON_MAINNET
 } from '../../../constants'
 import { getBalance } from '../index'
 import store from '../../../store'
@@ -34,7 +35,8 @@ const loggedRedeem = async (_ptokens, _params, _pToken, _dispatch) => {
     _pToken.id === PLTC_ON_ETH_MAINNET ||
     _pToken.id === PLTC_ON_ETH_TESTNET ||
     _pToken.id === PDOGE_ON_ETH_MAINNET ||
-    _pToken.id === PEOS_ON_ETH_MAINNET
+    _pToken.id === PEOS_ON_ETH_MAINNET ||
+    _pToken.id === PEOS_ON_POLYGON_MAINNET
   ) {
     _params[0] = BigNumber(_params[0])
       .multipliedBy(10 ** _pToken.contractDecimals)
@@ -183,13 +185,14 @@ const loggedRedeem = async (_ptokens, _params, _pToken, _dispatch) => {
         type: PTOKENS_REDEEM_SUCCEDEED
       })
     })
-    .catch(err => {
-      const { message } = err
+    .catch(_err => {
+      console.error(_err)
+      const { message } = _err
 
       _dispatch(LogHandler.clearWaitingItem())
       _dispatch(
         LogHandler.addItem({
-          value: message,
+          value: message ? message : _err,
           success: false
         })
       )
@@ -197,7 +200,7 @@ const loggedRedeem = async (_ptokens, _params, _pToken, _dispatch) => {
       _dispatch({
         type: PTOKENS_REDEEM_NOT_SUCCEDEED,
         payload: {
-          error: message
+          error: message ? message : _err
         }
       })
     })
