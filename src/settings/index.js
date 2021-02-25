@@ -53,11 +53,11 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     },
     btc: {
       explorer: 'https://blockstream.info/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PBTC_ON_EOS_MAINNET]: {
@@ -71,7 +71,7 @@ const settings = {
     },
     btc: {
       explorer: 'https://blockstream.info/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PBTC_ON_TELOS_MAINNET]: {
@@ -85,7 +85,7 @@ const settings = {
     },
     btc: {
       explorer: 'https://blockstream.info/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PLTC_ON_ETH_MAINNET]: {
@@ -98,11 +98,11 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     },
     ltc: {
       explorer: 'https://live.blockcypher.com/ltc/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PLTC_ON_EOS_MAINNET]: {
@@ -116,7 +116,7 @@ const settings = {
     },
     ltc: {
       explorer: 'https://live.blockcypher.com/ltc/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PETH_ON_EOS_MAINNET]: {
@@ -137,7 +137,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PNT_ON_EOS_MAINNET]: {
@@ -158,7 +158,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PMKR_ON_EOS_MAINNET]: {
@@ -179,7 +179,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PLINK_ON_EOS_MAINNET]: {
@@ -200,7 +200,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PYFI_ON_EOS_MAINNET]: {
@@ -221,7 +221,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PTERIA_ON_EOS_MAINNET]: {
@@ -242,7 +242,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PUNI_ON_EOS_MAINNET]: {
@@ -263,7 +263,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PBAND_ON_EOS_MAINNET]: {
@@ -284,7 +284,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PBAL_ON_EOS_MAINNET]: {
@@ -305,7 +305,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PCOMP_ON_EOS_MAINNET]: {
@@ -326,7 +326,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PSNX_ON_EOS_MAINNET]: {
@@ -347,7 +347,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [POMG_ON_EOS_MAINNET]: {
@@ -368,7 +368,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PDAI_ON_EOS_MAINNET]: {
@@ -389,7 +389,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PANT_ON_EOS_MAINNET]: {
@@ -410,7 +410,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PLRC_ON_EOS_MAINNET]: {
@@ -431,7 +431,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PUOS_ON_EOS_MAINNET]: {
@@ -452,7 +452,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PBAT_ON_EOS_MAINNET]: {
@@ -473,7 +473,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PREP_ON_EOS_MAINNET]: {
@@ -494,7 +494,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PZRX_ON_EOS_MAINNET]: {
@@ -515,7 +515,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PPNK_ON_EOS_MAINNET]: {
@@ -536,7 +536,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PDOGE_ON_ETH_MAINNET]: {
@@ -549,11 +549,11 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     },
     doge: {
       explorer: 'https://dogechain.info/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PEOS_ON_ETH_MAINNET]: {
@@ -574,7 +574,7 @@ const settings = {
       network: 'mainnet',
       chainId: 1,
       explorer: 'https://etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   [PBTC_ON_ETH_TESTNET]: {
@@ -587,11 +587,11 @@ const settings = {
       network: 'ropsten',
       chainId: 3,
       explorer: 'https://ropsten.etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     },
     btc: {
       explorer: 'https://blockstream.info/testnet/',
-      enclaveBlockHeightPollingTime: 3000,
+      enclaveBlockHeightPollingTime: 15000,
       faucet1: 'https://testnet-faucet.mempool.co',
       faucet2: 'https://bitcoinfaucet.uo1.net/send.php'
     }
@@ -608,7 +608,7 @@ const settings = {
     },
     btc: {
       explorer: 'https://blockstream.info/testnet/',
-      enclaveBlockHeightPollingTime: 3000,
+      enclaveBlockHeightPollingTime: 15000,
       faucet1: 'https://testnet-faucet.mempool.co',
       faucet2: 'https://bitcoinfaucet.uo1.net/send.php'
     }
@@ -623,11 +623,11 @@ const settings = {
       network: 'ropsten',
       chainId: 3,
       explorer: 'https://ropsten.etherscan.io/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     },
     ltc: {
       explorer: 'https://testnet.litecore.io/',
-      enclaveBlockHeightPollingTime: 3000,
+      enclaveBlockHeightPollingTime: 15000,
       faucet1: 'http://faucet.thonguyen.net/ltc'
     }
   },
@@ -638,11 +638,11 @@ const settings = {
       network: 'mainnet',
       chainId: 56,
       explorer: 'https://bscscan.com/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     },
     btc: {
       explorer: 'https://blockstream.info/',
-      enclaveBlockHeightPollingTime: 3000
+      enclaveBlockHeightPollingTime: 15000
     }
   },
   pTokensAvailable: [

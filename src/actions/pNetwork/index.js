@@ -2,7 +2,6 @@ import {
   PNETWORK_PING_PONG,
   PNETWORK_LAST_ISSUER_PROCESSED_BLOCK_LOADED,
   PNETWORK_LAST_REDEEMER_PROCESSED_BLOCK_LOADED,
-  PNETWORK_RESET_BLOCK_SUBMIT_SUCCESS,
   PNETWORK_REPORT_ISSUE_LOADED,
   PNETWORK_REPORT_REDEEM_LOADED,
   PNETWORK_RESET_DATA,
@@ -345,16 +344,6 @@ const getReports = (_nodeInfo, _type, _role) => {
   }
 }
 
-const submitBlock = (_type, _block) => {
-  // TODO
-}
-
-const resetSubmitBlockSuccess = () => {
-  return {
-    type: PNETWORK_RESET_BLOCK_SUBMIT_SUCCESS
-  }
-}
-
 const resetData = () => {
   return {
     type: PNETWORK_RESET_DATA
@@ -383,9 +372,7 @@ export {
   getValidators,
   getLastProcessedBlock,
   getReports,
-  submitBlock,
   ping,
-  resetSubmitBlockSuccess,
   resetData,
   setIssuerBlockHeightStatus,
   setRedeemerBlockHeightStatus,

@@ -11,12 +11,30 @@ import {
   PTOKENS_BALANCE_LOADED
 } from '../constants'
 import store from '../store'
+import settings from '../settings'
+
+let intervalIssuerBlockGetter, intervalRedeemerBlockGetter
 
 const middleware = ({ dispatch }) => {
   return _next => {
     return async _action => {
       if (_action.type === SET_SELECTED_PTOKEN) {
         const { pToken } = _action.payload
+
+        // NOTE: pnetwork node blocks
+        if (intervalIssuerBlockGetter) clearInterval(intervalIssuerBlockGetter)
+        if (intervalRedeemerBlockGetter) clearInterval(intervalRedeemerBlockGetter)
+
+        dispatch(getLastProcessedBlock('native', 'issuer'))
+        dispatch(getLastProcessedBlock('host', 'redeemer'))
+
+        intervalIssuerBlockGetter = setInterval(() => {
+          dispatch(getLastProcessedBlock('native', 'issuer'))
+        }, settings[pToken.id][pToken.issueFrom.toLowerCase()].enclaveBlockHeightPollingTime)
+
+        intervalRedeemerBlockGetter = setInterval(() => {
+          dispatch(getLastProcessedBlock('host', 'redeemer'))
+        }, settings[pToken.id][pToken.redeemFrom.toLowerCase()].enclaveBlockHeightPollingTime)
 
         // NOTE: handle wallet connections
         const { wallets } = store.getState()
@@ -146,17 +164,11 @@ const middleware = ({ dispatch }) => {
         if (!_action.payload.pToken.nodeInfo.isCompatible) return
 
         dispatch(getTotalSupply(_action.payload.pToken.nodeInfo.contractAddress))
-
         dispatch(getReports(_action.payload.pToken.nodeInfo, 'native', 'redeemer'))
-
         dispatch(getReports(_action.payload.pToken.nodeInfo, 'host', 'issuer'))
-
         dispatch(getLastProcessedBlock('native', 'issuer'))
-
         dispatch(getLastProcessedBlock('host', 'redeemer'))
-
         dispatch(ping(_action.payload.pToken))
-
         dispatch(Log.clear())
       }
 

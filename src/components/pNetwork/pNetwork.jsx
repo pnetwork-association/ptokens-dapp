@@ -151,14 +151,9 @@ PNetwork.propTypes = {
   isActive: PropTypes.bool,
   lastIssuerProcessedBlock: PropTypes.number,
   lastRedeemerProcessedBlock: PropTypes.number,
-  blockType: PropTypes.string,
-  blockData: PropTypes.string,
   canSubmit: PropTypes.bool,
   issuerBlockHeightStatus: PropTypes.number,
-  redeemerBlockHeightStatus: PropTypes.number,
-  onChangeBlockType: PropTypes.func,
-  onChangeBlockData: PropTypes.func,
-  onSubmit: PropTypes.func
+  redeemerBlockHeightStatus: PropTypes.number
 }
 
 export default PNetwork

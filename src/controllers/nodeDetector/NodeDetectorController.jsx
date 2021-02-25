@@ -9,17 +9,7 @@ const mapStateToProps = state => {
   }
 }
 
-class NodeDetectrorController extends React.Component {
-  constructor(props, context) {
-    super(props, context)
-
-    this.state = {}
-  }
-
-  render() {
-    return <NodeDetector pTokenSelected={this.props.pTokenSelected} />
-  }
-}
+const NodeDetectrorController = _props => <NodeDetector {..._props} />
 
 NodeDetectrorController.propTypes = {
   pTokenSelected: PropTypes.object

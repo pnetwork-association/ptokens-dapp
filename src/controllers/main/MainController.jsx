@@ -12,29 +12,8 @@ const mapStateToProps = state => {
     isActive: state.pNetwork.isActive
   }
 }
-const mapDispatchToProps = dispatch => {
-  return {}
-}
 
-export class MainController extends React.Component {
-  constructor(props, context) {
-    super(props, context)
-  }
-
-  render() {
-    //console.log(this.props.pTokenSelected.totalSupply)
-    return (
-      <React.Fragment>
-        <Main
-          pTokenSelected={this.props.pTokenSelected}
-          redeemReports={this.props.redeemReports}
-          issueReports={this.props.issueReports}
-          isActive={this.props.isActive}
-        />
-      </React.Fragment>
-    )
-  }
-}
+export const MainController = _props => <Main {..._props} />
 
 MainController.propTypes = {
   pTokenSelected: PropTypes.object,
@@ -44,4 +23,4 @@ MainController.propTypes = {
   isActive: PropTypes.bool
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainController)
+export default connect(mapStateToProps, null)(MainController)
