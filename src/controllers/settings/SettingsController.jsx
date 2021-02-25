@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { connect } from 'react-redux'
 import Settings from '../../components/settings/Settings'
 import PropTypes from 'prop-types'
@@ -30,103 +30,99 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export class SettingsController extends React.Component {
-  constructor(props, context) {
-    super(props, context)
+const SettingsController = _props => {
+  const {
+    issuerIsConnected,
+    redeemerIsConnected,
+    pTokensParams,
+    connectWithSpecificWallet,
+    disconnectFromSpecificWallet,
+    changeSpecificWallet,
+    setpTokenParams
+  } = _props
 
-    this.state = {
-      providerNameLoaded: false,
-      pTokenSelectedId: null,
-      pTokenSelectedNetwork: null
-    }
-  }
-
-  componentDidUpdate(_prevProps) {
-    if (
-      this.props.pTokenSelected.id !== this.state.pTokenSelectedId &&
-      this.props.redeemerProvider &&
-      this.props.pTokenSelected.nodeInfo.contractAddress
-    ) {
-      this.setState({
-        pTokenSelectedId: this.props.pTokenSelected.id,
-        pTokenSelectedNetwork: this.props.pTokenSelected.network
-      })
-
-      this.props.getBalance(this.props.redeemerAccount, {
-        redeemer: this.props.redeemerProvider,
-        issuer: this.props.issuerProvider
-      })
-    }
-  }
-
-  onChangeIssuerConnection = _wallet => {
-    if (!_wallet) {
-      this.props.connectWithSpecificWallet('issuer', true)
-      return
-    }
-
-    this.props.setpTokenParams(
-      Object.assign({}, this.props.pTokensParams, {
-        typedRedeemAccount: ''
-      })
-    )
-
-    this.props.setBalance(null)
-
-    if (_wallet.type === 'singleWallet') {
-      this.props.issuerIsConnected
-        ? this.props.disconnectFromSpecificWallet('issuer')
-        : this.props.connectWithSpecificWallet('issuer', false)
-    }
-
-    if (_wallet.type === 'multiWallet') {
-      this.props.changeSpecificWallet('issuer', true)
-    }
-  }
-
-  onChangeRedeemerConnection = _wallet => {
-    if (!_wallet) {
-      this.props.connectWithSpecificWallet('redeemer', true)
-      return
-    }
-
-    this.props.setpTokenParams(
-      Object.assign({}, this.props.pTokensParams, {
-        typedIssueAccount: ''
-      })
-    )
-
-    this.props.setBalance(null)
-
-    if (!_wallet) {
-      this.props.connectWithSpecificWallet('redeemer', true)
-      return
-    }
-
-    if (_wallet.type === 'singleWallet') {
-      if (this.props.redeemerIsConnected) {
-        this.props.disconnectFromSpecificWallet('redeemer')
-      } else {
-        this.props.connectWithSpecificWallet('redeemer', false)
+  const onChangeIssuerConnection = useCallback(
+    _wallet => {
+      if (!_wallet) {
+        connectWithSpecificWallet('issuer', true)
+        return
       }
-    }
 
-    if (_wallet.type === 'multiWallet') {
-      this.props.changeSpecificWallet('redeemer', true)
-    }
-  }
+      setpTokenParams(
+        Object.assign({}, pTokensParams, {
+          typedRedeemAccount: ''
+        })
+      )
 
-  render() {
-    return (
-      <React.Fragment>
-        <Settings
-          onChangeIssuerConnection={this.onChangeIssuerConnection}
-          onChangeRedeemerConnection={this.onChangeRedeemerConnection}
-          {...this.props}
-        />
-      </React.Fragment>
-    )
-  }
+      setBalance(null)
+
+      if (_wallet.type === 'singleWallet') {
+        issuerIsConnected ? disconnectFromSpecificWallet('issuer') : connectWithSpecificWallet('issuer', false)
+      }
+
+      if (_wallet.type === 'multiWallet') {
+        changeSpecificWallet('issuer', true)
+      }
+    },
+    [
+      changeSpecificWallet,
+      connectWithSpecificWallet,
+      disconnectFromSpecificWallet,
+      issuerIsConnected,
+      pTokensParams,
+      setpTokenParams
+    ]
+  )
+
+  const onChangeRedeemerConnection = useCallback(
+    _wallet => {
+      if (!_wallet) {
+        connectWithSpecificWallet('redeemer', true)
+        return
+      }
+
+      setpTokenParams(
+        Object.assign({}, pTokensParams, {
+          typedIssueAccount: ''
+        })
+      )
+
+      setBalance(null)
+
+      if (!_wallet) {
+        connectWithSpecificWallet('redeemer', true)
+        return
+      }
+
+      if (_wallet.type === 'singleWallet') {
+        if (redeemerIsConnected) {
+          disconnectFromSpecificWallet('redeemer')
+        } else {
+          connectWithSpecificWallet('redeemer', false)
+        }
+      }
+
+      if (_wallet.type === 'multiWallet') {
+        changeSpecificWallet('redeemer', true)
+      }
+    },
+    [
+      changeSpecificWallet,
+      connectWithSpecificWallet,
+      disconnectFromSpecificWallet,
+      setpTokenParams,
+      pTokensParams,
+      redeemerIsConnected
+    ]
+  )
+
+  return (
+    <Settings
+      onChangeIssuerConnection={onChangeIssuerConnection}
+      onChangeRedeemerConnection={onChangeRedeemerConnection}
+      {..._props}
+    />
+  )
 }
 
 Settings.propTypes = {
