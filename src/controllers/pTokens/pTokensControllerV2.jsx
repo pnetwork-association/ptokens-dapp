@@ -216,7 +216,7 @@ const PTokenControllersV2 = _props => {
       issuer: getCorrespondingReadOnlyProvider(pTokenSelected),
       redeemer: redeemerProvider
     })
-  })
+  }, [pTokenSelected, pTokensParams, redeem, redeemerProvider, redeemerIsConnected, clearLogs])
 
   return (
     <PTokensV2
