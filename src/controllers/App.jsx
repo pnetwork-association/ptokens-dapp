@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import MainController from './main/MainController'
 import PNetworkController from './pNetwork/pNetworkController'
 import SidebarController from './sidebar/SidebarController'
-import PTokensController from './pTokens/pTokensController'
+//import PTokensController from './pTokens/pTokensController'
+import PTokensControllerV2 from './pTokens/pTokensControllerV2'
 import SettingsController from './settings/SettingsController'
 import NodeDetectorController from './nodeDetector/NodeDetectorController'
 import { Route, Switch, Redirect } from 'react-router-dom'
@@ -48,15 +49,21 @@ const pageNameToNumbers = {
   settings: 3
 }
 
-class App extends React.Component {
-  constructor(props, context) {
-    super(props, context)
+const App = ({
+  getValidators,
+  pTokensAvailable,
+  showHiddenPtokens,
+  enableTestnetInstances,
+  setSelectedpToken,
+  setSelectedPage,
+  setCustomRpc,
+  setNodeManually,
+  setNode
+}) => {
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname)
 
-    this.state = {}
-  }
-
-  async componentWillMount() {
-    this.props.getValidators()
+    getValidators()
 
     //getting only the ptoken type -> ../pbtc-on-eth-testnet/....
     const splittedUrl = history.location.pathname.split('/')[1].split('-')
@@ -66,116 +73,108 @@ class App extends React.Component {
     const pTokenNetworkSelected = splittedUrl[3] === 'testnet' ? 'testnet' : 'mainnet'
 
     const page = history.location.pathname.split('/')[2]
-    const pToken = this.props.pTokensAvailable.find(
+    const pToken = pTokensAvailable.find(
       pToken =>
         pToken.name.toLowerCase() === pTokenNameSelected &&
         pToken.network === pTokenNetworkSelected &&
         pToken.redeemFrom === pTokenRedeemFromSelected.toUpperCase()
     )
 
-    const pTokenSelected = pToken ? pToken : this.props.pTokensAvailable[0]
+    const pTokenSelected = pToken ? pToken : pTokensAvailable[0]
 
     const { node, hostRpc, withTestnetInstances, iamthomas } = queryString.parse(window.location.search)
     if (Boolean(iamthomas) === true) {
-      this.props.showHiddenPtokens()
+      showHiddenPtokens()
     }
 
     if (withTestnetInstances || pTokenNetworkSelected === 'testnet') {
-      this.props.enableTestnetInstances()
+      enableTestnetInstances()
     }
 
     //if node is present not load the node
-    this.props.setSelectedpToken(pTokenSelected, node ? false : true)
+    setSelectedpToken(pTokenSelected, node ? false : true)
 
     if (!page) {
-      this.props.setSelectedPage(0, pTokenSelected)
+      setSelectedPage(0, pTokenSelected)
     } else {
-      this.props.setSelectedPage(pageNameToNumbers[page], pTokenSelected)
+      setSelectedPage(pageNameToNumbers[page], pTokenSelected)
     }
 
     // after setSelectedpToken since it reloads data
     if (hostRpc) {
-      this.props.setCustomRpc(hostRpc, 'host')
+      setCustomRpc(hostRpc, 'host')
     }
 
     if (node) {
-      this.props.setNodeManually(pTokenSelected, node.includes('https://') ? node : `https://${node}`)
+      setNodeManually(pTokenSelected, node.includes('https://') ? node : `https://${node}`)
       return
     }
 
-    this.props.setNode(pTokenSelected)
-  }
+    setNode(pTokenSelected)
+  }, [])
 
-  componentDidMount() {
-    ReactGA.pageview(window.location.pathname)
-  }
-
-  render() {
-    return (
-      <React.Fragment>
-        <Switch>
-          <Route
-            exact
-            path={
-              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos|pteria-on-eos|puni-on-eos|pband-on-eos|pbal-on-eos|pcomp-on-eos|psnx-on-eos|pomg-on-eos|pdai-on-eos|pant-on-eos|plrc-on-eos|puos-on-eos|pbat-on-eos|prep-on-eos|pzrx-on-eos|ppnk-on-eos|pdoge-on-eth|peos-on-eth|pbtc-on-bsc)'
-            }
-            render={() => {
-              return (
-                <React.Fragment>
-                  <SidebarController />
-                  <MainWrapper>
-                    <Notifications />
-                    <SettingsController />
-                    <NodeDetectorController />
-                    <MainController />
-                  </MainWrapper>
-                </React.Fragment>
-              )
-            }}
-          />
-          <Route
-            exact
-            path={
-              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos|pteria-on-eos|puni-on-eos|pband-on-eos|pbal-on-eos|pcomp-on-eos|psnx-on-eos|pomg-on-eos|pdai-on-eos|pant-on-eos|plrc-on-eos|puos-on-eos|pbat-on-eos|prep-on-eos|pzrx-on-eos|ppnk-on-eos|pdoge-on-eth|peos-on-eth|pbtc-on-bsc)/pnetwork'
-            }
-            render={() => {
-              return (
-                <React.Fragment>
-                  <SidebarController />
-                  <MainWrapper>
-                    <Notifications />
-                    <SettingsController />
-                    <NodeDetectorController />
-                    <PNetworkController />
-                  </MainWrapper>
-                </React.Fragment>
-              )
-            }}
-          />
-          <Route
-            exact
-            path={
-              '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos|pteria-on-eos|puni-on-eos|pband-on-eos|pbal-on-eos|pcomp-on-eos|psnx-on-eos|pomg-on-eos|pdai-on-eos|pant-on-eos|plrc-on-eos|puos-on-eos|pbat-on-eos|prep-on-eos|pzrx-on-eos|ppnk-on-eos|pdoge-on-eth|peos-on-eth|pbtc-on-bsc)/issue-redeem'
-            }
-            render={() => {
-              return (
-                <React.Fragment>
-                  <SidebarController />
-                  <MainWrapper>
-                    <Notifications />
-                    <SettingsController />
-                    <NodeDetectorController />
-                    <PTokensController />
-                  </MainWrapper>
-                </React.Fragment>
-              )
-            }}
-          />
-          <Route render={() => <Redirect to="pbtc-on-eth" />} />
-        </Switch>
-      </React.Fragment>
-    )
-  }
+  return (
+    <Switch>
+      <Route
+        exact
+        path={
+          '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos|pteria-on-eos|puni-on-eos|pband-on-eos|pbal-on-eos|pcomp-on-eos|psnx-on-eos|pomg-on-eos|pdai-on-eos|pant-on-eos|plrc-on-eos|puos-on-eos|pbat-on-eos|prep-on-eos|pzrx-on-eos|ppnk-on-eos|pdoge-on-eth|peos-on-eth|pbtc-on-bsc)'
+        }
+        render={() => {
+          return (
+            <React.Fragment>
+              <SidebarController />
+              <MainWrapper>
+                <Notifications />
+                <SettingsController />
+                <NodeDetectorController />
+                <MainController />
+              </MainWrapper>
+            </React.Fragment>
+          )
+        }}
+      />
+      <Route
+        exact
+        path={
+          '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos|pteria-on-eos|puni-on-eos|pband-on-eos|pbal-on-eos|pcomp-on-eos|psnx-on-eos|pomg-on-eos|pdai-on-eos|pant-on-eos|plrc-on-eos|puos-on-eos|pbat-on-eos|prep-on-eos|pzrx-on-eos|ppnk-on-eos|pdoge-on-eth|peos-on-eth|pbtc-on-bsc)/pnetwork'
+        }
+        render={() => {
+          return (
+            <React.Fragment>
+              <SidebarController />
+              <MainWrapper>
+                <Notifications />
+                <SettingsController />
+                <NodeDetectorController />
+                <PNetworkController />
+              </MainWrapper>
+            </React.Fragment>
+          )
+        }}
+      />
+      <Route
+        exact
+        path={
+          '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos|pteria-on-eos|puni-on-eos|pband-on-eos|pbal-on-eos|pcomp-on-eos|psnx-on-eos|pomg-on-eos|pdai-on-eos|pant-on-eos|plrc-on-eos|puos-on-eos|pbat-on-eos|prep-on-eos|pzrx-on-eos|ppnk-on-eos|pdoge-on-eth|peos-on-eth|pbtc-on-bsc)/issue-redeem'
+        }
+        render={() => {
+          return (
+            <React.Fragment>
+              <SidebarController />
+              <MainWrapper>
+                <Notifications />
+                <SettingsController />
+                <NodeDetectorController />
+                <PTokensControllerV2 />
+              </MainWrapper>
+            </React.Fragment>
+          )
+        }}
+      />
+      <Route render={() => <Redirect to="pbtc-on-eth" />} />
+    </Switch>
+  )
 }
 
 SidebarController.propTypes = {

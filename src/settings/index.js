@@ -45,7 +45,7 @@ const settings = {
   LTC_PTOKENS_NODE_TESTNET_API: 'https://ltc-testnet-node-1.ptokens.io/insight-lite-api',
   [PBTC_ON_ETH_MAINNET]: {
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -90,7 +90,7 @@ const settings = {
   },
   [PLTC_ON_ETH_MAINNET]: {
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -129,7 +129,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -150,7 +150,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -171,7 +171,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -192,7 +192,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -213,7 +213,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -234,7 +234,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -255,7 +255,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -276,7 +276,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -297,7 +297,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -318,7 +318,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -339,7 +339,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -360,7 +360,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -381,7 +381,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -402,7 +402,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -423,7 +423,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -444,7 +444,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -465,7 +465,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -486,7 +486,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -507,7 +507,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -528,7 +528,7 @@ const settings = {
       endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com'
     },
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -541,7 +541,7 @@ const settings = {
   },
   [PDOGE_ON_ETH_MAINNET]: {
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_live_D0A703008A4B17B7',
       wsInfuraEndpoint: 'wss://mainnet.infura.io/ws/v3/',
@@ -579,7 +579,7 @@ const settings = {
   },
   [PBTC_ON_ETH_TESTNET]: {
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_test_48E59AF566747C40',
       wsInfuraEndpoint: 'wss://ropsten.infura.io/ws/v3/',
@@ -615,7 +615,7 @@ const settings = {
   },
   [PLTC_ON_ETH_TESTNET]: {
     eth: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
       fortmaticKey: 'pk_test_48E59AF566747C40',
       wsInfuraEndpoint: 'wss://ropsten.infura.io/ws/v3/',
@@ -633,7 +633,7 @@ const settings = {
   },
   [PBTC_ON_BSC_MAINNET]: {
     bsc: {
-      infuraProjectId: '4762c881ac0c4938be76386339358ed6',
+      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       httpsBinanceSeedEndpoint: 'https://bsc-dataseed.binance.org/',
       network: 'mainnet',
       chainId: 56,

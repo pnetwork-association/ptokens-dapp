@@ -12,6 +12,8 @@ import {
   PEOS_ON_ETH_MAINNET,
   PBTC_ON_BSC_MAINNET
 } from '../../../constants'
+import { getBalance } from '../index'
+import store from '../../../store'
 
 const hostTransactionHash = {
   telos: 'transaction_id',
@@ -169,6 +171,13 @@ const loggedRedeem = async (_ptokens, _params, _pToken, _dispatch) => {
           link: null
         })
       )
+
+      setTimeout(() => {
+        const {
+          wallets: { redeemerAccount }
+        } = store.getState()
+        _dispatch(getBalance(redeemerAccount))
+      }, 5000)
 
       _dispatch({
         type: PTOKENS_REDEEM_SUCCEDEED

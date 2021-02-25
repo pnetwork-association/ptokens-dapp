@@ -1,8 +1,9 @@
 import * as LogHandler from '../../log'
 import { PTOKENS_ISSUE_SUCCEDEED, PTOKENS_ISSUE_NOT_SUCCEDEED } from '../../../constants/index'
+import { getBalance } from '../index'
 import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
-import { eth } from 'ptokens-utils'
 import store from '../../../store'
+import { eth } from 'ptokens-utils'
 import Web3 from 'web3'
 import ERC20Abi from '../../../utils/abi/ERC20.json'
 import BigNumber from 'bignumber.js'
@@ -198,6 +199,13 @@ const loggedIssueWithWallet = async (_ptokens, _params, _pToken, _dispatch) => {
           link: null
         })
       )
+
+      setTimeout(() => {
+        const {
+          wallets: { redeemerAccount }
+        } = store.getState()
+        _dispatch(getBalance(redeemerAccount))
+      }, 5000)
 
       _dispatch({
         type: PTOKENS_ISSUE_SUCCEDEED

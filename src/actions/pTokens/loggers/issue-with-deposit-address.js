@@ -4,7 +4,9 @@ import {
   PTOKENS_ISSUE_NOT_SUCCEDEED,
   PTOKENS_SET_DEPOSIT_ADDRESS
 } from '../../../constants/index'
+import { getBalance } from '../index'
 import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
+import store from '../../../store'
 
 const loggedIssueWithDepositAddress = async (_ptokens, _params, _pToken, _dispatch) => {
   //[0] should be the value but here there isn't
@@ -168,6 +170,13 @@ const loggedIssueWithDepositAddress = async (_ptokens, _params, _pToken, _dispat
           link: null
         })
       )
+
+      setTimeout(() => {
+        const {
+          wallets: { redeemerAccount }
+        } = store.getState()
+        _dispatch(getBalance(redeemerAccount))
+      }, 5000)
 
       _dispatch({
         type: PTOKENS_ISSUE_SUCCEDEED

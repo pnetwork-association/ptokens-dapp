@@ -11,13 +11,7 @@ import Alert from '../../utils/Alert'
 import CardHeader from '../CardHeader/CardHeader'
 
 const PbtcIssueCard = props => {
-  const [isGenerating, setIsGenerating] = useState(0)
   const [isCopiedToClipboard, setIsCopiedToClipboard] = useState(0)
-
-  useEffect(() => {
-    if (props.pTokenSelected.depositAddress.value || props.pTokenSelected.depositAddress.error || props.localError)
-      setIsGenerating(false)
-  }, [props.pTokenSelected.depositAddress.value, props.pTokenSelected.depositAddress.error, props.localError])
 
   useEffect(() => {
     ReactTooltip.rebuild()
@@ -131,19 +125,10 @@ const PbtcIssueCard = props => {
       <div className={'card-footer border-0 pb-20 pt-10 d-flex justify-content-center'}>
         <Button
           width={280}
-          icon={isGenerating ? null : 'add'}
-          disabled={props.typedIssueAccount === '' || props.typedIssueAccount === null || isGenerating ? true : false}
-          text={
-            isGenerating
-              ? 'Generating...'
-              : props.pTokenSelected.depositAddress
-              ? 'Generate New Deposit Address'
-              : 'Generate Deposit Address'
-          }
-          onClick={() => {
-            setIsGenerating(true)
-            props.onIssue()
-          }}
+          icon={'add'}
+          disabled={props.typedIssueAccount === ''}
+          text={props.pTokenSelected.depositAddress ? 'Generate New Deposit Address' : 'Generate Deposit Address'}
+          onClick={() => props.onIssue()}
         />
       </div>
     </div>

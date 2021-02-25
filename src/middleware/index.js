@@ -1,4 +1,4 @@
-import { getTotalSupply, getBalance } from '../actions/pTokens'
+import { getTotalSupply, getBalance, setParams } from '../actions/pTokens'
 import { getReports, getLastProcessedBlock, ping, setNode } from '../actions/pNetwork'
 import * as Log from '../actions/log'
 import { connectWithSpecificWallet, resetRedeemer, resetIssuer } from '../actions/wallets'
@@ -18,6 +18,33 @@ let intervalIssuerBlockGetter, intervalRedeemerBlockGetter
 const middleware = ({ dispatch }) => {
   return _next => {
     return async _action => {
+      if (_action.type === WALLET_REDEEMER_CONNECTED) {
+        const {
+          pTokens: { params }
+        } = store.getState()
+
+        dispatch(
+          setParams(
+            Object.assign({}, params, {
+              typedIssueAccount: _action.payload.account
+            })
+          )
+        )
+      }
+
+      if (_action.type === WALLET_ISSUER_CONNECTED) {
+        const {
+          pTokens: { params }
+        } = store.getState()
+        dispatch(
+          setParams(
+            Object.assign({}, params, {
+              typedRedeemAccount: _action.payload.account
+            })
+          )
+        )
+      }
+
       if (_action.type === SET_SELECTED_PTOKEN) {
         const { pToken } = _action.payload
 
