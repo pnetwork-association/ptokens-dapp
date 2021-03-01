@@ -55,10 +55,10 @@ const getCorrespondingReadOnlyProviderV2 = _blockchain => {
     return new Web3.providers.HttpProvider(settings.rpc.xdai.httpsXdaiChainEndpoint)
   }
   if (_blockchain === 'EOS') {
-    return new JsonRpc(settings.rpc.eos.eosEndpoint, { fetch })
+    return new JsonRpc(settings.rpc.eos.endpoint, { fetch })
   }
   if (_blockchain === 'TELOS') {
-    return new JsonRpc(settings.rpc.telos.telosEndpoint, { fetch })
+    return new JsonRpc(settings.rpc.telos.endpoint, { fetch })
   }
 
   return null

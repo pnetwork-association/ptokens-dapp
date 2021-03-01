@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
-import MainController from './main/MainController'
-import PNetworkController from './pNetwork/pNetworkController'
-import SidebarController from './sidebar/SidebarController'
+//import MainController from './main/MainController'
+//import PNetworkController from './pNetwork/pNetworkController'
+//import SidebarController from './sidebar/SidebarController'
 //import PTokensController from './pTokens/pTokensController'
 //import PTokensControllerV2 from './pTokens/pTokensControllerV2'
 import SwapController from './swap/SwapController'
@@ -153,7 +153,7 @@ const App = ({
   )
 }
 
-SidebarController.propTypes = {
+App.propTypes = {
   pTokensAvailable: PropTypes.array,
   setSelectedPage: PropTypes.func,
   setSelectedpToken: PropTypes.func,

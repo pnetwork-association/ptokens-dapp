@@ -1,19 +1,10 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import { toastr } from 'react-redux-toastr'
-import {
-  WALLET_ISSUER_CONNECTED,
-  WALLET_REDEEMER_CONNECTED,
-  WALLET_ISSUER_ACCOUNT_CHANGED,
-  WALLET_REDEEMER_ACCOUNT_CHANGED,
-  WALLET_ISSUER_NETWORK_CHANGED,
-  WALLET_REDEEMER_NETWORK_CHANGED
-} from '../../../constants'
+import { WALLET_BSC_CONNECTED, WALLET_BSC_NETWORK_CHANGED, WALLET_BSC_ACCOUNT_CHANGED } from '../../../constants'
 
-const connectWithBscWallet = async (_pToken, _role, _currentProvider, _dispatch, _force = null) => {
+const connectWithBscWallet = async _dispatch => {
   try {
-    if (!_force) return
-
     if (document.getElementById('WEB3_CONNECT_MODAL_ID')) {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
     }
@@ -21,27 +12,27 @@ const connectWithBscWallet = async (_pToken, _role, _currentProvider, _dispatch,
     const web3Modal = new Web3Modal({})
 
     const provider = await web3Modal.connect()
-    _connectionSuccesfull(_pToken, provider, _dispatch, _role, {
+    _connectionSuccesfull(provider, _dispatch, {
       type: 'multiWallet'
     })
 
     provider.on('chainChanged', _chainId => {
       if (Number(_chainId) !== 56) {
-        toastr.error('Invalid Ethereum Network. Please switch on Mainnet!')
+        toastr.error('Invalid Binance Smart Chain Network. Please switch use chainId = 56')
       }
 
-      // NOTE: store network even if is not used for possible future uses
       _dispatch({
-        type: _role === 'issuer' ? WALLET_ISSUER_NETWORK_CHANGED : WALLET_REDEEMER_NETWORK_CHANGED,
+        type: WALLET_BSC_NETWORK_CHANGED,
         payload: {
-          network: Number(_chainId) === 56 ? 'mainnet' : 'testnet'
+          network: Number(_chainId) === 56 ? 'mainnet' : 'testnet',
+          chainId: _chainId
         }
       })
     })
 
     provider.on('accountsChanged', _accounts => {
       _dispatch({
-        type: _role === 'issuer' ? WALLET_ISSUER_ACCOUNT_CHANGED : WALLET_REDEEMER_ACCOUNT_CHANGED,
+        type: WALLET_BSC_ACCOUNT_CHANGED,
         payload: {
           account: _accounts[0]
         }
@@ -53,26 +44,24 @@ const connectWithBscWallet = async (_pToken, _role, _currentProvider, _dispatch,
 }
 
 const disconnectFromBscWallet = () => {
-  //TODO: disconnect from ETH wallet
+  //TODO: disconnect from BSC wallet
 }
 
-const _connectionSuccesfull = async (_pToken, _provider, _dispatch, _role, _wallet) => {
+const _connectionSuccesfull = async (_provider, _dispatch) => {
   try {
     const { accounts, chainId } = _provider
-    if (Number(chainId) !== 56 && _pToken.redeemFrom === 'BSC') {
-      toastr.error('Invalid Binance Smart Chain Network. Please use chain id = 56')
+    if (Number(chainId) !== 56) {
+      toastr.error('Invalid Binance Smart Chain Network. Please switch use chainId = 56')
     }
 
     const account = accounts ? accounts[0] : await _getAccount(_provider)
     _dispatch({
-      type: _role === 'issuer' ? WALLET_ISSUER_CONNECTED : WALLET_REDEEMER_CONNECTED,
+      type: WALLET_BSC_CONNECTED,
       payload: {
         provider: _provider,
         account,
-        wallet: _wallet,
-        pToken: _pToken,
-        type: _pToken.redeemFrom,
-        network: Number(chainId) === 56 ? 'mainnet' : 'testnet'
+        network: Number(chainId) === 56 ? 'mainnet' : 'testnet',
+        chainId
       }
     })
   } catch (_err) {

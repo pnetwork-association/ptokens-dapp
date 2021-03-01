@@ -55,14 +55,14 @@ const AssetListModal = _props => {
       <StyledBody>
         {assets.map(({ name, blockchain, network, formattedBalance, formattedName }) => (
           <StyledRow key={`${name}-on-${blockchain}-${network}`}>
-            <Col xs={2}>
+            <Col xs={3}>
               <Image src={`../assets/${name}-${network}.png`} />
               {blockchain ? <MiniImage src={`../assets/${blockchain}-${network}.png`} /> : null}
             </Col>
-            <Col xs={8} className="text-center my-auto">
-              <Col xs={12}>{formattedName}</Col>
+            <Col xs={6} className="text-center my-auto">
+              {formattedName}
             </Col>
-            <Col xs={2} className="my-auto">
+            <Col xs={3} className="my-auto text-right">
               {formattedBalance}
             </Col>
           </StyledRow>

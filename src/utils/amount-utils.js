@@ -11,12 +11,9 @@ const parseAmount = (_decimals, _amount) => {
   return num.dividedBy(den)
 }
 
-const strip = _number =>
-  !BigNumber(_number).isZero()
-    ? BigNumber(_number)
-        .toFixed()
-        .match(/^-?\d*\.?0*\d{0,2}/)[0]
-    : '0'
+const strip = _number => BigNumber(_number)
+.toFixed()
+.match(/^-?\d*\.?0*\d{0,2}/)[0]
 
 const formattedFixedStrip = (_number, _decimals = 3) =>
   !BigNumber(_number).isZero()

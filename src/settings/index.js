@@ -753,7 +753,8 @@ const settings = {
       minimumIssuable: '0',
       minimumRedeamable: '0.00005',
       isHidden: false,
-      blockchain: 'ETH'
+      blockchain: 'ETH',
+      decimals: 18
     },
     {
       id: PBTC_ON_EOS_MAINNET,
@@ -769,7 +770,8 @@ const settings = {
       minimumIssuable: '0',
       minimumRedeamable: '0.00005',
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PBTC_ON_TELOS_MAINNET,
@@ -785,7 +787,8 @@ const settings = {
       minimumIssuable: '0',
       minimumRedeamable: '0.00005',
       isHidden: false,
-      blockchain: 'TELOS'
+      blockchain: 'TELOS',
+      decimals: 0
     },
     {
       id: PLTC_ON_ETH_MAINNET,
@@ -801,7 +804,8 @@ const settings = {
       minimumIssuable: '0',
       minimumRedeamable: '0.0000546',
       isHidden: false,
-      blockchain: 'ETH'
+      blockchain: 'ETH',
+      decimals: 18
     },
     {
       id: PLTC_ON_EOS_MAINNET,
@@ -817,7 +821,8 @@ const settings = {
       minimumIssuable: '0',
       minimumRedeamable: '0.0000546',
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PETH_ON_EOS_MAINNET,
@@ -834,7 +839,8 @@ const settings = {
       minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PNT_ON_EOS_MAINNET,
@@ -851,7 +857,8 @@ const settings = {
       minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PMKR_ON_EOS_MAINNET,
@@ -868,7 +875,8 @@ const settings = {
       minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PLINK_ON_EOS_MAINNET,
@@ -885,7 +893,8 @@ const settings = {
       minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PYFI_ON_EOS_MAINNET,
@@ -902,7 +911,8 @@ const settings = {
       minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PBTC_ON_ETH_TESTNET,
@@ -917,7 +927,8 @@ const settings = {
       network: 'testnet',
       minimumIssuable: '0',
       minimumRedeamable: '0.00005',
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 18
     },
     {
       id: PBTC_ON_EOS_TESTNET,
@@ -932,7 +943,8 @@ const settings = {
       network: 'testnet',
       minimumIssuable: '0',
       minimumRedeamable: '0.00005',
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PLTC_ON_ETH_TESTNET,
@@ -945,7 +957,8 @@ const settings = {
       balanceFixedDecimals: 8,
       totalSupplyFixedDecimals: 8,
       network: 'testnet',
-      blockchain: 'ETH'
+      blockchain: 'ETH',
+      decimals: 18
     },
     {
       id: PTERIA_ON_EOS_MAINNET,
@@ -962,7 +975,8 @@ const settings = {
       minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PUNI_ON_EOS_MAINNET,
@@ -979,7 +993,8 @@ const settings = {
       minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PBAL_ON_EOS_MAINNET,
@@ -996,7 +1011,8 @@ const settings = {
       minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PBAND_ON_EOS_MAINNET,
@@ -1013,7 +1029,8 @@ const settings = {
       minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PCOMP_ON_EOS_MAINNET,
@@ -1030,7 +1047,8 @@ const settings = {
       minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PSNX_ON_EOS_MAINNET,
@@ -1047,7 +1065,8 @@ const settings = {
       minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: POMG_ON_EOS_MAINNET,
@@ -1064,7 +1083,8 @@ const settings = {
       minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PANT_ON_EOS_MAINNET,
@@ -1081,7 +1101,8 @@ const settings = {
       minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PDAI_ON_EOS_MAINNET,
@@ -1098,7 +1119,8 @@ const settings = {
       minimumRedeamable: '0.0001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PLRC_ON_EOS_MAINNET,
@@ -1115,7 +1137,8 @@ const settings = {
       minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PUOS_ON_EOS_MAINNET,
@@ -1132,7 +1155,8 @@ const settings = {
       minimumRedeamable: '0.0001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PBAT_ON_EOS_MAINNET,
@@ -1149,7 +1173,8 @@ const settings = {
       minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PREP_ON_EOS_MAINNET,
@@ -1166,7 +1191,8 @@ const settings = {
       minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PZRX_ON_EOS_MAINNET,
@@ -1183,7 +1209,8 @@ const settings = {
       minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PPNK_ON_EOS_MAINNET,
@@ -1200,7 +1227,8 @@ const settings = {
       minimumRedeamable: '0.000000001',
       isPerc20: true,
       isHidden: false,
-      blockchain: 'EOS'
+      blockchain: 'EOS',
+      decimals: 0
     },
     {
       id: PDOGE_ON_ETH_MAINNET,
@@ -1216,7 +1244,8 @@ const settings = {
       minimumIssuable: '0',
       minimumRedeamable: '0.0000546',
       isHidden: false,
-      blockchain: 'ETH'
+      blockchain: 'ETH',
+      decimals: 18
     },
     {
       id: PEOS_ON_ETH_MAINNET,
@@ -1234,7 +1263,8 @@ const settings = {
       minimumRedeamable: '0.00001',
       isPeosioToken: true,
       isHidden: false,
-      blockchain: 'ETH'
+      blockchain: 'ETH',
+      decimals: 18
     },
     {
       id: PBTC_ON_BSC_MAINNET,
@@ -1250,7 +1280,8 @@ const settings = {
       minimumIssuable: '0',
       minimumRedeamable: '0.00005',
       isHidden: false,
-      blockchain: 'BSC'
+      blockchain: 'BSC',
+      decimals: 18
     },
     {
       id: PEOS_ON_POLYGON_MAINNET,
@@ -1268,7 +1299,8 @@ const settings = {
       minimumRedeamable: '0.00001',
       isPeosioToken: true,
       isHidden: false,
-      blockchain: 'POLYGON'
+      blockchain: 'POLYGON',
+      decimals: 18
     },
     {
       id: PBTC_ON_XDAI_MAINNET,
@@ -1284,7 +1316,8 @@ const settings = {
       minimumIssuable: '0',
       minimumRedeamable: '0.00005',
       isHidden: false,
-      blockchain: 'XDAI'
+      blockchain: 'XDAI',
+      decimals: 18
     }
   ]
 }
