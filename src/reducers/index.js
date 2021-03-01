@@ -4,6 +4,7 @@ import logReducer from './log'
 import pNetworkReducer from './pNetwork'
 import pTokensReducer from './pTokens'
 import walletsReducer from './wallets'
+import swapReducer from './swap'
 import { reducer as toastrReducer } from 'react-redux-toastr'
 
 const rootReducer = combineReducers({
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   log: logReducer,
   pNetwork: pNetworkReducer,
   pTokens: pTokensReducer,
+  swap: swapReducer,
   toastr: toastrReducer
 })
 

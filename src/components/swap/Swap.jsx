@@ -129,7 +129,7 @@ const SwapButton = styled.button`
   box-shadow: none;
 `
 
-const Swap = ({ swapAssets }) => {
+const Swap = ({ assets }) => {
   const [showModalFrom, setShowModalFrom] = useState(false)
   return (
     <React.Fragment>
@@ -178,8 +178,8 @@ const Swap = ({ swapAssets }) => {
           </OuterContainerSwap>
         </Row>
       </Container>
-      <AssetListModal assets={swapAssets} show={showModalFrom} onClose={() => setShowModalFrom(false)} />
-      <AssetListModal assets={swapAssets} show={false} />
+      <AssetListModal assets={assets} show={showModalFrom} onClose={() => setShowModalFrom(false)} />
+      <AssetListModal assets={assets} show={false} />
     </React.Fragment>
   )
 }

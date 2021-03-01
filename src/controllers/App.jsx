@@ -18,6 +18,7 @@ import { setSelectedPage, enableTestnetInstances, showHiddenPtokens } from '../a
 import { setSelectedpToken, setCustomRpc } from '../actions/pTokens'
 import PropTypes from 'prop-types'
 import Notifications from '../components/utils/Notifications'
+import { loadSwapData } from '../actions/swap'
 
 history.listen(location => {
   ReactGA.set({ page: location.pathname })
@@ -30,16 +31,17 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = _dispatch => {
   return {
-    setNodeManually: (_pToken, _endpoint) => dispatch(setNodeManually(_pToken, _endpoint)),
-    setNode: _pToken => dispatch(setNode(_pToken)),
-    setSelectedPage: (_selected, _pToken) => dispatch(setSelectedPage(_selected, _pToken)),
-    setSelectedpToken: (_pToken, _withNodeSelection) => dispatch(setSelectedpToken(_pToken, _withNodeSelection)),
-    setCustomRpc: (_rpc, _type) => dispatch(setCustomRpc(_rpc, _type)),
-    enableTestnetInstances: () => dispatch(enableTestnetInstances()),
-    showHiddenPtokens: () => dispatch(showHiddenPtokens()),
-    getValidators: () => dispatch(getValidators())
+    setNodeManually: (_pToken, _endpoint) => _dispatch(setNodeManually(_pToken, _endpoint)),
+    setNode: _pToken => _dispatch(setNode(_pToken)),
+    setSelectedPage: (_selected, _pToken) => _dispatch(setSelectedPage(_selected, _pToken)),
+    setSelectedpToken: (_pToken, _withNodeSelection) => _dispatch(setSelectedpToken(_pToken, _withNodeSelection)),
+    setCustomRpc: (_rpc, _type) => _dispatch(setCustomRpc(_rpc, _type)),
+    enableTestnetInstances: () => _dispatch(enableTestnetInstances()),
+    showHiddenPtokens: () => _dispatch(showHiddenPtokens()),
+    getValidators: () => _dispatch(getValidators()),
+    loadSwapData: () => _dispatch(loadSwapData())
   }
 }
 
@@ -59,7 +61,8 @@ const App = ({
   setSelectedPage,
   setCustomRpc,
   setNodeManually,
-  setNode
+  setNode,
+  loadSwapData
 }) => {
   useEffect(() => {
     ReactGA.pageview(window.location.pathname)
@@ -87,6 +90,8 @@ const App = ({
     if (Boolean(iamthomas) === true) {
       showHiddenPtokens()
     }
+
+    loadSwapData(withTestnetInstances)
 
     if (withTestnetInstances || pTokenNetworkSelected === 'testnet') {
       enableTestnetInstances()
@@ -121,7 +126,8 @@ const App = ({
     setNodeManually,
     setSelectedPage,
     setSelectedpToken,
-    showHiddenPtokens
+    showHiddenPtokens,
+    loadSwapData
   ])
 
   return (
@@ -215,7 +221,8 @@ SidebarController.propTypes = {
   connectWithSpecificWallet: PropTypes.func,
   enableTestnetInstances: PropTypes.func,
   showHiddenPtokens: PropTypes.func,
-  getValidators: PropTypes.func
+  getValidators: PropTypes.func,
+  loadSwapData: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

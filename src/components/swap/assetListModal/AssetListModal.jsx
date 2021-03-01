@@ -42,11 +42,11 @@ const AssetListModal = _props => {
         <Modal.Title>Assets</Modal.Title>
       </Modal.Header>
       <StyledBody>
-        {assets.map(({ name, redeemFrom }) => (
-          <StyledRow>
+        {assets.map(({ name, redeemFrom, network }) => (
+          <StyledRow key={`${name}-on-${redeemFrom}-${network}`}>
             <Col xs={2}>
-              <Image src={`../assets/${name}-mainnet.png`} />
-              {redeemFrom ? <MiniImage src={`../assets/${redeemFrom}-mainnet.png`} /> : null}
+              <Image src={`../assets/${name}-${network}.png`} />
+              {redeemFrom ? <MiniImage src={`../assets/${redeemFrom}-${network}.png`} /> : null}
             </Col>
             <Col xs={8}>
               <Col xs={12}>
