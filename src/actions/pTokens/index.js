@@ -42,7 +42,8 @@ import {
   PDOGE_ON_ETH_MAINNET,
   PEOS_ON_ETH_MAINNET,
   PBTC_ON_BSC_MAINNET,
-  PEOS_ON_POLYGON_MAINNET
+  PEOS_ON_POLYGON_MAINNET,
+  PBTC_ON_XDAI_MAINNET
 } from '../../constants/index'
 import pTokens from 'ptokens'
 import { constants } from 'ptokens-utils'
@@ -229,6 +230,10 @@ const getBalance = _account => {
             balance = await getEthBalance(pToken, _account)
             break
           }
+          case 'XDAI': {
+            balance = await getEthBalance(pToken, _account)
+            break
+          }
           case 'EOS': {
             balance = await getEosBalance(pToken, _account)
             break
@@ -284,6 +289,10 @@ const getTotalSupply = _address => {
             break
           }
           case 'POLYGON': {
+            totalSupply = await getEthTotalSupply(pToken, _address)
+            break
+          }
+          case 'XDAI': {
             totalSupply = await getEthTotalSupply(pToken, _address)
             break
           }
@@ -740,6 +749,15 @@ const _getCorrectConfigs = (_pToken, _configs) => {
         ethProvider: redeemer,
         eosRpc: settings[PEOS_ON_POLYGON_MAINNET].eos.endpoint,
         eosSignatureProvider: issuer
+      }
+    }
+  }
+  if (_pToken.id === PBTC_ON_XDAI_MAINNET) {
+    return {
+      pbtc: {
+        network: networks.Mainnet,
+        blockchain: blockchains.Xdai,
+        ethProvider: redeemer
       }
     }
   }

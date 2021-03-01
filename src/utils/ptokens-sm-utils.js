@@ -31,7 +31,8 @@ import {
   PDOGE_ON_ETH_MAINNET,
   PEOS_ON_ETH_MAINNET,
   PBTC_ON_BSC_MAINNET,
-  PEOS_ON_POLYGON_MAINNET
+  PEOS_ON_POLYGON_MAINNET,
+  PBTC_ON_XDAI_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_pToken, _role, _address) => {
@@ -190,6 +191,16 @@ const getCorrespondingExplorerLink = (_pToken, _role, _address) => {
       return _role === 'issuer'
         ? `${settings[PBTC_ON_BSC_MAINNET].btc.explorer}address/${_address}`
         : `${settings[PBTC_ON_BSC_MAINNET].bsc.explorer}address/${_address}`
+    }
+    case PEOS_ON_POLYGON_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PEOS_ON_POLYGON_MAINNET].eos.explorer}accounts/${_address}`
+        : `${settings[PEOS_ON_POLYGON_MAINNET].polygon.explorer}address/${_address}`
+    }
+    case PBTC_ON_XDAI_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PBTC_ON_XDAI_MAINNET].btc.explorer}address/${_address}`
+        : `${settings[PBTC_ON_XDAI_MAINNET].xdai.explorer}address/${_address}`
     }
     default:
       break
@@ -357,6 +368,11 @@ const getCorrespondingBaseTxExplorerLink = (_pToken, _role) => {
       return _role === 'issuer'
         ? `${settings[PEOS_ON_POLYGON_MAINNET].eos.explorer}transaction/`
         : `${settings[PEOS_ON_POLYGON_MAINNET].polygon.explorer}tx/`
+    }
+    case PBTC_ON_XDAI_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings[PBTC_ON_XDAI_MAINNET].btc.explorer}tx/`
+        : `${settings[PBTC_ON_XDAI_MAINNET].xdai.explorer}tx/`
     }
     default:
       break

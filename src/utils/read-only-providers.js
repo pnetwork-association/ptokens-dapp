@@ -28,6 +28,9 @@ const getCorrespondingReadOnlyProvider = _pToken => {
   if (_pToken.redeemFrom === 'POLYGON') {
     return new Web3.providers.HttpProvider(settings[_pToken.id].polygon.httpMaticEndpoint)
   }
+  if (_pToken.redeemFrom === 'XDAI') {
+    return new Web3.providers.HttpProvider(settings[_pToken.id].xdai.httpsXdaiChainEndpoint)
+  }
   if (_pToken.redeemFrom === 'EOS') {
     return new JsonRpc(settings[_pToken.id].eos.endpoint, { fetch })
   }

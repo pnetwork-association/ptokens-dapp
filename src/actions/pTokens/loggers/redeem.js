@@ -11,7 +11,8 @@ import {
   PTOKENS_REDEEM_SUCCEDEED,
   PEOS_ON_ETH_MAINNET,
   PBTC_ON_BSC_MAINNET,
-  PEOS_ON_POLYGON_MAINNET
+  PEOS_ON_POLYGON_MAINNET,
+  PBTC_ON_XDAI_MAINNET
 } from '../../../constants'
 import { getBalance } from '../index'
 import store from '../../../store'
@@ -31,6 +32,7 @@ const loggedRedeem = async (_ptokens, _params, _pToken, _dispatch) => {
   if (
     _pToken.id === PBTC_ON_ETH_MAINNET ||
     _pToken.id === PBTC_ON_BSC_MAINNET ||
+    _pToken.id === PBTC_ON_XDAI_MAINNET ||
     _pToken.id === PBTC_ON_ETH_TESTNET ||
     _pToken.id === PLTC_ON_ETH_MAINNET ||
     _pToken.id === PLTC_ON_ETH_TESTNET ||

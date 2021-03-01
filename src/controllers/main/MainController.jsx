@@ -28,7 +28,7 @@ export const MainController = _props => {
     ping()
     getReports(pTokenSelected.nodeInfo, 'native', 'redeemer')
     getReports(pTokenSelected.nodeInfo, 'host', 'issuer')
-  }, [])
+  }, [pTokenSelected.nodeInfo, ping, getReports])
 
   return <Main {..._props} />
 }

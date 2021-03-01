@@ -2,6 +2,7 @@ import { connectWithEosWallet, disconnectFromEosWallet } from './eos'
 import { connectWithEthWallet, disconnectFromEthWallet } from './eth'
 import { connectWithBscWallet, disconnectFromBscWallet } from './bsc'
 import { connectWithPolygonWallet, disconnectFromPolygonWallet } from './polygon'
+import { connectWithXdaiWallet, disconnectFromXdaiWallet } from './xdai'
 import {
   PBTC_ON_ETH_MAINNET,
   PBTC_ON_ETH_TESTNET,
@@ -35,6 +36,7 @@ import {
   PEOS_ON_ETH_MAINNET,
   PBTC_ON_BSC_MAINNET,
   PEOS_ON_POLYGON_MAINNET,
+  PBTC_ON_XDAI_MAINNET,
   WALLET_RESET_ISSUER,
   WALLET_RESET_REDEEMER
 } from '../../constants'
@@ -203,6 +205,10 @@ const connectWithSpecificWallet = (_role, _force) => {
         else if (_role === 'issuer') connectWithEosWallet(pToken, 'issuer', _dispatch, _force)
         break
       }
+      case PBTC_ON_XDAI_MAINNET: {
+        if (_role === 'redeemer') connectWithXdaiWallet(pToken, 'redeemer', null, _dispatch, _force)
+        break
+      }
       default:
         break
     }
@@ -368,6 +374,10 @@ const disconnectFromSpecificWallet = _role => {
       case PEOS_ON_POLYGON_MAINNET: {
         if (_role === 'redeemer') disconnectFromPolygonWallet('redeemer', null, _dispatch)
         else if (_role === 'issuer') disconnectFromEosWallet(pToken, 'issuer', _dispatch)
+        break
+      }
+      case PBTC_ON_XDAI_MAINNET: {
+        if (_role === 'redeemer') disconnectFromXdaiWallet('redeemer', null, _dispatch)
         break
       }
       default:
@@ -538,6 +548,10 @@ const changeSpecificWallet = _role => {
       case PEOS_ON_POLYGON_MAINNET: {
         if (_role === 'redeemer') connectWithPolygonWallet(pToken, 'redeemer', null, _dispatch, true)
         else if (_role === 'issuer') connectWithEosWallet(pToken, 'issuer', _dispatch, true)
+        break
+      }
+      case PBTC_ON_XDAI_MAINNET: {
+        connectWithXdaiWallet(pToken, 'redeemer', null, _dispatch, true)
         break
       }
       default:

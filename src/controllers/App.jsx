@@ -111,14 +111,24 @@ const App = ({
     }
 
     setNode(pTokenSelected)
-  }, [])
+  }, [
+    enableTestnetInstances,
+    getValidators,
+    pTokensAvailable,
+    setCustomRpc,
+    setNode,
+    setNodeManually,
+    setSelectedPage,
+    setSelectedpToken,
+    showHiddenPtokens
+  ])
 
   return (
     <Switch>
       <Route
         exact
         path={
-          '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos|pteria-on-eos|puni-on-eos|pband-on-eos|pbal-on-eos|pcomp-on-eos|psnx-on-eos|pomg-on-eos|pdai-on-eos|pant-on-eos|plrc-on-eos|puos-on-eos|pbat-on-eos|prep-on-eos|pzrx-on-eos|ppnk-on-eos|pdoge-on-eth|peos-on-eth|pbtc-on-bsc|peos-on-polygon)'
+          '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos|pteria-on-eos|puni-on-eos|pband-on-eos|pbal-on-eos|pcomp-on-eos|psnx-on-eos|pomg-on-eos|pdai-on-eos|pant-on-eos|plrc-on-eos|puos-on-eos|pbat-on-eos|prep-on-eos|pzrx-on-eos|ppnk-on-eos|pdoge-on-eth|peos-on-eth|pbtc-on-bsc|peos-on-polygon|pbtc-on-xdai)'
         }
         render={() => {
           return (
@@ -137,7 +147,7 @@ const App = ({
       <Route
         exact
         path={
-          '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos|pteria-on-eos|puni-on-eos|pband-on-eos|pbal-on-eos|pcomp-on-eos|psnx-on-eos|pomg-on-eos|pdai-on-eos|pant-on-eos|plrc-on-eos|puos-on-eos|pbat-on-eos|prep-on-eos|pzrx-on-eos|ppnk-on-eos|pdoge-on-eth|peos-on-eth|pbtc-on-bsc|peos-on-polygon)/pnetwork'
+          '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos|pteria-on-eos|puni-on-eos|pband-on-eos|pbal-on-eos|pcomp-on-eos|psnx-on-eos|pomg-on-eos|pdai-on-eos|pant-on-eos|plrc-on-eos|puos-on-eos|pbat-on-eos|prep-on-eos|pzrx-on-eos|ppnk-on-eos|pdoge-on-eth|peos-on-eth|pbtc-on-bsc|peos-on-polygon|pbtc-on-xdai)/pnetwork'
         }
         render={() => {
           return (
@@ -156,7 +166,7 @@ const App = ({
       <Route
         exact
         path={
-          '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos|pteria-on-eos|puni-on-eos|pband-on-eos|pbal-on-eos|pcomp-on-eos|psnx-on-eos|pomg-on-eos|pdai-on-eos|pant-on-eos|plrc-on-eos|puos-on-eos|pbat-on-eos|prep-on-eos|pzrx-on-eos|ppnk-on-eos|pdoge-on-eth|peos-on-eth|pbtc-on-bsc|peos-on-polygon)/issue-redeem'
+          '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos|pteria-on-eos|puni-on-eos|pband-on-eos|pbal-on-eos|pcomp-on-eos|psnx-on-eos|pomg-on-eos|pdai-on-eos|pant-on-eos|plrc-on-eos|puos-on-eos|pbat-on-eos|prep-on-eos|pzrx-on-eos|ppnk-on-eos|pdoge-on-eth|peos-on-eth|pbtc-on-bsc|peos-on-polygon|pbtc-on-xdai)/issue-redeem'
         }
         render={() => {
           return (

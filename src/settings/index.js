@@ -30,7 +30,8 @@ import {
   PDOGE_ON_ETH_MAINNET,
   PEOS_ON_ETH_MAINNET,
   PBTC_ON_BSC_MAINNET,
-  PEOS_ON_POLYGON_MAINNET
+  PEOS_ON_POLYGON_MAINNET,
+  PBTC_ON_XDAI_MAINNET
 } from '../constants'
 
 const settings = {
@@ -578,10 +579,8 @@ const settings = {
       enclaveBlockHeightPollingTime: 15000
     }
   },
-
   [PBTC_ON_BSC_MAINNET]: {
     bsc: {
-      infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
       httpsBinanceSeedEndpoint: 'https://bsc-dataseed.binance.org/',
       network: 'mainnet',
       chainId: 56,
@@ -607,6 +606,19 @@ const settings = {
       network: 'mainnet',
       chainId: 137,
       explorer: 'https://explorer-mainnet.maticvigil.com/',
+      enclaveBlockHeightPollingTime: 15000
+    }
+  },
+  [PBTC_ON_XDAI_MAINNET]: {
+    xdai: {
+      httpsXdaiChainEndpoint: 'https://rpc.xdaichain.com/',
+      network: 'mainnet',
+      chainId: 100,
+      explorer: 'https://blockscout.com/poa/xdai/',
+      enclaveBlockHeightPollingTime: 15000
+    },
+    btc: {
+      explorer: 'https://blockstream.info/',
       enclaveBlockHeightPollingTime: 15000
     }
   },
@@ -1162,6 +1174,21 @@ const settings = {
       minimumIssuable: '0.0001',
       minimumRedeamable: '0.00001',
       isPeosioToken: true,
+      isHidden: false
+    },
+    {
+      id: PBTC_ON_XDAI_MAINNET,
+      name: 'pBTC',
+      tokenType: 'ERC-20',
+      issueFrom: 'BTC',
+      redeemFrom: 'XDAI',
+      realDecimals: 8,
+      contractDecimals: 18,
+      balanceFixedDecimals: 8,
+      totalSupplyFixedDecimals: 8,
+      network: 'mainnet',
+      minimumIssuable: '0',
+      minimumRedeamable: '0.00005',
       isHidden: false
     }
   ]

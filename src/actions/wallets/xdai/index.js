@@ -10,7 +10,7 @@ import {
   WALLET_REDEEMER_NETWORK_CHANGED
 } from '../../../constants'
 
-const connectWithBscWallet = async (_pToken, _role, _currentProvider, _dispatch, _force = null) => {
+const connectWithXdaiWallet = async (_pToken, _role, _currentProvider, _dispatch, _force = null) => {
   try {
     if (!_force) return
 
@@ -26,7 +26,7 @@ const connectWithBscWallet = async (_pToken, _role, _currentProvider, _dispatch,
     })
 
     provider.on('chainChanged', _chainId => {
-      if (Number(_chainId) !== 56) {
+      if (Number(_chainId) !== 100) {
         toastr.error('Invalid Ethereum Network. Please switch on Mainnet!')
       }
 
@@ -34,7 +34,7 @@ const connectWithBscWallet = async (_pToken, _role, _currentProvider, _dispatch,
       _dispatch({
         type: _role === 'issuer' ? WALLET_ISSUER_NETWORK_CHANGED : WALLET_REDEEMER_NETWORK_CHANGED,
         payload: {
-          network: Number(_chainId) === 56 ? 'mainnet' : 'testnet'
+          network: Number(_chainId) === 100 ? 'mainnet' : 'testnet'
         }
       })
     })
@@ -52,15 +52,15 @@ const connectWithBscWallet = async (_pToken, _role, _currentProvider, _dispatch,
   }
 }
 
-const disconnectFromBscWallet = () => {
+const disconnectFromXdaiWallet = () => {
   //TODO: disconnect from ETH wallet
 }
 
 const _connectionSuccesfull = async (_pToken, _provider, _dispatch, _role, _wallet) => {
   try {
     const { accounts, chainId } = _provider
-    if (Number(chainId) !== 56 && _pToken.redeemFrom === 'BSC') {
-      toastr.error('Invalid Binance Smart Chain Network. Please use chain id = 56')
+    if (Number(chainId) !== 100 && _pToken.redeemFrom === 'XDAI') {
+      toastr.error('Invalid Xdai Network. Please use chain id = 100')
     }
 
     const account = accounts ? accounts[0] : await _getAccount(_provider)
@@ -72,11 +72,11 @@ const _connectionSuccesfull = async (_pToken, _provider, _dispatch, _role, _wall
         wallet: _wallet,
         pToken: _pToken,
         type: _pToken.redeemFrom,
-        network: Number(chainId) === 56 ? 'mainnet' : 'testnet'
+        network: Number(chainId) === 100 ? 'mainnet' : 'testnet'
       }
     })
   } catch (_err) {
-    toastr.error('Error during connection with Binance Smart Chain wallet')
+    toastr.error('Error during connection with Xdai wallet')
   }
 }
 
@@ -86,8 +86,8 @@ const _getAccount = async _provider => {
     const accounts = await web3.eth.getAccounts()
     return accounts[0]
   } catch (_err) {
-    console.error(`Error during getting Binance Smart Chain account ${_err.message}`)
+    console.error(`Error during getting Xdai account ${_err.message}`)
   }
 }
 
-export { connectWithBscWallet, disconnectFromBscWallet }
+export { connectWithXdaiWallet, disconnectFromXdaiWallet }
