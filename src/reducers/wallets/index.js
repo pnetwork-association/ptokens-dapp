@@ -21,6 +21,25 @@ const walletsReducer = (_state = initialState, _action) => {
       }
     })
   }
+  if (_action.type === WALLET_ETH_NETWORK_CHANGED) {
+    const { network, chainId } = _action.payload
+    return Object.assign({}, _state, {
+      eth: {
+        ..._state.eth,
+        network,
+        chainId
+      }
+    })
+  }
+  if (_action.type === WALLET_ETH_ACCOUNT_CHANGED) {
+    const { account } = _action.payload
+    return Object.assign({}, _state, {
+      eth: {
+        ..._state.eth,
+        account
+      }
+    })
+  }
 
   return _state
 }

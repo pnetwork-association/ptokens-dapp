@@ -6,13 +6,16 @@ const swapAssets = [
     id: 'ETH',
     name: 'ETH',
     network: 'mainnet',
-    skipNodeSelection: true
+    blockchain: 'ETH',
+    skipNodeSelection: true,
+    decimals: 18
   },
   {
     id: 'EOS',
     name: 'EOS',
     network: 'mainnet',
-    skipNodeSelection: true
+    skipNodeSelection: true,
+    decimals: 8
   },
   {
     id: 'BTC',
@@ -25,6 +28,15 @@ const swapAssets = [
     name: 'LTC',
     network: 'mainnet',
     skipNodeSelection: true
+  },
+  {
+    id: 'UNI',
+    name: 'UNI',
+    network: 'mainnet',
+    address: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
+    blockchain: 'ETH',
+    skipNodeSelection: true,
+    decimals: 18
   }
 ]
 

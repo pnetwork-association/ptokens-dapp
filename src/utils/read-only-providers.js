@@ -41,4 +41,27 @@ const getCorrespondingReadOnlyProvider = _pToken => {
   return null
 }
 
-export { getCorrespondingReadOnlyProvider }
+const getCorrespondingReadOnlyProviderV2 = _blockchain => {
+  if (_blockchain === 'ETH') {
+    return new Web3.providers.WebsocketProvider(settings.rpc.eth.wsInfuraEndpoint + settings.rpc.eth.infuraProjectId)
+  }
+  if (_blockchain === 'BSC') {
+    return new Web3.providers.HttpProvider(settings.rpc.bsc.httpsBinanceSeedEndpoint)
+  }
+  if (_blockchain === 'POLYGON') {
+    return new Web3.providers.HttpProvider(settings.rpc.polygon.httpMaticEndpoint)
+  }
+  if (_blockchain === 'XDAI') {
+    return new Web3.providers.HttpProvider(settings.rpc.xdai.httpsXdaiChainEndpoint)
+  }
+  if (_blockchain === 'EOS') {
+    return new JsonRpc(settings.rpc.eos.eosEndpoint, { fetch })
+  }
+  if (_blockchain === 'TELOS') {
+    return new JsonRpc(settings.rpc.telos.telosEndpoint, { fetch })
+  }
+
+  return null
+}
+
+export { getCorrespondingReadOnlyProvider, getCorrespondingReadOnlyProviderV2 }

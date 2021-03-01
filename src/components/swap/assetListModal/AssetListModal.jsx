@@ -53,20 +53,18 @@ const AssetListModal = _props => {
         <StyledModalTitle>Assets</StyledModalTitle>
       </StyledHeader>
       <StyledBody>
-        {assets.map(({ name, redeemFrom, network }) => (
-          <StyledRow key={`${name}-on-${redeemFrom}-${network}`}>
+        {assets.map(({ name, blockchain, network, formattedBalance, formattedName }) => (
+          <StyledRow key={`${name}-on-${blockchain}-${network}`}>
             <Col xs={2}>
               <Image src={`../assets/${name}-${network}.png`} />
-              {redeemFrom ? <MiniImage src={`../assets/${redeemFrom}-${network}.png`} /> : null}
+              {blockchain ? <MiniImage src={`../assets/${blockchain}-${network}.png`} /> : null}
             </Col>
-            <Col xs={8} className="text-center">
-              <Col xs={12}>
-                {name === 'BTC' || name === 'EOS' || name === 'LTC' || name === 'ETH'
-                  ? name
-                  : `${name} on ${redeemFrom}`}
-              </Col>
+            <Col xs={8} className="text-center my-auto">
+              <Col xs={12}>{formattedName}</Col>
             </Col>
-            <Col xs={2}>{name === 'BTC' || name === 'LTC' ? '-' : '0.00'}</Col>
+            <Col xs={2} className="my-auto">
+              {formattedBalance}
+            </Col>
           </StyledRow>
         ))}
       </StyledBody>

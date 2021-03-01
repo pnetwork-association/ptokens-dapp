@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Swap from '../../components/swap/Swap'
 import swapAssets from '../../settings/swap-assets'
+import { useAssets } from '../../hooks/use-assets'
 
 const mapStateToProps = state => {
   return {
@@ -15,8 +16,7 @@ const mapDispatchToProps = _dispatch => {
 }
 
 const SwapController = _props => {
-  const { assets } = _props
-
+  const [assets] = useAssets(_props.assets)
   return <Swap {..._props} assets={assets} />
 }
 

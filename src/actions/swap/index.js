@@ -1,7 +1,9 @@
 import { NodeSelector } from 'ptokens-node-selector'
 import { helpers } from 'ptokens-utils'
 import assets from '../../settings/swap-assets'
-import { SWAP_DATA_LOADED } from '../../constants/index'
+import { SWAP_DATA_LOADED, SWAP_BALANCE_LOADED } from '../../constants/index'
+import store from '../../store'
+import { loadEthBalances } from './balances'
 
 const loadSwapData = (_withTestnetInstance = false) => {
   return async _dispatch => {
@@ -56,9 +58,19 @@ const loadSwapData = (_withTestnetInstance = false) => {
   }
 }
 
-const loadBalances = _account => {
+const loadBalances = (_account, _blockchain) => {
   return async _dispatch => {
     try {
+      const {
+        swap: { assets }
+      } = store.getState()
+
+      switch (_blockchain) {
+        case 'ETH': {
+          loadEthBalances(assets, _account, _dispatch)
+          break
+        }
+      }
     } catch (_err) {
       console.error(_err)
     }
