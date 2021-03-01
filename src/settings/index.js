@@ -41,10 +41,30 @@ const settings = {
   BLOCKSTREAM_BASE_MAINNET_ENDPOINT: 'https://blockstream.info/api/',
   BLOCKSTREAM_BASE_TESTNET_ENDPOINT: 'https://blockstream.info/testnet/api/',
   pNetworkStats: 'https://chart.ptokens.io/index.php?a=pnetwork-node-stats',
-  // prettier-ignore
   LTC_PTOKENS_NODE_MAINNET_API: 'https://ltc-node-1.ptokens.io/insight-lite-api',
-  // prettier-ignore
   LTC_PTOKENS_NODE_TESTNET_API: 'https://ltc-testnet-node-1.ptokens.io/insight-lite-api',
+  supportedBlockchains: [
+    {
+      name: 'Ethereum',
+      symbol: 'ETH'
+    },
+    {
+      name: 'Binance Smart Chain',
+      symbol: 'BSC'
+    },
+    {
+      name: 'EOS',
+      symbol: 'EOS'
+    },
+    {
+      name: 'Polygon',
+      symbol: 'POLYGON'
+    },
+    {
+      name: 'Xdai',
+      symbol: 'XDAI'
+    }
+  ],
   [PBTC_ON_ETH_MAINNET]: {
     eth: {
       infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',

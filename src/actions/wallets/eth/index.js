@@ -5,19 +5,10 @@ import Portis from '@portis/web3'
 import Fortmatic from 'fortmatic'
 import settings from '../../../settings'
 import { toastr } from 'react-redux-toastr'
-import {
-  WALLET_ISSUER_CONNECTED,
-  WALLET_REDEEMER_CONNECTED,
-  WALLET_ISSUER_ACCOUNT_CHANGED,
-  WALLET_REDEEMER_ACCOUNT_CHANGED,
-  WALLET_ISSUER_NETWORK_CHANGED,
-  WALLET_REDEEMER_NETWORK_CHANGED
-} from '../../../constants'
+import { WALLET_ETH_CONNECTED, WALLET_ETH_NETWORK_CHANGED, WALLET_ETH_ACCOUNT_CHANGED } from '../../../constants'
 
-const connectWithEthWallet = async (_pToken, _role, _currentProvider, _dispatch, _force = null) => {
+const connectWithEthWallet = async _dispatch => {
   try {
-    if (!_force) return
-
     if (document.getElementById('WEB3_CONNECT_MODAL_ID')) {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
     }
@@ -46,7 +37,7 @@ const connectWithEthWallet = async (_pToken, _role, _currentProvider, _dispatch,
     })
 
     const provider = await web3Modal.connect()
-    _connectionSuccesfull(_pToken, provider, _dispatch, _role, {
+    _connectionSuccesfull(provider, _dispatch, {
       type: 'multiWallet'
     })
 
@@ -55,18 +46,18 @@ const connectWithEthWallet = async (_pToken, _role, _currentProvider, _dispatch,
         toastr.error('Invalid Ethereum Network. Please switch on Mainnet!')
       }
 
-      // NOTE: store network even if is not used for possible future uses
       _dispatch({
-        type: _role === 'issuer' ? WALLET_ISSUER_NETWORK_CHANGED : WALLET_REDEEMER_NETWORK_CHANGED,
+        type: WALLET_ETH_NETWORK_CHANGED,
         payload: {
-          network: Number(_chainId) === 1 ? 'mainnet' : 'testnet'
+          network: Number(_chainId) === 1 ? 'mainnet' : 'testnet',
+          chainId: _chainId
         }
       })
     })
 
     provider.on('accountsChanged', _accounts => {
       _dispatch({
-        type: _role === 'issuer' ? WALLET_ISSUER_ACCOUNT_CHANGED : WALLET_REDEEMER_ACCOUNT_CHANGED,
+        type: WALLET_ETH_ACCOUNT_CHANGED,
         payload: {
           account: _accounts[0]
         }
@@ -81,23 +72,21 @@ const disconnectFromEthWallet = () => {
   //TODO: disconnect from ETH wallet
 }
 
-const _connectionSuccesfull = async (_pToken, _provider, _dispatch, _role, _wallet) => {
+const _connectionSuccesfull = async (_provider, _dispatch) => {
   try {
     const { accounts, chainId } = _provider
-    if (Number(chainId) !== 1 && _pToken.redeemFrom === 'ETH') {
+    if (Number(chainId) !== 1) {
       toastr.error('Invalid Ethereum Network. Please switch on Mainnet!')
     }
 
     const account = accounts ? accounts[0] : await _getAccount(_provider)
     _dispatch({
-      type: _role === 'issuer' ? WALLET_ISSUER_CONNECTED : WALLET_REDEEMER_CONNECTED,
+      type: WALLET_ETH_CONNECTED,
       payload: {
         provider: _provider,
         account,
-        wallet: _wallet,
-        pToken: _pToken,
-        type: _pToken.redeemFrom,
-        network: Number(chainId) === 1 ? 'mainnet' : 'testnet'
+        network: Number(chainId) === 1 ? 'mainnet' : 'testnet',
+        chainId
       }
     })
   } catch (_err) {

@@ -26,11 +26,22 @@ const StyledBody = styled(Modal.Body)`
   height: 600px;
   max-height: 600px;
   overflow: auto;
+  background: rgba(71, 89, 101, 0.05);
+  color: #475965;
+  font-size: 18px;
 `
 
 const StyledRow = styled(Row)`
-  margin-top: 10px !important;
+  margin-top: 20px !important;
   cursor: pointer;
+`
+
+const StyledHeader = styled(Modal.Header)`
+  background: rgba(71, 89, 101, 0.05);
+`
+
+const StyledModalTitle = styled(Modal.Title)`
+  color: #475965;
 `
 
 const AssetListModal = _props => {
@@ -38,9 +49,9 @@ const AssetListModal = _props => {
 
   return (
     <Modal show={show} aria-labelledby="contained-modal-title-vcenter" centered onHide={onClose}>
-      <Modal.Header>
-        <Modal.Title>Assets</Modal.Title>
-      </Modal.Header>
+      <StyledHeader>
+        <StyledModalTitle>Assets</StyledModalTitle>
+      </StyledHeader>
       <StyledBody>
         {assets.map(({ name, redeemFrom, network }) => (
           <StyledRow key={`${name}-on-${redeemFrom}-${network}`}>
@@ -48,7 +59,7 @@ const AssetListModal = _props => {
               <Image src={`../assets/${name}-${network}.png`} />
               {redeemFrom ? <MiniImage src={`../assets/${redeemFrom}-${network}.png`} /> : null}
             </Col>
-            <Col xs={8}>
+            <Col xs={8} className="text-center">
               <Col xs={12}>
                 {name === 'BTC' || name === 'EOS' || name === 'LTC' || name === 'ETH'
                   ? name

@@ -23,7 +23,7 @@ const ContainerSwap = styled.div`
   background: rgba(71, 89, 101, 0.05);
   height: 100%;
   padding: 30px;
-  width: 550px;
+  width: 530px;
   @media (max-width: 767.98px) {
     width: 100%;
     padding-left: 10px;
@@ -120,7 +120,7 @@ const ContainerButtons = styled.div`
 const SwapButton = styled.button`
   width: 100%;
   color: white;
-  background: #33b1f5;
+  background: #ff6666;
   border: 0;
   border-radius: 20px;
   height: 50px;

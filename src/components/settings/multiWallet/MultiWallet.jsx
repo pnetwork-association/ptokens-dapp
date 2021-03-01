@@ -5,17 +5,20 @@ import styled from 'styled-components'
 
 const StyledButton = styled.button`
   width: auto;
-  background: #33b1f5;
+  background: #ff6666;
   border-radius: 3px;
   font-family: Helvetica;
   font-size: 14px;
   font-weight: 300;
   color: #ffffff;
-  height: 40px;
+  height: 50px;
   border: 0;
   padding-left: 20px;
   padding-right: 20px;
   font-weight: bold;
+  border-radius: 20px;
+  outline: none !important;
+  box-shadow: none;
 `
 
 const MultiWallet = _props => {
