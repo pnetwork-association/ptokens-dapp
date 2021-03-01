@@ -129,7 +129,8 @@ const SwapButton = styled.button`
   box-shadow: none;
 `
 
-const Swap = _props => {
+const Swap = ({ swapAssets }) => {
+  const [showModalFrom, setShowModalFrom] = useState(false)
   return (
     <React.Fragment>
       <Container>
@@ -141,7 +142,7 @@ const Swap = _props => {
                   <Col xs={3}>
                     {' '}
                     <ContainerImage>
-                      <Image src="../assets/BTC.png" />
+                      <Image src="../assets/BTC.png" onClick={() => setShowModalFrom(true)} />
                       {/*<MiniImage src="../assets/ETH.png"/>*/}
                     </ContainerImage>{' '}
                   </Col>
@@ -177,7 +178,8 @@ const Swap = _props => {
           </OuterContainerSwap>
         </Row>
       </Container>
-      <AssetListModal show={true} />
+      <AssetListModal assets={swapAssets} show={showModalFrom} onClose={() => setShowModalFrom(false)} />
+      <AssetListModal assets={swapAssets} show={false} />
     </React.Fragment>
   )
 }

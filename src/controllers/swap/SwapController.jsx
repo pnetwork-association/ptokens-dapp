@@ -19,6 +19,7 @@ import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-provider
 import BigNumber from 'bignumber.js'
 import EosAccountSuggester from '../../lib/eosAccountSuggester'
 import { toastr } from 'react-redux-toastr'
+import swapAssets from '../../settings/swap-assets'
 
 const mapStateToProps = state => {
   return {
@@ -58,9 +59,14 @@ const SwapController = _props => {
     redeem
   } = _props
 
+  const [from, setFrom] = useState(false)
+
+  console.log(swapAssets)
+
   return (
     <Swap
       {..._props}
+      swapAssets={swapAssets}
       /*amountToIssue={pTokensParams.amountToIssue}
       amountToRedeem={pTokensParams.amountToRedeem}
       typedIssueAccount={pTokensParams.typedIssueAccount}
