@@ -1,12 +1,8 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 //import Process from './process/Process'
-import MiniCard from '../utils/MiniCard'
-import Alert from '../utils/Alert'
-import Input from '../utils/Input'
-import Button from '../utils/Button'
-import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
+import { Row, Col, Container } from 'react-bootstrap'
+import AssetListModal from './assetListModal/AssetListModal'
 
 const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -65,6 +61,7 @@ const Image = styled.img`
   background: white;
   border-radius: 50%;
   border: 1px solid rgba(71, 89, 101, 0.3);
+  cursor: pointer;
 `
 
 const MiniImage = styled.img`
@@ -134,51 +131,54 @@ const SwapButton = styled.button`
 
 const Swap = _props => {
   return (
-    <div className="container">
-      <div className="row">
-        <OuterContainerSwap className="mx-auto">
-          <ContainerSwap>
-            <ContainerInput>
-              <div className="row">
-                <div className="col-3">
-                  {' '}
-                  <ContainerImage>
-                    <Image src="../assets/BTC.png" />
-                    {/*<MiniImage src="../assets/ETH.png"/>*/}
-                  </ContainerImage>{' '}
-                </div>
-                <div className="col-9 text-right my-auto">
-                  <AmountInput placeholder="0.0" />
-                </div>
-              </div>
-            </ContainerInput>
-            <DescendantImageContainer>
-              <DescendantImage src="../assets/descendant.png" />
-            </DescendantImageContainer>
-            <ContainerInput>
-              <div className="row">
-                <div className="col-3">
-                  <ContainerImage>
-                    <Image src="../assets/pBTC-mainnet.png" />
-                    <MiniImage src="../assets/ETH.png" />
-                  </ContainerImage>{' '}
-                </div>
-                <div className="col-9 text-right">
-                  <BalanceLabel>Balance: 0.001 pBTC</BalanceLabel>
-                  <AmountInput placeholder="0.0" disabled={true} />
-                </div>
-                <ContainerAddressInput>
-                  <AddressInput placeholder="to address" />
-                </ContainerAddressInput>
-              </div>
-            </ContainerInput>
-            <ContainerButtons>
-              <SwapButton>Swap</SwapButton>
-            </ContainerButtons>
-          </ContainerSwap>
-        </OuterContainerSwap>
-      </div>
-    </div>
+    <React.Fragment>
+      <Container>
+        <Row>
+          <OuterContainerSwap className="mx-auto">
+            <ContainerSwap>
+              <ContainerInput>
+                <Row>
+                  <Col xs={3}>
+                    {' '}
+                    <ContainerImage>
+                      <Image src="../assets/BTC.png" />
+                      {/*<MiniImage src="../assets/ETH.png"/>*/}
+                    </ContainerImage>{' '}
+                  </Col>
+                  <Col xs={9} className="text-right my-auto">
+                    <AmountInput placeholder="0.0" />
+                  </Col>
+                </Row>
+              </ContainerInput>
+              <DescendantImageContainer>
+                <DescendantImage src="../assets/descendant.png" />
+              </DescendantImageContainer>
+              <ContainerInput>
+                <Row>
+                  <Col xs={3}>
+                    <ContainerImage>
+                      <Image src="../assets/pBTC-mainnet.png" />
+                      <MiniImage src="../assets/ETH.png" />
+                    </ContainerImage>{' '}
+                  </Col>
+                  <Col xs={9} className="text-right">
+                    <BalanceLabel>Balance: 0.001 pBTC</BalanceLabel>
+                    <AmountInput placeholder="0.0" disabled={true} />
+                  </Col>
+                  <ContainerAddressInput>
+                    <AddressInput placeholder="to address" />
+                  </ContainerAddressInput>
+                </Row>
+              </ContainerInput>
+              <ContainerButtons>
+                <SwapButton>Swap</SwapButton>
+              </ContainerButtons>
+            </ContainerSwap>
+          </OuterContainerSwap>
+        </Row>
+      </Container>
+      <AssetListModal show={true} />
+    </React.Fragment>
   )
 }
 
