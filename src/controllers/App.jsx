@@ -4,6 +4,7 @@ import PNetworkController from './pNetwork/pNetworkController'
 import SidebarController from './sidebar/SidebarController'
 //import PTokensController from './pTokens/pTokensController'
 import PTokensControllerV2 from './pTokens/pTokensControllerV2'
+import SwapController from './swap/SwapController'
 import SettingsController from './settings/SettingsController'
 import NodeDetectorController from './nodeDetector/NodeDetectorController'
 import { Route, Switch, Redirect } from 'react-router-dom'
@@ -95,7 +96,7 @@ const App = ({
     setSelectedpToken(pTokenSelected, node ? false : true)
 
     if (!page) {
-      setSelectedPage(0, pTokenSelected)
+      setSelectedPage(3, pTokenSelected)
     } else {
       setSelectedPage(pageNameToNumbers[page], pTokenSelected)
     }
@@ -146,6 +147,23 @@ const App = ({
       />
       <Route
         exact
+        path={'/swap'}
+        render={() => {
+          return (
+            <React.Fragment>
+              <SidebarController />
+              <MainWrapper>
+                <Notifications />
+                <SettingsController />
+                <NodeDetectorController />
+                <SwapController />
+              </MainWrapper>
+            </React.Fragment>
+          )
+        }}
+      />
+      <Route
+        exact
         path={
           '/(pbtc-on-eth|pltc-on-eth|pbtc-on-eth-testnet|pltc-on-eth-testnet|pbtc-on-eos-testnet|pbtc-on-eos|pbtc-on-telos|pltc-on-eos|peth-on-eos|pmkr-on-eos|plink-on-eos|pnt-on-eos|pyfi-on-eos|pteria-on-eos|puni-on-eos|pband-on-eos|pbal-on-eos|pcomp-on-eos|psnx-on-eos|pomg-on-eos|pdai-on-eos|pant-on-eos|plrc-on-eos|puos-on-eos|pbat-on-eos|prep-on-eos|pzrx-on-eos|ppnk-on-eos|pdoge-on-eth|peos-on-eth|pbtc-on-bsc|peos-on-polygon|pbtc-on-xdai)/pnetwork'
         }
@@ -182,7 +200,7 @@ const App = ({
           )
         }}
       />
-      <Route render={() => <Redirect to="pbtc-on-eth" />} />
+      <Route render={() => <Redirect to="swap" />} />
     </Switch>
   )
 }

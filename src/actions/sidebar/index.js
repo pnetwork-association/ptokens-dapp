@@ -32,6 +32,10 @@ const setSelectedPage = (_page, _pToken) => {
       )
       break
     }
+    case 3: {
+      history.push('/swap')
+      break
+    }
     default:
       break
   }
