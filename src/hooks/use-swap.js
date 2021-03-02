@@ -9,6 +9,16 @@ const useSwap = ({ wallets, assets }) => {
   const [toAmount, setToAmount] = useState('')
 
   useEffect(() => {
+    if (from) {
+      setFrom(assets.find(({ id }) => id === from.id))
+    }
+
+    if (to) {
+      setTo(assets.find(({ id }) => id === to.id))
+    }
+  }, [assets])
+
+  useEffect(() => {
     if (!from || assets.length === 0) {
       setAction('Loading ...')
       return

@@ -28,6 +28,9 @@ const ConnectButton = styled.button`
   border-radius: 20px;
   outline: none !important;
   box-shadow: none;
+  &:hover {
+    background: #d64848;
+  }
 `
 
 const ContainerConnectButton = styled.div`

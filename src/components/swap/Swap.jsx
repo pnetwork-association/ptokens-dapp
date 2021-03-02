@@ -133,6 +133,30 @@ const ActionButton = styled.button`
   &:disabled {
     background: #ff666675;
   }
+  &:hover {
+    background: #d64848;
+  }
+`
+
+const ContainerBalance = styled.div`
+  display: inline-block;
+`
+
+const MaxButton = styled.button`
+  margin-left: 15px;
+  border-radius: 5px;
+  border: 0;
+  color: #ff6666;
+  background: #ff666626;
+  font-size: 12px;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 25px;
+  outline: none !important;
+  box-shadow: none;
+  &:hover {
+    background:  #ff666652;
+  }
 `
 
 const Swap = ({ assets, wallets, connectWithWallet }) => {
@@ -161,17 +185,17 @@ const Swap = ({ assets, wallets, connectWithWallet }) => {
       setTo(assets.find(({ symbol }) => symbol === 'PBTC'))
       setAssetsLoaded(true)
     }
-  }, [assets, assetsLoaded])
+  }, [assets, assetsLoaded, setFrom, setTo])
 
   const onSelectFrom = useCallback(_asset => {
     setShowModalFrom(false)
     setFrom(_asset)
-  }, [])
+  }, [setFrom])
 
   const onSelectTo = useCallback(_asset => {
     setShowModalTo(false)
     setTo(_asset)
-  }, [])
+  }, [setTo])
 
   const onActionClick = useCallback(() => {
     if (action === 'Connect Wallet') {
@@ -198,9 +222,14 @@ const Swap = ({ assets, wallets, connectWithWallet }) => {
                     </ContainerImage>{' '}
                   </Col>
                   <Col xs={9} className="text-right my-auto">
-                    <BalanceLabel>{`Balance: ${from ? from.formattedBalance : '-'} ${
-                      from ? (from.isPtoken ? capitalizeAllLettersExceptFirst(from.symbol) : from.symbol) : 'BTC'
-                    }`}</BalanceLabel>
+                    {from && from.formattedBalance !== '-' ? (
+                      <ContainerBalance>
+                        <BalanceLabel>{`Balance: ${from.formattedBalance} ${
+                          from.isPtoken ? capitalizeAllLettersExceptFirst(from.symbol) : from.symbol
+                        }`}</BalanceLabel>
+                        <MaxButton>MAX</MaxButton>
+                      </ContainerBalance>
+                    ) : null}
                     <AmountInput
                       placeholder="0.0"
                       onChange={_e => onChangeFromAmount(_e.target.value)}
@@ -226,9 +255,14 @@ const Swap = ({ assets, wallets, connectWithWallet }) => {
                     </ContainerImage>{' '}
                   </Col>
                   <Col xs={9} className="text-right">
-                    <BalanceLabel>{`Balance: ${to ? to.formattedBalance : '-'} ${
-                      to ? (to.isPtoken ? capitalizeAllLettersExceptFirst(to.symbol) : to.symbol) : 'pBTC'
-                    }`}</BalanceLabel>
+                    {to && to.formattedBalance !== '-'  ? (
+                      <ContainerBalance>
+                        <BalanceLabel>{`Balance: ${to.formattedBalance} ${
+                          to.isPtoken ? capitalizeAllLettersExceptFirst(to.symbol) : to.symbol
+                        }`}</BalanceLabel>
+                        <MaxButton>MAX</MaxButton>
+                      </ContainerBalance>
+                    ) : null}
                     <AmountInput
                       placeholder="0.0"
                       onChange={_e => onChangeToAmount(_e.target.value)}
