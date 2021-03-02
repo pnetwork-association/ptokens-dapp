@@ -756,7 +756,7 @@ const _getCorrectConfigs = (_pToken, _configs) => {
     return {
       pbtc: {
         network: networks.Mainnet,
-        blockchain: blockchains.Xdai,
+        blockchain: blockchains.xDai,
         ethProvider: redeemer
       }
     }

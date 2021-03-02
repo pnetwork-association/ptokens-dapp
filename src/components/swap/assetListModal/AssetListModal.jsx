@@ -61,6 +61,11 @@ const ArrowImage = styled.img`
   cursor: pointer;
 `
 
+const StyledContainer = styled(Container)`
+  padding-left: 30px;
+  padding-right: 30px;
+`
+
 const AssetListModal = _props => {
   const { show: showModal, onClose, onSelect } = _props
 
@@ -98,7 +103,7 @@ const AssetListModal = _props => {
               </StyledRow>
 
               {show[_index] ? (
-                <Container>
+                <StyledContainer>
                   {assets[_nativeSymbol]
                     .sort((_a, _b) => (_a.formattedName > _b.formattedName ? 1 : -1))
                     .map(_asset => {
@@ -119,7 +124,7 @@ const AssetListModal = _props => {
                             {withMiniImage ? <MiniImage src={miniImage} /> : null}
                           </Col>
                           <Col xs={6} className="text-center my-auto">
-                            {formattedName}
+                            {formattedName === _nativeSymbol ? 'Native' : formattedName}
                           </Col>
                           <Col xs={3} className="my-auto text-right">
                             {formattedBalance}
@@ -127,7 +132,7 @@ const AssetListModal = _props => {
                         </StyledRow>
                       )
                     })}{' '}
-                </Container>
+                </StyledContainer>
               ) : null}
             </React.Fragment>
           )

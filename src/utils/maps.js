@@ -3,7 +3,7 @@ const blockchainSymbolToName = {
   BTC: 'Bitcoin',
   LTC: 'Litecoin',
   TELOS: 'Telos',
-  XDAI: 'Xdai',
+  XDAI: 'xDai',
   BSC: 'Binance Smart Chain',
   DOGE: 'Dogecoin',
   EOS: 'EOS',

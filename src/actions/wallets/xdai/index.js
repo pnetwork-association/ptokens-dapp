@@ -60,7 +60,7 @@ const _connectionSuccesfull = async (_pToken, _provider, _dispatch, _role, _wall
   try {
     const { accounts, chainId } = _provider
     if (Number(chainId) !== 100 && _pToken.redeemFrom === 'XDAI') {
-      toastr.error('Invalid Xdai Network. Please use chain id = 100')
+      toastr.error('Invalid xDai Network. Please use chain id = 100')
     }
 
     const account = accounts ? accounts[0] : await _getAccount(_provider)
@@ -76,7 +76,7 @@ const _connectionSuccesfull = async (_pToken, _provider, _dispatch, _role, _wall
       }
     })
   } catch (_err) {
-    toastr.error('Error during connection with Xdai wallet')
+    toastr.error('Error during connection with xDai wallet')
   }
 }
 
@@ -86,7 +86,7 @@ const _getAccount = async _provider => {
     const accounts = await web3.eth.getAccounts()
     return accounts[0]
   } catch (_err) {
-    console.error(`Error during getting Xdai account ${_err.message}`)
+    console.error(`Error during getting xDai account ${_err.message}`)
   }
 }
 

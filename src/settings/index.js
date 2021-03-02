@@ -65,7 +65,7 @@ const settings = {
       symbol: 'TELOS'
     },
     {
-      name: 'Xdai',
+      name: 'xDai',
       symbol: 'XDAI'
     }
   ],

@@ -159,7 +159,7 @@ const Swap = ({ assets }) => {
 
   const { fromAssets } = useSwap(assets, from, to)
 
-  //console.log(fromAssets)
+  console.log(fromAssets)
 
   return (
     <React.Fragment>

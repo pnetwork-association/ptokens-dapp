@@ -2,17 +2,10 @@ import { useMemo } from 'react'
 
 const useSwap = (_assets, _from, _to) => {
   return useMemo(() => {
-    let fromAssets = []
-    if (!_from && _to) {
-      if (_to.isPtoken) {
-        fromAssets = _assets.filter(({ isPtoken }) => !isPtoken)
-      }
-    }
-
-    if ((_from && _to) || (!_from && !_to)) fromAssets = _assets
+    console.log(_from)
 
     return {
-      fromAssets
+      fromAssets: []
     }
   }, [_assets, _from, _to])
 }

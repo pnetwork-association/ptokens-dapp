@@ -24,7 +24,7 @@ const useAssets = _assets => {
           _asset.symbol === 'DOGE'
             ? _asset.symbol
             : _asset.isPtoken
-            ? `${capitalizeAllLettersExceptFirst(_asset.symbol)} on ${blockchainSymbolToName[_asset.blockchain]}`
+            ? `on ${blockchainSymbolToName[_asset.blockchain]}`
             : _asset.symbol,
         image: `../assets/tokens/${capitalizeAllLettersExceptFirst(_asset.symbol)}-${_asset.network}.png`,
         miniImage: `../assets/tokens/${_asset.blockchain}-${_asset.network}.png`
