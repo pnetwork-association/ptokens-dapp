@@ -1,9 +1,9 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react'
-//import Process from './process/Process'
+import React, { useState, useCallback, useMemo } from 'react'
 import styled from 'styled-components'
 import { Row, Col, Container } from 'react-bootstrap'
 import AssetListModal from './assetListModal/AssetListModal'
 import { capitalizeAllLettersExceptFirst } from '../../utils/capitalize'
+import { useSwap } from '../../hooks/use-swap'
 
 const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -157,6 +157,10 @@ const Swap = ({ assets }) => {
     setTo(_asset)
   }, [])
 
+  const { fromAssets } = useSwap(assets, from, to)
+
+  //console.log(fromAssets)
+
   return (
     <React.Fragment>
       <Container>
@@ -168,7 +172,10 @@ const Swap = ({ assets }) => {
                   <Col xs={3}>
                     {' '}
                     <ContainerImage>
-                      <Image src={from ? from.image : '../assets/BTC.png'} onClick={() => setShowModalFrom(true)} />
+                      <Image
+                        src={from ? from.image : '../assets/tokens/BTC.png'}
+                        onClick={() => setShowModalFrom(true)}
+                      />
                       {from && from.withMiniImage ? <MiniImage src={from.miniImage} /> : null}
                     </ContainerImage>{' '}
                   </Col>
@@ -184,8 +191,13 @@ const Swap = ({ assets }) => {
                 <Row>
                   <Col xs={3}>
                     <ContainerImage onClick={() => setShowModalTo(true)}>
-                      <Image src={to ? to.image : '../assets/pBTC-mainnet.png'} onClick={() => setShowModalTo(true)} />
-                      {to && to.withMiniImage ? <MiniImage src={!to ? '../assets/ETH.png' : to.miniImage} /> : null}
+                      <Image
+                        src={to ? to.image : '../assets/tokens/pBTC-mainnet.png'}
+                        onClick={() => setShowModalTo(true)}
+                      />
+                      {(to && to.withMiniImage) || !to ? (
+                        <MiniImage src={!to ? '../assets/tokens/ETH.png' : to.miniImage} />
+                      ) : null}
                     </ContainerImage>{' '}
                   </Col>
                   <Col xs={9} className="text-right">

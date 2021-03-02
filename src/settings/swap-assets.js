@@ -11,7 +11,8 @@ const swapAssets = [
     skipNodeSelection: true,
     decimals: 18,
     withMiniImage: false,
-    isPtoken: false
+    isPtoken: false,
+    nativeSymbol: 'ETH'
   },
   {
     id: 'EOS',
@@ -22,7 +23,8 @@ const swapAssets = [
     skipNodeSelection: true,
     decimals: 8,
     withMiniImage: false,
-    isPtoken: false
+    isPtoken: false,
+    nativeSymbol: 'EOS'
   },
   {
     id: 'BTC',
@@ -32,7 +34,8 @@ const swapAssets = [
     blockchain: 'BTC',
     skipNodeSelection: true,
     withMiniImage: false,
-    isPtoken: false
+    isPtoken: false,
+    nativeSymbol: 'BTC'
   },
   {
     id: 'LTC',
@@ -42,7 +45,8 @@ const swapAssets = [
     blockchain: 'LTC',
     skipNodeSelection: true,
     withMiniImage: false,
-    isPtoken: false
+    isPtoken: false,
+    nativeSymbol: 'LTC'
   },
   {
     id: 'DOGE',
@@ -52,7 +56,8 @@ const swapAssets = [
     blockchain: 'DOGE',
     skipNodeSelection: true,
     withMiniImage: false,
-    isPtoken: false
+    isPtoken: false,
+    nativeSymbol: 'DOGE'
   },
   {
     id: 'UNI',
@@ -63,7 +68,8 @@ const swapAssets = [
     skipNodeSelection: true,
     decimals: 18,
     withMiniImage: true,
-    isPtoken: false
+    isPtoken: false,
+    nativeSymbol: 'UNI'
   }
 ]
 

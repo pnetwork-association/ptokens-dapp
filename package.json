@@ -17,6 +17,7 @@
     "eosjs": "^20.0.0",
     "eventemitter3": "^4.0.7",
     "fortmatic": "^2.0.5",
+    "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
     "qrcode.react": "^1.0.0",
     "query-string": "^6.11.1",

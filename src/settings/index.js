@@ -757,7 +757,8 @@ const settings = {
       decimals: 18,
       withMiniImage: true,
       symbol: 'PBTC',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'BTC'
     },
     {
       id: PBTC_ON_EOS_MAINNET,
@@ -777,7 +778,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PBTC',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'BTC'
     },
     {
       id: PBTC_ON_TELOS_MAINNET,
@@ -797,7 +799,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PBTC',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'BTC'
     },
     {
       id: PLTC_ON_ETH_MAINNET,
@@ -817,7 +820,8 @@ const settings = {
       decimals: 18,
       withMiniImage: true,
       symbol: 'PLTC',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'LTC'
     },
     {
       id: PLTC_ON_EOS_MAINNET,
@@ -837,7 +841,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PLTC',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'LTC'
     },
     {
       id: PETH_ON_EOS_MAINNET,
@@ -858,7 +863,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PETH',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'ETH'
     },
     {
       id: PNT_ON_EOS_MAINNET,
@@ -879,7 +885,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PNT',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'PNT'
     },
     {
       id: PMKR_ON_EOS_MAINNET,
@@ -900,7 +907,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PMKR',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'MKR'
     },
     {
       id: PLINK_ON_EOS_MAINNET,
@@ -921,7 +929,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PLINK',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'LINK'
     },
     {
       id: PYFI_ON_EOS_MAINNET,
@@ -942,7 +951,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PYFI',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'YFI'
     },
     {
       id: PBTC_ON_ETH_TESTNET,
@@ -961,7 +971,8 @@ const settings = {
       decimals: 18,
       withMiniImage: true,
       symbol: 'PBTC',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'BTC'
     },
     {
       id: PBTC_ON_EOS_TESTNET,
@@ -980,7 +991,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PBTC',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'BTC'
     },
     {
       id: PLTC_ON_ETH_TESTNET,
@@ -997,7 +1009,8 @@ const settings = {
       decimals: 18,
       withMiniImage: true,
       symbol: 'PLTC',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'LTC'
     },
     {
       id: PTERIA_ON_EOS_MAINNET,
@@ -1018,7 +1031,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PTERIA',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'PTERIA'
     },
     {
       id: PUNI_ON_EOS_MAINNET,
@@ -1039,7 +1053,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PUNI',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'UNI'
     },
     {
       id: PBAL_ON_EOS_MAINNET,
@@ -1060,7 +1075,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PBAL',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'BAL'
     },
     {
       id: PBAND_ON_EOS_MAINNET,
@@ -1081,7 +1097,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PBAND',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'BAND'
     },
     {
       id: PCOMP_ON_EOS_MAINNET,
@@ -1102,7 +1119,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PCOMP',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'COMP'
     },
     {
       id: PSNX_ON_EOS_MAINNET,
@@ -1123,7 +1141,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PSNX',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'SNX'
     },
     {
       id: POMG_ON_EOS_MAINNET,
@@ -1144,7 +1163,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'POMG',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'OMG'
     },
     {
       id: PANT_ON_EOS_MAINNET,
@@ -1165,7 +1185,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PANT',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'ANT'
     },
     {
       id: PDAI_ON_EOS_MAINNET,
@@ -1186,7 +1207,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PDAI',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'DAI'
     },
     {
       id: PLRC_ON_EOS_MAINNET,
@@ -1207,7 +1229,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PLRC',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'LRC'
     },
     {
       id: PUOS_ON_EOS_MAINNET,
@@ -1228,7 +1251,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PUOS',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'UOS'
     },
     {
       id: PBAT_ON_EOS_MAINNET,
@@ -1249,7 +1273,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PBAT',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'BAT'
     },
     {
       id: PREP_ON_EOS_MAINNET,
@@ -1270,7 +1295,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PREP',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'REP'
     },
     {
       id: PZRX_ON_EOS_MAINNET,
@@ -1290,8 +1316,9 @@ const settings = {
       blockchain: 'EOS',
       decimals: 0,
       withMiniImage: true,
-      symbol: 'ZRX',
-      isPtoken: true
+      symbol: 'PZRX',
+      isPtoken: true,
+      nativeSymbol: 'ZRX'
     },
     {
       id: PPNK_ON_EOS_MAINNET,
@@ -1312,7 +1339,8 @@ const settings = {
       decimals: 0,
       withMiniImage: true,
       symbol: 'PPNK',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'PNK'
     },
     {
       id: PDOGE_ON_ETH_MAINNET,
@@ -1332,7 +1360,8 @@ const settings = {
       decimals: 18,
       withMiniImage: true,
       symbol: 'PDOGE',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'DOGE'
     },
     {
       id: PEOS_ON_ETH_MAINNET,
@@ -1354,7 +1383,8 @@ const settings = {
       decimals: 18,
       withMiniImage: true,
       symbol: 'PEOS',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'EOS'
     },
     {
       id: PBTC_ON_BSC_MAINNET,
@@ -1374,7 +1404,8 @@ const settings = {
       decimals: 18,
       withMiniImage: true,
       symbol: 'PBTC',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'BTC'
     },
     {
       id: PEOS_ON_POLYGON_MAINNET,
@@ -1396,7 +1427,8 @@ const settings = {
       decimals: 18,
       withMiniImage: true,
       symbol: 'PBTC',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'BTC'
     },
     {
       id: PBTC_ON_XDAI_MAINNET,
@@ -1416,7 +1448,8 @@ const settings = {
       decimals: 18,
       withMiniImage: true,
       symbol: 'PBTC',
-      isPtoken: true
+      isPtoken: true,
+      nativeSymbol: 'BTC'
     }
   ]
 }

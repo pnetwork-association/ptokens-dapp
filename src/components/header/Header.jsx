@@ -56,7 +56,7 @@ const Header = ({ connectWithWallet }) => {
     <HeaderWrapper>
       <Row>
         <Col xs={6} className="my-auto">
-          <Logo src="../assets/pnetwork.png" />
+          <Logo src="../assets/tokens/pnetwork.png" />
         </Col>
         <Col xs={6} className="text-right">
           <ContainerConnectButton>
