@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import BigNumber from 'bignumber.js'
 
 const useSwap = ({ wallets, assets }) => {
   const [action, setAction] = useState(null)
@@ -61,6 +62,12 @@ const useSwap = ({ wallets, assets }) => {
     setTo(currentFrom)
   })
 
+  const onFromMax = useCallback(() => {
+    setFrom()
+  })
+
+  const onToMax = useCallback(() => {})
+
   return {
     action,
     setAction,
@@ -74,7 +81,9 @@ const useSwap = ({ wallets, assets }) => {
     toAmount,
     onChangeFromAmount,
     onChangeToAmount,
-    onChangeOrder
+    onChangeOrder,
+    onFromMax,
+    onToMax
   }
 }
 

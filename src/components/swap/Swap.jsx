@@ -6,6 +6,7 @@ import AssetListModal from './assetListModal/AssetListModal'
 import { capitalizeAllLettersExceptFirst } from '../../utils/capitalize'
 //import { useSwapAction } from '../../hooks/use-swap-action'
 import { useSwap } from '../../hooks/use-swap'
+import SwapLine from './swapLine/SwapLine'
 
 const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -34,49 +35,6 @@ const ContainerSwap = styled.div`
   }
 `
 
-const ContainerInput = styled.div`
-  border-radius: 20px;
-  border: 1px solid rgba(71, 89, 101, 0.3);
-  padding: 15px;
-  display: flex;
-`
-
-const AmountInput = styled.input`
-  border: 0;
-  background: transparent;
-  outline: 0px !important;
-  -webkit-appearance: none;
-  box-shadow: none !important;
-  caret-color: #32b1f5;
-  text-align: right;
-  font-size: 40px;
-  color: #475965;
-  width: 100%;
-`
-
-const ContainerImage = styled.div`
-  border-radius: 50%;
-`
-
-const Image = styled.img`
-  position: relative;
-  width: 80px;
-  background: white;
-  border-radius: 50%;
-  border: 1px solid rgba(71, 89, 101, 0.3);
-  cursor: pointer;
-`
-
-const MiniImage = styled.img`
-  position: absolute;
-  width: 22px;
-  background: white;
-  border-radius: 50%;
-  margin-top: 55px;
-  margin-left: -18px;
-  border: 1px solid rgba(71, 89, 101, 0.3);
-`
-
 const DescendantImageContainer = styled.div`
   margin-top: 40px;
   margin-bottom: 40px;
@@ -87,33 +45,6 @@ const DescendantImageContainer = styled.div`
 const DescendantImage = styled.img`
   width: 24px;
   height: 24px;
-`
-
-const BalanceLabel = styled.label`
-  font-size: 13px;
-  color: #475965;
-  margin-bottom: 5px;
-`
-
-const AddressInput = styled.input`
-  border: 0;
-  background: transparent;
-  outline: 0px !important;
-  -webkit-appearance: none;
-  box-shadow: none !important;
-  caret-color: #32b1f5;
-  text-align: right;
-  font-size: 16px;
-  color: #475965;
-  width: 100%;
-`
-
-const ContainerAddressInput = styled.div`
-  width: 100%;
-  border-top: 1px solid rgba(71, 89, 101, 0.3);
-  padding-right: 15px;
-  padding-top: 15px;
-  margin-top: 5px;
 `
 
 const ContainerButtons = styled.div`
@@ -135,27 +66,6 @@ const ActionButton = styled.button`
   }
   &:hover {
     background: #d64848;
-  }
-`
-
-const ContainerBalance = styled.div`
-  display: inline-block;
-`
-
-const MaxButton = styled.button`
-  margin-left: 15px;
-  border-radius: 5px;
-  border: 0;
-  color: #ff6666;
-  background: #ff666626;
-  font-size: 12px;
-  padding-left: 10px;
-  padding-right: 10px;
-  height: 25px;
-  outline: none !important;
-  box-shadow: none;
-  &:hover {
-    background:  #ff666652;
   }
 `
 
@@ -187,15 +97,21 @@ const Swap = ({ assets, wallets, connectWithWallet }) => {
     }
   }, [assets, assetsLoaded, setFrom, setTo])
 
-  const onSelectFrom = useCallback(_asset => {
-    setShowModalFrom(false)
-    setFrom(_asset)
-  }, [setFrom])
+  const onSelectFrom = useCallback(
+    _asset => {
+      setShowModalFrom(false)
+      setFrom(_asset)
+    },
+    [setFrom]
+  )
 
-  const onSelectTo = useCallback(_asset => {
-    setShowModalTo(false)
-    setTo(_asset)
-  }, [setTo])
+  const onSelectTo = useCallback(
+    _asset => {
+      setShowModalTo(false)
+      setTo(_asset)
+    },
+    [setTo]
+  )
 
   const onActionClick = useCallback(() => {
     if (action === 'Connect Wallet') {
@@ -209,75 +125,26 @@ const Swap = ({ assets, wallets, connectWithWallet }) => {
         <Row>
           <OuterContainerSwap className="mx-auto">
             <ContainerSwap>
-              <ContainerInput>
-                <Row>
-                  <Col xs={3}>
-                    {' '}
-                    <ContainerImage>
-                      <Image
-                        src={from ? from.image : '../assets/tokens/BTC.png'}
-                        onClick={() => setShowModalFrom(true)}
-                      />
-                      {from && from.withMiniImage ? <MiniImage src={from.miniImage} /> : null}
-                    </ContainerImage>{' '}
-                  </Col>
-                  <Col xs={9} className="text-right my-auto">
-                    {from && from.formattedBalance !== '-' ? (
-                      <ContainerBalance>
-                        <BalanceLabel>{`Balance: ${from.formattedBalance} ${
-                          from.isPtoken ? capitalizeAllLettersExceptFirst(from.symbol) : from.symbol
-                        }`}</BalanceLabel>
-                        <MaxButton>MAX</MaxButton>
-                      </ContainerBalance>
-                    ) : null}
-                    <AmountInput
-                      placeholder="0.0"
-                      onChange={_e => onChangeFromAmount(_e.target.value)}
-                      value={fromAmount}
-                    />
-                  </Col>
-                </Row>
-              </ContainerInput>
+              <SwapLine
+                defaultImage="../assets/tokens/BTC.png"
+                asset={from}
+                amount={fromAmount}
+                onChangeAmount={onChangeFromAmount}
+                onClickImage={() => setShowModalFrom(true)}
+              />
               <DescendantImageContainer>
                 <DescendantImage src="../assets/descendant.png" onClick={onChangeOrder} />
               </DescendantImageContainer>
-              <ContainerInput>
-                <Row>
-                  <Col xs={3}>
-                    <ContainerImage onClick={() => setShowModalTo(true)}>
-                      <Image
-                        src={to ? to.image : '../assets/tokens/pBTC-mainnet.png'}
-                        onClick={() => setShowModalTo(true)}
-                      />
-                      {(to && to.withMiniImage) || !to ? (
-                        <MiniImage src={!to ? '../assets/tokens/ETH.png' : to.miniImage} />
-                      ) : null}
-                    </ContainerImage>{' '}
-                  </Col>
-                  <Col xs={9} className="text-right">
-                    {to && to.formattedBalance !== '-'  ? (
-                      <ContainerBalance>
-                        <BalanceLabel>{`Balance: ${to.formattedBalance} ${
-                          to.isPtoken ? capitalizeAllLettersExceptFirst(to.symbol) : to.symbol
-                        }`}</BalanceLabel>
-                        <MaxButton>MAX</MaxButton>
-                      </ContainerBalance>
-                    ) : null}
-                    <AmountInput
-                      placeholder="0.0"
-                      onChange={_e => onChangeToAmount(_e.target.value)}
-                      value={toAmount}
-                    />
-                  </Col>
-                  <ContainerAddressInput>
-                    <AddressInput
-                      placeholder="to address"
-                      value={address}
-                      onChange={_e => setAddress(_e.target.value)}
-                    />
-                  </ContainerAddressInput>
-                </Row>
-              </ContainerInput>
+              <SwapLine
+                defaultImage="../assets/tokens/pBTC-mainnet.png"
+                defaultMiniImage="../assets/tokens/ETH.png"
+                asset={to}
+                amount={toAmount}
+                address={address}
+                onChangeAmount={onChangeToAmount}
+                onClickImage={() => setShowModalTo(true)}
+                onChangeAddress={setAddress}
+              />
               <ContainerButtons>
                 <ActionButton onClick={onActionClick} disabled={action === 'Loading ...'}>
                   {action}
