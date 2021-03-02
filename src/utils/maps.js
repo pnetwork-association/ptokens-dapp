@@ -10,4 +10,6 @@ const blockchainSymbolToName = {
   POLYGON: 'Polygon'
 }
 
-export { blockchainSymbolToName }
+const getAssetFromSymbol = (_assets, _symbol) => _assets.find(({ symbol }) => symbol === _symbol)
+
+export { blockchainSymbolToName, getAssetFromSymbol }

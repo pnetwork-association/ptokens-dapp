@@ -51,7 +51,7 @@ const SelectWallet = _props => {
         {settings.supportedBlockchains.map(({ name, symbol }) => (
           <StyledRow key={`${name}-${symbol}`} onClick={() => onSelect(symbol)}>
             <Col xs={2}>
-              <ImageBordered src={`../assets/${symbol}.png`} />
+              <ImageBordered src={`../assets/tokens/${symbol}-mainnet.png`} />
             </Col>
             <Col xs={8} className="text-center my-auto">
               {name}

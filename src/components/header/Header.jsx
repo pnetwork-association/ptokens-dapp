@@ -12,10 +12,6 @@ const HeaderWrapper = styled.div`
   padding-left: 50px;
 `
 
-const MultiWalletContainer = styled.div`
-  margin-left: 15px;
-`
-
 const ConnectButton = styled.button`
   width: auto;
   background: #ff6666;
@@ -47,10 +43,13 @@ const Logo = styled.img`
 const Header = ({ connectWithWallet }) => {
   const [showSelectWallet, setShowSelectWallet] = useState(false)
 
-  const onSelectWallet = useCallback(_symbol => {
-    setShowSelectWallet(false)
-    connectWithWallet(_symbol)
-  })
+  const onSelectWallet = useCallback(
+    _symbol => {
+      setShowSelectWallet(false)
+      connectWithWallet(_symbol)
+    },
+    [connectWithWallet]
+  )
 
   return (
     <HeaderWrapper>

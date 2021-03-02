@@ -168,30 +168,6 @@ const swapAssets = [
     nativeSymbol: 'LRC'
   },
   {
-    id: 'LRC',
-    symbol: 'LRC',
-    name: 'Loopring',
-    network: 'mainnet',
-    blockchain: 'ETH',
-    skipNodeSelection: true,
-    decimals: 18,
-    withMiniImage: true,
-    isPtoken: false,
-    nativeSymbol: 'LRC'
-  },
-  {
-    id: 'MKR',
-    symbol: 'MKR',
-    name: 'Maker DAO',
-    network: 'mainnet',
-    blockchain: 'ETH',
-    skipNodeSelection: true,
-    decimals: 18,
-    withMiniImage: true,
-    isPtoken: false,
-    nativeSymbol: 'MKR'
-  },
-  {
     id: 'MKR',
     symbol: 'MKR',
     name: 'Maker DAO',
@@ -273,7 +249,7 @@ const swapAssets = [
     decimals: 18,
     withMiniImage: true,
     isPtoken: false,
-    nativeSymbol: 'REP'
+    nativeSymbol: 'SNX'
   },
   {
     id: 'UOS',

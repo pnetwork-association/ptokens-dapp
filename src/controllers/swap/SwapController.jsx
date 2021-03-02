@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Swap from '../../components/swap/Swap'
-import swapAssets from '../../settings/swap-assets'
 import { useAssets } from '../../hooks/use-assets'
 
 const mapStateToProps = state => {

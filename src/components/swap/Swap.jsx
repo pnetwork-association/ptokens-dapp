@@ -21,7 +21,7 @@ const ContainerSwap = styled.div`
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
   border: 0;
   border-radius: 20px;
-  background: rgba(71, 89, 101, 0.05);
+  background: #9e9e9e0d;
   height: 100%;
   padding: 30px;
   width: 530px;
@@ -145,7 +145,7 @@ const Swap = ({ assets }) => {
       setTo(assets.find(({ symbol }) => symbol === 'PBTC'))
       setAssetsLoaded(true)
     }
-  }, [assets])
+  }, [assets, assetsLoaded])
 
   const onSelectFrom = useCallback(_asset => {
     setShowModalFrom(false)
@@ -180,6 +180,9 @@ const Swap = ({ assets }) => {
                     </ContainerImage>{' '}
                   </Col>
                   <Col xs={9} className="text-right my-auto">
+                    <BalanceLabel>{`Balance: ${from ? from.formattedBalance : '-'} ${
+                      from ? (from.isPtoken ? capitalizeAllLettersExceptFirst(from.symbol) : from.symbol) : 'BTC'
+                    }`}</BalanceLabel>
                     <AmountInput placeholder="0.0" />
                   </Col>
                 </Row>
@@ -223,12 +226,19 @@ const Swap = ({ assets }) => {
         </Row>
       </Container>
       <AssetListModal
+        title="Swap from ..."
         assets={assets}
         show={showModalFrom}
         onClose={() => setShowModalFrom(false)}
         onSelect={onSelectFrom}
       />
-      <AssetListModal assets={assets} show={showModalTo} onClose={() => setShowModalTo(false)} onSelect={onSelectTo} />
+      <AssetListModal
+        title="Swap to ..."
+        assets={assets}
+        show={showModalTo}
+        onClose={() => setShowModalTo(false)}
+        onSelect={onSelectTo}
+      />
     </React.Fragment>
   )
 }
