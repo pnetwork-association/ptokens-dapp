@@ -3,15 +3,19 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Swap from '../../components/swap/Swap'
 import { useAssets } from '../../hooks/use-assets'
+import { connectWithWallet } from '../../actions/wallets'
 
-const mapStateToProps = state => {
+const mapStateToProps = _state => {
   return {
-    assets: state.swap.assets
+    assets: _state.swap.assets,
+    wallets: _state.wallets
   }
 }
 
 const mapDispatchToProps = _dispatch => {
-  return {}
+  return {
+    connectWithWallet: _blockchain => _dispatch(connectWithWallet(_blockchain))
+  }
 }
 
 const SwapController = _props => {
@@ -20,7 +24,9 @@ const SwapController = _props => {
 }
 
 SwapController.propTypes = {
-  assets: PropTypes.array.isRequired
+  assets: PropTypes.array.isRequired,
+  wallets: PropTypes.object.isRequired,
+  connectWithWallet: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SwapController)

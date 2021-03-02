@@ -20,7 +20,24 @@ const initialState = {
     account: null,
     network: null
   },
+  telos: {
+    provider: null,
+    account: null,
+    network: null
+  },
   bsc: {
+    provider: null,
+    account: null,
+    chainId: null,
+    network: null
+  },
+  xdai: {
+    provider: null,
+    account: null,
+    chainId: null,
+    network: null
+  },
+  polygon: {
     provider: null,
     account: null,
     chainId: null,

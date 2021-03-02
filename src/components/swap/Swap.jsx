@@ -1,8 +1,10 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 import { Row, Col, Container } from 'react-bootstrap'
 import AssetListModal from './assetListModal/AssetListModal'
 import { capitalizeAllLettersExceptFirst } from '../../utils/capitalize'
+//import { useSwapAction } from '../../hooks/use-swap-action'
 import { useSwap } from '../../hooks/use-swap'
 
 const OuterContainerSwap = styled.div`
@@ -115,32 +117,46 @@ const ContainerAddressInput = styled.div`
 `
 
 const ContainerButtons = styled.div`
-  margin-top: 50px;
+  margin-top: 30px;
 `
 
-const SwapButton = styled.button`
+const ActionButton = styled.button`
   width: 100%;
   color: white;
   background: #ff6666;
   border: 0;
   border-radius: 20px;
-  height: 50px;
+  height: 70px;
   font-size: 24px;
   outline: none !important;
   box-shadow: none;
+  &:disabled {
+    background: #ff666675;
+  }
 `
 
-const Swap = ({ assets }) => {
+const Swap = ({ assets, wallets, connectWithWallet }) => {
   const [showModalFrom, setShowModalFrom] = useState(false)
   const [showModalTo, setShowModalTo] = useState(false)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
 
-  const [from, setFrom] = useState(null)
-  const [to, setTo] = useState(null)
-  const [address, setAddress] = useState('')
+  const {
+    action,
+    from,
+    to,
+    setFrom,
+    setTo,
+    address,
+    setAddress,
+    fromAmount,
+    toAmount,
+    onChangeFromAmount,
+    onChangeToAmount,
+    onChangeOrder
+  } = useSwap({ wallets, assets })
 
   useMemo(() => {
-    if (!assetsLoaded) {
+    if (!assetsLoaded && assets.length > 0) {
       setFrom(assets.find(({ symbol }) => symbol === 'BTC'))
       setTo(assets.find(({ symbol }) => symbol === 'PBTC'))
       setAssetsLoaded(true)
@@ -157,9 +173,11 @@ const Swap = ({ assets }) => {
     setTo(_asset)
   }, [])
 
-  const { fromAssets } = useSwap(assets, from, to)
-
-  console.log(fromAssets)
+  const onActionClick = useCallback(() => {
+    if (action === 'Connect Wallet') {
+      connectWithWallet(from.blockchain)
+    }
+  }, [from, action, connectWithWallet])
 
   return (
     <React.Fragment>
@@ -183,12 +201,16 @@ const Swap = ({ assets }) => {
                     <BalanceLabel>{`Balance: ${from ? from.formattedBalance : '-'} ${
                       from ? (from.isPtoken ? capitalizeAllLettersExceptFirst(from.symbol) : from.symbol) : 'BTC'
                     }`}</BalanceLabel>
-                    <AmountInput placeholder="0.0" />
+                    <AmountInput
+                      placeholder="0.0"
+                      onChange={_e => onChangeFromAmount(_e.target.value)}
+                      value={fromAmount}
+                    />
                   </Col>
                 </Row>
               </ContainerInput>
               <DescendantImageContainer>
-                <DescendantImage src="../assets/descendant.png" />
+                <DescendantImage src="../assets/descendant.png" onClick={onChangeOrder} />
               </DescendantImageContainer>
               <ContainerInput>
                 <Row>
@@ -207,7 +229,11 @@ const Swap = ({ assets }) => {
                     <BalanceLabel>{`Balance: ${to ? to.formattedBalance : '-'} ${
                       to ? (to.isPtoken ? capitalizeAllLettersExceptFirst(to.symbol) : to.symbol) : 'pBTC'
                     }`}</BalanceLabel>
-                    <AmountInput placeholder="0.0" disabled={true} />
+                    <AmountInput
+                      placeholder="0.0"
+                      onChange={_e => onChangeToAmount(_e.target.value)}
+                      value={toAmount}
+                    />
                   </Col>
                   <ContainerAddressInput>
                     <AddressInput
@@ -219,7 +245,9 @@ const Swap = ({ assets }) => {
                 </Row>
               </ContainerInput>
               <ContainerButtons>
-                <SwapButton>Swap</SwapButton>
+                <ActionButton onClick={onActionClick} disabled={action === 'Loading ...'}>
+                  {action}
+                </ActionButton>
               </ContainerButtons>
             </ContainerSwap>
           </OuterContainerSwap>
@@ -243,6 +271,10 @@ const Swap = ({ assets }) => {
   )
 }
 
-Swap.propTypes = {}
+Swap.propTypes = {
+  wallets: PropTypes.object.isRequired,
+  assets: PropTypes.array.isRequired,
+  connectWithWallet: PropTypes.func
+}
 
 export default Swap

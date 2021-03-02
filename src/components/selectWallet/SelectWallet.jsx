@@ -15,7 +15,7 @@ const ImageBordered = styled.img`
 
 const ArrowImage = styled.img`
   position: relative;
-  width: 30px;
+  width: 16px;
   cursor: pointer;
 `
 
