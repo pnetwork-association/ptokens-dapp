@@ -1,10 +1,8 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Row, Col, Container } from 'react-bootstrap'
-import AssetListModal from '../assetListModal/AssetListModal'
+import { Row, Col } from 'react-bootstrap'
 import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
-//import { useSwapAction } from '../../hooks/use-swap-action'
 
 const SwapLineContainer = styled.div`
   border-radius: 20px;
@@ -123,7 +121,8 @@ const SwapLine = ({
   defaultMiniImage,
   onChangeAmount,
   onClickImage,
-  onChangeAddress
+  onChangeAddress,
+  onMax
 }) => {
   return (
     <SwapLineContainer>
@@ -137,7 +136,7 @@ const SwapLine = ({
           </ContainerImage>{' '}
           {asset && asset.formattedBalance !== '-' ? (
             <ContainerMaxButton>
-              <MaxButton>MAX</MaxButton>
+              <MaxButton onClick={onMax}>MAX</MaxButton>
             </ContainerMaxButton>
           ) : null}
         </ContainerImageAndMaxButton>
@@ -168,14 +167,15 @@ const SwapLine = ({
 }
 
 SwapLine.propTypes = {
-  asset: PropTypes.array,
+  asset: PropTypes.object,
   amount: PropTypes.string,
   address: PropTypes.string,
   defaultImage: PropTypes.string,
   defaultMiniImage: PropTypes.string,
   onChangeAmount: PropTypes.func,
   onClickImage: PropTypes.func,
-  onChangeAddress: PropTypes.func
+  onChangeAddress: PropTypes.func,
+  onMax: PropTypes.func
 }
 
 export default SwapLine

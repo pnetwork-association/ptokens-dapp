@@ -84,7 +84,9 @@ const Swap = ({ assets, wallets, connectWithWallet }) => {
     toAmount,
     onChangeFromAmount,
     onChangeToAmount,
-    onChangeOrder
+    onChangeOrder,
+    onFromMax,
+    onToMax
   } = useSwap({ wallets, assets })
 
   useMemo(() => {
@@ -129,6 +131,7 @@ const Swap = ({ assets, wallets, connectWithWallet }) => {
                 amount={fromAmount}
                 onChangeAmount={onChangeFromAmount}
                 onClickImage={() => setShowModalFrom(true)}
+                onMax={onFromMax}
               />
               <DescendantImageContainer>
                 <DescendantImage src="../assets/descendant.png" onClick={onChangeOrder} />
@@ -142,6 +145,7 @@ const Swap = ({ assets, wallets, connectWithWallet }) => {
                 onChangeAmount={onChangeToAmount}
                 onClickImage={() => setShowModalTo(true)}
                 onChangeAddress={setAddress}
+                onMax={onToMax}
               />
               <ContainerButtons>
                 <ActionButton onClick={onActionClick} disabled={action === 'Loading ...'}>

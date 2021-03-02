@@ -63,10 +63,20 @@ const useSwap = ({ wallets, assets }) => {
   })
 
   const onFromMax = useCallback(() => {
-    setFrom()
+    setFromAmount(
+      BigNumber(from.balance)
+        .dividedBy(10 ** from.decimals)
+        .toFixed()
+    )
   })
 
-  const onToMax = useCallback(() => {})
+  const onToMax = useCallback(() => {
+    setToAmount(
+      BigNumber(to.balance)
+        .dividedBy(10 ** to.decimals)
+        .toFixed()
+    )
+  })
 
   return {
     action,
