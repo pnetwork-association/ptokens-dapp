@@ -1,9 +1,11 @@
 import { NodeSelector } from 'ptokens-node-selector'
 import assets from '../../settings/swap-assets'
-import { SWAP_DATA_LOADED } from '../../constants/index'
+import { SWAP_DATA_LOADED, SHOW_DEPOSIT_ADDRESS_MODAL, HIDE_DEPOSIT_ADDRESS_MODAL } from '../../constants/index'
 import store from '../../store'
 import { loadEthBalances, loadEosBalances } from './balances'
 import { constants, helpers } from 'ptokens-utils'
+import pTokens from 'ptokens'
+import { getConfigs } from '../../utils/ptokens-configs'
 
 const loadSwapData = (_withTestnetInstance = false) => {
   return async _dispatch => {
@@ -94,4 +96,54 @@ const loadBalances = (_account, _blockchain) => {
   }
 }
 
-export { loadSwapData, loadBalances }
+const swap = (_from, _to, _amount, _address) => {
+  return async _dispatch => {
+    try {
+      const { wallets } = store.getState()
+      console.log(_from, _to)
+
+      // NOTE: pegin
+      if (!_from.isPtoken && _to.isPtoken) {
+        console.log(`P${_from.symbol.toUpperCase()}_ON_${_to.blockchain.toUpperCase()}_MAINNET`)
+        const ptokens = new pTokens(
+          getConfigs(`P${_from.symbol.toUpperCase()}_ON_${_to.blockchain.toUpperCase()}_MAINNET`, {
+            ethProvider: wallets.eth.provider,
+            eosSignatureProvider: wallets.eos.provider,
+            telosSignatureProvider: wallets.telos.provider,
+            polygonProvider: wallets.polygon.provider,
+            xDaiProvider: wallets.xdai.provider,
+            bscProvider: wallets.bsc.provider
+          })
+        )
+
+        console.log(await ptokens.pbtc.getDepositAddress(_address))
+      }
+
+      // NOTE: pegout
+      if (_from.isPtoken && !_to.isPtoken) {
+      }
+    } catch (_err) {
+      console.error(_err)
+    }
+  }
+}
+
+const showDepositAddressModal = (_asset, _show) => {
+  return {
+    type: SHOW_DEPOSIT_ADDRESS_MODAL,
+    payload: {
+      depositAddressModal: {
+        show: _show,
+        asset: _asset
+      }
+    }
+  }
+}
+
+const hideDepositAddressModal = () => {
+  return {
+    type: HIDE_DEPOSIT_ADDRESS_MODAL
+  }
+}
+
+export { loadSwapData, loadBalances, showDepositAddressModal, hideDepositAddressModal, swap }

@@ -149,16 +149,17 @@ const SwapLine = ({
             </ContainerBalance>
           ) : null}
           <ContainerAmountInput>
-            <AmountInput placeholder="0.0" onChange={_e => onChangeAmount(_e.target.value)} value={amount} />
+            <AmountInput
+              type="number"
+              placeholder="0.0"
+              onChange={_e => onChangeAmount(_e.target.value.toString())}
+              value={amount}
+            />
           </ContainerAmountInput>
         </Col>
-        {address ? (
+        {address || address === '' ? (
           <ContainerAddressInput>
-            <AddressInput
-              placeholder="asset address"
-              value={address}
-              onChange={_e => onChangeAddress(_e.target.value)}
-            />
+            <AddressInput placeholder="to address" value={address} onChange={_e => onChangeAddress(_e.target.value)} />
           </ContainerAddressInput>
         ) : null}
       </Row>

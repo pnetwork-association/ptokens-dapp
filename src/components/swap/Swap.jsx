@@ -5,6 +5,7 @@ import { Row, Container } from 'react-bootstrap'
 import AssetListModal from './assetListModal/AssetListModal'
 import { useSwap } from '../../hooks/use-swap'
 import SwapLine from './swapLine/SwapLine'
+import DepositAddressModal from './depositAddressModal/DepositAddressModal'
 
 const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -67,7 +68,7 @@ const ActionButton = styled.button`
   }
 `
 
-const Swap = ({ assets, wallets, connectWithWallet }) => {
+const Swap = ({ assets, wallets, connectWithWallet, depositAddressModal, hideDepositAddressModal, swap }) => {
   const [showModalFrom, setShowModalFrom] = useState(false)
   const [showModalTo, setShowModalTo] = useState(false)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
@@ -86,8 +87,9 @@ const Swap = ({ assets, wallets, connectWithWallet }) => {
     onChangeToAmount,
     onChangeOrder,
     onFromMax,
-    onToMax
-  } = useSwap({ wallets, assets })
+    onToMax,
+    onSwap
+  } = useSwap({ wallets, assets, connectWithWallet, swap })
 
   useMemo(() => {
     if (!assetsLoaded && assets.length > 0) {
@@ -112,12 +114,6 @@ const Swap = ({ assets, wallets, connectWithWallet }) => {
     },
     [setTo]
   )
-
-  const onActionClick = useCallback(() => {
-    if (action === 'Connect Wallet') {
-      connectWithWallet(from.blockchain)
-    }
-  }, [from, action, connectWithWallet])
 
   return (
     <React.Fragment>
@@ -148,7 +144,7 @@ const Swap = ({ assets, wallets, connectWithWallet }) => {
                 onMax={onToMax}
               />
               <ContainerButtons>
-                <ActionButton onClick={onActionClick} disabled={action === 'Loading ...'}>
+                <ActionButton onClick={onSwap} disabled={action === 'Loading ...'}>
                   {action}
                 </ActionButton>
               </ContainerButtons>
@@ -170,6 +166,11 @@ const Swap = ({ assets, wallets, connectWithWallet }) => {
         onClose={() => setShowModalTo(false)}
         onSelect={onSelectTo}
       />
+      <DepositAddressModal
+        show={depositAddressModal.show}
+        onClose={hideDepositAddressModal}
+        disabled={address === ''}
+      />
     </React.Fragment>
   )
 }
@@ -177,7 +178,9 @@ const Swap = ({ assets, wallets, connectWithWallet }) => {
 Swap.propTypes = {
   wallets: PropTypes.object.isRequired,
   assets: PropTypes.array.isRequired,
-  connectWithWallet: PropTypes.func
+  connectWithWallet: PropTypes.func,
+  hideDepositAddressModal: PropTypes.func,
+  swap: PropTypes.func
 }
 
 export default Swap

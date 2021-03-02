@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import BigNumber from 'bignumber.js'
 
-const useSwap = ({ wallets, assets }) => {
+const useSwap = ({ wallets, assets, connectWithWallet, swap }) => {
   const [action, setAction] = useState(null)
   const [from, setFrom] = useState(null)
   const [to, setTo] = useState(null)
@@ -17,7 +17,7 @@ const useSwap = ({ wallets, assets }) => {
     if (to) {
       setTo(assets.find(({ id }) => id === to.id))
     }
-  }, [assets])
+  }, [assets, to, from])
 
   useEffect(() => {
     if (!from || assets.length === 0) {
@@ -43,7 +43,7 @@ const useSwap = ({ wallets, assets }) => {
     _amount => {
       setFromAmount(_amount)
       // NOTE: when fees will be introduces we need to change 1
-      setToAmount(_amount !== '' ? _amount * 1 : _amount)
+      setToAmount(_amount !== '' ? (_amount * 1).toString() : _amount.toString())
     },
     [setFromAmount, setToAmount]
   )
@@ -51,7 +51,7 @@ const useSwap = ({ wallets, assets }) => {
   const onChangeToAmount = useCallback(
     _amount => {
       setToAmount(_amount)
-      setFromAmount(_amount !== '' ? _amount * 1 : _amount)
+      setFromAmount(_amount !== '' ? (_amount * 1).toString() : _amount.toString())
     },
     [setToAmount, setFromAmount]
   )
@@ -60,7 +60,7 @@ const useSwap = ({ wallets, assets }) => {
     const currentFrom = from
     setFrom(to)
     setTo(currentFrom)
-  })
+  }, [setFrom, from, to])
 
   const onFromMax = useCallback(() => {
     setFromAmount(
@@ -68,7 +68,7 @@ const useSwap = ({ wallets, assets }) => {
         .dividedBy(10 ** from.decimals)
         .toFixed()
     )
-  })
+  }, [setFromAmount, from])
 
   const onToMax = useCallback(() => {
     setToAmount(
@@ -76,7 +76,17 @@ const useSwap = ({ wallets, assets }) => {
         .dividedBy(10 ** to.decimals)
         .toFixed()
     )
-  })
+  }, [setToAmount, to])
+
+  const onSwap = useCallback(() => {
+    if (action === 'Connect Wallet') {
+      connectWithWallet(from.blockchain)
+    }
+
+    if (action === 'Get Deposit Address' || action === 'Swap') {
+      swap(from, to, fromAmount, address)
+    }
+  }, [from, action, to, address, fromAmount, swap, connectWithWallet])
 
   return {
     action,
@@ -93,7 +103,8 @@ const useSwap = ({ wallets, assets }) => {
     onChangeToAmount,
     onChangeOrder,
     onFromMax,
-    onToMax
+    onToMax,
+    onSwap
   }
 }
 
