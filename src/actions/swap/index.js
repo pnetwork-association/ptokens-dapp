@@ -6,6 +6,8 @@ import { loadEthBalances, loadEosBalances } from './balances'
 import { constants, helpers } from 'ptokens-utils'
 import pTokens from 'ptokens'
 import { getConfigs } from '../../utils/ptokens-configs'
+import { getCorrespondingReadOnlyProviderV2 } from '../../utils/read-only-providers'
+import issueWithDepositAddress from './issue-with-deposit-address'
 
 const loadSwapData = (_withTestnetInstance = false) => {
   return async _dispatch => {
@@ -104,19 +106,119 @@ const swap = (_from, _to, _amount, _address) => {
 
       // NOTE: pegin
       if (!_from.isPtoken && _to.isPtoken) {
-        console.log(`P${_from.symbol.toUpperCase()}_ON_${_to.blockchain.toUpperCase()}_MAINNET`)
         const ptokens = new pTokens(
           getConfigs(`P${_from.symbol.toUpperCase()}_ON_${_to.blockchain.toUpperCase()}_MAINNET`, {
-            ethProvider: wallets.eth.provider,
-            eosSignatureProvider: wallets.eos.provider,
-            telosSignatureProvider: wallets.telos.provider,
-            polygonProvider: wallets.polygon.provider,
-            xDaiProvider: wallets.xdai.provider,
-            bscProvider: wallets.bsc.provider
+            ethProvider: wallets.eth.provider || getCorrespondingReadOnlyProviderV2('ETH'),
+            eosSignatureProvider: wallets.eos.provider || getCorrespondingReadOnlyProviderV2('EOS'),
+            telosSignatureProvider: wallets.telos.provider || getCorrespondingReadOnlyProviderV2('TELOS'),
+            polygonProvider: wallets.polygon.provider || getCorrespondingReadOnlyProviderV2('POLYGON'),
+            xDaiProvider: wallets.xdai.provider || getCorrespondingReadOnlyProviderV2('XDAI'),
+            bscProvider: wallets.bsc.provider || getCorrespondingReadOnlyProviderV2('BSC')
           })
         )
 
-        console.log(await ptokens.pbtc.getDepositAddress(_address))
+        const ptoken = `p${_from.symbol.toUpperCase()}`
+        switch (ptoken) {
+          case 'pETH': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'PNT': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'PTERIA': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pYFI': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pLINK': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pMKR': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pBTC': {
+            issueWithDepositAddress(ptokens, _address, ptoken, _dispatch)
+            // loggedIssueWithDepositAddress(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pLTC': {
+            // loggedIssueWithDepositAddress(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pUNI': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pBAND': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pBAL': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pCOMP': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pSNX': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pOMG': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pDAI': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pANT': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pLRC': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pUOS': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pBAT': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pREP': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pZRX': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pPNK': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pDOGE': {
+            // loggedIssueWithDepositAddress(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          case 'pEOS': {
+            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
+            break
+          }
+          default:
+            break
+        }
       }
 
       // NOTE: pegout
