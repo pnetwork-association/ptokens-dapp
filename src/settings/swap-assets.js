@@ -4,39 +4,66 @@ const swapAssets = [
   ...settings.pTokensAvailable,
   {
     id: 'ETH',
-    name: 'ETH',
+    symbol: 'ETH',
+    name: 'Ethereum',
     network: 'mainnet',
     blockchain: 'ETH',
     skipNodeSelection: true,
-    decimals: 18
+    decimals: 18,
+    withMiniImage: false,
+    isPtoken: false
   },
   {
     id: 'EOS',
+    symbol: 'EOS',
     name: 'EOS',
     network: 'mainnet',
+    blockchain: 'EOS',
     skipNodeSelection: true,
-    decimals: 8
+    decimals: 8,
+    withMiniImage: false,
+    isPtoken: false
   },
   {
     id: 'BTC',
-    name: 'BTC',
+    symbol: 'BTC',
+    name: 'Bitcoin',
     network: 'mainnet',
-    skipNodeSelection: true
+    blockchain: 'BTC',
+    skipNodeSelection: true,
+    withMiniImage: false,
+    isPtoken: false
   },
   {
     id: 'LTC',
-    name: 'LTC',
+    symbol: 'LTC',
+    name: 'Litecoin',
     network: 'mainnet',
-    skipNodeSelection: true
+    blockchain: 'LTC',
+    skipNodeSelection: true,
+    withMiniImage: false,
+    isPtoken: false
+  },
+  {
+    id: 'DOGE',
+    symbol: 'DOGE',
+    name: 'Dogecoin',
+    network: 'mainnet',
+    blockchain: 'DOGE',
+    skipNodeSelection: true,
+    withMiniImage: false,
+    isPtoken: false
   },
   {
     id: 'UNI',
-    name: 'UNI',
+    symbol: 'UNI',
+    name: 'Uniswap',
     network: 'mainnet',
-    address: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
     blockchain: 'ETH',
     skipNodeSelection: true,
-    decimals: 18
+    decimals: 18,
+    withMiniImage: true,
+    isPtoken: false
   }
 ]
 

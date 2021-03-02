@@ -45,7 +45,7 @@ const StyledModalTitle = styled(Modal.Title)`
 `
 
 const AssetListModal = _props => {
-  const { show, onClose, assets } = _props
+  const { show, assets, onClose, onSelect } = _props
 
   return (
     <Modal show={show} aria-labelledby="contained-modal-title-vcenter" centered onHide={onClose}>
@@ -53,20 +53,23 @@ const AssetListModal = _props => {
         <StyledModalTitle>Assets</StyledModalTitle>
       </StyledHeader>
       <StyledBody>
-        {assets.map(({ name, blockchain, network, formattedBalance, formattedName }) => (
-          <StyledRow key={`${name}-on-${blockchain}-${network}`}>
-            <Col xs={3}>
-              <Image src={`../assets/${name}-${network}.png`} />
-              {blockchain ? <MiniImage src={`../assets/${blockchain}-${network}.png`} /> : null}
-            </Col>
-            <Col xs={6} className="text-center my-auto">
-              {formattedName}
-            </Col>
-            <Col xs={3} className="my-auto text-right">
-              {formattedBalance}
-            </Col>
-          </StyledRow>
-        ))}
+        {assets.map(_asset => {
+          const { name, blockchain, network, formattedBalance, formattedName, withMiniImage, image, miniImage } = _asset
+          return (
+            <StyledRow key={`${name}-on-${blockchain}-${network}`} onClick={() => onSelect(_asset)}>
+              <Col xs={3}>
+                <Image src={image} />
+                {withMiniImage ? <MiniImage src={miniImage} /> : null}
+              </Col>
+              <Col xs={6} className="text-center my-auto">
+                {formattedName}
+              </Col>
+              <Col xs={3} className="my-auto text-right">
+                {formattedBalance}
+              </Col>
+            </StyledRow>
+          )
+        })}
       </StyledBody>
     </Modal>
   )
@@ -75,7 +78,8 @@ const AssetListModal = _props => {
 AssetListModal.propTypes = {
   show: PropTypes.bool,
   assets: PropTypes.array,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  onSelect: PropTypes.func
 }
 
 export default AssetListModal

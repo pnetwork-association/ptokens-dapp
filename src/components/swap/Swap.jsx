@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, useEffect, useMemo } from 'react'
 //import Process from './process/Process'
 import styled from 'styled-components'
 import { Row, Col, Container } from 'react-bootstrap'
 import AssetListModal from './assetListModal/AssetListModal'
+import { capitalizeAllLettersExceptFirst } from '../../utils/capitalize'
 
 const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -100,7 +101,7 @@ const AddressInput = styled.input`
   box-shadow: none !important;
   caret-color: #32b1f5;
   text-align: right;
-  font-size: 18px;
+  font-size: 16px;
   color: #475965;
   width: 100%;
 `
@@ -131,6 +132,31 @@ const SwapButton = styled.button`
 
 const Swap = ({ assets }) => {
   const [showModalFrom, setShowModalFrom] = useState(false)
+  const [showModalTo, setShowModalTo] = useState(false)
+  const [assetsLoaded, setAssetsLoaded] = useState(false)
+
+  const [from, setFrom] = useState(null)
+  const [to, setTo] = useState(null)
+  const [address, setAddress] = useState('')
+
+  useMemo(() => {
+    if (!assetsLoaded) {
+      setFrom(assets.find(({ symbol }) => symbol === 'BTC'))
+      setTo(assets.find(({ symbol }) => symbol === 'PBTC'))
+      setAssetsLoaded(true)
+    }
+  }, [assets])
+
+  const onSelectFrom = useCallback(_asset => {
+    setShowModalFrom(false)
+    setFrom(_asset)
+  }, [])
+
+  const onSelectTo = useCallback(_asset => {
+    setShowModalTo(false)
+    setTo(_asset)
+  }, [])
+
   return (
     <React.Fragment>
       <Container>
@@ -142,8 +168,8 @@ const Swap = ({ assets }) => {
                   <Col xs={3}>
                     {' '}
                     <ContainerImage>
-                      <Image src="../assets/BTC.png" onClick={() => setShowModalFrom(true)} />
-                      {/*<MiniImage src="../assets/ETH.png"/>*/}
+                      <Image src={from ? from.image : '../assets/BTC.png'} onClick={() => setShowModalFrom(true)} />
+                      {from && from.withMiniImage ? <MiniImage src={from.miniImage} /> : null}
                     </ContainerImage>{' '}
                   </Col>
                   <Col xs={9} className="text-right my-auto">
@@ -157,17 +183,23 @@ const Swap = ({ assets }) => {
               <ContainerInput>
                 <Row>
                   <Col xs={3}>
-                    <ContainerImage>
-                      <Image src="../assets/pBTC-mainnet.png" />
-                      <MiniImage src="../assets/ETH.png" />
+                    <ContainerImage onClick={() => setShowModalTo(true)}>
+                      <Image src={to ? to.image : '../assets/pBTC-mainnet.png'} onClick={() => setShowModalTo(true)} />
+                      {to && to.withMiniImage ? <MiniImage src={!to ? '../assets/ETH.png' : to.miniImage} /> : null}
                     </ContainerImage>{' '}
                   </Col>
                   <Col xs={9} className="text-right">
-                    <BalanceLabel>Balance: 0.001 pBTC</BalanceLabel>
+                    <BalanceLabel>{`Balance: ${to ? to.formattedBalance : '-'} ${
+                      to ? (to.isPtoken ? capitalizeAllLettersExceptFirst(to.symbol) : to.symbol) : 'pBTC'
+                    }`}</BalanceLabel>
                     <AmountInput placeholder="0.0" disabled={true} />
                   </Col>
                   <ContainerAddressInput>
-                    <AddressInput placeholder="to address" />
+                    <AddressInput
+                      placeholder="to address"
+                      value={address}
+                      onChange={_e => setAddress(_e.target.value)}
+                    />
                   </ContainerAddressInput>
                 </Row>
               </ContainerInput>
@@ -178,8 +210,13 @@ const Swap = ({ assets }) => {
           </OuterContainerSwap>
         </Row>
       </Container>
-      <AssetListModal assets={assets} show={showModalFrom} onClose={() => setShowModalFrom(false)} />
-      <AssetListModal assets={assets} show={false} />
+      <AssetListModal
+        assets={assets}
+        show={showModalFrom}
+        onClose={() => setShowModalFrom(false)}
+        onSelect={onSelectFrom}
+      />
+      <AssetListModal assets={assets} show={showModalTo} onClose={() => setShowModalTo(false)} onSelect={onSelectTo} />
     </React.Fragment>
   )
 }

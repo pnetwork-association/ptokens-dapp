@@ -754,7 +754,10 @@ const settings = {
       minimumRedeamable: '0.00005',
       isHidden: false,
       blockchain: 'ETH',
-      decimals: 18
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'PBTC',
+      isPtoken: true
     },
     {
       id: PBTC_ON_EOS_MAINNET,
@@ -771,7 +774,10 @@ const settings = {
       minimumRedeamable: '0.00005',
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PBTC',
+      isPtoken: true
     },
     {
       id: PBTC_ON_TELOS_MAINNET,
@@ -788,7 +794,10 @@ const settings = {
       minimumRedeamable: '0.00005',
       isHidden: false,
       blockchain: 'TELOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PBTC',
+      isPtoken: true
     },
     {
       id: PLTC_ON_ETH_MAINNET,
@@ -805,7 +814,10 @@ const settings = {
       minimumRedeamable: '0.0000546',
       isHidden: false,
       blockchain: 'ETH',
-      decimals: 18
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'PLTC',
+      isPtoken: true
     },
     {
       id: PLTC_ON_EOS_MAINNET,
@@ -822,7 +834,10 @@ const settings = {
       minimumRedeamable: '0.0000546',
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PLTC',
+      isPtoken: true
     },
     {
       id: PETH_ON_EOS_MAINNET,
@@ -840,7 +855,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PETH',
+      isPtoken: true
     },
     {
       id: PNT_ON_EOS_MAINNET,
@@ -858,7 +876,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PNT',
+      isPtoken: true
     },
     {
       id: PMKR_ON_EOS_MAINNET,
@@ -876,7 +897,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PMKR',
+      isPtoken: true
     },
     {
       id: PLINK_ON_EOS_MAINNET,
@@ -894,7 +918,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PLINK',
+      isPtoken: true
     },
     {
       id: PYFI_ON_EOS_MAINNET,
@@ -912,7 +939,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PYFI',
+      isPtoken: true
     },
     {
       id: PBTC_ON_ETH_TESTNET,
@@ -928,7 +958,10 @@ const settings = {
       minimumIssuable: '0',
       minimumRedeamable: '0.00005',
       blockchain: 'EOS',
-      decimals: 18
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'PBTC',
+      isPtoken: true
     },
     {
       id: PBTC_ON_EOS_TESTNET,
@@ -944,7 +977,10 @@ const settings = {
       minimumIssuable: '0',
       minimumRedeamable: '0.00005',
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PBTC',
+      isPtoken: true
     },
     {
       id: PLTC_ON_ETH_TESTNET,
@@ -958,7 +994,10 @@ const settings = {
       totalSupplyFixedDecimals: 8,
       network: 'testnet',
       blockchain: 'ETH',
-      decimals: 18
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'PLTC',
+      isPtoken: true
     },
     {
       id: PTERIA_ON_EOS_MAINNET,
@@ -976,7 +1015,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PTERIA',
+      isPtoken: true
     },
     {
       id: PUNI_ON_EOS_MAINNET,
@@ -994,7 +1036,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PUNI',
+      isPtoken: true
     },
     {
       id: PBAL_ON_EOS_MAINNET,
@@ -1012,7 +1057,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PBAL',
+      isPtoken: true
     },
     {
       id: PBAND_ON_EOS_MAINNET,
@@ -1030,7 +1078,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PBAND',
+      isPtoken: true
     },
     {
       id: PCOMP_ON_EOS_MAINNET,
@@ -1048,7 +1099,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PCOMP',
+      isPtoken: true
     },
     {
       id: PSNX_ON_EOS_MAINNET,
@@ -1066,7 +1120,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PSNX',
+      isPtoken: true
     },
     {
       id: POMG_ON_EOS_MAINNET,
@@ -1084,7 +1141,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'POMG',
+      isPtoken: true
     },
     {
       id: PANT_ON_EOS_MAINNET,
@@ -1102,7 +1162,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PANT',
+      isPtoken: true
     },
     {
       id: PDAI_ON_EOS_MAINNET,
@@ -1120,7 +1183,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PDAI',
+      isPtoken: true
     },
     {
       id: PLRC_ON_EOS_MAINNET,
@@ -1138,7 +1204,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PLRC',
+      isPtoken: true
     },
     {
       id: PUOS_ON_EOS_MAINNET,
@@ -1156,7 +1225,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PUOS',
+      isPtoken: true
     },
     {
       id: PBAT_ON_EOS_MAINNET,
@@ -1174,7 +1246,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PBAT',
+      isPtoken: true
     },
     {
       id: PREP_ON_EOS_MAINNET,
@@ -1192,7 +1267,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PREP',
+      isPtoken: true
     },
     {
       id: PZRX_ON_EOS_MAINNET,
@@ -1210,7 +1288,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'ZRX',
+      isPtoken: true
     },
     {
       id: PPNK_ON_EOS_MAINNET,
@@ -1228,7 +1309,10 @@ const settings = {
       isPerc20: true,
       isHidden: false,
       blockchain: 'EOS',
-      decimals: 0
+      decimals: 0,
+      withMiniImage: true,
+      symbol: 'PPNK',
+      isPtoken: true
     },
     {
       id: PDOGE_ON_ETH_MAINNET,
@@ -1245,7 +1329,10 @@ const settings = {
       minimumRedeamable: '0.0000546',
       isHidden: false,
       blockchain: 'ETH',
-      decimals: 18
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'PDOGE',
+      isPtoken: true
     },
     {
       id: PEOS_ON_ETH_MAINNET,
@@ -1264,7 +1351,10 @@ const settings = {
       isPeosioToken: true,
       isHidden: false,
       blockchain: 'ETH',
-      decimals: 18
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'PEOS',
+      isPtoken: true
     },
     {
       id: PBTC_ON_BSC_MAINNET,
@@ -1281,7 +1371,10 @@ const settings = {
       minimumRedeamable: '0.00005',
       isHidden: false,
       blockchain: 'BSC',
-      decimals: 18
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'PBTC',
+      isPtoken: true
     },
     {
       id: PEOS_ON_POLYGON_MAINNET,
@@ -1300,7 +1393,10 @@ const settings = {
       isPeosioToken: true,
       isHidden: false,
       blockchain: 'POLYGON',
-      decimals: 18
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'PBTC',
+      isPtoken: true
     },
     {
       id: PBTC_ON_XDAI_MAINNET,
@@ -1317,7 +1413,10 @@ const settings = {
       minimumRedeamable: '0.00005',
       isHidden: false,
       blockchain: 'XDAI',
-      decimals: 18
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'PBTC',
+      isPtoken: true
     }
   ]
 }
