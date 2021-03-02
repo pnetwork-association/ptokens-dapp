@@ -24,19 +24,26 @@ const StyledBody = styled(Modal.Body)`
   background: rgba(71, 89, 101, 0.05);
   color: #475965;
   font-size: 18px;
+  padding: 0;
 `
 
 const StyledHeader = styled(Modal.Header)`
   background: rgba(71, 89, 101, 0.05);
 `
 
-const StyledRow = styled(Row)`
-  margin-top: 20px !important;
-  cursor: pointer;
-`
-
 const StyledModalTitle = styled(Modal.Title)`
   color: #475965;
+`
+
+const ContainerInnerRow = styled.div`
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+  cursor: pointer;
+  &:hover {
+    background: #ececec;
+  }
 `
 
 const SelectWallet = _props => {
@@ -49,17 +56,19 @@ const SelectWallet = _props => {
       </StyledHeader>
       <StyledBody>
         {settings.supportedBlockchains.map(({ name, symbol }) => (
-          <StyledRow key={`${name}-${symbol}`} onClick={() => onSelect(symbol)}>
-            <Col xs={2}>
-              <ImageBordered src={`../assets/tokens/${symbol}-mainnet.png`} />
-            </Col>
-            <Col xs={8} className="text-center my-auto">
-              {name}
-            </Col>
-            <Col xs={2} className="text-right">
-              <ArrowImage src={`../assets/right-arrow.png`} />
-            </Col>
-          </StyledRow>
+          <ContainerInnerRow>
+            <Row key={`${name}-${symbol}`} onClick={() => onSelect(symbol)}>
+              <Col xs={2} className="my-auto">
+                <ImageBordered src={`../assets/tokens/${symbol}-mainnet.png`} />
+              </Col>
+              <Col xs={8} className="my-auto">
+                {name}
+              </Col>
+              <Col xs={2} className="text-right my-auto">
+                <ArrowImage src={`../assets/right-arrow.png`} />
+              </Col>
+            </Row>
+          </ContainerInnerRow>
         ))}
       </StyledBody>
     </Modal>

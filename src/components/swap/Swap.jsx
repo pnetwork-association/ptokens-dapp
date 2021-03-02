@@ -1,10 +1,8 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Row, Col, Container } from 'react-bootstrap'
+import { Row, Container } from 'react-bootstrap'
 import AssetListModal from './assetListModal/AssetListModal'
-import { capitalizeAllLettersExceptFirst } from '../../utils/capitalize'
-//import { useSwapAction } from '../../hooks/use-swap-action'
 import { useSwap } from '../../hooks/use-swap'
 import SwapLine from './swapLine/SwapLine'
 
