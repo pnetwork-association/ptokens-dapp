@@ -21,7 +21,7 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
     })
   )
 
-  dispatch(showDepositAddressModal(ptoken))
+  dispatch(showDepositAddressModal(ptoken, depositAddress.toString()))
 
   depositAddress
     .waitForDeposit()
@@ -38,7 +38,7 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
         timeOut: 0,
         onToastrClick: () =>
           window.open(
-            `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'pegin')}${
+            `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${
               _tx[nativeTransactionField[ptoken.blockchain.toLowerCase()]]
             }`,
             '_blank'
@@ -81,10 +81,7 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
       toastr.success('Transaction broadcasted!', 'Click here to see it', {
         timeOut: 0,
         onToastrClick: () =>
-          window.open(
-            `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'pegout')}${_report.broadcast_tx_hash}`,
-            '_blank'
-          )
+          window.open(`${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${_report.broadcast_tx_hash}`, '_blank')
       })
 
       step = step + 1

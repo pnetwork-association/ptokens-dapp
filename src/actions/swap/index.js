@@ -15,6 +15,7 @@ import { getConfigs } from '../../utils/ptokens-configs'
 import { getCorrespondingReadOnlyProviderV2 } from '../../utils/read-only-providers'
 import peginWithDepositAddress from './pegin-with-deposit-address'
 import peginWithWallet from './pegin-with-wallet'
+import pegout from './pegout'
 
 const loadSwapData = (_withTestnetInstance = false) => {
   return async _dispatch => {
@@ -180,7 +181,7 @@ const swap = (_from, _to, _amount, _address) => {
           })
         )
 
-        console.log('PTOKEN', ptoken)
+        console.log('pegin', ptoken)
         switch (ptoken.name) {
           case 'pBTC': {
             peginWithDepositAddress({ ptokens, address: _address, ptoken, dispatch: _dispatch })
@@ -208,6 +209,21 @@ const swap = (_from, _to, _amount, _address) => {
 
       // NOTE: pegout
       else if (_from.isPtoken && !_to.isPtoken) {
+        const ptokenId = _from.id
+        const ptoken = assets.find(({ id }) => ptokenId === id)
+
+        const ptokens = new pTokens(
+          getConfigs(ptokenId, {
+            ethProvider: wallets.eth.provider || getCorrespondingReadOnlyProviderV2('ETH'),
+            eosSignatureProvider: wallets.eos.provider || getCorrespondingReadOnlyProviderV2('EOS'),
+            telosSignatureProvider: wallets.telos.provider || getCorrespondingReadOnlyProviderV2('TELOS'),
+            polygonProvider: wallets.polygon.provider || getCorrespondingReadOnlyProviderV2('POLYGON'),
+            xDaiProvider: wallets.xdai.provider || getCorrespondingReadOnlyProviderV2('XDAI'),
+            bscProvider: wallets.bsc.provider || getCorrespondingReadOnlyProviderV2('BSC')
+          })
+        )
+
+        pegout({ ptokens, address: _address, ptoken, dispatch: _dispatch, params: [_amount, _address] })
       }
     } catch (_err) {
       console.error(_err)
@@ -215,13 +231,14 @@ const swap = (_from, _to, _amount, _address) => {
   }
 }
 
-const showDepositAddressModal = _asset => {
+const showDepositAddressModal = (_asset, _depositAddress) => {
   return {
     type: SHOW_DEPOSIT_ADDRESS_MODAL,
     payload: {
       depositAddressModal: {
         asset: _asset,
-        show: true
+        show: true,
+        value: _depositAddress
       }
     }
   }

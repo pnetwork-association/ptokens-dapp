@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import BigNumber from 'bignumber.js'
 
 const useSwap = ({ wallets, assets, connectWithWallet, swap }) => {
   const [from, setFrom] = useState(null)
@@ -60,6 +59,10 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap }) => {
 
     // NOTE: pegin with deposit address
     if (!wallets[from.blockchain.toLowerCase()]) {
+      if (!address || address === '') {
+        return ['Enter an address']
+      }
+
       return ['Get Deposit Address']
     }
 
@@ -71,7 +74,7 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap }) => {
       return ['Enter an amount']
     }
 
-    if (!address) {
+    if (!address || address === '') {
       return ['Enter an address']
     }
 

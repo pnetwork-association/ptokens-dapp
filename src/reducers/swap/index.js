@@ -11,7 +11,8 @@ const initialState = {
   assets: [],
   depositAddressModal: {
     show: false,
-    asset: null
+    asset: null,
+    value: null
   },
   progress: {
     show: false,

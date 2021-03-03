@@ -187,6 +187,7 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
         onClose={hideDepositAddressModal}
         asset={depositAddressModal.asset}
         disabled={address === ''}
+        value={depositAddressModal.value}
       />
     </React.Fragment>
   )

@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { offChainFormat, strip } from '../utils/amount-utils'
 import { capitalizeAllLettersExceptFirst } from '../utils/capitalize'
-import { blockchainSymbolToName } from '../utils/maps'
+import { blockchainSymbolToName, blockchainSymbolToCoin } from '../utils/maps'
 
 const useAssets = _assets => {
   return useMemo(() => {
@@ -24,6 +24,7 @@ const useAssets = _assets => {
               ? _asset.balance
               : '-'
             : '-',
+        coin: blockchainSymbolToCoin[_asset.nativeSymbol],
         formattedName:
           _asset.symbol === 'BTC' ||
           _asset.symbol === 'EOS' ||

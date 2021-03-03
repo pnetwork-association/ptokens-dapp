@@ -3,6 +3,7 @@ import { Modal } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import QRCode from 'qrcode.react'
+import { blockchainSymbolToCoin } from '../../../utils/maps'
 
 const StyledBody = styled(Modal.Body)`
   color: #475965;
@@ -31,28 +32,32 @@ const Info = styled.div`
   width: 100%;
 `
 
-const AssetListModal = ({ show, asset, onClose }) => {
+const DepositAddressModal = ({ show, asset, onClose, value }) => {
   return (
     <Modal show={show} aria-labelledby="contained-modal-deposit-address" centered onHide={onClose}>
       <StyledHeader>
-        <StyledModalTitle>{`${asset ? asset.name : ''} Deposit Address`}</StyledModalTitle>
+        {/*NOTE: blockchainSymbolToCoin works because we use deposit addresses to wrap ONLY native assets*/}
+        <StyledModalTitle>{`${
+          asset ? blockchainSymbolToCoin[asset.nativeSymbol] : ''
+        } Deposit Address`}</StyledModalTitle>
       </StyledHeader>
       <StyledBody>
         <ContainerQrCode>
-          <QRCode value={'hello'} size={'170'} />
+          <QRCode value={value ? value : ''} size={'170'} />
         </ContainerQrCode>
-        <Info>{`Send your ${asset ? asset.name : ''} here ecc ecc ecc`}</Info>
+        <Info>{`Send your ${asset ? blockchainSymbolToCoin[asset.nativeSymbol] : ''} here ecc ecc ecc`}</Info>
       </StyledBody>
     </Modal>
   )
 }
 
-AssetListModal.propTypes = {
+DepositAddressModal.propTypes = {
   title: PropTypes.string,
   show: PropTypes.bool,
   asset: PropTypes.object,
+  value: PropTypes.string,
   assets: PropTypes.array,
   onClose: PropTypes.func
 }
 
-export default AssetListModal
+export default DepositAddressModal
