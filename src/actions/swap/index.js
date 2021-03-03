@@ -181,7 +181,6 @@ const swap = (_from, _to, _amount, _address) => {
           })
         )
 
-        console.log('pegin', ptoken)
         switch (ptoken.name) {
           case 'pBTC': {
             peginWithDepositAddress({ ptokens, address: _address, ptoken, dispatch: _dispatch })
