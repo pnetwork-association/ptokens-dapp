@@ -71,8 +71,12 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap }) => {
       return ['Enter an amount']
     }
 
+    if (!address) {
+      return ['Enter an address']
+    }
+
     return ['Swap']
-  }, [wallets, assets, from, fromAmount, to, isValidSwap])
+  }, [wallets, assets, from, fromAmount, to, address, isValidSwap])
 
   const onChangeFromAmount = useCallback(
     _amount => {
@@ -98,17 +102,13 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap }) => {
   }, [setFrom, from, to])
 
   const onFromMax = useCallback(() => {
-    const amount = BigNumber(from.balance)
-      .dividedBy(10 ** from.decimals)
-      .toFixed()
+    const amount = from.balance
     setFromAmount(amount)
     setToAmount(amount !== '' ? (amount * 1).toString() : amount.toString())
   }, [setFromAmount, from])
 
   const onToMax = useCallback(() => {
-    const amount = BigNumber(to.balance)
-      .dividedBy(10 ** to.decimals)
-      .toFixed()
+    const amount = to.balance
     setFromAmount(amount)
     setToAmount(amount !== '' ? (amount * 1).toString() : amount.toString())
   }, [setToAmount, to])

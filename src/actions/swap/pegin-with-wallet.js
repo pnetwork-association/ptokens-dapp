@@ -4,7 +4,7 @@ import { eth } from 'ptokens-utils'
 import Web3 from 'web3'
 import ERC20Abi from '../../utils/abi/ERC20.json'
 import BigNumber from 'bignumber.js'
-import { updateProgress, loadBalanceByAssetId } from './index'
+import { updateProgress, loadBalanceByAssetId, resetProgress } from './index'
 import { toastr } from 'react-redux-toastr'
 
 const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
@@ -15,9 +15,6 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
     try {
       await ptokens[ptoken.name.toLowerCase()].select()
       const info = await ptokens[ptoken.name.toLowerCase()].selectedNode.getInfo()
-
-      console.log(params)
-
       const { wallets } = store.getState()
 
       const web3 = new Web3(wallets.eth.provider)
@@ -63,6 +60,9 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
 
   // NOTE: avoids brave metamask gas estimation fails
   params[params.length] = { gas: 200000 }
+  params[0] = BigNumber(params[0])
+    .multipliedBy(10 ** ptoken.nativeDecimals)
+    .toFixed()
   ptokens[ptoken.name.toLowerCase()]
     .issue(...params)
     .once('nativeTxBroadcasted', _hash => {
@@ -154,23 +154,8 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
 
       // TODO load balances
     })
-    .catch(_err => {
-      /*const { message } = _err
-
-      _dispatch(LogHandler.clearWaitingItem())
-      _dispatch(
-        LogHandler.addItem({
-          value: message ? message : _err,
-          success: false
-        })
-      )
-
-      _dispatch({
-        type: PTOKENS_ISSUE_NOT_SUCCEDEED,
-        payload: {
-          error: message ? message : _err
-        }
-      })*/
+    .catch(() => {
+      dispatch(resetProgress())
     })
 }
 

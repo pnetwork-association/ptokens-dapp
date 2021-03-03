@@ -182,30 +182,6 @@ const swap = (_from, _to, _amount, _address) => {
 
         console.log('PTOKEN', ptoken)
         switch (ptoken.name) {
-          case 'pETH': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
-          case 'PNT': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
-          case 'PTERIA': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
-          case 'pYFI': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
-          case 'pLINK': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
-          case 'pMKR': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
           case 'pBTC': {
             peginWithDepositAddress({ ptokens, address: _address, ptoken, dispatch: _dispatch })
             break
@@ -214,78 +190,19 @@ const swap = (_from, _to, _amount, _address) => {
             peginWithDepositAddress({ ptokens, address: _address, ptoken, dispatch: _dispatch })
             break
           }
-          case 'pUNI': {
+          case 'pDOGE': {
+            peginWithDepositAddress({ ptokens, address: _address, ptoken, dispatch: _dispatch })
+            break
+          }
+          default: {
             peginWithWallet({
               ptokens,
               ptoken,
               dispatch: _dispatch,
               params: [_amount, _address]
             })
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
             break
           }
-          case 'pBAND': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
-          case 'pBAL': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
-          case 'pCOMP': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
-          case 'pSNX': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
-          case 'pOMG': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
-          case 'pDAI': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
-          case 'pANT': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
-          case 'pLRC': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
-          case 'pUOS': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
-          case 'pBAT': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
-          case 'pREP': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
-          case 'pZRX': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
-          case 'pPNK': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
-          case 'pDOGE': {
-            peginWithDepositAddress({ ptokens, address: _address, ptoken, dispatch: _dispatch })
-            break
-          }
-          case 'pEOS': {
-            // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
-            break
-          }
-          default:
-            break
         }
       }
 
@@ -311,8 +228,11 @@ const showDepositAddressModal = _asset => {
 }
 
 const hideDepositAddressModal = () => {
-  return {
-    type: HIDE_DEPOSIT_ADDRESS_MODAL
+  return async _dispatch => {
+    _dispatch(resetProgress())
+    _dispatch({
+      type: HIDE_DEPOSIT_ADDRESS_MODAL
+    })
   }
 }
 

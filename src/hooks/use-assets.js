@@ -16,6 +16,14 @@ const useAssets = _assets => {
               ? strip(_asset.balance)
               : '-'
             : '-',
+        balance:
+          _asset.balance && _asset.blockchain !== 'EOS'
+            ? offChainFormat(_asset.balance, _asset.decimals).toFixed()
+            : _asset.blockchain === 'EOS'
+            ? _asset.balance
+              ? _asset.balance
+              : '-'
+            : '-',
         formattedName:
           _asset.symbol === 'BTC' ||
           _asset.symbol === 'EOS' ||
