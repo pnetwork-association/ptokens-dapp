@@ -1,8 +1,8 @@
-import { showDepositAddressModal, hideDepositAddressModal, updateProgress } from './index'
+import { showDepositAddressModal, hideDepositAddressModal, updateProgress, loadBalanceByAssetId } from './index'
 import { toastr } from 'react-redux-toastr'
 import { getCorrespondingBaseTxExplorerLink } from '../../utils/ptokens-sm-utils'
 
-const peginWithDepositAddress = async ({ ptokens, address, ptoken, ptokenId, asset, dispatch }) => {
+const peginWithDepositAddress = async ({ ptokens, address, ptoken, assetId, asset, dispatch }) => {
   let depositAddress = null
   try {
     depositAddress = await ptokens[ptoken.toLowerCase()].getDepositAddress(address)
@@ -38,7 +38,7 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, ptokenId, ass
         timeOut: 0,
         onToastrClick: () =>
           window.open(
-            `${getCorrespondingBaseTxExplorerLink(ptokenId, 'pegin')}${
+            `${getCorrespondingBaseTxExplorerLink(assetId, 'pegin')}${
               _tx[nativeTransactionField[asset.blockchain.toLowerCase()]]
             }`,
             '_blank'
@@ -81,7 +81,7 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, ptokenId, ass
       toastr.success('Transaction broadcasted!', 'Click here to see it', {
         timeOut: 0,
         onToastrClick: () =>
-          window.open(`${getCorrespondingBaseTxExplorerLink(ptokenId, 'pegout')}${_report.broadcast_tx_hash}`, '_blank')
+          window.open(`${getCorrespondingBaseTxExplorerLink(assetId, 'pegout')}${_report.broadcast_tx_hash}`, '_blank')
       })
 
       step = step + 1
@@ -104,6 +104,8 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, ptokenId, ass
           steps: [0, 20, 40, 60, 80, 100]
         })
       )
+
+      setTimeout(() => dispatch(loadBalanceByAssetId(assetId)), 2000)
     })
     .catch(_err => {
       dispatch(hideDepositAddressModal())

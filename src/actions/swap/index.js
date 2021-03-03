@@ -8,7 +8,7 @@ import {
   PROGRESS_RESET
 } from '../../constants/index'
 import store from '../../store'
-import { loadEthBalances, loadEosBalances } from './balances'
+import { loadEthBalances, loadEosBalances, loadEthBalance, loadEosBalance } from './balances'
 import { constants, helpers } from 'ptokens-utils'
 import pTokens from 'ptokens'
 import { getConfigs } from '../../utils/ptokens-configs'
@@ -80,23 +80,54 @@ const loadBalances = (_account, _blockchain) => {
 
       switch (_blockchain) {
         case 'ETH': {
-          loadEthBalances(
-            assets.filter(({ blockchain }) => blockchain === 'ETH'),
-            _account,
-            _dispatch
-          )
+          loadEthBalances({
+            assets: assets.filter(({ blockchain }) => blockchain === 'ETH'),
+            account: _account,
+            dispatch: _dispatch
+          })
           break
         }
         case 'EOS': {
-          loadEosBalances(
-            assets.filter(({ blockchain }) => blockchain === 'EOS'),
-            _account,
-            _dispatch
-          )
+          loadEosBalances({
+            assets: assets.filter(({ blockchain }) => blockchain === 'EOS'),
+            account: _account,
+            dispatch: _dispatch
+          })
           break
         }
         default:
           break
+      }
+    } catch (_err) {
+      console.error(_err)
+    }
+  }
+}
+
+const loadBalanceByAssetId = _id => {
+  return async _dispatch => {
+    try {
+      const {
+        wallets,
+        swap: { assets }
+      } = store.getState()
+
+      const asset = assets.find(({ id }) => id === _id)
+      if (!wallets[asset.blockchain.toLowerCase()] || !wallets[asset.blockchain.toLowerCase()].account) {
+        return
+      }
+
+      const account = wallets[asset.blockchain.toLowerCase()].account
+
+      switch (asset.blockchain) {
+        case 'ETH': {
+          loadEthBalance({ asset, account, dispatch: _dispatch })
+          break
+        }
+        case 'EOS': {
+          loadEosBalance({ asset, account, dispatch: _dispatch })
+          break
+        }
       }
     } catch (_err) {
       console.error(_err)
@@ -113,9 +144,9 @@ const swap = (_from, _to, _amount, _address) => {
 
       // NOTE: pegin
       if (!_from.isPtoken && _to.isPtoken) {
-        const ptokenId = `P${_from.symbol.toUpperCase()}_ON_${_to.blockchain.toUpperCase()}_MAINNET`
+        const assetId = `P${_from.symbol.toUpperCase()}_ON_${_to.blockchain.toUpperCase()}_MAINNET`
         const ptokens = new pTokens(
-          getConfigs(ptokenId, {
+          getConfigs(assetId, {
             ethProvider: wallets.eth.provider || getCorrespondingReadOnlyProviderV2('ETH'),
             eosSignatureProvider: wallets.eos.provider || getCorrespondingReadOnlyProviderV2('EOS'),
             telosSignatureProvider: wallets.telos.provider || getCorrespondingReadOnlyProviderV2('TELOS'),
@@ -152,12 +183,11 @@ const swap = (_from, _to, _amount, _address) => {
             break
           }
           case 'pBTC': {
-            peginWithDepositAddress({ ptokens, address: _address, ptoken, asset: _from, dispatch: _dispatch, ptokenId })
-            // loggedIssueWithDepositAddress(ptokens, _params, pToken, _dispatch)
+            peginWithDepositAddress({ ptokens, address: _address, ptoken, asset: _from, dispatch: _dispatch, assetId })
             break
           }
           case 'pLTC': {
-            // loggedIssueWithDepositAddress(ptokens, _params, pToken, _dispatch)
+            peginWithDepositAddress({ ptokens, address: _address, ptoken, asset: _from, dispatch: _dispatch, assetId })
             break
           }
           case 'pUNI': {
@@ -217,7 +247,7 @@ const swap = (_from, _to, _amount, _address) => {
             break
           }
           case 'pDOGE': {
-            // loggedIssueWithDepositAddress(ptokens, _params, pToken, _dispatch)
+            peginWithDepositAddress({ ptokens, address: _address, ptoken, asset: _from, dispatch: _dispatch, assetId })
             break
           }
           case 'pEOS': {
@@ -274,6 +304,7 @@ const resetProgress = () => {
 export {
   loadSwapData,
   loadBalances,
+  loadBalanceByAssetId,
   showDepositAddressModal,
   hideDepositAddressModal,
   swap,
