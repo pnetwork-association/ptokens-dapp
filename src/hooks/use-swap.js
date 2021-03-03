@@ -20,6 +20,12 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap }) => {
   }, [assets, to, from])
 
   useEffect(() => {
+    if (to && wallets[to.blockchain.toLowerCase()].account) {
+      setAddress(wallets[to.blockchain.toLowerCase()].account)
+    }
+  }, [wallets, to])
+
+  useEffect(() => {
     if (!from || assets.length === 0) {
       setAction('Loading ...')
       return
@@ -63,19 +69,19 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap }) => {
   }, [setFrom, from, to])
 
   const onFromMax = useCallback(() => {
-    setFromAmount(
-      BigNumber(from.balance)
-        .dividedBy(10 ** from.decimals)
-        .toFixed()
-    )
+    const amount = BigNumber(from.balance)
+      .dividedBy(10 ** from.decimals)
+      .toFixed()
+    setFromAmount(amount)
+    setToAmount(amount !== '' ? (amount * 1).toString() : amount.toString())
   }, [setFromAmount, from])
 
   const onToMax = useCallback(() => {
-    setToAmount(
-      BigNumber(to.balance)
-        .dividedBy(10 ** to.decimals)
-        .toFixed()
-    )
+    const amount = BigNumber(to.balance)
+      .dividedBy(10 ** to.decimals)
+      .toFixed()
+    setFromAmount(amount)
+    setToAmount(amount !== '' ? (amount * 1).toString() : amount.toString())
   }, [setToAmount, to])
 
   const onSwap = useCallback(() => {

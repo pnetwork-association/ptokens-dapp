@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Row, Container } from 'react-bootstrap'
 import AssetListModal from './assetListModal/AssetListModal'
+import Progress from './progress/Progress'
 import { useSwap } from '../../hooks/use-swap'
 import SwapLine from './swapLine/SwapLine'
 import DepositAddressModal from './depositAddressModal/DepositAddressModal'
@@ -68,7 +69,7 @@ const ActionButton = styled.button`
   }
 `
 
-const Swap = ({ assets, wallets, connectWithWallet, depositAddressModal, hideDepositAddressModal, swap }) => {
+const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModal, hideDepositAddressModal, swap }) => {
   const [showModalFrom, setShowModalFrom] = useState(false)
   const [showModalTo, setShowModalTo] = useState(false)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
@@ -143,6 +144,9 @@ const Swap = ({ assets, wallets, connectWithWallet, depositAddressModal, hideDep
                 onChangeAddress={setAddress}
                 onMax={onToMax}
               />
+              {progress.show ? (
+                <Progress percent={progress.percent} message={progress.message} steps={progress.steps} />
+              ) : null}
               <ContainerButtons>
                 <ActionButton onClick={onSwap} disabled={action === 'Loading ...'}>
                   {action}
@@ -169,6 +173,7 @@ const Swap = ({ assets, wallets, connectWithWallet, depositAddressModal, hideDep
       <DepositAddressModal
         show={depositAddressModal.show}
         onClose={hideDepositAddressModal}
+        asset={depositAddressModal.asset}
         disabled={address === ''}
       />
     </React.Fragment>
@@ -178,6 +183,7 @@ const Swap = ({ assets, wallets, connectWithWallet, depositAddressModal, hideDep
 Swap.propTypes = {
   wallets: PropTypes.object.isRequired,
   assets: PropTypes.array.isRequired,
+  progress: PropTypes.object,
   connectWithWallet: PropTypes.func,
   hideDepositAddressModal: PropTypes.func,
   swap: PropTypes.func

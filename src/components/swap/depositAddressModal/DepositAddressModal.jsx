@@ -31,19 +31,17 @@ const Info = styled.div`
   width: 100%;
 `
 
-const AssetListModal = _props => {
-  const { show, title, onClose } = _props
-
+const AssetListModal = ({ show, asset, onClose }) => {
   return (
     <Modal show={show} aria-labelledby="contained-modal-deposit-address" centered onHide={onClose}>
       <StyledHeader>
-        <StyledModalTitle>Deposit Address</StyledModalTitle>
+        <StyledModalTitle>{`${asset ? asset.name : ''} Deposit Address`}</StyledModalTitle>
       </StyledHeader>
       <StyledBody>
         <ContainerQrCode>
-          <QRCode value={'hello'} size="170" />
+          <QRCode value={'hello'} size={'170'} />
         </ContainerQrCode>
-        <Info>Send your BTC here ecc ecc ecc</Info>
+        <Info>{`Send your ${asset ? asset.name : ''} here ecc ecc ecc`}</Info>
       </StyledBody>
     </Modal>
   )
@@ -52,6 +50,7 @@ const AssetListModal = _props => {
 AssetListModal.propTypes = {
   title: PropTypes.string,
   show: PropTypes.bool,
+  asset: PropTypes.object,
   assets: PropTypes.array,
   onClose: PropTypes.func
 }

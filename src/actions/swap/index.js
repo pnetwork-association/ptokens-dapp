@@ -1,13 +1,19 @@
 import { NodeSelector } from 'ptokens-node-selector'
 import assets from '../../settings/swap-assets'
-import { SWAP_DATA_LOADED, SHOW_DEPOSIT_ADDRESS_MODAL, HIDE_DEPOSIT_ADDRESS_MODAL } from '../../constants/index'
+import {
+  SWAP_DATA_LOADED,
+  SHOW_DEPOSIT_ADDRESS_MODAL,
+  HIDE_DEPOSIT_ADDRESS_MODAL,
+  PROGRESS_UPDATED,
+  PROGRESS_RESET
+} from '../../constants/index'
 import store from '../../store'
 import { loadEthBalances, loadEosBalances } from './balances'
 import { constants, helpers } from 'ptokens-utils'
 import pTokens from 'ptokens'
 import { getConfigs } from '../../utils/ptokens-configs'
 import { getCorrespondingReadOnlyProviderV2 } from '../../utils/read-only-providers'
-import issueWithDepositAddress from './issue-with-deposit-address'
+import peginWithDepositAddress from './pegin-with-deposit-address'
 
 const loadSwapData = (_withTestnetInstance = false) => {
   return async _dispatch => {
@@ -101,13 +107,15 @@ const loadBalances = (_account, _blockchain) => {
 const swap = (_from, _to, _amount, _address) => {
   return async _dispatch => {
     try {
+      _dispatch(resetProgress())
       const { wallets } = store.getState()
       console.log(_from, _to)
 
       // NOTE: pegin
       if (!_from.isPtoken && _to.isPtoken) {
+        const ptokenId = `P${_from.symbol.toUpperCase()}_ON_${_to.blockchain.toUpperCase()}_MAINNET`
         const ptokens = new pTokens(
-          getConfigs(`P${_from.symbol.toUpperCase()}_ON_${_to.blockchain.toUpperCase()}_MAINNET`, {
+          getConfigs(ptokenId, {
             ethProvider: wallets.eth.provider || getCorrespondingReadOnlyProviderV2('ETH'),
             eosSignatureProvider: wallets.eos.provider || getCorrespondingReadOnlyProviderV2('EOS'),
             telosSignatureProvider: wallets.telos.provider || getCorrespondingReadOnlyProviderV2('TELOS'),
@@ -144,7 +152,7 @@ const swap = (_from, _to, _amount, _address) => {
             break
           }
           case 'pBTC': {
-            issueWithDepositAddress(ptokens, _address, ptoken, _dispatch)
+            peginWithDepositAddress({ ptokens, address: _address, ptoken, asset: _from, dispatch: _dispatch, ptokenId })
             // loggedIssueWithDepositAddress(ptokens, _params, pToken, _dispatch)
             break
           }
@@ -230,13 +238,13 @@ const swap = (_from, _to, _amount, _address) => {
   }
 }
 
-const showDepositAddressModal = (_asset, _show) => {
+const showDepositAddressModal = _asset => {
   return {
     type: SHOW_DEPOSIT_ADDRESS_MODAL,
     payload: {
       depositAddressModal: {
-        show: _show,
-        asset: _asset
+        asset: _asset,
+        show: true
       }
     }
   }
@@ -248,4 +256,27 @@ const hideDepositAddressModal = () => {
   }
 }
 
-export { loadSwapData, loadBalances, showDepositAddressModal, hideDepositAddressModal, swap }
+const updateProgress = _progress => {
+  return {
+    type: PROGRESS_UPDATED,
+    payload: {
+      progress: _progress
+    }
+  }
+}
+
+const resetProgress = () => {
+  return {
+    type: PROGRESS_RESET
+  }
+}
+
+export {
+  loadSwapData,
+  loadBalances,
+  showDepositAddressModal,
+  hideDepositAddressModal,
+  swap,
+  updateProgress,
+  resetProgress
+}

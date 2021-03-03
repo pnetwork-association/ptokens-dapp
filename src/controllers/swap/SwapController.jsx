@@ -10,7 +10,8 @@ const mapStateToProps = _state => {
   return {
     assets: _state.swap.assets,
     wallets: _state.wallets,
-    depositAddressModal: _state.swap.depositAddressModal
+    depositAddressModal: _state.swap.depositAddressModal,
+    progress: _state.swap.progress
   }
 }
 
@@ -31,6 +32,7 @@ SwapController.propTypes = {
   assets: PropTypes.array.isRequired,
   wallets: PropTypes.object.isRequired,
   depositAddressModal: PropTypes.object,
+  progress: PropTypes.object,
   connectWithWallet: PropTypes.func,
   hideDepositAddressModal: PropTypes.func,
   swap: PropTypes.func

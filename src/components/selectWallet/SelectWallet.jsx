@@ -56,8 +56,8 @@ const SelectWallet = _props => {
       </StyledHeader>
       <StyledBody>
         {settings.supportedBlockchains.map(({ name, symbol }) => (
-          <ContainerInnerRow key={`${name}-${symbol}`}>
-            <Row onClick={() => onSelect(symbol)}>
+          <ContainerInnerRow key={`${name}-${symbol}`} onClick={() => onSelect(symbol)}>
+            <Row>
               <Col xs={2} className="my-auto">
                 <ImageBordered src={`../assets/tokens/${symbol}-mainnet.png`} />
               </Col>
