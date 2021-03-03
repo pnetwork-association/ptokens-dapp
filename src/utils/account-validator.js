@@ -38,170 +38,162 @@ import {
 
 const web3 = new Web3()
 
-const isValidAccount = (_pToken, _account, _role) => {
-  switch (_pToken.id) {
+const isValidAccount = (_pTokenId, _account, _type) => {
+  switch (_pTokenId) {
     case PBTC_ON_ETH_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? pTokenUtils.btc.isValidAddress(_account)
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case PBTC_ON_ETH_TESTNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? pTokenUtils.btc.isValidAddress(_account)
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case PBTC_ON_EOS_MAINNET: {
-      return _role === 'issuer'
-        ? pTokenUtils.btc.isValidAddress(_account)
-        : pTokenUtils.eos.isValidAccountName(_account)
+      return _type === 'pegin' ? pTokenUtils.btc.isValidAddress(_account) : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PBTC_ON_TELOS_MAINNET: {
-      return _role === 'issuer'
-        ? pTokenUtils.btc.isValidAddress(_account)
-        : pTokenUtils.eos.isValidAccountName(_account)
+      return _type === 'pegin' ? pTokenUtils.btc.isValidAddress(_account) : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PLTC_ON_EOS_MAINNET: {
-      return _role === 'issuer'
-        ? pTokenUtils.ltc.isValidAddress(_account)
-        : pTokenUtils.eos.isValidAccountName(_account)
+      return _type === 'pegin' ? pTokenUtils.ltc.isValidAddress(_account) : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PBTC_ON_EOS_TESTNET: {
-      return _role === 'issuer'
-        ? pTokenUtils.btc.isValidAddress(_account)
-        : pTokenUtils.eos.isValidAccountName(_account)
+      return _type === 'pegin' ? pTokenUtils.btc.isValidAddress(_account) : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PLTC_ON_ETH_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? pTokenUtils.ltc.isValidAddress(_account)
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case PLTC_ON_ETH_TESTNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? pTokenUtils.ltc.isValidAddress(_account)
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case PETH_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PNT_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PLINK_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PMKR_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PYFI_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PTERIA_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PUNI_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PBAND_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PBAL_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PCOMP_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PSNX_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case POMG_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PDAI_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PANT_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PLRC_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PUOS_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PBAT_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PREP_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PZRX_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PPNK_ON_EOS_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.eos.isValidAccountName(_account)
     }
     case PDOGE_ON_ETH_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? pTokenUtils.doge.isValidAddress(_account)
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case PEOS_ON_ETH_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? pTokenUtils.eos.isValidAccountName(_account)
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case PBTC_ON_BSC_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? pTokenUtils.btc.isValidAddress(_account)
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case PEOS_ON_POLYGON_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? pTokenUtils.eos.isValidAccountName(_account)
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case PBTC_ON_XDAI_MAINNET: {
-      return _role === 'issuer'
+      return _type === 'pegin'
         ? pTokenUtils.btc.isValidAddress(_account)
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }

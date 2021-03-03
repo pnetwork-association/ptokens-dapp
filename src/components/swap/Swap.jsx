@@ -157,6 +157,7 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
                   disabled={
                     action === 'Loading ...' ||
                     action === 'Enter an amount' ||
+                    action === 'Invalid Address' ||
                     !isValidSwap ||
                     (address === '' && action !== 'Connect Wallet')
                   }

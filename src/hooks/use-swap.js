@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
+import { isValidAccount } from '../utils/account-validator'
 
 const useSwap = ({ wallets, assets, connectWithWallet, swap, progress }) => {
   const [from, setFrom] = useState(null)
@@ -6,12 +7,14 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress }) => {
   const [address, setAddress] = useState('')
   const [fromAmount, setFromAmount] = useState('')
   const [toAmount, setToAmount] = useState('')
+  const [swapType, setSwapType] = useState(null)
 
   const [isValidSwap] = useMemo(() => {
     if (!from || !to) return [false]
 
     // NOTE: pegin
     if (!from.isPtoken && to.isPtoken) {
+      setSwapType('pegin')
       const ptokenId = to.id
 
       if (to.symbol.slice(1) !== from.symbol) {
@@ -27,9 +30,11 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress }) => {
     }
     // NOTE: pegout
     else if (from.isPtoken && !to.isPtoken) {
+      setSwapType('pegout')
       return [true]
     }
 
+    setSwapType(null)
     return [false]
   }, [from, to, assets])
 
@@ -70,6 +75,14 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress }) => {
         return ['Enter an address']
       }
 
+      if (swapType === 'pegin' && !isValidAccount(to.id, address, 'pegout')) {
+        return ['Invalid Address']
+      }
+
+      if (swapType === 'pegout' && !isValidAccount(from.id, address, 'pegin')) {
+        return ['Invalid Address']
+      }
+
       return ['Get Deposit Address']
     }
 
@@ -85,8 +98,16 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress }) => {
       return ['Enter an address']
     }
 
+    if (swapType === 'pegin' && !isValidAccount(to.id, address, 'pegout')) {
+      return ['Invalid Address']
+    }
+
+    if (swapType === 'pegout' && !isValidAccount(from.id, address, 'pegin')) {
+      return ['Invalid Address']
+    }
+
     return ['Swap']
-  }, [wallets, assets, from, fromAmount, to, address, isValidSwap])
+  }, [wallets, assets, from, fromAmount, to, address, isValidSwap, swapType])
 
   const onChangeFromAmount = useCallback(
     _amount => {
