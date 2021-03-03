@@ -1,5 +1,4 @@
 import settings from '../../../settings'
-import { toastr } from 'react-redux-toastr'
 import { WALLET_EOS_CONNECTED } from '../../../constants'
 import EosConnect from '../../../lib/eosConnect/'
 
@@ -35,7 +34,7 @@ const connectWithEosWallet = _dispatch => {
     })
   })
   eosConnect.on('error', message => {
-    toastr.error(message)
+    console.error(message)
   })
 
   eosConnect.toggleModal()

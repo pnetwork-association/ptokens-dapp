@@ -46,7 +46,8 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
       show: true,
       percent: 0,
       message: 'Waiting for the transaction to be broadcasted ...',
-      steps: [0, 20, 40, 60, 80, 100]
+      steps: [0, 20, 40, 60, 80, 100],
+      terminated: false
     })
   )
 
@@ -65,7 +66,8 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
           show: true,
           percent: 20,
           message: 'Transaction broadcasted! Waiting for confirmation ...',
-          steps: [0, 20, 40, 60, 80, 100]
+          steps: [0, 20, 40, 60, 80, 100],
+          terminated: false
         })
       )
     })
@@ -88,7 +90,8 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
             show: true,
             percent: 20,
             message: 'Transaction broadcasted! Waiting for confirmation ...',
-            steps: [0, 20, 40, 60, 80, 100]
+            steps: [0, 20, 40, 60, 80, 100],
+            terminated: false
           })
         )
       }
@@ -99,7 +102,8 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
           show: true,
           percent: 40,
           message: 'Transaction Confirmed! Waiting for the enclave to receive the transaction ...',
-          steps: [0, 20, 40, 60, 80, 100]
+          steps: [0, 20, 40, 60, 80, 100],
+          terminated: false
         })
       )
     })
@@ -110,7 +114,8 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
           show: true,
           percent: 60,
           message: 'Enclave received the transaction, broadcasting ...',
-          steps: [0, 20, 40, 60, 80, 100]
+          steps: [0, 20, 40, 60, 80, 100],
+          terminated: false
         })
       )
     })
@@ -130,7 +135,8 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
           show: true,
           percent: 80,
           message: 'Enclave broadcasted the transaction, Waiting for the confirmation ...',
-          steps: [0, 20, 40, 60, 80, 100]
+          steps: [0, 20, 40, 60, 80, 100],
+          terminated: false
         })
       )
     })
@@ -141,7 +147,8 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
           show: true,
           percent: 100,
           message: 'Transaction Confirmed.',
-          steps: [0, 20, 40, 60, 80, 100]
+          steps: [0, 20, 40, 60, 80, 100],
+          terminated: true
         })
       )
 

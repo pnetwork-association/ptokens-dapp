@@ -94,7 +94,7 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
     onFromMax,
     onToMax,
     onSwap
-  } = useSwap({ wallets, assets, connectWithWallet, swap })
+  } = useSwap({ wallets, assets, connectWithWallet, swap, progress })
 
   useMemo(() => {
     if (!assetsLoaded && assets.length > 0) {

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 
-const useSwap = ({ wallets, assets, connectWithWallet, swap }) => {
+const useSwap = ({ wallets, assets, connectWithWallet, swap, progress }) => {
   const [from, setFrom] = useState(null)
   const [to, setTo] = useState(null)
   const [address, setAddress] = useState('')
@@ -41,6 +41,13 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap }) => {
       setTo(assets.find(({ id }) => id === to.id))
     }
   }, [assets, to, from])
+
+  useEffect(() => {
+    if (progress.terminated) {
+      setFromAmount('')
+      setToAmount('')
+    }
+  }, [progress])
 
   useEffect(() => {
     if (to && wallets[to.blockchain.toLowerCase()] && wallets[to.blockchain.toLowerCase()].account) {

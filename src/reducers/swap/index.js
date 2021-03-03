@@ -18,7 +18,8 @@ const initialState = {
     show: false,
     percent: 0,
     message: null,
-    steps: []
+    steps: [],
+    terminated: false
   }
 }
 
@@ -51,7 +52,8 @@ const swapReducer = (_state = initialState, _action) => {
         show: false,
         percent: 0,
         message: null,
-        steps: []
+        steps: [],
+        terminated: false
       }
     })
   }

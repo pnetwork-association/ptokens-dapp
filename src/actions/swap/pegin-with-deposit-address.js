@@ -17,7 +17,8 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
       show: true,
       percent: 0,
       message: 'Waiting for a deposit ...',
-      steps: [0, 20, 40, 60, 80, 100]
+      steps: [0, 20, 40, 60, 80, 100],
+      terminated: false
     })
   )
 
@@ -51,7 +52,8 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
           show: true,
           percent: 20,
           message: 'Deposit detected! Waiting for confirmation ...',
-          steps: [0, 20, 40, 60, 80, 100]
+          steps: [0, 20, 40, 60, 80, 100],
+          terminated: false
         })
       )
     })
@@ -62,7 +64,8 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
           show: true,
           percent: 40,
           message: 'Transaction Confirmed! Waiting for the enclave to receive the transaction ...',
-          steps: [0, 20, 40, 60, 80, 100]
+          steps: [0, 20, 40, 60, 80, 100],
+          terminated: false
         })
       )
     })
@@ -73,7 +76,8 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
           show: true,
           percent: 60,
           message: 'Enclave received the transaction, broadcasting ...',
-          steps: [0, 20, 40, 60, 80, 100]
+          steps: [0, 20, 40, 60, 80, 100],
+          terminated: false
         })
       )
     })
@@ -90,7 +94,8 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
           show: true,
           percent: 80,
           message: 'Enclave broadcasted the transaction, Waiting for the confirmation ...',
-          steps: [0, 20, 40, 60, 80, 100]
+          steps: [0, 20, 40, 60, 80, 100],
+          terminated: false
         })
       )
     })
@@ -101,7 +106,8 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
           show: true,
           percent: 100,
           message: 'Transaction Confirmed.',
-          steps: [0, 20, 40, 60, 80, 100]
+          steps: [0, 20, 40, 60, 80, 100],
+          terminated: true
         })
       )
 
