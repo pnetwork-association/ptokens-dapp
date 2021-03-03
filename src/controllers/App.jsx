@@ -1,22 +1,14 @@
 import React, { useEffect } from 'react'
-//import MainController from './main/MainController'
-//import PNetworkController from './pNetwork/pNetworkController'
-//import SidebarController from './sidebar/SidebarController'
-//import PTokensController from './pTokens/pTokensController'
-//import PTokensControllerV2 from './pTokens/pTokensControllerV2'
 import SwapController from './swap/SwapController'
-//import SettingsController from './settings/SettingsController'
 import HeaderController from './header/HeaderController'
-//import NodeDetectorController from './nodeDetector/NodeDetectorController'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import MainWrapper from '../components/utils/MainWrapper'
 import history from './../utils/history'
 import ReactGA from 'react-ga'
 import queryString from 'query-string'
 import { connect } from 'react-redux'
-import { setNodeManually, setNode, getValidators } from '../actions/pNetwork/'
+import { setNode, getValidators } from '../actions/pNetwork/'
 import { setSelectedPage, enableTestnetInstances, showHiddenPtokens } from '../actions/sidebar'
-import { setSelectedpToken, setCustomRpc } from '../actions/pTokens'
 import PropTypes from 'prop-types'
 import Notifications from '../components/utils/Notifications'
 import { loadSwapData } from '../actions/swap'
@@ -27,18 +19,13 @@ history.listen(location => {
 })
 
 const mapStateToProps = state => {
-  return {
-    pTokensAvailable: state.pTokens.available
-  }
+  return {}
 }
 
 const mapDispatchToProps = _dispatch => {
   return {
-    setNodeManually: (_pToken, _endpoint) => _dispatch(setNodeManually(_pToken, _endpoint)),
     setNode: _pToken => _dispatch(setNode(_pToken)),
     setSelectedPage: (_selected, _pToken) => _dispatch(setSelectedPage(_selected, _pToken)),
-    setSelectedpToken: (_pToken, _withNodeSelection) => _dispatch(setSelectedpToken(_pToken, _withNodeSelection)),
-    setCustomRpc: (_rpc, _type) => _dispatch(setCustomRpc(_rpc, _type)),
     enableTestnetInstances: () => _dispatch(enableTestnetInstances()),
     showHiddenPtokens: () => _dispatch(showHiddenPtokens()),
     getValidators: () => _dispatch(getValidators()),
@@ -46,25 +33,14 @@ const mapDispatchToProps = _dispatch => {
   }
 }
 
-const pageNameToNumbers = {
+/*const pageNameToNumbers = {
   '': 0,
   'issue-redeem': 1,
   enclave: 2,
   settings: 3
-}
+}*/
 
-const App = ({
-  getValidators,
-  pTokensAvailable,
-  showHiddenPtokens,
-  enableTestnetInstances,
-  setSelectedpToken,
-  setSelectedPage,
-  setCustomRpc,
-  setNodeManually,
-  setNode,
-  loadSwapData
-}) => {
+const App = ({ getValidators, showHiddenPtokens, enableTestnetInstances, loadSwapData }) => {
   useEffect(() => {
     ReactGA.pageview(window.location.pathname)
 
@@ -72,22 +48,11 @@ const App = ({
 
     //getting only the ptoken type -> ../pbtc-on-eth-testnet/....
     const splittedUrl = history.location.pathname.split('/')[1].split('-')
-
-    const pTokenNameSelected = splittedUrl[0]
-    const pTokenRedeemFromSelected = splittedUrl[2]
     const pTokenNetworkSelected = splittedUrl[3] === 'testnet' ? 'testnet' : 'mainnet'
 
-    const page = history.location.pathname.split('/')[2]
-    const pToken = pTokensAvailable.find(
-      pToken =>
-        pToken.name.toLowerCase() === pTokenNameSelected &&
-        pToken.network === pTokenNetworkSelected &&
-        pToken.redeemFrom === pTokenRedeemFromSelected.toUpperCase()
-    )
+    // const page = history.location.pathname.split('/')[2]
 
-    const pTokenSelected = pToken ? pToken : pTokensAvailable[0]
-
-    const { node, hostRpc, withTestnetInstances, iamthomas } = queryString.parse(window.location.search)
+    const { withTestnetInstances, iamthomas } = queryString.parse(window.location.search)
     if (Boolean(iamthomas) === true) {
       showHiddenPtokens()
     }
@@ -98,38 +63,12 @@ const App = ({
       enableTestnetInstances()
     }
 
-    //if node is present not load the node
-    setSelectedpToken(pTokenSelected, node ? false : true)
-
-    if (!page) {
+    /*if (!page) {
       setSelectedPage(3, pTokenSelected)
     } else {
       setSelectedPage(pageNameToNumbers[page], pTokenSelected)
-    }
-
-    // after setSelectedpToken since it reloads data
-    if (hostRpc) {
-      setCustomRpc(hostRpc, 'host')
-    }
-
-    if (node) {
-      setNodeManually(pTokenSelected, node.includes('https://') ? node : `https://${node}`)
-      return
-    }
-
-    setNode(pTokenSelected)
-  }, [
-    enableTestnetInstances,
-    getValidators,
-    pTokensAvailable,
-    setCustomRpc,
-    setNode,
-    setNodeManually,
-    setSelectedPage,
-    setSelectedpToken,
-    showHiddenPtokens,
-    loadSwapData
-  ])
+    }*/
+  }, [getValidators, showHiddenPtokens, enableTestnetInstances, loadSwapData])
 
   return (
     <Switch>
@@ -154,13 +93,7 @@ const App = ({
 }
 
 App.propTypes = {
-  pTokensAvailable: PropTypes.array,
   setSelectedPage: PropTypes.func,
-  setSelectedpToken: PropTypes.func,
-  setNodeManually: PropTypes.func,
-  setNode: PropTypes.func,
-  setCustomRpc: PropTypes.func,
-  connectWithSpecificWallet: PropTypes.func,
   enableTestnetInstances: PropTypes.func,
   showHiddenPtokens: PropTypes.func,
   getValidators: PropTypes.func,

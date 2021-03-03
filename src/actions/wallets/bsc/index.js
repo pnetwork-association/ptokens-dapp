@@ -2,6 +2,8 @@ import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import { toastr } from 'react-redux-toastr'
 import { WALLET_BSC_CONNECTED, WALLET_BSC_NETWORK_CHANGED, WALLET_BSC_ACCOUNT_CHANGED } from '../../../constants'
+import WalletConnectProvider from '@walletconnect/web3-provider'
+import settings from '../../../settings'
 
 const connectWithBscWallet = async _dispatch => {
   try {
@@ -9,7 +11,16 @@ const connectWithBscWallet = async _dispatch => {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
     }
 
-    const web3Modal = new Web3Modal({})
+    const web3Modal = new Web3Modal({
+      providerOptions: {
+        walletconnect: {
+          package: WalletConnectProvider,
+          options: {
+            infuraId: settings.rpc.eth.infuraProjectId
+          }
+        }
+      }
+    })
 
     const provider = await web3Modal.connect()
     _connectionSuccesfull(provider, _dispatch, {

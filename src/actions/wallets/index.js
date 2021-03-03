@@ -38,4 +38,37 @@ const connectWithWallet = _blockchain => {
   }
 }
 
-export { connectWithWallet }
+const disconnectFromWallet = _blockchain => {
+  return async _dispatch => {
+    switch (_blockchain) {
+      case 'ETH': {
+        disconnectFromEthWallet(_dispatch)
+        break
+      }
+      case 'EOS': {
+        disconnectFromEosWallet(_dispatch)
+        break
+      }
+      case 'TELOS': {
+        disconnectFromTelosWallet(_dispatch)
+        break
+      }
+      case 'BSC': {
+        disconnectFromBscWallet(_dispatch)
+        break
+      }
+      case 'POLYGON': {
+        disconnectFromPolygonWallet(_dispatch)
+        break
+      }
+      case 'XDAI': {
+        disconnectFromXdaiWallet(_dispatch)
+        break
+      }
+      default:
+        break
+    }
+  }
+}
+
+export { connectWithWallet, disconnectFromWallet }
