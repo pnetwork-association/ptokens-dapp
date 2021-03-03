@@ -42,7 +42,7 @@ const App = ({ getValidators, loadSwapData }) => {
     // const page = history.location.pathname.split('/')[2]
     const { withTestnetInstances, iamthomas } = queryString.parse(window.location.search)
     loadSwapData(withTestnetInstances)
-  }, [])
+  }, [loadSwapData, getValidators])
 
   return (
     <Switch>

@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import QRCode from 'qrcode.react'
 import { blockchainSymbolToCoin } from '../../../utils/maps'
+import ReactTooltip from 'react-tooltip'
+import { copyToClipboard } from '../../../utils/utils'
 
 const StyledBody = styled(Modal.Body)`
   color: #475965;
@@ -30,9 +32,29 @@ const Info = styled.div`
   text-align: center;
   padding: 25px;
   width: 100%;
+  font-size: 16px;
+`
+
+const Address = styled.div`
+  margin-top: 30px;
+  text-align: center;
+  padding: 25px;
+  width: 100%;
+  cursor: pointer;
+  background: #e8e8e8;
+  border-radius: 20px;
+  &:hover {
+    background: #d6d4d4;
+  }
 `
 
 const DepositAddressModal = ({ show, asset, onClose, value }) => {
+  const [isCopiedToClipboard, setIsCopiedToClipboard] = useState(0)
+
+  useEffect(() => {
+    ReactTooltip.rebuild()
+  }, [isCopiedToClipboard])
+
   return (
     <Modal show={show} aria-labelledby="contained-modal-deposit-address" centered onHide={onClose}>
       <StyledHeader>
@@ -45,8 +67,21 @@ const DepositAddressModal = ({ show, asset, onClose, value }) => {
         <ContainerQrCode>
           <QRCode value={value ? value : ''} size={'170'} />
         </ContainerQrCode>
+        <Address
+          data-tip={isCopiedToClipboard ? 'Copied!' : 'Copy to clipboard'}
+          onClick={() => {
+            setIsCopiedToClipboard(true)
+            copyToClipboard(value)
+            setTimeout(() => {
+              setIsCopiedToClipboard(false)
+            }, 3000)
+          }}
+        >
+          {value ? `${value.slice(0, 12)}...${value.slice(value.length - 10, value.length)}` : ''}
+        </Address>
         <Info>{`Send your ${asset ? blockchainSymbolToCoin[asset.nativeSymbol] : ''} here ecc ecc ecc`}</Info>
       </StyledBody>
+      <ReactTooltip />
     </Modal>
   )
 }
