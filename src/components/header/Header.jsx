@@ -1,8 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
-//import MultiWallet from './multiWallet/MultiWallet'
 import styled from 'styled-components'
-import { Row, Col, Navbar, Nav, Form } from 'react-bootstrap'
+import { Navbar, Nav } from 'react-bootstrap'
 import SelectWallet from '../selectWallet/SelectWallet'
 
 const HeaderWrapper = styled.div`
