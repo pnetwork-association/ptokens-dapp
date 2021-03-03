@@ -18,7 +18,7 @@ const connectWithXdaiWallet = async _dispatch => {
 
     provider.on('chainChanged', _chainId => {
       if (Number(_chainId) !== 100) {
-        toastr.error('Invalid xDai Network. Please switch use chainId = 100')
+        toastr.error('Invalid xDai Network. Please use chainId = 100')
       }
 
       _dispatch({
@@ -51,7 +51,7 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
   try {
     const { accounts, chainId } = _provider
     if (Number(chainId) !== 100) {
-      toastr.error('Invalid xDai Network. Please switch use chainId = 100')
+      toastr.error('Invalid xDai Network. Please use chainId = 100')
     }
 
     const account = accounts ? accounts[0] : await _getAccount(_provider)

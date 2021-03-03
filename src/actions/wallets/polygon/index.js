@@ -22,7 +22,7 @@ const connectWithPolygonWallet = async _dispatch => {
 
     provider.on('chainChanged', _chainId => {
       if (Number(_chainId) !== 137) {
-        toastr.error('Invalid Polygon Network. Please switch use chainId = 137')
+        toastr.error('Invalid Polygon Network. Please use chainId = 137')
       }
 
       _dispatch({
@@ -55,7 +55,7 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
   try {
     const { accounts, chainId } = _provider
     if (Number(chainId) !== 137) {
-      toastr.error('Invalid Polygon Network. Please switch use chainId = 137')
+      toastr.error('Invalid Polygon Network. Please use chainId = 137')
     }
 
     const account = accounts ? accounts[0] : await _getAccount(_provider)

@@ -18,7 +18,7 @@ const connectWithBscWallet = async _dispatch => {
 
     provider.on('chainChanged', _chainId => {
       if (Number(_chainId) !== 56) {
-        toastr.error('Invalid Binance Smart Chain Network. Please switch use chainId = 56')
+        toastr.error('Invalid Binance Smart Chain Network. Please use chainId = 56')
       }
 
       _dispatch({
@@ -51,7 +51,7 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
   try {
     const { accounts, chainId } = _provider
     if (Number(chainId) !== 56) {
-      toastr.error('Invalid Binance Smart Chain Network. Please switch use chainId = 56')
+      toastr.error('Invalid Binance Smart Chain Network. Please use chainId = 56')
     }
 
     const account = accounts ? accounts[0] : await _getAccount(_provider)
