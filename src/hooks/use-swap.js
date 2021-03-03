@@ -1,49 +1,78 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 
 const useSwap = ({ wallets, assets, connectWithWallet, swap }) => {
-  const [action, setAction] = useState(null)
   const [from, setFrom] = useState(null)
   const [to, setTo] = useState(null)
   const [address, setAddress] = useState('')
   const [fromAmount, setFromAmount] = useState('')
   const [toAmount, setToAmount] = useState('')
 
+  const [isValidSwap] = useMemo(() => {
+    if (!from || !to) return [false]
+
+    // NOTE: pegin
+    if (!from.isPtoken && to.isPtoken) {
+      const ptokenId = to.id
+
+      if (to.symbol.slice(1) !== from.symbol) {
+        return [false]
+      }
+
+      const ptoken = assets.find(({ id }) => ptokenId === id)
+      if (!ptoken) {
+        return [false]
+      }
+
+      return [true]
+    }
+    // NOTE: pegout
+    else if (from.isPtoken && !to.isPtoken) {
+      return [true]
+    }
+
+    return [false]
+  }, [from, to, assets])
+
   useEffect(() => {
     if (from) {
       setFrom(assets.find(({ id }) => id === from.id))
     }
-
     if (to) {
       setTo(assets.find(({ id }) => id === to.id))
     }
   }, [assets, to, from])
 
   useEffect(() => {
-    if (to && wallets[to.blockchain.toLowerCase()].account) {
+    if (to && wallets[to.blockchain.toLowerCase()] && wallets[to.blockchain.toLowerCase()].account) {
       setAddress(wallets[to.blockchain.toLowerCase()].account)
     }
   }, [wallets, to])
 
-  useEffect(() => {
-    if (!from || assets.length === 0) {
-      setAction('Loading ...')
-      return
+  const [action] = useMemo(() => {
+    if (!from || !to || assets.length === 0) {
+      return ['Loading ...']
+    }
+
+    if (!isValidSwap) {
+      return ['Invalid Swap']
     }
 
     // NOTE: pegin with deposit address
     if (!wallets[from.blockchain.toLowerCase()]) {
-      setAction('Get Deposit Address')
-      return
+      return ['Get Deposit Address']
     }
 
     if (!wallets[from.blockchain.toLowerCase()].account) {
-      setAction('Connect Wallet')
-      return
+      return ['Connect Wallet']
     }
 
-    setAction('Swap')
-  }, [wallets, assets, from])
+    if (fromAmount === '' && (from.blockchain !== 'BTC' || from.blockchain !== 'LTC' || from.blockchain !== 'DOGE')) {
+      return ['Enter an amount']
+    }
+
+    return ['Swap']
+  }, [wallets, assets, from, fromAmount, to, isValidSwap])
 
   const onChangeFromAmount = useCallback(
     _amount => {
@@ -96,7 +125,6 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap }) => {
 
   return {
     action,
-    setAction,
     from,
     to,
     setFrom,
@@ -105,6 +133,7 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap }) => {
     setAddress,
     fromAmount,
     toAmount,
+    isValidSwap,
     onChangeFromAmount,
     onChangeToAmount,
     onChangeOrder,

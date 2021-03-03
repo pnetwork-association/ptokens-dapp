@@ -63,6 +63,9 @@ const ActionButton = styled.button`
   box-shadow: none;
   &:disabled {
     background: #ff666675;
+    &:hover {
+      background: #ff666675;
+    }
   }
   &:hover {
     background: #d64848;
@@ -84,6 +87,7 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
     setAddress,
     fromAmount,
     toAmount,
+    isValidSwap,
     onChangeFromAmount,
     onChangeToAmount,
     onChangeOrder,
@@ -148,7 +152,15 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
                 <Progress percent={progress.percent} message={progress.message} steps={progress.steps} />
               ) : null}
               <ContainerButtons>
-                <ActionButton onClick={onSwap} disabled={action === 'Loading ...'}>
+                <ActionButton
+                  onClick={onSwap}
+                  disabled={
+                    action === 'Loading ...' ||
+                    action === 'Enter an amount' ||
+                    !isValidSwap ||
+                    (address === '' && action !== 'Connect Wallet')
+                  }
+                >
                   {action}
                 </ActionButton>
               </ContainerButtons>

@@ -2,10 +2,10 @@ import { showDepositAddressModal, hideDepositAddressModal, updateProgress, loadB
 import { toastr } from 'react-redux-toastr'
 import { getCorrespondingBaseTxExplorerLink } from '../../utils/ptokens-sm-utils'
 
-const peginWithDepositAddress = async ({ ptokens, address, ptoken, assetId, asset, dispatch }) => {
+const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) => {
   let depositAddress = null
   try {
-    depositAddress = await ptokens[ptoken.toLowerCase()].getDepositAddress(address)
+    depositAddress = await ptokens[ptoken.name.toLowerCase()].getDepositAddress(address)
   } catch (_err) {
     console.log(_err)
     return
@@ -21,7 +21,7 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, assetId, asse
     })
   )
 
-  dispatch(showDepositAddressModal(asset))
+  dispatch(showDepositAddressModal(ptoken))
 
   depositAddress
     .waitForDeposit()
@@ -38,8 +38,8 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, assetId, asse
         timeOut: 0,
         onToastrClick: () =>
           window.open(
-            `${getCorrespondingBaseTxExplorerLink(assetId, 'pegin')}${
-              _tx[nativeTransactionField[asset.blockchain.toLowerCase()]]
+            `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'pegin')}${
+              _tx[nativeTransactionField[ptoken.blockchain.toLowerCase()]]
             }`,
             '_blank'
           )
@@ -81,7 +81,10 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, assetId, asse
       toastr.success('Transaction broadcasted!', 'Click here to see it', {
         timeOut: 0,
         onToastrClick: () =>
-          window.open(`${getCorrespondingBaseTxExplorerLink(assetId, 'pegout')}${_report.broadcast_tx_hash}`, '_blank')
+          window.open(
+            `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'pegout')}${_report.broadcast_tx_hash}`,
+            '_blank'
+          )
       })
 
       step = step + 1
@@ -105,7 +108,7 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, assetId, asse
         })
       )
 
-      setTimeout(() => dispatch(loadBalanceByAssetId(assetId)), 2000)
+      setTimeout(() => dispatch(loadBalanceByAssetId(ptoken.id)), 2000)
     })
     .catch(_err => {
       dispatch(hideDepositAddressModal())

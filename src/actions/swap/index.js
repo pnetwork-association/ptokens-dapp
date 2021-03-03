@@ -14,6 +14,7 @@ import pTokens from 'ptokens'
 import { getConfigs } from '../../utils/ptokens-configs'
 import { getCorrespondingReadOnlyProviderV2 } from '../../utils/read-only-providers'
 import peginWithDepositAddress from './pegin-with-deposit-address'
+import peginWithWallet from './pegin-with-wallet'
 
 const loadSwapData = (_withTestnetInstance = false) => {
   return async _dispatch => {
@@ -128,6 +129,25 @@ const loadBalanceByAssetId = _id => {
           loadEosBalance({ asset, account, dispatch: _dispatch })
           break
         }
+        case 'BSC': {
+          loadEthBalance({ asset, account, blockchain: 'BSC', dispatch: _dispatch })
+          break
+        }
+        case 'POLYGON': {
+          loadEthBalance({ asset, account, blockchain: 'POLYGON', dispatch: _dispatch })
+          break
+        }
+        case 'XDAI': {
+          loadEthBalance({ asset, account, blockchain: 'XDAI', dispatch: _dispatch })
+          break
+        }
+        case 'TELOS': {
+          loadEosBalance({ asset, account, blockchain: 'TELOS', dispatch: _dispatch })
+          break
+        }
+        default: {
+          break
+        }
       }
     } catch (_err) {
       console.error(_err)
@@ -139,14 +159,18 @@ const swap = (_from, _to, _amount, _address) => {
   return async _dispatch => {
     try {
       _dispatch(resetProgress())
-      const { wallets } = store.getState()
-      console.log(_from, _to)
+      const {
+        wallets,
+        swap: { assets }
+      } = store.getState()
 
       // NOTE: pegin
       if (!_from.isPtoken && _to.isPtoken) {
-        const assetId = `P${_from.symbol.toUpperCase()}_ON_${_to.blockchain.toUpperCase()}_MAINNET`
+        const ptokenId = _to.id
+        const ptoken = assets.find(({ id }) => ptokenId === id)
+
         const ptokens = new pTokens(
-          getConfigs(assetId, {
+          getConfigs(ptokenId, {
             ethProvider: wallets.eth.provider || getCorrespondingReadOnlyProviderV2('ETH'),
             eosSignatureProvider: wallets.eos.provider || getCorrespondingReadOnlyProviderV2('EOS'),
             telosSignatureProvider: wallets.telos.provider || getCorrespondingReadOnlyProviderV2('TELOS'),
@@ -156,8 +180,8 @@ const swap = (_from, _to, _amount, _address) => {
           })
         )
 
-        const ptoken = `p${_from.symbol.toUpperCase()}`
-        switch (ptoken) {
+        console.log('PTOKEN', ptoken)
+        switch (ptoken.name) {
           case 'pETH': {
             // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
             break
@@ -183,14 +207,20 @@ const swap = (_from, _to, _amount, _address) => {
             break
           }
           case 'pBTC': {
-            peginWithDepositAddress({ ptokens, address: _address, ptoken, asset: _from, dispatch: _dispatch, assetId })
+            peginWithDepositAddress({ ptokens, address: _address, ptoken, dispatch: _dispatch })
             break
           }
           case 'pLTC': {
-            peginWithDepositAddress({ ptokens, address: _address, ptoken, asset: _from, dispatch: _dispatch, assetId })
+            peginWithDepositAddress({ ptokens, address: _address, ptoken, dispatch: _dispatch })
             break
           }
           case 'pUNI': {
+            peginWithWallet({
+              ptokens,
+              ptoken,
+              dispatch: _dispatch,
+              params: [_amount, _address]
+            })
             // loggedIssueWithWallet(ptokens, _params, pToken, _dispatch)
             break
           }
@@ -247,7 +277,7 @@ const swap = (_from, _to, _amount, _address) => {
             break
           }
           case 'pDOGE': {
-            peginWithDepositAddress({ ptokens, address: _address, ptoken, asset: _from, dispatch: _dispatch, assetId })
+            peginWithDepositAddress({ ptokens, address: _address, ptoken, dispatch: _dispatch })
             break
           }
           case 'pEOS': {
@@ -260,7 +290,7 @@ const swap = (_from, _to, _amount, _address) => {
       }
 
       // NOTE: pegout
-      if (_from.isPtoken && !_to.isPtoken) {
+      else if (_from.isPtoken && !_to.isPtoken) {
       }
     } catch (_err) {
       console.error(_err)
