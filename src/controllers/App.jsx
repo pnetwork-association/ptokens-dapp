@@ -11,6 +11,7 @@ import { getValidators } from '../actions/pNetwork/'
 import PropTypes from 'prop-types'
 import Notifications from '../components/notifications/Notifications'
 import { loadSwapData } from '../actions/swap'
+import { selectPage } from '../actions/pages'
 
 history.listen(location => {
   ReactGA.set({ page: location.pathname })
@@ -24,25 +25,20 @@ const mapStateToProps = state => {
 const mapDispatchToProps = _dispatch => {
   return {
     getValidators: () => _dispatch(getValidators()),
-    loadSwapData: () => _dispatch(loadSwapData())
+    loadSwapData: () => _dispatch(loadSwapData()),
+    selectPage: _page => _dispatch(selectPage(_page))
   }
 }
 
-/*const pageNameToNumbers = {
-  '': 0,
-  'issue-redeem': 1,
-  enclave: 2,
-  settings: 3
-}*/
-
-const App = ({ getValidators, loadSwapData }) => {
+const App = ({ getValidators, loadSwapData, selectPage }) => {
   useEffect(() => {
     ReactGA.pageview(window.location.pathname)
     getValidators()
-    // const page = history.location.pathname.split('/')[2]
+    const page = history.location.pathname.split('/')[1]
+    selectPage(page)
     const { withTestnetInstances, iamthomas } = queryString.parse(window.location.search)
     loadSwapData(withTestnetInstances)
-  }, [loadSwapData, getValidators])
+  }, [])
 
   return (
     <Switch>
@@ -68,7 +64,8 @@ const App = ({ getValidators, loadSwapData }) => {
 
 App.propTypes = {
   getValidators: PropTypes.func,
-  loadSwapData: PropTypes.func
+  loadSwapData: PropTypes.func,
+  selectPage: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

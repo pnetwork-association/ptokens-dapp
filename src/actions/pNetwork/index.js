@@ -1,5 +1,5 @@
 import {
-  PNETWORK_PING_PONG,
+  /*PNETWORK_PING_PONG,
   PNETWORK_LAST_ISSUER_PROCESSED_BLOCK_LOADED,
   PNETWORK_LAST_REDEEMER_PROCESSED_BLOCK_LOADED,
   PNETWORK_REPORT_ISSUE_LOADED,
@@ -9,16 +9,16 @@ import {
   PNETWORK_SET_REDEEMER_BLOCK_HEIGHT_STATUS,
   PTOKENS_SET_NODE_INFO,
   PNETWORK_SELECTED_NODE,
-  PNETWORK_SELECTED_NODE_MANUALLY,
+  PNETWORK_SELECTED_NODE_MANUALLY,*/
   PNETWORK_SET_VALIDATORS
 } from '../../constants'
-import { getBlockHeightStatusComparedWithTheReals } from '../../utils/blocks-sync'
+/*import { getBlockHeightStatusComparedWithTheReals } from '../../utils/blocks-sync'
 import { NodeSelector } from 'ptokens-node-selector'
 import { HttpProvider } from 'ptokens-providers'
-import { Node } from 'ptokens-node'
+import { Node } from 'ptokens-node'*/
 import { Mutex } from 'async-mutex'
-import { helpers } from 'ptokens-utils'
-import store from '../../store'
+/*import { helpers } from 'ptokens-utils'
+import store from '../../store'*/
 import axios from 'axios'
 import settings from '../../settings'
 
@@ -55,7 +55,7 @@ const getValidators = () => {
   }
 }
 
-const setNode = _pToken => {
+/*const setNode = _pToken => {
   return async _dispatch => {
     try {
       let selectedNode = null
@@ -366,16 +366,16 @@ const setRedeemerBlockHeightStatus = _status => {
       status: _status
     }
   }
-}
+}*/
 
 export {
-  getValidators,
-  getLastProcessedBlock,
+  getValidators
+  /*getLastProcessedBlock,
   getReports,
   ping,
   resetData,
   setIssuerBlockHeightStatus,
   setRedeemerBlockHeightStatus,
   setNode,
-  setNodeManually
+  setNodeManually*/
 }

@@ -36,9 +36,10 @@ const StyledNavLink = styled(Nav.Link)`
   font-size: 20px;
   padding-left: 15px;
   padding-rigth: 15px;
+  color: ${({ active }) => (active ? '#475965 !important' : 'inherit')};
 `
 
-const Header = ({ connectWithWallet }) => {
+const Header = ({ connectWithWallet, selectedPage, selectPage }) => {
   const [showSelectWallet, setShowSelectWallet] = useState(false)
 
   const onSelectWallet = useCallback(
@@ -59,9 +60,15 @@ const Header = ({ connectWithWallet }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <StyledNavLink onClick={console.log}>Swap</StyledNavLink>
-            <StyledNavLink onClick={console.log}>Stats</StyledNavLink>
-            <StyledNavLink onClick={console.log}>NFTs</StyledNavLink>
+            <StyledNavLink active={selectedPage === 'swap'} onClick={() => selectPage('swap')}>
+              Swap
+            </StyledNavLink>
+            <StyledNavLink active={selectedPage === 'stats'} onClick={() => selectPage('stats')}>
+              Stats
+            </StyledNavLink>
+            <StyledNavLink active={selectedPage === 'nft'} onClick={() => selectPage('nft')}>
+              NFTs
+            </StyledNavLink>
           </Nav>
           <ConnectButton onClick={() => setShowSelectWallet(true)}>Connect Wallets</ConnectButton>
         </Navbar.Collapse>
@@ -72,7 +79,9 @@ const Header = ({ connectWithWallet }) => {
 }
 
 Header.propTypes = {
-  connectWithWallet: PropTypes.func
+  selectedPage: PropTypes.string.isRequired,
+  connectWithWallet: PropTypes.func.isRequired,
+  selectPage: PropTypes.func.isRequired
 }
 
 export default Header
