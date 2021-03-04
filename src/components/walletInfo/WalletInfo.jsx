@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, Row, Col, Container } from 'react-bootstrap'
+import { Modal, Row, Col } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import ReactTooltip from 'react-tooltip'
@@ -44,7 +44,7 @@ const Account = styled.span`
   margin-left: 15px;
 `
 
-const ChangeButton = styled.button`
+const ChangeOrConnectButton = styled.button`
   width: auto;
   color: #66b8ff;
   background: #66b8ff40;
@@ -62,18 +62,18 @@ const ChangeButton = styled.button`
   }
 `
 
-const DisconnectButton = styled(ChangeButton)`
+const DisconnectButton = styled(ChangeOrConnectButton)`
   margin-left: 10px;
 `
 
-const WalletInfo = ({ show, wallets, onClose, onChange, onDisconnect }) => {
+const WalletInfo = ({ show, wallets, onClose, onChange, onConnect, onDisconnect }) => {
   return (
     <Modal show={show} aria-labelledby="contained-modal-wallet-info" centered onHide={onClose}>
       <StyledHeader closeButton>
         <StyledModalTitle>Accounts</StyledModalTitle>
       </StyledHeader>
       <StyledBody>
-        {wallets.map(({ formattedAccount, blockchain }) => (
+        {wallets.map(({ formattedAccount, blockchain, isConnected }) => (
           <ContainerAccountInfo key={`${blockchain}-wallet`}>
             <Row>
               <Col xs={6} className="my-auto">
@@ -81,8 +81,14 @@ const WalletInfo = ({ show, wallets, onClose, onChange, onDisconnect }) => {
                 <Account>{formattedAccount}</Account>
               </Col>
               <Col xs={6} className="my-auto text-right">
-                <ChangeButton onClick={() => onChange(blockchain)}>CHANGE</ChangeButton>
-                <DisconnectButton onClick={() => onDisconnect(blockchain)}>DISCONNECT</DisconnectButton>
+                {isConnected ? (
+                  <React.Fragment>
+                    <ChangeOrConnectButton onClick={() => onChange(blockchain)}>CHANGE</ChangeOrConnectButton>
+                    <DisconnectButton onClick={() => onDisconnect(blockchain)}>DISCONNECT</DisconnectButton>
+                  </React.Fragment>
+                ) : (
+                  <ChangeOrConnectButton onClick={() => onConnect(blockchain)}>CONNECT</ChangeOrConnectButton>
+                )}
               </Col>
             </Row>
           </ContainerAccountInfo>
@@ -98,7 +104,8 @@ WalletInfo.propTypes = {
   wallets: PropTypes.array,
   onClose: PropTypes.func,
   onChange: PropTypes.func,
-  onDisconnect: PropTypes.func
+  onDisconnect: PropTypes.func,
+  onConnect: PropTypes.func
 }
 
 export default WalletInfo

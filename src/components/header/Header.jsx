@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Navbar, Nav } from 'react-bootstrap'
-import SelectWallet from '../selectWallet/SelectWallet'
+//import SelectWallet from '../selectWallet/SelectWallet'
 import Walletinfo from '../walletInfo/WalletInfo'
 import { useWallets } from '../../hooks/use-wallets'
 
@@ -52,29 +52,36 @@ const StyledNavLink = styled(Nav.Link)`
   color: ${({ active }) => (active ? '#475965 !important' : 'inherit')};
 `
 
-const Header = ({ selectedPage, wallets, connectWithWallet, disconnectFromWallet, selectPage }) => {
+const Header = _props => {
+  const { selectedPage, connectWithWallet, disconnectFromWallet, selectPage } = _props
   const [showSelectWallet, setShowSelectWallet] = useState(false)
   const [showWalletInfo, setShowWalletInfo] = useState(false)
 
-  const onSelectWallet = useCallback(
-    _symbol => {
-      setShowSelectWallet(false)
-      connectWithWallet(_symbol)
+  const { isConnected, wallets } = useWallets(_props.wallets)
+
+  const onConnectWallet = useCallback(
+    _blockchain => {
+      setShowWalletInfo(false)
+      connectWithWallet(_blockchain)
     },
     [connectWithWallet]
   )
 
-  const { isConnected, connectedWallets } = useWallets(wallets)
+  const onChangeWallet = useCallback(
+    _blockchain => {
+      setShowWalletInfo(false)
+      connectWithWallet(_blockchain)
+    },
+    [connectWithWallet]
+  )
 
-  const onChangeWallet = useCallback(_blockchain => {
-    setShowWalletInfo(false)
-    connectWithWallet(_blockchain)
-  })
-
-  const onDisconnectWallet = useCallback(_blockchain => {
-    setShowWalletInfo(false)
-    disconnectFromWallet(_blockchain)
-  })
+  const onDisconnectWallet = useCallback(
+    _blockchain => {
+      setShowWalletInfo(false)
+      disconnectFromWallet(_blockchain)
+    },
+    [disconnectFromWallet]
+  )
 
   return (
     <HeaderWrapper>
@@ -99,17 +106,18 @@ const Header = ({ selectedPage, wallets, connectWithWallet, disconnectFromWallet
           {isConnected ? (
             <Connected onClick={() => setShowWalletInfo(true)} />
           ) : (
-            <ConnectButton onClick={() => setShowSelectWallet(true)}>Connect Wallets</ConnectButton>
+            <ConnectButton onClick={() => setShowWalletInfo(true)}>Connect Wallets</ConnectButton>
           )}
         </Navbar.Collapse>
       </Navbar>
-      <SelectWallet show={showSelectWallet} onClose={() => setShowSelectWallet(false)} onSelect={onSelectWallet} />
+      {/*<SelectWallet show={showSelectWallet} onClose={() => setShowSelectWallet(false)} onSelect={onConnecttWallet} />*/}
       <Walletinfo
         show={showWalletInfo}
-        wallets={connectedWallets}
+        wallets={wallets}
         onClose={() => setShowWalletInfo(false)}
         onDisconnect={onDisconnectWallet}
         onChange={onChangeWallet}
+        onConnect={onConnectWallet}
       />
     </HeaderWrapper>
   )

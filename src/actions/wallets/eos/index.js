@@ -7,13 +7,13 @@ const connectWithEosWallet = _dispatch => {
   const configs = {
     dappName: settings.dappName,
     scatter: {
-      settings: settings.rpc.eos
+      settings: settings.rpc.mainnet.eos
     },
     tokenPocket: {
-      settings: settings.rpc.eos
+      settings: settings.rpc.mainnet.eos
     },
     anchor: {
-      settings: settings.rpc.eos
+      settings: settings.rpc.mainnet.eos
     }
   }
 

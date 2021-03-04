@@ -8,13 +8,13 @@ const connectWithTelosWallet = _dispatch => {
   const configs = {
     dappName: settings.dappName,
     scatter: {
-      settings: settings.rpc.telos
+      settings: settings.rpc.mainnet.telos
     },
     tokenPocket: {
-      settings: settings.rpc.telos
+      settings: settings.rpc.mainnet.telos
     },
     anchor: {
-      settings: settings.rpc.telos
+      settings: settings.rpc.mainnet.telos
     }
   }
 
