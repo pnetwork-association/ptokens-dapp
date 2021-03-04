@@ -39,6 +39,7 @@ const ImageBordered = styled.img`
   border-radius: 50%;
   border: 1px solid rgba(71, 89, 101, 0.3);
   cursor: pointer;
+  box-shadow: #475965 1px 1px 9px -3px;
 `
 
 const Account = styled.span`
