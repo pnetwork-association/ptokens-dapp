@@ -88,7 +88,6 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
     setAddress,
     fromAmount,
     toAmount,
-    isValidSwap,
     filteredAssets,
     onChangeFromAmount,
     onChangeToAmount,
