@@ -31,6 +31,7 @@ const ContainerImage = styled.div`
 const Image = styled.img`
   position: relative;
   width: 73px;
+  height: 73px;
   background: white;
   border-radius: 50%;
   border: 1px solid rgba(71, 89, 101, 0.3);

@@ -103,7 +103,7 @@ const FormattedName = styled.span`
 const AssetListModal = _props => {
   const { show: showModal, title, onClose, onSelect } = _props
 
-  const [assets] = useGroupedAssets(_props.assets)
+  const [assets] = useGroupedAssets(_props.filteredAssets)
   const [show, setShow] = useState([])
 
   const onShow = useCallback(
@@ -177,7 +177,7 @@ const AssetListModal = _props => {
                             </Col>
                             <Col xs={6} className="text-center my-auto">
                               <FormattedName>
-                              {formattedName === _nativeSymbol ? 'NATIVE' : formattedName}
+                                {formattedName === _nativeSymbol ? 'NATIVE' : formattedName}
                               </FormattedName>
                             </Col>
                             <Col xs={3} className="my-auto text-right">

@@ -88,6 +88,7 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
     fromAmount,
     toAmount,
     isValidSwap,
+    filteredAssets,
     onChangeFromAmount,
     onChangeToAmount,
     onChangeOrder,
@@ -172,6 +173,7 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
       <AssetListModal
         title="Swap from ..."
         assets={assets}
+        filteredAssets={assets}
         show={showModalFrom}
         onClose={() => setShowModalFrom(false)}
         onSelect={onSelectFrom}
@@ -179,6 +181,7 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
       <AssetListModal
         title="Swap to ..."
         assets={assets}
+        filteredAssets={filteredAssets}
         show={showModalTo}
         onClose={() => setShowModalTo(false)}
         onSelect={onSelectTo}

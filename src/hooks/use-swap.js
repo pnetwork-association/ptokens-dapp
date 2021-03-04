@@ -66,6 +66,7 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress }) => {
     }
 
     if (!isValidSwap) {
+      setAddress('')
       return ['Invalid Swap']
     }
 
@@ -107,7 +108,7 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress }) => {
     }
 
     return ['Swap']
-  }, [wallets, assets, from, fromAmount, to, address, isValidSwap, swapType])
+  }, [wallets, assets, from, fromAmount, to, address, isValidSwap, swapType, setAddress])
 
   const onChangeFromAmount = useCallback(
     _amount => {
@@ -154,6 +155,42 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress }) => {
     }
   }, [from, action, to, address, fromAmount, swap, connectWithWallet])
 
+  const [filteredAssets] = useMemo(() => {
+    if (from && !from.isPtoken) {
+      const filtered = assets.filter(
+        ({ name, isPtoken }) =>
+          isPtoken &&
+          (name === 'p' + from.symbol ||
+            (name === 'PNT' && name === from.symbol) ||
+            (name === 'PTERIA' && name === from.symbol))
+      )
+
+      if (!isValidSwap) {
+        setTo(filtered[0])
+      }
+
+      return [filtered]
+    }
+
+    if (from && from.isPtoken) {
+      const filtered = assets.filter(
+        ({ nativeSymbol, isPtoken }) =>
+          !isPtoken &&
+          (from.name.slice(1) === nativeSymbol ||
+            (from.name === 'PNT' && from.name === nativeSymbol) ||
+            (from.name === 'PTERIA' && from.name === nativeSymbol))
+      )
+
+      if (!isValidSwap) {
+        setTo(filtered[0])
+      }
+
+      return [filtered]
+    }
+
+    return [assets]
+  }, [assets, from, isValidSwap])
+
   return {
     action,
     from,
@@ -165,6 +202,7 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress }) => {
     fromAmount,
     toAmount,
     isValidSwap,
+    filteredAssets,
     onChangeFromAmount,
     onChangeToAmount,
     onChangeOrder,

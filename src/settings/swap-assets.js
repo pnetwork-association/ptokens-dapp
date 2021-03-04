@@ -206,7 +206,7 @@ const swapAssets = [
   {
     id: 'PNT',
     symbol: 'PNT',
-    name: 'Kleros',
+    name: 'pNetwork Token',
     network: 'mainnet',
     blockchain: 'ETH',
     skipNodeSelection: true,
