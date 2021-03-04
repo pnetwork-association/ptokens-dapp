@@ -86,7 +86,7 @@ const Header = _props => {
   return (
     <HeaderWrapper>
       <Navbar expand="lg">
-        <Navbar.Brand href="#home">
+        <Navbar.Brand>
           {' '}
           <Logo src="../assets/svg/PNT.svg" />
         </Navbar.Brand>

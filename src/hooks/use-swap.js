@@ -10,6 +10,53 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, depositAd
   const [swapType, setSwapType] = useState(null)
   const [action, setAction] = useState('')
 
+  const onChangeFromAmount = useCallback(
+    _amount => {
+      setFromAmount(_amount)
+      // NOTE: when fees will be introduces we need to change 1
+      setToAmount(_amount !== '' ? (_amount * 1).toString() : _amount.toString())
+    },
+    [setFromAmount, setToAmount]
+  )
+
+  const onChangeToAmount = useCallback(
+    _amount => {
+      setToAmount(_amount)
+      setFromAmount(_amount !== '' ? (_amount * 1).toString() : _amount.toString())
+    },
+    [setToAmount, setFromAmount]
+  )
+
+  const onChangeOrder = useCallback(() => {
+    const currentFrom = from
+    setFrom(to)
+    setTo(currentFrom)
+  }, [setFrom, from, to])
+
+  const onFromMax = useCallback(() => {
+    const amount = from.balance
+    setFromAmount(amount)
+    setToAmount(amount !== '' ? (amount * 1).toString() : amount.toString())
+  }, [setFromAmount, from])
+
+  const onToMax = useCallback(() => {
+    const amount = to.balance
+    setFromAmount(amount)
+    setToAmount(amount !== '' ? (amount * 1).toString() : amount.toString())
+  }, [setToAmount, to])
+
+  const onSwap = useCallback(() => {
+    if (action === 'Connect Wallet') {
+      connectWithWallet(from.blockchain)
+    }
+
+    if (action === 'Get Deposit Address' || action === 'Swap') {
+      setAction(action === 'Swap' ? 'Swapping ...' : 'Generating ...')
+      swap(from, to, fromAmount, address)
+    }
+  }, [from, action, to, address, fromAmount, swap, connectWithWallet])
+
+  // NOTE: check combination
   const [isValidSwap] = useMemo(() => {
     if (!from || !to) return [false]
 
@@ -48,6 +95,7 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, depositAd
     }
   }, [assets, to, from])
 
+  // NOTE: reset data when pegin/pegout terminates
   useEffect(() => {
     if (progress.terminated) {
       setFromAmount('')
@@ -56,6 +104,7 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, depositAd
     }
   }, [progress])
 
+  // NOTE: change to address with a connected account
   useEffect(() => {
     setAddress(
       to && wallets[to.blockchain.toLowerCase()] && wallets[to.blockchain.toLowerCase()].account
@@ -64,6 +113,7 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, depositAd
     )
   }, [wallets, to])
 
+  // NOTE: calculates button text
   useEffect(() => {
     if (!from || !to || assets.length === 0) {
       setAction('Loading ...')
@@ -124,52 +174,7 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, depositAd
     setAction('Swap')
   }, [wallets, assets, from, fromAmount, to, address, isValidSwap, swapType, setAddress])
 
-  const onChangeFromAmount = useCallback(
-    _amount => {
-      setFromAmount(_amount)
-      // NOTE: when fees will be introduces we need to change 1
-      setToAmount(_amount !== '' ? (_amount * 1).toString() : _amount.toString())
-    },
-    [setFromAmount, setToAmount]
-  )
-
-  const onChangeToAmount = useCallback(
-    _amount => {
-      setToAmount(_amount)
-      setFromAmount(_amount !== '' ? (_amount * 1).toString() : _amount.toString())
-    },
-    [setToAmount, setFromAmount]
-  )
-
-  const onChangeOrder = useCallback(() => {
-    const currentFrom = from
-    setFrom(to)
-    setTo(currentFrom)
-  }, [setFrom, from, to])
-
-  const onFromMax = useCallback(() => {
-    const amount = from.balance
-    setFromAmount(amount)
-    setToAmount(amount !== '' ? (amount * 1).toString() : amount.toString())
-  }, [setFromAmount, from])
-
-  const onToMax = useCallback(() => {
-    const amount = to.balance
-    setFromAmount(amount)
-    setToAmount(amount !== '' ? (amount * 1).toString() : amount.toString())
-  }, [setToAmount, to])
-
-  const onSwap = useCallback(() => {
-    if (action === 'Connect Wallet') {
-      connectWithWallet(from.blockchain)
-    }
-
-    if (action === 'Get Deposit Address' || action === 'Swap') {
-      setAction(action === 'Swap' ? 'Swapping ...' : 'Generating ...')
-      swap(from, to, fromAmount, address)
-    }
-  }, [from, action, to, address, fromAmount, swap, connectWithWallet])
-
+  // NOTE: filters based on from selection
   const [filteredAssets] = useMemo(() => {
     if (from && !from.isPtoken) {
       const filtered = assets.filter(
