@@ -127,7 +127,7 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
           <OuterContainerSwap className="mx-auto">
             <ContainerSwap>
               <SwapLine
-                defaultImage="../assets/tokens/BTC.png"
+                defaultImage="../assets/svg/BTC.svg"
                 asset={from}
                 amount={fromAmount}
                 onChangeAmount={onChangeFromAmount}
@@ -135,11 +135,11 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
                 onMax={onFromMax}
               />
               <DescendantImageContainer>
-                <DescendantImage src="../assets/descendant.png" onClick={onChangeOrder} />
+                <DescendantImage src="../assets/png/descendant.png" onClick={onChangeOrder} />
               </DescendantImageContainer>
               <SwapLine
-                defaultImage="../assets/tokens/pBTC-mainnet.png"
-                defaultMiniImage="../assets/tokens/ETH.png"
+                defaultImage="../assets/svg/pBTC.svg"
+                defaultMiniImage="../assets/svg/ETH.svg"
                 asset={to}
                 amount={toAmount}
                 address={address}

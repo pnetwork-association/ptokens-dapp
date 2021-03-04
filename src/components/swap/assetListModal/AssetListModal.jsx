@@ -5,32 +5,36 @@ import styled from 'styled-components'
 import { useGroupedAssets } from '../../../hooks/use-grouped-assets'
 import { getAssetFromSymbol } from '../../../utils/maps'
 
-const Image = styled.img`
+const OuterTokenIcon = styled.img`
   position: relative;
   width: 50px;
-  background: white;
+  height: 50px;
   border-radius: 50%;
   border: 1px solid rgba(71, 89, 101, 0.3);
   cursor: pointer;
+  box-shadow: #475965 1px 1px 9px -3px;
 `
 
-const TokenImage = styled.img`
+const InnerTokenIcon = styled.img`
   position: relative;
   width: 40px;
-  background: white;
+  height: 40px;
   border-radius: 50%;
   border: 1px solid rgba(71, 89, 101, 0.3);
+  box-shadow: #475965 1px 1px 9px -3px;
   cursor: pointer;
 `
 
-const MiniImage = styled.img`
+const Minicon = styled.img`
   position: absolute;
-  width: 16px;
-  background: white;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   margin-top: 27px;
   margin-left: -13px;
   border: 1px solid rgba(71, 89, 101, 0.3);
+  box-shadow: #475965 1px 1px 9px -3px;
+  background: white;
 `
 
 const ContainerRow = styled.div`
@@ -131,7 +135,7 @@ const AssetListModal = _props => {
               <ContainerRow>
                 <StyledRow onClick={() => onShow(_index)}>
                   <Col xs={2}>
-                    <Image src={`../assets/tokens/${_nativeSymbol}-mainnet.png`} />
+                    <OuterTokenIcon src={`../assets/svg/${_nativeSymbol}.svg`} />
                   </Col>
                   <Col xs={7} className="pl-0 my-auto">
                     <AssetSymbol>{_nativeSymbol}</AssetSymbol>
@@ -140,7 +144,7 @@ const AssetListModal = _props => {
                     </AssetName>
                   </Col>
                   <Col xs={3} className="my-auto text-right">
-                    <ArrowImage src={`../assets/arrow-${show[_index] ? 'up' : 'down'}.png`} />
+                    <ArrowImage src={`../assets/png/arrow-${show[_index] ? 'up' : 'down'}.png`} />
                   </Col>
                 </StyledRow>
               </ContainerRow>
@@ -163,8 +167,8 @@ const AssetListModal = _props => {
                         <ContainerInnerRow key={`${name}-on-${blockchain}-${network}`}>
                           <StyledInnerRow onClick={() => onSelectAsset(_asset)}>
                             <Col xs={3}>
-                              <TokenImage src={image} />
-                              {withMiniImage ? <MiniImage src={miniImage} /> : null}
+                              <InnerTokenIcon src={image} />
+                              {withMiniImage ? <Minicon src={miniImage} /> : null}
                             </Col>
                             <Col xs={6} className="text-center my-auto">
                               {formattedName === _nativeSymbol ? 'Native' : formattedName}

@@ -54,7 +54,7 @@ const StyledNavLink = styled(Nav.Link)`
 
 const Header = _props => {
   const { selectedPage, connectWithWallet, disconnectFromWallet, selectPage } = _props
-  const [showSelectWallet, setShowSelectWallet] = useState(false)
+  //const [showSelectWallet, setShowSelectWallet] = useState(false)
   const [showWalletInfo, setShowWalletInfo] = useState(false)
 
   const { isConnected, wallets } = useWallets(_props.wallets)
@@ -88,7 +88,7 @@ const Header = _props => {
       <Navbar expand="lg">
         <Navbar.Brand href="#home">
           {' '}
-          <Logo src="../assets/tokens/pnetwork.png" />
+          <Logo src="../assets/svg/PNT.svg" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

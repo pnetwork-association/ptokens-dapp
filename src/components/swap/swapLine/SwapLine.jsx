@@ -35,16 +35,21 @@ const Image = styled.img`
   border-radius: 50%;
   border: 1px solid rgba(71, 89, 101, 0.3);
   cursor: pointer;
+  box-shadow: #475965 1px 1px 9px -3px;
 `
 
 const MiniImage = styled.img`
   position: absolute;
   width: 22px;
+  height: 22px;
   background: white;
   border-radius: 50%;
   margin-top: 52px;
   margin-left: -19px;
   border: 1px solid rgba(71, 89, 101, 0.3);
+  box-shadow: #475965 1px 1px 9px -3px;
+  background: white;
+  box-shadow: #475965 1px 1px 9px -3px;
 `
 
 const BalanceLabel = styled.label`

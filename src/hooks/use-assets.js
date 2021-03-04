@@ -35,10 +35,13 @@ const useAssets = _assets => {
             : _asset.isPtoken
             ? `on ${blockchainSymbolToName[_asset.blockchain]}`
             : _asset.symbol,
-        image: `../assets/tokens/${_asset.isPtoken ? capitalizeAllLettersExceptFirst(_asset.symbol) : _asset.symbol}-${
-          _asset.network
-        }.png`,
-        miniImage: `../assets/tokens/${_asset.blockchain}-${_asset.network}.png`
+        // prettier.-ignore
+        image: `../assets/svg/${
+          _asset.isPtoken && _asset.name !== 'PTERIA' && _asset.name !== 'PNT'
+            ? capitalizeAllLettersExceptFirst(_asset.symbol)
+            : _asset.symbol
+        }.svg`,
+        miniImage: `../assets/svg/${_asset.blockchain}.svg`
       }
     })
 

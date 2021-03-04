@@ -34,6 +34,7 @@ const ContainerAccountInfo = styled.div`
 const ImageBordered = styled.img`
   position: relative;
   width: 40px;
+  height: 40px;
   background: white;
   border-radius: 50%;
   border: 1px solid rgba(71, 89, 101, 0.3);
@@ -77,7 +78,7 @@ const WalletInfo = ({ show, wallets, onClose, onChange, onConnect, onDisconnect 
           <ContainerAccountInfo key={`${blockchain}-wallet`}>
             <Row>
               <Col xs={6} className="my-auto">
-                <ImageBordered src={`../assets/tokens/${blockchain}-mainnet.png`} />
+                <ImageBordered src={`../assets/svg/${blockchain}.svg`} />
                 <Account>{formattedAccount}</Account>
               </Col>
               <Col xs={6} className="my-auto text-right">

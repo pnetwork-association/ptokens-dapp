@@ -59,7 +59,7 @@ const SelectWallet = _props => {
           <ContainerInnerRow key={`${name}-${symbol}`} onClick={() => onSelect(symbol)}>
             <Row>
               <Col xs={2} className="my-auto">
-                <ImageBordered src={`../assets/tokens/${symbol}-mainnet.png`} />
+                <ImageBordered src={`../assets/tokens/${symbol}.svg`} />
               </Col>
               <Col xs={8} className="my-auto">
                 {name}
