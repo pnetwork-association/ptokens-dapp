@@ -18,19 +18,19 @@ const connectWithEthWallet = async _dispatch => {
         walletconnect: {
           package: WalletConnectProvider,
           options: {
-            infuraId: settings.rpc.eth.infuraProjectId
+            infuraId: settings.infuraProjectId
           }
         },
         portis: {
           package: Portis,
           options: {
-            id: settings.rpc.eth.portisDappId
+            id: settings.portisDappId
           }
         },
         fortmatic: {
           package: Fortmatic,
           options: {
-            key: settings.rpc.eth.fortmaticKey
+            key: settings.fortmaticKey
           }
         }
       }

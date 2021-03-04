@@ -1,4 +1,4 @@
-import { getCorrespondingReadOnlyProviderV2 } from '../../utils/read-only-providers'
+import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
 import Web3 from 'web3'
 import BigNumber from 'bignumber.js'
 import { SWAP_BALANCE_LOADED } from '../../constants/index'
@@ -10,7 +10,7 @@ const loadEthBalances = async ({ assets, account, dispatch }) =>
 
 const loadEthBalance = async ({ asset, account, dispatch, blockchain = 'ETH' }) => {
   try {
-    const web3 = new Web3(getCorrespondingReadOnlyProviderV2(blockchain))
+    const web3 = new Web3(getCorrespondingReadOnlyProvider(blockchain))
     if (asset.id === blockchain) {
       const balance = await web3.eth.getBalance(account)
       dispatch({
@@ -42,7 +42,7 @@ const loadEosBalances = async ({ assets, account, dispatch }) =>
 
 const loadEosBalance = async ({ asset, account, dispatch, blockchain = 'EOS' }) => {
   try {
-    const provider = getCorrespondingReadOnlyProviderV2(blockchain)
+    const provider = getCorrespondingReadOnlyProvider(blockchain)
     const balance = await provider.get_currency_balance(asset.address, account, asset.name.toUpperCase())
     dispatch({
       type: SWAP_BALANCE_LOADED,

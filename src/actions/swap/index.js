@@ -12,7 +12,7 @@ import { loadEthBalances, loadEosBalances, loadEthBalance, loadEosBalance } from
 import { constants, helpers } from 'ptokens-utils'
 import pTokens from 'ptokens'
 import { getConfigs } from '../../utils/ptokens-configs'
-import { getCorrespondingReadOnlyProviderV2 } from '../../utils/read-only-providers'
+import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
 import peginWithDepositAddress from './pegin-with-deposit-address'
 import peginWithWallet from './pegin-with-wallet'
 import pegout from './pegout'
@@ -172,12 +172,12 @@ const swap = (_from, _to, _amount, _address) => {
 
         const ptokens = new pTokens(
           getConfigs(ptokenId, {
-            ethProvider: wallets.eth.provider || getCorrespondingReadOnlyProviderV2('ETH'),
-            eosSignatureProvider: wallets.eos.provider || getCorrespondingReadOnlyProviderV2('EOS'),
-            telosSignatureProvider: wallets.telos.provider || getCorrespondingReadOnlyProviderV2('TELOS'),
-            polygonProvider: wallets.polygon.provider || getCorrespondingReadOnlyProviderV2('POLYGON'),
-            xDaiProvider: wallets.xdai.provider || getCorrespondingReadOnlyProviderV2('XDAI'),
-            bscProvider: wallets.bsc.provider || getCorrespondingReadOnlyProviderV2('BSC')
+            ethProvider: wallets.eth.provider || getCorrespondingReadOnlyProvider('ETH'),
+            eosSignatureProvider: wallets.eos.provider || getCorrespondingReadOnlyProvider('EOS'),
+            telosSignatureProvider: wallets.telos.provider || getCorrespondingReadOnlyProvider('TELOS'),
+            polygonProvider: wallets.polygon.provider || getCorrespondingReadOnlyProvider('POLYGON'),
+            xDaiProvider: wallets.xdai.provider || getCorrespondingReadOnlyProvider('XDAI'),
+            bscProvider: wallets.bsc.provider || getCorrespondingReadOnlyProvider('BSC')
           })
         )
 
@@ -213,12 +213,12 @@ const swap = (_from, _to, _amount, _address) => {
 
         const ptokens = new pTokens(
           getConfigs(ptokenId, {
-            ethProvider: wallets.eth.provider || getCorrespondingReadOnlyProviderV2('ETH'),
-            eosSignatureProvider: wallets.eos.provider || getCorrespondingReadOnlyProviderV2('EOS'),
-            telosSignatureProvider: wallets.telos.provider || getCorrespondingReadOnlyProviderV2('TELOS'),
-            polygonProvider: wallets.polygon.provider || getCorrespondingReadOnlyProviderV2('POLYGON'),
-            xDaiProvider: wallets.xdai.provider || getCorrespondingReadOnlyProviderV2('XDAI'),
-            bscProvider: wallets.bsc.provider || getCorrespondingReadOnlyProviderV2('BSC')
+            ethProvider: wallets.eth.provider || getCorrespondingReadOnlyProvider('ETH'),
+            eosSignatureProvider: wallets.eos.provider || getCorrespondingReadOnlyProvider('EOS'),
+            telosSignatureProvider: wallets.telos.provider || getCorrespondingReadOnlyProvider('TELOS'),
+            polygonProvider: wallets.polygon.provider || getCorrespondingReadOnlyProvider('POLYGON'),
+            xDaiProvider: wallets.xdai.provider || getCorrespondingReadOnlyProvider('XDAI'),
+            bscProvider: wallets.bsc.provider || getCorrespondingReadOnlyProvider('BSC')
           })
         )
 

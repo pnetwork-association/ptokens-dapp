@@ -3,65 +3,28 @@ import Web3 from 'web3'
 import { JsonRpc } from 'eosjs'
 import fetch from 'node-fetch'
 
-const getCorrespondingReadOnlyProvider = _pToken => {
-  if (_pToken.customHostRpc) {
-    if (_pToken.redeemFrom === 'ETH') {
-      return new Web3.providers.WebsocketProvider(_pToken.customHostRpc)
-    }
-  }
-
-  if (_pToken.customNativeRpc) {
-    if (_pToken.redeemFrom === 'ETH') {
-      return new Web3.providers.WebsocketProvider(_pToken.customNativeRpc)
-    }
-  }
-
-  // default rpc
-  if (_pToken.redeemFrom === 'ETH') {
-    return new Web3.providers.WebsocketProvider(
-      settings[_pToken.id].eth.wsInfuraEndpoint + settings[_pToken.id].eth.infuraProjectId
-    )
-  }
-  if (_pToken.redeemFrom === 'BSC') {
-    return new Web3.providers.HttpProvider(settings[_pToken.id].bsc.httpsBinanceSeedEndpoint)
-  }
-  if (_pToken.redeemFrom === 'POLYGON') {
-    return new Web3.providers.HttpProvider(settings[_pToken.id].polygon.httpMaticEndpoint)
-  }
-  if (_pToken.redeemFrom === 'XDAI') {
-    return new Web3.providers.HttpProvider(settings[_pToken.id].xdai.httpsXdaiChainEndpoint)
-  }
-  if (_pToken.redeemFrom === 'EOS') {
-    return new JsonRpc(settings[_pToken.id].eos.endpoint, { fetch })
-  }
-  if (_pToken.redeemFrom === 'TELOS') {
-    return new JsonRpc(settings[_pToken.id].telos.endpoint, { fetch })
-  }
-
-  return null
-}
-
-const getCorrespondingReadOnlyProviderV2 = _blockchain => {
+const getCorrespondingReadOnlyProvider = _blockchain => {
+  // TODO: only mainnet at the moment
   if (_blockchain === 'ETH') {
-    return new Web3.providers.WebsocketProvider(settings.rpc.eth.wsInfuraEndpoint + settings.rpc.eth.infuraProjectId)
+    return new Web3.providers.WebsocketProvider(settings.rpc.mainnet.eth.wsEndpoint + settings.infuraProjectId)
   }
   if (_blockchain === 'BSC') {
-    return new Web3.providers.HttpProvider(settings.rpc.bsc.httpsBinanceSeedEndpoint)
+    return new Web3.providers.HttpProvider(settings.rpc.mainnet.bsc.endpoint)
   }
   if (_blockchain === 'POLYGON') {
-    return new Web3.providers.HttpProvider(settings.rpc.polygon.httpMaticEndpoint)
+    return new Web3.providers.HttpProvider(settings.rpc.mainnet.polygon.endpoint)
   }
   if (_blockchain === 'XDAI') {
-    return new Web3.providers.HttpProvider(settings.rpc.xdai.httpsXdaiChainEndpoint)
+    return new Web3.providers.HttpProvider(settings.rpc.mainnet.xdai.endpoint)
   }
   if (_blockchain === 'EOS') {
-    return new JsonRpc(settings.rpc.eos.endpoint, { fetch })
+    return new JsonRpc(settings.rpc.mainnet.eos.endpoint, { fetch })
   }
   if (_blockchain === 'TELOS') {
-    return new JsonRpc(settings.rpc.telos.endpoint, { fetch })
+    return new JsonRpc(settings.rpc.mainnet.telos.endpoint, { fetch })
   }
 
   return null
 }
 
-export { getCorrespondingReadOnlyProvider, getCorrespondingReadOnlyProviderV2 }
+export { getCorrespondingReadOnlyProvider }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Navbar, Nav } from 'react-bootstrap'
 import SelectWallet from '../selectWallet/SelectWallet'
+import { useWallets } from '../../hooks/use-wallets'
 
 const HeaderWrapper = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -11,20 +12,34 @@ const HeaderWrapper = styled.div`
 
 const ConnectButton = styled.button`
   width: auto;
-  background: #ff6666;
+  background: #ff666624;
   border-radius: 3px;
   font-family: Helvetica;
   font-size: 15px;
   font-weight: 300;
-  color: #ffffff;
+  color: #ff6666;
   height: 40px;
   border: 0;
   padding-left: 25px;
   padding-right: 25px;
   font-weight: bold;
-  border-radius: 20px;
+  border-radius: 10px;
   outline: none !important;
   box-shadow: none;
+  &:hover {
+    border: 1px solid #ff6666;
+  }
+`
+
+const Connected = styled.div`
+  background: #e8e8e8;
+  color: #475965 !important;
+  height: 35px;
+  border-radius: 50%;
+  width: 35px;
+  background: #d8f6dd;
+  border: 1px solid #a8f7b5;
+  cursor: pointer;
 `
 
 const Logo = styled.img`
@@ -39,7 +54,7 @@ const StyledNavLink = styled(Nav.Link)`
   color: ${({ active }) => (active ? '#475965 !important' : 'inherit')};
 `
 
-const Header = ({ connectWithWallet, selectedPage, selectPage }) => {
+const Header = ({ connectWithWallet, selectedPage, selectPage, wallets }) => {
   const [showSelectWallet, setShowSelectWallet] = useState(false)
 
   const onSelectWallet = useCallback(
@@ -49,6 +64,8 @@ const Header = ({ connectWithWallet, selectedPage, selectPage }) => {
     },
     [connectWithWallet]
   )
+
+  const { isConnected, connectedWallets } = useWallets(wallets)
 
   return (
     <HeaderWrapper>
@@ -70,7 +87,11 @@ const Header = ({ connectWithWallet, selectedPage, selectPage }) => {
               NFTs
             </StyledNavLink>
           </Nav>
-          <ConnectButton onClick={() => setShowSelectWallet(true)}>Connect Wallets</ConnectButton>
+          {isConnected ? (
+            <Connected />
+          ) : (
+            <ConnectButton onClick={() => setShowSelectWallet(true)}>Connect Wallets</ConnectButton>
+          )}
         </Navbar.Collapse>
       </Navbar>
       <SelectWallet show={showSelectWallet} onClose={() => setShowSelectWallet(false)} onSelect={onSelectWallet} />
@@ -79,6 +100,7 @@ const Header = ({ connectWithWallet, selectedPage, selectPage }) => {
 }
 
 Header.propTypes = {
+  wallets: PropTypes.object.isRequired,
   selectedPage: PropTypes.string.isRequired,
   connectWithWallet: PropTypes.func.isRequired,
   selectPage: PropTypes.func.isRequired

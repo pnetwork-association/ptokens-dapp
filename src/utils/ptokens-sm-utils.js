@@ -39,168 +39,168 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
   switch (_id) {
     case PBTC_ON_ETH_MAINNET: {
       return _role === 'native'
-        ? `${settings[PBTC_ON_ETH_MAINNET].btc.explorer}address/${_address}`
-        : `${settings[PBTC_ON_ETH_MAINNET].eth.explorer}address/${_address}`
+        ? `${settings.explorers.mainnet.btc}address/${_address}`
+        : `${settings.explorers.mainnet.eth}address/${_address}`
     }
     case PBTC_ON_ETH_TESTNET: {
       return _role === 'native'
-        ? `${settings[PBTC_ON_ETH_TESTNET].btc.explorer}address/${_address}`
-        : `${settings[PBTC_ON_ETH_TESTNET].eth.explorer}address/${_address}`
+        ? `${settings.explorers.testnet.btc}address/${_address}`
+        : `${settings.explorers.mainnet.eth}address/${_address}`
     }
     case PBTC_ON_EOS_TESTNET: {
       return _role === 'native'
-        ? `${settings[PBTC_ON_EOS_TESTNET].btc.explorer}address/${_address}`
-        : `${settings[PBTC_ON_EOS_TESTNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.btc}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PBTC_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PBTC_ON_EOS_MAINNET].btc.explorer}address/${_address}`
-        : `${settings[PBTC_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.btc}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PBTC_ON_TELOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PBTC_ON_TELOS_MAINNET].btc.explorer}address/${_address}`
-        : `${settings[PBTC_ON_TELOS_MAINNET].telos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.btc}address/${_address}`
+        : `${settings.explorers.mainnet.telos}accounts/${_address}`
     }
     case PLTC_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PLTC_ON_EOS_MAINNET].ltc.explorer}address/${_address}`
-        : `${settings[PLTC_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.ltc}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PLTC_ON_ETH_MAINNET: {
       return _role === 'native'
-        ? `${settings[PLTC_ON_ETH_MAINNET].ltc.explorer}address/${_address}`
-        : `${settings[PLTC_ON_ETH_MAINNET].eth.explorer}address/${_address}`
+        ? `${settings.explorers.mainnet.ltc}address/${_address}`
+        : `${settings.explorers.mainnet.eth}address/${_address}`
     }
     case PLTC_ON_ETH_TESTNET: {
       return _role === 'native'
-        ? `${settings[PLTC_ON_ETH_TESTNET].ltc.explorer}address/${_address}`
-        : `${settings[PLTC_ON_ETH_TESTNET].eth.explorer}address/${_address}`
+        ? `${settings.explorers.testnet.ltc}address/${_address}`
+        : `${settings.explorers.mainnet.eth}address/${_address}`
     }
     case PETH_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PETH_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PETH_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PMKR_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PMKR_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PMKR_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PNT_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PNT_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PNT_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PLINK_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PLINK_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PLINK_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PYFI_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PYFI_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PYFI_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PTERIA_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PTERIA_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PTERIA_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PUNI_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PUNI_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PUNI_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PBAND_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PBAND_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PBAND_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PBAL_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PBAL_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PBAL_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PCOMP_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PCOMP_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PCOMP_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PSNX_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PSNX_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PSNX_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case POMG_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[POMG_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[POMG_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PDAI_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PDAI_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PDAI_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PANT_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PANT_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PANT_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PLRC_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PLRC_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PLRC_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PUOS_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PUOS_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PUOS_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PBAT_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PBAT_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PBAT_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PREP_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PREP_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PREP_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PZRX_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PZRX_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PZRX_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PPNK_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PPNK_ON_EOS_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PPNK_ON_EOS_MAINNET].eos.explorer}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.eos}accounts/${_address}`
     }
     case PDOGE_ON_ETH_MAINNET: {
       return _role === 'native'
-        ? `${settings[PDOGE_ON_ETH_MAINNET].doge.explorer}address/${_address}`
-        : `${settings[PDOGE_ON_ETH_MAINNET].eth.explorer}address/${_address}`
+        ? `${settings.doge.explorer}address/${_address}`
+        : `${settings.explorers.mainnet.eth}address/${_address}`
     }
     case PEOS_ON_ETH_MAINNET: {
       return _role === 'native'
-        ? `${settings[PEOS_ON_ETH_MAINNET].eos.explorer}accounts/${_address}`
-        : `${settings[PEOS_ON_ETH_MAINNET].eth.explorer}address/${_address}`
+        ? `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eth}address/${_address}`
     }
     case PBTC_ON_BSC_MAINNET: {
       return _role === 'native'
-        ? `${settings[PBTC_ON_BSC_MAINNET].btc.explorer}address/${_address}`
-        : `${settings[PBTC_ON_BSC_MAINNET].bsc.explorer}address/${_address}`
+        ? `${settings.explorers.mainnet.btc}address/${_address}`
+        : `${settings.explorers.mainnet.bsc}address/${_address}`
     }
     case PEOS_ON_POLYGON_MAINNET: {
       return _role === 'native'
-        ? `${settings[PEOS_ON_POLYGON_MAINNET].eos.explorer}accounts/${_address}`
-        : `${settings[PEOS_ON_POLYGON_MAINNET].polygon.explorer}address/${_address}`
+        ? `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.polygon}address/${_address}`
     }
     case PBTC_ON_XDAI_MAINNET: {
       return _role === 'native'
-        ? `${settings[PBTC_ON_XDAI_MAINNET].btc.explorer}address/${_address}`
-        : `${settings[PBTC_ON_XDAI_MAINNET].xdai.explorer}address/${_address}`
+        ? `${settings.explorers.mainnet.btc}address/${_address}`
+        : `${settings.explorers.mainnet.xdai}address/${_address}`
     }
     default:
       break
@@ -210,169 +210,153 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
 const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
   switch (_id) {
     case PBTC_ON_ETH_MAINNET: {
-      return _role === 'native'
-        ? `${settings[PBTC_ON_ETH_MAINNET].btc.explorer}tx/`
-        : `${settings[PBTC_ON_ETH_MAINNET].eth.explorer}tx/`
+      return _role === 'native' ? `${settings.explorers.mainnet.btc}tx/` : `${settings.explorers.mainnet.eth}tx/`
     }
     case PBTC_ON_ETH_TESTNET: {
-      return _role === 'native'
-        ? `${settings[PBTC_ON_ETH_TESTNET].btc.explorer}tx/`
-        : `${settings[PBTC_ON_ETH_TESTNET].eth.explorer}tx/`
+      return _role === 'native' ? `${settings.explorers.mainnet.btc}tx/` : `${settings.explorers.mainnet.eth}tx/`
     }
     case PBTC_ON_EOS_TESTNET: {
       return _role === 'native'
-        ? `${settings[PBTC_ON_EOS_TESTNET].btc.explorer}tx/`
-        : `${settings[PBTC_ON_EOS_TESTNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.btc}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PBTC_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PBTC_ON_EOS_MAINNET].btc.explorer}tx/`
-        : `${settings[PBTC_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.btc}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PBTC_ON_TELOS_MAINNET: {
-      return _role === 'native'
-        ? `${settings[PBTC_ON_TELOS_MAINNET].btc.explorer}tx/`
-        : `${settings[PBTC_ON_TELOS_MAINNET].telos.explorer}transaction/`
+      return _role === 'native' ? `${settings.explorers.mainnet.btc}tx/` : `${settings.telos.explorer}transaction/`
     }
     case PLTC_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PLTC_ON_EOS_MAINNET].ltc.explorer}tx/`
-        : `${settings[PLTC_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.ltc}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PLTC_ON_ETH_MAINNET: {
-      return _role === 'native'
-        ? `${settings[PLTC_ON_ETH_MAINNET].ltc.explorer}tx/`
-        : `${settings[PLTC_ON_ETH_MAINNET].eth.explorer}tx/`
+      return _role === 'native' ? `${settings.explorers.mainnet.ltc}tx/` : `${settings.explorers.mainnet.eth}tx/`
     }
     case PLTC_ON_ETH_TESTNET: {
-      return _role === 'native'
-        ? `${settings[PLTC_ON_ETH_TESTNET].ltc.explorer}tx/`
-        : `${settings[PLTC_ON_ETH_TESTNET].eth.explorer}tx/`
+      return _role === 'native' ? `${settings.explorers.mainnet.ltc}tx/` : `${settings.explorers.mainnet.eth}tx/`
     }
     case PETH_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PETH_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[PETH_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PLINK_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PLINK_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[PLINK_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PMKR_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PMKR_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[PMKR_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PYFI_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PYFI_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[PYFI_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PNT_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PNT_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[PNT_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PTERIA_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PTERIA_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[PTERIA_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PUNI_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PUNI_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[PUNI_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PBAND_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PBAND_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[PBAND_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PBAL_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PBAL_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[PBAL_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PCOMP_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PCOMP_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[PCOMP_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PSNX_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PSNX_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[PSNX_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case POMG_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[POMG_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[POMG_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PDAI_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PDAI_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[PDAI_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PANT_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PANT_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[PANT_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PLRC_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PLRC_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[PLRC_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PUOS_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PUOS_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[PUOS_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PBAT_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PBAT_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[PBAT_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PREP_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PREP_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[PREP_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PZRX_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PZRX_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[PZRX_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PPNK_ON_EOS_MAINNET: {
       return _role === 'native'
-        ? `${settings[PPNK_ON_EOS_MAINNET].eth.explorer}tx/`
-        : `${settings[PPNK_ON_EOS_MAINNET].eos.explorer}transaction/`
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PDOGE_ON_ETH_MAINNET: {
-      return _role === 'native'
-        ? `${settings[PDOGE_ON_ETH_MAINNET].doge.explorer}tx/`
-        : `${settings[PDOGE_ON_ETH_MAINNET].eth.explorer}tx/`
+      return _role === 'native' ? `${settings.doge.explorer}tx/` : `${settings.explorers.mainnet.eth}tx/`
     }
     case PEOS_ON_ETH_MAINNET: {
       return _role === 'native'
-        ? `${settings[PEOS_ON_ETH_MAINNET].eos.explorer}transaction/`
-        : `${settings[PEOS_ON_ETH_MAINNET].eth.explorer}tx/`
+        ? `${settings.explorers.mainnet.eos}transaction/`
+        : `${settings.explorers.mainnet.eth}tx/`
     }
     case PBTC_ON_BSC_MAINNET: {
-      return _role === 'native'
-        ? `${settings[PBTC_ON_BSC_MAINNET].btc.explorer}tx/`
-        : `${settings[PBTC_ON_BSC_MAINNET].bsc.explorer}tx/`
+      return _role === 'native' ? `${settings.explorers.mainnet.btc}tx/` : `${settings.explorers.mainnet.bsc}tx/`
     }
     case PEOS_ON_POLYGON_MAINNET: {
       return _role === 'native'
-        ? `${settings[PEOS_ON_POLYGON_MAINNET].eos.explorer}transaction/`
-        : `${settings[PEOS_ON_POLYGON_MAINNET].polygon.explorer}tx/`
+        ? `${settings.explorers.mainnet.eos}transaction/`
+        : `${settings.explorers.mainnet.polygon}tx/`
     }
     case PBTC_ON_XDAI_MAINNET: {
-      return _role === 'native'
-        ? `${settings[PBTC_ON_XDAI_MAINNET].btc.explorer}tx/`
-        : `${settings[PBTC_ON_XDAI_MAINNET].xdai.explorer}tx/`
+      return _role === 'native' ? `${settings.explorers.mainnet.btc}tx/` : `${settings.explorers.mainnet.xdai}tx/`
     }
     default:
       break

@@ -16,7 +16,7 @@ const connectWithBscWallet = async _dispatch => {
         walletconnect: {
           package: WalletConnectProvider,
           options: {
-            infuraId: settings.rpc.eth.infuraProjectId
+            infuraId: settings.infuraProjectId
           }
         }
       }

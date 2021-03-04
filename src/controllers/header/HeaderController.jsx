@@ -7,7 +7,8 @@ import { selectPage } from '../../actions/pages'
 
 const mapStateToProps = _state => {
   return {
-    selectedPage: _state.pages.selectedPage
+    selectedPage: _state.pages.selectedPage,
+    wallets: _state.wallets
   }
 }
 const mapDispatchToProps = _dispatch => {
@@ -22,6 +23,7 @@ const HeaderController = _props => {
 }
 
 HeaderController.propTypes = {
+  wallets: PropTypes.object.isRequired,
   selectedPage: PropTypes.string.isRequired,
   connectWithWallet: PropTypes.func.isRequired,
   selectPage: PropTypes.func.isRequired
