@@ -7,6 +7,7 @@ import Progress from './progress/Progress'
 import { useSwap } from '../../hooks/use-swap'
 import SwapLine from './swapLine/SwapLine'
 import DepositAddressModal from './depositAddressModal/DepositAddressModal'
+import defaultAssets from '../../settings/swap-assets'
 
 const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -27,7 +28,7 @@ const ContainerSwap = styled.div`
   background: #9e9e9e0d;
   height: 100%;
   padding: 30px;
-  width: 530px;
+  width: 420px;
   @media (max-width: 767.98px) {
     width: 100%;
     padding-left: 10px;
@@ -36,15 +37,15 @@ const ContainerSwap = styled.div`
 `
 
 const DescendantImageContainer = styled.div`
-  margin-top: 40px;
-  margin-bottom: 40px;
+  margin-top: 30px;
+  margin-bottom: 30px;
   text-align: center;
   cursor: pointer;
 `
 
 const DescendantImage = styled.img`
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
 `
 
 const ContainerButtons = styled.div`
@@ -129,6 +130,7 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
             <ContainerSwap>
               <SwapLine
                 defaultImage="../assets/svg/BTC.svg"
+                title="From"
                 asset={from}
                 amount={fromAmount}
                 onChangeAmount={onChangeFromAmount}
@@ -141,6 +143,7 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
               <SwapLine
                 defaultImage="../assets/svg/pBTC.svg"
                 defaultMiniImage="../assets/svg/ETH.svg"
+                title="To"
                 asset={to}
                 amount={toAmount}
                 address={address}
@@ -172,8 +175,8 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
       </Container>
       <AssetListModal
         title="Swap from ..."
-        assets={assets}
-        filteredAssets={assets}
+        assets={assets.length === 0 ? defaultAssets : assets}
+        filteredAssets={assets.length === 0 ? defaultAssets : assets}
         show={showModalFrom}
         onClose={() => setShowModalFrom(false)}
         onSelect={onSelectFrom}
@@ -181,7 +184,7 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
       <AssetListModal
         title="Swap to ..."
         assets={assets}
-        filteredAssets={filteredAssets}
+        filteredAssets={filteredAssets.length === 0 ? defaultAssets : filteredAssets}
         show={showModalTo}
         onClose={() => setShowModalTo(false)}
         onSelect={onSelectTo}

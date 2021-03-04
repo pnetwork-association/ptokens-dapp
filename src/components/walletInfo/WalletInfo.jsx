@@ -67,7 +67,7 @@ const DisconnectButton = styled(ChangeOrConnectButton)`
   margin-left: 10px;
 `
 
-const WalletInfo = ({ show, wallets, onClose, onChange, onConnect, onDisconnect }) => {
+const WalletInfo = ({ show, wallets, onClose, onChange, onConnect /*onDisconnect*/ }) => {
   return (
     <Modal show={show} aria-labelledby="contained-modal-wallet-info" centered onHide={onClose}>
       <StyledHeader closeButton>
@@ -85,7 +85,7 @@ const WalletInfo = ({ show, wallets, onClose, onChange, onConnect, onDisconnect 
                 {isConnected ? (
                   <React.Fragment>
                     <ChangeOrConnectButton onClick={() => onChange(blockchain)}>CHANGE</ChangeOrConnectButton>
-                    <DisconnectButton onClick={() => onDisconnect(blockchain)}>DISCONNECT</DisconnectButton>
+                    {/*<DisconnectButton onClick={() => onDisconnect(blockchain)}>DISCONNECT</DisconnectButton>*/}
                   </React.Fragment>
                 ) : (
                   <ChangeOrConnectButton onClick={() => onConnect(blockchain)}>CONNECT</ChangeOrConnectButton>

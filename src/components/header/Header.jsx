@@ -35,7 +35,7 @@ const Connected = styled.div`
   height: 35px;
   border-radius: 50%;
   width: 35px;
-  background: #d8f6dd;
+  background: #a8f7b5;
   border: 1px solid #a8f7b5;
   cursor: pointer;
 `
@@ -46,7 +46,7 @@ const Logo = styled.img`
 `
 
 const StyledNavLink = styled(Nav.Link)`
-  font-size: 20px;
+  font-size: 18px;
   padding-left: 15px;
   padding-rigth: 15px;
   color: ${({ active }) => (active ? '#475965 !important' : 'inherit')};

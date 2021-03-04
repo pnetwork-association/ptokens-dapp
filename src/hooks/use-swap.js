@@ -51,13 +51,16 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress }) => {
     if (progress.terminated) {
       setFromAmount('')
       setToAmount('')
+      setAddress('')
     }
   }, [progress])
 
   useEffect(() => {
-    if (to && wallets[to.blockchain.toLowerCase()] && wallets[to.blockchain.toLowerCase()].account) {
-      setAddress(wallets[to.blockchain.toLowerCase()].account)
-    }
+    setAddress(
+      to && wallets[to.blockchain.toLowerCase()] && wallets[to.blockchain.toLowerCase()].account
+        ? wallets[to.blockchain.toLowerCase()].account
+        : ''
+    )
   }, [wallets, to])
 
   const [action] = useMemo(() => {
