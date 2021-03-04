@@ -18,3 +18,12 @@ input[type=number] {
 .modal-content {
     border-radius: 20px !important;
 }
+
+button {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+button.close {
+  font-size: 30px !important;
+}

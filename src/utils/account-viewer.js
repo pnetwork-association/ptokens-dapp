@@ -208,4 +208,6 @@ const getCorresponsingVisibleAddressFormat = (_pToken, _role, _account) => {
   }
 }
 
-export { getCorresponsingVisibleAddressFormat }
+const slicer = _address => `${_address.slice(0, 6)}...${_address.slice(_address.length - 4, _address.length)}`
+
+export { getCorresponsingVisibleAddressFormat, slicer }

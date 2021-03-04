@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Header from '../../components/header/Header'
 import PropTypes from 'prop-types'
-import { connectWithWallet } from '../../actions/wallets'
+import { connectWithWallet, disconnectFromWallet } from '../../actions/wallets'
 import { selectPage } from '../../actions/pages'
 
 const mapStateToProps = _state => {
@@ -14,6 +14,7 @@ const mapStateToProps = _state => {
 const mapDispatchToProps = _dispatch => {
   return {
     connectWithWallet: _blockchain => _dispatch(connectWithWallet(_blockchain)),
+    disconnectFromWallet: _blockchain => _dispatch(disconnectFromWallet(_blockchain)),
     selectPage: _page => _dispatch(selectPage(_page))
   }
 }
@@ -26,6 +27,7 @@ HeaderController.propTypes = {
   wallets: PropTypes.object.isRequired,
   selectedPage: PropTypes.string.isRequired,
   connectWithWallet: PropTypes.func.isRequired,
+  disconnectFromWallet: PropTypes.func.isRequired,
   selectPage: PropTypes.func.isRequired
 }
 

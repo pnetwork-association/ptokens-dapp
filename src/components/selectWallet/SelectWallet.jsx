@@ -38,8 +38,8 @@ const StyledModalTitle = styled(Modal.Title)`
 const ContainerInnerRow = styled.div`
   padding-top: 20px;
   padding-bottom: 20px;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
   cursor: pointer;
   &:hover {
     background: #ececec;
@@ -51,7 +51,7 @@ const SelectWallet = _props => {
 
   return (
     <Modal show={show} aria-labelledby="contained-modal-title-vcenter" centered onHide={onClose}>
-      <StyledHeader>
+      <StyledHeader closeButton>
         <StyledModalTitle>Select The Blockchain</StyledModalTitle>
       </StyledHeader>
       <StyledBody>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Navbar, Nav } from 'react-bootstrap'
 import SelectWallet from '../selectWallet/SelectWallet'
+import Walletinfo from '../walletInfo/WalletInfo'
 import { useWallets } from '../../hooks/use-wallets'
 
 const HeaderWrapper = styled.div`
@@ -12,12 +13,12 @@ const HeaderWrapper = styled.div`
 
 const ConnectButton = styled.button`
   width: auto;
-  background: #ff666624;
+  color: white;
+  background: #ff6666;
   border-radius: 3px;
   font-family: Helvetica;
   font-size: 15px;
   font-weight: 300;
-  color: #ff6666;
   height: 40px;
   border: 0;
   padding-left: 25px;
@@ -25,14 +26,11 @@ const ConnectButton = styled.button`
   font-weight: bold;
   border-radius: 10px;
   outline: none !important;
-  box-shadow: none;
-  &:hover {
-    border: 1px solid #ff6666;
-  }
+  border: 1px solid #ff6666;
 `
 
 const Connected = styled.div`
-  background: #e8e8e8;
+  background: #66b8ff40;
   color: #475965 !important;
   height: 35px;
   border-radius: 50%;
@@ -54,8 +52,9 @@ const StyledNavLink = styled(Nav.Link)`
   color: ${({ active }) => (active ? '#475965 !important' : 'inherit')};
 `
 
-const Header = ({ connectWithWallet, selectedPage, selectPage, wallets }) => {
+const Header = ({ selectedPage, wallets, connectWithWallet, disconnectFromWallet, selectPage }) => {
   const [showSelectWallet, setShowSelectWallet] = useState(false)
+  const [showWalletInfo, setShowWalletInfo] = useState(false)
 
   const onSelectWallet = useCallback(
     _symbol => {
@@ -66,6 +65,16 @@ const Header = ({ connectWithWallet, selectedPage, selectPage, wallets }) => {
   )
 
   const { isConnected, connectedWallets } = useWallets(wallets)
+
+  const onChangeWallet = useCallback(_blockchain => {
+    setShowWalletInfo(false)
+    connectWithWallet(_blockchain)
+  })
+
+  const onDisconnectWallet = useCallback(_blockchain => {
+    setShowWalletInfo(false)
+    disconnectFromWallet(_blockchain)
+  })
 
   return (
     <HeaderWrapper>
@@ -88,13 +97,20 @@ const Header = ({ connectWithWallet, selectedPage, selectPage, wallets }) => {
             </StyledNavLink>
           </Nav>
           {isConnected ? (
-            <Connected />
+            <Connected onClick={() => setShowWalletInfo(true)} />
           ) : (
             <ConnectButton onClick={() => setShowSelectWallet(true)}>Connect Wallets</ConnectButton>
           )}
         </Navbar.Collapse>
       </Navbar>
       <SelectWallet show={showSelectWallet} onClose={() => setShowSelectWallet(false)} onSelect={onSelectWallet} />
+      <Walletinfo
+        show={showWalletInfo}
+        wallets={connectedWallets}
+        onClose={() => setShowWalletInfo(false)}
+        onDisconnect={onDisconnectWallet}
+        onChange={onChangeWallet}
+      />
     </HeaderWrapper>
   )
 }
@@ -103,6 +119,7 @@ Header.propTypes = {
   wallets: PropTypes.object.isRequired,
   selectedPage: PropTypes.string.isRequired,
   connectWithWallet: PropTypes.func.isRequired,
+  disconnectFromWallet: PropTypes.func.isRequired,
   selectPage: PropTypes.func.isRequired
 }
 

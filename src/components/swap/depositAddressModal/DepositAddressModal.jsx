@@ -57,7 +57,7 @@ const DepositAddressModal = ({ show, asset, onClose, value }) => {
 
   return (
     <Modal show={show} aria-labelledby="contained-modal-deposit-address" centered onHide={onClose}>
-      <StyledHeader>
+      <StyledHeader closeButton>
         {/*NOTE: blockchainSymbolToCoin works because we use deposit addresses to wrap ONLY native assets*/}
         <StyledModalTitle>{`${
           asset ? blockchainSymbolToCoin[asset.nativeSymbol] : ''

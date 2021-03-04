@@ -121,7 +121,7 @@ const AssetListModal = _props => {
 
   return (
     <Modal show={showModal} aria-labelledby="contained-modal-title-vcenter" centered onHide={onHide}>
-      <StyledHeader>
+      <StyledHeader closeButton>
         <StyledModalTitle>{title}</StyledModalTitle>
       </StyledHeader>
       <StyledBody>
