@@ -97,6 +97,42 @@ const loadBalances = (_account, _blockchain) => {
           })
           break
         }
+        case 'TELOS': {
+          loadEosBalances({
+            assets: assets.filter(({ blockchain }) => blockchain === 'TELOS'),
+            account: _account,
+            dispatch: _dispatch,
+            blockchain: 'TELOS'
+          })
+          break
+        }
+        case 'BSC': {
+          loadEthBalances({
+            assets: assets.filter(({ blockchain }) => blockchain === 'BSC'),
+            account: _account,
+            dispatch: _dispatch,
+            blockchain: 'BSC'
+          })
+          break
+        }
+        case 'XDAI': {
+          loadEthBalances({
+            assets: assets.filter(({ blockchain }) => blockchain === 'XDAI'),
+            account: _account,
+            dispatch: _dispatch,
+            blockchain: 'XDAI'
+          })
+          break
+        }
+        case 'POLYGON': {
+          loadEthBalances({
+            assets: assets.filter(({ blockchain }) => blockchain === 'POLYGON'),
+            account: _account,
+            dispatch: _dispatch,
+            blockchain: 'POLYGON'
+          })
+          break
+        }
         default:
           break
       }

@@ -5,8 +5,8 @@ import { SWAP_BALANCE_LOADED } from '../../constants/index'
 import ERC20 from '../../utils/abi/ERC20'
 import * as utils from 'ptokens-utils'
 
-const loadEthBalances = async ({ assets, account, dispatch }) =>
-  Promise.all(assets.map(asset => loadEthBalance({ asset, account, dispatch })))
+const loadEthBalances = async ({ assets, account, blockchain = 'ETH', dispatch }) =>
+  Promise.all(assets.map(asset => loadEthBalance({ asset, account, blockchain, dispatch })))
 
 const loadEthBalance = async ({ asset, account, dispatch, blockchain = 'ETH' }) => {
   try {
@@ -37,8 +37,8 @@ const loadEthBalance = async ({ asset, account, dispatch, blockchain = 'ETH' }) 
   }
 }
 
-const loadEosBalances = async ({ assets, account, dispatch }) =>
-  Promise.all(assets.map(asset => loadEosBalance({ asset, account, dispatch })))
+const loadEosBalances = async ({ assets, account, blockchain = 'EOS', dispatch }) =>
+  Promise.all(assets.map(asset => loadEosBalance({ asset, account, blockchain, dispatch })))
 
 const loadEosBalance = async ({ asset, account, dispatch, blockchain = 'EOS' }) => {
   try {
