@@ -96,7 +96,7 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
     onFromMax,
     onToMax,
     onSwap
-  } = useSwap({ wallets, assets, connectWithWallet, swap, progress })
+  } = useSwap({ wallets, assets, connectWithWallet, swap, progress, depositAddress: depositAddressModal.value })
 
   useMemo(() => {
     if (!assetsLoaded && assets.length > 0) {
@@ -162,7 +162,9 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
                     action === 'Loading ...' ||
                     action === 'Enter an amount' ||
                     action === 'Invalid Address' ||
-                    !isValidSwap ||
+                    action === 'Generating ...' ||
+                    action === 'Swapping ...' ||
+                    action === 'Invalid Swap' ||
                     (address === '' && action !== 'Connect Wallet')
                   }
                 >

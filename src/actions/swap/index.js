@@ -24,32 +24,42 @@ const loadSwapData = (_withTestnetInstance = false) => {
         _withTestnetInstance === true ? true : network === 'mainnet'
       )
 
-      const nodes = await Promise.all(
-        assetsMaybeWithoutTestnetInstances.map(({ name, redeemFrom, network, skipNodeSelection }) => {
-          if (skipNodeSelection) {
-            Promise.resolve()
-            return null
-          }
+      let nodes
+      try {
+        nodes = await Promise.all(
+          assetsMaybeWithoutTestnetInstances.map(({ name, redeemFrom, network, skipNodeSelection }) => {
+            if (skipNodeSelection) {
+              Promise.resolve()
+              return null
+            }
 
-          const nodeSelector = new NodeSelector({
-            pToken: name,
-            blockchain: helpers.getBlockchainType(redeemFrom.toLowerCase()),
-            network: network
+            const nodeSelector = new NodeSelector({
+              pToken: name,
+              blockchain: helpers.getBlockchainType(redeemFrom.toLowerCase()),
+              network: network
+            })
+
+            return nodeSelector.select()
           })
+        )
+      } catch (_err) {
+        console.error(_err)
+      }
 
-          return nodeSelector.select()
-        })
-      )
-
-      const pTokensAddresses = (
-        await Promise.all(nodes.map(_node => (_node ? _node.getInfo() : { smart_contract_address: null })))
-      ).map(({ smart_contract_address, host_smart_contract_address }) =>
-        smart_contract_address
-          ? smart_contract_address
-          : host_smart_contract_address
-          ? host_smart_contract_address
-          : null
-      )
+      let pTokensAddresses
+      try {
+        pTokensAddresses = (
+          await Promise.all(nodes.map(_node => (_node ? _node.getInfo() : { smart_contract_address: null })))
+        ).map(({ smart_contract_address, host_smart_contract_address }) =>
+          smart_contract_address
+            ? smart_contract_address
+            : host_smart_contract_address
+            ? host_smart_contract_address
+            : null
+        )
+      } catch (_err) {
+        console.error(_err)
+      }
 
       const assetsWithAddress = assetsMaybeWithoutTestnetInstances.map((_asset, _index) => {
         const nativeAddress = constants.tokens[helpers.getBlockchainType(_asset.blockchain)]

@@ -1,4 +1,10 @@
-import { showDepositAddressModal, hideDepositAddressModal, updateProgress, loadBalanceByAssetId } from './index'
+import {
+  showDepositAddressModal,
+  hideDepositAddressModal,
+  updateProgress,
+  loadBalanceByAssetId,
+  resetProgress
+} from './index'
 import { toastr } from 'react-redux-toastr'
 import { getCorrespondingBaseTxExplorerLink } from '../../utils/ptokens-sm-utils'
 
@@ -8,6 +14,7 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
     depositAddress = await ptokens[ptoken.name.toLowerCase()].getDepositAddress(address)
   } catch (_err) {
     console.log(_err)
+    dispatch(resetProgress())
     return
   }
 

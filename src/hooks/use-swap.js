@@ -1,13 +1,14 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { isValidAccount } from '../utils/account-validator'
 
-const useSwap = ({ wallets, assets, connectWithWallet, swap, progress }) => {
+const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, depositAddress }) => {
   const [from, setFrom] = useState(null)
   const [to, setTo] = useState(null)
   const [address, setAddress] = useState('')
   const [fromAmount, setFromAmount] = useState('')
   const [toAmount, setToAmount] = useState('')
   const [swapType, setSwapType] = useState(null)
+  const [action, setAction] = useState('')
 
   const [isValidSwap] = useMemo(() => {
     if (!from || !to) return [false]
@@ -63,54 +64,64 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress }) => {
     )
   }, [wallets, to])
 
-  const [action] = useMemo(() => {
+  useEffect(() => {
     if (!from || !to || assets.length === 0) {
-      return ['Loading ...']
+      setAction('Loading ...')
+      return
     }
 
     if (!isValidSwap) {
       setAddress('')
-      return ['Invalid Swap']
+      setAction('Invalid Swap')
+      return
     }
 
     // NOTE: pegin with deposit address
     if (!wallets[from.blockchain.toLowerCase()]) {
       if (!address || address === '') {
-        return ['Enter an address']
+        setAction('Enter an address')
+        return
       }
 
       if (swapType === 'pegin' && !isValidAccount(to.id, address, 'pegout')) {
-        return ['Invalid Address']
+        setAction('Invalid Address')
+        return
       }
 
       if (swapType === 'pegout' && !isValidAccount(from.id, address, 'pegin')) {
-        return ['Invalid Address']
+        setAction('Invalid Address')
+        return
       }
 
-      return ['Get Deposit Address']
+      setAction('Get Deposit Address')
+      return
     }
 
     if (!wallets[from.blockchain.toLowerCase()].account) {
-      return ['Connect Wallet']
+      setAction('Connect Wallet')
+      return
     }
 
     if (fromAmount === '' && (from.blockchain !== 'BTC' || from.blockchain !== 'LTC' || from.blockchain !== 'DOGE')) {
-      return ['Enter an amount']
+      setAction('Enter an amount')
+      return
     }
 
     if (!address || address === '') {
-      return ['Enter an address']
+      setAction('Enter an address')
     }
 
     if (swapType === 'pegin' && !isValidAccount(to.id, address, 'pegout')) {
-      return ['Invalid Address']
+      setAction('Invalid Address')
+      return
     }
 
     if (swapType === 'pegout' && !isValidAccount(from.id, address, 'pegin')) {
-      return ['Invalid Address']
+      setAction('Invalid Address')
+      return
     }
 
-    return ['Swap']
+    setAction('Swap')
   }, [wallets, assets, from, fromAmount, to, address, isValidSwap, swapType, setAddress])
 
   const onChangeFromAmount = useCallback(
@@ -154,6 +165,7 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress }) => {
     }
 
     if (action === 'Get Deposit Address' || action === 'Swap') {
+      setAction(action === 'Swap' ? 'Swapping ...' : 'Generating ...')
       swap(from, to, fromAmount, address)
     }
   }, [from, action, to, address, fromAmount, swap, connectWithWallet])
@@ -193,6 +205,14 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress }) => {
 
     return [assets]
   }, [assets, from, isValidSwap])
+
+  // NOTE: reset button text immediately after the deposit address is generated
+  useEffect(() => {
+    if (!from) return
+    if (depositAddress) {
+      setAction(!wallets[from.blockchain.toLowerCase()] ? 'Get Deposit Address' : 'Swap')
+    }
+  }, [depositAddress, from, wallets])
 
   return {
     action,
