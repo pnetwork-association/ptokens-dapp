@@ -95,6 +95,11 @@ const AssetName = styled(Col)`
   color: rgb(136, 141, 155);
 `
 
+const FormattedName = styled.span`
+  font-size: 15px;
+  text-transform: uppercase;
+`
+
 const AssetListModal = _props => {
   const { show: showModal, title, onClose, onSelect } = _props
 
@@ -171,7 +176,9 @@ const AssetListModal = _props => {
                               {withMiniImage ? <Minicon src={miniImage} /> : null}
                             </Col>
                             <Col xs={6} className="text-center my-auto">
-                              {formattedName === _nativeSymbol ? 'Native' : formattedName}
+                              <FormattedName>
+                              {formattedName === _nativeSymbol ? 'NATIVE' : formattedName}
+                              </FormattedName>
                             </Col>
                             <Col xs={3} className="my-auto text-right">
                               {formattedBalance}
