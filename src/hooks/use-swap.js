@@ -127,15 +127,6 @@ const useSwap = ({
     }
   }, [assets, assetsLoaded, setFrom, setTo])
 
-  /*useEffect(() => {
-    if (from) {
-      setFrom(assets.find(({ id }) => id === from.id))
-    }
-    if (to) {
-      setTo(assets.find(({ id }) => id === to.id))
-    }
-  }, [assets, to, from])*/
-
   // NOTE: reset data when pegin/pegout terminates
   useEffect(() => {
     if (progress.terminated) {
