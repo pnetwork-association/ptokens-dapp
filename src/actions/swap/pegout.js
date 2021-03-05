@@ -11,7 +11,7 @@ import {
   PEOS_ON_POLYGON_MAINNET,
   PBTC_ON_XDAI_MAINNET
 } from '../../constants'
-import { updateProgress, loadBalanceByAssetId, resetProgress } from './index'
+import { updateProgress, loadBalanceByAssetId, resetProgress, showInfoModal, updateSwapButton } from './index'
 import { toastr } from 'react-redux-toastr'
 
 const hostTransactionHash = {
@@ -152,11 +152,16 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
         })
       )
 
+      dispatch(showInfoModal('Pegout happened succesfully!', 'success'))
+      dispatch(updateSwapButton('Swap'))
+
       // TODO: load balance also for native asset
       setTimeout(() => dispatch(loadBalanceByAssetId(ptoken.id)), 2000)
     })
     .catch(() => {
+      dispatch(updateSwapButton('Swap'))
       dispatch(resetProgress())
+      dispatch(showInfoModal('Error during pegout', 'error'))
     })
 }
 

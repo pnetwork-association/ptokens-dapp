@@ -4,7 +4,7 @@ import { eth } from 'ptokens-utils'
 import Web3 from 'web3'
 import ERC20Abi from '../../utils/abi/ERC20.json'
 import BigNumber from 'bignumber.js'
-import { updateProgress, loadBalanceByAssetId, resetProgress } from './index'
+import { updateProgress, loadBalanceByAssetId, resetProgress, showInfoModal, updateSwapButton } from './index'
 import { toastr } from 'react-redux-toastr'
 
 const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
@@ -156,11 +156,15 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
         })
       )
 
+      dispatch(updateSwapButton('Swap'))
+      dispatch(showInfoModal('Pegin happened succesfully!', 'success'))
       // TODO: load balance also for native asset
       setTimeout(() => dispatch(loadBalanceByAssetId(ptoken.id)), 2000)
     })
     .catch(() => {
+      dispatch(updateSwapButton('Swap'))
       dispatch(resetProgress())
+      dispatch(showInfoModal('Error during pegin', 'error'))
     })
 }
 

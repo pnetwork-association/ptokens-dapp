@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Row, Container } from 'react-bootstrap'
@@ -7,6 +7,7 @@ import Progress from './progress/Progress'
 import { useSwap } from '../../hooks/use-swap'
 import SwapLine from './swapLine/SwapLine'
 import DepositAddressModal from './depositAddressModal/DepositAddressModal'
+import InfoModal from './infoModal/InfoModal'
 import defaultAssets from '../../settings/swap-assets'
 
 const OuterContainerSwap = styled.div`
@@ -48,11 +49,11 @@ const DescendantImage = styled.img`
   height: 18px;
 `
 
-const ContainerButtons = styled.div`
+const ContainerSwapButton = styled.div`
   margin-top: 30px;
 `
 
-const ActionButton = styled.button`
+const SwapButton = styled.button`
   width: 100%;
   color: white;
   background: #ff6666;
@@ -73,17 +74,23 @@ const ActionButton = styled.button`
   }
 `
 
-const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModal, hideDepositAddressModal, swap }) => {
-  const [showModalFrom, setShowModalFrom] = useState(false)
-  const [showModalTo, setShowModalTo] = useState(false)
-  const [assetsLoaded, setAssetsLoaded] = useState(false)
-
+const Swap = ({
+  assets,
+  wallets,
+  progress,
+  connectWithWallet,
+  depositAddressModal,
+  infoModal,
+  swapButton,
+  updateSwapButton,
+  hideDepositAddressModal,
+  swap,
+  resetProgress,
+  hideInfoModal
+}) => {
   const {
-    action,
     from,
     to,
-    setFrom,
-    setTo,
     address,
     setAddress,
     fromAmount,
@@ -94,32 +101,25 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
     onChangeOrder,
     onFromMax,
     onToMax,
-    onSwap
-  } = useSwap({ wallets, assets, connectWithWallet, swap, progress, depositAddress: depositAddressModal.value })
-
-  useMemo(() => {
-    if (!assetsLoaded && assets.length > 0) {
-      setFrom(assets.find(({ symbol }) => symbol === 'BTC'))
-      setTo(assets.find(({ symbol }) => symbol === 'PBTC'))
-      setAssetsLoaded(true)
-    }
-  }, [assets, assetsLoaded, setFrom, setTo])
-
-  const onSelectFrom = useCallback(
-    _asset => {
-      setShowModalFrom(false)
-      setFrom(_asset)
-    },
-    [setFrom]
-  )
-
-  const onSelectTo = useCallback(
-    _asset => {
-      setShowModalTo(false)
-      setTo(_asset)
-    },
-    [setTo]
-  )
+    onSwap,
+    onSelectFrom,
+    onSelectTo,
+    showModalFrom,
+    showModalTo,
+    setShowModalFrom,
+    setShowModalTo,
+    onCloseDepositAddressModal
+  } = useSwap({
+    wallets,
+    assets,
+    connectWithWallet,
+    swap,
+    progress,
+    swapButton,
+    depositAddress: depositAddressModal.value,
+    updateSwapButton,
+    hideDepositAddressModal
+  })
 
   return (
     <React.Fragment>
@@ -154,22 +154,14 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
               {progress.show ? (
                 <Progress percent={progress.percent} message={progress.message} steps={progress.steps} />
               ) : null}
-              <ContainerButtons>
-                <ActionButton
+              <ContainerSwapButton>
+                <SwapButton
                   onClick={onSwap}
-                  disabled={
-                    action === 'Loading ...' ||
-                    action === 'Enter an amount' ||
-                    action === 'Invalid Address' ||
-                    action === 'Generating ...' ||
-                    action === 'Swapping ...' ||
-                    action === 'Invalid Swap' ||
-                    (address === '' && action !== 'Connect Wallet')
-                  }
+                  disabled={swapButton.disabled || (address === '' && swapButton.text !== 'Connect Wallet')}
                 >
-                  {action}
-                </ActionButton>
-              </ContainerButtons>
+                  {swapButton.text}
+                </SwapButton>
+              </ContainerSwapButton>
             </ContainerSwap>
           </OuterContainerSwap>
         </Row>
@@ -192,22 +184,29 @@ const Swap = ({ assets, wallets, progress, connectWithWallet, depositAddressModa
       />
       <DepositAddressModal
         show={depositAddressModal.show}
-        onClose={hideDepositAddressModal}
+        onClose={onCloseDepositAddressModal}
         asset={depositAddressModal.asset}
         disabled={address === ''}
         value={depositAddressModal.value}
       />
+      <InfoModal show={infoModal.show} message={infoModal.message} image={infoModal.image} onClose={hideInfoModal} />
     </React.Fragment>
   )
 }
 
 Swap.propTypes = {
-  wallets: PropTypes.object.isRequired,
   assets: PropTypes.array.isRequired,
+  wallets: PropTypes.object.isRequired,
+  depositAddressModal: PropTypes.object,
+  infoModal: PropTypes.object,
+  swapButton: PropTypes.object,
   progress: PropTypes.object,
   connectWithWallet: PropTypes.func,
   hideDepositAddressModal: PropTypes.func,
-  swap: PropTypes.func
+  swap: PropTypes.func,
+  resetProgress: PropTypes.func,
+  hideInfoModal: PropTypes.func,
+  updateSwapButton: PropTypes.func
 }
 
 export default Swap

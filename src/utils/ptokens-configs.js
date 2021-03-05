@@ -70,7 +70,7 @@ const getConfigs = (_id, _configs) => {
       pbtc: {
         network: networks.Testnet,
         blockchain: blockchains.Eosio,
-        eosRpc: settings[PBTC_ON_EOS_TESTNET].eos.endpoint,
+        eosRpc: settings.rpc.testnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -80,7 +80,7 @@ const getConfigs = (_id, _configs) => {
       pbtc: {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
-        eosRpc: settings[PBTC_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -92,7 +92,7 @@ const getConfigs = (_id, _configs) => {
         nativeBlockchain: blockchains.Bitcoin,
         hostNetwork: networks.TelosMainnet,
         hostBlockchain: blockchains.Telos,
-        eosRpc: settings[PBTC_ON_TELOS_MAINNET].telos.endpoint,
+        eosRpc: settings.rpc.mainnet.telos.endpoint,
         eosSignatureProvider: telosSignatureProvider
       }
     }
@@ -112,7 +112,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PLTC_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -133,7 +133,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PETH_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -145,7 +145,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PNT_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -157,7 +157,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PMKR_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -169,7 +169,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PLINK_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -181,7 +181,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PYFI_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -193,7 +193,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PTERIA_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -205,7 +205,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PUNI_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -217,7 +217,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PBAND_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -229,7 +229,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PBAL_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -241,7 +241,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PCOMP_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -253,7 +253,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PSNX_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -265,7 +265,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[POMG_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -277,7 +277,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PDAI_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -289,7 +289,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PANT_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -301,7 +301,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PLRC_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -313,7 +313,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PUOS_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -325,7 +325,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PBAT_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -337,7 +337,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PREP_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -349,7 +349,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PZRX_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -361,7 +361,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
         ethProvider,
-        eosRpc: settings[PPNK_ON_EOS_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -382,7 +382,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Ethereum,
         ethProvider,
-        eosRpc: settings[PEOS_ON_ETH_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }
@@ -403,7 +403,7 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Polygon,
         ethProvider: polygonProvider,
-        eosRpc: settings[PEOS_ON_POLYGON_MAINNET].eos.endpoint,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
     }

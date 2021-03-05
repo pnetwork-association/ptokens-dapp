@@ -1,14 +1,27 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { isValidAccount } from '../utils/account-validator'
 
-const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, depositAddress }) => {
+const useSwap = ({
+  wallets,
+  assets,
+  connectWithWallet,
+  swap,
+  progress,
+  depositAddress,
+  swapButton,
+  resetProgress,
+  updateSwapButton,
+  hideDepositAddressModal
+}) => {
   const [from, setFrom] = useState(null)
   const [to, setTo] = useState(null)
   const [address, setAddress] = useState('')
   const [fromAmount, setFromAmount] = useState('')
   const [toAmount, setToAmount] = useState('')
   const [swapType, setSwapType] = useState(null)
-  const [action, setAction] = useState('')
+  const [showModalFrom, setShowModalFrom] = useState(false)
+  const [showModalTo, setShowModalTo] = useState(false)
+  const [assetsLoaded, setAssetsLoaded] = useState(false)
 
   const onChangeFromAmount = useCallback(
     _amount => {
@@ -46,15 +59,36 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, depositAd
   }, [setToAmount, to])
 
   const onSwap = useCallback(() => {
-    if (action === 'Connect Wallet') {
+    if (swapButton.text === 'Connect Wallet') {
       connectWithWallet(from.blockchain)
     }
 
-    if (action === 'Get Deposit Address' || action === 'Swap') {
-      setAction(action === 'Swap' ? 'Swapping ...' : 'Generating ...')
+    if (swapButton.text === 'Get Deposit Address' || swapButton.text === 'Swap') {
+      updateSwapButton(swapButton.text === 'Swap' ? 'Swapping ...' : 'Generating ...', true)
       swap(from, to, fromAmount, address)
     }
-  }, [from, action, to, address, fromAmount, swap, connectWithWallet])
+  }, [from, swapButton.text, to, address, fromAmount, swap, connectWithWallet, updateSwapButton])
+
+  const onSelectFrom = useCallback(
+    _asset => {
+      setShowModalFrom(false)
+      setFrom(_asset)
+    },
+    [setFrom]
+  )
+
+  const onSelectTo = useCallback(
+    _asset => {
+      setShowModalTo(false)
+      setTo(_asset)
+    },
+    [setTo]
+  )
+
+  const onCloseDepositAddressModal = useCallback(() => {
+    updateSwapButton(!wallets[from.blockchain.toLowerCase()] ? 'Get Deposit Address' : 'Swap')
+    hideDepositAddressModal()
+  }, [from, wallets, updateSwapButton, hideDepositAddressModal])
 
   // NOTE: check combination
   const [isValidSwap] = useMemo(() => {
@@ -86,6 +120,15 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, depositAd
     return [false]
   }, [from, to, assets])
 
+  // NOTE: default selection
+  useMemo(() => {
+    if (!assetsLoaded && assets.length > 0) {
+      setFrom(assets.find(({ symbol }) => symbol === 'BTC'))
+      setTo(assets.find(({ symbol }) => symbol === 'PBTC'))
+      setAssetsLoaded(true)
+    }
+  }, [assets, assetsLoaded, setFrom, setTo])
+
   useEffect(() => {
     if (from) {
       setFrom(assets.find(({ id }) => id === from.id))
@@ -116,63 +159,63 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, depositAd
   // NOTE: calculates button text
   useEffect(() => {
     if (!from || !to || assets.length === 0) {
-      setAction('Loading ...')
+      updateSwapButton('Loading ...', true)
       return
     }
 
     if (!isValidSwap) {
       setAddress('')
-      setAction('Invalid Swap')
+      updateSwapButton('Invalid Swap', true)
       return
     }
 
     // NOTE: pegin with deposit address
     if (!wallets[from.blockchain.toLowerCase()]) {
       if (!address || address === '') {
-        setAction('Enter an address')
+        updateSwapButton('Enter an address', true)
         return
       }
 
       if (swapType === 'pegin' && !isValidAccount(to.id, address, 'pegout')) {
-        setAction('Invalid Address')
+        updateSwapButton('Invalid Address', true)
         return
       }
 
       if (swapType === 'pegout' && !isValidAccount(from.id, address, 'pegin')) {
-        setAction('Invalid Address')
+        updateSwapButton('Invalid Address', true)
         return
       }
 
-      setAction('Get Deposit Address')
+      updateSwapButton('Get Deposit Address')
       return
     }
 
     if (!wallets[from.blockchain.toLowerCase()].account) {
-      setAction('Connect Wallet')
+      updateSwapButton('Connect Wallet')
       return
     }
 
     if (fromAmount === '' && (from.blockchain !== 'BTC' || from.blockchain !== 'LTC' || from.blockchain !== 'DOGE')) {
-      setAction('Enter an amount')
+      updateSwapButton('Enter an amount', true)
       return
     }
 
     if (!address || address === '') {
-      setAction('Enter an address')
+      updateSwapButton('Enter an address', true)
     }
 
     if (swapType === 'pegin' && !isValidAccount(to.id, address, 'pegout')) {
-      setAction('Invalid Address')
+      updateSwapButton('Invalid Address', true)
       return
     }
 
     if (swapType === 'pegout' && !isValidAccount(from.id, address, 'pegin')) {
-      setAction('Invalid Address')
+      updateSwapButton('Invalid Address', true)
       return
     }
 
-    setAction('Swap')
-  }, [wallets, assets, from, fromAmount, to, address, isValidSwap, swapType, setAddress])
+    updateSwapButton('Swap')
+  }, [wallets, assets, from, fromAmount, to, address, isValidSwap, swapType, setAddress, updateSwapButton])
 
   // NOTE: filters based on from selection
   const [filteredAssets] = useMemo(() => {
@@ -211,16 +254,8 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, depositAd
     return [assets]
   }, [assets, from, isValidSwap])
 
-  // NOTE: reset button text immediately after the deposit address is generated
-  useEffect(() => {
-    if (!from) return
-    if (depositAddress) {
-      setAction(!wallets[from.blockchain.toLowerCase()] ? 'Get Deposit Address' : 'Swap')
-    }
-  }, [depositAddress, from, wallets])
 
   return {
-    action,
     from,
     to,
     setFrom,
@@ -236,7 +271,14 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, depositAd
     onChangeOrder,
     onFromMax,
     onToMax,
-    onSwap
+    onSwap,
+    onSelectFrom,
+    onSelectTo,
+    showModalFrom,
+    showModalTo,
+    setShowModalFrom,
+    setShowModalTo,
+    onCloseDepositAddressModal
   }
 }
 

@@ -1,9 +1,11 @@
 import {
   showDepositAddressModal,
   hideDepositAddressModal,
+  showInfoModal,
   updateProgress,
   loadBalanceByAssetId,
-  resetProgress
+  resetProgress,
+  updateSwapButton
 } from './index'
 import { toastr } from 'react-redux-toastr'
 import { getCorrespondingBaseTxExplorerLink } from '../../utils/ptokens-sm-utils'
@@ -17,6 +19,8 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
     dispatch(resetProgress())
     return
   }
+
+  dispatch(updateSwapButton('Swapping ...', true))
 
   let step = 0
   dispatch(
@@ -47,7 +51,7 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
         onToastrClick: () =>
           window.open(
             `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${
-              _tx[nativeTransactionField[ptoken.blockchain.toLowerCase()]]
+              _tx[nativeTransactionField[ptoken.nativeBlockchain.toLowerCase()]]
             }`,
             '_blank'
           )
@@ -118,11 +122,15 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
         })
       )
 
+      dispatch(updateSwapButton('Get Deposit Address'))
+      dispatch(showInfoModal('Pegin happened succesfully!', 'success'))
       setTimeout(() => dispatch(loadBalanceByAssetId(ptoken.id)), 2000)
     })
     .catch(_err => {
+      dispatch(updateSwapButton('Get Deposit Address'))
       dispatch(hideDepositAddressModal())
-      // TODO
+      dispatch(resetProgress())
+      dispatch(showInfoModal('Error during pegin', 'error'))
     })
 }
 

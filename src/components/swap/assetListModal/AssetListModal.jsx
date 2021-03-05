@@ -42,6 +42,7 @@ const ContainerRow = styled.div`
   padding-bottom: 15px;
   padding-left: 15px;
   padding-right: 15px;
+  cursor: pointer;
   &:hover {
     background: #ececec;
   }

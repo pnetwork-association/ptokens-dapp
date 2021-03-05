@@ -5,7 +5,10 @@ import {
   SHOW_DEPOSIT_ADDRESS_MODAL,
   HIDE_DEPOSIT_ADDRESS_MODAL,
   PROGRESS_UPDATED,
-  PROGRESS_RESET
+  PROGRESS_RESET,
+  SHOW_INFO_MODAL,
+  HIDE_INFO_MODAL,
+  UPDATE_SWAP_BUTTON
 } from '../../constants/index'
 import store from '../../store'
 import { loadEthBalances, loadEosBalances, loadEthBalance, loadEosBalance } from './balances'
@@ -290,10 +293,32 @@ const showDepositAddressModal = (_asset, _depositAddress) => {
 }
 
 const hideDepositAddressModal = () => {
-  return async _dispatch => {
+  return _dispatch => {
     _dispatch(resetProgress())
     _dispatch({
       type: HIDE_DEPOSIT_ADDRESS_MODAL
+    })
+  }
+}
+
+const showInfoModal = (_message, _image = 'success') => {
+  return {
+    type: SHOW_INFO_MODAL,
+    payload: {
+      infoModal: {
+        show: true,
+        message: _message,
+        image: _image
+      }
+    }
+  }
+}
+
+const hideInfoModal = () => {
+  return _dispatch => {
+    _dispatch(resetProgress())
+    _dispatch({
+      type: HIDE_INFO_MODAL
     })
   }
 }
@@ -313,6 +338,18 @@ const resetProgress = () => {
   }
 }
 
+const updateSwapButton = (_text, _disabled = false) => {
+  return {
+    type: UPDATE_SWAP_BUTTON,
+    payload: {
+      swapButton: {
+        text: _text,
+        disabled: _disabled
+      }
+    }
+  }
+}
+
 export {
   loadSwapData,
   loadBalances,
@@ -321,5 +358,8 @@ export {
   hideDepositAddressModal,
   swap,
   updateProgress,
-  resetProgress
+  resetProgress,
+  showInfoModal,
+  hideInfoModal,
+  updateSwapButton
 }
