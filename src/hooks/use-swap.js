@@ -7,9 +7,7 @@ const useSwap = ({
   connectWithWallet,
   swap,
   progress,
-  depositAddress,
   swapButton,
-  resetProgress,
   updateSwapButton,
   hideDepositAddressModal
 }) => {
@@ -129,14 +127,14 @@ const useSwap = ({
     }
   }, [assets, assetsLoaded, setFrom, setTo])
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (from) {
       setFrom(assets.find(({ id }) => id === from.id))
     }
     if (to) {
       setTo(assets.find(({ id }) => id === to.id))
     }
-  }, [assets, to, from])
+  }, [assets, to, from])*/
 
   // NOTE: reset data when pegin/pegout terminates
   useEffect(() => {
@@ -158,7 +156,7 @@ const useSwap = ({
 
   // NOTE: calculates button text
   useEffect(() => {
-    if (!from || !to || assets.length === 0) {
+    if (!from || !to) {
       updateSwapButton('Loading ...', true)
       return
     }
@@ -190,6 +188,7 @@ const useSwap = ({
       return
     }
 
+    // NOTE: missing from account for a non deposit address pegin
     if (!wallets[from.blockchain.toLowerCase()].account) {
       updateSwapButton('Connect Wallet')
       return
@@ -215,7 +214,7 @@ const useSwap = ({
     }
 
     updateSwapButton('Swap')
-  }, [wallets, assets, from, fromAmount, to, address, isValidSwap, swapType, setAddress, updateSwapButton])
+  }, [wallets, from, fromAmount, to, address, isValidSwap, swapType, setAddress, updateSwapButton])
 
   // NOTE: filters based on from selection
   const [filteredAssets] = useMemo(() => {
@@ -253,7 +252,6 @@ const useSwap = ({
 
     return [assets]
   }, [assets, from, isValidSwap])
-
 
   return {
     from,

@@ -39,6 +39,8 @@ import {
 const web3 = new Web3()
 
 const isValidAccount = (_pTokenId, _account, _type) => {
+  if (_account === '') return false
+
   switch (_pTokenId) {
     case PBTC_ON_ETH_MAINNET: {
       return _type === 'pegin'

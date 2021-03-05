@@ -85,7 +85,7 @@ const Swap = ({
   updateSwapButton,
   hideDepositAddressModal,
   swap,
-  resetProgress,
+  /*resetProgress*/
   hideInfoModal
 }) => {
   const {
@@ -110,13 +110,12 @@ const Swap = ({
     setShowModalTo,
     onCloseDepositAddressModal
   } = useSwap({
+    progress,
     wallets,
     assets,
     connectWithWallet,
     swap,
-    progress,
     swapButton,
-    depositAddress: depositAddressModal.value,
     updateSwapButton,
     hideDepositAddressModal
   })
