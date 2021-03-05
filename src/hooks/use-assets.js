@@ -2,12 +2,15 @@ import { useMemo } from 'react'
 import { offChainFormat, strip } from '../utils/amount-utils'
 import { capitalizeAllLettersExceptFirst } from '../utils/capitalize'
 import { blockchainSymbolToName, blockchainSymbolToCoin } from '../utils/maps'
+import utils from 'ptokens-utils'
 
 const useAssets = _assets => {
   return useMemo(() => {
     const assets = _assets.map(_asset => {
       return {
         ..._asset,
+        address:
+          _asset.address && _asset.blockchain !== 'EOS' ? utils.eth.addHexPrefix(_asset.address) : _asset.address,
         formattedBalance:
           _asset.balance && _asset.blockchain !== 'EOS'
             ? strip(offChainFormat(_asset.balance, _asset.decimals))

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { useGroupedAssets } from '../../../hooks/use-grouped-assets'
 import { getAssetFromSymbol } from '../../../utils/maps'
+import { useSearchAssets } from '../../../hooks/use-search-assets'
 
 const OuterTokenIcon = styled.img`
   position: relative;
@@ -59,14 +60,17 @@ const ContainerInnerRow = styled.div`
 `
 
 const StyledBody = styled(Modal.Body)`
-  height: 600px;
-  max-height: 600px;
-  overflow: auto;
   color: #475965;
   font-size: 18px;
   padding-left: 0;
   padding-top: 0;
   padding-right: 0;
+`
+
+const ContainerAssets = styled.div`
+  height: 600px;
+  max-height: 600px;
+  overflow: auto;
 `
 
 const StyledRow = styled(Row)`
@@ -78,7 +82,9 @@ const StyledInnerRow = styled(Row)`
   font-size: 16px;
 `
 
-const StyledHeader = styled(Modal.Header)``
+const StyledHeader = styled(Modal.Header)`
+  border-bottom: 0;
+`
 
 const StyledModalTitle = styled(Modal.Title)`
   color: #475965;
@@ -101,10 +107,34 @@ const FormattedName = styled.span`
   text-transform: uppercase;
 `
 
+const Search = styled.input`
+  width: 100%;
+  padding: 15px;
+  border-radius: 20px;
+  outline: 0px !important;
+  -webkit-appearance: none;
+  box-shadow: none !important;
+  border: 1px solid rgba(71, 89, 101, 0.3);
+  color: #475965;
+  font-size: 18px;
+  &:focus {
+    border: 1px solid #66b8ff;
+  }
+`
+
+const ContainerSearch = styled.div`
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-bottom: 1px solid #dee2e6;
+`
+
 const AssetListModal = _props => {
   const { show: showModal, title, onClose, onSelect } = _props
 
-  const [assets] = useGroupedAssets(_props.filteredAssets)
+  const [filteredAssets, setSearchWord] = useSearchAssets(_props.assets)
+  const [assets] = useGroupedAssets(filteredAssets)
   const [show, setShow] = useState([])
 
   const onShow = useCallback(
@@ -117,16 +147,18 @@ const AssetListModal = _props => {
   )
 
   const onHide = useCallback(() => {
+    setSearchWord('')
     setShow(show.map(() => false))
     onClose()
-  }, [show, onClose])
+  }, [show, onClose, setSearchWord])
 
   const onSelectAsset = useCallback(
     _asset => {
+      setSearchWord('')
       setShow(show.map(() => false))
       onSelect(_asset)
     },
-    [show, onSelect]
+    [show, onSelect, setSearchWord]
   )
 
   return (
@@ -135,64 +167,69 @@ const AssetListModal = _props => {
         <StyledModalTitle>{title}</StyledModalTitle>
       </StyledHeader>
       <StyledBody>
-        {Object.keys(assets).map((_nativeSymbol, _index) => {
-          return (
-            <React.Fragment key={_index}>
-              <ContainerRow>
-                <StyledRow onClick={() => onShow(_index)}>
-                  <Col xs={2}>
-                    <OuterTokenIcon src={`../assets/svg/${_nativeSymbol}.svg`} />
-                  </Col>
-                  <Col xs={7} className="pl-0 my-auto">
-                    <AssetSymbol>{_nativeSymbol}</AssetSymbol>
-                    <AssetName>
-                      {_props.assets.length > 0 ? getAssetFromSymbol(_props.assets, _nativeSymbol).name : ''}
-                    </AssetName>
-                  </Col>
-                  <Col xs={3} className="my-auto text-right">
-                    <ArrowImage src={`../assets/png/arrow-${show[_index] ? 'up' : 'down'}.png`} />
-                  </Col>
-                </StyledRow>
-              </ContainerRow>
-              {show[_index] ? (
-                <React.Fragment>
-                  {assets[_nativeSymbol]
-                    .sort((_a, _b) => (_a.formattedName > _b.formattedName ? 1 : -1))
-                    .map(_asset => {
-                      const {
-                        name,
-                        blockchain,
-                        network,
-                        formattedBalance,
-                        formattedName,
-                        withMiniImage,
-                        image,
-                        miniImage
-                      } = _asset
-                      return (
-                        <ContainerInnerRow key={`${name}-on-${blockchain}-${network}`}>
-                          <StyledInnerRow onClick={() => onSelectAsset(_asset)}>
-                            <Col xs={3}>
-                              <InnerTokenIcon src={image} />
-                              {withMiniImage ? <Minicon src={miniImage} /> : null}
-                            </Col>
-                            <Col xs={6} className="text-center my-auto">
-                              <FormattedName>
-                                {formattedName === _nativeSymbol ? 'NATIVE' : formattedName}
-                              </FormattedName>
-                            </Col>
-                            <Col xs={3} className="my-auto text-right">
-                              {formattedBalance}
-                            </Col>
-                          </StyledInnerRow>
-                        </ContainerInnerRow>
-                      )
-                    })}{' '}
-                </React.Fragment>
-              ) : null}
-            </React.Fragment>
-          )
-        })}
+        <ContainerSearch>
+          <Search placeholder="Search or paste an address ..." onChange={_e => setSearchWord(_e.target.value)} />
+        </ContainerSearch>
+        <ContainerAssets>
+          {Object.keys(assets).map((_nativeSymbol, _index) => {
+            return (
+              <React.Fragment key={_index}>
+                <ContainerRow>
+                  <StyledRow onClick={() => onShow(_index)}>
+                    <Col xs={2}>
+                      <OuterTokenIcon src={`../assets/svg/${_nativeSymbol}.svg`} />
+                    </Col>
+                    <Col xs={7} className="pl-0 my-auto">
+                      <AssetSymbol>{_nativeSymbol}</AssetSymbol>
+                      <AssetName>
+                        {_props.assets.length > 0 ? getAssetFromSymbol(_props.defaultAssets, _nativeSymbol).name : ''}
+                      </AssetName>
+                    </Col>
+                    <Col xs={3} className="my-auto text-right">
+                      <ArrowImage src={`../assets/png/arrow-${show[_index] ? 'up' : 'down'}.png`} />
+                    </Col>
+                  </StyledRow>
+                </ContainerRow>
+                {show[_index] ? (
+                  <React.Fragment>
+                    {assets[_nativeSymbol]
+                      .sort((_a, _b) => (_a.formattedName > _b.formattedName ? 1 : -1))
+                      .map(_asset => {
+                        const {
+                          name,
+                          blockchain,
+                          network,
+                          formattedBalance,
+                          formattedName,
+                          withMiniImage,
+                          image,
+                          miniImage
+                        } = _asset
+                        return (
+                          <ContainerInnerRow key={`${name}-on-${blockchain}-${network}`}>
+                            <StyledInnerRow onClick={() => onSelectAsset(_asset)}>
+                              <Col xs={3}>
+                                <InnerTokenIcon src={image} />
+                                {withMiniImage ? <Minicon src={miniImage} /> : null}
+                              </Col>
+                              <Col xs={6} className="text-center my-auto">
+                                <FormattedName>
+                                  {formattedName === _nativeSymbol ? 'NATIVE' : formattedName}
+                                </FormattedName>
+                              </Col>
+                              <Col xs={3} className="my-auto text-right">
+                                {formattedBalance}
+                              </Col>
+                            </StyledInnerRow>
+                          </ContainerInnerRow>
+                        )
+                      })}{' '}
+                  </React.Fragment>
+                ) : null}
+              </React.Fragment>
+            )
+          })}
+        </ContainerAssets>
       </StyledBody>
     </Modal>
   )

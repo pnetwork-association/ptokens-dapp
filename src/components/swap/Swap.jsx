@@ -167,16 +167,16 @@ const Swap = ({
       </Container>
       <AssetListModal
         title="Swap from ..."
+        defaultAssets={assets.length === 0 ? defaultAssets : assets}
         assets={assets.length === 0 ? defaultAssets : assets}
-        filteredAssets={assets.length === 0 ? defaultAssets : assets}
         show={showModalFrom}
         onClose={() => setShowModalFrom(false)}
         onSelect={onSelectFrom}
       />
       <AssetListModal
         title="Swap to ..."
-        assets={assets}
-        filteredAssets={filteredAssets.length === 0 ? defaultAssets : filteredAssets}
+        defaultAssets={assets.length === 0 ? defaultAssets : assets}
+        assets={filteredAssets.length === 0 ? defaultAssets : filteredAssets}
         show={showModalTo}
         onClose={() => setShowModalTo(false)}
         onSelect={onSelectTo}
