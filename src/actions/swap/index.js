@@ -30,7 +30,7 @@ const loadSwapData = (_withTestnetInstance = false) => {
       let nodes
       try {
         nodes = await Promise.all(
-          assetsMaybeWithoutTestnetInstances.map(({ name, redeemFrom, network, skipNodeSelection }) => {
+          assetsMaybeWithoutTestnetInstances.map(({ name, blockchain, network, skipNodeSelection }) => {
             if (skipNodeSelection) {
               Promise.resolve()
               return null
@@ -38,7 +38,7 @@ const loadSwapData = (_withTestnetInstance = false) => {
 
             const nodeSelector = new NodeSelector({
               pToken: name,
-              blockchain: helpers.getBlockchainType(redeemFrom.toLowerCase()),
+              blockchain: helpers.getBlockchainType(blockchain.toLowerCase()),
               network: network
             })
 
