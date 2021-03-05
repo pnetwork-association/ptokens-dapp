@@ -8,8 +8,8 @@ import { useSearchAssets } from '../../../hooks/use-search-assets'
 
 const OuterTokenIcon = styled.img`
   position: relative;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: 1px solid rgba(71, 89, 101, 0.3);
   cursor: pointer;
@@ -18,8 +18,8 @@ const OuterTokenIcon = styled.img`
 
 const InnerTokenIcon = styled.img`
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   border: 1px solid rgba(71, 89, 101, 0.3);
   box-shadow: #475965 1px 1px 9px -3px;
@@ -28,19 +28,19 @@ const InnerTokenIcon = styled.img`
 
 const Minicon = styled.img`
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  margin-top: 27px;
-  margin-left: -13px;
+  margin-top: 21px;
+  margin-left: -12px;
   border: 1px solid rgba(71, 89, 101, 0.3);
   box-shadow: #475965 1px 1px 9px -3px;
   background: white;
 `
 
 const ContainerRow = styled.div`
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   padding-left: 15px;
   padding-right: 15px;
   cursor: pointer;
@@ -68,8 +68,8 @@ const StyledBody = styled(Modal.Body)`
 `
 
 const ContainerAssets = styled.div`
-  height: 600px;
-  max-height: 600px;
+  height: 700px;
+  max-height: 700px;
   overflow: auto;
 `
 
@@ -92,18 +92,21 @@ const StyledModalTitle = styled(Modal.Title)`
 
 const ArrowImage = styled.img`
   position: relative;
-  width: 16px;
+  width: 12px;
   cursor: pointer;
 `
 
-const AssetSymbol = styled(Col)``
+const AssetSymbol = styled.div`
+  font-size: 16px;
+`
 
-const AssetName = styled(Col)`
+const AssetName = styled.div`
   color: rgb(136, 141, 155);
+  font-size: 12px;
 `
 
 const FormattedName = styled.span`
-  font-size: 15px;
+  font-size: 13px;
   text-transform: uppercase;
 `
 
@@ -128,6 +131,15 @@ const ContainerSearch = styled.div`
   padding-left: 15px;
   padding-right: 15px;
   border-bottom: 1px solid #dee2e6;
+`
+
+const ContainerTokenInfo = styled(Col)`
+  display: flex;
+  margin-bottom: auto !important;
+`
+
+const ContainerTokenNameAndSymbol = styled.div`
+  margin-left: 15px;
 `
 
 const AssetListModal = _props => {
@@ -176,16 +188,16 @@ const AssetListModal = _props => {
               <React.Fragment key={_index}>
                 <ContainerRow>
                   <StyledRow onClick={() => onShow(_index)}>
-                    <Col xs={2}>
+                    <ContainerTokenInfo xs={6}>
                       <OuterTokenIcon src={`../assets/svg/${_nativeSymbol}.svg`} />
-                    </Col>
-                    <Col xs={7} className="pl-0 my-auto">
-                      <AssetSymbol>{_nativeSymbol}</AssetSymbol>
-                      <AssetName>
-                        {_props.assets.length > 0 ? getAssetFromSymbol(_props.defaultAssets, _nativeSymbol).name : ''}
-                      </AssetName>
-                    </Col>
-                    <Col xs={3} className="my-auto text-right">
+                      <ContainerTokenNameAndSymbol>
+                        <AssetSymbol>{_nativeSymbol}</AssetSymbol>
+                        <AssetName>
+                          {_props.assets.length > 0 ? getAssetFromSymbol(_props.defaultAssets, _nativeSymbol).name : ''}
+                        </AssetName>
+                      </ContainerTokenNameAndSymbol>
+                    </ContainerTokenInfo>
+                    <Col xs={6} className="my-auto text-right">
                       <ArrowImage src={`../assets/png/arrow-${show[_index] ? 'up' : 'down'}.png`} />
                     </Col>
                   </StyledRow>
@@ -208,7 +220,7 @@ const AssetListModal = _props => {
                         return (
                           <ContainerInnerRow key={`${name}-on-${blockchain}-${network}`}>
                             <StyledInnerRow onClick={() => onSelectAsset(_asset)}>
-                              <Col xs={3}>
+                              <Col xs={3} className="my-auto">
                                 <InnerTokenIcon src={image} />
                                 {withMiniImage ? <Minicon src={miniImage} /> : null}
                               </Col>

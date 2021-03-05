@@ -26,10 +26,10 @@ const ContainerSwap = styled.div`
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
   border: 0;
   border-radius: 20px;
-  background: #9e9e9e0d;
+  background: white;
   height: 100%;
-  padding: 30px;
-  width: 420px;
+  padding: 15px;
+  width: 460px;
   @media (max-width: 767.98px) {
     width: 100%;
     padding-left: 10px;
@@ -38,8 +38,8 @@ const ContainerSwap = styled.div`
 `
 
 const DescendantImageContainer = styled.div`
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   text-align: center;
   cursor: pointer;
 `
@@ -72,6 +72,12 @@ const SwapButton = styled.button`
   &:hover {
     background: #d64848;
   }
+`
+
+const SwapLabel = styled.label`
+  color: #475965;
+  margin-bottom: 20px;
+  margin-left: 14px;
 `
 
 const Swap = ({
@@ -126,6 +132,7 @@ const Swap = ({
         <Row>
           <OuterContainerSwap className="mx-auto">
             <ContainerSwap>
+              <SwapLabel>Swap</SwapLabel>
               <SwapLine
                 defaultImage="../assets/svg/BTC.svg"
                 title="From"

@@ -129,6 +129,12 @@ const ContainerTypeAndBalance = styled(Row)`
   color: #475965;
 `
 
+const ContainerTitle = styled(Col)`
+  color: #475965ab;
+  margin-bottom: auto !important;
+  font-size: 14px;
+`
+
 const SwapLine = ({
   asset,
   amount,
@@ -144,9 +150,7 @@ const SwapLine = ({
   return (
     <SwapLineContainer>
       <ContainerTypeAndBalance>
-        <Col xs={6} className="my-auto">
-          {title}
-        </Col>
+        <ContainerTitle xs={6}>{title}</ContainerTitle>
         {asset && asset.formattedBalance !== '-' ? (
           <Col xs={6} className="text-right my-auto">
             <ContainerBalance>
