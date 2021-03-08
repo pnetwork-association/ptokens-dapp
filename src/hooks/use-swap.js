@@ -166,12 +166,12 @@ const useSwap = ({
       }
 
       if (swapType === 'pegin' && !isValidAccount(to.id, address, 'pegout')) {
-        updateSwapButton('Invalid Address', true)
+        updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
         return
       }
 
       if (swapType === 'pegout' && !isValidAccount(from.id, address, 'pegin')) {
-        updateSwapButton('Invalid Address', true)
+        updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
         return
       }
 
@@ -195,12 +195,12 @@ const useSwap = ({
     }
 
     if (swapType === 'pegin' && !isValidAccount(to.id, address, 'pegout')) {
-      updateSwapButton('Invalid Address', true)
+      updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
       return
     }
 
     if (swapType === 'pegout' && !isValidAccount(from.id, address, 'pegin')) {
-      updateSwapButton('Invalid Address', true)
+      updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
       return
     }
 
