@@ -27,3 +27,8 @@ button {
 button.close {
   font-size: 30px !important;
 }
+
+.modal-dialog {
+    max-width: 450px !important;
+    margin: 1.75rem auto;
+}

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { Col, Modal, Row } from 'react-bootstrap'
+import { Col, Modal, Row, Spinner } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { useGroupedAssets } from '../../../hooks/use-grouped-assets'
@@ -142,6 +142,18 @@ const ContainerTokenNameAndSymbol = styled.div`
   margin-left: 15px;
 `
 
+const StyledSpinner = styled(Spinner)`
+  width: 18px;
+  height: 18px;
+  color: #66b8ff;
+  display: inline-block;
+  vertical-align: text-bottom;
+  border: 0.15em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spinner-border 0.75s linear infinite;
+`
+
 const AssetListModal = _props => {
   const { show: showModal, title, onClose, onSelect } = _props
 
@@ -173,6 +185,13 @@ const AssetListModal = _props => {
     [show, onSelect, setSearchWord]
   )
 
+  const onShowLine = useCallback((_nativeSymbol, _index) => {
+    if (assets[_nativeSymbol].find(({ miniImage, image }) => !miniImage || !image)) {
+      return
+    }
+    onShow(_index)
+  })
+
   return (
     <Modal show={showModal} aria-labelledby="contained-modal-title-vcenter" centered onHide={onHide}>
       <StyledHeader closeButton>
@@ -187,7 +206,7 @@ const AssetListModal = _props => {
             return (
               <React.Fragment key={_index}>
                 <ContainerRow>
-                  <StyledRow onClick={() => onShow(_index)}>
+                  <StyledRow onClick={() => onShowLine(_nativeSymbol, _index)}>
                     <ContainerTokenInfo xs={6}>
                       <OuterTokenIcon src={`../assets/svg/${_nativeSymbol}.svg`} />
                       <ContainerTokenNameAndSymbol>
@@ -198,7 +217,11 @@ const AssetListModal = _props => {
                       </ContainerTokenNameAndSymbol>
                     </ContainerTokenInfo>
                     <Col xs={6} className="my-auto text-right">
-                      <ArrowImage src={`../assets/png/arrow-${show[_index] ? 'up' : 'down'}.png`} />
+                      {assets[_nativeSymbol].find(({ miniImage, image }) => !miniImage || !image) ? (
+                        <StyledSpinner animation="border" />
+                      ) : (
+                        <ArrowImage src={`../assets/png/arrow-${show[_index] ? 'up' : 'down'}.png`} />
+                      )}
                     </Col>
                   </StyledRow>
                 </ContainerRow>
