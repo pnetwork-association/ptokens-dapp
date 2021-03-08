@@ -42,7 +42,12 @@ const loadSwapData = (_withTestnetInstance = false) => {
               network: network
             })
 
-            return nodeSelector.select()
+            return new Promise(_resolve =>
+              nodeSelector
+                .select()
+                .then(_resolve)
+                .catch(() => _resolve(null))
+            )
           })
         )
       } catch (_err) {
