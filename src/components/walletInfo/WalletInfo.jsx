@@ -78,11 +78,11 @@ const WalletInfo = ({ show, wallets, onClose, onChange, onConnect /*onDisconnect
         {wallets.map(({ formattedAccount, blockchain, isConnected }) => (
           <ContainerAccountInfo key={`${blockchain}-wallet`}>
             <Row>
-              <Col xs={6} className="my-auto">
+              <Col xs={8} className="my-auto">
                 <ImageBordered src={`../assets/svg/${blockchain}.svg`} />
                 <Account>{formattedAccount}</Account>
               </Col>
-              <Col xs={6} className="my-auto text-right">
+              <Col xs={4} className="my-auto text-right">
                 {isConnected ? (
                   <React.Fragment>
                     <ChangeOrConnectButton onClick={() => onChange(blockchain)}>CHANGE</ChangeOrConnectButton>

@@ -1,11 +1,8 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
-import { toastr } from 'react-redux-toastr'
-import {
-  WALLET_POLYGON_CONNECTED,
-  WALLET_POLYGON_NETWORK_CHANGED,
-  WALLET_POLYGON_ACCOUNT_CHANGED
-} from '../../../constants'
+import { WALLET_POLYGON_CONNECTED, WALLET_POLYGON_ACCOUNT_CHANGED } from '../../../constants'
+import { setupNetwork } from '../../../utils/wallet'
+import settings from '../../../settings'
 
 const connectWithPolygonWallet = async _dispatch => {
   try {
@@ -20,19 +17,11 @@ const connectWithPolygonWallet = async _dispatch => {
       type: 'multiWallet'
     })
 
-    provider.on('chainChanged', _chainId => {
+    /*provider.on('chainChanged', _chainId => {
       if (Number(_chainId) !== 137) {
         toastr.error('Invalid Polygon Network. Please use chainId = 137')
       }
-
-      _dispatch({
-        type: WALLET_POLYGON_NETWORK_CHANGED,
-        payload: {
-          network: Number(_chainId) === 137 ? 'mainnet' : 'testnet',
-          chainId: _chainId
-        }
-      })
-    })
+    })*/
 
     provider.on('accountsChanged', _accounts => {
       _dispatch({
@@ -54,22 +43,45 @@ const disconnectFromPolygonWallet = () => {
 const _connectionSuccesfull = async (_provider, _dispatch) => {
   try {
     const { accounts, chainId } = _provider
-    if (Number(chainId) !== 137) {
-      toastr.error('Invalid Polygon Network. Please use chainId = 137')
-    }
-
     const account = accounts ? accounts[0] : await _getAccount(_provider)
-    _dispatch({
-      type: WALLET_POLYGON_CONNECTED,
-      payload: {
+
+    if (Number(chainId) !== 137 && _provider.isMetaMask) {
+      await setupNetwork({
         provider: _provider,
-        account,
-        network: Number(chainId) === 137 ? 'mainnet' : 'testnet',
-        chainId
-      }
-    })
+        chainId: 137,
+        chainName: 'Polygon',
+        nativeCurrency: {
+          name: 'MATIC',
+          symbol: 'matic',
+          decimals: 18
+        },
+        nodes: [settings.rpc.mainnet.polygon.endpoint],
+        blockExplorerUrls: [settings.explorers.mainnet.polygon]
+      })
+
+      _dispatch({
+        type: WALLET_POLYGON_CONNECTED,
+        payload: {
+          provider: _provider,
+          account,
+          network: 'mainnet',
+          chainId: 137
+        }
+      })
+      return
+    } else if (Number(chainId) === 137) {
+      _dispatch({
+        type: WALLET_POLYGON_CONNECTED,
+        payload: {
+          provider: _provider,
+          account,
+          network: 'mainnet',
+          chainId
+        }
+      })
+    }
   } catch (_err) {
-    toastr.error('Error during connection with Polygon wallet')
+    console.error(_err)
   }
 }
 

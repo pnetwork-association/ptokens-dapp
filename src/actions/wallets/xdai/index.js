@@ -1,7 +1,8 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
-import { toastr } from 'react-redux-toastr'
-import { WALLET_XDAI_CONNECTED, WALLET_XDAI_NETWORK_CHANGED, WALLET_XDAI_ACCOUNT_CHANGED } from '../../../constants'
+import { WALLET_XDAI_CONNECTED, WALLET_XDAI_ACCOUNT_CHANGED } from '../../../constants'
+import { setupNetwork } from '../../../utils/wallet'
+import settings from '../../../settings'
 
 const connectWithXdaiWallet = async _dispatch => {
   try {
@@ -10,25 +11,16 @@ const connectWithXdaiWallet = async _dispatch => {
     }
 
     const web3Modal = new Web3Modal({})
-
     const provider = await web3Modal.connect()
     _connectionSuccesfull(provider, _dispatch, {
       type: 'multiWallet'
     })
 
-    provider.on('chainChanged', _chainId => {
+    /*provider.on('chainChanged', _chainId => {
       if (Number(_chainId) !== 100) {
         toastr.error('Invalid xDai Network. Please use chainId = 100')
       }
-
-      _dispatch({
-        type: WALLET_XDAI_NETWORK_CHANGED,
-        payload: {
-          network: Number(_chainId) === 100 ? 'mainnet' : 'testnet',
-          chainId: _chainId
-        }
-      })
-    })
+    })*/
 
     provider.on('accountsChanged', _accounts => {
       _dispatch({
@@ -50,22 +42,45 @@ const disconnectFromXdaiWallet = () => {
 const _connectionSuccesfull = async (_provider, _dispatch) => {
   try {
     const { accounts, chainId } = _provider
-    if (Number(chainId) !== 100) {
-      toastr.error('Invalid xDai Network. Please use chainId = 100')
-    }
-
     const account = accounts ? accounts[0] : await _getAccount(_provider)
-    _dispatch({
-      type: WALLET_XDAI_CONNECTED,
-      payload: {
+
+    if (Number(chainId) !== 100 && _provider.isMetaMask) {
+      await setupNetwork({
         provider: _provider,
-        account,
-        network: Number(chainId) === 100 ? 'mainnet' : 'testnet',
-        chainId
-      }
-    })
+        chainId: 100,
+        chainName: 'XDAI',
+        nativeCurrency: {
+          name: 'MATIC',
+          symbol: 'matic',
+          decimals: 18
+        },
+        nodes: [settings.rpc.mainnet.polygon.endpoint],
+        blockExplorerUrls: [settings.explorers.mainnet.polygon]
+      })
+
+      _dispatch({
+        type: WALLET_XDAI_CONNECTED,
+        payload: {
+          provider: _provider,
+          account,
+          network: 'mainnet',
+          chainId: 100
+        }
+      })
+      return
+    } else if (Number(chainId) === 100) {
+      _dispatch({
+        type: WALLET_XDAI_CONNECTED,
+        payload: {
+          provider: _provider,
+          account,
+          network: 'mainnet',
+          chainId
+        }
+      })
+    }
   } catch (_err) {
-    toastr.error('Error during connection with xDai wallet')
+    console.error(_err)
   }
 }
 

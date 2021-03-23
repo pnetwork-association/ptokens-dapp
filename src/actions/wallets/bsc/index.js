@@ -1,9 +1,9 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
-import { toastr } from 'react-redux-toastr'
-import { WALLET_BSC_CONNECTED, WALLET_BSC_NETWORK_CHANGED, WALLET_BSC_ACCOUNT_CHANGED } from '../../../constants'
+import { WALLET_BSC_CONNECTED, WALLET_BSC_ACCOUNT_CHANGED } from '../../../constants'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import settings from '../../../settings'
+import { setupNetwork } from '../../../utils/wallet'
 
 const connectWithBscWallet = async _dispatch => {
   try {
@@ -27,19 +27,12 @@ const connectWithBscWallet = async _dispatch => {
       type: 'multiWallet'
     })
 
-    provider.on('chainChanged', _chainId => {
+    /*provider.on('chainChanged', _chainId => {
       if (Number(_chainId) !== 56) {
         toastr.error('Invalid Binance Smart Chain Network. Please use chainId = 56')
+        return
       }
-
-      _dispatch({
-        type: WALLET_BSC_NETWORK_CHANGED,
-        payload: {
-          network: Number(_chainId) === 56 ? 'mainnet' : 'testnet',
-          chainId: _chainId
-        }
-      })
-    })
+    })*/
 
     provider.on('accountsChanged', _accounts => {
       _dispatch({
@@ -61,22 +54,44 @@ const disconnectFromBscWallet = () => {
 const _connectionSuccesfull = async (_provider, _dispatch) => {
   try {
     const { accounts, chainId } = _provider
-    if (Number(chainId) !== 56) {
-      toastr.error('Invalid Binance Smart Chain Network. Please use chainId = 56')
-    }
-
     const account = accounts ? accounts[0] : await _getAccount(_provider)
-    _dispatch({
-      type: WALLET_BSC_CONNECTED,
-      payload: {
+
+    if (Number(chainId) !== 56 && _provider.isMetaMask) {
+      await setupNetwork({
         provider: _provider,
-        account,
-        network: Number(chainId) === 56 ? 'mainnet' : 'testnet',
-        chainId
-      }
-    })
+        chainId: 56,
+        nativeCurrency: {
+          name: 'BNB',
+          symbol: 'bnb',
+          decimals: 18
+        },
+        nodes: [settings.rpc.mainnet.bsc.endpoint],
+        blockExplorerUrls: [settings.explorers.mainnet.bsc]
+      })
+
+      _dispatch({
+        type: WALLET_BSC_CONNECTED,
+        payload: {
+          provider: _provider,
+          account,
+          network: 'mainnet',
+          chainId: 56
+        }
+      })
+      return
+    } else if (Number(chainId) === 56) {
+      _dispatch({
+        type: WALLET_BSC_CONNECTED,
+        payload: {
+          provider: _provider,
+          account,
+          network: 'mainnet',
+          chainId
+        }
+      })
+    }
   } catch (_err) {
-    toastr.error('Error during connection with Binance Smart Chain wallet')
+    console.error(_err)
   }
 }
 
