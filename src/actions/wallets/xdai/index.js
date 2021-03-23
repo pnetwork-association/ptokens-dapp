@@ -54,8 +54,8 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
           symbol: 'matic',
           decimals: 18
         },
-        nodes: [settings.rpc.mainnet.polygon.endpoint],
-        blockExplorerUrls: [settings.explorers.mainnet.polygon]
+        nodes: [settings.rpc.mainnet.xdai.endpoint],
+        blockExplorerUrls: [settings.explorers.mainnet.xdai]
       })
 
       _dispatch({
