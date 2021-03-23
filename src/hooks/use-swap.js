@@ -211,11 +211,8 @@ const useSwap = ({
   const [filteredAssets] = useMemo(() => {
     if (from && !from.isPtoken) {
       const filtered = assets.filter(
-        ({ name, isPtoken }) =>
-          isPtoken &&
-          (name === 'p' + from.symbol ||
-            (name === 'PNT' && name === from.symbol) ||
-            (name === 'PTERIA' && name === from.symbol))
+        ({ name, isPtoken, nativeSymbol }) =>
+          (isPtoken && name === 'p' + from.symbol) || (name[0] !== 'p' && name === from.symbol)
       )
 
       if (!isValidSwap) {
@@ -228,10 +225,7 @@ const useSwap = ({
     if (from && from.isPtoken) {
       const filtered = assets.filter(
         ({ nativeSymbol, isPtoken }) =>
-          !isPtoken &&
-          (from.name.slice(1) === nativeSymbol ||
-            (from.name === 'PNT' && from.name === nativeSymbol) ||
-            (from.name === 'PTERIA' && from.name === nativeSymbol))
+          !isPtoken && (from.name.slice(1) === nativeSymbol || (from.name[0] !== 'p' && from.name === nativeSymbol))
       )
 
       if (!isValidSwap) {

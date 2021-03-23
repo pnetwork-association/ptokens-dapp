@@ -31,7 +31,14 @@ import {
   PEOS_ON_ETH_MAINNET,
   PBTC_ON_BSC_MAINNET,
   PEOS_ON_POLYGON_MAINNET,
-  PBTC_ON_XDAI_MAINNET
+  PBTC_ON_XDAI_MAINNET,
+  IQ_ON_ETH_MAINNET,
+  TLOS_ON_ETH_MAINNET,
+  PNT_ON_BSC_MAINNET,
+  POPIUM_ON_BSC_MAINNET,
+  PTERIA_ON_BSC_MAINNET,
+  PDEFIPLUSPLUS_ON_BSC_MAINNET,
+  PBCP_ON_BSC_MAINNET
 } from '../constants'
 
 const settings = {
@@ -126,7 +133,8 @@ const settings = {
       symbol: 'PBTC',
       isPtoken: true,
       nativeSymbol: 'BTC',
-      nativeBlockchain: 'BTC'
+      nativeBlockchain: 'BTC',
+      image: 'pBTC.svg'
     },
     {
       id: PBTC_ON_EOS_MAINNET,
@@ -142,7 +150,8 @@ const settings = {
       symbol: 'PBTC',
       isPtoken: true,
       nativeSymbol: 'BTC',
-      nativeBlockchain: 'BTC'
+      nativeBlockchain: 'BTC',
+      image: 'pBTC.svg'
     },
     {
       id: PBTC_ON_TELOS_MAINNET,
@@ -158,7 +167,8 @@ const settings = {
       symbol: 'PBTC',
       isPtoken: true,
       nativeSymbol: 'BTC',
-      nativeBlockchain: 'BTC'
+      nativeBlockchain: 'BTC',
+      image: 'pBTC.svg'
     },
     {
       id: PLTC_ON_ETH_MAINNET,
@@ -174,7 +184,8 @@ const settings = {
       symbol: 'PLTC',
       isPtoken: true,
       nativeSymbol: 'LTC',
-      nativeBlockchain: 'LTC'
+      nativeBlockchain: 'LTC',
+      image: 'pLTC.svg'
     },
     {
       id: PLTC_ON_EOS_MAINNET,
@@ -190,7 +201,8 @@ const settings = {
       symbol: 'PLTC',
       isPtoken: true,
       nativeSymbol: 'LTC',
-      nativeBlockchain: 'LTC'
+      nativeBlockchain: 'LTC',
+      image: 'pLTC.svg'
     },
     {
       id: PETH_ON_EOS_MAINNET,
@@ -207,7 +219,8 @@ const settings = {
       symbol: 'PETH',
       isPtoken: true,
       nativeSymbol: 'ETH',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'pETH.svg'
     },
     {
       id: PNT_ON_EOS_MAINNET,
@@ -224,7 +237,8 @@ const settings = {
       symbol: 'PNT',
       isPtoken: true,
       nativeSymbol: 'PNT',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'PNT.svg'
     },
     {
       id: PMKR_ON_EOS_MAINNET,
@@ -241,7 +255,8 @@ const settings = {
       symbol: 'PMKR',
       isPtoken: true,
       nativeSymbol: 'MKR',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'pMKR.svg'
     },
     {
       id: PLINK_ON_EOS_MAINNET,
@@ -258,7 +273,8 @@ const settings = {
       symbol: 'PLINK',
       isPtoken: true,
       nativeSymbol: 'LINK',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'pLINK.svg'
     },
     {
       id: PYFI_ON_EOS_MAINNET,
@@ -275,7 +291,8 @@ const settings = {
       symbol: 'PYFI',
       isPtoken: true,
       nativeSymbol: 'YFI',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'pYFI.svg'
     },
     {
       id: PBTC_ON_ETH_TESTNET,
@@ -290,7 +307,8 @@ const settings = {
       symbol: 'PBTC',
       isPtoken: true,
       nativeSymbol: 'BTC',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'pBTC.svg'
     },
     {
       id: PBTC_ON_EOS_TESTNET,
@@ -305,7 +323,8 @@ const settings = {
       symbol: 'PBTC',
       isPtoken: true,
       nativeSymbol: 'BTC',
-      nativeBlockchain: 'BTC'
+      nativeBlockchain: 'BTC',
+      image: 'pBTC.svg'
     },
     {
       id: PLTC_ON_ETH_TESTNET,
@@ -318,7 +337,8 @@ const settings = {
       symbol: 'PLTC',
       isPtoken: true,
       nativeSymbol: 'LTC',
-      nativeBlockchain: 'LTC'
+      nativeBlockchain: 'LTC',
+      image: 'pLTC.svg'
     },
     {
       id: PTERIA_ON_EOS_MAINNET,
@@ -335,7 +355,8 @@ const settings = {
       symbol: 'PTERIA',
       isPtoken: true,
       nativeSymbol: 'PTERIA',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'PTERIA.svg'
     },
     {
       id: PUNI_ON_EOS_MAINNET,
@@ -352,7 +373,8 @@ const settings = {
       symbol: 'PUNI',
       isPtoken: true,
       nativeSymbol: 'UNI',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'pUNI.svg'
     },
     {
       id: PBAL_ON_EOS_MAINNET,
@@ -369,7 +391,8 @@ const settings = {
       symbol: 'PBAL',
       isPtoken: true,
       nativeSymbol: 'BAL',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'pBAL.svg'
     },
     {
       id: PBAND_ON_EOS_MAINNET,
@@ -386,7 +409,8 @@ const settings = {
       symbol: 'PBAND',
       isPtoken: true,
       nativeSymbol: 'BAND',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'pBAND.svg'
     },
     {
       id: PCOMP_ON_EOS_MAINNET,
@@ -403,7 +427,8 @@ const settings = {
       symbol: 'PCOMP',
       isPtoken: true,
       nativeSymbol: 'COMP',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'pCOMP.svg'
     },
     {
       id: PSNX_ON_EOS_MAINNET,
@@ -420,7 +445,8 @@ const settings = {
       symbol: 'PSNX',
       isPtoken: true,
       nativeSymbol: 'SNX',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'pSNX.svg'
     },
     {
       id: POMG_ON_EOS_MAINNET,
@@ -437,7 +463,8 @@ const settings = {
       symbol: 'POMG',
       isPtoken: true,
       nativeSymbol: 'OMG',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'pOMG.svg'
     },
     {
       id: PANT_ON_EOS_MAINNET,
@@ -454,7 +481,8 @@ const settings = {
       symbol: 'PANT',
       isPtoken: true,
       nativeSymbol: 'ANT',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'pANT.svg'
     },
     {
       id: PDAI_ON_EOS_MAINNET,
@@ -471,7 +499,8 @@ const settings = {
       symbol: 'PDAI',
       isPtoken: true,
       nativeSymbol: 'DAI',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'pDAI.svg'
     },
     {
       id: PLRC_ON_EOS_MAINNET,
@@ -488,7 +517,8 @@ const settings = {
       symbol: 'PLRC',
       isPtoken: true,
       nativeSymbol: 'LRC',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'pLRC.svg'
     },
     {
       id: PUOS_ON_EOS_MAINNET,
@@ -505,7 +535,8 @@ const settings = {
       symbol: 'PUOS',
       isPtoken: true,
       nativeSymbol: 'UOS',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'pUOS.svg'
     },
     {
       id: PBAT_ON_EOS_MAINNET,
@@ -522,7 +553,8 @@ const settings = {
       symbol: 'PBAT',
       isPtoken: true,
       nativeSymbol: 'BAT',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'pBAT.svg'
     },
     {
       id: PREP_ON_EOS_MAINNET,
@@ -539,7 +571,8 @@ const settings = {
       symbol: 'PREP',
       isPtoken: true,
       nativeSymbol: 'REP',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'pREP.svg'
     },
     {
       id: PZRX_ON_EOS_MAINNET,
@@ -556,7 +589,8 @@ const settings = {
       symbol: 'PZRX',
       isPtoken: true,
       nativeSymbol: 'ZRX',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'pZRX.svg'
     },
     {
       id: PPNK_ON_EOS_MAINNET,
@@ -573,7 +607,8 @@ const settings = {
       symbol: 'PPNK',
       isPtoken: true,
       nativeSymbol: 'PNK',
-      nativeBlockchain: 'ETH'
+      nativeBlockchain: 'ETH',
+      image: 'pPNK.svg'
     },
     {
       id: PDOGE_ON_ETH_MAINNET,
@@ -589,7 +624,8 @@ const settings = {
       symbol: 'PDOGE',
       isPtoken: true,
       nativeSymbol: 'DOGE',
-      nativeBlockchain: 'DOGE'
+      nativeBlockchain: 'DOGE',
+      image: 'pDOGE.svg'
     },
     {
       id: PEOS_ON_ETH_MAINNET,
@@ -607,7 +643,8 @@ const settings = {
       symbol: 'PEOS',
       isPtoken: true,
       nativeSymbol: 'EOS',
-      nativeBlockchain: 'EOS'
+      nativeBlockchain: 'EOS',
+      image: 'pEOS.svg'
     },
     {
       id: PBTC_ON_BSC_MAINNET,
@@ -623,7 +660,8 @@ const settings = {
       symbol: 'PBTC',
       isPtoken: true,
       nativeSymbol: 'BTC',
-      nativeBlockchain: 'BTC'
+      nativeBlockchain: 'BTC',
+      image: 'pBTC.svg'
     },
     {
       id: PEOS_ON_POLYGON_MAINNET,
@@ -641,7 +679,8 @@ const settings = {
       symbol: 'PBTC',
       isPtoken: true,
       nativeSymbol: 'EOS',
-      nativeBlockchain: 'EOS'
+      nativeBlockchain: 'EOS',
+      image: 'pEOS.svg'
     },
     {
       id: PBTC_ON_XDAI_MAINNET,
@@ -657,7 +696,59 @@ const settings = {
       symbol: 'PBTC',
       isPtoken: true,
       nativeSymbol: 'BTC',
-      nativeBlockchain: 'BTC'
+      nativeBlockchain: 'BTC',
+      image: 'pBTC.svg'
+    },
+    {
+      id: IQ_ON_ETH_MAINNET,
+      name: 'IQ',
+      nativeDecimals: 0,
+      network: 'mainnet',
+      minimumIssuable: '0.001',
+      minimumRedeamable: '0.00005',
+      isHidden: false,
+      blockchain: 'ETH',
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'IQ',
+      isPtoken: true,
+      nativeSymbol: 'IQ',
+      nativeBlockchain: 'EOS',
+      image: 'pIQ.svg'
+    },
+    {
+      id: TLOS_ON_ETH_MAINNET,
+      name: 'TLOS',
+      nativeDecimals: 0,
+      network: 'mainnet',
+      minimumIssuable: '0.001',
+      minimumRedeamable: '0.00005',
+      isHidden: false,
+      blockchain: 'ETH',
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'TLOS',
+      isPtoken: true,
+      nativeSymbol: 'TLOS',
+      nativeBlockchain: 'TLOS',
+      image: 'pTLOS.svg'
+    },
+    {
+      id: PNT_ON_BSC_MAINNET,
+      name: 'PNT',
+      nativeDecimals: 18,
+      network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
+      isHidden: false,
+      blockchain: 'BSC',
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'PNT',
+      isPtoken: true,
+      nativeSymbol: 'PNT',
+      nativeBlockchain: 'ETH',
+      image: 'PNT.svg'
     }
   ]
 }

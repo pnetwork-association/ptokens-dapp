@@ -13,7 +13,8 @@ const swapAssets = [
     withMiniImage: false,
     isPtoken: false,
     nativeSymbol: 'ETH',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'ETH.svg'
   },
   {
     id: 'EOS',
@@ -26,7 +27,8 @@ const swapAssets = [
     withMiniImage: false,
     isPtoken: false,
     nativeSymbol: 'EOS',
-    nativeBlockchain: 'EOS'
+    nativeBlockchain: 'EOS',
+    image: 'EOS.svg'
   },
   {
     id: 'BTC',
@@ -38,7 +40,8 @@ const swapAssets = [
     withMiniImage: false,
     isPtoken: false,
     nativeSymbol: 'BTC',
-    nativeBlockchain: 'BTC'
+    nativeBlockchain: 'BTC',
+    image: 'BTC.svg'
   },
   {
     id: 'LTC',
@@ -50,7 +53,8 @@ const swapAssets = [
     withMiniImage: false,
     isPtoken: false,
     nativeSymbol: 'LTC',
-    nativeBlockchain: 'LTC'
+    nativeBlockchain: 'LTC',
+    image: 'LTC.svg'
   },
   {
     id: 'DOGE',
@@ -62,7 +66,8 @@ const swapAssets = [
     withMiniImage: false,
     isPtoken: false,
     nativeSymbol: 'DOGE',
-    nativeBlockchain: 'DOGE'
+    nativeBlockchain: 'DOGE',
+    image: 'DOGE.svg'
   },
   {
     id: 'UNI',
@@ -75,7 +80,8 @@ const swapAssets = [
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'UNI',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'UNI.svg'
   },
   {
     id: 'ANT',
@@ -88,7 +94,8 @@ const swapAssets = [
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'ANT',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'ANT.svg'
   },
   {
     id: 'BAL',
@@ -101,7 +108,8 @@ const swapAssets = [
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'BAL',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'BAL.svg'
   },
   {
     id: 'BAND',
@@ -114,7 +122,8 @@ const swapAssets = [
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'BAND',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'BAND.svg'
   },
   {
     id: 'BAT',
@@ -127,7 +136,8 @@ const swapAssets = [
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'BAT',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'BAT.svg'
   },
   {
     id: 'COMP',
@@ -140,7 +150,8 @@ const swapAssets = [
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'COMP',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'COMP.svg'
   },
   {
     id: 'DAI',
@@ -153,7 +164,8 @@ const swapAssets = [
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'DAI',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'DAI.svg'
   },
   {
     id: 'LINK',
@@ -166,7 +178,8 @@ const swapAssets = [
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'LINK',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'LINK.svg'
   },
   {
     id: 'LRC',
@@ -179,7 +192,8 @@ const swapAssets = [
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'LRC',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'LRC.svg'
   },
   {
     id: 'MKR',
@@ -192,7 +206,8 @@ const swapAssets = [
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'MKR',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'MKR.svg'
   },
   {
     id: 'OMG',
@@ -205,7 +220,8 @@ const swapAssets = [
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'OMG',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'OMG.svg'
   },
   {
     id: 'PNK',
@@ -218,7 +234,8 @@ const swapAssets = [
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'PNK',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'PNK.svg'
   },
   {
     id: 'PNT',
@@ -231,7 +248,8 @@ const swapAssets = [
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'PNT',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'PNT.svg'
   },
   {
     id: 'PTERIA',
@@ -244,7 +262,8 @@ const swapAssets = [
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'PTERIA',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'PTERIA.svg'
   },
   {
     id: 'REP',
@@ -257,7 +276,8 @@ const swapAssets = [
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'REP',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'REP.svg'
   },
   {
     id: 'SNX',
@@ -270,7 +290,8 @@ const swapAssets = [
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'SNX',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'SNX.svg'
   },
   {
     id: 'UOS',
@@ -283,7 +304,8 @@ const swapAssets = [
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'UOS',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'UOS.svg'
   },
   {
     id: 'YFI',
@@ -296,7 +318,8 @@ const swapAssets = [
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'YFI',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'YFI.svg'
   },
   {
     id: 'ZRX',
@@ -309,7 +332,36 @@ const swapAssets = [
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'ZRX',
-    nativeBlockchain: 'ETH'
+    nativeBlockchain: 'ETH',
+    image: 'ZRX.svg'
+  },
+  {
+    id: 'IQ',
+    symbol: 'IQ',
+    name: 'IQ',
+    network: 'mainnet',
+    blockchain: 'EOS',
+    skipNodeSelection: true,
+    decimals: 0,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'IQ',
+    nativeBlockchain: 'EOS',
+    image: 'IQ.svg'
+  },
+  {
+    id: 'TLOS',
+    symbol: 'TLOS',
+    name: 'TELOS',
+    network: 'mainnet',
+    blockchain: 'TELOS',
+    skipNodeSelection: true,
+    decimals: 0,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'TLOS',
+    nativeBlockchain: 'TELOS',
+    image: 'TLOS.svg'
   }
 ]
 

@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import { offChainFormat, strip } from '../utils/amount-utils'
-import { capitalizeAllLettersExceptFirst } from '../utils/capitalize'
 import { blockchainSymbolToName, blockchainSymbolToCoin } from '../utils/maps'
 import utils from 'ptokens-utils'
 
@@ -33,13 +32,14 @@ const useAssets = _assets => {
           _asset.symbol === 'EOS' ||
           _asset.symbol === 'LTC' ||
           _asset.symbol === 'ETH' ||
-          _asset.symbol === 'DOGE'
+          _asset.symbol === 'DOGE' ||
+          _asset.symbol === 'TLOS'
             ? _asset.symbol
             : _asset.isPtoken
             ? `ON ${blockchainSymbolToName[_asset.blockchain]}`
             : _asset.symbol,
         // prettier-ignore
-        image: `../assets/svg/${_asset.isPtoken && _asset.name !== 'PTERIA' && _asset.name !== 'PNT' ? capitalizeAllLettersExceptFirst(_asset.symbol) : _asset.symbol}.svg`,
+        image: `../assets/svg/${_asset.image}`,
         miniImage: `../assets/svg/${_asset.blockchain}.svg`
       }
     })
