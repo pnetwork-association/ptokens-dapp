@@ -13,7 +13,7 @@ import { getCorrespondingBaseTxExplorerLink } from '../../utils/ptokens-sm-utils
 const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) => {
   let depositAddress = null
   try {
-    depositAddress = await ptokens[ptoken.name.toLowerCase()].getDepositAddress(address)
+    depositAddress = await ptokens[ptoken.workingName].getDepositAddress(address)
   } catch (_err) {
     console.log(_err)
     dispatch(resetProgress())

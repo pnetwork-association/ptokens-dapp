@@ -338,7 +338,7 @@ const swapAssets = [
   {
     id: 'IQ',
     symbol: 'IQ',
-    name: 'IQ',
+    name: 'Everipedia',
     network: 'mainnet',
     blockchain: 'EOS',
     skipNodeSelection: true,
@@ -352,7 +352,7 @@ const swapAssets = [
   {
     id: 'TLOS',
     symbol: 'TLOS',
-    name: 'TELOS',
+    name: 'Telos',
     network: 'mainnet',
     blockchain: 'TELOS',
     skipNodeSelection: true,
@@ -362,6 +362,48 @@ const swapAssets = [
     nativeSymbol: 'TLOS',
     nativeBlockchain: 'TELOS',
     image: 'TLOS.svg'
+  },
+  {
+    id: 'OPIUM',
+    symbol: 'OPIUM',
+    name: 'Opium Network Token',
+    network: 'mainnet',
+    blockchain: 'ETH',
+    skipNodeSelection: true,
+    decimals: 18,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'OPIUM',
+    nativeBlockchain: 'ETH',
+    image: 'OPIUM.svg'
+  },
+  {
+    id: 'DEFI++',
+    symbol: 'DEFI++',
+    name: 'DEFI++',
+    network: 'mainnet',
+    blockchain: 'ETH',
+    skipNodeSelection: true,
+    decimals: 18,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'DEFI++',
+    nativeBlockchain: 'ETH',
+    image: 'DEFI++.svg'
+  },
+  {
+    id: 'BCP',
+    symbol: 'BCP',
+    name: 'Balanced Crypto Pie',
+    network: 'mainnet',
+    blockchain: 'ETH',
+    skipNodeSelection: true,
+    decimals: 18,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'BCP',
+    nativeBlockchain: 'ETH',
+    image: 'BCP.svg'
   }
 ]
 

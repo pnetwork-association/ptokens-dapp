@@ -6,6 +6,7 @@ import Fortmatic from 'fortmatic'
 import settings from '../../../settings'
 import { toastr } from 'react-redux-toastr'
 import { WALLET_ETH_CONNECTED, WALLET_ETH_NETWORK_CHANGED, WALLET_ETH_ACCOUNT_CHANGED } from '../../../constants'
+import { setupNetwork } from '../../../utils/wallet'
 
 const connectWithEthWallet = async _dispatch => {
   try {
@@ -75,22 +76,21 @@ const disconnectFromEthWallet = () => {
 const _connectionSuccesfull = async (_provider, _dispatch) => {
   try {
     const { accounts, chainId } = _provider
-    if (Number(chainId) !== 1) {
-      toastr.error('Invalid Ethereum Network. Please switch on Mainnet!')
-    }
-
     const account = accounts ? accounts[0] : await _getAccount(_provider)
-    _dispatch({
-      type: WALLET_ETH_CONNECTED,
-      payload: {
-        provider: _provider,
-        account,
-        network: Number(chainId) === 1 ? 'mainnet' : 'testnet',
-        chainId
-      }
-    })
+
+    if (Number(chainId) === 1) {
+      _dispatch({
+        type: WALLET_ETH_CONNECTED,
+        payload: {
+          provider: _provider,
+          account,
+          network: 'mainnet',
+          chainId
+        }
+      })
+    }
   } catch (_err) {
-    toastr.error('Error during connection with Ethereum wallet')
+    console.error(_err)
   }
 }
 

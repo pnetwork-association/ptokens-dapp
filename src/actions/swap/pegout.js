@@ -1,16 +1,5 @@
 import { getCorrespondingBaseTxExplorerLink } from '../../utils/ptokens-sm-utils'
 import BigNumber from 'bignumber.js'
-import {
-  PBTC_ON_ETH_MAINNET,
-  PBTC_ON_ETH_TESTNET,
-  PLTC_ON_ETH_MAINNET,
-  PLTC_ON_ETH_TESTNET,
-  PDOGE_ON_ETH_MAINNET,
-  PEOS_ON_ETH_MAINNET,
-  PBTC_ON_BSC_MAINNET,
-  PEOS_ON_POLYGON_MAINNET,
-  PBTC_ON_XDAI_MAINNET
-} from '../../constants'
 import { updateProgress, loadBalanceByAssetId, resetProgress, showInfoModal, updateSwapButton } from './index'
 import { toastr } from 'react-redux-toastr'
 
@@ -24,17 +13,7 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
   // NOTE: avoids brave metamask gas estimation fails
   params[params.length] = { gas: 80000, blocksBehind: 3, expireSeconds: 60, permission: 'active' }
 
-  if (
-    ptoken.id === PBTC_ON_ETH_MAINNET ||
-    ptoken.id === PBTC_ON_BSC_MAINNET ||
-    ptoken.id === PBTC_ON_XDAI_MAINNET ||
-    ptoken.id === PBTC_ON_ETH_TESTNET ||
-    ptoken.id === PLTC_ON_ETH_MAINNET ||
-    ptoken.id === PLTC_ON_ETH_TESTNET ||
-    ptoken.id === PDOGE_ON_ETH_MAINNET ||
-    ptoken.id === PEOS_ON_ETH_MAINNET ||
-    ptoken.id === PEOS_ON_POLYGON_MAINNET
-  ) {
+  if (ptoken.withAmountConversionPegout) {
     params[0] = BigNumber(params[0])
       .multipliedBy(10 ** ptoken.decimals)
       .toFixed()
@@ -52,7 +31,7 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
   )
 
   // NOTE: hostTxBroadcasted is not triggered when blockchain is EOS
-  ptokens[ptoken.name.toLowerCase()]
+  ptokens[ptoken.workingName]
     .redeem(...params)
     .once('hostTxBroadcasted', _hash => {
       toastr.success('Transaction broadcasted!', 'Click here to see it', {

@@ -122,6 +122,7 @@ const settings = {
     {
       id: PBTC_ON_ETH_MAINNET,
       name: 'pBTC',
+      workingName: 'pbtc',
       nativeDecimals: 8,
       network: 'mainnet',
       minimumIssuable: '0',
@@ -134,11 +135,13 @@ const settings = {
       isPtoken: true,
       nativeSymbol: 'BTC',
       nativeBlockchain: 'BTC',
-      image: 'pBTC.svg'
+      image: 'pBTC.svg',
+      withAmountConversionPegout: true
     },
     {
       id: PBTC_ON_EOS_MAINNET,
       name: 'pBTC',
+      workingName: 'pbtc',
       nativeDecimals: 8,
       network: 'mainnet',
       minimumIssuable: '0',
@@ -156,6 +159,7 @@ const settings = {
     {
       id: PBTC_ON_TELOS_MAINNET,
       name: 'pBTC',
+      workingName: 'pbtc',
       nativeDecimals: 8,
       network: 'mainnet',
       minimumIssuable: '0',
@@ -173,6 +177,7 @@ const settings = {
     {
       id: PLTC_ON_ETH_MAINNET,
       name: 'pLTC',
+      workingName: 'pltc',
       nativeDecimals: 8,
       network: 'mainnet',
       minimumIssuable: '0',
@@ -185,11 +190,13 @@ const settings = {
       isPtoken: true,
       nativeSymbol: 'LTC',
       nativeBlockchain: 'LTC',
-      image: 'pLTC.svg'
+      image: 'pLTC.svg',
+      withAmountConversionPegout: true
     },
     {
       id: PLTC_ON_EOS_MAINNET,
       name: 'pLTC',
+      workingName: 'pltc',
       nativeDecimals: 8,
       network: 'mainnet',
       minimumIssuable: '0',
@@ -207,6 +214,7 @@ const settings = {
     {
       id: PETH_ON_EOS_MAINNET,
       name: 'pETH',
+      workingName: 'peth',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -225,6 +233,7 @@ const settings = {
     {
       id: PNT_ON_EOS_MAINNET,
       name: 'PNT',
+      workingName: 'pnt',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -243,6 +252,7 @@ const settings = {
     {
       id: PMKR_ON_EOS_MAINNET,
       name: 'pMKR',
+      workingName: 'pmkr',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -261,6 +271,7 @@ const settings = {
     {
       id: PLINK_ON_EOS_MAINNET,
       name: 'pLINK',
+      workingName: 'plink',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -279,6 +290,7 @@ const settings = {
     {
       id: PYFI_ON_EOS_MAINNET,
       name: 'pYFI',
+      workingName: 'pyfi',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -297,6 +309,7 @@ const settings = {
     {
       id: PBTC_ON_ETH_TESTNET,
       name: 'pBTC',
+      workingName: 'pbtc',
       nativeDecimals: 8,
       network: 'testnet',
       minimumIssuable: '0',
@@ -308,11 +321,13 @@ const settings = {
       isPtoken: true,
       nativeSymbol: 'BTC',
       nativeBlockchain: 'ETH',
-      image: 'pBTC.svg'
+      image: 'pBTC.svg',
+      withAmountConversionPegout: true
     },
     {
       id: PBTC_ON_EOS_TESTNET,
       name: 'pBTC',
+      workingName: 'pbtc',
       nativeDecimals: 8,
       network: 'testnet',
       minimumIssuable: '0',
@@ -329,6 +344,7 @@ const settings = {
     {
       id: PLTC_ON_ETH_TESTNET,
       name: 'pLTC',
+      workingName: 'pltc',
       nativeDecimals: 8,
       network: 'testnet',
       blockchain: 'ETH',
@@ -338,11 +354,13 @@ const settings = {
       isPtoken: true,
       nativeSymbol: 'LTC',
       nativeBlockchain: 'LTC',
-      image: 'pLTC.svg'
+      image: 'pLTC.svg',
+      withAmountConversionPegout: true
     },
     {
       id: PTERIA_ON_EOS_MAINNET,
       name: 'PTERIA',
+      workingName: 'pteria',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -361,6 +379,7 @@ const settings = {
     {
       id: PUNI_ON_EOS_MAINNET,
       name: 'pUNI',
+      workingName: 'puni',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -379,6 +398,7 @@ const settings = {
     {
       id: PBAL_ON_EOS_MAINNET,
       name: 'pBAL',
+      workingName: 'pbal',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -397,6 +417,7 @@ const settings = {
     {
       id: PBAND_ON_EOS_MAINNET,
       name: 'pBAND',
+      workingName: 'pband',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -415,6 +436,7 @@ const settings = {
     {
       id: PCOMP_ON_EOS_MAINNET,
       name: 'pCOMP',
+      workingName: 'pcomp',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -433,6 +455,7 @@ const settings = {
     {
       id: PSNX_ON_EOS_MAINNET,
       name: 'pSNX',
+      workingName: 'psnx',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -451,6 +474,7 @@ const settings = {
     {
       id: POMG_ON_EOS_MAINNET,
       name: 'pOMG',
+      workingName: 'pomg',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -469,6 +493,7 @@ const settings = {
     {
       id: PANT_ON_EOS_MAINNET,
       name: 'pANT',
+      workingName: 'pant',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -487,6 +512,7 @@ const settings = {
     {
       id: PDAI_ON_EOS_MAINNET,
       name: 'pDAI',
+      workingName: 'pdai',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.0001',
@@ -505,6 +531,7 @@ const settings = {
     {
       id: PLRC_ON_EOS_MAINNET,
       name: 'pLRC',
+      workingName: 'plrc',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -523,6 +550,7 @@ const settings = {
     {
       id: PUOS_ON_EOS_MAINNET,
       name: 'pUOS',
+      workingName: 'puos',
       nativeDecimals: 4,
       network: 'mainnet',
       minimumIssuable: '0.0001',
@@ -541,6 +569,7 @@ const settings = {
     {
       id: PBAT_ON_EOS_MAINNET,
       name: 'pBAT',
+      workingName: 'pbat',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -559,6 +588,7 @@ const settings = {
     {
       id: PREP_ON_EOS_MAINNET,
       name: 'pREP',
+      workingName: 'prep',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -577,6 +607,7 @@ const settings = {
     {
       id: PZRX_ON_EOS_MAINNET,
       name: 'pZRX',
+      workingName: 'pzrx',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -595,6 +626,7 @@ const settings = {
     {
       id: PPNK_ON_EOS_MAINNET,
       name: 'pPNK',
+      workingName: 'ppnk',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -613,6 +645,7 @@ const settings = {
     {
       id: PDOGE_ON_ETH_MAINNET,
       name: 'pDOGE',
+      workingName: 'pdoge',
       nativeDecimals: 8,
       network: 'mainnet',
       minimumIssuable: '0',
@@ -625,11 +658,13 @@ const settings = {
       isPtoken: true,
       nativeSymbol: 'DOGE',
       nativeBlockchain: 'DOGE',
-      image: 'pDOGE.svg'
+      image: 'pDOGE.svg',
+      withAmountConversionPegout: true
     },
     {
       id: PEOS_ON_ETH_MAINNET,
       name: 'pEOS',
+      workingName: 'peos',
       nativeDecimals: 0,
       network: 'mainnet',
       // TODO: change amounts
@@ -649,6 +684,7 @@ const settings = {
     {
       id: PBTC_ON_BSC_MAINNET,
       name: 'pBTC',
+      workingName: 'pbtc',
       nativeDecimals: 8,
       network: 'mainnet',
       minimumIssuable: '0',
@@ -661,11 +697,13 @@ const settings = {
       isPtoken: true,
       nativeSymbol: 'BTC',
       nativeBlockchain: 'BTC',
-      image: 'pBTC.svg'
+      image: 'pBTC.svg',
+      withAmountConversionPegout: true
     },
     {
       id: PEOS_ON_POLYGON_MAINNET,
       name: 'pEOS',
+      workingName: 'peos',
       nativeDecimals: 0,
       network: 'mainnet',
       // TODO: change amounts
@@ -680,11 +718,13 @@ const settings = {
       isPtoken: true,
       nativeSymbol: 'EOS',
       nativeBlockchain: 'EOS',
-      image: 'pEOS.svg'
+      image: 'pEOS.svg',
+      withAmountConversionPegout: true
     },
     {
       id: PBTC_ON_XDAI_MAINNET,
       name: 'pBTC',
+      workingName: 'pbtc',
       nativeDecimals: 8,
       network: 'mainnet',
       minimumIssuable: '0',
@@ -697,11 +737,13 @@ const settings = {
       isPtoken: true,
       nativeSymbol: 'BTC',
       nativeBlockchain: 'BTC',
-      image: 'pBTC.svg'
+      image: 'pBTC.svg',
+      withAmountConversionPegout: true
     },
     {
       id: IQ_ON_ETH_MAINNET,
       name: 'IQ',
+      workingName: 'iq',
       nativeDecimals: 0,
       network: 'mainnet',
       minimumIssuable: '0.001',
@@ -719,6 +761,7 @@ const settings = {
     {
       id: TLOS_ON_ETH_MAINNET,
       name: 'TLOS',
+      workingName: 'tlos',
       nativeDecimals: 0,
       network: 'mainnet',
       minimumIssuable: '0.001',
@@ -736,6 +779,7 @@ const settings = {
     {
       id: PNT_ON_BSC_MAINNET,
       name: 'PNT',
+      workingName: 'pnt',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -749,6 +793,78 @@ const settings = {
       nativeSymbol: 'PNT',
       nativeBlockchain: 'ETH',
       image: 'PNT.svg'
+    },
+    {
+      id: PTERIA_ON_BSC_MAINNET,
+      name: 'PTERIA',
+      workingName: 'pteria',
+      nativeDecimals: 18,
+      network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
+      isHidden: false,
+      blockchain: 'BSC',
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'PTERIA',
+      isPtoken: true,
+      nativeSymbol: 'PTERIA',
+      nativeBlockchain: 'ETH',
+      image: 'PTERIA.svg'
+    },
+    {
+      id: POPIUM_ON_BSC_MAINNET,
+      name: 'pOPIUM',
+      workingName: 'popium',
+      nativeDecimals: 18,
+      network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
+      isHidden: false,
+      blockchain: 'BSC',
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'POPIUM',
+      isPtoken: true,
+      nativeSymbol: 'OPIUM',
+      nativeBlockchain: 'ETH',
+      image: 'pOPIUM.svg'
+    },
+    {
+      id: PDEFIPLUSPLUS_ON_BSC_MAINNET,
+      name: 'pDEFI++',
+      workingName: 'pdefiplusplus',
+      nativeDecimals: 18,
+      network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
+      isHidden: false,
+      blockchain: 'BSC',
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'PDEFI++',
+      isPtoken: true,
+      nativeSymbol: 'DEFI++',
+      nativeBlockchain: 'ETH',
+      image: 'pDEFI++.svg'
+    },
+    {
+      id: PBCP_ON_BSC_MAINNET,
+      name: 'pBCP',
+      workingName: 'pbcp',
+      nativeDecimals: 18,
+      network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
+      isHidden: false,
+      blockchain: 'BSC',
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'PBCP',
+      isPtoken: true,
+      nativeSymbol: 'BCP',
+      nativeBlockchain: 'ETH',
+      image: 'pBCP.svg'
     }
   ]
 }

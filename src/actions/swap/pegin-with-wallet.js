@@ -13,8 +13,8 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
   // NOTE: peth uses ethers
   if (ptoken.isPerc20 && ptoken.name !== 'pETH') {
     try {
-      await ptokens[ptoken.name.toLowerCase()].select()
-      const info = await ptokens[ptoken.name.toLowerCase()].selectedNode.getInfo()
+      await ptokens[ptoken.workingName].select()
+      const info = await ptokens[ptoken.workingName].selectedNode.getInfo()
       const { wallets } = store.getState()
 
       const web3 = new Web3(wallets.eth.provider)

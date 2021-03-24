@@ -243,16 +243,16 @@ const AssetListModal = _props => {
                         return (
                           <ContainerInnerRow key={`${name}-on-${blockchain}-${network}`}>
                             <StyledInnerRow onClick={() => onSelectAsset(_asset)}>
-                              <Col xs={3} className="my-auto">
+                              <Col xs={2} className="my-auto">
                                 <InnerTokenIcon src={image} />
                                 {withMiniImage ? <Minicon src={miniImage} /> : null}
                               </Col>
-                              <Col xs={6} className="text-center my-auto">
+                              <Col xs={8} className="text-center my-auto">
                                 <FormattedName>
                                   {formattedName === _nativeSymbol ? 'NATIVE' : formattedName}
                                 </FormattedName>
                               </Col>
-                              <Col xs={3} className="my-auto text-right">
+                              <Col xs={2} className="my-auto text-right">
                                 {formattedBalance}
                               </Col>
                             </StyledInnerRow>
