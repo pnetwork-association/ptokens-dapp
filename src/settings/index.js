@@ -38,7 +38,8 @@ import {
   POPIUM_ON_BSC_MAINNET,
   PTERIA_ON_BSC_MAINNET,
   PDEFIPLUSPLUS_ON_BSC_MAINNET,
-  PBCP_ON_BSC_MAINNET
+  PBCP_ON_BSC_MAINNET,
+  CGG_ON_BSC_MAINNET
 } from '../constants'
 
 const settings = {
@@ -865,6 +866,25 @@ const settings = {
       nativeSymbol: 'BCP',
       nativeBlockchain: 'ETH',
       image: 'pBCP.svg'
+    },
+
+    {
+      id: CGG_ON_BSC_MAINNET,
+      name: 'CGG',
+      workingName: 'pbcp',
+      nativeDecimals: 18,
+      network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
+      isHidden: false,
+      blockchain: 'BSC',
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'CGG',
+      isPtoken: true,
+      nativeSymbol: 'CGG',
+      nativeBlockchain: 'ETH',
+      image: 'pCGG.svg'
     }
   ]
 }

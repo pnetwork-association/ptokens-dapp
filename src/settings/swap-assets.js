@@ -392,18 +392,18 @@ const swapAssets = [
     image: 'DEFI++.svg'
   },
   {
-    id: 'BCP',
-    symbol: 'BCP',
-    name: 'Balanced Crypto Pie',
+    id: 'CGG',
+    symbol: 'CGG',
+    name: 'ChainGuardians Governance Token',
     network: 'mainnet',
     blockchain: 'ETH',
     skipNodeSelection: true,
     decimals: 18,
     withMiniImage: true,
     isPtoken: false,
-    nativeSymbol: 'BCP',
+    nativeSymbol: 'CGG',
     nativeBlockchain: 'ETH',
-    image: 'BCP.svg'
+    image: 'CGG.svg'
   }
 ]
 
