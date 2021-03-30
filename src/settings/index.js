@@ -867,11 +867,10 @@ const settings = {
       nativeBlockchain: 'ETH',
       image: 'pBCP.svg'
     },
-
     {
       id: CGG_ON_BSC_MAINNET,
       name: 'CGG',
-      workingName: 'pbcp',
+      workingName: 'cgg',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',

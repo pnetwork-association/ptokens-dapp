@@ -12,6 +12,7 @@ import { getValidators } from '../store/pNetwork/pnetwork.actions'
 import Notifications from '../components/notifications/Notifications'
 import { loadSwapData } from '../store/swap/swap.actions'
 import { selectPage } from '../store/pages/pages.actions'
+import NftsController from './nfts/NftsController'
 
 history.listen(location => {
   ReactGA.set({ page: location.pathname })
@@ -52,6 +53,21 @@ const App = ({ getValidators, loadSwapData, selectPage }) => {
                 <Notifications />
                 <HeaderController />
                 <SwapController />
+              </MainWrapper>
+            </React.Fragment>
+          )
+        }}
+      />
+      <Route
+        exact
+        path={'/nfts'}
+        render={() => {
+          return (
+            <React.Fragment>
+              <MainWrapper>
+                <Notifications />
+                <HeaderController />
+                <NftsController />
               </MainWrapper>
             </React.Fragment>
           )
