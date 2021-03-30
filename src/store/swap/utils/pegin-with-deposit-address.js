@@ -6,9 +6,9 @@ import {
   loadBalanceByAssetId,
   resetProgress,
   updateSwapButton
-} from './index'
+} from '../swap.actions'
 import { toastr } from 'react-redux-toastr'
-import { getCorrespondingBaseTxExplorerLink } from '../../utils/ptokens-sm-utils'
+import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
 
 const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) => {
   let depositAddress = null

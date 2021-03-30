@@ -1,5 +1,5 @@
 import { WALLET_ETH_CONNECTED, WALLET_ETH_ACCOUNT_CHANGED, WALLET_EOS_CONNECTED } from '../constants'
-import { loadBalances } from '../actions/swap'
+import { loadBalances } from '../store/swap/swap.actions'
 
 const middleware = ({ dispatch }) => {
   return _next => {

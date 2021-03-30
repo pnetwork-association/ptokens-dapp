@@ -1,8 +1,8 @@
-import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
+import { getCorrespondingReadOnlyProvider } from '../../../utils/read-only-providers'
 import Web3 from 'web3'
 import BigNumber from 'bignumber.js'
-import { SWAP_BALANCE_LOADED } from '../../constants/index'
-import ERC20 from '../../utils/abi/ERC20'
+import { SWAP_BALANCE_LOADED } from '../../../constants/index'
+import ERC20 from '../../../utils/abi/ERC20'
 import * as utils from 'ptokens-utils'
 
 const loadEthBalances = async ({ assets, account, blockchain = 'ETH', dispatch }) =>

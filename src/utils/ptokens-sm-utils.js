@@ -31,8 +31,16 @@ import {
   PDOGE_ON_ETH_MAINNET,
   PEOS_ON_ETH_MAINNET,
   PBTC_ON_BSC_MAINNET,
+  PBTC_ON_XDAI_MAINNET,
   PEOS_ON_POLYGON_MAINNET,
-  PBTC_ON_XDAI_MAINNET
+  IQ_ON_ETH_MAINNET,
+  TLOS_ON_ETH_MAINNET,
+  PNT_ON_BSC_MAINNET,
+  POPIUM_ON_BSC_MAINNET,
+  PTERIA_ON_BSC_MAINNET,
+  PDEFIPLUSPLUS_ON_BSC_MAINNET,
+  CGG_ON_BSC_MAINNET,
+  PBCP_ON_BSC_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_id, _role, _address) => {
@@ -202,6 +210,46 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
         ? `${settings.explorers.mainnet.btc}address/${_address}`
         : `${settings.explorers.mainnet.xdai}address/${_address}`
     }
+    case IQ_ON_ETH_MAINNET: {
+      return _role === 'native'
+        ? `${settings[IQ_ON_ETH_MAINNET].eos.explorer}accounts/${_address}`
+        : `${settings[IQ_ON_ETH_MAINNET].eth.explorer}address/${_address}`
+    }
+    case TLOS_ON_ETH_MAINNET: {
+      return _role === 'native'
+        ? `${settings[TLOS_ON_ETH_MAINNET].telos.explorer}accounts/${_address}`
+        : `${settings[TLOS_ON_ETH_MAINNET].eth.explorer}address/${_address}`
+    }
+    case PNT_ON_BSC_MAINNET: {
+      return _role === 'native'
+        ? `${settings[PNT_ON_BSC_MAINNET].eth.explorer}address/${_address}`
+        : `${settings[PNT_ON_BSC_MAINNET].bsc.explorer}address/${_address}`
+    }
+    case POPIUM_ON_BSC_MAINNET: {
+      return _role === 'native'
+        ? `${settings[POPIUM_ON_BSC_MAINNET].eth.explorer}address/${_address}`
+        : `${settings[POPIUM_ON_BSC_MAINNET].bsc.explorer}address/${_address}`
+    }
+    case PTERIA_ON_BSC_MAINNET: {
+      return _role === 'native'
+        ? `${settings[PTERIA_ON_BSC_MAINNET].eth.explorer}address/${_address}`
+        : `${settings[PTERIA_ON_BSC_MAINNET].bsc.explorer}address/${_address}`
+    }
+    case PDEFIPLUSPLUS_ON_BSC_MAINNET: {
+      return _role === 'native'
+        ? `${settings[PDEFIPLUSPLUS_ON_BSC_MAINNET].eth.explorer}address/${_address}`
+        : `${settings[PDEFIPLUSPLUS_ON_BSC_MAINNET].bsc.explorer}address/${_address}`
+    }
+    case PBCP_ON_BSC_MAINNET: {
+      return _role === 'native'
+        ? `${settings[PBCP_ON_BSC_MAINNET].eth.explorer}address/${_address}`
+        : `${settings[PBCP_ON_BSC_MAINNET].bsc.explorer}address/${_address}`
+    }
+    case CGG_ON_BSC_MAINNET: {
+      return _role === 'native'
+        ? `${settings[CGG_ON_BSC_MAINNET].eth.explorer}address/${_address}`
+        : `${settings[CGG_ON_BSC_MAINNET].bsc.explorer}address/${_address}`
+    }
     default:
       break
   }
@@ -357,6 +405,46 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
     }
     case PBTC_ON_XDAI_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.btc}tx/` : `${settings.explorers.mainnet.xdai}tx/`
+    }
+    case IQ_ON_ETH_MAINNET: {
+      return _role === 'native'
+        ? `${settings[IQ_ON_ETH_MAINNET].eos.explorer}transaction/`
+        : `${settings[IQ_ON_ETH_MAINNET].eth.explorer}tx/`
+    }
+    case TLOS_ON_ETH_MAINNET: {
+      return _role === 'native'
+        ? `${settings[TLOS_ON_ETH_MAINNET].telos.explorer}transaction/`
+        : `${settings[TLOS_ON_ETH_MAINNET].eth.explorer}tx/`
+    }
+    case PNT_ON_BSC_MAINNET: {
+      return _role === 'native'
+        ? `${settings[PNT_ON_BSC_MAINNET].eth.explorer}tx/`
+        : `${settings[PNT_ON_BSC_MAINNET].bsc.explorer}tx/`
+    }
+    case POPIUM_ON_BSC_MAINNET: {
+      return _role === 'native'
+        ? `${settings[POPIUM_ON_BSC_MAINNET].eth.explorer}tx/`
+        : `${settings[POPIUM_ON_BSC_MAINNET].bsc.explorer}tx/`
+    }
+    case PTERIA_ON_BSC_MAINNET: {
+      return _role === 'native'
+        ? `${settings[PTERIA_ON_BSC_MAINNET].eth.explorer}tx/`
+        : `${settings[PTERIA_ON_BSC_MAINNET].bsc.explorer}tx/`
+    }
+    case PDEFIPLUSPLUS_ON_BSC_MAINNET: {
+      return _role === 'native'
+        ? `${settings[PDEFIPLUSPLUS_ON_BSC_MAINNET].eth.explorer}tx/`
+        : `${settings[PDEFIPLUSPLUS_ON_BSC_MAINNET].bsc.explorer}tx/`
+    }
+    case PBCP_ON_BSC_MAINNET: {
+      return _role === 'native'
+        ? `${settings[PBCP_ON_BSC_MAINNET].eth.explorer}tx/`
+        : `${settings[PBCP_ON_BSC_MAINNET].bsc.explorer}tx/`
+    }
+    case CGG_ON_BSC_MAINNET: {
+      return _role === 'native'
+        ? `${settings[CGG_ON_BSC_MAINNET].eth.explorer}tx/`
+        : `${settings[CGG_ON_BSC_MAINNET].bsc.explorer}tx/`
     }
     default:
       break

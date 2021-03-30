@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
 import SwapController from './swap/SwapController'
 import HeaderController from './header/HeaderController'
 import { Route, Switch, Redirect } from 'react-router-dom'
@@ -7,11 +8,10 @@ import history from './../utils/history'
 import ReactGA from 'react-ga'
 import queryString from 'query-string'
 import { connect } from 'react-redux'
-import { getValidators } from '../actions/pNetwork/'
-import PropTypes from 'prop-types'
+import { getValidators } from '../store/pNetwork/pnetwork.actions'
 import Notifications from '../components/notifications/Notifications'
-import { loadSwapData } from '../actions/swap'
-import { selectPage } from '../actions/pages'
+import { loadSwapData } from '../store/swap/swap.actions'
+import { selectPage } from '../store/pages/pages.actions'
 
 history.listen(location => {
   ReactGA.set({ page: location.pathname })

@@ -33,7 +33,15 @@ import {
   PEOS_ON_ETH_MAINNET,
   PBTC_ON_BSC_MAINNET,
   PEOS_ON_POLYGON_MAINNET,
-  PBTC_ON_XDAI_MAINNET
+  PBTC_ON_XDAI_MAINNET,
+  IQ_ON_ETH_MAINNET,
+  TLOS_ON_ETH_MAINNET,
+  PNT_ON_BSC_MAINNET,
+  POPIUM_ON_BSC_MAINNET,
+  PDEFIPLUSPLUS_ON_BSC_MAINNET,
+  PTERIA_ON_BSC_MAINNET,
+  PBCP_ON_BSC_MAINNET,
+  CGG_ON_BSC_MAINNET
 } from '../constants'
 
 const web3 = new Web3()
@@ -198,6 +206,34 @@ const isValidAccount = (_pTokenId, _account, _type) => {
       return _type === 'pegin'
         ? pTokenUtils.btc.isValidAddress(_account)
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case IQ_ON_ETH_MAINNET: {
+      return _type === 'issuer'
+        ? pTokenUtils.eos.isValidAccountName(_account)
+        : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case TLOS_ON_ETH_MAINNET: {
+      return _type === 'issuer'
+        ? pTokenUtils.eos.isValidAccountName(_account)
+        : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case PNT_ON_BSC_MAINNET: {
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case POPIUM_ON_BSC_MAINNET: {
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case PTERIA_ON_BSC_MAINNET: {
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case PDEFIPLUSPLUS_ON_BSC_MAINNET: {
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case PBCP_ON_BSC_MAINNET: {
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case CGG_ON_BSC_MAINNET: {
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     default:
       break

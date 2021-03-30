@@ -31,7 +31,15 @@ import {
   PEOS_ON_ETH_MAINNET,
   PBTC_ON_BSC_MAINNET,
   PEOS_ON_POLYGON_MAINNET,
-  PBTC_ON_XDAI_MAINNET
+  PBTC_ON_XDAI_MAINNET,
+  IQ_ON_ETH_MAINNET,
+  TLOS_ON_ETH_MAINNET,
+  PNT_ON_BSC_MAINNET,
+  POPIUM_ON_BSC_MAINNET,
+  PDEFIPLUSPLUS_ON_BSC_MAINNET,
+  PTERIA_ON_BSC_MAINNET,
+  PBCP_ON_BSC_MAINNET,
+  CGG_ON_BSC_MAINNET
 } from '../constants'
 
 const getCorresponsingVisibleAddressFormat = (_pToken, _role, _account) => {
@@ -202,6 +210,34 @@ const getCorresponsingVisibleAddressFormat = (_pToken, _role, _account) => {
       return _role === 'redeemer'
         ? `${_account.slice(0, 6)}...${_account.slice(_account.length - 4, _account.length)}`
         : `${_account.slice(0, 12)}...${_account.slice(_account.length - 9, _account.length)}`
+    }
+    case IQ_ON_ETH_MAINNET: {
+      return _role === 'redeemer'
+        ? `${_account.slice(0, 6)}...${_account.slice(_account.length - 4, _account.length)}`
+        : _account
+    }
+    case TLOS_ON_ETH_MAINNET: {
+      return _role === 'redeemer'
+        ? `${_account.slice(0, 6)}...${_account.slice(_account.length - 4, _account.length)}`
+        : _account
+    }
+    case PNT_ON_BSC_MAINNET: {
+      return `${_account.slice(0, 6)}...${_account.slice(_account.length - 4, _account.length)}`
+    }
+    case POPIUM_ON_BSC_MAINNET: {
+      return `${_account.slice(0, 6)}...${_account.slice(_account.length - 4, _account.length)}`
+    }
+    case PTERIA_ON_BSC_MAINNET: {
+      return `${_account.slice(0, 6)}...${_account.slice(_account.length - 4, _account.length)}`
+    }
+    case PDEFIPLUSPLUS_ON_BSC_MAINNET: {
+      return `${_account.slice(0, 6)}...${_account.slice(_account.length - 4, _account.length)}`
+    }
+    case PBCP_ON_BSC_MAINNET: {
+      return `${_account.slice(0, 6)}...${_account.slice(_account.length - 4, _account.length)}`
+    }
+    case CGG_ON_BSC_MAINNET: {
+      return `${_account.slice(0, 6)}...${_account.slice(_account.length - 4, _account.length)}`
     }
     default:
       break

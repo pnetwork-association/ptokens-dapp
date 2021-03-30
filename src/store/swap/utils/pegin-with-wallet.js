@@ -1,22 +1,51 @@
-import { getCorrespondingBaseTxExplorerLink } from '../../utils/ptokens-sm-utils'
+import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
+import store from '../../../store'
+import { eth } from 'ptokens-utils'
+import Web3 from 'web3'
+import ERC20Abi from '../../../utils/abi/ERC20.json'
 import BigNumber from 'bignumber.js'
-import { updateProgress, loadBalanceByAssetId, resetProgress, showInfoModal, updateSwapButton } from './index'
+import { updateProgress, loadBalanceByAssetId, resetProgress, showInfoModal, updateSwapButton } from '../swap.actions'
 import { toastr } from 'react-redux-toastr'
 
-const hostTransactionHash = {
-  telos: 'transaction_id',
-  eos: 'transaction_id',
-  eth: 'transactionHash'
-}
+const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
+  params[params.length] = { blocksBehind: 3, expireSeconds: 60, permission: 'active' }
 
-const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
-  // NOTE: avoids brave metamask gas estimation fails
-  params[params.length] = { gas: 80000, blocksBehind: 3, expireSeconds: 60, permission: 'active' }
+  // NOTE: peth uses ethers
+  if (ptoken.isPerc20 && ptoken.name !== 'pETH') {
+    try {
+      await ptokens[ptoken.workingName].select()
+      const info = await ptokens[ptoken.workingName].selectedNode.getInfo()
+      const { wallets } = store.getState()
 
-  if (ptoken.withAmountConversionPegout) {
-    params[0] = BigNumber(params[0])
-      .multipliedBy(10 ** ptoken.decimals)
-      .toFixed()
+      const web3 = new Web3(wallets.eth.provider)
+      const toApprove = new web3.eth.Contract(ERC20Abi, eth.addHexPrefix(info.native_smart_contract_address))
+
+      const allowance = await toApprove.methods
+        .allowance(wallets.eth.account, eth.addHexPrefix(info.native_vault_address))
+        .call()
+
+      if (!BigNumber(allowance).isGreaterThanOrEqualTo(params[0])) {
+        const _approve = () =>
+          new Promise(_resolve =>
+            toApprove.methods
+              .approve(eth.addHexPrefix(info.native_vault_address), params[0])
+              .send({ from: wallets.eth.account, gas: 150000 })
+              .once('hash', _hash => {
+                toastr.success('Transaction broadcasted!', 'Click here to see it', {
+                  timeOut: 0,
+                  onToastrClick: () =>
+                    window.open(`${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_hash}`, '_blank')
+                })
+              })
+              .then(_resolve)
+          )
+
+        await _approve()
+      }
+    } catch (_err) {
+      console.error(_err)
+      return
+    }
   }
 
   let step = 0
@@ -30,13 +59,17 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
     })
   )
 
-  // NOTE: hostTxBroadcasted is not triggered when blockchain is EOS
-  ptokens[ptoken.workingName]
-    .redeem(...params)
-    .once('hostTxBroadcasted', _hash => {
+  // NOTE: avoids brave metamask gas estimation fails
+  params[params.length] = { gas: 200000 }
+  params[0] = BigNumber(params[0])
+    .multipliedBy(10 ** ptoken.nativeDecimals)
+    .toFixed()
+  ptokens[ptoken.name.toLowerCase()]
+    .issue(...params)
+    .once('nativeTxBroadcasted', _hash => {
       toastr.success('Transaction broadcasted!', 'Click here to see it', {
         timeOut: 0,
-        onToastrClick: () => window.open(`${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${_hash}`, '_blank')
+        onToastrClick: () => window.open(`${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_hash}`, '_blank')
       })
 
       step = step + 1
@@ -50,17 +83,12 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
         })
       )
     })
-    .once('hostTxConfirmed', _tx => {
+    .once('nativeTxConfirmed', _e => {
       if (ptoken.blockchain === 'EOS' || ptoken.blockchain === 'TELOS') {
         toastr.success('Transaction broadcasted!', 'Click here to see it', {
           timeOut: 0,
           onToastrClick: () =>
-            window.open(
-              `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${
-                _tx[hostTransactionHash[ptoken.blockchain.toLowerCase()]]
-              }`,
-              '_blank'
-            )
+            window.open(`${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_e.transaction_id}`, '_blank')
         })
 
         step = step + 1
@@ -102,10 +130,7 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
       toastr.success('Transaction broadcasted!', 'Click here to see it', {
         timeOut: 0,
         onToastrClick: () =>
-          window.open(
-            `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_report.broadcast_tx_hash}`,
-            '_blank'
-          )
+          window.open(`${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${_report.broadcast_tx_hash}`, '_blank')
       })
 
       step = step + 1
@@ -119,7 +144,7 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
         })
       )
     })
-    .once('nativeTxConfirmed', () => {
+    .then(_result => {
       step = step + 1
       dispatch(
         updateProgress({
@@ -131,17 +156,16 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
         })
       )
 
-      dispatch(showInfoModal('Pegout happened succesfully!', 'success'))
       dispatch(updateSwapButton('Swap'))
-
+      dispatch(showInfoModal('Pegin happened succesfully!', 'success'))
       // TODO: load balance also for native asset
       setTimeout(() => dispatch(loadBalanceByAssetId(ptoken.id)), 2000)
     })
     .catch(() => {
       dispatch(updateSwapButton('Swap'))
       dispatch(resetProgress())
-      dispatch(showInfoModal('Error during pegout', 'error'))
+      dispatch(showInfoModal('Error during pegin', 'error'))
     })
 }
 
-export default pegout
+export default peginWithWallet

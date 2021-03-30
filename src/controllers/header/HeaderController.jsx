@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Header from '../../components/header/Header'
 import PropTypes from 'prop-types'
-import { connectWithWallet, disconnectFromWallet } from '../../actions/wallets'
-import { selectPage } from '../../actions/pages'
+import { connectWithWallet, disconnectFromWallet } from '../../store/wallets/wallets.actions'
+import { selectPage } from '../../store/pages/pages.actions'
 
 const mapStateToProps = _state => {
   return {

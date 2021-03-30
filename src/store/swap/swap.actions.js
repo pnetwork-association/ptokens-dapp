@@ -10,15 +10,15 @@ import {
   HIDE_INFO_MODAL,
   UPDATE_SWAP_BUTTON
 } from '../../constants/index'
-import store from '../../store'
-import { loadEthBalances, loadEosBalances, loadEthBalance, loadEosBalance } from './balances'
+import store from '../index'
 import { constants, helpers } from 'ptokens-utils'
 import pTokens from 'ptokens'
 import { getConfigs } from '../../utils/ptokens-configs'
+import { loadEthBalances, loadEosBalances, loadEthBalance, loadEosBalance } from './utils/balances'
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
-import peginWithDepositAddress from './pegin-with-deposit-address'
-import peginWithWallet from './pegin-with-wallet'
-import pegout from './pegout'
+import peginWithDepositAddress from './utils/pegin-with-deposit-address'
+import peginWithWallet from './utils/pegin-with-wallet'
+import pegout from './utils/pegout'
 
 const loadSwapData = (_withTestnetInstance = false) => {
   return async _dispatch => {

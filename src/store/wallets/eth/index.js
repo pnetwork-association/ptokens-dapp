@@ -6,7 +6,6 @@ import Fortmatic from 'fortmatic'
 import settings from '../../../settings'
 import { toastr } from 'react-redux-toastr'
 import { WALLET_ETH_CONNECTED, WALLET_ETH_NETWORK_CHANGED, WALLET_ETH_ACCOUNT_CHANGED } from '../../../constants'
-import { setupNetwork } from '../../../utils/wallet'
 
 const connectWithEthWallet = async _dispatch => {
   try {

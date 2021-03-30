@@ -2,6 +2,7 @@ import {
   PBTC_ON_ETH_MAINNET,
   PBTC_ON_ETH_TESTNET,
   PBTC_ON_EOS_TESTNET,
+  PBTC_ON_TELOS_MAINNET,
   PBTC_ON_EOS_MAINNET,
   PLTC_ON_ETH_MAINNET,
   PLTC_ON_ETH_TESTNET,
@@ -11,7 +12,6 @@ import {
   PMKR_ON_EOS_MAINNET,
   PLINK_ON_EOS_MAINNET,
   PYFI_ON_EOS_MAINNET,
-  PBTC_ON_TELOS_MAINNET,
   PTERIA_ON_EOS_MAINNET,
   PUNI_ON_EOS_MAINNET,
   PBAL_ON_EOS_MAINNET,
@@ -30,8 +30,16 @@ import {
   PDOGE_ON_ETH_MAINNET,
   PEOS_ON_ETH_MAINNET,
   PBTC_ON_BSC_MAINNET,
+  PBTC_ON_XDAI_MAINNET,
   PEOS_ON_POLYGON_MAINNET,
-  PBTC_ON_XDAI_MAINNET
+  IQ_ON_ETH_MAINNET,
+  TLOS_ON_ETH_MAINNET,
+  PNT_ON_BSC_MAINNET,
+  POPIUM_ON_BSC_MAINNET,
+  PTERIA_ON_BSC_MAINNET,
+  PDEFIPLUSPLUS_ON_BSC_MAINNET,
+  CGG_ON_BSC_MAINNET,
+  PBCP_ON_BSC_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -414,6 +422,96 @@ const getConfigs = (_id, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.xDai,
         ethProvider: xDaiProvider
+      }
+    }
+  }
+  if (_id === IQ_ON_ETH_MAINNET) {
+    return {
+      peosioToken: {
+        pToken: pTokens.IQ,
+        network: networks.Mainnet,
+        blockchain: blockchains.Ethereum,
+        ethProvider,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
+        eosSignatureProvider
+      }
+    }
+  }
+  if (_id === TLOS_ON_ETH_MAINNET) {
+    return {
+      peosioToken: {
+        pToken: pTokens.TLOS,
+        network: networks.Mainnet,
+        blockchain: blockchains.Ethereum,
+        ethProvider,
+        telosRpc: settings.rpc.mainnet.telos.endpoint,
+        telosSignatureProvider
+      }
+    }
+  }
+  if (_id === PNT_ON_BSC_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.PNT,
+        network: networks.BinanceSmartChainMainnet,
+        blockchain: blockchains.BinanceSmartChain,
+        ethProvider,
+        bscProvider
+      }
+    }
+  }
+  if (_id === POPIUM_ON_BSC_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pOPIUM,
+        network: networks.BinanceSmartChainMainnet,
+        blockchain: blockchains.BinanceSmartChain,
+        ethProvider,
+        bscProvider
+      }
+    }
+  }
+  if (_id === PTERIA_ON_BSC_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.PTERIA,
+        network: networks.BinanceSmartChainMainnet,
+        blockchain: blockchains.BinanceSmartChain,
+        ethProvider,
+        bscProvider
+      }
+    }
+  }
+  if (_id === PDEFIPLUSPLUS_ON_BSC_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pDEFIPlusPlus,
+        network: networks.BinanceSmartChainMainnet,
+        blockchain: blockchains.BinanceSmartChain,
+        ethProvider,
+        bscProvider
+      }
+    }
+  }
+  if (_id === PBCP_ON_BSC_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pBCP,
+        network: networks.BinanceSmartChainMainnet,
+        blockchain: blockchains.BinanceSmartChain,
+        ethProvider,
+        bscProvider
+      }
+    }
+  }
+  if (_id === CGG_ON_BSC_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.CGG,
+        network: networks.BinanceSmartChainMainnet,
+        blockchain: blockchains.BinanceSmartChain,
+        ethProvider,
+        bscProvider
       }
     }
   }
