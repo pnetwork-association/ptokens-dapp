@@ -1,13 +1,25 @@
-import { PAGE_SELECTED } from '../../constants/index'
+import { PAGE_SELECTED, SET_LOADING } from '../../constants/index'
 
 const initialState = {
-  selectedPage: 'swap'
+  selectedPage: 'swap',
+  loading: {
+    isLoading: false,
+    text: null
+  }
 }
 
 const pagesReducer = (_state = initialState, _action) => {
-  if (_action.type === PAGE_SELECTED) {
+  const { type, payload } = _action
+  if (type === PAGE_SELECTED) {
     return Object.assign({}, _state, {
       selectedPage: _action.payload.page
+    })
+  }
+  if (type === SET_LOADING) {
+    const { loading } = payload
+    return Object.assign({}, _state, {
+      ..._state,
+      loading
     })
   }
   return _state

@@ -2,17 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Nfts from '../../components/nfts/Nfts'
 import PropTypes from 'prop-types'
-import { selectPage } from '../../store/pages/pages.actions'
 
 const mapStateToProps = _state => {
   return {
-    selectedPage: _state.pages.selectedPage
+    nfts: _state.nfts.all
   }
 }
 const mapDispatchToProps = _dispatch => {
-  return {
-    selectPage: _page => _dispatch(selectPage(_page))
-  }
+  return {}
 }
 
 const NftsController = _props => {
@@ -20,8 +17,7 @@ const NftsController = _props => {
 }
 
 NftsController.propTypes = {
-  selectedPage: PropTypes.string.isRequired,
-  selectPage: PropTypes.func.isRequired
+  nfts: PropTypes.array.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NftsController)

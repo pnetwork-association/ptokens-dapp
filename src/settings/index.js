@@ -83,7 +83,7 @@ const settings = {
   rpc: {
     mainnet: {
       eth: {
-        wsEndpoint: 'wss://mainnet.infura.io/ws/v3/',
+        wsEndpoint: 'wss://damp-falling-dust.quiknode.pro/',
         endpoint: 'https://mainnet.infura.io/v3s/ '
       },
       eos: {

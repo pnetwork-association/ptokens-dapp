@@ -4,21 +4,23 @@ import styled from 'styled-components'
 import { Row, Container, Col } from 'react-bootstrap'
 import NftCard from './nftCard/NftCard'
 
-const Portals = _props => {
+const Nfts = ({ nfts }) => {
+  console.log(nfts)
   return (
     <Container>
       <Row>
-        <Col xs={12} md={6} lg={4} xl={3}>
-          <NftCard />
-        </Col>
+        {nfts.map(_nft => (
+          <Col xs={12} md={6} lg={4} xl={3}>
+            <NftCard nft={_nft} />
+          </Col>
+        ))}
       </Row>
     </Container>
   )
 }
 
-Portals.propTypes = {
-  selectedPage: PropTypes.string.isRequired,
-  selectPage: PropTypes.func.isRequired
+Nfts.propTypes = {
+  nfts: PropTypes.array.isRequired
 }
 
-export default Portals
+export default Nfts

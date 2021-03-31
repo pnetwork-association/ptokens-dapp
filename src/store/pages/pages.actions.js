@@ -1,4 +1,4 @@
-import { PAGE_SELECTED } from '../../constants'
+import { PAGE_SELECTED, SET_LOADING } from '../../constants'
 import history from '../../utils/history'
 
 const selectPage = _page => () => {
@@ -11,4 +11,14 @@ const selectPage = _page => () => {
   }
 }
 
-export { selectPage }
+const setLoading = ({ isLoading, text }) => ({
+  type: SET_LOADING,
+  payload: {
+    loading: {
+      isLoading,
+      text
+    }
+  }
+})
+
+export { selectPage, setLoading }

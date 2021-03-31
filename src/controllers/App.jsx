@@ -13,14 +13,17 @@ import Notifications from '../components/notifications/Notifications'
 import { loadSwapData } from '../store/swap/swap.actions'
 import { selectPage } from '../store/pages/pages.actions'
 import NftsController from './nfts/NftsController'
+import Loader from '../components/loader/Loader'
 
 history.listen(location => {
   ReactGA.set({ page: location.pathname })
   ReactGA.pageview(location.pathname)
 })
 
-const mapStateToProps = state => {
-  return {}
+const mapStateToProps = _state => {
+  return {
+    loading: _state.pages.loading
+  }
 }
 
 const mapDispatchToProps = _dispatch => {
@@ -31,7 +34,7 @@ const mapDispatchToProps = _dispatch => {
   }
 }
 
-const App = ({ getValidators, loadSwapData, selectPage }) => {
+const App = ({ getValidators, loadSwapData, selectPage, loading }) => {
   useEffect(() => {
     ReactGA.pageview(window.location.pathname)
     getValidators()
@@ -65,6 +68,7 @@ const App = ({ getValidators, loadSwapData, selectPage }) => {
           return (
             <React.Fragment>
               <MainWrapper>
+                <Loader loading={loading} />
                 <Notifications />
                 <HeaderController />
                 <NftsController />
@@ -79,9 +83,11 @@ const App = ({ getValidators, loadSwapData, selectPage }) => {
 }
 
 App.propTypes = {
+  loading: PropTypes.object,
   getValidators: PropTypes.func,
   loadSwapData: PropTypes.func,
-  selectPage: PropTypes.func
+  selectPage: PropTypes.func,
+  loadNftsData: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

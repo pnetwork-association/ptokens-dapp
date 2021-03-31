@@ -1,11 +1,19 @@
 const nfts = [
   {
-    id: 'BGANPUNKV2',
-    name: 'Bastard Gan Punks',
-    nativeAddress: '0x31385d3520bced94f77aae104b406994d8f2168c',
-    nativeSymbol: 'BGANPUNKV2',
-    hostSymbol: 'BGANPUNKV2',
+    id: 'F1DTI',
+    name: 'F1® Delta Time Inventory',
+    /*nativeAddress: '0x2aF75676692817d85121353f0D6e8E9aE6AD5576',
+    nativeSymbol: 'F1DTI',
+    hostSymbol: 'F1DTI',
     vaultAddress: '',
-    hostAddress: ''
+    hostAddress: '',*/
+    contractAddress: '0x2aF75676692817d85121353f0D6e8E9aE6AD5576',
+    symbol: 'F1DTI',
+    isNative: true,
+    blockchain: 'ETH',
+    fromBlock: 9546271,
+    uri: 'https://nft.f1deltatime.com/json'
   }
 ]
+
+export default nfts

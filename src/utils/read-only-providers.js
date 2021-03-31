@@ -6,7 +6,7 @@ import fetch from 'node-fetch'
 const getCorrespondingReadOnlyProvider = _blockchain => {
   // TODO: only mainnet at the moment
   if (_blockchain === 'ETH') {
-    return new Web3.providers.WebsocketProvider(settings.rpc.mainnet.eth.wsEndpoint + settings.infuraProjectId)
+    return new Web3.providers.WebsocketProvider(settings.rpc.mainnet.eth.wsEndpoint)
   }
   if (_blockchain === 'BSC') {
     return new Web3.providers.HttpProvider(settings.rpc.mainnet.bsc.endpoint)
