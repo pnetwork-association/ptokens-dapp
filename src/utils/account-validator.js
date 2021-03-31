@@ -241,6 +241,7 @@ const isValidAccount = (_pTokenId, _account, _type) => {
 }
 
 const isValidAccountByBlockchain = (_account, _blockchain) => {
+  if (!_account) return false
   switch (_blockchain) {
     case 'ETH':
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))

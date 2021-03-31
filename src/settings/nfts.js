@@ -2,11 +2,8 @@ const nfts = [
   {
     id: 'RAREBIT',
     type: 'Rarebit',
-    /*nativeAddress: '0x2aF75676692817d85121353f0D6e8E9aE6AD5576',
-    nativeSymbol: 'F1DTI',
-    hostSymbol: 'F1DTI',
-    vaultAddress: '',
-    hostAddress: '',*/
+    nativePortalsAddress: '0x82a19ab3B463359bb07151d8De9b6630428EC7Cc',
+    hostPortalsAddress: '0xF6fD8bE7D3B9fd9B52f18f78a07963777383B898',
     contractAddress: '0x61bd6B10C7bf3e548F8659d016079e099510a4Dc',
     symbol: 'RAREBIT',
     isNative: true,

@@ -110,7 +110,7 @@ const NftCard = ({ nft, move }) => {
         currentBlockchain={blockchain}
         show={showBlockchainSelectionModal}
         onClose={() => setShowBlockchainSelectionModal(false)}
-        onMove={(_blockchain, address) => move(nft, _blockchain, address)}
+        onMove={(_blockchain, _address, _amount) => move(nft, _blockchain, _address, _amount)}
       />
     </React.Fragment>
   )

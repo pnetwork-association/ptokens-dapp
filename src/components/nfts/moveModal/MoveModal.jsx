@@ -83,9 +83,14 @@ const AddressInput = styled.input`
   -webkit-appearance: none;
   padding-left: 10px;
   padding-right: 10px;
-  font-size: 30px;
+  font-size: 24px;
   padding-top: 5px;
   padding-bottom: 5px;
+  height: 70px;
+`
+
+const AmountInput = styled(AddressInput)`
+  margin-top: 20px;
 `
 
 const MoveButton = styled.button`
@@ -114,6 +119,7 @@ const ModeModal = ({ currentBlockchain, show, onClose, onMove }) => {
   const [step, setStep] = useState(0)
   const [blockchain, setBlockchain] = useState(null)
   const [address, setAddress] = useState('')
+  const [amount, setAmount] = useState('')
 
   const onNext = useCallback(
     _value => {
@@ -128,8 +134,8 @@ const ModeModal = ({ currentBlockchain, show, onClose, onMove }) => {
     setAddress(null)
     setStep(0)
     onClose()
-    onMove(blockchain, address)
-  }, [address, blockchain, setStep, setBlockchain, setAddress, onMove, onClose])
+    onMove(blockchain, address, amount)
+  }, [address, blockchain, amount, setStep, setBlockchain, setAddress, onMove, onClose])
 
   const isValidAccount = useMemo(() => isValidAccountByBlockchain(address, blockchain), [address, blockchain])
 
@@ -142,9 +148,7 @@ const ModeModal = ({ currentBlockchain, show, onClose, onMove }) => {
 
   return (
     <Modal show={show} aria-labelledby="contained-modal-blockchain-selection" centered onHide={onHide}>
-      <StyledHeader closeButton>
-        {step === 0 ? 'Select the blockchain' : 'Insert the destionation address'}
-      </StyledHeader>
+      <StyledHeader closeButton>{step === 0 ? 'Select the blockchain' : 'Finalize'}</StyledHeader>
       <StyledBody>
         {step === 0 ? (
           settings.supportedBlockchains
@@ -164,7 +168,8 @@ const ModeModal = ({ currentBlockchain, show, onClose, onMove }) => {
             ))
         ) : (
           <ContainerAddressInputAndButton>
-            <AddressInput value={address} onChange={e => setAddress(e.target.value)} />
+            <AddressInput value={address} onChange={e => setAddress(e.target.value)} placeholder="address" />
+            <AmountInput value={amount} onChange={e => setAmount(e.target.value)} placeholder="amount" type="number" />
             <MoveButton disabled={!isValidAccount} onClick={onClick}>
               {' '}
               MOVE{' '}

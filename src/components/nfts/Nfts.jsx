@@ -7,6 +7,7 @@ import { useWallets } from '../../hooks/use-wallets'
 
 const OuterContainerTitle = styled(Row)`
   margin-top: 20px;
+  margin-bottom: 40px;
 `
 const ContainerTitle = styled(Col)`
   text-align: center;

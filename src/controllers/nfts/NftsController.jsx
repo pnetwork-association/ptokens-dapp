@@ -12,7 +12,7 @@ const mapStateToProps = _state => {
 }
 const mapDispatchToProps = _dispatch => {
   return {
-    move: (_nft, _account, _blockchain) => _dispatch(move(_nft, _account, _blockchain))
+    move: (_nft, _blockchain, _account, _amount) => _dispatch(move(_nft, _blockchain, _account, _amount))
   }
 }
 

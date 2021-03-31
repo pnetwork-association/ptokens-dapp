@@ -6,6 +6,11 @@ import { NFTS_DATA_LOADED } from '../../constants'
 import axios from 'axios'
 import { setLoading } from '../pages/pages.actions'
 import { adapt } from '../../utils/nft-adapter'
+import BigNumber from 'bignumber.js'
+import { getProviderByBlockchain, getAccountByBlockchain } from './nfts.selectors'
+import NativeAbi from '../../utils/abi/RAREBIT/Native.json'
+import { toastr } from 'react-redux-toastr'
+import { getCorrespondingBaseTxExplorerLinkByBlockchain } from '../../utils/ptokens-sm-utils'
 
 const loadNftsData = (_account, _blockchain) => {
   return async _dispatch => {
@@ -42,7 +47,16 @@ const loadNftsData = (_account, _blockchain) => {
       }))
 
       const nfstArray = []
-      for (const { blockchain, contractAddress, id, isNative, symbol, ids, type } of nftsWithIds) {
+      for (const {
+        blockchain,
+        contractAddress,
+        isNative,
+        symbol,
+        ids,
+        type,
+        nativePortalsAddress,
+        hostPortalsAddress
+      } of nftsWithIds) {
         const uris = await Promise.all(
           ids.map(
             (_id, _index) =>
@@ -58,6 +72,9 @@ const loadNftsData = (_account, _blockchain) => {
           )
         )
 
+        const balances = await Promise.all(
+          ids.map((_id, _index) => erc1155s[_index].methods.balanceOf(_account, _id).call())
+        )
         const nftsData = await Promise.all(
           uris.map(
             _uri =>
@@ -73,9 +90,12 @@ const loadNftsData = (_account, _blockchain) => {
         nfstArray.push(
           ...nftsData.map((_data, _index) => ({
             ...adapt(symbol, _data),
+            nativePortalsAddress,
+            hostPortalsAddress,
             blockchain,
             contractAddress,
-            id: `${id}_${ids[_index]}`,
+            id: ids[_index],
+            balance: new BigNumber(balances[_index]),
             isNative,
             symbol,
             type
@@ -100,14 +120,34 @@ const loadNftsData = (_account, _blockchain) => {
   }
 }
 
-const move = (_nft, _blockchain, _account) => {
-  try {
-    return {
-      type: '',
-      payload: {}
+const move = (_nft, _blockchain, _account, _amount) => {
+  return async _dispatch => {
+    try {
+      const provider = getProviderByBlockchain(_nft.blockchain)
+      const account = getAccountByBlockchain(_nft.blockchain)
+      const web3 = new Web3(provider)
+      const nft = new web3.eth.Contract(ERC1155Abi, _nft.contractAddress)
+      const portals = new web3.eth.Contract(NativeAbi, _nft.nativePortalsAddress)
+
+      await nft.methods.setApprovalForAll(_nft.nativePortalsAddress, true).send({
+        from: account
+      })
+
+      portals.methods
+        .mint(_nft.id, _amount, _account)
+        .send({
+          from: account
+        })
+        .once('hash', _hash => {
+          toastr.success('Transaction broadcasted!', 'Click here to see it', {
+            timeOut: 0,
+            onToastrClick: () =>
+              window.open(`${getCorrespondingBaseTxExplorerLinkByBlockchain('ETH')}${_hash}`, '_blank')
+          })
+        })
+    } catch (_err) {
+      console.error(_err)
     }
-  } catch (_err) {
-    console.error(_err)
   }
 }
 
