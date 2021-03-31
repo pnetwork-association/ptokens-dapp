@@ -5,6 +5,7 @@ import ERC1155Abi from '../../utils/abi/ERC1155.json'
 import { NFTS_DATA_LOADED } from '../../constants'
 import axios from 'axios'
 import { setLoading } from '../pages/pages.actions'
+import { adapt } from '../../utils/nft-adapter'
 
 const loadNftsData = (_account, _blockchain) => {
   return async _dispatch => {
@@ -41,13 +42,28 @@ const loadNftsData = (_account, _blockchain) => {
       }))
 
       const nfstArray = []
-      for (const { blockchain, contractAddress, id, isNative, name, symbol, ids, uri } of nftsWithIds) {
-        const nftsData = await Promise.all(
+      for (const { blockchain, contractAddress, id, isNative, symbol, ids, type } of nftsWithIds) {
+        const uris = await Promise.all(
           ids.map(
-            _id =>
+            (_id, _index) =>
+              new Promise((_resolve, _reject) =>
+                erc1155s[_index].methods
+                  .uri(_id)
+                  .call()
+                  .then(_uri =>
+                    _resolve(_uri.includes('ipfs') ? _uri.replace('ipfs://', 'https://gateway.ipfs.io/') : _uri)
+                  )
+                  .catch(_reject)
+              )
+          )
+        )
+
+        const nftsData = await Promise.all(
+          uris.map(
+            _uri =>
               new Promise((_resolve, _reject) =>
                 axios
-                  .get(`${uri}/${_id}`)
+                  .get(_uri)
                   .then(({ data }) => _resolve(data))
                   .catch(_reject)
               )
@@ -56,13 +72,13 @@ const loadNftsData = (_account, _blockchain) => {
 
         nfstArray.push(
           ...nftsData.map((_data, _index) => ({
-            data: _data,
+            ...adapt(symbol, _data),
             blockchain,
             contractAddress,
             id: `${id}_${ids[_index]}`,
             isNative,
-            name,
-            symbol
+            symbol,
+            type
           }))
         )
       }
@@ -84,4 +100,15 @@ const loadNftsData = (_account, _blockchain) => {
   }
 }
 
-export { loadNftsData }
+const move = (_nft, _blockchain, _account) => {
+  try {
+    return {
+      type: '',
+      payload: {}
+    }
+  } catch (_err) {
+    console.error(_err)
+  }
+}
+
+export { loadNftsData, move }

@@ -2,14 +2,18 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Nfts from '../../components/nfts/Nfts'
 import PropTypes from 'prop-types'
+import { move } from '../../store/nfts/nfts.actions'
 
 const mapStateToProps = _state => {
   return {
-    nfts: _state.nfts.all
+    nfts: _state.nfts.all,
+    wallets: _state.wallets
   }
 }
 const mapDispatchToProps = _dispatch => {
-  return {}
+  return {
+    move: (_nft, _account, _blockchain) => _dispatch(move(_nft, _account, _blockchain))
+  }
 }
 
 const NftsController = _props => {
@@ -17,7 +21,9 @@ const NftsController = _props => {
 }
 
 NftsController.propTypes = {
-  nfts: PropTypes.array.isRequired
+  nfts: PropTypes.array.isRequired,
+  wallets: PropTypes.object.isRequired,
+  move: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NftsController)

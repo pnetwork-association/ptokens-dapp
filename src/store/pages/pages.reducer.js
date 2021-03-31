@@ -12,13 +12,12 @@ const pagesReducer = (_state = initialState, _action) => {
   const { type, payload } = _action
   if (type === PAGE_SELECTED) {
     return Object.assign({}, _state, {
-      selectedPage: _action.payload.page
+      selectedPage: payload.page
     })
   }
   if (type === SET_LOADING) {
     const { loading } = payload
     return Object.assign({}, _state, {
-      ..._state,
       loading
     })
   }

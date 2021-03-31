@@ -1,26 +1,65 @@
-import React, { useState, useCallback } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Row, Container, Col } from 'react-bootstrap'
 import NftCard from './nftCard/NftCard'
+import { useWallets } from '../../hooks/use-wallets'
 
-const Nfts = ({ nfts }) => {
-  console.log(nfts)
-  return (
-    <Container>
-      <Row>
-        {nfts.map(_nft => (
-          <Col xs={12} md={6} lg={4} xl={3}>
-            <NftCard nft={_nft} />
-          </Col>
-        ))}
-      </Row>
-    </Container>
+const OuterContainerTitle = styled(Row)`
+  margin-top: 20px;
+`
+const ContainerTitle = styled(Col)`
+  text-align: center;
+  color: #475965;
+  font-size: 32px;
+`
+
+const ContainerConnectButton = styled.div`
+  width: 750px;
+  height: 70px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin: auto;
+`
+
+const ContainerConnectText = styled.div`
+  font-size: 34px;
+  color: #475965ab;
+`
+
+const Nfts = ({ nfts, wallets, move }) => {
+  const { isConnected } = useWallets(wallets)
+
+  return isConnected ? (
+    <React.Fragment>
+      <Container>
+        <OuterContainerTitle>
+          <ContainerTitle>Your supported NFTs ...</ContainerTitle>
+        </OuterContainerTitle>
+        <Row>
+          {nfts.map(_nft => (
+            <Col key={_nft.id} xs={12} md={6} lg={4} xl={3}>
+              <NftCard nft={_nft} move={move} />
+            </Col>
+          ))}
+        </Row>
+      </Container>
+    </React.Fragment>
+  ) : (
+    <ContainerConnectButton>
+      <ContainerConnectText>Connect your wallet to see your NFTs ...</ContainerConnectText>{' '}
+    </ContainerConnectButton>
   )
 }
 
 Nfts.propTypes = {
-  nfts: PropTypes.array.isRequired
+  nfts: PropTypes.array.isRequired,
+  wallets: PropTypes.object.isRequired,
+  move: PropTypes.func.isRequired
 }
 
 export default Nfts

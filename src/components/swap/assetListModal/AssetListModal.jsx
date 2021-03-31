@@ -185,12 +185,15 @@ const AssetListModal = _props => {
     [show, onSelect, setSearchWord]
   )
 
-  const onShowLine = useCallback((_nativeSymbol, _index) => {
-    if (assets[_nativeSymbol].find(({ miniImage, image }) => !miniImage || !image)) {
-      return
-    }
-    onShow(_index)
-  })
+  const onShowLine = useCallback(
+    (_nativeSymbol, _index) => {
+      if (assets[_nativeSymbol].find(({ miniImage, image }) => !miniImage || !image)) {
+        return
+      }
+      onShow(_index)
+    },
+    [assets, onShow]
+  )
 
   return (
     <Modal show={showModal} aria-labelledby="contained-modal-title-vcenter" centered onHide={onHide}>

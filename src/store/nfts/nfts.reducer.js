@@ -5,12 +5,11 @@ const initialState = {
 }
 
 const nftsReducer = (_state = initialState, _action) => {
-  const { type, payload } = _state
+  const { type, payload } = _action
   if (type === NFTS_DATA_LOADED) {
     const { nfts } = payload
     return Object.assign({}, _state, {
-      all: nfts,
-      ..._state
+      all: nfts
     })
   }
   return _state

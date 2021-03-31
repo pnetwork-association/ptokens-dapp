@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, Row, Col } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import MoveModal from '../moveModal/MoveModal'
 
 const StyledCard = styled(Card)`
   flex-direction: column;
@@ -74,34 +75,50 @@ const ContainerButtonAndBlockchain = styled(Row)`
   margin-top: 15px;
 `
 
-const NftCard = ({}) => {
+const NftCard = ({ nft, move }) => {
+  const { name, image, blockchain, type } = nft
+  const [showBlockchainSelectionModal, setShowBlockchainSelectionModal] = useState(false)
+
   return (
-    <StyledCard>
-      <StyledCardHeader>
-        <Image />
-      </StyledCardHeader>
-      <StyledCardBody>
-        <Row>
-          <Col xs={12}>
-            <Name>BASTARD GAN PUNKS V2</Name>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <Id>BASTARD GAN PUNKS V2 #7123</Id>
-          </Col>
-        </Row>
-        <ContainerButtonAndBlockchain>
-          <Col xs={4}>
-            <SwapButton>MOVE</SwapButton>
-          </Col>
-          <ContainerBlockchain xs={8}>
-            <Blockchain src="../assets/svg/ETH.svg" />
-          </ContainerBlockchain>
-        </ContainerButtonAndBlockchain>
-      </StyledCardBody>
-    </StyledCard>
+    <React.Fragment>
+      <StyledCard>
+        <StyledCardHeader>
+          <Image src={image} />
+        </StyledCardHeader>
+        <StyledCardBody>
+          <Row>
+            <Col xs={12}>
+              <Name>{type}</Name>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <Id>{name}</Id>
+            </Col>
+          </Row>
+          <ContainerButtonAndBlockchain>
+            <Col xs={4}>
+              <SwapButton onClick={() => setShowBlockchainSelectionModal(true)}>MOVE</SwapButton>
+            </Col>
+            <ContainerBlockchain xs={8}>
+              <Blockchain src={`../assets/svg/${blockchain}.svg`} />
+            </ContainerBlockchain>
+          </ContainerButtonAndBlockchain>
+        </StyledCardBody>
+      </StyledCard>
+      <MoveModal
+        currentBlockchain={blockchain}
+        show={showBlockchainSelectionModal}
+        onClose={() => setShowBlockchainSelectionModal(false)}
+        onMove={(_blockchain, address) => move(nft, _blockchain, address)}
+      />
+    </React.Fragment>
   )
+}
+
+NftCard.propTypes = {
+  nft: PropTypes.object.isRequired,
+  move: PropTypes.func.isRequired
 }
 
 export default NftCard

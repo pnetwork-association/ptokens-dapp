@@ -1,7 +1,7 @@
 import { PAGE_SELECTED, SET_LOADING } from '../../constants'
 import history from '../../utils/history'
 
-const selectPage = _page => () => {
+const selectPage = _page => {
   history.push(_page)
   return {
     type: PAGE_SELECTED,

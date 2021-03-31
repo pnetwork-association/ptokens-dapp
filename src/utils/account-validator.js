@@ -240,4 +240,23 @@ const isValidAccount = (_pTokenId, _account, _type) => {
   }
 }
 
-export { isValidAccount }
+const isValidAccountByBlockchain = (_account, _blockchain) => {
+  switch (_blockchain) {
+    case 'ETH':
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    case 'XDAI':
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    case 'POLIYGON':
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    case 'BSC':
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    case 'TELOS':
+      return pTokenUtils.eos.isValidAccountName(_account)
+    case 'EOS':
+      return pTokenUtils.eos.isValidAccountName(_account)
+    default:
+      return false
+  }
+}
+
+export { isValidAccount, isValidAccountByBlockchain }
