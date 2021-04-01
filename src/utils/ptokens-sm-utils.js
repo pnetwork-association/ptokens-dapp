@@ -212,43 +212,43 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
     }
     case IQ_ON_ETH_MAINNET: {
       return _role === 'native'
-        ? `${settings[IQ_ON_ETH_MAINNET].eos.explorer}accounts/${_address}`
-        : `${settings[IQ_ON_ETH_MAINNET].eth.explorer}address/${_address}`
+        ? `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eth}address/${_address}`
     }
     case TLOS_ON_ETH_MAINNET: {
       return _role === 'native'
-        ? `${settings[TLOS_ON_ETH_MAINNET].telos.explorer}accounts/${_address}`
-        : `${settings[TLOS_ON_ETH_MAINNET].eth.explorer}address/${_address}`
+        ? `${settings.explorers.mainnet.telos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eth}address/${_address}`
     }
     case PNT_ON_BSC_MAINNET: {
       return _role === 'native'
-        ? `${settings[PNT_ON_BSC_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PNT_ON_BSC_MAINNET].bsc.explorer}address/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.bsc}address/${_address}`
     }
     case POPIUM_ON_BSC_MAINNET: {
       return _role === 'native'
-        ? `${settings[POPIUM_ON_BSC_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[POPIUM_ON_BSC_MAINNET].bsc.explorer}address/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.bsc}address/${_address}`
     }
     case PTERIA_ON_BSC_MAINNET: {
       return _role === 'native'
-        ? `${settings[PTERIA_ON_BSC_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PTERIA_ON_BSC_MAINNET].bsc.explorer}address/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.bsc}address/${_address}`
     }
     case PDEFIPLUSPLUS_ON_BSC_MAINNET: {
       return _role === 'native'
-        ? `${settings[PDEFIPLUSPLUS_ON_BSC_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PDEFIPLUSPLUS_ON_BSC_MAINNET].bsc.explorer}address/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.bsc}address/${_address}`
     }
     case PBCP_ON_BSC_MAINNET: {
       return _role === 'native'
-        ? `${settings[PBCP_ON_BSC_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[PBCP_ON_BSC_MAINNET].bsc.explorer}address/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.bsc}address/${_address}`
     }
     case CGG_ON_BSC_MAINNET: {
       return _role === 'native'
-        ? `${settings[CGG_ON_BSC_MAINNET].eth.explorer}address/${_address}`
-        : `${settings[CGG_ON_BSC_MAINNET].bsc.explorer}address/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.bsc}address/${_address}`
     }
     default:
       break
@@ -408,70 +408,35 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
     }
     case IQ_ON_ETH_MAINNET: {
       return _role === 'native'
-        ? `${settings[IQ_ON_ETH_MAINNET].eos.explorer}transaction/`
-        : `${settings[IQ_ON_ETH_MAINNET].eth.explorer}tx/`
+        ? `${settings.explorers.mainnet.eos}transaction/`
+        : `${settings.explorers.mainnet.eth}tx/`
     }
     case TLOS_ON_ETH_MAINNET: {
       return _role === 'native'
-        ? `${settings[TLOS_ON_ETH_MAINNET].telos.explorer}transaction/`
-        : `${settings[TLOS_ON_ETH_MAINNET].eth.explorer}tx/`
+        ? `${settings.explorers.mainnet.eos}transaction/`
+        : `${settings.explorers.mainnet.eth}tx/`
     }
     case PNT_ON_BSC_MAINNET: {
-      return _role === 'native'
-        ? `${settings[PNT_ON_BSC_MAINNET].eth.explorer}tx/`
-        : `${settings[PNT_ON_BSC_MAINNET].bsc.explorer}tx/`
+      return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.bsc}tx/`
     }
     case POPIUM_ON_BSC_MAINNET: {
-      return _role === 'native'
-        ? `${settings[POPIUM_ON_BSC_MAINNET].eth.explorer}tx/`
-        : `${settings[POPIUM_ON_BSC_MAINNET].bsc.explorer}tx/`
+      return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.bsc}tx/`
     }
     case PTERIA_ON_BSC_MAINNET: {
-      return _role === 'native'
-        ? `${settings[PTERIA_ON_BSC_MAINNET].eth.explorer}tx/`
-        : `${settings[PTERIA_ON_BSC_MAINNET].bsc.explorer}tx/`
+      return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.bsc}tx/`
     }
     case PDEFIPLUSPLUS_ON_BSC_MAINNET: {
-      return _role === 'native'
-        ? `${settings[PDEFIPLUSPLUS_ON_BSC_MAINNET].eth.explorer}tx/`
-        : `${settings[PDEFIPLUSPLUS_ON_BSC_MAINNET].bsc.explorer}tx/`
+      return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.bsc}tx/`
     }
     case PBCP_ON_BSC_MAINNET: {
-      return _role === 'native'
-        ? `${settings[PBCP_ON_BSC_MAINNET].eth.explorer}tx/`
-        : `${settings[PBCP_ON_BSC_MAINNET].bsc.explorer}tx/`
+      return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.bsc}tx/`
     }
     case CGG_ON_BSC_MAINNET: {
-      return _role === 'native'
-        ? `${settings[CGG_ON_BSC_MAINNET].eth.explorer}tx/`
-        : `${settings[CGG_ON_BSC_MAINNET].bsc.explorer}tx/`
+      return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.bsc}tx/`
     }
     default:
       break
   }
 }
 
-const getCorrespondingBaseTxExplorerLinkByBlockchain = _blockchain => {
-  switch (_blockchain) {
-    case 'ETH':
-      return `${settings.explorers.mainnet.eth}tx/`
-    case 'XDAI':
-      return `${settings.explorers.mainnet.xdai}tx/`
-    case 'POLYGON':
-      return `${settings.explorers.mainnet.polygon}tx/`
-    case 'BSC':
-      return `${settings.explorers.mainnet.bsc}tx/`
-    case 'EOS':
-      return `${settings.explorers.mainnet.eos}tx/`
-    case 'TELOS':
-      return `${settings.explorers.mainnet.telos}transaction/`
-    default:
-      throw new Error('Invalid blockchain')
-  }
-}
-
-export {
-  getCorrespondingExplorerLink,
-  getCorrespondingBaseTxExplorerLink,
-  getCorrespondingBaseTxExplorerLinkByBlockchain
-}
+export { getCorrespondingExplorerLink, getCorrespondingBaseTxExplorerLink }

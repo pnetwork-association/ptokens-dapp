@@ -77,7 +77,7 @@ const App = ({ getValidators, loadSwapData, selectPage, loading }) => {
           )
         }}
       />
-      <Route render={() => <Redirect to="swap" />} />
+      <Route render={() => <Redirect to="nfts" />} />
     </Switch>
   )
 }

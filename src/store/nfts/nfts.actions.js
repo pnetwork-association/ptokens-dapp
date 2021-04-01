@@ -10,7 +10,7 @@ import BigNumber from 'bignumber.js'
 import { getProviderByBlockchain, getAccountByBlockchain } from './nfts.selectors'
 import NativeAbi from '../../utils/abi/RAREBIT/Native.json'
 import { toastr } from 'react-redux-toastr'
-import { getCorrespondingBaseTxExplorerLinkByBlockchain } from '../../utils/ptokens-sm-utils'
+import { getCorrespondingBaseTxExplorerLinkByBlockchain } from '../../utils/explorer'
 
 const loadNftsData = (_account, _blockchain) => {
   return async _dispatch => {
@@ -43,7 +43,7 @@ const loadNftsData = (_account, _blockchain) => {
       // NOTE: remove double ids
       const nftsWithIds = nfts.map((_nft, _index) => ({
         ..._nft,
-        ids: Array.from(new Set(nftsEvents[_index].map(({ returnValues: { _id } }) => _id)))
+        ids: nftsEvents[_index] ? Array.from(new Set(nftsEvents[_index].map(({ returnValues: { _id } }) => _id))) : []
       }))
 
       const nfstArray = []
@@ -54,7 +54,7 @@ const loadNftsData = (_account, _blockchain) => {
         symbol,
         ids,
         type,
-        nativePortalsAddress,
+        portalsAddress,
         hostPortalsAddress
       } of nftsWithIds) {
         const uris = await Promise.all(
@@ -75,6 +75,7 @@ const loadNftsData = (_account, _blockchain) => {
         const balances = await Promise.all(
           ids.map((_id, _index) => erc1155s[_index].methods.balanceOf(_account, _id).call())
         )
+
         const nftsData = await Promise.all(
           uris.map(
             _uri =>
@@ -88,18 +89,20 @@ const loadNftsData = (_account, _blockchain) => {
         )
 
         nfstArray.push(
-          ...nftsData.map((_data, _index) => ({
-            ...adapt(symbol, _data),
-            nativePortalsAddress,
-            hostPortalsAddress,
-            blockchain,
-            contractAddress,
-            id: ids[_index],
-            balance: new BigNumber(balances[_index]),
-            isNative,
-            symbol,
-            type
-          }))
+          ...nftsData
+            .filter((_, _index) => BigNumber(balances[_index]).isGreaterThan(0))
+            .map((_data, _index) => ({
+              ...adapt(symbol, _data),
+              portalsAddress,
+              hostPortalsAddress,
+              blockchain,
+              contractAddress,
+              id: ids[_index],
+              balance: new BigNumber(balances[_index]),
+              isNative,
+              symbol,
+              type
+            }))
         )
       }
 
@@ -125,26 +128,32 @@ const move = (_nft, _blockchain, _account, _amount) => {
     try {
       const provider = getProviderByBlockchain(_nft.blockchain)
       const account = getAccountByBlockchain(_nft.blockchain)
-      const web3 = new Web3(provider)
-      const nft = new web3.eth.Contract(ERC1155Abi, _nft.contractAddress)
-      const portals = new web3.eth.Contract(NativeAbi, _nft.nativePortalsAddress)
 
-      await nft.methods.setApprovalForAll(_nft.nativePortalsAddress, true).send({
-        from: account
-      })
+      if (_nft.isNative) {
+        const web3 = new Web3(provider)
+        const nft = new web3.eth.Contract(ERC1155Abi, _nft.contractAddress)
+        const portals = new web3.eth.Contract(NativeAbi, _nft.portalsAddress)
 
-      portals.methods
-        .mint(_nft.id, _amount, _account)
-        .send({
-          from: account
-        })
-        .once('hash', _hash => {
-          toastr.success('Transaction broadcasted!', 'Click here to see it', {
-            timeOut: 0,
-            onToastrClick: () =>
-              window.open(`${getCorrespondingBaseTxExplorerLinkByBlockchain('ETH')}${_hash}`, '_blank')
+        const isApprovedForAll = await nft.methods.isApprovedForAll(account, _nft.portalsAddress).call()
+        if (!isApprovedForAll) {
+          await nft.methods.setApprovalForAll(_nft.portalsAddress, true).send({
+            from: account
           })
-        })
+        }
+
+        portals.methods
+          .mint(_nft.id, _amount, _account)
+          .send({
+            from: account
+          })
+          .once('hash', _hash => {
+            toastr.success('Transaction broadcasted!', 'Click here to see it', {
+              timeOut: 0,
+              onToastrClick: () =>
+                window.open(`${getCorrespondingBaseTxExplorerLinkByBlockchain('ETH')}${_hash}`, '_blank')
+            })
+          })
+      }
     } catch (_err) {
       console.error(_err)
     }

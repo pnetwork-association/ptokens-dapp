@@ -38,16 +38,20 @@ const Nfts = ({ nfts, wallets, move }) => {
   return isConnected ? (
     <React.Fragment>
       <Container>
-        <OuterContainerTitle>
-          <ContainerTitle>Your supported NFTs ...</ContainerTitle>
-        </OuterContainerTitle>
-        <Row>
-          {nfts.map(_nft => (
-            <Col key={_nft.id} xs={12} md={6} lg={4} xl={3}>
-              <NftCard nft={_nft} move={move} />
-            </Col>
-          ))}
-        </Row>
+        {nfts.length > 0 ? (
+          <React.Fragment>
+            <OuterContainerTitle>
+              <ContainerTitle>Your supported NFTs ...</ContainerTitle>
+            </OuterContainerTitle>
+            <Row>
+              {nfts.map(_nft => (
+                <Col key={_nft.id} xs={12} md={6} lg={4} xl={3}>
+                  <NftCard nft={_nft} move={move} />
+                </Col>
+              ))}
+            </Row>
+          </React.Fragment>
+        ) : null}
       </Container>
     </React.Fragment>
   ) : (

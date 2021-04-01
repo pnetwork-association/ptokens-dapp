@@ -84,7 +84,7 @@ const settings = {
     mainnet: {
       eth: {
         wsEndpoint: 'wss://damp-falling-dust.quiknode.pro/',
-        endpoint: 'https://mainnet.infura.io/v3s/ '
+        endpoint: 'https://mainnet.infura.io/v3/ '
       },
       eos: {
         chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
@@ -114,7 +114,7 @@ const settings = {
       eos: 'https://bloks.io/',
       telos: 'https://telos.bloks.io/',
       ltc: 'https://live.blockcypher.com/ltc/',
-      bsc: 'https://bsc-dataseed.binance.org/',
+      bsc: 'https://bscscan.com/',
       xdai: 'https://blockscout.com/poa/xdai/',
       polygon: 'https://explorer-mainnet.maticvigil.com/'
     }
