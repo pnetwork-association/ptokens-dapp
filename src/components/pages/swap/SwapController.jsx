@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Swap from './Swap'
-import { useAssets } from '../../../hooks/use-assets'
 import { connectWithWallet } from '../../../store/wallets/wallets.actions'
 import {
   hideDepositAddressModal,
@@ -34,10 +33,7 @@ const mapDispatchToProps = _dispatch => {
   }
 }
 
-const SwapController = _props => {
-  const [assets] = useAssets(_props.assets)
-  return <Swap {..._props} assets={assets} />
-}
+const SwapController = _props => <Swap {..._props} />
 
 SwapController.propTypes = {
   assets: PropTypes.array.isRequired,

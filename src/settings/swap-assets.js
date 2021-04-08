@@ -460,9 +460,9 @@ const swapAssets = [
     decimals: 6,
     withMiniImage: true,
     isPtoken: false,
-    nativeSymbol: 'USDT',
+    nativeSymbol: 'USDC',
     nativeBlockchain: 'ETH',
-    image: 'USDT.svg'
+    image: 'USDC.svg'
   }
 ]
 

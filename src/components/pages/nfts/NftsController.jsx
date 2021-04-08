@@ -16,9 +16,7 @@ const mapDispatchToProps = _dispatch => {
   }
 }
 
-const NftsController = _props => {
-  return <Nfts {..._props} />
-}
+const NftsController = _props => <Nfts {..._props} />
 
 NftsController.propTypes = {
   nfts: PropTypes.array.isRequired,

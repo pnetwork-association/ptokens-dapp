@@ -9,6 +9,7 @@ import SwapLine from '../../organisms/swapLine/SwapLine'
 import DepositAddressModal from '../../organisms/depositAddressModal/DepositAddressModal'
 import InfoModal from '../../organisms/infoModal/InfoModal'
 import defaultAssets from '../../../settings/swap-assets'
+import { useAssets } from '../../../hooks/use-assets'
 
 const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -81,7 +82,7 @@ const SwapLabel = styled.label`
 `
 
 const Swap = ({
-  assets,
+  assets: _assets,
   wallets,
   progress,
   connectWithWallet,
@@ -94,6 +95,9 @@ const Swap = ({
   /*resetProgress*/
   hideInfoModal
 }) => {
+
+  const [assets] = useAssets(_assets)
+
   const {
     from,
     to,
@@ -125,6 +129,7 @@ const Swap = ({
     updateSwapButton,
     hideDepositAddressModal
   })
+
 
   return (
     <React.Fragment>
