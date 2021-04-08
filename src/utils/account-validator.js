@@ -41,7 +41,14 @@ import {
   PDEFIPLUSPLUS_ON_BSC_MAINNET,
   PTERIA_ON_BSC_MAINNET,
   PBCP_ON_BSC_MAINNET,
-  CGG_ON_BSC_MAINNET
+  CGG_ON_BSC_MAINNET,
+  PETH_ON_TELOS_MAINNET,
+  PLINK_ON_TELOS_MAINNET,
+  PNT_ON_TELOS_MAINNET,
+  PUSDT_ON_TELOS_MAINNET,
+  PUSDC_ON_TELOS_MAINNET,
+  PNT_ON_XDAI_MAINNET,
+  PRVN_ON_BSC_MAINNET
 } from '../constants'
 
 const web3 = new Web3()
@@ -208,12 +215,12 @@ const isValidAccount = (_pTokenId, _account, _type) => {
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case IQ_ON_ETH_MAINNET: {
-      return _type === 'issuer'
+      return _type === 'pegin'
         ? pTokenUtils.eos.isValidAccountName(_account)
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case TLOS_ON_ETH_MAINNET: {
-      return _type === 'issuer'
+      return _type === 'pegin'
         ? pTokenUtils.eos.isValidAccountName(_account)
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
@@ -234,6 +241,39 @@ const isValidAccount = (_pTokenId, _account, _type) => {
     }
     case CGG_ON_BSC_MAINNET: {
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case PETH_ON_TELOS_MAINNET: {
+      return _type === 'pegin'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PLINK_ON_TELOS_MAINNET: {
+      return _type === 'pegin'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PNT_ON_TELOS_MAINNET: {
+      return _type === 'pegin'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PUSDT_ON_TELOS_MAINNET: {
+      return _type === 'pegin'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PUSDC_ON_TELOS_MAINNET: {
+      return _type === 'pegin'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
+    case PNT_ON_XDAI_MAINNET: {
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case PRVN_ON_BSC_MAINNET: {
+      return _type === 'pegin'
+        ? pTokenUtils.rvn.isValidAddress(_account)
+        : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     default:
       break

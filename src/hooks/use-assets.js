@@ -33,6 +33,7 @@ const useAssets = _assets => {
           _asset.symbol === 'LTC' ||
           _asset.symbol === 'ETH' ||
           _asset.symbol === 'DOGE' ||
+          _asset.symbol === 'RVN' ||
           _asset.symbol === 'TLOS'
             ? _asset.symbol
             : _asset.isPtoken

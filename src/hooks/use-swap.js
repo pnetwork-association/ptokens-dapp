@@ -185,7 +185,7 @@ const useSwap = ({
       return
     }
 
-    if (fromAmount === '' && (from.blockchain !== 'BTC' || from.blockchain !== 'LTC' || from.blockchain !== 'DOGE')) {
+    if (fromAmount === '' && !from.peginWithDepositAddress) {
       updateSwapButton('Enter an amount', true)
       return
     }
@@ -211,8 +211,7 @@ const useSwap = ({
   const [filteredAssets] = useMemo(() => {
     if (from && !from.isPtoken) {
       const filtered = assets.filter(
-        ({ name, isPtoken, nativeSymbol }) =>
-          (isPtoken && name === 'p' + from.symbol) || (name[0] !== 'p' && name === from.symbol)
+        ({ name, isPtoken }) => (isPtoken && name === 'p' + from.symbol) || (name[0] !== 'p' && name === from.symbol)
       )
 
       if (!isValidSwap) {

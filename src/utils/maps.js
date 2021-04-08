@@ -7,7 +7,8 @@ const blockchainSymbolToName = {
   BSC: 'Binance Smart Chain',
   DOGE: 'Dogecoin',
   EOS: 'EOS',
-  POLYGON: 'Polygon'
+  POLYGON: 'Polygon',
+  RVN: 'Ravencoin'
 }
 
 const blockchainSymbolToCoin = {
@@ -19,7 +20,8 @@ const blockchainSymbolToCoin = {
   BSC: 'Binance Coin',
   DOGE: 'Dogecoin',
   EOS: 'EOS',
-  POLYGON: 'MATIC'
+  POLYGON: 'MATIC',
+  RVN: 'Ravencoin'
 }
 
 const getAssetFromSymbol = (_assets, _symbol) => _assets.find(({ symbol }) => symbol === _symbol)

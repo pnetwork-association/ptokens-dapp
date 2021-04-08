@@ -41,7 +41,8 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'BTC',
     nativeBlockchain: 'BTC',
-    image: 'BTC.svg'
+    image: 'BTC.svg',
+    peginWithDepositAddress: true
   },
   {
     id: 'LTC',
@@ -54,7 +55,8 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'LTC',
     nativeBlockchain: 'LTC',
-    image: 'LTC.svg'
+    image: 'LTC.svg',
+    peginWithDepositAddress: true
   },
   {
     id: 'DOGE',
@@ -67,7 +69,22 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'DOGE',
     nativeBlockchain: 'DOGE',
-    image: 'DOGE.svg'
+    image: 'DOGE.svg',
+    peginWithDepositAddress: true
+  },
+  {
+    id: 'RVN',
+    symbol: 'RVN',
+    name: 'Ravencoin',
+    network: 'mainnet',
+    blockchain: 'RVN',
+    skipNodeSelection: true,
+    withMiniImage: false,
+    isPtoken: false,
+    nativeSymbol: 'RVN',
+    nativeBlockchain: 'RVN',
+    image: 'RVN.svg',
+    peginWithDepositAddress: true
   },
   {
     id: 'UNI',
@@ -418,6 +435,34 @@ const swapAssets = [
     nativeSymbol: 'CGG',
     nativeBlockchain: 'ETH',
     image: 'CGG.svg'
+  },
+  {
+    id: 'USDT',
+    symbol: 'USDT',
+    name: 'Tether USD',
+    network: 'mainnet',
+    blockchain: 'ETH',
+    skipNodeSelection: true,
+    decimals: 6,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'USDT',
+    nativeBlockchain: 'ETH',
+    image: 'USDT.svg'
+  },
+  {
+    id: 'USDC',
+    symbol: 'USDC',
+    name: 'USD Coin',
+    network: 'mainnet',
+    blockchain: 'ETH',
+    skipNodeSelection: true,
+    decimals: 6,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'USDT',
+    nativeBlockchain: 'ETH',
+    image: 'USDT.svg'
   }
 ]
 

@@ -40,7 +40,14 @@ import {
   PTERIA_ON_BSC_MAINNET,
   PDEFIPLUSPLUS_ON_BSC_MAINNET,
   CGG_ON_BSC_MAINNET,
-  PBCP_ON_BSC_MAINNET
+  PBCP_ON_BSC_MAINNET,
+  PETH_ON_TELOS_MAINNET,
+  PLINK_ON_TELOS_MAINNET,
+  PNT_ON_TELOS_MAINNET,
+  PUSDT_ON_TELOS_MAINNET,
+  PUSDC_ON_TELOS_MAINNET,
+  PNT_ON_XDAI_MAINNET,
+  PRVN_ON_BSC_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_id, _role, _address) => {
@@ -250,6 +257,41 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
         ? `${settings.explorers.mainnet.eth}address/${_address}`
         : `${settings.explorers.mainnet.bsc}address/${_address}`
     }
+    case PETH_ON_TELOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.telos}accounts/${_address}`
+    }
+    case PLINK_ON_TELOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.telos}accounts/${_address}`
+    }
+    case PNT_ON_TELOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.telos}accounts/${_address}`
+    }
+    case PUSDT_ON_TELOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.telos}accounts/${_address}`
+    }
+    case PUSDC_ON_TELOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.telos}accounts/${_address}`
+    }
+    case PNT_ON_XDAI_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.xdai}address/${_address}`
+    }
+    case PRVN_ON_BSC_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings.explorers.mainnet.rvn}address/${_address}`
+        : `${settings.explorers.mainnet.bsc}address/${_address}`
+    }
     default:
       break
   }
@@ -433,6 +475,37 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
     }
     case CGG_ON_BSC_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.bsc}tx/`
+    }
+    case PETH_ON_TELOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.telos}transaction/`
+    }
+    case PLINK_ON_TELOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.telos}transaction/`
+    }
+    case PNT_ON_TELOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.telos}transaction/`
+    }
+    case PUSDC_ON_TELOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.telos}transaction/`
+    }
+    case PUSDT_ON_TELOS_MAINNET: {
+      return _role === 'issuer'
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.telos}transaction/`
+    }
+    case PNT_ON_XDAI_MAINNET: {
+      return _role === 'issuer' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.xdai}tx/`
+    }
+    case PRVN_ON_BSC_MAINNET: {
+      return _role === 'issuer' ? `${settings.explorers.mainnet.rvn}tx/` : `${settings.explorers.mainnet.bsc}tx/`
     }
     default:
       break

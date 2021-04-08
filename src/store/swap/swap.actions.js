@@ -230,7 +230,7 @@ const swap = (_from, _to, _amount, _address) => {
             eosSignatureProvider: wallets.eos.provider || getCorrespondingReadOnlyProvider('EOS'),
             telosSignatureProvider: wallets.telos.provider || getCorrespondingReadOnlyProvider('TELOS'),
             polygonProvider: wallets.polygon.provider || getCorrespondingReadOnlyProvider('POLYGON'),
-            xDaiProvider: wallets.xdai.provider || getCorrespondingReadOnlyProvider('XDAI'),
+            xdaiProvider: wallets.xdai.provider || getCorrespondingReadOnlyProvider('XDAI'),
             bscProvider: wallets.bsc.provider || getCorrespondingReadOnlyProvider('BSC')
           })
         )
@@ -245,6 +245,10 @@ const swap = (_from, _to, _amount, _address) => {
             break
           }
           case 'pDOGE': {
+            peginWithDepositAddress({ ptokens, address: _address, ptoken, dispatch: _dispatch })
+            break
+          }
+          case 'pRVN': {
             peginWithDepositAddress({ ptokens, address: _address, ptoken, dispatch: _dispatch })
             break
           }
@@ -271,7 +275,7 @@ const swap = (_from, _to, _amount, _address) => {
             eosSignatureProvider: wallets.eos.provider || getCorrespondingReadOnlyProvider('EOS'),
             telosSignatureProvider: wallets.telos.provider || getCorrespondingReadOnlyProvider('TELOS'),
             polygonProvider: wallets.polygon.provider || getCorrespondingReadOnlyProvider('POLYGON'),
-            xDaiProvider: wallets.xdai.provider || getCorrespondingReadOnlyProvider('XDAI'),
+            xdaiProvider: wallets.xdai.provider || getCorrespondingReadOnlyProvider('XDAI'),
             bscProvider: wallets.bsc.provider || getCorrespondingReadOnlyProvider('BSC')
           })
         )

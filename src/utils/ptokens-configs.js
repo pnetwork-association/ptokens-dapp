@@ -39,7 +39,14 @@ import {
   PTERIA_ON_BSC_MAINNET,
   PDEFIPLUSPLUS_ON_BSC_MAINNET,
   CGG_ON_BSC_MAINNET,
-  PBCP_ON_BSC_MAINNET
+  PBCP_ON_BSC_MAINNET,
+  PETH_ON_TELOS_MAINNET,
+  PLINK_ON_TELOS_MAINNET,
+  PNT_ON_TELOS_MAINNET,
+  PUSDT_ON_TELOS_MAINNET,
+  PUSDC_ON_TELOS_MAINNET,
+  PNT_ON_XDAI_MAINNET,
+  PRVN_ON_BSC_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -50,7 +57,7 @@ const getConfigs = (_id, _configs) => {
     eosSignatureProvider,
     telosSignatureProvider,
     polygonProvider,
-    xDaiProvider,
+    xdaiProvider,
     bscProvider
   } = _configs
   const { networks, blockchains, pTokens } = constants
@@ -421,7 +428,7 @@ const getConfigs = (_id, _configs) => {
       pbtc: {
         network: networks.Mainnet,
         blockchain: blockchains.xDai,
-        ethProvider: xDaiProvider
+        ethProvider: xdaiProvider
       }
     }
   }
@@ -511,6 +518,86 @@ const getConfigs = (_id, _configs) => {
         network: networks.BinanceSmartChainMainnet,
         blockchain: blockchains.BinanceSmartChain,
         ethProvider,
+        bscProvider
+      }
+    }
+  }
+  if (_id === PETH_ON_TELOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pETH,
+        network: networks.TelosMainnet,
+        blockchain: blockchains.Telos,
+        ethProvider,
+        telosRpc: settings.rpc.mainnet.telos.endpoint,
+        telosSignatureProvider
+      }
+    }
+  }
+  if (_id === PLINK_ON_TELOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pLINK,
+        network: networks.TelosMainnet,
+        blockchain: blockchains.Telos,
+        ethProvider,
+        telosRpc: settings.rpc.mainnet.telos.endpoint,
+        telosSignatureProvider
+      }
+    }
+  }
+  if (_id === PNT_ON_TELOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.PNT,
+        network: networks.TelosMainnet,
+        blockchain: blockchains.Telos,
+        ethProvider,
+        telosRpc: settings.rpc.mainnet.telos.endpoint,
+        telosSignatureProvider
+      }
+    }
+  }
+  if (_id === PUSDC_ON_TELOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pUSDC,
+        network: networks.TelosMainnet,
+        blockchain: blockchains.Telos,
+        ethProvider,
+        telosRpc: settings.rpc.mainnet.telos.endpoint,
+        telosSignatureProvider
+      }
+    }
+  }
+  if (_id === PUSDT_ON_TELOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pUSDT,
+        network: networks.TelosMainnet,
+        blockchain: blockchains.Telos,
+        ethProvider,
+        telosRpc: settings.rpc.mainnet.telos.endpoint,
+        telosSignatureProvider
+      }
+    }
+  }
+  if (_id === PNT_ON_XDAI_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.PNT,
+        network: networks.XdaiMainnet,
+        blockchain: blockchains.Xdai,
+        ethProvider,
+        xdaiProvider
+      }
+    }
+  }
+  if (_id === PRVN_ON_BSC_MAINNET) {
+    return {
+      prvn: {
+        network: networks.Mainnet,
+        blockchain: blockchains.BinanceSmartChain,
         bscProvider
       }
     }
