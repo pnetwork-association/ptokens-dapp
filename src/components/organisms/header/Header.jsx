@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Navbar, Nav } from 'react-bootstrap'
 //import SelectWallet from '../selectWallet/SelectWallet'
 import Walletinfo from '../walletInfo/WalletInfo'
-import { useWallets } from '../../hooks/use-wallets'
+import { useWallets } from '../../../hooks/use-wallets'
 
 const HeaderWrapper = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -93,12 +93,12 @@ const Header = _props => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            {/*<StyledNavLink active={selectedPage === 'swap'} onClick={() => selectPage('swap')}>
+            <StyledNavLink active={selectedPage === 'swap'} onClick={() => selectPage('swap')}>
               Swap
             </StyledNavLink>
             <StyledNavLink active={selectedPage === 'stats'} onClick={() => selectPage('stats')}>
               Stats
-            </StyledNavLink>*/}
+            </StyledNavLink>
             <StyledNavLink active={selectedPage === 'nfts'} onClick={() => selectPage('nfts')}>
               NFTs
             </StyledNavLink>

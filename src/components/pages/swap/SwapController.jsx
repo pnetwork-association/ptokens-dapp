@@ -1,16 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Swap from '../../components/swap/Swap'
-import { useAssets } from '../../hooks/use-assets'
-import { connectWithWallet } from '../../store/wallets/wallets.actions'
+import Swap from './Swap'
+import { useAssets } from '../../../hooks/use-assets'
+import { connectWithWallet } from '../../../store/wallets/wallets.actions'
 import {
   hideDepositAddressModal,
   swap,
   resetProgress,
   hideInfoModal,
   updateSwapButton
-} from '../../store/swap/swap.actions'
+} from '../../../store/swap/swap.actions'
 
 const mapStateToProps = _state => {
   return {

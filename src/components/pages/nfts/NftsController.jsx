@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Nfts from '../../components/nfts/Nfts'
+import Nfts from './Nfts'
 import PropTypes from 'prop-types'
-import { move } from '../../store/nfts/nfts.actions'
+import { move } from '../../../store/nfts/nfts.actions'
 
 const mapStateToProps = _state => {
   return {

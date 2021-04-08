@@ -2,7 +2,7 @@ import React from 'react'
 import { Col, Modal, Row } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import settings from '../../settings'
+import settings from '../../../settings'
 
 const ImageBordered = styled.img`
   position: relative;
