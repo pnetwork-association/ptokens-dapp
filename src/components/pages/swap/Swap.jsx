@@ -95,7 +95,6 @@ const Swap = ({
   /*resetProgress*/
   hideInfoModal
 }) => {
-
   const [assets] = useAssets(_assets)
 
   const {
@@ -129,7 +128,6 @@ const Swap = ({
     updateSwapButton,
     hideDepositAddressModal
   })
-
 
   return (
     <React.Fragment>

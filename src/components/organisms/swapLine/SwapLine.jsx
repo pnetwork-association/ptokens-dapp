@@ -122,6 +122,7 @@ const MaxButton = styled.button`
 const ContainerMaxButton = styled.div`
   position: relative;
   min-height: auto;
+  margin-bottom: 10px;
 `
 
 const ContainerTypeAndBalance = styled(Row)`
@@ -175,7 +176,7 @@ const SwapLine = ({
             </ContainerMaxButton>
           ) : null}
         </ContainerImageAndMaxButton>
-        <Col xs={8} className="text-right my-auto">
+        <Col xs={8} className="text-right my-auto pl-0">
           <ContainerAmountInput>
             <AmountInput
               type="number"

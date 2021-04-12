@@ -1,7 +1,6 @@
 import {
   showDepositAddressModal,
   hideDepositAddressModal,
-  showInfoModal,
   updateProgress,
   loadBalanceByAssetId,
   resetProgress,
@@ -10,7 +9,13 @@ import {
 import { toastr } from 'react-redux-toastr'
 import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
 
+let promiEvent = null
+
 const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) => {
+  if (promiEvent) {
+    promiEvent.removeAllListeners()
+  }
+
   let depositAddress = null
   try {
     depositAddress = await ptokens[ptoken.workingName].getDepositAddress(address)
@@ -22,7 +27,6 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
 
   dispatch(updateSwapButton('Swapping ...', true))
 
-  let step = 0
   dispatch(
     updateProgress({
       show: true,
@@ -35,8 +39,8 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
 
   dispatch(showDepositAddressModal(ptoken, depositAddress.toString()))
 
-  depositAddress
-    .waitForDeposit()
+  promiEvent = depositAddress.waitForDeposit()
+  promiEvent
     .once('nativeTxBroadcasted', _tx => {
       const nativeTransactionField = {
         btc: 'txid',
@@ -57,7 +61,6 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
           )
       })
 
-      step = step + 1
       dispatch(
         updateProgress({
           show: true,
@@ -69,19 +72,17 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
       )
     })
     .once('nativeTxConfirmed', () => {
-      step = step + 1
       dispatch(
         updateProgress({
           show: true,
           percent: 40,
-          message: 'Transaction Confirmed! Waiting for the enclave to receive the transaction ...',
+          message: 'Waiting for the pNetwork to detect your transaction ...',
           steps: [0, 20, 40, 60, 80, 100],
           terminated: false
         })
       )
     })
     .once('nodeReceivedTx', () => {
-      step = step + 1
       dispatch(
         updateProgress({
           show: true,
@@ -99,19 +100,17 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
           window.open(`${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${_report.broadcast_tx_hash}`, '_blank')
       })
 
-      step = step + 1
       dispatch(
         updateProgress({
           show: true,
           percent: 80,
-          message: 'Enclave broadcasted the transaction, Waiting for the confirmation ...',
+          message: 'Asset swap transaction completed, waiting for confirmation ...',
           steps: [0, 20, 40, 60, 80, 100],
           terminated: false
         })
       )
     })
     .then(_result => {
-      step = step + 1
       dispatch(
         updateProgress({
           show: true,
@@ -123,14 +122,12 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
       )
 
       dispatch(updateSwapButton('Get Deposit Address'))
-      dispatch(showInfoModal('Pegin happened succesfully!', 'success'))
       setTimeout(() => dispatch(loadBalanceByAssetId(ptoken.id)), 2000)
     })
     .catch(_err => {
       dispatch(updateSwapButton('Get Deposit Address'))
       dispatch(hideDepositAddressModal())
       dispatch(resetProgress())
-      dispatch(showInfoModal('Error during pegin', 'error'))
     })
 }
 

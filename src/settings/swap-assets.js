@@ -14,7 +14,9 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'ETH',
     nativeBlockchain: 'ETH',
-    image: 'ETH.svg'
+    image: 'ETH.svg',
+    withBalanceDecimalsConversion: true,
+    isBlockchainTokenNative: true
   },
   {
     id: 'EOS',
@@ -28,7 +30,9 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'EOS',
     nativeBlockchain: 'EOS',
-    image: 'EOS.svg'
+    image: 'EOS.svg',
+    withBalanceDecimalsConversion: false,
+    isBlockchainTokenNative: true
   },
   {
     id: 'BTC',
@@ -42,7 +46,9 @@ const swapAssets = [
     nativeSymbol: 'BTC',
     nativeBlockchain: 'BTC',
     image: 'BTC.svg',
-    peginWithDepositAddress: true
+    peginWithDepositAddress: true,
+    withBalanceDecimalsConversion: null,
+    isBlockchainTokenNative: true
   },
   {
     id: 'LTC',
@@ -56,7 +62,9 @@ const swapAssets = [
     nativeSymbol: 'LTC',
     nativeBlockchain: 'LTC',
     image: 'LTC.svg',
-    peginWithDepositAddress: true
+    peginWithDepositAddress: true,
+    withBalanceDecimalsConversion: null,
+    isBlockchainTokenNative: true
   },
   {
     id: 'DOGE',
@@ -70,7 +78,9 @@ const swapAssets = [
     nativeSymbol: 'DOGE',
     nativeBlockchain: 'DOGE',
     image: 'DOGE.svg',
-    peginWithDepositAddress: true
+    peginWithDepositAddress: true,
+    withBalanceDecimalsConversion: null,
+    isBlockchainTokenNative: true
   },
   {
     id: 'RVN',
@@ -84,7 +94,9 @@ const swapAssets = [
     nativeSymbol: 'RVN',
     nativeBlockchain: 'RVN',
     image: 'RVN.svg',
-    peginWithDepositAddress: true
+    peginWithDepositAddress: true,
+    withBalanceDecimalsConversion: null,
+    isBlockchainTokenNative: true
   },
   {
     id: 'UNI',
@@ -98,12 +110,13 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'UNI',
     nativeBlockchain: 'ETH',
-    image: 'UNI.svg'
+    image: 'UNI.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'ANT',
     symbol: 'ANT',
-    name: 'Aragon Network',
+    name: 'Aragon',
     network: 'mainnet',
     blockchain: 'ETH',
     skipNodeSelection: true,
@@ -112,7 +125,8 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'ANT',
     nativeBlockchain: 'ETH',
-    image: 'ANT.svg'
+    image: 'ANT.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'BAL',
@@ -126,7 +140,8 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'BAL',
     nativeBlockchain: 'ETH',
-    image: 'BAL.svg'
+    image: 'BAL.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'BAND',
@@ -140,7 +155,8 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'BAND',
     nativeBlockchain: 'ETH',
-    image: 'BAND.svg'
+    image: 'BAND.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'BAT',
@@ -154,7 +170,8 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'BAT',
     nativeBlockchain: 'ETH',
-    image: 'BAT.svg'
+    image: 'BAT.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'COMP',
@@ -168,7 +185,8 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'COMP',
     nativeBlockchain: 'ETH',
-    image: 'COMP.svg'
+    image: 'COMP.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'DAI',
@@ -182,7 +200,8 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'DAI',
     nativeBlockchain: 'ETH',
-    image: 'DAI.svg'
+    image: 'DAI.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'LINK',
@@ -196,7 +215,8 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'LINK',
     nativeBlockchain: 'ETH',
-    image: 'LINK.svg'
+    image: 'LINK.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'LRC',
@@ -210,12 +230,13 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'LRC',
     nativeBlockchain: 'ETH',
-    image: 'LRC.svg'
+    image: 'LRC.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'MKR',
     symbol: 'MKR',
-    name: 'Maker DAO',
+    name: 'Maker',
     network: 'mainnet',
     blockchain: 'ETH',
     skipNodeSelection: true,
@@ -224,12 +245,13 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'MKR',
     nativeBlockchain: 'ETH',
-    image: 'MKR.svg'
+    image: 'MKR.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'OMG',
     symbol: 'OMG',
-    name: 'Omise Go',
+    name: 'OMG Network',
     network: 'mainnet',
     blockchain: 'ETH',
     skipNodeSelection: true,
@@ -238,7 +260,8 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'OMG',
     nativeBlockchain: 'ETH',
-    image: 'OMG.svg'
+    image: 'OMG.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'PNK',
@@ -252,12 +275,13 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'PNK',
     nativeBlockchain: 'ETH',
-    image: 'PNK.svg'
+    image: 'PNK.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'PNT',
     symbol: 'PNT',
-    name: 'pNetwork Token',
+    name: 'pNetwork',
     network: 'mainnet',
     blockchain: 'ETH',
     skipNodeSelection: true,
@@ -266,12 +290,13 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'PNT',
     nativeBlockchain: 'ETH',
-    image: 'PNT.svg'
+    image: 'PNT.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'PTERIA',
     symbol: 'PTERIA',
-    name: 'PTERIA',
+    name: 'Pteria',
     network: 'mainnet',
     blockchain: 'ETH',
     skipNodeSelection: true,
@@ -280,7 +305,8 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'PTERIA',
     nativeBlockchain: 'ETH',
-    image: 'PTERIA.svg'
+    image: 'PTERIA.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'REP',
@@ -294,7 +320,8 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'REP',
     nativeBlockchain: 'ETH',
-    image: 'REP.svg'
+    image: 'REP.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'SNX',
@@ -308,7 +335,8 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'SNX',
     nativeBlockchain: 'ETH',
-    image: 'SNX.svg'
+    image: 'SNX.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'UOS',
@@ -322,12 +350,13 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'UOS',
     nativeBlockchain: 'ETH',
-    image: 'UOS.svg'
+    image: 'UOS.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'YFI',
     symbol: 'YFI',
-    name: 'yearn Finance',
+    name: 'Yearn Finance',
     network: 'mainnet',
     blockchain: 'ETH',
     skipNodeSelection: true,
@@ -336,7 +365,8 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'YFI',
     nativeBlockchain: 'ETH',
-    image: 'YFI.svg'
+    image: 'YFI.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'ZRX',
@@ -350,7 +380,8 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'ZRX',
     nativeBlockchain: 'ETH',
-    image: 'ZRX.svg'
+    image: 'ZRX.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'IQ',
@@ -364,7 +395,8 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'IQ',
     nativeBlockchain: 'EOS',
-    image: 'IQ.svg'
+    image: 'IQ.svg',
+    withBalanceDecimalsConversion: false
   },
   {
     id: 'TLOS',
@@ -378,12 +410,13 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'TLOS',
     nativeBlockchain: 'TELOS',
-    image: 'TLOS.svg'
+    image: 'TLOS.svg',
+    withBalanceDecimalsConversion: false
   },
   {
     id: 'OPIUM',
     symbol: 'OPIUM',
-    name: 'Opium Network Token',
+    name: 'Opium',
     network: 'mainnet',
     blockchain: 'ETH',
     skipNodeSelection: true,
@@ -392,12 +425,13 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'OPIUM',
     nativeBlockchain: 'ETH',
-    image: 'OPIUM.svg'
+    image: 'OPIUM.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'DEFI++',
     symbol: 'DEFI++',
-    name: 'DEFI++',
+    name: 'PieDAO DEFI++',
     network: 'mainnet',
     blockchain: 'ETH',
     skipNodeSelection: true,
@@ -406,12 +440,13 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'DEFI++',
     nativeBlockchain: 'ETH',
-    image: 'DEFI++.svg'
+    image: 'DEFI++.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'BCP',
     symbol: 'BCP',
-    name: 'Balanced Crypo Pie',
+    name: 'PieDAO Balanced Crypto Pie',
     network: 'mainnet',
     blockchain: 'ETH',
     skipNodeSelection: true,
@@ -420,12 +455,13 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'BCP',
     nativeBlockchain: 'ETH',
-    image: 'BCP.svg'
+    image: 'BCP.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'CGG',
     symbol: 'CGG',
-    name: 'ChainGuardians Governance Token',
+    name: 'Chain Guardians',
     network: 'mainnet',
     blockchain: 'ETH',
     skipNodeSelection: true,
@@ -434,12 +470,13 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'CGG',
     nativeBlockchain: 'ETH',
-    image: 'CGG.svg'
+    image: 'CGG.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'USDT',
     symbol: 'USDT',
-    name: 'Tether USD',
+    name: 'Tether',
     network: 'mainnet',
     blockchain: 'ETH',
     skipNodeSelection: true,
@@ -448,7 +485,8 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'USDT',
     nativeBlockchain: 'ETH',
-    image: 'USDT.svg'
+    image: 'USDT.svg',
+    withBalanceDecimalsConversion: true
   },
   {
     id: 'USDC',
@@ -462,7 +500,8 @@ const swapAssets = [
     isPtoken: false,
     nativeSymbol: 'USDC',
     nativeBlockchain: 'ETH',
-    image: 'USDC.svg'
+    image: 'USDC.svg',
+    withBalanceDecimalsConversion: true
   }
 ]
 

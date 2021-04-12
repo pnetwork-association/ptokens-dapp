@@ -3,17 +3,15 @@ import { Modal } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import QRCode from 'qrcode.react'
-import { blockchainSymbolToCoin } from '../../../utils/maps'
+import { blockchainSymbolToCoin, blockchainSymbolToConfirmationTimeString } from '../../../utils/maps'
 import ReactTooltip from 'react-tooltip'
 import { copyToClipboard } from '../../../utils/utils'
 
 const StyledBody = styled(Modal.Body)`
   color: #475965;
   font-size: 18px;
-  padding-left: 0;
   padding-top: 45px;
   padding-bottom: 45px;
-  padding-right: 0;
   margin: auto;
 `
 
@@ -24,6 +22,7 @@ const StyledModalTitle = styled(Modal.Title)`
 `
 
 const ContainerQrCode = styled.div`
+  text-align: center;
   padding: 25px;
 `
 
@@ -53,7 +52,7 @@ const DepositAddressModal = ({ show, asset, onClose, value }) => {
 
   useEffect(() => {
     ReactTooltip.rebuild()
-  }, [isCopiedToClipboard])
+  })
 
   return (
     <Modal show={show} aria-labelledby="contained-modal-deposit-address" centered onHide={onClose}>
@@ -79,9 +78,15 @@ const DepositAddressModal = ({ show, asset, onClose, value }) => {
         >
           {value ? `${value.slice(0, 12)}...${value.slice(value.length - 10, value.length)}` : ''}
         </Address>
-        <Info>{`Send your ${asset ? blockchainSymbolToCoin[asset.nativeSymbol] : ''} here ecc ecc ecc`}</Info>
+        <Info>{`Send your ${asset ? asset.nativeSymbol : '-'} to the ${
+          asset ? blockchainSymbolToCoin[asset.nativeSymbol] : ''
+        } deposit address above. The asset will be made compatibile with your blockchain of choise and directly accredited on the specified destination address. This will take a few minutes once the ${
+          asset ? blockchainSymbolToCoin[asset.nativeSymbol] : ''
+        } is confirmed (average confirmation times ${
+          asset ? blockchainSymbolToConfirmationTimeString[asset.nativeSymbol] : '-'
+        }).`}</Info>
       </StyledBody>
-      <ReactTooltip />
+      <ReactTooltip getContent={() => (isCopiedToClipboard ? 'Copied!' : 'Copy to clipboard')} />
     </Modal>
   )
 }

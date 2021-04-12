@@ -121,9 +121,14 @@ const useSwap = ({
   // NOTE: default selection
   useMemo(() => {
     if (!assetsLoaded && assets.length > 0) {
-      setFrom(assets.find(({ symbol }) => symbol === 'BTC'))
-      setTo(assets.find(({ symbol }) => symbol === 'PBTC'))
-      setAssetsLoaded(true)
+      const defaultFrom = assets.find(({ symbol }) => symbol === 'BTC')
+      const defaultTo = assets.find(({ symbol }) => symbol === 'PBTC')
+      setFrom(defaultFrom)
+      setTo(defaultTo)
+
+      if (defaultTo.balance) {
+        setAssetsLoaded(true)
+      }
     }
   }, [assets, assetsLoaded, setFrom, setTo])
 

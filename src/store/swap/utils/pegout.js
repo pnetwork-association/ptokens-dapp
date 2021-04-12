@@ -9,7 +9,13 @@ const hostTransactionHash = {
   eth: 'transactionHash'
 }
 
+let promiEvent = null
+
 const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
+  if (promiEvent) {
+    promiEvent.removeAllListeners()
+  }
+
   // NOTE: avoids brave metamask gas estimation fails
   params[params.length] = { gas: 80000, blocksBehind: 3, expireSeconds: 60, permission: 'active' }
 
@@ -24,15 +30,15 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
     updateProgress({
       show: true,
       percent: 0,
-      message: 'Waiting for the transaction to be broadcasted ...',
+      message: 'Waiting for the transaction to be signed ...',
       steps: [0, 20, 40, 60, 80, 100],
       terminated: false
     })
   )
 
   // NOTE: hostTxBroadcasted is not triggered when blockchain is EOS
-  ptokens[ptoken.workingName]
-    .redeem(...params)
+  promiEvent = ptokens[ptoken.workingName].redeem(...params)
+  promiEvent
     .once('hostTxBroadcasted', _hash => {
       toastr.success('Transaction broadcasted!', 'Click here to see it', {
         timeOut: 0,
@@ -80,7 +86,7 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
         updateProgress({
           show: true,
           percent: 40,
-          message: 'Transaction Confirmed! Waiting for the enclave to receive the transaction ...',
+          message: 'Waiting for the pNetwork to detect your transaction ...',
           steps: [0, 20, 40, 60, 80, 100],
           terminated: false
         })
@@ -113,7 +119,7 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
         updateProgress({
           show: true,
           percent: 80,
-          message: 'Enclave broadcasted the transaction, Waiting for the confirmation ...',
+          message: 'Asset swap transaction completed, waiting for confirmation ...',
           steps: [0, 20, 40, 60, 80, 100],
           terminated: false
         })

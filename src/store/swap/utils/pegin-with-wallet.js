@@ -4,10 +4,16 @@ import { eth } from 'ptokens-utils'
 import Web3 from 'web3'
 import ERC20Abi from '../../../utils/abi/ERC20.json'
 import BigNumber from 'bignumber.js'
-import { updateProgress, loadBalanceByAssetId, resetProgress, showInfoModal, updateSwapButton } from '../swap.actions'
+import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
 import { toastr } from 'react-redux-toastr'
 
+let promiEvent = null
+
 const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
+  if (promiEvent) {
+    promiEvent.removeAllListeners()
+  }
+
   params[params.length] = { blocksBehind: 3, expireSeconds: 60, permission: 'active' }
 
   // NOTE: peth uses ethers
@@ -53,7 +59,7 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
     updateProgress({
       show: true,
       percent: 0,
-      message: 'Waiting for the transaction to be broadcasted ...',
+      message: 'Waiting for the transaction to be signed ...',
       steps: [0, 20, 40, 60, 80, 100],
       terminated: false
     })
@@ -64,8 +70,9 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
   params[0] = BigNumber(params[0])
     .multipliedBy(10 ** ptoken.nativeDecimals)
     .toFixed()
-  ptokens[ptoken.name.toLowerCase()]
-    .issue(...params)
+
+  promiEvent = ptokens[ptoken.name.toLowerCase()].issue(...params)
+  promiEvent
     .once('nativeTxBroadcasted', _hash => {
       toastr.success('Transaction broadcasted!', 'Click here to see it', {
         timeOut: 0,
@@ -108,7 +115,7 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
         updateProgress({
           show: true,
           percent: 40,
-          message: 'Transaction Confirmed! Waiting for the enclave to receive the transaction ...',
+          message: 'Waiting for the pNetwork to detect your transaction ...',
           steps: [0, 20, 40, 60, 80, 100],
           terminated: false
         })
@@ -138,7 +145,7 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
         updateProgress({
           show: true,
           percent: 80,
-          message: 'Enclave broadcasted the transaction, Waiting for the confirmation ...',
+          message: 'Asset swap transaction completed, waiting for confirmation ...',
           steps: [0, 20, 40, 60, 80, 100],
           terminated: false
         })
@@ -157,14 +164,12 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
       )
 
       dispatch(updateSwapButton('Swap'))
-      dispatch(showInfoModal('Pegin happened succesfully!', 'success'))
       // TODO: load balance also for native asset
       setTimeout(() => dispatch(loadBalanceByAssetId(ptoken.id)), 2000)
     })
     .catch(() => {
       dispatch(updateSwapButton('Swap'))
       dispatch(resetProgress())
-      dispatch(showInfoModal('Error during pegin', 'error'))
     })
 }
 

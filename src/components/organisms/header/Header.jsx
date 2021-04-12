@@ -96,9 +96,6 @@ const Header = _props => {
             <StyledNavLink active={selectedPage === 'swap'} onClick={() => selectPage('swap')}>
               Swap
             </StyledNavLink>
-            <StyledNavLink active={selectedPage === 'stats'} onClick={() => selectPage('stats')}>
-              Stats
-            </StyledNavLink>
             <StyledNavLink active={selectedPage === 'nfts'} onClick={() => selectPage('nfts')}>
               NFTs
             </StyledNavLink>

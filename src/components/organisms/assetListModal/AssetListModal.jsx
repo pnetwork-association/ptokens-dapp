@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import { Col, Modal, Row, Spinner } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { useGroupedAssets } from '../../../hooks/use-grouped-assets'
+import { useGroupedAssetsByNativeSymbol } from '../../../hooks/use-grouped-assets'
 import { getAssetFromSymbol } from '../../../utils/maps'
 import { useSearchAssets } from '../../../hooks/use-search-assets'
 
@@ -158,8 +158,20 @@ const AssetListModal = _props => {
   const { show: showModal, title, onClose, onSelect } = _props
 
   const [filteredAssets, setSearchWord] = useSearchAssets(_props.assets)
-  const [assets] = useGroupedAssets(filteredAssets)
+  const [assets] = useGroupedAssetsByNativeSymbol(filteredAssets)
   const [show, setShow] = useState([])
+
+  const [stillLoading] = useMemo(() => {
+    const nativeSymbols = Object.keys(assets)
+    const loadedAssets = nativeSymbols.filter(_nativeSymbol =>
+      assets[_nativeSymbol].find(({ miniImage, image }) => miniImage && image)
+    )
+    return [loadedAssets.length === nativeSymbols.length ? false : true]
+  }, [assets])
+
+  useEffect(() => {
+    setShow(Object.keys(assets).length === 1 && !stillLoading ? [true] : [false])
+  }, [assets, stillLoading])
 
   const onShow = useCallback(
     _index => {
@@ -251,11 +263,9 @@ const AssetListModal = _props => {
                                 {withMiniImage ? <Minicon src={miniImage} /> : null}
                               </Col>
                               <Col xs={8} className="text-center my-auto">
-                                <FormattedName>
-                                  {formattedName === _nativeSymbol ? 'NATIVE' : formattedName}
-                                </FormattedName>
+                                <FormattedName>{formattedName}</FormattedName>
                               </Col>
-                              <Col xs={2} className="my-auto text-right">
+                              <Col xs={2} className="my-auto text-right pl-0">
                                 {formattedBalance}
                               </Col>
                             </StyledInnerRow>

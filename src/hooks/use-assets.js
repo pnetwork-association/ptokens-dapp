@@ -9,37 +9,25 @@ const useAssets = _assets => {
       return {
         ..._asset,
         address:
-          _asset.address && _asset.blockchain !== 'EOS' ? utils.eth.addHexPrefix(_asset.address) : _asset.address,
-        formattedBalance:
-          _asset.balance && _asset.blockchain !== 'EOS'
+          _asset.address && _asset.blockchain !== 'EOS' && _asset.blockchain !== 'TELOS'
+            ? utils.eth.addHexPrefix(_asset.address)
+            : _asset.address,
+        formattedBalance: _asset.balance
+          ? _asset.withBalanceDecimalsConversion
             ? strip(offChainFormat(_asset.balance, _asset.decimals))
-            : _asset.blockchain === 'EOS'
-            ? _asset.balance
-              ? strip(_asset.balance)
-              : '-'
-            : '-',
-        balance:
-          _asset.balance && _asset.blockchain !== 'EOS'
-            ? offChainFormat(_asset.balance, _asset.decimals).toFixed()
-            : _asset.blockchain === 'EOS'
-            ? _asset.balance
-              ? _asset.balance
-              : '-'
-            : '-',
+            : _asset.balance
+          : '-',
+        balance: _asset.balance
+          ? _asset.withBalanceDecimalsConversion
+            ? offChainFormat(_asset.balance, _asset.decimals)
+            : _asset.balance
+          : null,
         coin: blockchainSymbolToCoin[_asset.nativeSymbol],
-        formattedName:
-          _asset.symbol === 'BTC' ||
-          _asset.symbol === 'EOS' ||
-          _asset.symbol === 'LTC' ||
-          _asset.symbol === 'ETH' ||
-          _asset.symbol === 'DOGE' ||
-          _asset.symbol === 'RVN' ||
-          _asset.symbol === 'TLOS'
-            ? _asset.symbol
-            : _asset.isPtoken
-            ? `ON ${blockchainSymbolToName[_asset.blockchain]}`
-            : _asset.symbol,
-        // prettier-ignore
+        formattedName: _asset.isBlockchainTokenNative
+          ? _asset.symbol
+          : _asset.isPtoken
+          ? `ON ${blockchainSymbolToName[_asset.blockchain]}`
+          : _asset.symbol,
         image: `../assets/svg/${_asset.image}`,
         miniImage: `../assets/svg/${_asset.blockchain}.svg`
       }
