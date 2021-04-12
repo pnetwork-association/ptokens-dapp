@@ -59,7 +59,7 @@ const ContainerSwapButton = styled.div`
 const SwapButton = styled.button`
   width: 100%;
   color: white;
-  background: #ff6666;
+  background: ${({ theme }) => theme.primary1};
   border: 0;
   border-radius: 20px;
   height: 70px;
@@ -67,18 +67,18 @@ const SwapButton = styled.button`
   outline: none !important;
   box-shadow: none;
   &:disabled {
-    background: #ff666675;
+    background: ${({ theme }) => theme.primary1Transparentized};
     &:hover {
-      background: #ff666675;
+      background: ${({ theme }) => theme.primary1Transparentized};
     }
   }
   &:hover {
-    background: #d64848;
+    background: ${({ theme }) => theme.primary1Hovered};
   }
 `
 
 const SwapLabel = styled.label`
-  color: #475965;
+  color: ${({ theme }) => theme.text1};
   margin-bottom: 20px;
   margin-left: 14px;
 `

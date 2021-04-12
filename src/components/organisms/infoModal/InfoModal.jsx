@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import ReactTooltip from 'react-tooltip'
 
 const StyledBody = styled(Modal.Body)`
-  color: #475965;
+  color: ${({ theme }) => theme.text1};
   font-size: 18px;
   padding-left: 0;
   padding-right: 0;

@@ -11,9 +11,9 @@ const OuterTokenIcon = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid rgba(71, 89, 101, 0.3);
+  border: 1px solid ${({ theme }) => theme.secondary3};
   cursor: pointer;
-  box-shadow: #475965 1px 1px 9px -3px;
+  box-shadow: ${({ theme }) => theme.secondary1} 1px 1px 9px -3px;
 `
 
 const InnerTokenIcon = styled.img`
@@ -21,8 +21,8 @@ const InnerTokenIcon = styled.img`
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: 1px solid rgba(71, 89, 101, 0.3);
-  box-shadow: #475965 1px 1px 9px -3px;
+  border: 1px solid ${({ theme }) => theme.secondary3};
+  box-shadow: ${({ theme }) => theme.secondary1} 1px 1px 9px -3px;
   cursor: pointer;
 `
 
@@ -33,8 +33,8 @@ const Minicon = styled.img`
   border-radius: 50%;
   margin-top: 21px;
   margin-left: -12px;
-  border: 1px solid rgba(71, 89, 101, 0.3);
-  box-shadow: #475965 1px 1px 9px -3px;
+  border: 1px solid ${({ theme }) => theme.secondary3};
+  box-shadow: ${({ theme }) => theme.secondary1} 1px 1px 9px -3px;
   background: white;
 `
 
@@ -45,7 +45,7 @@ const ContainerRow = styled.div`
   padding-right: 15px;
   cursor: pointer;
   &:hover {
-    background: #ececec;
+    background: ${({ theme }) => theme.hovered1};
   }
 `
 
@@ -55,12 +55,12 @@ const ContainerInnerRow = styled.div`
   padding-left: 45px;
   padding-right: 45px;
   &:hover {
-    background: #ececec;
+    background: ${({ theme }) => theme.hovered1};
   }
 `
 
 const StyledBody = styled(Modal.Body)`
-  color: #475965;
+  color: ${({ theme }) => theme.secondary1};
   font-size: 18px;
   padding-left: 0;
   padding-top: 0;
@@ -87,7 +87,7 @@ const StyledHeader = styled(Modal.Header)`
 `
 
 const StyledModalTitle = styled(Modal.Title)`
-  color: #475965;
+  color: ${({ theme }) => theme.secondary1};
 `
 
 const ArrowImage = styled.img`
@@ -101,7 +101,7 @@ const AssetSymbol = styled.div`
 `
 
 const AssetName = styled.div`
-  color: rgb(136, 141, 155);
+  color: ${({ theme }) => theme.text2};
   font-size: 12px;
 `
 
@@ -117,8 +117,8 @@ const Search = styled.input`
   outline: 0px !important;
   -webkit-appearance: none;
   box-shadow: none !important;
-  border: 1px solid rgba(71, 89, 101, 0.3);
-  color: #475965;
+  border: 1px solid ${({ theme }) => theme.secondary3};
+  color: ${({ theme }) => theme.secondary1};
   font-size: 18px;
   &:focus {
     border: 1px solid #66b8ff;
@@ -130,7 +130,7 @@ const ContainerSearch = styled.div`
   padding-bottom: 15px;
   padding-left: 15px;
   padding-right: 15px;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid ${({ theme }) => theme.secondary3};
 `
 
 const ContainerTokenInfo = styled(Col)`

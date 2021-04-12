@@ -29,12 +29,12 @@ const Image = styled.img`
 `
 
 const Name = styled.label`
-  color: #475965ab;
+  color: ${({ theme }) => theme.text2};
   font-size: 13px;
 `
 
 const Id = styled.label`
-  color: #475965;
+  color: ${({ theme }) => theme.text1};
 `
 
 const Blockchain = styled.img`
@@ -43,9 +43,9 @@ const Blockchain = styled.img`
   height: 20px;
   background: white;
   border-radius: 50%;
-  border: 1px solid rgba(71, 89, 101, 0.3);
+  border: 1px solid ${({ theme }) => theme.secondary3};
   cursor: pointer;
-  box-shadow: #475965 1px 1px 9px -3px;
+  box-shadow: ${({ theme }) => theme.secondary1} 1px 1px 9px -3px;
 `
 
 const ContainerBlockchain = styled(Col)`
@@ -53,7 +53,7 @@ const ContainerBlockchain = styled(Col)`
   margin-bottom: 0 auto !important;
 `
 
-const SwapButton = styled.button`
+const MoveButton = styled.button`
   width: 100%;
   color: #66b8ff;
   background: #66b8ff40;
@@ -98,7 +98,7 @@ const NftCard = ({ nft, move }) => {
           </Row>
           <ContainerButtonAndBlockchain>
             <Col xs={4}>
-              <SwapButton onClick={() => setShowBlockchainSelectionModal(true)}>MOVE</SwapButton>
+              <MoveButton onClick={() => setShowBlockchainSelectionModal(true)}>MOVE</MoveButton>
             </Col>
             <ContainerBlockchain xs={8}>
               <Blockchain src={`../assets/svg/${blockchain}.svg`} />

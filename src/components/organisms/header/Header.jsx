@@ -30,13 +30,13 @@ const ConnectButton = styled.button`
 `
 
 const Connected = styled.div`
-  background: #66b8ff40;
+  background: ${({ theme }) => theme.green1};
   color: #475965 !important;
   height: 35px;
   border-radius: 50%;
   width: 35px;
-  background: #a8f7b5;
-  border: 1px solid #a8f7b5;
+  background: ${({ theme }) => theme.green2};
+  border: 1px solid ${({ theme }) => theme.green2};
   cursor: pointer;
 `
 

@@ -13,15 +13,20 @@ import './styles/custom.css'
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 import 'react-step-progress-bar/styles.css'
 
+import ThemeProvider, { ThemedGlobalStyle } from './theme/ThemeProvider'
+
 ReactGA.initialize(settings.googleAnalyticsTrackId)
 
 if (window.ethereum) window.ethereum.autoRefreshOnNetworkChange = false
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
-      <App />
-    </Router>
+    <ThemeProvider>
+      <ThemedGlobalStyle />
+      <Router history={history}>
+        <App />
+      </Router>
+    </ThemeProvider>
   </Provider>,
   document.getElementById('root')
 )

@@ -6,7 +6,7 @@ import ReactTooltip from 'react-tooltip'
 //import { copyToClipboard } from '../../../utils/utils'
 
 const StyledBody = styled(Modal.Body)`
-  color: #475965;
+  color: ${({ theme }) => theme.text1};
   font-size: 18px;
   padding-left: 0;
   padding-right: 0;
@@ -15,12 +15,12 @@ const StyledBody = styled(Modal.Body)`
 const StyledHeader = styled(Modal.Header)``
 
 const StyledModalTitle = styled(Modal.Title)`
-  color: #475965;
+  color: ${({ theme }) => theme.text1};
 `
 
 const ContainerAccountInfo = styled.div`
   border-radius: 20px;
-  border: 1px solid rgba(71, 89, 101, 0.3);
+  border: 1px solid ${({ theme }) => theme.secondary3};
   margin-left: 15px;
   margin-right: 15px;
   margin-top: 20px;
@@ -37,9 +37,9 @@ const ImageBordered = styled.img`
   height: 40px;
   background: white;
   border-radius: 50%;
-  border: 1px solid rgba(71, 89, 101, 0.3);
+  border: 1px solid ${({ theme }) => theme.secondary3};
   cursor: pointer;
-  box-shadow: #475965 1px 1px 9px -3px;
+  box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
 `
 
 const Account = styled.span`

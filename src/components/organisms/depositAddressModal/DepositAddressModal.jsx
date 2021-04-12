@@ -8,7 +8,7 @@ import ReactTooltip from 'react-tooltip'
 import { copyToClipboard } from '../../../utils/utils'
 
 const StyledBody = styled(Modal.Body)`
-  color: #475965;
+  color: ${({ theme }) => theme.text1};
   font-size: 18px;
   padding-top: 45px;
   padding-bottom: 45px;
@@ -18,7 +18,7 @@ const StyledBody = styled(Modal.Body)`
 const StyledHeader = styled(Modal.Header)``
 
 const StyledModalTitle = styled(Modal.Title)`
-  color: #475965;
+  color: ${({ theme }) => theme.text1};
 `
 
 const ContainerQrCode = styled.div`

@@ -7,7 +7,7 @@ import settings from '../../../settings'
 import { isValidAccountByBlockchain } from '../../../utils/account-validator'
 
 const StyledBody = styled(Modal.Body)`
-  color: #475965;
+  color: ${({ theme }) => theme.text1};
   font-size: 18px;
   padding-left: 0;
   padding-top: 0;
@@ -35,16 +35,16 @@ const BlokchainIcon = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid rgba(71, 89, 101, 0.3);
+  border: 1px solid ${({ theme }) => theme.secondary3};
   cursor: pointer;
-  box-shadow: #475965 1px 1px 9px -3px;
+  box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
 `
 
 const ContainerName = styled(Col)`
   margin-bottom: auto !important;
   margin-top: auto !important;
   text-align: center;
-  color: #475965;
+  color: ${({ theme }) => theme.text1};
   font-size: 18px;
 `
 const ContainerRightArrow = styled(Col)`
@@ -61,7 +61,7 @@ const RightArrow = styled.img`
 `
 
 const StyledHeader = styled(Modal.Header)`
-  color: #475965;
+  color: ${({ theme }) => theme.text1};
   font-size: 1.5rem;
   padding: 25px 15px 25px 15px;
 `
@@ -75,9 +75,9 @@ const ContainerAddressInputAndButton = styled.div`
 
 const AddressInput = styled.input`
   border-radius: 20px;
-  border: 1px solid rgba(71, 89, 101, 0.3);
+  border: 1px solid ${({ theme }) => theme.secondary3};
   caret-color: #32b1f5;
-  color: #475965;
+  color: ${({ theme }) => theme.text1};
   width: 100%;
   outline: 0px !important;
   -webkit-appearance: none;

@@ -12,7 +12,7 @@ const ContainerProgress = styled.div`
 const ContainerText = styled.div`
   margin-top: 30px;
   margin-top: 30px;
-  color: #475965;
+  color: ${({ theme }) => theme.text1};
   text-align: center;
   font-size: 16px;
 `

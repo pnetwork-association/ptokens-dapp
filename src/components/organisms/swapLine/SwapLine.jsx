@@ -127,11 +127,11 @@ const ContainerMaxButton = styled.div`
 
 const ContainerTypeAndBalance = styled(Row)`
   margin-bottom: 10px;
-  color: #475965;
+  color: ${({ theme }) => theme.text1};
 `
 
 const ContainerTitle = styled(Col)`
-  color: #475965ab;
+  color: ${({ theme }) => theme.text2};
   margin-bottom: auto !important;
   font-size: 14px;
 `
