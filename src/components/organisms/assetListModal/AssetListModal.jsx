@@ -154,10 +154,8 @@ const StyledSpinner = styled(Spinner)`
   animation: spinner-border 0.75s linear infinite;
 `
 
-const AssetListModal = _props => {
-  const { show: showModal, title, onClose, onSelect } = _props
-
-  const [filteredAssets, setSearchWord] = useSearchAssets(_props.assets)
+const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _assets, defaultAssets }) => {
+  const [filteredAssets, setSearchWord] = useSearchAssets(_assets)
   const [assets] = useGroupedAssetsByNativeSymbol(filteredAssets)
   const [show, setShow] = useState([])
 
@@ -222,16 +220,16 @@ const AssetListModal = _props => {
               <React.Fragment key={_index}>
                 <ContainerRow>
                   <StyledRow onClick={() => onShowLine(_nativeSymbol, _index)}>
-                    <ContainerTokenInfo xs={6}>
+                    <ContainerTokenInfo xs={8}>
                       <OuterTokenIcon src={`../assets/svg/${_nativeSymbol}.svg`} />
                       <ContainerTokenNameAndSymbol>
                         <AssetSymbol>{_nativeSymbol}</AssetSymbol>
                         <AssetName>
-                          {_props.assets.length > 0 ? getAssetFromSymbol(_props.defaultAssets, _nativeSymbol).name : ''}
+                          {_assets.length > 0 ? getAssetFromSymbol(defaultAssets, _nativeSymbol).name : ''}
                         </AssetName>
                       </ContainerTokenNameAndSymbol>
                     </ContainerTokenInfo>
-                    <Col xs={6} className="my-auto text-right">
+                    <Col xs={4} className="my-auto text-right">
                       {assets[_nativeSymbol].find(({ miniImage, image }) => !miniImage || !image) ? (
                         <StyledSpinner animation="border" />
                       ) : (

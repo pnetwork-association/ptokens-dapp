@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { isValidAccount } from '../utils/account-validator'
+import { useSwapInfo } from './use-swap-info'
 
 const useSwap = ({
   wallets,
@@ -21,21 +22,22 @@ const useSwap = ({
   const [showModalTo, setShowModalTo] = useState(false)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
 
+  const { fee } = useSwapInfo(from, to)
+
   const onChangeFromAmount = useCallback(
     _amount => {
       setFromAmount(_amount)
-      // NOTE: when fees will be introduces we need to change 1
-      setToAmount(_amount !== '' ? (_amount * 1).toString() : _amount.toString())
+      setToAmount(_amount !== '' ? (_amount * fee).toString() : _amount.toString())
     },
-    [setFromAmount, setToAmount]
+    [fee, setFromAmount, setToAmount]
   )
 
   const onChangeToAmount = useCallback(
     _amount => {
       setToAmount(_amount)
-      setFromAmount(_amount !== '' ? (_amount * 1).toString() : _amount.toString())
+      setFromAmount(_amount !== '' ? (_amount * fee).toString() : _amount.toString())
     },
-    [setToAmount, setFromAmount]
+    [fee, setToAmount, setFromAmount]
   )
 
   const onChangeOrder = useCallback(() => {
@@ -47,14 +49,14 @@ const useSwap = ({
   const onFromMax = useCallback(() => {
     const amount = from.balance
     setFromAmount(amount)
-    setToAmount(amount !== '' ? (amount * 1).toString() : amount.toString())
-  }, [setFromAmount, from])
+    setToAmount(amount !== '' ? (amount * fee).toString() : amount.toString())
+  }, [fee, setFromAmount, from])
 
   const onToMax = useCallback(() => {
     const amount = to.balance
     setFromAmount(amount)
-    setToAmount(amount !== '' ? (amount * 1).toString() : amount.toString())
-  }, [setToAmount, to])
+    setToAmount(amount !== '' ? (amount * fee).toString() : amount.toString())
+  }, [fee, setToAmount, to])
 
   const onSwap = useCallback(() => {
     if (swapButton.text === 'Connect Wallet') {

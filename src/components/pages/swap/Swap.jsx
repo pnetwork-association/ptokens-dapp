@@ -7,6 +7,7 @@ import Progress from '../../molecules/progress/Progress'
 import { useSwap } from '../../../hooks/use-swap'
 import SwapLine from '../../organisms/swapLine/SwapLine'
 import DepositAddressModal from '../../organisms/depositAddressModal/DepositAddressModal'
+import SwapInfo from '../../organisms/swapInfo/SwapInfo'
 import InfoModal from '../../organisms/infoModal/InfoModal'
 import defaultAssets from '../../../settings/swap-assets'
 import { useAssets } from '../../../hooks/use-assets'
@@ -31,6 +32,7 @@ const ContainerSwap = styled.div`
   height: 100%;
   padding: 15px;
   width: 460px;
+  z-index: 1;
   @media (max-width: 767.98px) {
     width: 100%;
     padding-left: 10px;
@@ -175,6 +177,7 @@ const Swap = ({
           </OuterContainerSwap>
         </Row>
       </Container>
+      <SwapInfo from={from} to={to} />
       <AssetListModal
         title="Swap from ..."
         defaultAssets={assets.length === 0 ? defaultAssets : assets}
