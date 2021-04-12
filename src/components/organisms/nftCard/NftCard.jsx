@@ -43,7 +43,7 @@ const Blockchain = styled.img`
   height: 20px;
   background: white;
   border-radius: 50%;
-  border: 1px solid ${({ theme }) => theme.secondary3};
+  border: 1px solid ${({ theme }) => theme.secondary2};
   cursor: pointer;
   box-shadow: ${({ theme }) => theme.secondary1} 1px 1px 9px -3px;
 `

@@ -19,7 +19,7 @@ const AmountInput = styled.input`
   caret-color: #32b1f5;
   text-align: right;
   font-size: 40px;
-  color: #475965;
+  color: ${({ theme }) => theme.text1};
   width: 100%;
 `
 
@@ -31,30 +31,29 @@ const Image = styled.img`
   position: relative;
   width: 50px;
   height: 50px;
-  background: white;
+  background: ${({ theme }) => (theme.type === 'light' ? 'white' : 'transparent')};
   border-radius: 50%;
-  border: 1px solid rgba(71, 89, 101, 0.3);
+  border: 1px solid ${({ theme }) => (theme.type === 'light' ? 'rgba(71, 89, 101, 0.3)' : 'transparent')};
   cursor: pointer;
-  box-shadow: #475965 1px 1px 9px -3px;
+  box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
 `
 
 const MiniImage = styled.img`
   position: absolute;
   width: 20px;
   height: 20px;
-  background: white;
   border-radius: 50%;
   margin-top: 33px;
   margin-left: -15px;
-  border: 1px solid rgba(71, 89, 101, 0.3);
-  box-shadow: #475965 1px 1px 9px -3px;
+  border: 1px solid ${({ theme }) => (theme.type === 'light' ? 'rgba(71, 89, 101, 0.3)' : 'transparent')};
+  box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
   background: white;
-  box-shadow: #475965 1px 1px 9px -3px;
+  box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
 `
 
 const BalanceLabel = styled.label`
   font-size: 13px;
-  color: #475965;
+  color: ${({ theme }) => theme.text1};
   margin-bottom: 5px;
 `
 
@@ -67,7 +66,7 @@ const AddressInput = styled.input`
   caret-color: #32b1f5;
   text-align: right;
   font-size: 16px;
-  color: #475965;
+  color: ${({ theme }) => theme.text1};
   width: 100%;
 `
 

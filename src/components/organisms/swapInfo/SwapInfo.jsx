@@ -5,6 +5,7 @@ import { Row, Col, Container } from 'react-bootstrap'
 import { useSwapInfo } from '../../../hooks/use-swap'
 
 const ContainerInfo = styled(Container)`
+  background: ${({ theme }) => theme.secondary5Transparentized};
   padding-top: 50px;
   padding-bottom: 20px;
   margin-top: -20px;

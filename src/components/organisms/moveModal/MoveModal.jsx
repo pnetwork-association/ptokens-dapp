@@ -35,7 +35,7 @@ const BlokchainIcon = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid ${({ theme }) => theme.secondary3};
+  border: 1px solid ${({ theme }) => theme.secondary2};
   cursor: pointer;
   box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
 `
@@ -75,7 +75,7 @@ const ContainerAddressInputAndButton = styled.div`
 
 const AddressInput = styled.input`
   border-radius: 20px;
-  border: 1px solid ${({ theme }) => theme.secondary3};
+  border: 1px solid ${({ theme }) => theme.secondary2};
   caret-color: #32b1f5;
   color: ${({ theme }) => theme.text1};
   width: 100%;

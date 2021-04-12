@@ -11,7 +11,7 @@ const OuterTokenIcon = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid ${({ theme }) => theme.secondary3};
+  border: 1px solid ${({ theme }) => theme.secondary2};
   cursor: pointer;
   box-shadow: ${({ theme }) => theme.secondary1} 1px 1px 9px -3px;
 `
@@ -21,7 +21,7 @@ const InnerTokenIcon = styled.img`
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: 1px solid ${({ theme }) => theme.secondary3};
+  border: 1px solid ${({ theme }) => theme.secondary2};
   box-shadow: ${({ theme }) => theme.secondary1} 1px 1px 9px -3px;
   cursor: pointer;
 `
@@ -33,7 +33,7 @@ const Minicon = styled.img`
   border-radius: 50%;
   margin-top: 21px;
   margin-left: -12px;
-  border: 1px solid ${({ theme }) => theme.secondary3};
+  border: 1px solid ${({ theme }) => theme.secondary2};
   box-shadow: ${({ theme }) => theme.secondary1} 1px 1px 9px -3px;
   background: white;
 `
@@ -45,7 +45,7 @@ const ContainerRow = styled.div`
   padding-right: 15px;
   cursor: pointer;
   &:hover {
-    background: ${({ theme }) => theme.hovered1};
+    background: ${({ theme }) => '#ececec'};
   }
 `
 
@@ -55,7 +55,7 @@ const ContainerInnerRow = styled.div`
   padding-left: 45px;
   padding-right: 45px;
   &:hover {
-    background: ${({ theme }) => theme.hovered1};
+    background: ${({ theme }) => '#ececec'};
   }
 `
 
@@ -117,7 +117,7 @@ const Search = styled.input`
   outline: 0px !important;
   -webkit-appearance: none;
   box-shadow: none !important;
-  border: 1px solid ${({ theme }) => theme.secondary3};
+  border: 1px solid ${({ theme }) => theme.secondary2};
   color: ${({ theme }) => theme.secondary1};
   font-size: 18px;
   &:focus {
@@ -130,7 +130,7 @@ const ContainerSearch = styled.div`
   padding-bottom: 15px;
   padding-left: 15px;
   padding-right: 15px;
-  border-bottom: 1px solid ${({ theme }) => theme.secondary3};
+  border-bottom: 1px solid ${({ theme }) => theme.secondary2};
 `
 
 const ContainerTokenInfo = styled(Col)`
