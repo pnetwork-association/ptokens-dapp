@@ -44,8 +44,6 @@ const App = ({ loading, setTheme, loadSwapData, selectPage }) => {
     loadSwapData({ withTestnetInstances: Boolean(withTestnetInstances), pTokenDefault: pToken })
   }, [])
 
-  console.log(window.location.search)
-
   return (
     <Switch>
       <Route
