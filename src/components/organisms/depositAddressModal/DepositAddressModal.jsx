@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import QRCode from 'qrcode.react'
-import { blockchainSymbolToCoin, blockchainSymbolToConfirmationTimeString } from '../../../utils/maps'
+import { blockchainSymbolToCoin } from '../../../utils/maps'
 import ReactTooltip from 'react-tooltip'
 import { copyToClipboard } from '../../../utils/utils'
 import Modal from '../../molecules/modal/Modal'
@@ -72,11 +72,7 @@ const DepositAddressModal = ({ show, asset, onClose, value }) => {
             </Address>
             <Info>{`Send your ${asset ? asset.nativeSymbol : '-'} to the ${
               asset ? blockchainSymbolToCoin[asset.nativeSymbol] : ''
-            } deposit address above. The asset will be made compatibile with your blockchain of choise and directly accredited on the specified destination address. This will take a few minutes once the ${
-              asset ? blockchainSymbolToCoin[asset.nativeSymbol] : ''
-            } is confirmed (average confirmation times ${
-              asset ? blockchainSymbolToConfirmationTimeString[asset.nativeSymbol] : '-'
-            }).`}</Info>
+            } deposit address above. The asset will be made compatibile with your blockchain of choise and directly accredited on the specified destination address.`}</Info>
             <ReactTooltip getContent={() => (isCopiedToClipboard ? 'Copied!' : 'Copy to clipboard')} />
           </OuterContainer>
         }

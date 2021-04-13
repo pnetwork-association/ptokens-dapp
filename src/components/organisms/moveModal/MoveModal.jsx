@@ -13,7 +13,7 @@ const ContainerRow = styled.div`
   padding-right: 15px;
   cursor: pointer;
   &:hover {
-    background: #ececec;
+    ${({ theme }) => theme.bg2};
   }
 `
 

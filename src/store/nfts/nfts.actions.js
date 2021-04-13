@@ -72,9 +72,9 @@ const loadNftsData = (_account, _blockchain) => {
           )
         )
 
-        const balances = await Promise.all(
+        /*const balances = await Promise.all(
           ids.map((_id, _index) => erc1155s[_index].methods.balanceOf(_account, _id).call())
-        )
+        )*/
 
         const nftsData = await Promise.all(
           uris.map(
@@ -90,7 +90,7 @@ const loadNftsData = (_account, _blockchain) => {
 
         nfstArray.push(
           ...nftsData
-            .filter((_, _index) => BigNumber(balances[_index]).isGreaterThan(0))
+            //.filter((_, _index) => BigNumber(balances[_index]).isGreaterThan(0))
             .map((_data, _index) => ({
               ...adapt(symbol, _data),
               portalsAddress,
@@ -98,7 +98,7 @@ const loadNftsData = (_account, _blockchain) => {
               blockchain,
               contractAddress,
               id: ids[_index],
-              balance: new BigNumber(balances[_index]),
+              balance: 1, //new BigNumber(balances[_index]),
               isNative,
               symbol,
               type

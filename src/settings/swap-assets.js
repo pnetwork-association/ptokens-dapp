@@ -191,7 +191,7 @@ const swapAssets = [
   {
     id: 'DAI',
     symbol: 'DAI',
-    name: 'Compound',
+    name: 'Dai',
     network: 'mainnet',
     blockchain: 'ETH',
     skipNodeSelection: true,

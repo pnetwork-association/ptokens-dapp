@@ -61,6 +61,8 @@ const settings = {
   infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
   portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
   fortmaticKey: 'pk_live_D0A703008A4B17B7',
+  auditLinks: 'https://github.com/cryptonicsconsulting/audits/tree/master/pToken',
+  ptokensWebsite: 'https://ptokens.io',
   supportedBlockchains: [
     {
       name: 'Ethereum',

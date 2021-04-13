@@ -12,6 +12,7 @@ export function colors(_darkMode) {
     text3: _darkMode ? '#6c7284' : '#475965ab',
 
     bg1: _darkMode ? '#2C313B' : '#FFFFFF',
+    bg2: _darkMode ? '#a7aaaf42' : '#ececec',
 
     primary1: _darkMode ? '#32b1f5' : '#ff6666',
     primary1Transparentized: _darkMode ? '#32b1f594' : '#ff666675',
@@ -51,5 +52,6 @@ export const ThemedGlobalStyle = createGlobalStyle`
 body {
   min-height: 100vh;
   background-color: ${({ theme }) => theme.bg1} !important;
+  background-image: radial-gradient(50% 50% at 50% 50%, rgba(255, 0,0, 0.1) 10%, rgba(255, 255, 255, 0) 100%);
 }
 `

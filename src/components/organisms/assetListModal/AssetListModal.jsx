@@ -3,7 +3,7 @@ import { Col, Row, Spinner } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { useGroupedAssetsByNativeSymbol } from '../../../hooks/use-grouped-assets'
-import { getAssetFromSymbol } from '../../../utils/maps'
+import { getAssetFromNativeSymbol } from '../../../utils/maps'
 import { useSearchAssets } from '../../../hooks/use-search-assets'
 import { useAssetsWithouDefault } from '../../../hooks/use-assets'
 import Icon from '../../atoms/icon/Icon'
@@ -48,7 +48,7 @@ const ContainerRow = styled.div`
   padding-right: 15px;
   cursor: pointer;
   &:hover {
-    background: '#ececec';
+    background: ${({ theme }) => theme.bg2};
   }
 `
 
@@ -58,7 +58,7 @@ const ContainerInnerRow = styled.div`
   padding-left: 45px;
   padding-right: 45px;
   &:hover {
-    background: '#ececec';
+    background: ${({ theme }) => theme.bg2};
   }
 `
 
@@ -152,6 +152,8 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
   const [assets] = useGroupedAssetsByNativeSymbol(filteredAssets)
   const [show, setShow] = useState([])
 
+  console.log(assets)
+
   const [stillLoading] = useMemo(() => {
     const nativeSymbols = Object.keys(assets)
     const loadedAssets = nativeSymbols.filter(_nativeSymbol =>
@@ -219,7 +221,12 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
                         <ContainerTokenNameAndSymbol>
                           <AssetSymbol>{_nativeSymbol}</AssetSymbol>
                           <AssetName>
-                            {_assets.length > 0 ? getAssetFromSymbol(defaultAssets, _nativeSymbol).name : ''}
+                            {_assets.length > 0
+                              ? getAssetFromNativeSymbol(
+                                  defaultAssets.filter(({ isPtoken }) => !isPtoken),
+                                  _nativeSymbol
+                                ).name
+                              : ''}
                           </AssetName>
                         </ContainerTokenNameAndSymbol>
                       </ContainerTokenInfo>

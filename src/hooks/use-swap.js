@@ -338,16 +338,16 @@ const useSwapInfo = (_from, _to) => {
     // NOTE: fee hardcoded at the moment
     if (!_from.isPtoken && _to.isPtoken) {
       return {
-        fee: 1 - 0.0025,
-        formattedFee: '0.25%',
-        estimatedSwapTime: `~${getPeginOrPegoutMinutesEstimation(_to.nativeBlockchain, _to.blockchain)} minutes`,
+        fee: 1,
+        formattedFee: '0%',
+        estimatedSwapTime: `~${getPeginOrPegoutMinutesEstimation(_to.nativeBlockchain)} minutes`,
         show: true
       }
     } else if (_from.isPtoken && !_to.isPtoken) {
       return {
-        fee: 1 - 0.005,
-        formattedFee: '0.5%',
-        estimatedSwapTime: `~${getPeginOrPegoutMinutesEstimation(_from.nativeBlockchain, _from.blockchain)} minutes`,
+        fee: 1 - 0.0025,
+        formattedFee: '0.25%',
+        estimatedSwapTime: `~${getPeginOrPegoutMinutesEstimation(_from.blockchain)} minutes`,
         show: true
       }
     }

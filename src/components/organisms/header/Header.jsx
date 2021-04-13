@@ -5,6 +5,7 @@ import { Navbar, Nav } from 'react-bootstrap'
 import Walletinfo from '../walletInfoModal/WalletInfoModal'
 import { useWallets } from '../../../hooks/use-wallets'
 import Icon from '../../atoms/icon/Icon'
+import settings from '../../../settings'
 
 const HeaderWrapper = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -22,7 +23,7 @@ const ConnectButton = styled.button`
   padding-left: 25px;
   padding-right: 25px;
   font-weight: 500;
-  border-radius: 20px;
+  border-radius: 10px;
   outline: none !important;
   background: ${({ theme }) => theme.secondary4};
   &:hover {
@@ -32,12 +33,12 @@ const ConnectButton = styled.button`
 `
 
 const StyledIcon = styled(Icon)`
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
   margin-left: 10px;
   padding: 6px;
-  border-radius: 5px;
+  border-radius: 10px;
   background: ${({ theme }) => theme.secondary4};
   &:hover {
     background: ${({ theme }) => theme.secondary4Hovered};
@@ -68,6 +69,18 @@ const StyledNavLink = styled(Nav.Link)`
   padding-left: 15px;
   padding-right: 15px;
   color: ${({ active, theme }) => (active ? theme.text1 : theme.text3)} !important;
+`
+
+const GoToIcon = styled(Icon)`
+  width: 8px;
+  height: 8px;
+  position: relative;
+  margin-top: -10px;
+  /* margin-left: 0px; */
+  vertical-align: super;
+  svg {
+    fill: ${({ active, theme }) => (active ? theme.text1 : theme.text3)} !important;
+  }
 `
 
 const Header = _props => {
@@ -114,6 +127,12 @@ const Header = _props => {
             </StyledNavLink>
             <StyledNavLink active={selectedPage === 'nfts'} onClick={() => selectPage('nfts')}>
               NFTs
+            </StyledNavLink>
+            <StyledNavLink onClick={() => window.open(settings.ptokensWebsite, '_blank')}>
+              Stats <GoToIcon icon="arrow-diagonal" />
+            </StyledNavLink>
+            <StyledNavLink onClick={() => window.open(settings.auditLinks, '_blank')}>
+              Audits <GoToIcon icon="arrow-diagonal" />
             </StyledNavLink>
           </Nav>
           {isConnected ? (

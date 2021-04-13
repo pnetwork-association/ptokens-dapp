@@ -24,19 +24,6 @@ const blockchainSymbolToCoin = {
   RVN: 'Ravencoin'
 }
 
-const blockchainSymbolToConfirmationTimeString = {
-  ETH: '15 seconds',
-  BTC: '10 minutes',
-  LTC: 'few seconds',
-  TELOS: 'few seconds',
-  XDAI: 'few seconds',
-  BSC: 'few seconds',
-  DOGE: 'few seconds',
-  EOS: 'few seconds',
-  POLYGON: 'few seconds',
-  RVN: 'few seconds'
-}
+const getAssetFromNativeSymbol = (_assets, _symbol) => _assets.find(({ symbol }) => symbol === _symbol)
 
-const getAssetFromSymbol = (_assets, _symbol) => _assets.find(({ symbol }) => symbol === _symbol)
-
-export { blockchainSymbolToName, getAssetFromSymbol, blockchainSymbolToCoin, blockchainSymbolToConfirmationTimeString }
+export { blockchainSymbolToName, getAssetFromNativeSymbol, blockchainSymbolToCoin }

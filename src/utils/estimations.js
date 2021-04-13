@@ -8,7 +8,6 @@ const estimations = {
   polygon: 5
 }
 
-const getPeginOrPegoutMinutesEstimation = (_from, _to) =>
-  estimations[_from.toLowerCase()] + estimations[_to.toLowerCase()]
+const getPeginOrPegoutMinutesEstimation = _from => estimations[_from.toLowerCase()]
 
 export { getPeginOrPegoutMinutesEstimation }

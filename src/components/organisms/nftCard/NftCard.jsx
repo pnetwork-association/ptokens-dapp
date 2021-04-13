@@ -8,15 +8,15 @@ const StyledCard = styled(Card)`
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  border: 1px solid rgba(0, 0, 0, 0.1) solid;
-  background: white;
+  border: 1px solid ${({ theme }) => theme.lightGray};
+  background: transparent;
   height: 100%;
 `
 
 const StyledCardHeader = styled(Card.Header)`
-  background: white;
+  background: transparent;
   border: 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid ${({ theme }) => theme.lightGray};
 `
 
 const StyledCardBody = styled(Card.Body)`
