@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Navbar, Nav } from 'react-bootstrap'
 import Walletinfo from '../walletInfo/WalletInfo'
 import { useWallets } from '../../../hooks/use-wallets'
+import Icon from '../../atoms/icon/Icon'
 
 const HeaderWrapper = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -13,7 +14,6 @@ const HeaderWrapper = styled.div`
 const ConnectButton = styled.button`
   width: auto;
   color: white;
-  background: ${({ theme }) => (theme.type === 'light' ? theme.primary1 : 'rgb(64, 68, 79)')};
   border-radius: 3px;
   font-size: 15px;
   font-weight: 300;
@@ -22,35 +22,39 @@ const ConnectButton = styled.button`
   padding-left: 25px;
   padding-right: 25px;
   font-weight: 500;
-  border-radius: 10px;
+  border-radius: 20px;
   outline: none !important;
-  border: 1px solid ${({ theme }) => (theme.type === 'light' ? theme.primary1 : 'rgb(64, 68, 79)')};
+  background: ${({ theme }) => theme.secondary4};
   &:hover {
-    border: 1px solid ${({ theme }) => theme.primary1};
+    background: ${({ theme }) => theme.secondary4Hovered};
   }
+  color: ${({ theme }) => theme.text1};
 `
 
-const ThemeButton = styled.img`
+const StyledIcon = styled(Icon)`
   width: 36px;
   height: 36px;
   cursor: pointer;
   margin-left: 10px;
-  padding: 4px;
+  padding: 6px;
   border-radius: 5px;
-  background: ${({ theme }) => (theme.type === 'light' ? '#eaeaea' : 'rgb(64, 68, 79)')};
+  background: ${({ theme }) => theme.secondary4};
   &:hover {
-    background: ${({ theme }) => (theme.type === 'light' ? '#c1bfbf' : '#6f768a')};
+    background: ${({ theme }) => theme.secondary4Hovered};
+  }
+
+  svg {
+    fill: ${({ theme }) => theme.text1};
   }
 `
 
 const Connected = styled.div`
   background: '#66b8ff40;
-  color: #475965 !important;
   height: 35px;
   border-radius: 50%;
   width: 35px;
-  background: ${({ theme }) => theme.green2};
-  border: 1px solid ${({ theme }) => theme.green2};
+  background: #a8f7b5;
+  border: 1px solid #a8f7b5;
   cursor: pointer;
 `
 
@@ -63,14 +67,12 @@ const StyledNavLink = styled(Nav.Link)`
   font-size: 18px;
   padding-left: 15px;
   padding-right: 15px;
-  color: ${({ active, theme }) => (active ? theme.text1 : '#ffffff82 ')} !important;
+  color: ${({ active, theme }) => (active ? theme.text1 : theme.text3)} !important;
 `
 
 const Header = _props => {
   const { selectedPage, theme, connectWithWallet, disconnectFromWallet, selectPage, setTheme } = _props
-  //const [showSelectWallet, setShowSelectWallet] = useState(false)
   const [showWalletInfo, setShowWalletInfo] = useState(false)
-
   const { isConnected, wallets } = useWallets(_props.wallets)
 
   const onConnectWallet = useCallback(
@@ -119,10 +121,10 @@ const Header = _props => {
           ) : (
             <ConnectButton onClick={() => setShowWalletInfo(true)}>Connect Wallets</ConnectButton>
           )}
-          <ThemeButton
-            src={`../assets/svg/${theme === 'light' ? 'sun' : 'moon'}.svg`}
+          <StyledIcon
+            icon={theme === 'light' ? 'sun' : 'moon'}
             onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-          ></ThemeButton>
+          ></StyledIcon>
         </Navbar.Collapse>
       </Navbar>
       <Walletinfo

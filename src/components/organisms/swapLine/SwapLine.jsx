@@ -6,7 +6,7 @@ import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
 
 const SwapLineContainer = styled.div`
   border-radius: 20px;
-  border: 1px solid rgba(71, 89, 101, 0.3);
+  border: 1px solid ${({ theme }) => theme.lightGray};
   padding: 12px 15px 12px 15px;
 `
 
@@ -33,7 +33,7 @@ const Image = styled.img`
   height: 50px;
   background: ${({ theme }) => (theme.type === 'light' ? 'white' : 'transparent')};
   border-radius: 50%;
-  border: 1px solid ${({ theme }) => (theme.type === 'light' ? 'rgba(71, 89, 101, 0.3)' : 'transparent')};
+  border: 1px solid ${({ theme }) => (theme.type === 'light' ? theme.lightGray : 'transparent')};
   cursor: pointer;
   box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
 `
@@ -45,7 +45,7 @@ const MiniImage = styled.img`
   border-radius: 50%;
   margin-top: 33px;
   margin-left: -15px;
-  border: 1px solid ${({ theme }) => (theme.type === 'light' ? 'rgba(71, 89, 101, 0.3)' : 'transparent')};
+  border: 1px solid ${({ theme }) => (theme.type === 'light' ? theme.lightGray : 'transparent')};
   box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
   background: white;
   box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
@@ -72,7 +72,7 @@ const AddressInput = styled.input`
 
 const InnerContainerAddressInput = styled.div`
   width: 100%;
-  border-top: 1px solid rgba(71, 89, 101, 0.3);
+  border-top: 1px solid ${({ theme }) => theme.lightGray};
   margin-top: 15px;
   padding-top: 10px;
   padding-left: 15px;

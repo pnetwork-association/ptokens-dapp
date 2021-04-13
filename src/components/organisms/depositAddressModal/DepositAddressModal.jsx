@@ -13,9 +13,13 @@ const StyledBody = styled(Modal.Body)`
   padding-top: 45px;
   padding-bottom: 45px;
   margin: auto;
+  background: ${({ theme }) => theme.bg1};
 `
 
-const StyledHeader = styled(Modal.Header)``
+const StyledHeader = styled(Modal.Header)`
+  background: ${({ theme }) => theme.bg1};
+  border-bottom: 1px solid ${({ theme }) => theme.lightGray};
+`
 
 const StyledModalTitle = styled(Modal.Title)`
   color: ${({ theme }) => theme.text1};
@@ -32,6 +36,7 @@ const Info = styled.div`
   padding: 25px;
   width: 100%;
   font-size: 16px;
+  color: ${({ theme }) => theme.text2};
 `
 
 const Address = styled.div`
@@ -40,10 +45,10 @@ const Address = styled.div`
   padding: 25px;
   width: 100%;
   cursor: pointer;
-  background: #e8e8e8;
   border-radius: 20px;
+  background: ${({ theme }) => theme.secondary4};
   &:hover {
-    background: #d6d4d4;
+    background: ${({ theme }) => theme.secondary4Hovered};
   }
 `
 

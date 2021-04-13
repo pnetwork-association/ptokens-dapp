@@ -10,9 +10,13 @@ const StyledBody = styled(Modal.Body)`
   font-size: 18px;
   padding-left: 0;
   padding-right: 0;
+  background: ${({ theme }) => theme.bg1};
 `
 
-const StyledHeader = styled(Modal.Header)``
+const StyledHeader = styled(Modal.Header)`
+  background: ${({ theme }) => theme.bg1};
+  border-bottom: 1px solid ${({ theme }) => theme.lightGray};
+`
 
 const StyledModalTitle = styled(Modal.Title)`
   color: ${({ theme }) => theme.text1};
@@ -20,7 +24,7 @@ const StyledModalTitle = styled(Modal.Title)`
 
 const ContainerAccountInfo = styled.div`
   border-radius: 20px;
-  border: 1px solid ${({ theme }) => theme.secondary2};
+  border: 1px solid ${({ theme }) => theme.lightGray};
   margin-left: 15px;
   margin-right: 15px;
   margin-top: 20px;
@@ -37,7 +41,7 @@ const ImageBordered = styled.img`
   height: 40px;
   background: white;
   border-radius: 50%;
-  border: 1px solid ${({ theme }) => theme.secondary2};
+  border: 1px solid ${({ theme }) => theme.lightGray};
   cursor: pointer;
   box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
 `
@@ -64,10 +68,6 @@ const ChangeOrConnectButton = styled.button`
   }
 `
 
-const DisconnectButton = styled(ChangeOrConnectButton)`
-  margin-left: 10px;
-`
-
 const WalletInfo = ({ show, wallets, onClose, onChange, onConnect /*onDisconnect*/ }) => {
   return (
     <Modal show={show} aria-labelledby="contained-modal-wallet-info" centered onHide={onClose}>
@@ -84,10 +84,7 @@ const WalletInfo = ({ show, wallets, onClose, onChange, onConnect /*onDisconnect
               </Col>
               <Col xs={4} className="my-auto text-right">
                 {isConnected ? (
-                  <React.Fragment>
-                    <ChangeOrConnectButton onClick={() => onChange(blockchain)}>CHANGE</ChangeOrConnectButton>
-                    {/*<DisconnectButton onClick={() => onDisconnect(blockchain)}>DISCONNECT</DisconnectButton>*/}
-                  </React.Fragment>
+                  <ChangeOrConnectButton onClick={() => onChange(blockchain)}>CHANGE</ChangeOrConnectButton>
                 ) : (
                   <ChangeOrConnectButton onClick={() => onConnect(blockchain)}>CONNECT</ChangeOrConnectButton>
                 )}

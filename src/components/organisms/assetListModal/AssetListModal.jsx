@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { useGroupedAssetsByNativeSymbol } from '../../../hooks/use-grouped-assets'
 import { getAssetFromSymbol } from '../../../utils/maps'
 import { useSearchAssets } from '../../../hooks/use-search-assets'
+import Icon from '../../atoms/icon/Icon'
 
 const OuterTokenIcon = styled.img`
   position: relative;
@@ -45,7 +46,7 @@ const ContainerRow = styled.div`
   padding-right: 15px;
   cursor: pointer;
   &:hover {
-    background: ${({ theme }) => '#ececec'};
+    background: '#ececec';
   }
 `
 
@@ -55,7 +56,7 @@ const ContainerInnerRow = styled.div`
   padding-left: 45px;
   padding-right: 45px;
   &:hover {
-    background: ${({ theme }) => '#ececec'};
+    background: '#ececec';
   }
 `
 
@@ -65,6 +66,7 @@ const StyledBody = styled(Modal.Body)`
   padding-left: 0;
   padding-top: 0;
   padding-right: 0;
+  background: ${({ theme }) => theme.bg1};
 `
 
 const ContainerAssets = styled.div`
@@ -84,16 +86,22 @@ const StyledInnerRow = styled(Row)`
 
 const StyledHeader = styled(Modal.Header)`
   border-bottom: 0;
+  background: ${({ theme }) => theme.bg1};
+  border-top: 20px;
 `
 
 const StyledModalTitle = styled(Modal.Title)`
   color: ${({ theme }) => theme.secondary1};
 `
 
-const ArrowImage = styled.img`
+const Arrow = styled(Icon)`
   position: relative;
   width: 12px;
   cursor: pointer;
+
+  svg {
+    fill: ${({ theme }) => theme.secondary1};
+  }
 `
 
 const AssetSymbol = styled.div`
@@ -101,7 +109,7 @@ const AssetSymbol = styled.div`
 `
 
 const AssetName = styled.div`
-  color: ${({ theme }) => theme.text2};
+  color: ${({ theme }) => theme.text3};
   font-size: 12px;
 `
 
@@ -111,13 +119,14 @@ const FormattedName = styled.span`
 `
 
 const Search = styled.input`
+  background: ${({ theme }) => theme.bg1};
   width: 100%;
   padding: 15px;
   border-radius: 20px;
   outline: 0px !important;
   -webkit-appearance: none;
   box-shadow: none !important;
-  border: 1px solid ${({ theme }) => theme.secondary2};
+  border: 1px solid ${({ theme }) => theme.lightGray};
   color: ${({ theme }) => theme.secondary1};
   font-size: 18px;
   &:focus {
@@ -130,7 +139,7 @@ const ContainerSearch = styled.div`
   padding-bottom: 15px;
   padding-left: 15px;
   padding-right: 15px;
-  border-bottom: 1px solid ${({ theme }) => theme.secondary2};
+  border-bottom: 1px solid ${({ theme }) => theme.lightGray};
 `
 
 const ContainerTokenInfo = styled(Col)`
@@ -233,7 +242,7 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
                       {assets[_nativeSymbol].find(({ miniImage, image }) => !miniImage || !image) ? (
                         <StyledSpinner animation="border" />
                       ) : (
-                        <ArrowImage src={`../assets/png/arrow-${show[_index] ? 'up' : 'down'}.png`} />
+                        <Arrow icon={`arrow-${show[_index] ? 'up' : 'down'}`} />
                       )}
                     </Col>
                   </StyledRow>

@@ -8,7 +8,6 @@ import history from './utils/history'
 import ReactGA from 'react-ga'
 import queryString from 'query-string'
 import { connect } from 'react-redux'
-import { getValidators } from './store/pNetwork/pnetwork.actions'
 import Notifications from './components/molecules/notifications/Notifications'
 import { loadSwapData } from './store/swap/swap.actions'
 import { selectPage } from './store/pages/pages.actions'
@@ -28,16 +27,14 @@ const mapStateToProps = _state => {
 
 const mapDispatchToProps = _dispatch => {
   return {
-    getValidators: () => _dispatch(getValidators()),
     loadSwapData: () => _dispatch(loadSwapData()),
     selectPage: _page => _dispatch(selectPage(_page))
   }
 }
 
-const App = ({ getValidators, loadSwapData, selectPage, loading }) => {
+const App = ({ loadSwapData, selectPage, loading }) => {
   useEffect(() => {
     ReactGA.pageview(window.location.pathname)
-    getValidators()
     const page = history.location.pathname.split('/')[1]
     selectPage(page)
     const { withTestnetInstances, iamthomas } = queryString.parse(window.location.search)
@@ -84,7 +81,6 @@ const App = ({ getValidators, loadSwapData, selectPage, loading }) => {
 
 App.propTypes = {
   loading: PropTypes.object,
-  getValidators: PropTypes.func,
   loadSwapData: PropTypes.func,
   selectPage: PropTypes.func,
   loadNftsData: PropTypes.func

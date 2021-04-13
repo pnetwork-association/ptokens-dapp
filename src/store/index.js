@@ -3,7 +3,6 @@ import { middleware } from '../middleware'
 import thunk from 'redux-thunk'
 import { combineReducers } from 'redux'
 import { reducer as toastrReducer } from 'react-redux-toastr'
-import pNetworkReducer from './pNetwork/pnetwork.reducer'
 import walletsReducer from './wallets/wallets.reducer'
 import swapReducer from './swap/swap.reducer'
 import pagesReducer from './pages/pages.reducer'
@@ -11,7 +10,6 @@ import nftsReducer from './nfts/nfts.reducer'
 
 const rootReducer = combineReducers({
   wallets: walletsReducer,
-  pNetwork: pNetworkReducer,
   swap: swapReducer,
   pages: pagesReducer,
   nfts: nftsReducer,

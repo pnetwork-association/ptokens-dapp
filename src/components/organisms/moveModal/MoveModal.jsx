@@ -13,6 +13,7 @@ const StyledBody = styled(Modal.Body)`
   padding-top: 0;
   padding-right: 0;
   padding-bottom: 0;
+  background: ${({ theme }) => theme.bg1};
 `
 
 const ContainerRow = styled.div`
@@ -64,6 +65,8 @@ const StyledHeader = styled(Modal.Header)`
   color: ${({ theme }) => theme.text1};
   font-size: 1.5rem;
   padding: 25px 15px 25px 15px;
+  background: ${({ theme }) => theme.bg1};
+  border-bottom: 1px solid ${({ theme }) => theme.lightGray};
 `
 
 const ContainerAddressInputAndButton = styled.div`

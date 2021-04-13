@@ -21,6 +21,7 @@
     "prop-types": "^15.7.2",
     "qrcode.react": "^1.0.0",
     "query-string": "^6.11.1",
+    "raw-loader": "^4.0.2",
     "react": "^16.9.0",
     "react-bootstrap": "^1.5.0",
     "react-dom": "^16.9.0",

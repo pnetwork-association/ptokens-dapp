@@ -11,6 +11,7 @@ import SwapInfo from '../../organisms/swapInfo/SwapInfo'
 import InfoModal from '../../organisms/infoModal/InfoModal'
 import defaultAssets from '../../../settings/swap-assets'
 import { useAssets } from '../../../hooks/use-assets'
+import Icon from '../../atoms/icon/Icon'
 
 const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -28,7 +29,7 @@ const ContainerSwap = styled.div`
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
   border: 0;
   border-radius: 20px;
-  background: ${({ theme }) => theme.secondary5};
+  background: ${({ theme }) => theme.secondary3};
   height: 100%;
   padding: 15px;
   width: 460px;
@@ -40,16 +41,19 @@ const ContainerSwap = styled.div`
   }
 `
 
-const DescendantImageContainer = styled.div`
+const ArrowContainer = styled.div`
   margin-top: 15px;
   margin-bottom: 15px;
   text-align: center;
   cursor: pointer;
 `
 
-const DescendantImage = styled.img`
-  width: 18px;
-  height: 18px;
+const Arrow = styled(Icon)`
+  width: 14px;
+  height: 14px;
+  svg {
+    fill: ${({ theme }) => theme.primary1};
+  }
 `
 
 const ContainerSwapButton = styled.div`
@@ -147,9 +151,9 @@ const Swap = ({
                 onClickImage={() => setShowModalFrom(true)}
                 onMax={onFromMax}
               />
-              <DescendantImageContainer>
-                <DescendantImage src="../assets/png/descendant.png" onClick={onChangeOrder} />
-              </DescendantImageContainer>
+              <ArrowContainer>
+                <Arrow icon="arrow-down2" onClick={onChangeOrder} />
+              </ArrowContainer>
               <SwapLine
                 defaultImage="../assets/svg/pBTC.svg"
                 defaultMiniImage="../assets/svg/ETH.svg"
