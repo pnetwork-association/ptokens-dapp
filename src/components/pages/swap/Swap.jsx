@@ -47,9 +47,9 @@ const ArrowContainer = styled.div`
   cursor: pointer;
 `
 
-const Arrow = styled(Icon)`
-  width: 14px;
-  height: 14px;
+const SortIcon = styled(Icon)`
+  width: 16px;
+  height: 16px;
   svg {
     fill: ${({ theme }) => theme.primary1};
   }
@@ -148,7 +148,7 @@ const Swap = ({
                 onMax={onFromMax}
               />
               <ArrowContainer>
-                <Arrow icon="arrow-down2" onClick={onChangeOrder} />
+                <SortIcon icon="sort" onClick={onChangeOrder} />
               </ArrowContainer>
               <SwapLine
                 defaultImage="../assets/svg/pBTC.svg"
