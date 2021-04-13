@@ -15,7 +15,7 @@ const ContainerTitle = styled(Col)`
   font-size: 32px;
 `
 
-const ContainerConnectButton = styled.div`
+const ContainerCenter = styled.div`
   width: 750px;
   height: 70px;
   position: absolute;
@@ -25,14 +25,17 @@ const ContainerConnectButton = styled.div`
   right: 0;
   text-align: center;
   margin: auto;
+  @media (max-width: 767.98px) {
+    width: 100%;
+  }
 `
 
-const ContainerConnectText = styled.div`
+const ContainerCenterText = styled.div`
   font-size: 34px;
   color: ${({ theme }) => theme.text2};
 `
 
-const Nfts = ({ nfts, wallets, move }) => {
+const Nfts = ({ nfts, wallets, move, loading: { isLoading } }) => {
   const { isConnected } = useWallets(wallets)
 
   return isConnected ? (
@@ -51,20 +54,25 @@ const Nfts = ({ nfts, wallets, move }) => {
               ))}
             </Row>
           </React.Fragment>
+        ) : !isLoading ? (
+          <ContainerCenter>
+            <ContainerCenterText>It seems you don't own any NFTs supported by pNetwork ...</ContainerCenterText>{' '}
+          </ContainerCenter>
         ) : null}
       </Container>
     </React.Fragment>
   ) : (
-    <ContainerConnectButton>
-      <ContainerConnectText>Connect your wallet to see your NFTs ...</ContainerConnectText>{' '}
-    </ContainerConnectButton>
+    <ContainerCenter>
+      <ContainerCenterText>Connect your wallet to see your NFTs ...</ContainerCenterText>{' '}
+    </ContainerCenter>
   )
 }
 
 Nfts.propTypes = {
   nfts: PropTypes.array.isRequired,
   wallets: PropTypes.object.isRequired,
-  move: PropTypes.func.isRequired
+  move: PropTypes.func.isRequired,
+  loading: PropTypes.object.isRequired
 }
 
 export default Nfts
