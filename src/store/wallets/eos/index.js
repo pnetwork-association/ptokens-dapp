@@ -1,27 +1,29 @@
 import settings from '../../../settings'
 import { WALLET_EOS_CONNECTED } from '../../../constants'
 import EosConnect from '../../../lib/eosConnect/'
+import { getWeb3ModalTheme } from '../../../theme/web3-modal'
+import { getTheme } from '../../pages/pages.selectors'
 
-let eosConnect = null
 const connectWithEosWallet = _dispatch => {
-  const configs = {
-    dappName: settings.dappName,
-    scatter: {
-      settings: settings.rpc.mainnet.eos
-    },
-    tokenPocket: {
-      settings: settings.rpc.mainnet.eos
-    },
-    anchor: {
-      settings: settings.rpc.mainnet.eos
-    }
+  if (document.getElementById('EOS_CONNECT')) {
+    document.getElementById('EOS_CONNECT').remove()
   }
 
-  if (!eosConnect) {
-    eosConnect = new EosConnect(configs)
-  } else {
-    eosConnect.setConfigs(configs)
-  }
+  const eosConnect = new EosConnect({
+    dappName: settings.dappName,
+    theme: getWeb3ModalTheme(getTheme()),
+    providerOptions: {
+      scatter: {
+        settings: settings.rpc.mainnet.eos
+      },
+      tokenPocket: {
+        settings: settings.rpc.mainnet.eos
+      },
+      anchor: {
+        settings: settings.rpc.mainnet.eos
+      }
+    }
+  })
 
   eosConnect.on('connect', ({ provider, account }) => {
     _dispatch({

@@ -25,11 +25,12 @@ class EosConnect extends EventEmitter {
 
   constructor(_configs) {
     super()
+    this.themeColors = _configs.theme && _configs.theme !== 'light' ? _configs.theme : THEME_COLORS
     this.setConfigs(_configs)
     this.renderModal()
   }
 
-  setConfigs = ({ dappName, scatter, tokenPocket, anchor }) => {
+  setConfigs = ({ dappName, providerOptions: { scatter, tokenPocket, anchor } }) => {
     this.userOptions = []
     if (scatter) {
       this.scatterProvider = new ScatterProvider({
@@ -41,7 +42,7 @@ class EosConnect extends EventEmitter {
         name: 'Scatter',
         logo: '../assets/svg/scatter.svg',
         description: 'Scatter Wallet',
-        themeColors: THEME_COLORS,
+        themeColors: this.themeColors,
         onClick: () => this.handleClick(this.scatterProvider)
       })
     }
@@ -55,7 +56,7 @@ class EosConnect extends EventEmitter {
         name: 'Anchor',
         logo: '../assets/svg/anchor.svg',
         description: 'Anchor Wallet',
-        themeColors: THEME_COLORS,
+        themeColors: this.themeColors,
         onClick: () => this.handleClick(this.anchorProvider)
       })
     }
@@ -71,7 +72,7 @@ class EosConnect extends EventEmitter {
         name: 'Token Pocket',
         logo: '../assets/png/token-pocket.png',
         description: 'Token Pocket Wallet',
-        themeColors: THEME_COLORS,
+        themeColors: this.themeColors,
         onClick: () => this.handleClick(this.tokenPocketProvider)
       })
     }
@@ -79,10 +80,10 @@ class EosConnect extends EventEmitter {
   }
 
   renderModal = async () => {
-    let el = document.getElementById('eos-connect')
+    let el = document.getElementById('EOS_CONNECT')
     if (!el) {
       el = document.createElement('div')
-      el.id = 'eos-connect'
+      el.id = 'EOS_CONNECT'
       document.body.appendChild(el)
     }
 
@@ -94,7 +95,7 @@ class EosConnect extends EventEmitter {
         resetState={this.resetState}
         lightboxOpacity={this.lightboxOpacity}
       />,
-      document.getElementById('eos-connect')
+      document.getElementById('EOS_CONNECT')
     )
   }
 

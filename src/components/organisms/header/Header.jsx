@@ -49,7 +49,7 @@ const StyledIcon = styled(Icon)`
 `
 
 const Connected = styled.div`
-  background: '#66b8ff40;
+  background: #66b8ff40;
   height: 35px;
   border-radius: 50%;
   width: 35px;

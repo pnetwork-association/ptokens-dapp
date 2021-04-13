@@ -21,11 +21,14 @@ const setLoading = ({ isLoading, text }) => ({
   }
 })
 
-const setTheme = _theme => ({
-  type: SET_THEME,
-  payload: {
-    theme: _theme
+const setTheme = _theme => {
+  window.localStorage.setItem('THEME', _theme)
+  return {
+    type: SET_THEME,
+    payload: {
+      theme: _theme
+    }
   }
-})
+}
 
 export { selectPage, setLoading, setTheme }

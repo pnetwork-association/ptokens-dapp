@@ -10,7 +10,7 @@ import queryString from 'query-string'
 import { connect } from 'react-redux'
 import Notifications from './components/molecules/notifications/Notifications'
 import { loadSwapData } from './store/swap/swap.actions'
-import { selectPage } from './store/pages/pages.actions'
+import { selectPage, setTheme } from './store/pages/pages.actions'
 import NftsController from './components/pages/nfts/NftsController'
 import Loader from './components/atoms/loader/Loader'
 
@@ -28,12 +28,15 @@ const mapStateToProps = _state => {
 const mapDispatchToProps = _dispatch => {
   return {
     loadSwapData: () => _dispatch(loadSwapData()),
-    selectPage: _page => _dispatch(selectPage(_page))
+    selectPage: _page => _dispatch(selectPage(_page)),
+    setTheme: _theme => _dispatch(setTheme(_theme))
   }
 }
 
-const App = ({ loadSwapData, selectPage, loading }) => {
+const App = ({ loading, setTheme, loadSwapData, selectPage }) => {
   useEffect(() => {
+    const theme = window.localStorage.getItem('THEME')
+    setTheme(theme)
     ReactGA.pageview(window.location.pathname)
     const page = history.location.pathname.split('/')[1]
     selectPage(page)
@@ -83,6 +86,7 @@ App.propTypes = {
   loading: PropTypes.object,
   loadSwapData: PropTypes.func,
   selectPage: PropTypes.func,
+  setTheme: PropTypes.func,
   loadNftsData: PropTypes.func
 }
 

@@ -94,7 +94,7 @@ export default class Modal extends React.Component {
     }
   }
   static propTypes = {
-    userOptions: PropTypes.object.isRequired,
+    userOptions: PropTypes.array.isRequired,
     onClose: PropTypes.func.isRequired,
     resetState: PropTypes.func.isRequired,
     lightboxOpacity: PropTypes.number.isRequired
@@ -146,6 +146,7 @@ export default class Modal extends React.Component {
               {userOptions.map(provider =>
                 !!provider ? (
                   <Provider
+                    key={provider.name}
                     name={provider.name}
                     logo={provider.logo}
                     description={provider.description}

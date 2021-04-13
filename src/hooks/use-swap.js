@@ -35,7 +35,7 @@ const useSwap = ({
   const onChangeToAmount = useCallback(
     _amount => {
       setToAmount(_amount)
-      setFromAmount(_amount !== '' ? (_amount * fee).toString() : _amount.toString())
+      setFromAmount(_amount !== '' ? (_amount / fee).toString() : _amount.toString())
     },
     [fee, setToAmount, setFromAmount]
   )
@@ -55,7 +55,7 @@ const useSwap = ({
   const onToMax = useCallback(() => {
     const amount = to.balance
     setFromAmount(amount)
-    setToAmount(amount !== '' ? (amount * fee).toString() : amount.toString())
+    setToAmount(amount !== '' ? (amount / fee).toString() : amount.toString())
   }, [fee, setToAmount, to])
 
   const onSwap = useCallback(() => {

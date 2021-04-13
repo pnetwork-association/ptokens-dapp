@@ -4,6 +4,8 @@ import { WALLET_BSC_CONNECTED, WALLET_BSC_ACCOUNT_CHANGED } from '../../../const
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import settings from '../../../settings'
 import { setupNetwork } from '../../../utils/wallet'
+import { getWeb3ModalTheme } from '../../../theme/web3-modal'
+import { getTheme } from '../../pages/pages.selectors'
 
 const connectWithBscWallet = async _dispatch => {
   try {
@@ -12,6 +14,7 @@ const connectWithBscWallet = async _dispatch => {
     }
 
     const web3Modal = new Web3Modal({
+      theme: getWeb3ModalTheme(getTheme()),
       providerOptions: {
         walletconnect: {
           package: WalletConnectProvider,

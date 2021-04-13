@@ -6,6 +6,8 @@ import Fortmatic from 'fortmatic'
 import settings from '../../../settings'
 import { toastr } from 'react-redux-toastr'
 import { WALLET_ETH_CONNECTED, WALLET_ETH_NETWORK_CHANGED, WALLET_ETH_ACCOUNT_CHANGED } from '../../../constants'
+import { getWeb3ModalTheme } from '../../../theme/web3-modal'
+import { getTheme } from '../../pages/pages.selectors'
 
 const connectWithEthWallet = async _dispatch => {
   try {
@@ -14,6 +16,7 @@ const connectWithEthWallet = async _dispatch => {
     }
 
     const web3Modal = new Web3Modal({
+      theme: getWeb3ModalTheme(getTheme()),
       providerOptions: {
         walletconnect: {
           package: WalletConnectProvider,

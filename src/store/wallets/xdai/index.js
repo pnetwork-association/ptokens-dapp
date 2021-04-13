@@ -3,6 +3,8 @@ import Web3Modal from 'web3modal'
 import { WALLET_XDAI_CONNECTED, WALLET_XDAI_ACCOUNT_CHANGED } from '../../../constants'
 import { setupNetwork } from '../../../utils/wallet'
 import settings from '../../../settings'
+import { getWeb3ModalTheme } from '../../../theme/web3-modal'
+import { getTheme } from '../../pages/pages.selectors'
 
 const connectWithXdaiWallet = async _dispatch => {
   try {
@@ -10,17 +12,13 @@ const connectWithXdaiWallet = async _dispatch => {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
     }
 
-    const web3Modal = new Web3Modal({})
+    const web3Modal = new Web3Modal({
+      theme: getWeb3ModalTheme(getTheme())
+    })
     const provider = await web3Modal.connect()
     _connectionSuccesfull(provider, _dispatch, {
       type: 'multiWallet'
     })
-
-    /*provider.on('chainChanged', _chainId => {
-      if (Number(_chainId) !== 100) {
-        toastr.error('Invalid xDai Network. Please use chainId = 100')
-      }
-    })*/
 
     provider.on('accountsChanged', _accounts => {
       _dispatch({

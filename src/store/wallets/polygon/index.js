@@ -3,6 +3,8 @@ import Web3Modal from 'web3modal'
 import { WALLET_POLYGON_CONNECTED, WALLET_POLYGON_ACCOUNT_CHANGED } from '../../../constants'
 import { setupNetwork } from '../../../utils/wallet'
 import settings from '../../../settings'
+import { getWeb3ModalTheme } from '../../../theme/web3-modal'
+import { getTheme } from '../../pages/pages.selectors'
 
 const connectWithPolygonWallet = async _dispatch => {
   try {
@@ -10,18 +12,14 @@ const connectWithPolygonWallet = async _dispatch => {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
     }
 
-    const web3Modal = new Web3Modal({})
+    const web3Modal = new Web3Modal({
+      theme: getWeb3ModalTheme(getTheme())
+    })
 
     const provider = await web3Modal.connect()
     _connectionSuccesfull(provider, _dispatch, {
       type: 'multiWallet'
     })
-
-    /*provider.on('chainChanged', _chainId => {
-      if (Number(_chainId) !== 137) {
-        toastr.error('Invalid Polygon Network. Please use chainId = 137')
-      }
-    })*/
 
     provider.on('accountsChanged', _accounts => {
       _dispatch({
