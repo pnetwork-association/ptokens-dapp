@@ -224,7 +224,6 @@ const useSwap = ({
       }
 
       if (swapType === 'pegin' && !isValidAccount(to.id, address, 'pegout')) {
-        console.log(address)
         updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
         return
       }
@@ -254,7 +253,6 @@ const useSwap = ({
     }
 
     if (swapType === 'pegin' && !isValidAccount(to.id, address, 'pegout')) {
-      console.log(address)
       updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
       return
     }

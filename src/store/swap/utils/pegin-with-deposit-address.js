@@ -20,7 +20,6 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
   try {
     depositAddress = await ptokens[ptoken.workingName].getDepositAddress(address)
   } catch (_err) {
-    console.log(_err)
     dispatch(resetProgress())
     return
   }

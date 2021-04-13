@@ -151,8 +151,6 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
   const [assets] = useGroupedAssetsByNativeSymbol(filteredAssets)
   const [show, setShow] = useState([])
 
-  console.log(assets)
-
   const [stillLoading] = useMemo(() => {
     const nativeSymbols = Object.keys(assets)
     const loadedAssets = nativeSymbols.filter(_nativeSymbol =>
@@ -253,7 +251,6 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
                             image,
                             miniImage
                           } = _asset
-                          console.log(formattedName)
                           return (
                             <ContainerInnerRow key={`${name}-on-${blockchain}-${network}`}>
                               <StyledInnerRow onClick={() => onSelectAsset(_asset)}>
