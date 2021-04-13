@@ -104,21 +104,20 @@ const loadSwapData = ({ withTestnetInstance = false, pTokenDefault }) => {
 const getDefaultSelection = (_assets, _pTokenDefault) => {
   const nativeSymbolDefault = _pTokenDefault ? _pTokenDefault.split('-')[0].toLowerCase() : 'none'
 
+  const btc = _assets.find(({ symbol }) => symbol === 'BTC')
+  const pbtc = _assets.find(({ symbol }) => symbol === 'PBTC')
+  const assetFrom = _assets.find(
+    ({ symbol, isPtoken }) =>
+      (nativeSymbolDefault === symbol.toLowerCase() || nativeSymbolDefault.slice(1) === symbol.toLowerCase()) &&
+      !isPtoken
+  )
+  const assetTo = _assets.find(({ workingName, blockchain }) =>
+    _pTokenDefault ? _pTokenDefault.toLowerCase() === `${workingName}-on-${blockchain.toLowerCase()}` : null
+  )
+
   // NOTE: handle token with p and without p as first letter
-  const pTokenDefaultFrom = Object.assign(
-    {},
-    _assets.find(
-      ({ symbol, isPtoken }) =>
-        (nativeSymbolDefault === symbol.toLowerCase() || nativeSymbolDefault.slice(1) === symbol.toLowerCase()) &&
-        !isPtoken
-    )
-  )
-  const pTokenDefaultTo = Object.assign(
-    {},
-    _assets.find(({ workingName, blockchain }) =>
-      _pTokenDefault ? _pTokenDefault.toLowerCase() === `${workingName}-on-${blockchain.toLowerCase()}` : null
-    )
-  )
+  const pTokenDefaultFrom = Object.assign({}, assetFrom ? assetFrom : btc)
+  const pTokenDefaultTo = Object.assign({}, assetTo ? assetTo : pbtc)
 
   if (pTokenDefaultFrom && pTokenDefaultTo) {
     pTokenDefaultFrom.defaultFrom = true
@@ -128,8 +127,8 @@ const getDefaultSelection = (_assets, _pTokenDefault) => {
   }
 
   return {
-    from: pTokenDefaultFrom ? pTokenDefaultFrom : _assets.find(({ symbol }) => symbol === 'BTC'),
-    to: pTokenDefaultTo ? pTokenDefaultTo : _assets.find(({ symbol }) => symbol === 'PBTC')
+    from: pTokenDefaultFrom,
+    to: pTokenDefaultTo
   }
 }
 

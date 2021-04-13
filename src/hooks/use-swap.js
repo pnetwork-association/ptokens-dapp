@@ -131,7 +131,7 @@ const useSwap = ({
         return [false]
       }
 
-      if (to.symbol !== from.symbol && !to.isSpecial) {
+      if (to.symbol !== from.symbol && to.isSpecial) {
         return [false]
       }
 
