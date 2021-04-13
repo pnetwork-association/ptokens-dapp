@@ -1,11 +1,12 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react'
-import { Col, Modal, Row, Spinner } from 'react-bootstrap'
+import { Col, Row, Spinner } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { useGroupedAssetsByNativeSymbol } from '../../../hooks/use-grouped-assets'
 import { getAssetFromSymbol } from '../../../utils/maps'
 import { useSearchAssets } from '../../../hooks/use-search-assets'
 import Icon from '../../atoms/icon/Icon'
+import Modal from '../../molecules/modal/Modal'
 
 const OuterTokenIcon = styled.img`
   position: relative;
@@ -60,15 +61,6 @@ const ContainerInnerRow = styled.div`
   }
 `
 
-const StyledBody = styled(Modal.Body)`
-  color: ${({ theme }) => theme.secondary1};
-  font-size: 18px;
-  padding-left: 0;
-  padding-top: 0;
-  padding-right: 0;
-  background: ${({ theme }) => theme.bg1};
-`
-
 const ContainerAssets = styled.div`
   height: 700px;
   max-height: 700px;
@@ -82,16 +74,6 @@ const StyledRow = styled(Row)`
 const StyledInnerRow = styled(Row)`
   cursor: pointer;
   font-size: 16px;
-`
-
-const StyledHeader = styled(Modal.Header)`
-  border-bottom: 0;
-  background: ${({ theme }) => theme.bg1};
-  border-top: 20px;
-`
-
-const StyledModalTitle = styled(Modal.Title)`
-  color: ${({ theme }) => theme.secondary1};
 `
 
 const Arrow = styled(Icon)`
@@ -189,7 +171,7 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
     [show]
   )
 
-  const onHide = useCallback(() => {
+  const onCloseModal = useCallback(() => {
     setSearchWord('')
     setShow(show.map(() => false))
     onClose()
@@ -215,78 +197,80 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
   )
 
   return (
-    <Modal show={showModal} aria-labelledby="contained-modal-title-vcenter" centered onHide={onHide}>
-      <StyledHeader closeButton>
-        <StyledModalTitle>{title}</StyledModalTitle>
-      </StyledHeader>
-      <StyledBody>
-        <ContainerSearch>
-          <Search placeholder="Search or paste an address ..." onChange={_e => setSearchWord(_e.target.value)} />
-        </ContainerSearch>
-        <ContainerAssets>
-          {Object.keys(assets).map((_nativeSymbol, _index) => {
-            return (
-              <React.Fragment key={_index}>
-                <ContainerRow>
-                  <StyledRow onClick={() => onShowLine(_nativeSymbol, _index)}>
-                    <ContainerTokenInfo xs={8}>
-                      <OuterTokenIcon src={`../assets/svg/${_nativeSymbol}.svg`} />
-                      <ContainerTokenNameAndSymbol>
-                        <AssetSymbol>{_nativeSymbol}</AssetSymbol>
-                        <AssetName>
-                          {_assets.length > 0 ? getAssetFromSymbol(defaultAssets, _nativeSymbol).name : ''}
-                        </AssetName>
-                      </ContainerTokenNameAndSymbol>
-                    </ContainerTokenInfo>
-                    <Col xs={4} className="my-auto text-right">
-                      {assets[_nativeSymbol].find(({ miniImage, image }) => !miniImage || !image) ? (
-                        <StyledSpinner animation="border" />
-                      ) : (
-                        <Arrow icon={`arrow-${show[_index] ? 'up' : 'down'}`} />
-                      )}
-                    </Col>
-                  </StyledRow>
-                </ContainerRow>
-                {show[_index] ? (
-                  <React.Fragment>
-                    {assets[_nativeSymbol]
-                      .sort((_a, _b) => (_a.formattedName > _b.formattedName ? 1 : -1))
-                      .map(_asset => {
-                        const {
-                          name,
-                          blockchain,
-                          network,
-                          formattedBalance,
-                          formattedName,
-                          withMiniImage,
-                          image,
-                          miniImage
-                        } = _asset
-                        return (
-                          <ContainerInnerRow key={`${name}-on-${blockchain}-${network}`}>
-                            <StyledInnerRow onClick={() => onSelectAsset(_asset)}>
-                              <Col xs={2} className="my-auto">
-                                <InnerTokenIcon src={image} />
-                                {withMiniImage ? <Minicon src={miniImage} /> : null}
-                              </Col>
-                              <Col xs={8} className="text-center my-auto">
-                                <FormattedName>{formattedName}</FormattedName>
-                              </Col>
-                              <Col xs={2} className="my-auto text-right pl-0">
-                                {formattedBalance}
-                              </Col>
-                            </StyledInnerRow>
-                          </ContainerInnerRow>
-                        )
-                      })}{' '}
-                  </React.Fragment>
-                ) : null}
-              </React.Fragment>
-            )
-          })}
-        </ContainerAssets>
-      </StyledBody>
-    </Modal>
+    <Modal
+      show={showModal}
+      onClose={onCloseModal}
+      title={title}
+      body={
+        <React.Fragment>
+          <ContainerSearch>
+            <Search placeholder="Search or paste an address ..." onChange={_e => setSearchWord(_e.target.value)} />
+          </ContainerSearch>
+          <ContainerAssets>
+            {Object.keys(assets).map((_nativeSymbol, _index) => {
+              return (
+                <React.Fragment key={_index}>
+                  <ContainerRow>
+                    <StyledRow onClick={() => onShowLine(_nativeSymbol, _index)}>
+                      <ContainerTokenInfo xs={8}>
+                        <OuterTokenIcon src={`../assets/svg/${_nativeSymbol}.svg`} />
+                        <ContainerTokenNameAndSymbol>
+                          <AssetSymbol>{_nativeSymbol}</AssetSymbol>
+                          <AssetName>
+                            {_assets.length > 0 ? getAssetFromSymbol(defaultAssets, _nativeSymbol).name : ''}
+                          </AssetName>
+                        </ContainerTokenNameAndSymbol>
+                      </ContainerTokenInfo>
+                      <Col xs={4} className="my-auto text-right">
+                        {assets[_nativeSymbol].find(({ miniImage, image }) => !miniImage || !image) ? (
+                          <StyledSpinner animation="border" />
+                        ) : (
+                          <Arrow icon={`arrow-${show[_index] ? 'up' : 'down'}`} />
+                        )}
+                      </Col>
+                    </StyledRow>
+                  </ContainerRow>
+                  {show[_index] ? (
+                    <React.Fragment>
+                      {assets[_nativeSymbol]
+                        .sort((_a, _b) => (_a.formattedName > _b.formattedName ? 1 : -1))
+                        .map(_asset => {
+                          const {
+                            name,
+                            blockchain,
+                            network,
+                            formattedBalance,
+                            formattedName,
+                            withMiniImage,
+                            image,
+                            miniImage
+                          } = _asset
+                          return (
+                            <ContainerInnerRow key={`${name}-on-${blockchain}-${network}`}>
+                              <StyledInnerRow onClick={() => onSelectAsset(_asset)}>
+                                <Col xs={2} className="my-auto">
+                                  <InnerTokenIcon src={image} />
+                                  {withMiniImage ? <Minicon src={miniImage} /> : null}
+                                </Col>
+                                <Col xs={8} className="text-center my-auto">
+                                  <FormattedName>{formattedName}</FormattedName>
+                                </Col>
+                                <Col xs={2} className="my-auto text-right pl-0">
+                                  {formattedBalance}
+                                </Col>
+                              </StyledInnerRow>
+                            </ContainerInnerRow>
+                          )
+                        })}{' '}
+                    </React.Fragment>
+                  ) : null}
+                </React.Fragment>
+              )
+            })}
+          </ContainerAssets>
+        </React.Fragment>
+      }
+    />
   )
 }
 

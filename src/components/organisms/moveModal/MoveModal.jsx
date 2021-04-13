@@ -1,20 +1,10 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import { Modal, Row, Col } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import ReactTooltip from 'react-tooltip'
 import settings from '../../../settings'
 import { isValidAccountByBlockchain } from '../../../utils/account-validator'
-
-const StyledBody = styled(Modal.Body)`
-  color: ${({ theme }) => theme.text1};
-  font-size: 18px;
-  padding-left: 0;
-  padding-top: 0;
-  padding-right: 0;
-  padding-bottom: 0;
-  background: ${({ theme }) => theme.bg1};
-`
+import Modal from '../../molecules/modal/Modal'
 
 const ContainerRow = styled.div`
   padding-top: 10px;
@@ -59,14 +49,6 @@ const RightArrow = styled.img`
   width: 16px;
   height: 16px;
   cursor: pointer;
-`
-
-const StyledHeader = styled(Modal.Header)`
-  color: ${({ theme }) => theme.text1};
-  font-size: 1.5rem;
-  padding: 25px 15px 25px 15px;
-  background: ${({ theme }) => theme.bg1};
-  border-bottom: 1px solid ${({ theme }) => theme.lightGray};
 `
 
 const ContainerAddressInputAndButton = styled.div`
@@ -142,7 +124,7 @@ const ModeModal = ({ currentBlockchain, show, onClose, onMove }) => {
 
   const isValidAccount = useMemo(() => isValidAccountByBlockchain(address, blockchain), [address, blockchain])
 
-  const onHide = useCallback(() => {
+  const onCloseModal = useCallback(() => {
     setBlockchain(null)
     setAddress(null)
     setStep(0)
@@ -150,10 +132,12 @@ const ModeModal = ({ currentBlockchain, show, onClose, onMove }) => {
   }, [setBlockchain, setAddress, setStep, onClose])
 
   return (
-    <Modal show={show} aria-labelledby="contained-modal-blockchain-selection" centered onHide={onHide}>
-      <StyledHeader closeButton>{step === 0 ? 'Select the blockchain' : 'Finalize'}</StyledHeader>
-      <StyledBody>
-        {step === 0 ? (
+    <Modal
+      show={show}
+      onClose={onCloseModal}
+      title={step === 0 ? 'Select the blockchain' : 'Finalize'}
+      body={
+        step === 0 ? (
           settings.supportedBlockchains
             .filter(({ symbol }) => symbol !== currentBlockchain)
             .map(({ name, symbol }) => (
@@ -178,10 +162,9 @@ const ModeModal = ({ currentBlockchain, show, onClose, onMove }) => {
               MOVE{' '}
             </MoveButton>
           </ContainerAddressInputAndButton>
-        )}
-      </StyledBody>
-      <ReactTooltip />
-    </Modal>
+        )
+      }
+    />
   )
 }
 

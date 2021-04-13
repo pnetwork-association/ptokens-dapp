@@ -1,20 +1,7 @@
 import React from 'react'
-import { Modal } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import ReactTooltip from 'react-tooltip'
-
-const StyledBody = styled(Modal.Body)`
-  color: ${({ theme }) => theme.text1};
-  font-size: 18px;
-  padding-left: 0;
-  padding-right: 0;
-  text-align: center;
-`
-
-const StyledHeader = styled(Modal.Header)`
-  border-bottom: 0px;
-`
+import Modal from '../../molecules/modal/Modal'
 
 const Message = styled.div`
   margin-top: 30px;
@@ -31,14 +18,18 @@ const SuccessImage = styled.img`
 
 const InfoModal = ({ show, message, image, onClose }) => {
   return (
-    <Modal show={show} aria-labelledby="contained-modal-success" centered onHide={onClose}>
-      <StyledHeader closeButton></StyledHeader>
-      <StyledBody>
-        <SuccessImage src={`../assets/svg/${image}.svg`} />
-        <Message>{'Pegin happened successfully!'}</Message>
-      </StyledBody>
-      <ReactTooltip />
-    </Modal>
+    <Modal
+      show={show}
+      onClose={onClose}
+      title={''}
+      body={
+        <React.Fragment>
+          {' '}
+          <SuccessImage src={`../assets/svg/${image}.svg`} />
+          <Message>{'Pegin happened successfully!'}</Message>
+        </React.Fragment>
+      }
+    />
   )
 }
 

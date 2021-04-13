@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Navbar, Nav } from 'react-bootstrap'
-import Walletinfo from '../walletInfo/WalletInfo'
+import Walletinfo from '../walletInfoModal/WalletInfoModal'
 import { useWallets } from '../../../hooks/use-wallets'
 import Icon from '../../atoms/icon/Icon'
 
