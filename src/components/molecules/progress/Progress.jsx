@@ -22,7 +22,7 @@ const IndexedStep = styled.div`
   width: 20px;
   height: 20px;
   font-size: 12px;
-  background-color: ${({ accomplished }) => (accomplished ? '#66b8ff' : 'rgba(211, 211, 211, 0.8)')};
+  background-color: ${({ accomplished, theme }) => (accomplished ? theme.blue : 'rgba(211, 211, 211, 0.8)')};
   border-radius: 50%;
   display: flex;
   justify-content: center;

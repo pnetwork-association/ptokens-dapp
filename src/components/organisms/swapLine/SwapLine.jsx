@@ -101,7 +101,7 @@ const MaxButton = styled.button`
   margin-left: 15px;
   border-radius: 5px;
   border: 0;
-  color: #66b8ff;
+  color: ${({ theme }) => theme.blue};
   background: #66b8ff40;
   font-size: 12px;
   padding-left: 10px;

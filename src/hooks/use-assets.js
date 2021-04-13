@@ -42,7 +42,7 @@ const updateAsset = _asset => ({
   formattedName: _asset.isBlockchainTokenNative
     ? _asset.symbol
     : _asset.isPtoken
-    ? `on ${blockchainSymbolToName[_asset.blockchain]}`
+    ? `on ${blockchainSymbolToName[_asset.blockchain].toUpperCase()}`
     : _asset.symbol,
   image: `../assets/svg/${_asset.image}`,
   miniImage: `../assets/svg/${_asset.blockchain}.svg`

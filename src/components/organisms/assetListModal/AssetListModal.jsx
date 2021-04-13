@@ -98,7 +98,6 @@ const AssetName = styled.div`
 
 const FormattedName = styled.span`
   font-size: 13px;
-  text-transform: uppercase;
 `
 
 const Search = styled.input`
@@ -113,7 +112,7 @@ const Search = styled.input`
   color: ${({ theme }) => theme.secondary1};
   font-size: 18px;
   &:focus {
-    border: 1px solid #66b8ff;
+    border: 1px solid ${({ theme }) => theme.blue};
   }
 `
 
@@ -137,7 +136,7 @@ const ContainerTokenNameAndSymbol = styled.div`
 const StyledSpinner = styled(Spinner)`
   width: 18px;
   height: 18px;
-  color: #66b8ff;
+  color: ${({ theme }) => theme.blue};
   display: inline-block;
   vertical-align: text-bottom;
   border: 0.15em solid currentColor;
@@ -254,6 +253,7 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
                             image,
                             miniImage
                           } = _asset
+                          console.log(formattedName)
                           return (
                             <ContainerInnerRow key={`${name}-on-${blockchain}-${network}`}>
                               <StyledInnerRow onClick={() => onSelectAsset(_asset)}>

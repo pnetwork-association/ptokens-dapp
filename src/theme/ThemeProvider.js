@@ -30,7 +30,8 @@ export function colors(_darkMode) {
     secondary4: _darkMode ? '#40444f' : '#eaeaea',
     secondary4Hovered: _darkMode ? '#6f768a' : '#c1bfbf',
 
-    lightGray: '#4759654d'
+    lightGray: '#4759654d',
+    blue: '#66b8ff'
   }
 }
 

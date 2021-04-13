@@ -72,8 +72,8 @@ const StyledNavLink = styled(Nav.Link)`
 `
 
 const GoToIcon = styled(Icon)`
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   position: relative;
   margin-top: -10px;
   /* margin-left: 0px; */

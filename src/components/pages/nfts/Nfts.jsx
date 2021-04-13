@@ -29,7 +29,7 @@ const ContainerConnectButton = styled.div`
 
 const ContainerConnectText = styled.div`
   font-size: 34px;
-  color: #475965ab;
+  color: ${({ theme }) => theme.text2};
 `
 
 const Nfts = ({ nfts, wallets, move }) => {

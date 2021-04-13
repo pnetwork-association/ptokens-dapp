@@ -34,7 +34,7 @@ const Account = styled.span`
 
 const ChangeOrConnectButton = styled.button`
   width: auto;
-  color: #66b8ff;
+  color: ${({ theme }) => theme.blue};
   background: #66b8ff40;
   border-radius: 3px;
   font-family: Helvetica;

@@ -13,7 +13,7 @@ const ContainerRow = styled.div`
   padding-right: 15px;
   cursor: pointer;
   &:hover {
-    ${({ theme }) => theme.bg2};
+    background: ${({ theme }) => theme.bg2};
   }
 `
 
@@ -60,18 +60,24 @@ const ContainerAddressInputAndButton = styled.div`
 
 const AddressInput = styled.input`
   border-radius: 20px;
-  border: 1px solid ${({ theme }) => theme.secondary2};
   caret-color: #32b1f5;
-  color: ${({ theme }) => theme.text1};
   width: 100%;
   outline: 0px !important;
-  -webkit-appearance: none;
   padding-left: 10px;
   padding-right: 10px;
   font-size: 24px;
   padding-top: 5px;
   padding-bottom: 5px;
   height: 70px;
+  -webkit-appearance: none;
+  box-shadow: none !important;
+  background: ${({ theme }) => theme.bg1};
+  border: 1px solid ${({ theme }) => theme.lightGray};
+  color: ${({ theme }) => theme.secondary1};
+  font-size: 18px;
+  &:focus {
+    border: 1px solid ${({ theme }) => theme.blue};
+  }
 `
 
 const AmountInput = styled(AddressInput)`
@@ -82,7 +88,7 @@ const MoveButton = styled.button`
   margin-top: 30px;
   width: 100%;
   color: white;
-  background: #ff6666;
+  background: ${({ theme }) => theme.primary1};
   border: 0;
   border-radius: 20px;
   height: 60px;
@@ -90,13 +96,13 @@ const MoveButton = styled.button`
   outline: none !important;
   box-shadow: none;
   &:disabled {
-    background: #ff666675;
+    background: ${({ theme }) => theme.primary1Transparentized};
     &:hover {
-      background: #ff666675;
+      background: ${({ theme }) => theme.primary1Transparentized};
     }
   }
   &:hover {
-    background: #d64848;
+    background: ${({ theme }) => theme.primary1Hovered};
   }
 `
 
@@ -135,7 +141,7 @@ const ModeModal = ({ currentBlockchain, show, onClose, onMove }) => {
     <Modal
       show={show}
       onClose={onCloseModal}
-      title={step === 0 ? 'Select the blockchain' : 'Finalize'}
+      title={step === 0 ? 'Select the blockchain ...' : 'Finalize ...'}
       body={
         step === 0 ? (
           settings.supportedBlockchains
@@ -159,7 +165,7 @@ const ModeModal = ({ currentBlockchain, show, onClose, onMove }) => {
             <AmountInput value={amount} onChange={e => setAmount(e.target.value)} placeholder="amount" type="number" />
             <MoveButton disabled={!isValidAccount} onClick={onClick}>
               {' '}
-              MOVE{' '}
+              Move{' '}
             </MoveButton>
           </ContainerAddressInputAndButton>
         )
