@@ -15,12 +15,15 @@ const StyledBody = styled(Modal.Body)`
   padding-left: 0px;
   padding-right: 0px;
   background: ${({ theme }) => theme.bg1};
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 `
 
 const StyledHeader = styled(Modal.Header)`
   background: ${({ theme }) => theme.bg1};
   border-bottom: 1px solid ${({ theme }) => theme.lightGray};
-
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
   span {
     color: ${({ theme }) => theme.text1};
   }
