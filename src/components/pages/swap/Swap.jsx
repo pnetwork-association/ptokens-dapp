@@ -8,7 +8,6 @@ import { useSwap } from '../../../hooks/use-swap'
 import SwapLine from '../../organisms/swapLine/SwapLine'
 import DepositAddressModal from '../../organisms/depositAddressModal/DepositAddressModal'
 import SwapInfo from '../../organisms/swapInfo/SwapInfo'
-import InfoModal from '../../organisms/infoModal/InfoModal'
 import defaultAssets from '../../../settings/swap-assets'
 import { useAssets } from '../../../hooks/use-assets'
 import Icon from '../../atoms/icon/Icon'
@@ -93,13 +92,10 @@ const Swap = ({
   progress,
   connectWithWallet,
   depositAddressModal,
-  infoModal,
   swapButton,
   updateSwapButton,
   hideDepositAddressModal,
-  swap,
-  /*resetProgress*/
-  hideInfoModal
+  swap
 }) => {
   const [assets] = useAssets(_assets)
 
@@ -205,7 +201,6 @@ const Swap = ({
         disabled={address === ''}
         value={depositAddressModal.value}
       />
-      <InfoModal show={infoModal.show} message={infoModal.message} image={infoModal.image} onClose={hideInfoModal} />
     </React.Fragment>
   )
 }
@@ -214,6 +209,7 @@ Swap.propTypes = {
   assets: PropTypes.array.isRequired,
   wallets: PropTypes.object.isRequired,
   depositAddressModal: PropTypes.object,
+  defaultSelection: PropTypes.object,
   infoModal: PropTypes.object,
   swapButton: PropTypes.object,
   progress: PropTypes.object,

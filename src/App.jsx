@@ -27,7 +27,7 @@ const mapStateToProps = _state => {
 
 const mapDispatchToProps = _dispatch => {
   return {
-    loadSwapData: () => _dispatch(loadSwapData()),
+    loadSwapData: _options => _dispatch(loadSwapData(_options)),
     selectPage: _page => _dispatch(selectPage(_page)),
     setTheme: _theme => _dispatch(setTheme(_theme))
   }
@@ -40,8 +40,8 @@ const App = ({ loading, setTheme, loadSwapData, selectPage }) => {
     ReactGA.pageview(window.location.pathname)
     const page = history.location.pathname.split('/')[1]
     selectPage(page)
-    const { withTestnetInstances, iamthomas } = queryString.parse(window.location.search)
-    loadSwapData(withTestnetInstances)
+    const { withTestnetInstances, iamthomas, pToken } = queryString.parse(window.location.search)
+    loadSwapData({ withTestnetInstances: Boolean(withTestnetInstances), pTokenDefault: pToken })
   }, [])
 
   return (

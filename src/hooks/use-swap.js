@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { isValidAccount } from '../utils/account-validator'
 import { getPeginOrPegoutMinutesEstimation } from '../utils/estimations'
+import BigNumber from 'bignumber.js'
 
 const useSwap = ({
   wallets,
@@ -21,13 +22,21 @@ const useSwap = ({
   const [showModalFrom, setShowModalFrom] = useState(false)
   const [showModalTo, setShowModalTo] = useState(false)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
+  const [fromDefaultWithDataLoaded, setFromDefaultWithDataLoaded] = useState(false)
+  const [toDefaultWithDataLoaded, setToDefaultWithDataLoaded] = useState(false)
 
   const { fee } = useSwapInfo(from, to)
 
   const onChangeFromAmount = useCallback(
     _amount => {
       setFromAmount(_amount)
-      setToAmount(_amount !== '' ? (_amount * fee).toString() : _amount.toString())
+      setToAmount(
+        _amount !== ''
+          ? BigNumber(_amount)
+              .multipliedBy(fee)
+              .toFixed()
+          : _amount.toString()
+      )
     },
     [fee, setFromAmount, setToAmount]
   )
@@ -35,7 +44,13 @@ const useSwap = ({
   const onChangeToAmount = useCallback(
     _amount => {
       setToAmount(_amount)
-      setFromAmount(_amount !== '' ? (_amount / fee).toString() : _amount.toString())
+      setFromAmount(
+        _amount !== ''
+          ? BigNumber(_amount)
+              .dividedBy(fee)
+              .toFixed()
+          : _amount.toString()
+      )
     },
     [fee, setToAmount, setFromAmount]
   )
@@ -44,18 +59,31 @@ const useSwap = ({
     const currentFrom = from
     setFrom(to)
     setTo(currentFrom)
+    // TODO: handle change default asset order
   }, [setFrom, from, to])
 
   const onFromMax = useCallback(() => {
     const amount = from.balance
-    setFromAmount(amount)
-    setToAmount(amount !== '' ? (amount * fee).toString() : amount.toString())
+    setFromAmount(BigNumber(amount).toFixed())
+    setToAmount(
+      amount !== ''
+        ? BigNumber(amount)
+            .multipliedBy(fee)
+            .toFixed()
+        : amount.toString()
+    )
   }, [fee, setFromAmount, from])
 
   const onToMax = useCallback(() => {
     const amount = to.balance
-    setFromAmount(amount)
-    setToAmount(amount !== '' ? (amount / fee).toString() : amount.toString())
+    setFromAmount(BigNumber(amount).toFixed())
+    setToAmount(
+      amount !== ''
+        ? BigNumber(amount)
+            .dividedBy(fee)
+            .toFixed()
+        : amount.toString()
+    )
   }, [fee, setToAmount, to])
 
   const onSwap = useCallback(() => {
@@ -99,7 +127,11 @@ const useSwap = ({
       setSwapType('pegin')
       const ptokenId = to.id
 
-      if (to.symbol.slice(1) !== from.symbol) {
+      if (to.symbol.slice(1) !== from.symbol && !to.isSpecial) {
+        return [false]
+      }
+
+      if (to.symbol !== from.symbol && !to.isSpecial) {
         return [false]
       }
 
@@ -122,17 +154,36 @@ const useSwap = ({
 
   // NOTE: default selection
   useMemo(() => {
-    if (!assetsLoaded && assets.length > 0) {
-      const defaultFrom = assets.find(({ symbol }) => symbol === 'BTC')
-      const defaultTo = assets.find(({ symbol }) => symbol === 'PBTC')
-      setFrom(defaultFrom)
-      setTo(defaultTo)
+    if (assets.length > 0) {
+      const defaultFromAsset = assets.find(({ defaultFrom }) => defaultFrom)
+      const defaultToAsset = assets.find(({ defaultTo }) => defaultTo)
 
-      if (defaultTo.balance) {
+      if (!assetsLoaded) {
+        setFrom(defaultFromAsset)
+        setTo(defaultToAsset)
         setAssetsLoaded(true)
       }
+
+      // NOTE: balance must be loaded for all assets except the ones that uses deposit address to pegin
+      if (
+        !fromDefaultWithDataLoaded &&
+        defaultFromAsset.address &&
+        defaultFromAsset.balance &&
+        !defaultFromAsset.peginWithDepositAddress
+      ) {
+        setFrom(defaultFromAsset)
+        setFromDefaultWithDataLoaded(true)
+      } else if (
+        !toDefaultWithDataLoaded &&
+        defaultToAsset.address &&
+        defaultToAsset.balance &&
+        !defaultToAsset.peginWithDepositAddress
+      ) {
+        setTo(defaultToAsset)
+        setToDefaultWithDataLoaded(true)
+      }
     }
-  }, [assets, assetsLoaded, setFrom, setTo])
+  }, [assets, toDefaultWithDataLoaded, fromDefaultWithDataLoaded, assetsLoaded, setFrom, setTo])
 
   // NOTE: reset data when pegin/pegout terminates
   useEffect(() => {
@@ -173,6 +224,7 @@ const useSwap = ({
       }
 
       if (swapType === 'pegin' && !isValidAccount(to.id, address, 'pegout')) {
+        console.log(address)
         updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
         return
       }
@@ -202,6 +254,7 @@ const useSwap = ({
     }
 
     if (swapType === 'pegin' && !isValidAccount(to.id, address, 'pegout')) {
+      console.log(address)
       updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
       return
     }
@@ -297,6 +350,14 @@ const useSwapInfo = (_from, _to) => {
         estimatedSwapTime: `~${getPeginOrPegoutMinutesEstimation(_from.nativeBlockchain, _from.blockchain)} minutes`,
         show: true
       }
+    }
+
+    // NOTE: it should never happen
+    return {
+      fee: 1,
+      formattedFee: '-',
+      estimatedSwapTime: `-`,
+      show: false
     }
   }, [_from, _to])
 }

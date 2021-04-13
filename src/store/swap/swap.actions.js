@@ -6,8 +6,6 @@ import {
   HIDE_DEPOSIT_ADDRESS_MODAL,
   PROGRESS_UPDATED,
   PROGRESS_RESET,
-  SHOW_INFO_MODAL,
-  HIDE_INFO_MODAL,
   UPDATE_SWAP_BUTTON
 } from '../../constants/index'
 import store from '../index'
@@ -20,13 +18,23 @@ import peginWithDepositAddress from './utils/pegin-with-deposit-address'
 import peginWithWallet from './utils/pegin-with-wallet'
 import pegout from './utils/pegout'
 
-const loadSwapData = (_withTestnetInstance = false) => {
+const loadSwapData = ({ withTestnetInstance = false, pTokenDefault }) => {
   return async _dispatch => {
     try {
       const assetsMaybeWithoutTestnetInstances = assets.filter(({ network }) =>
-        _withTestnetInstance === true ? true : network === 'mainnet'
+        withTestnetInstance === true ? true : network === 'mainnet'
       )
 
+      // NOTE: default selection
+      const { from, to } = getDefaultSelection(assetsMaybeWithoutTestnetInstances, pTokenDefault)
+      _dispatch({
+        type: SWAP_DATA_LOADED,
+        payload: {
+          assets: [...assetsMaybeWithoutTestnetInstances, from, to]
+        }
+      })
+
+      // NOTE: infos loading
       let nodes
       try {
         nodes = await Promise.all(
@@ -79,15 +87,49 @@ const loadSwapData = (_withTestnetInstance = false) => {
         }
       })
 
+      // NOTE: default selection
+      const defaultSelection = getDefaultSelection(assetsWithAddress, pTokenDefault)
       _dispatch({
         type: SWAP_DATA_LOADED,
         payload: {
-          assets: assetsWithAddress
+          assets: [...assetsWithAddress, defaultSelection.from, defaultSelection.to]
         }
       })
     } catch (_err) {
       console.error(_err)
     }
+  }
+}
+
+const getDefaultSelection = (_assets, _pTokenDefault) => {
+  const nativeSymbolDefault = _pTokenDefault ? _pTokenDefault.split('-')[0].toLowerCase() : 'none'
+
+  // NOTE: handle token with p and without p as first letter
+  const pTokenDefaultFrom = Object.assign(
+    {},
+    _assets.find(
+      ({ symbol, isPtoken }) =>
+        (nativeSymbolDefault === symbol.toLowerCase() || nativeSymbolDefault.slice(1) === symbol.toLowerCase()) &&
+        !isPtoken
+    )
+  )
+  const pTokenDefaultTo = Object.assign(
+    {},
+    _assets.find(({ workingName, blockchain }) =>
+      _pTokenDefault ? _pTokenDefault.toLowerCase() === `${workingName}-on-${blockchain.toLowerCase()}` : null
+    )
+  )
+
+  if (pTokenDefaultFrom && pTokenDefaultTo) {
+    pTokenDefaultFrom.defaultFrom = true
+    pTokenDefaultFrom.id = pTokenDefaultFrom.id + '_DEFAULT'
+    pTokenDefaultTo.defaultTo = true
+    pTokenDefaultTo.id = pTokenDefaultTo.id + '_DEFAULT'
+  }
+
+  return {
+    from: pTokenDefaultFrom ? pTokenDefaultFrom : _assets.find(({ symbol }) => symbol === 'BTC'),
+    to: pTokenDefaultTo ? pTokenDefaultTo : _assets.find(({ symbol }) => symbol === 'PBTC')
   }
 }
 
@@ -310,28 +352,6 @@ const hideDepositAddressModal = () => {
   }
 }
 
-const showInfoModal = (_message, _image = 'success') => {
-  return {
-    type: SHOW_INFO_MODAL,
-    payload: {
-      infoModal: {
-        show: true,
-        message: _message,
-        image: _image
-      }
-    }
-  }
-}
-
-const hideInfoModal = () => {
-  return _dispatch => {
-    _dispatch(resetProgress())
-    _dispatch({
-      type: HIDE_INFO_MODAL
-    })
-  }
-}
-
 const updateProgress = _progress => {
   return {
     type: PROGRESS_UPDATED,
@@ -368,7 +388,5 @@ export {
   swap,
   updateProgress,
   resetProgress,
-  showInfoModal,
-  hideInfoModal,
   updateSwapButton
 }

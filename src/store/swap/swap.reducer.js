@@ -5,8 +5,6 @@ import {
   HIDE_DEPOSIT_ADDRESS_MODAL,
   PROGRESS_UPDATED,
   PROGRESS_RESET,
-  SHOW_INFO_MODAL,
-  HIDE_INFO_MODAL,
   UPDATE_SWAP_BUTTON
 } from '../../constants/index'
 
@@ -16,11 +14,6 @@ const initialState = {
     show: false,
     asset: null,
     value: null
-  },
-  infoModal: {
-    show: false,
-    message: null,
-    image: null
   },
   progress: {
     show: false,
@@ -32,6 +25,10 @@ const initialState = {
   swapButton: {
     disabled: false,
     text: ''
+  },
+  defaultSelection: {
+    from: null,
+    to: null
   }
 }
 
@@ -75,20 +72,6 @@ const swapReducer = (_state = initialState, _action) => {
         show: false,
         asset: null,
         value: null
-      }
-    })
-  }
-  if (type === SHOW_INFO_MODAL) {
-    return Object.assign({}, _state, {
-      infoModal: payload.infoModal
-    })
-  }
-  if (type === HIDE_INFO_MODAL) {
-    return Object.assign({}, _state, {
-      infoModal: {
-        show: false,
-        message: null,
-        image: null
       }
     })
   }

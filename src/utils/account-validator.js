@@ -56,7 +56,9 @@ const web3 = new Web3()
 const isValidAccount = (_pTokenId, _account, _type) => {
   if (_account === '') return false
 
-  switch (_pTokenId) {
+  const pTokenId = _pTokenId.includes('_DEFAULT') ? _pTokenId.split('_DEFAULT')[0] : _pTokenId
+
+  switch (pTokenId) {
     case PBTC_ON_ETH_MAINNET: {
       return _type === 'pegin'
         ? pTokenUtils.btc.isValidAddress(_account)

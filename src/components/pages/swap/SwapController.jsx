@@ -3,13 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Swap from './Swap'
 import { connectWithWallet } from '../../../store/wallets/wallets.actions'
-import {
-  hideDepositAddressModal,
-  swap,
-  resetProgress,
-  hideInfoModal,
-  updateSwapButton
-} from '../../../store/swap/swap.actions'
+import { hideDepositAddressModal, swap, resetProgress, updateSwapButton } from '../../../store/swap/swap.actions'
 
 const mapStateToProps = _state => {
   return {
@@ -17,7 +11,6 @@ const mapStateToProps = _state => {
     wallets: _state.wallets,
     depositAddressModal: _state.swap.depositAddressModal,
     progress: _state.swap.progress,
-    infoModal: _state.swap.infoModal,
     swapButton: _state.swap.swapButton
   }
 }
@@ -28,7 +21,6 @@ const mapDispatchToProps = _dispatch => {
     hideDepositAddressModal: () => _dispatch(hideDepositAddressModal()),
     swap: (_from, _to, _amount, _address) => _dispatch(swap(_from, _to, _amount, _address)),
     resetProgress: () => _dispatch(resetProgress()),
-    hideInfoModal: () => _dispatch(hideInfoModal()),
     updateSwapButton: (_text, _disabled) => _dispatch(updateSwapButton(_text, _disabled))
   }
 }

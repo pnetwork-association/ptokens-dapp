@@ -264,7 +264,8 @@ const settings = {
       nativeSymbol: 'PNT',
       nativeBlockchain: 'ETH',
       image: 'PNT.svg',
-      withBalanceDecimalsConversion: false
+      withBalanceDecimalsConversion: false,
+      isSpecial: true
     },
     {
       id: PMKR_ON_EOS_MAINNET,
@@ -398,7 +399,8 @@ const settings = {
       nativeSymbol: 'PTERIA',
       nativeBlockchain: 'ETH',
       image: 'PTERIA.svg',
-      withBalanceDecimalsConversion: false
+      withBalanceDecimalsConversion: false,
+      isSpecial: true
     },
     {
       id: PUNI_ON_EOS_MAINNET,
@@ -990,7 +992,8 @@ const settings = {
       nativeSymbol: 'PNT',
       nativeBlockchain: 'ETH',
       image: 'PNT.svg',
-      withBalanceDecimalsConversion: false
+      withBalanceDecimalsConversion: false,
+      isSpecial: true
     },
     {
       id: PUSDT_ON_TELOS_MAINNET,
@@ -1048,7 +1051,8 @@ const settings = {
       nativeBlockchain: 'ETH',
       image: 'PNT.svg',
       withAmountConversionPegout: true,
-      withBalanceDecimalsConversion: true
+      withBalanceDecimalsConversion: true,
+      isSpecial: true
     },
     {
       id: PRVN_ON_BSC_MAINNET,

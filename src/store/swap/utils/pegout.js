@@ -1,6 +1,6 @@
 import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
 import BigNumber from 'bignumber.js'
-import { updateProgress, loadBalanceByAssetId, resetProgress, showInfoModal, updateSwapButton } from '../swap.actions'
+import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
 import { toastr } from 'react-redux-toastr'
 
 const hostTransactionHash = {
@@ -137,16 +137,13 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
         })
       )
 
-      dispatch(showInfoModal('Pegout happened succesfully!', 'success'))
       dispatch(updateSwapButton('Swap'))
-
       // TODO: load balance also for native asset
       setTimeout(() => dispatch(loadBalanceByAssetId(ptoken.id)), 2000)
     })
     .catch(() => {
       dispatch(updateSwapButton('Swap'))
       dispatch(resetProgress())
-      dispatch(showInfoModal('Error during pegout', 'error'))
     })
 }
 

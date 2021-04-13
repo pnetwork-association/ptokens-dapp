@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { useGroupedAssetsByNativeSymbol } from '../../../hooks/use-grouped-assets'
 import { getAssetFromSymbol } from '../../../utils/maps'
 import { useSearchAssets } from '../../../hooks/use-search-assets'
+import { useAssetsWithouDefault } from '../../../hooks/use-assets'
 import Icon from '../../atoms/icon/Icon'
 import Modal from '../../molecules/modal/Modal'
 
@@ -146,7 +147,8 @@ const StyledSpinner = styled(Spinner)`
 `
 
 const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _assets, defaultAssets }) => {
-  const [filteredAssets, setSearchWord] = useSearchAssets(_assets)
+  const [assetsWithoutDefault] = useAssetsWithouDefault(_assets)
+  const [filteredAssets, setSearchWord] = useSearchAssets(assetsWithoutDefault)
   const [assets] = useGroupedAssetsByNativeSymbol(filteredAssets)
   const [show, setShow] = useState([])
 
