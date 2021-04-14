@@ -46,8 +46,6 @@ export default function ThemeProvider({ children }) {
 }
 
 export const ThemedGlobalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css?family=Chivo:300,400,500,700&display=swap');
-
 html * {
   font-family: 'Chivo', sans-serif;
 }

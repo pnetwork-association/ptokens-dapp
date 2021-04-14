@@ -8,10 +8,11 @@ import history from './utils/history'
 import * as serviceWorker from './serviceWorker'
 import ReactGA from 'react-ga'
 import settings from './settings'
+import ThemeProvider, { ThemedGlobalStyle } from './theme/ThemeProvider'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 import 'react-step-progress-bar/styles.css'
-import ThemeProvider, { ThemedGlobalStyle } from './theme/ThemeProvider'
+import './theme/font.css'
 
 ReactGA.initialize(settings.googleAnalyticsTrackId)
 
