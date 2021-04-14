@@ -8,6 +8,9 @@ const SwapLineContainer = styled.div`
   border-radius: 20px;
   border: 1px solid ${({ theme }) => theme.lightGray};
   padding: 12px 15px 12px 15px;
+  @media (max-width: 767.98px) {
+    padding: 10px 15px 10px 15px;
+  }
 `
 
 const AmountInput = styled.input`
@@ -21,6 +24,9 @@ const AmountInput = styled.input`
   font-size: 40px;
   color: ${({ theme }) => theme.text1};
   width: 100%;
+  @media (max-width: 767.98px) {
+    font-size: 35px;
+  }
 `
 
 const ContainerImage = styled.div`
@@ -36,6 +42,10 @@ const Image = styled.img`
   border: 1px solid ${({ theme }) => (theme.type === 'light' ? theme.lightGray : 'transparent')};
   cursor: pointer;
   box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
+  @media (max-width: 767.98px) {
+    width: 40px;
+    height: 40px;
+  }
 `
 
 const MiniImage = styled.img`
@@ -49,6 +59,12 @@ const MiniImage = styled.img`
   box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
   background: white;
   box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
+  @media (max-width: 767.98px) {
+    width: 16px;
+    height: 16px;
+    margin-top: 29px;
+    margin-left: -13px;
+  }
 `
 
 const BalanceLabel = styled.label`
@@ -77,6 +93,9 @@ const InnerContainerAddressInput = styled.div`
   padding-top: 10px;
   padding-left: 15px;
   padding-right: 15px;
+  @media (max-width: 767.98px) {
+    margin-top: 10px;
+  }
 `
 
 const OuterContainerAddressInput = styled(Col)`
@@ -127,6 +146,9 @@ const ContainerMaxButton = styled.div`
 const ContainerTypeAndBalance = styled(Row)`
   margin-bottom: 10px;
   color: ${({ theme }) => theme.text1};
+  @media (max-width: 767.98px) {
+    margin-bottom: 5px;
+  }
 `
 
 const ContainerTitle = styled(Col)`

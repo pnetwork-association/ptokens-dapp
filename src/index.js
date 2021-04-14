@@ -9,7 +9,6 @@ import * as serviceWorker from './serviceWorker'
 import ReactGA from 'react-ga'
 import settings from './settings'
 import 'bootstrap/dist/css/bootstrap.css'
-import './styles/custom.css'
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 import 'react-step-progress-bar/styles.css'
 

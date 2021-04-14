@@ -10,6 +10,16 @@ import Modal from '../../molecules/modal/Modal'
 const ContainerQrCode = styled.div`
   text-align: center;
   padding: 25px;
+  & > canvas {
+    height: 270px !important;
+    width: 270px !important;
+  }
+  @media (max-width: 767.98px) {
+    & > canvas {
+      height: 200px !important;
+      width: 200px !important;
+    }
+  }
 `
 
 const Info = styled.div`
@@ -19,6 +29,10 @@ const Info = styled.div`
   width: 100%;
   font-size: 16px;
   color: ${({ theme }) => theme.text2};
+  @media (max-width: 767.98px) {
+    font-size: 14px;
+    padding: 25px 0 25px 0;
+  }
 `
 
 const Address = styled.div`
@@ -32,6 +46,9 @@ const Address = styled.div`
   background: ${({ theme }) => theme.secondary4};
   &:hover {
     background: ${({ theme }) => theme.secondary4Hovered};
+  }
+  @media (max-width: 767.98px) {
+    font-size: 15px;
   }
 `
 
@@ -56,7 +73,7 @@ const DepositAddressModal = ({ show, asset, onClose, value }) => {
         body={
           <OuterContainer>
             <ContainerQrCode>
-              <QRCode value={value ? value : ''} size={'170'} />
+              <QRCode value={value ? value : ''} />
             </ContainerQrCode>
             <Address
               data-tip={isCopiedToClipboard ? 'Copied!' : 'Copy to clipboard'}

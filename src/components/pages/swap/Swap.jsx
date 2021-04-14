@@ -45,6 +45,10 @@ const ArrowContainer = styled.div`
   margin-bottom: 15px;
   text-align: center;
   cursor: pointer;
+  @media (max-width: 767.98px) {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
 `
 
 const SortIcon = styled(Icon)`
@@ -52,6 +56,10 @@ const SortIcon = styled(Icon)`
   height: 16px;
   svg {
     fill: ${({ theme }) => theme.primary1};
+  }
+  @media (max-width: 767.98px) {
+    width: 14px;
+    height: 14px;
   }
 `
 
@@ -84,6 +92,9 @@ const SwapLabel = styled.label`
   color: ${({ theme }) => theme.text1};
   margin-bottom: 20px;
   margin-left: 14px;
+  @media (max-width: 767.98px) {
+    margin-bottom: 15px;
+  }
 `
 
 const Swap = ({

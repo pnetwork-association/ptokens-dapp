@@ -5,6 +5,9 @@ import PropTypes from 'prop-types'
 
 const StyledModalTitle = styled(Modal.Title)`
   color: ${({ theme }) => theme.text1};
+  @media (max-width: 767.98px) {
+    font-size: 20px;
+  }
 `
 
 const StyledBody = styled(Modal.Body)`

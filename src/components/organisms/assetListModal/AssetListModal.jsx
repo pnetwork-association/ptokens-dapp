@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react'
+import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import { Col, Row, Spinner } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
@@ -39,6 +39,10 @@ const Minicon = styled.img`
   border: 1px solid ${({ theme }) => theme.secondary2};
   box-shadow: ${({ theme }) => theme.secondary1} 1px 1px 9px -3px;
   background: white;
+  @media (max-width: 767.98px) {
+    margin-top: -10px;
+    margin-left: 21px;
+  }
 `
 
 const ContainerRow = styled.div`
@@ -66,6 +70,9 @@ const ContainerAssets = styled.div`
   height: 700px;
   max-height: 700px;
   overflow: auto;
+  @media (max-width: 767.98px) {
+    max-height: 450px;
+  }
 `
 
 const StyledRow = styled(Row)`
@@ -75,6 +82,9 @@ const StyledRow = styled(Row)`
 const StyledInnerRow = styled(Row)`
   cursor: pointer;
   font-size: 16px;
+  @media (max-width: 767.98px) {
+    font-size: 14px;
+  }
 `
 
 const Arrow = styled(Icon)`
@@ -83,12 +93,15 @@ const Arrow = styled(Icon)`
   cursor: pointer;
 
   svg {
-    fill: ${({ theme }) => theme.secondary1};
+    fill: ${({ theme }) => theme.text3};
   }
 `
 
 const AssetSymbol = styled.div`
   font-size: 16px;
+  @media (max-width: 767.98px) {
+    font-size: 14px;
+  }
 `
 
 const AssetName = styled.div`
@@ -150,6 +163,7 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
   const [filteredAssets, setSearchWord] = useSearchAssets(assetsWithoutDefault)
   const [assets] = useGroupedAssetsByNativeSymbol(filteredAssets)
   const [show, setShow] = useState([])
+  const inputSearchRef = useRef(null)
 
   const [stillLoading] = useMemo(() => {
     const nativeSymbols = Object.keys(assets)
@@ -158,6 +172,10 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
     )
     return [loadedAssets.length === nativeSymbols.length ? false : true]
   }, [assets])
+
+  useEffect(() => {
+    if (inputSearchRef.current) inputSearchRef.current.focus()
+  })
 
   useEffect(() => {
     setShow(Object.keys(assets).length === 1 && !stillLoading ? [true] : [false])
@@ -205,7 +223,11 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
       body={
         <React.Fragment>
           <ContainerSearch>
-            <Search placeholder="Search or paste an address ..." onChange={_e => setSearchWord(_e.target.value)} />
+            <Search
+              placeholder="Search or paste an address ..."
+              ref={inputSearchRef}
+              onChange={_e => setSearchWord(_e.target.value)}
+            />
           </ContainerSearch>
           <ContainerAssets>
             {Object.keys(assets).map((_nativeSymbol, _index) => {
