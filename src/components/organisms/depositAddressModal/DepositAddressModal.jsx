@@ -48,7 +48,7 @@ const Address = styled.div`
     background: ${({ theme }) => theme.secondary4Hovered};
   }
   @media (max-width: 767.98px) {
-    font-size: 15px;
+    font-size: 13px;
   }
 `
 

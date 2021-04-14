@@ -131,7 +131,7 @@ const swapAssets = [
   {
     id: 'BAL',
     symbol: 'BAL',
-    name: 'Balance',
+    name: 'Balancer',
     network: 'mainnet',
     blockchain: 'ETH',
     skipNodeSelection: true,
