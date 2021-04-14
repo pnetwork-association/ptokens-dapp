@@ -35,9 +35,9 @@ const mapDispatchToProps = _dispatch => {
 
 const App = ({ loading, setTheme, loadSwapData, selectPage }) => {
   useEffect(() => {
-    const { withTestnetInstances, iamthomas, pToken } = queryString.parse(window.location.search)
+    const { withTestnetInstances, pToken } = queryString.parse(window.location.search)
     const theme = window.localStorage.getItem('THEME')
-    setTheme(theme)
+    if (theme) setTheme(theme)
     ReactGA.pageview(window.location.pathname)
     const page = history.location.pathname.split('/')[1]
     selectPage(page)
