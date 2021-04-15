@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Swap from './Swap'
 import { connectWithWallet } from '../../../store/wallets/wallets.actions'
 import { hideDepositAddressModal, swap, resetProgress, updateSwapButton } from '../../../store/swap/swap.actions'
+import { updateInfoModal } from '../../../store/pages/pages.actions'
 
 const mapStateToProps = _state => {
   return {
@@ -11,7 +12,8 @@ const mapStateToProps = _state => {
     wallets: _state.wallets,
     depositAddressModal: _state.swap.depositAddressModal,
     progress: _state.swap.progress,
-    swapButton: _state.swap.swapButton
+    swapButton: _state.swap.swapButton,
+    infoModal: _state.pages.infoModal
   }
 }
 
@@ -21,7 +23,8 @@ const mapDispatchToProps = _dispatch => {
     hideDepositAddressModal: () => _dispatch(hideDepositAddressModal()),
     swap: (_from, _to, _amount, _address) => _dispatch(swap(_from, _to, _amount, _address)),
     resetProgress: () => _dispatch(resetProgress()),
-    updateSwapButton: (_text, _disabled) => _dispatch(updateSwapButton(_text, _disabled))
+    updateSwapButton: (_text, _disabled) => _dispatch(updateSwapButton(_text, _disabled)),
+    hideInfoModal: () => _dispatch(updateInfoModal({ show: false, message: null }))
   }
 }
 

@@ -6,6 +6,7 @@ import ERC20Abi from '../../../utils/abi/ERC20.json'
 import BigNumber from 'bignumber.js'
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
 import { toastr } from 'react-redux-toastr'
+import { updateInfoModal } from '../../pages/pages.actions'
 
 let promiEvent = null
 
@@ -167,7 +168,15 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
       // TODO: load balance also for native asset
       setTimeout(() => dispatch(loadBalanceByAssetId(ptoken.id)), 2000)
     })
-    .catch(() => {
+    .catch(_err => {
+      console.log(_err)
+      dispatch(
+        updateInfoModal({
+          show: true,
+          text: 'Error during pegin, try again!',
+          icon: 'cancel'
+        })
+      )
       dispatch(updateSwapButton('Swap'))
       dispatch(resetProgress())
     })

@@ -8,6 +8,7 @@ import {
 } from '../swap.actions'
 import { toastr } from 'react-redux-toastr'
 import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
+import { updateInfoModal } from '../../pages/pages.actions'
 
 let promiEvent = null
 
@@ -124,8 +125,16 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
       setTimeout(() => dispatch(loadBalanceByAssetId(ptoken.id)), 2000)
     })
     .catch(_err => {
+      console.error(_err)
       dispatch(updateSwapButton('Get Deposit Address'))
       dispatch(hideDepositAddressModal())
+      dispatch(
+        updateInfoModal({
+          show: true,
+          text: 'Error during pegin, try again!',
+          icon: 'cancel'
+        })
+      )
       dispatch(resetProgress())
     })
 }

@@ -11,6 +11,7 @@ import SwapInfo from '../../organisms/swapInfo/SwapInfo'
 import defaultAssets from '../../../settings/swap-assets'
 import { useAssets } from '../../../hooks/use-assets'
 import Icon from '../../atoms/icon/Icon'
+import InfoModal from '../../organisms/infoModal/InfoModal'
 
 const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -101,12 +102,14 @@ const Swap = ({
   assets: _assets,
   wallets,
   progress,
+  infoModal,
   connectWithWallet,
   depositAddressModal,
   swapButton,
   updateSwapButton,
   hideDepositAddressModal,
-  swap
+  swap,
+  hideInfoModal
 }) => {
   const [assets] = useAssets(_assets)
 
@@ -212,6 +215,7 @@ const Swap = ({
         disabled={address === ''}
         value={depositAddressModal.value}
       />
+      <InfoModal onClose={hideInfoModal} {...infoModal} />
     </React.Fragment>
   )
 }

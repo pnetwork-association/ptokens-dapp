@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Modal from '../../molecules/modal/Modal'
+import Icon from '../../atoms/icon/Icon'
 
 const Message = styled.div`
   margin-top: 30px;
@@ -11,31 +12,35 @@ const Message = styled.div`
   font-size: 16px;
 `
 
-const SuccessImage = styled.img`
+const ContainerCenter = styled.div`
+  text-align: center;
+`
+
+const StyledIcon = styled(Icon)`
   width: 150px;
   height: 150px;
 `
 
-const InfoModal = ({ show, message, image, onClose }) => {
+const InfoModal = ({ show, text, icon, onClose }) => {
   return (
     <Modal
       show={show}
       onClose={onClose}
       title={''}
       body={
-        <React.Fragment>
+        <ContainerCenter>
           {' '}
-          <SuccessImage src={`../assets/svg/${image}.svg`} />
-          <Message>{'Pegin happened successfully!'}</Message>
-        </React.Fragment>
+          {icon ? <StyledIcon icon={icon} /> : null}
+          <Message>{text}</Message>
+        </ContainerCenter>
       }
     />
   )
 }
 
 InfoModal.propTypes = {
-  message: PropTypes.string,
-  image: PropTypes.string,
+  text: PropTypes.string,
+  icon: PropTypes.string,
   show: PropTypes.bool,
   onClose: PropTypes.func
 }
