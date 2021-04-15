@@ -46,10 +46,10 @@
   "scripts": {
     "start": "HTTPS=true && react-scripts start",
     "format": "prettier --config ./.prettierrc --write  \"./src/**/*.+(js|json|jsx)\"",
-    "build": "GENERATE_SOURCEMAP=false  react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test-dev": "react-scripts test",
     "test": "react-scripts test  --env=jsdom --verbose a",
-    "eject": "react-scripts eject"
+    "analyze:bundle": "node ./scripts/bundle-analyzer.js"
   },
   "eslintConfig": {
     "extends": [
@@ -76,10 +76,12 @@
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
     "prettier": "^1.19.1",
+    "progress-bar-webpack-plugin": "^2.1.0",
     "react-redux": "^7.1.0",
     "redux": "^4.0.1",
     "redux-mock-store": "^1.5.3",
     "redux-thunk": "^2.3.0",
-    "sinon": "^7.5.0"
+    "sinon": "^7.5.0",
+    "webpack-bundle-analyzer": "^4.4.1"
   }
 }
