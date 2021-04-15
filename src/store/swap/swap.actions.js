@@ -34,33 +34,30 @@ const loadSwapData = ({ withTestnetInstance = false, pTokenDefault }) => {
         }
       })
 
-      // NOTE: infos loading
-      let nodes
-      try {
-        nodes = await Promise.all(
-          assetsMaybeWithoutTestnetInstances.map(({ workingName, blockchain, network, skipNodeSelection }) => {
-            if (skipNodeSelection) {
-              Promise.resolve()
-              return null
-            }
+      const nodeSelector = new NodeSelector()
+      await nodeSelector.fetchNodes('mainnet')
 
-            const nodeSelector = new NodeSelector({
-              pToken: workingName,
-              blockchain: helpers.getBlockchainType(blockchain.toLowerCase()),
-              network: network
-            })
+      const nodes = await Promise.all(
+        assetsMaybeWithoutTestnetInstances.map(({ workingName, blockchain, network, skipNodeSelection }) => {
+          if (skipNodeSelection) {
+            Promise.resolve()
+            return null
+          }
 
-            return new Promise(_resolve =>
-              nodeSelector
-                .select()
-                .then(_resolve)
-                .catch(() => _resolve(null))
-            )
+          nodeSelector.setParams({
+            pToken: workingName,
+            blockchain: helpers.getBlockchainType(blockchain.toLowerCase()),
+            network: network
           })
-        )
-      } catch (_err) {
-        console.error(_err)
-      }
+
+          return new Promise(_resolve =>
+            nodeSelector
+              .select()
+              .then(_resolve)
+              .catch(() => _resolve(null))
+          )
+        })
+      )
 
       let pTokensAddresses
       try {

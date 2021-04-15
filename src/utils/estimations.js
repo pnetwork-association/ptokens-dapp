@@ -6,7 +6,8 @@ const estimations = {
   bsc: 5,
   xdai: 5,
   polygon: 5,
-  ltc: 10
+  ltc: 10,
+  doge: 5
 }
 
 const getPeginOrPegoutMinutesEstimation = _from => estimations[_from.toLowerCase()]
