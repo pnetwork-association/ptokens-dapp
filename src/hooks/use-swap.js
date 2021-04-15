@@ -343,8 +343,8 @@ const useSwapInfo = (_from, _to) => {
       }
     } else if (_from.isPtoken && !_to.isPtoken) {
       return {
-        fee: 1 - 0.0025,
-        formattedFee: '0.25%',
+        fee: 1,
+        formattedFee: '0%',
         estimatedSwapTime: `~${getPeginOrPegoutMinutesEstimation(_from.blockchain)} minutes`,
         show: true
       }

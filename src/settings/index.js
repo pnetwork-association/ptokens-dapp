@@ -231,7 +231,7 @@ const settings = {
     {
       id: PETH_ON_EOS_MAINNET,
       name: 'pETH',
-      workingName: 'peth',
+      workingName: 'pweth',
       nativeDecimals: 18,
       network: 'mainnet',
       minimumIssuable: '0.000000001',
@@ -759,7 +759,7 @@ const settings = {
       blockchain: 'POLYGON',
       decimals: 18,
       withMiniImage: true,
-      symbol: 'PBTC',
+      symbol: 'PEOS',
       isPtoken: true,
       nativeSymbol: 'EOS',
       nativeBlockchain: 'EOS',
@@ -842,7 +842,8 @@ const settings = {
       nativeSymbol: 'PNT',
       nativeBlockchain: 'ETH',
       image: 'PNT.svg',
-      withBalanceDecimalsConversion: true
+      withBalanceDecimalsConversion: true,
+      isSpecial: true
     },
     {
       id: PTERIA_ON_BSC_MAINNET,
