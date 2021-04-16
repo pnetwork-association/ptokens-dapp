@@ -935,6 +935,7 @@ const settings = {
       withMiniImage: true,
       symbol: 'CGG',
       isPtoken: true,
+      isSpecial: true,
       nativeSymbol: 'CGG',
       nativeBlockchain: 'ETH',
       image: 'pCGG.svg',
