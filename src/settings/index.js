@@ -839,6 +839,7 @@ const settings = {
       withMiniImage: true,
       symbol: 'PNT',
       isPtoken: true,
+      isPerc20: true,
       nativeSymbol: 'PNT',
       nativeBlockchain: 'ETH',
       image: 'PNT.svg',
@@ -859,6 +860,7 @@ const settings = {
       withMiniImage: true,
       symbol: 'PTERIA',
       isPtoken: true,
+      isPerc20: true,
       nativeSymbol: 'PTERIA',
       nativeBlockchain: 'ETH',
       image: 'PTERIA.svg',
@@ -878,6 +880,7 @@ const settings = {
       withMiniImage: true,
       symbol: 'POPIUM',
       isPtoken: true,
+      isPerc20: true,
       nativeSymbol: 'OPIUM',
       nativeBlockchain: 'ETH',
       image: 'pOPIUM.svg',
@@ -897,6 +900,7 @@ const settings = {
       withMiniImage: true,
       symbol: 'PDEFI++',
       isPtoken: true,
+      isPerc20: true,
       nativeSymbol: 'DEFI++',
       nativeBlockchain: 'ETH',
       image: 'pDEFI++.svg',
@@ -916,6 +920,7 @@ const settings = {
       withMiniImage: true,
       symbol: 'PBCP',
       isPtoken: true,
+      isPerc20: true,
       nativeSymbol: 'BCP',
       nativeBlockchain: 'ETH',
       image: 'pBCP.svg',
@@ -936,6 +941,7 @@ const settings = {
       symbol: 'CGG',
       isPtoken: true,
       isSpecial: true,
+      isPerc20: true,
       nativeSymbol: 'CGG',
       nativeBlockchain: 'ETH',
       image: 'pCGG.svg',
@@ -955,10 +961,11 @@ const settings = {
       withMiniImage: true,
       symbol: 'PETH',
       isPtoken: true,
+      isPerc20: true,
       nativeSymbol: 'ETH',
       nativeBlockchain: 'ETH',
       image: 'pETH.svg',
-      withBalanceDecimalsConversion: false
+      withBalanceDecimalsConversion: false,
     },
     {
       id: PLINK_ON_TELOS_MAINNET,
@@ -974,6 +981,7 @@ const settings = {
       withMiniImage: true,
       symbol: 'PLINK',
       isPtoken: true,
+      isPerc20: true,
       nativeSymbol: 'LINK',
       nativeBlockchain: 'ETH',
       image: 'pLINK.svg',
@@ -993,11 +1001,12 @@ const settings = {
       withMiniImage: true,
       symbol: 'PNT',
       isPtoken: true,
+      isSpecial: true,
+      isPerc20: true,
       nativeSymbol: 'PNT',
       nativeBlockchain: 'ETH',
       image: 'PNT.svg',
-      withBalanceDecimalsConversion: false,
-      isSpecial: true
+      withBalanceDecimalsConversion: false
     },
     {
       id: PUSDT_ON_TELOS_MAINNET,
@@ -1016,7 +1025,8 @@ const settings = {
       nativeSymbol: 'USDT',
       nativeBlockchain: 'ETH',
       image: 'pUSDT.svg',
-      withBalanceDecimalsConversion: false
+      withBalanceDecimalsConversion: false,
+      isPerc20: true
     },
     {
       id: PUSDC_ON_TELOS_MAINNET,
@@ -1035,7 +1045,8 @@ const settings = {
       nativeSymbol: 'USDC',
       nativeBlockchain: 'ETH',
       image: 'pUSDC.svg',
-      withBalanceDecimalsConversion: false
+      withBalanceDecimalsConversion: false,
+      isPerc20: true
     },
     {
       id: PNT_ON_XDAI_MAINNET,
@@ -1056,7 +1067,8 @@ const settings = {
       image: 'PNT.svg',
       withAmountConversionPegout: true,
       withBalanceDecimalsConversion: true,
-      isSpecial: true
+      isSpecial: true,
+      isPerc20: true
     },
     {
       id: PRVN_ON_BSC_MAINNET,

@@ -16,6 +16,11 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
   }
 
   params[params.length] = { blocksBehind: 3, expireSeconds: 60, permission: 'active' }
+  // NOTE: avoids brave metamask gas estimation fails
+  params[params.length] = { gas: 200000 }
+  params[0] = BigNumber(params[0])
+    .multipliedBy(10 ** ptoken.nativeDecimals)
+    .toFixed()
 
   // NOTE: peth uses ethers
   if (ptoken.isPerc20 && ptoken.name !== 'pETH') {
@@ -65,12 +70,6 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
       terminated: false
     })
   )
-
-  // NOTE: avoids brave metamask gas estimation fails
-  params[params.length] = { gas: 200000 }
-  params[0] = BigNumber(params[0])
-    .multipliedBy(10 ** ptoken.nativeDecimals)
-    .toFixed()
 
   promiEvent = ptokens[ptoken.name.toLowerCase()].issue(...params)
   promiEvent
