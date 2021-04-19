@@ -106,7 +106,6 @@ const getConfigs = (_pTokenId, _configs) => {
       pltc: {
         network: networks.Mainnet,
         blockchain: blockchains.Eosio,
-        ethProvider,
         eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
       }
