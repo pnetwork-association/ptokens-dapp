@@ -59,9 +59,9 @@ const getConfigs = (_pTokenId, _configs) => {
   } = _configs
   const { networks, blockchains, pTokens } = constants
 
-  const pTokenId = _pTokenId.includes('_DEFAULT') ? _pTokenId.split('_DEFAULT')[0] : _pTokenId
+  // const pTokenId = _pTokenId.includes('_DEFAULT') ? _pTokenId.split('_DEFAULT')[0] : _pTokenId
 
-  if (pTokenId === PBTC_ON_ETH_MAINNET) {
+  if (_pTokenId === PBTC_ON_ETH_MAINNET) {
     return {
       pbtc: {
         network: networks.Mainnet,
@@ -70,7 +70,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PBTC_ON_EOS_MAINNET) {
+  if (_pTokenId === PBTC_ON_EOS_MAINNET) {
     return {
       pbtc: {
         network: networks.Mainnet,
@@ -80,7 +80,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PBTC_ON_TELOS_MAINNET) {
+  if (_pTokenId === PBTC_ON_TELOS_MAINNET) {
     return {
       pbtc: {
         nativeNetwork: networks.BitcoinMainnet,
@@ -92,7 +92,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PLTC_ON_ETH_MAINNET) {
+  if (_pTokenId === PLTC_ON_ETH_MAINNET) {
     return {
       pltc: {
         network: networks.Mainnet,
@@ -101,7 +101,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PLTC_ON_EOS_MAINNET) {
+  if (_pTokenId === PLTC_ON_EOS_MAINNET) {
     return {
       pltc: {
         network: networks.Mainnet,
@@ -112,7 +112,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PETH_ON_EOS_MAINNET) {
+  if (_pTokenId === PETH_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pETH,
@@ -124,7 +124,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PNT_ON_EOS_MAINNET) {
+  if (_pTokenId === PNT_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.PNT,
@@ -136,7 +136,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PMKR_ON_EOS_MAINNET) {
+  if (_pTokenId === PMKR_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pMKR,
@@ -148,7 +148,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PLINK_ON_EOS_MAINNET) {
+  if (_pTokenId === PLINK_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pLINK,
@@ -160,7 +160,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PYFI_ON_EOS_MAINNET) {
+  if (_pTokenId === PYFI_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pYFI,
@@ -172,7 +172,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PTERIA_ON_EOS_MAINNET) {
+  if (_pTokenId === PTERIA_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.PTERIA,
@@ -184,7 +184,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PUNI_ON_EOS_MAINNET) {
+  if (_pTokenId === PUNI_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pUNI,
@@ -196,7 +196,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PBAND_ON_EOS_MAINNET) {
+  if (_pTokenId === PBAND_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pBAND,
@@ -208,7 +208,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PBAL_ON_EOS_MAINNET) {
+  if (_pTokenId === PBAL_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pBAL,
@@ -220,7 +220,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PCOMP_ON_EOS_MAINNET) {
+  if (_pTokenId === PCOMP_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pCOMP,
@@ -232,7 +232,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PSNX_ON_EOS_MAINNET) {
+  if (_pTokenId === PSNX_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pSNX,
@@ -244,7 +244,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === POMG_ON_EOS_MAINNET) {
+  if (_pTokenId === POMG_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pOMG,
@@ -256,7 +256,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PDAI_ON_EOS_MAINNET) {
+  if (_pTokenId === PDAI_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pDAI,
@@ -268,7 +268,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PANT_ON_EOS_MAINNET) {
+  if (_pTokenId === PANT_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pANT,
@@ -280,7 +280,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PLRC_ON_EOS_MAINNET) {
+  if (_pTokenId === PLRC_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pLRC,
@@ -292,7 +292,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PUOS_ON_EOS_MAINNET) {
+  if (_pTokenId === PUOS_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pUOS,
@@ -304,7 +304,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PBAT_ON_EOS_MAINNET) {
+  if (_pTokenId === PBAT_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pBAT,
@@ -316,7 +316,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PREP_ON_EOS_MAINNET) {
+  if (_pTokenId === PREP_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pREP,
@@ -328,7 +328,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PZRX_ON_EOS_MAINNET) {
+  if (_pTokenId === PZRX_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pZRX,
@@ -340,7 +340,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PPNK_ON_EOS_MAINNET) {
+  if (_pTokenId === PPNK_ON_EOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pPNK,
@@ -352,7 +352,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PDOGE_ON_ETH_MAINNET) {
+  if (_pTokenId === PDOGE_ON_ETH_MAINNET) {
     return {
       pdoge: {
         network: networks.Mainnet,
@@ -361,7 +361,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PEOS_ON_ETH_MAINNET) {
+  if (_pTokenId === PEOS_ON_ETH_MAINNET) {
     return {
       peosioToken: {
         pToken: pTokens.pEOS,
@@ -373,7 +373,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PBTC_ON_BSC_MAINNET) {
+  if (_pTokenId === PBTC_ON_BSC_MAINNET) {
     return {
       pbtc: {
         network: networks.Mainnet,
@@ -382,7 +382,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PEOS_ON_POLYGON_MAINNET) {
+  if (_pTokenId === PEOS_ON_POLYGON_MAINNET) {
     return {
       peosioToken: {
         pToken: pTokens.pEOS,
@@ -394,7 +394,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PBTC_ON_XDAI_MAINNET) {
+  if (_pTokenId === PBTC_ON_XDAI_MAINNET) {
     return {
       pbtc: {
         network: networks.Mainnet,
@@ -403,7 +403,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === IQ_ON_ETH_MAINNET) {
+  if (_pTokenId === IQ_ON_ETH_MAINNET) {
     return {
       peosioToken: {
         pToken: pTokens.IQ,
@@ -415,7 +415,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === TLOS_ON_ETH_MAINNET) {
+  if (_pTokenId === TLOS_ON_ETH_MAINNET) {
     return {
       peosioToken: {
         pToken: pTokens.TLOS,
@@ -427,7 +427,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PNT_ON_BSC_MAINNET) {
+  if (_pTokenId === PNT_ON_BSC_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.PNT,
@@ -438,7 +438,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === POPIUM_ON_BSC_MAINNET) {
+  if (_pTokenId === POPIUM_ON_BSC_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pOPIUM,
@@ -449,7 +449,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PTERIA_ON_BSC_MAINNET) {
+  if (_pTokenId === PTERIA_ON_BSC_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.PTERIA,
@@ -460,7 +460,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PDEFIPLUSPLUS_ON_BSC_MAINNET) {
+  if (_pTokenId === PDEFIPLUSPLUS_ON_BSC_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pDEFIPlusPlus,
@@ -471,7 +471,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PBCP_ON_BSC_MAINNET) {
+  if (_pTokenId === PBCP_ON_BSC_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pBCP,
@@ -482,7 +482,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === CGG_ON_BSC_MAINNET) {
+  if (_pTokenId === CGG_ON_BSC_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.CGG,
@@ -493,7 +493,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PETH_ON_TELOS_MAINNET) {
+  if (_pTokenId === PETH_ON_TELOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pETH,
@@ -505,7 +505,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PLINK_ON_TELOS_MAINNET) {
+  if (_pTokenId === PLINK_ON_TELOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pLINK,
@@ -517,7 +517,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PNT_ON_TELOS_MAINNET) {
+  if (_pTokenId === PNT_ON_TELOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.PNT,
@@ -529,7 +529,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PUSDC_ON_TELOS_MAINNET) {
+  if (_pTokenId === PUSDC_ON_TELOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pUSDC,
@@ -541,7 +541,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PUSDT_ON_TELOS_MAINNET) {
+  if (_pTokenId === PUSDT_ON_TELOS_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.pUSDT,
@@ -553,7 +553,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PNT_ON_XDAI_MAINNET) {
+  if (_pTokenId === PNT_ON_XDAI_MAINNET) {
     return {
       perc20: {
         pToken: pTokens.PNT,
@@ -564,7 +564,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PRVN_ON_BSC_MAINNET) {
+  if (_pTokenId === PRVN_ON_BSC_MAINNET) {
     return {
       prvn: {
         network: networks.Mainnet,
@@ -573,7 +573,7 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  throw new Error('Invalid id', pTokenId)
+  throw new Error('Invalid id', _pTokenId)
 }
 
 export { getConfigs }

@@ -16,9 +16,8 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
     promiEvent.removeAllListeners()
   }
 
-  params[params.length] = { blocksBehind: 3, expireSeconds: 60, permission: 'active' }
   // NOTE: avoids brave metamask gas estimation fails
-  params[params.length] = { gas: 200000 }
+  params[params.length] = { gas: 200000, blocksBehind: 3, expireSeconds: 60, permission: 'active' }
   params[0] = BigNumber(params[0])
     .multipliedBy(10 ** ptoken.nativeDecimals)
     .toFixed()

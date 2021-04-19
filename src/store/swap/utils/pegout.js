@@ -27,7 +27,6 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
       .toFixed()
   }
 
-  let step = 0
   dispatch(
     updateProgress({
       show: true,
@@ -47,7 +46,6 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
         onToastrClick: () => window.open(`${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${_hash}`, '_blank')
       })
 
-      step = step + 1
       dispatch(
         updateProgress({
           show: true,
@@ -71,7 +69,6 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
             )
         })
 
-        step = step + 1
         dispatch(
           updateProgress({
             show: true,
@@ -83,7 +80,6 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
         )
       }
 
-      step = step + 1
       dispatch(
         updateProgress({
           show: true,
@@ -95,7 +91,6 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
       )
     })
     .once('nodeReceivedTx', () => {
-      step = step + 1
       dispatch(
         updateProgress({
           show: true,
@@ -116,7 +111,6 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
           )
       })
 
-      step = step + 1
       dispatch(
         updateProgress({
           show: true,
@@ -128,7 +122,6 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
       )
     })
     .once('nativeTxConfirmed', () => {
-      step = step + 1
       dispatch(
         updateProgress({
           show: true,

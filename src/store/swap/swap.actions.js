@@ -21,30 +21,24 @@ import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-provider
 import peginWithDepositAddress from './utils/pegin-with-deposit-address'
 import peginWithWallet from './utils/pegin-with-wallet'
 import pegout from './utils/pegout'
-import { getAssetsByBlockchain, getAssetById, getAssets } from './swap.selectors'
+import { getAssetsByBlockchain, getAssetById } from './swap.selectors'
 import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
 
-const loadSwapData = ({ withTestnetInstance = false, pTokenDefault }) => {
+const loadSwapData = ({ pTokenDefault }) => {
   return async _dispatch => {
     try {
-      const assetsMaybeWithoutTestnetInstances = assets.filter(({ network }) =>
-        withTestnetInstance === true ? true : network === 'mainnet'
-      )
-
-      // NOTE: default selection
-      const { from, to } = getDefaultSelection(assetsMaybeWithoutTestnetInstances, pTokenDefault)
       _dispatch({
         type: SWAP_DATA_LOADED,
         payload: {
-          assets: [...assetsMaybeWithoutTestnetInstances, from, to]
+          assets: [...assets]
         }
       })
 
       const nodeSelector = new NodeSelector()
-      const nodeList = await nodeSelector.fetchNodes('mainnet')
+      await nodeSelector.fetchNodes('mainnet')
 
       const nodes = await Promise.all(
-        assetsMaybeWithoutTestnetInstances.map(({ workingName, blockchain, network, skipNodeSelection }) => {
+        assets.map(({ workingName, blockchain, network, skipNodeSelection }) => {
           if (skipNodeSelection) {
             return null
           }
@@ -61,7 +55,6 @@ const loadSwapData = ({ withTestnetInstance = false, pTokenDefault }) => {
           return new Promise(_resolve =>
             nodeSelector
               .select({
-                nodes: nodeList,
                 pToken: workingName,
                 nativeBlockchain,
                 nativeNetwork,
@@ -96,22 +89,21 @@ const loadSwapData = ({ withTestnetInstance = false, pTokenDefault }) => {
         )
       )
 
-      const assetsWithAddress = assetsMaybeWithoutTestnetInstances.map((_asset, _index) => {
+      const assetsWithAddress = assets.map((_asset, _index) => {
         const nativeAddress = constants.tokens[helpers.getBlockchainType(_asset.blockchain)]
           ? constants.tokens[helpers.getBlockchainType(_asset.blockchain)][_asset.network][_asset.symbol]
           : null
+
         return {
           ..._asset,
           address: nativeAddress ? nativeAddress : pTokensAddresses[_index]
         }
       })
 
-      // NOTE: default selection
-      const defaultSelection = getDefaultSelection(assetsWithAddress, pTokenDefault)
       _dispatch({
         type: SWAP_DATA_LOADED,
         payload: {
-          assets: [...assetsWithAddress, defaultSelection.from, defaultSelection.to]
+          assets: [...assetsWithAddress]
         }
       })
     } catch (_err) {
@@ -120,7 +112,7 @@ const loadSwapData = ({ withTestnetInstance = false, pTokenDefault }) => {
   }
 }
 
-const getDefaultSelection = (_assets, _pTokenDefault) => {
+/*const getDefaultSelection = (_assets, _pTokenDefault) => {
   const nativeSymbolDefault = _pTokenDefault ? _pTokenDefault.split('-')[0].toLowerCase() : 'none'
 
   const btc = _assets.find(({ symbol }) => symbol === 'BTC')
@@ -149,7 +141,7 @@ const getDefaultSelection = (_assets, _pTokenDefault) => {
     from: pTokenDefaultFrom,
     to: pTokenDefaultTo
   }
-}
+}*/
 
 const loadBalances = (_account, _blockchain) => {
   return async _dispatch => {
@@ -265,13 +257,12 @@ const swap = (_from, _to, _amount, _address) => {
   return async _dispatch => {
     try {
       _dispatch(resetProgress())
-      const assets = getAssets()
       const wallets = getWallets()
 
       // NOTE: pegin
       if (!_from.isPtoken && _to.isPtoken) {
         const ptokenId = _to.id
-        const ptoken = assets.find(({ id }) => ptokenId === id)
+        const ptoken = getAssetById(ptokenId)
 
         const ptokens = new pTokens(
           getConfigs(ptokenId, {
@@ -316,7 +307,7 @@ const swap = (_from, _to, _amount, _address) => {
       // NOTE: pegout
       else if (_from.isPtoken && !_to.isPtoken) {
         const ptokenId = _from.id
-        const ptoken = assets.find(({ id }) => ptokenId === id)
+        const ptoken = getAssetById(ptokenId)
 
         const ptokens = new pTokens(
           getConfigs(ptokenId, {

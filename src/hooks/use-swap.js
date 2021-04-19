@@ -22,8 +22,6 @@ const useSwap = ({
   const [showModalFrom, setShowModalFrom] = useState(false)
   const [showModalTo, setShowModalTo] = useState(false)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
-  const [fromDefaultWithDataLoaded, setFromDefaultWithDataLoaded] = useState(false)
-  const [toDefaultWithDataLoaded, setToDefaultWithDataLoaded] = useState(false)
 
   const { fee } = useSwapInfo(from, to)
 
@@ -154,36 +152,17 @@ const useSwap = ({
 
   // NOTE: default selection
   useMemo(() => {
-    if (assets.length > 0) {
-      const defaultFromAsset = assets.find(({ defaultFrom }) => defaultFrom)
-      const defaultToAsset = assets.find(({ defaultTo }) => defaultTo)
+    if (assets.length > 0 && !assetsLoaded) {
+      const defaultFromAsset = assets.find(({ symbol }) => symbol === 'BTC')
+      const defaultToAsset = assets.find(({ symbol }) => symbol === 'PBTC')
 
-      if (!assetsLoaded) {
+      if (defaultFromAsset && defaultToAsset) {
         setFrom(defaultFromAsset)
         setTo(defaultToAsset)
         setAssetsLoaded(true)
       }
-
-      // NOTE: balance must be loaded for all assets except the ones that uses deposit address to pegin
-      if (
-        !fromDefaultWithDataLoaded &&
-        defaultFromAsset.address &&
-        defaultFromAsset.balance &&
-        !defaultFromAsset.peginWithDepositAddress
-      ) {
-        setFrom(defaultFromAsset)
-        setFromDefaultWithDataLoaded(true)
-      } else if (
-        !toDefaultWithDataLoaded &&
-        defaultToAsset.address &&
-        defaultToAsset.balance &&
-        !defaultToAsset.peginWithDepositAddress
-      ) {
-        setTo(defaultToAsset)
-        setToDefaultWithDataLoaded(true)
-      }
     }
-  }, [assets, toDefaultWithDataLoaded, fromDefaultWithDataLoaded, assetsLoaded, setFrom, setTo])
+  }, [assets, assetsLoaded, setFrom, setTo])
 
   // NOTE: reset data when pegin/pegout terminates
   useEffect(() => {
@@ -213,6 +192,17 @@ const useSwap = ({
     if (!isValidSwap) {
       setAddress('')
       updateSwapButton('Invalid Swap', true)
+      return
+    }
+
+    // NOTE: if wallet is connected but balance is still null it means that we are loading balances
+    if (wallets[from.blockchain.toLowerCase()] && wallets[from.blockchain.toLowerCase()].account && !from.balance) {
+      updateSwapButton('Loading balances ...', true)
+      return
+    }
+
+    if (wallets[to.blockchain.toLowerCase()] && wallets[to.blockchain.toLowerCase()].account && !to.balance) {
+      updateSwapButton('Loading balances ...', true)
       return
     }
 
@@ -294,6 +284,24 @@ const useSwap = ({
 
     return [assets]
   }, [assets, from, isValidSwap])
+
+  // NOTE: from balance is null but it has been loaded
+  useEffect(() => {
+    if (!from) return
+    const maybeFromWithBalance = assets.find(({ id }) => from.id === id)
+    if (!from.balance && maybeFromWithBalance && maybeFromWithBalance.balance) {
+      setFrom(maybeFromWithBalance)
+    }
+  }, [assets, from, setFrom])
+
+  // NOTE: to balance is null but it has been loaded
+  useEffect(() => {
+    if (!to) return
+    const maybeToWithBalance = assets.find(({ id }) => to.id === id)
+    if (!to.balance && maybeToWithBalance && maybeToWithBalance.balance) {
+      setTo(maybeToWithBalance)
+    }
+  }, [assets, to, setTo])
 
   return {
     from,
