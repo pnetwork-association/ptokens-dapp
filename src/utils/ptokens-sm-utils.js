@@ -1,12 +1,9 @@
 import settings from '../settings'
 import {
   PBTC_ON_ETH_MAINNET,
-  PBTC_ON_ETH_TESTNET,
-  PBTC_ON_EOS_TESTNET,
   PBTC_ON_TELOS_MAINNET,
   PBTC_ON_EOS_MAINNET,
   PLTC_ON_ETH_MAINNET,
-  PLTC_ON_ETH_TESTNET,
   PLTC_ON_EOS_MAINNET,
   PETH_ON_EOS_MAINNET,
   PNT_ON_EOS_MAINNET,
@@ -57,16 +54,6 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
         ? `${settings.explorers.mainnet.btc}address/${_address}`
         : `${settings.explorers.mainnet.eth}address/${_address}`
     }
-    case PBTC_ON_ETH_TESTNET: {
-      return _role === 'native'
-        ? `${settings.explorers.testnet.btc}address/${_address}`
-        : `${settings.explorers.mainnet.eth}address/${_address}`
-    }
-    case PBTC_ON_EOS_TESTNET: {
-      return _role === 'native'
-        ? `${settings.explorers.mainnet.btc}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
-    }
     case PBTC_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.btc}address/${_address}`
@@ -85,11 +72,6 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
     case PLTC_ON_ETH_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.ltc}address/${_address}`
-        : `${settings.explorers.mainnet.eth}address/${_address}`
-    }
-    case PLTC_ON_ETH_TESTNET: {
-      return _role === 'native'
-        ? `${settings.explorers.testnet.ltc}address/${_address}`
         : `${settings.explorers.mainnet.eth}address/${_address}`
     }
     case PETH_ON_EOS_MAINNET: {
@@ -302,14 +284,6 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
     case PBTC_ON_ETH_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.btc}tx/` : `${settings.explorers.mainnet.eth}tx/`
     }
-    case PBTC_ON_ETH_TESTNET: {
-      return _role === 'native' ? `${settings.explorers.mainnet.btc}tx/` : `${settings.explorers.mainnet.eth}tx/`
-    }
-    case PBTC_ON_EOS_TESTNET: {
-      return _role === 'native'
-        ? `${settings.explorers.mainnet.btc}tx/`
-        : `${settings.explorers.mainnet.eos}transaction/`
-    }
     case PBTC_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.btc}tx/`
@@ -324,9 +298,6 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
         : `${settings.explorers.mainnet.eos}transaction/`
     }
     case PLTC_ON_ETH_MAINNET: {
-      return _role === 'native' ? `${settings.explorers.mainnet.ltc}tx/` : `${settings.explorers.mainnet.eth}tx/`
-    }
-    case PLTC_ON_ETH_TESTNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.ltc}tx/` : `${settings.explorers.mainnet.eth}tx/`
     }
     case PETH_ON_EOS_MAINNET: {

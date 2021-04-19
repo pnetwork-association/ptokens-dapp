@@ -2,12 +2,9 @@ import Web3 from 'web3'
 import pTokenUtils from 'ptokens/node_modules/ptokens-utils'
 import {
   PBTC_ON_ETH_MAINNET,
-  PBTC_ON_ETH_TESTNET,
-  PBTC_ON_EOS_TESTNET,
   PBTC_ON_EOS_MAINNET,
   PBTC_ON_TELOS_MAINNET,
   PLTC_ON_ETH_MAINNET,
-  PLTC_ON_ETH_TESTNET,
   PLTC_ON_EOS_MAINNET,
   PETH_ON_EOS_MAINNET,
   PNT_ON_EOS_MAINNET,
@@ -64,11 +61,6 @@ const isValidAccount = (_pTokenId, _account, _type) => {
         ? pTokenUtils.btc.isValidAddress(_account)
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
-    case PBTC_ON_ETH_TESTNET: {
-      return _type === 'pegin'
-        ? pTokenUtils.btc.isValidAddress(_account)
-        : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
-    }
     case PBTC_ON_EOS_MAINNET: {
       return _type === 'pegin' ? pTokenUtils.btc.isValidAddress(_account) : pTokenUtils.eos.isValidAccountName(_account)
     }
@@ -78,15 +70,7 @@ const isValidAccount = (_pTokenId, _account, _type) => {
     case PLTC_ON_EOS_MAINNET: {
       return _type === 'pegin' ? pTokenUtils.ltc.isValidAddress(_account) : pTokenUtils.eos.isValidAccountName(_account)
     }
-    case PBTC_ON_EOS_TESTNET: {
-      return _type === 'pegin' ? pTokenUtils.btc.isValidAddress(_account) : pTokenUtils.eos.isValidAccountName(_account)
-    }
     case PLTC_ON_ETH_MAINNET: {
-      return _type === 'pegin'
-        ? pTokenUtils.ltc.isValidAddress(_account)
-        : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
-    }
-    case PLTC_ON_ETH_TESTNET: {
       return _type === 'pegin'
         ? pTokenUtils.ltc.isValidAddress(_account)
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))

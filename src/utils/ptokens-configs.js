@@ -1,11 +1,8 @@
 import {
   PBTC_ON_ETH_MAINNET,
-  PBTC_ON_ETH_TESTNET,
-  PBTC_ON_EOS_TESTNET,
   PBTC_ON_TELOS_MAINNET,
   PBTC_ON_EOS_MAINNET,
   PLTC_ON_ETH_MAINNET,
-  PLTC_ON_ETH_TESTNET,
   PLTC_ON_EOS_MAINNET,
   PETH_ON_EOS_MAINNET,
   PNT_ON_EOS_MAINNET,
@@ -73,25 +70,6 @@ const getConfigs = (_pTokenId, _configs) => {
       }
     }
   }
-  if (pTokenId === PBTC_ON_ETH_TESTNET) {
-    return {
-      pbtc: {
-        network: networks.Testnet,
-        blockchain: blockchains.Ethereum,
-        ethProvider
-      }
-    }
-  }
-  if (pTokenId === PBTC_ON_EOS_TESTNET) {
-    return {
-      pbtc: {
-        network: networks.Testnet,
-        blockchain: blockchains.Eosio,
-        eosRpc: settings.rpc.testnet.eos.endpoint,
-        eosSignatureProvider
-      }
-    }
-  }
   if (pTokenId === PBTC_ON_EOS_MAINNET) {
     return {
       pbtc: {
@@ -131,15 +109,6 @@ const getConfigs = (_pTokenId, _configs) => {
         ethProvider,
         eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
-      }
-    }
-  }
-  if (pTokenId === PLTC_ON_ETH_TESTNET) {
-    return {
-      pltc: {
-        network: networks.Testnet,
-        blockchain: blockchains.Ethereum,
-        ethProvider
       }
     }
   }

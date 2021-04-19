@@ -15,13 +15,13 @@ const connectWithTelosWallet = _dispatch => {
     theme: getWeb3ModalTheme(getTheme()),
     providerOptions: {
       scatter: {
-        settings: settings.rpc.mainnet.eos
+        settings: settings.rpc.mainnet.telos
       },
       tokenPocket: {
-        settings: settings.rpc.mainnet.eos
+        settings: settings.rpc.mainnet.telos
       },
       anchor: {
-        settings: settings.rpc.mainnet.eos
+        settings: settings.rpc.mainnet.telos
       }
     }
   })

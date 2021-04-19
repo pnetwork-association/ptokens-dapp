@@ -5,9 +5,6 @@ import {
   PLTC_ON_ETH_MAINNET,
   PLTC_ON_EOS_MAINNET,
   PETH_ON_EOS_MAINNET,
-  /*PBTC_ON_ETH_TESTNET,
-  PBTC_ON_EOS_TESTNET,
-  PLTC_ON_ETH_TESTNET,*/
   PNT_ON_EOS_MAINNET,
   PMKR_ON_EOS_MAINNET,
   PLINK_ON_EOS_MAINNET,
@@ -329,60 +326,6 @@ const settings = {
       image: 'pYFI.svg',
       withBalanceDecimalsConversion: false
     },
-    /*{
-      id: PBTC_ON_ETH_TESTNET,
-      name: 'pBTC',
-      workingName: 'pbtc',
-      nativeDecimals: 8,
-      network: 'testnet',
-      minimumIssuable: '0',
-      minimumRedeamable: '0.00005',
-      blockchain: 'EOS',
-      decimals: 18,
-      withMiniImage: true,
-      symbol: 'PBTC',
-      isPtoken: true,
-      nativeSymbol: 'BTC',
-      nativeBlockchain: 'ETH',
-      image: 'pBTC.svg',
-      withAmountConversionPegout: true,
-      withBalanceDecimalsConversion: false
-    },
-    {
-      id: PBTC_ON_EOS_TESTNET,
-      name: 'pBTC',
-      workingName: 'pbtc',
-      nativeDecimals: 8,
-      network: 'testnet',
-      minimumIssuable: '0',
-      minimumRedeamable: '0.00005',
-      blockchain: 'EOS',
-      decimals: 0,
-      withMiniImage: true,
-      symbol: 'PBTC',
-      isPtoken: true,
-      nativeSymbol: 'BTC',
-      nativeBlockchain: 'BTC',
-      image: 'pBTC.svg',
-      withBalanceDecimalsConversion: false
-    },
-    {
-      id: PLTC_ON_ETH_TESTNET,
-      name: 'pLTC',
-      workingName: 'pltc',
-      nativeDecimals: 8,
-      network: 'testnet',
-      blockchain: 'ETH',
-      decimals: 18,
-      withMiniImage: true,
-      symbol: 'PLTC',
-      isPtoken: true,
-      nativeSymbol: 'LTC',
-      nativeBlockchain: 'LTC',
-      image: 'pLTC.svg',
-      withAmountConversionPegout: true,
-      withBalanceDecimalsConversion: true
-    },*/
     {
       id: PTERIA_ON_EOS_MAINNET,
       name: 'PTERIA',
@@ -723,6 +666,7 @@ const settings = {
       nativeSymbol: 'EOS',
       nativeBlockchain: 'EOS',
       image: 'pEOS.svg',
+      withAmountConversionPegout: true,
       withBalanceDecimalsConversion: true
     },
     {
@@ -945,7 +889,8 @@ const settings = {
       nativeSymbol: 'CGG',
       nativeBlockchain: 'ETH',
       image: 'pCGG.svg',
-      withBalanceDecimalsConversion: true
+      withBalanceDecimalsConversion: true,
+      withAmountConversionPegout: true
     },
     {
       id: PETH_ON_TELOS_MAINNET,
@@ -965,7 +910,7 @@ const settings = {
       nativeSymbol: 'ETH',
       nativeBlockchain: 'ETH',
       image: 'pETH.svg',
-      withBalanceDecimalsConversion: false,
+      withBalanceDecimalsConversion: false
     },
     {
       id: PLINK_ON_TELOS_MAINNET,

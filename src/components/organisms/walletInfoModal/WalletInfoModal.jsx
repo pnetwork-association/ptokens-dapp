@@ -3,6 +3,7 @@ import { Row, Col } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Modal from '../../molecules/modal/Modal'
+import ReactTooltip from 'react-tooltip'
 
 const ContainerAccountInfo = styled.div`
   border-radius: 20px;
@@ -17,14 +18,13 @@ const ContainerAccountInfo = styled.div`
   padding-bottom: 25px;
 `
 
-const ImageBordered = styled.img`
+const BlockchainImage = styled.img`
   position: relative;
   width: 40px;
   height: 40px;
   background: white;
   border-radius: 50%;
   border: 1px solid ${({ theme }) => theme.lightGray};
-  cursor: pointer;
   box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
 `
 
@@ -58,11 +58,11 @@ const WalletInfoModal = ({ show, wallets, onClose, onChange, onConnect }) => {
       title={'Accounts'}
       body={
         <React.Fragment>
-          {wallets.map(({ formattedAccount, blockchain, isConnected }) => (
+          {wallets.map(({ formattedAccount, blockchain, formattedBlockchain, isConnected }) => (
             <ContainerAccountInfo key={`${blockchain}-wallet`}>
               <Row>
                 <Col xs={8} className="my-auto">
-                  <ImageBordered src={`../assets/svg/${blockchain}.svg`} />
+                  <BlockchainImage src={`../assets/svg/${blockchain}.svg`} data-tip={formattedBlockchain} />
                   <Account>{formattedAccount}</Account>
                 </Col>
                 <Col xs={4} className="my-auto text-right">
@@ -73,6 +73,7 @@ const WalletInfoModal = ({ show, wallets, onClose, onChange, onConnect }) => {
                   )}
                 </Col>
               </Row>
+              <ReactTooltip />
             </ContainerAccountInfo>
           ))}
         </React.Fragment>

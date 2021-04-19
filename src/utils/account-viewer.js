@@ -1,3 +1,17 @@
 const slicer = _address => `${_address.slice(0, 6)}...${_address.slice(_address.length - 4, _address.length)}`
 
-export { slicer }
+const slicerByBlockchain = (_address, _blockchain) => {
+  switch (_blockchain.toUpperCase()) {
+    case 'EOS': {
+      return _address
+    }
+    case 'TELOS': {
+      return _address
+    }
+    default: {
+      return slicer(_address)
+    }
+  }
+}
+
+export { slicer, slicerByBlockchain }
