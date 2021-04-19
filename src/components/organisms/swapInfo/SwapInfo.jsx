@@ -20,6 +20,7 @@ const ContainerInfo = styled(Container)`
     width: 93%;
     font-size: 13px;
     margin-top: -30px;
+    margin-bottom: 100px !important;
   }
 `
 const MarginedRow = styled(Row)`

@@ -10,6 +10,9 @@ import settings from '../../../settings'
 const HeaderWrapper = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
+  @media (max-width: 767.98px) {
+    margin-bottom: 15px;
+  }
 `
 
 const ConnectButton = styled.button`
@@ -71,6 +74,7 @@ const StyledNavLink = styled(Nav.Link)`
   color: ${({ active, theme }) => (active ? theme.text1 : theme.text3)} !important;
   @media (max-width: 767.98px) {
     margin-left: 10px;
+    font-size: 16px;
   }
 `
 
@@ -95,7 +99,7 @@ const StyledNav = styled(Nav)`
 
 const ContainerBottom = styled(Container)`
   display: none;
-  position: absolute;
+  position: fixed !important;
   bottom: 0;
   height: 70px;
   width: 100%;
@@ -104,6 +108,7 @@ const ContainerBottom = styled(Container)`
   border-top-right-radius: 20px;
   padding: 15px;
   border: 1px solid ${({ theme }) => theme.lightGray};
+  background-color: ${({ theme }) => theme.bg1} !important;
   @media (max-width: 767.98px) {
     display: block;
   }
@@ -189,14 +194,14 @@ const Header = _props => {
       />
       <ContainerBottom>
         <Row>
-          <Col xs={6}>
+          <Col xs={8}>
             {isConnected ? (
               <Connected onClick={() => setShowWalletInfo(true)} />
             ) : (
               <ConnectButton onClick={() => setShowWalletInfo(true)}>Connect Wallets</ConnectButton>
             )}
           </Col>
-          <Col xs={6} className="text-right">
+          <Col xs={4} className="text-right">
             <StyledIcon
               icon={theme === 'light' ? 'sun' : 'moon'}
               onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
