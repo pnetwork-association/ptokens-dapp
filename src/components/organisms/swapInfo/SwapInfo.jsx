@@ -31,12 +31,18 @@ const ValueCol = styled(Col)`
   text-align: right;
   font-weight: 500;
   color: ${({ theme }) => theme.text1};
+  @media (max-width: 767.98px) {
+    font-size: 12px;
+  }
 `
 
 const LabelCol = styled(Col)`
   text-align: left;
   font-weight: 300;
   color: ${({ theme }) => theme.text1};
+  @media (max-width: 767.98px) {
+    font-size: 12px;
+  }
 `
 
 const SwapInfo = ({ from, to }) => {

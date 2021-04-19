@@ -84,6 +84,9 @@ const AddressInput = styled.input`
   font-size: 16px;
   color: ${({ theme }) => theme.text1};
   width: 100%;
+  @media (max-width: 767.98px) {
+    font-size: 14px;
+  }
 `
 
 const InnerContainerAddressInput = styled.div`
@@ -160,6 +163,9 @@ const ContainerTitle = styled(Col)`
   color: ${({ theme }) => theme.text2};
   margin-bottom: auto !important;
   font-size: 14px;
+  @media (max-width: 767.98px) {
+    font-size: 12px;
+  }
 `
 
 const SwapLine = ({

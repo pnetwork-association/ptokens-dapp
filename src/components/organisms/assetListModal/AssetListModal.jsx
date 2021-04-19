@@ -95,6 +95,10 @@ const Arrow = styled(Icon)`
   svg {
     fill: ${({ theme }) => theme.text3};
   }
+
+  @media (max-width: 767.98px) {
+    width: 10px;
+  }
 `
 
 const AssetSymbol = styled.div`
@@ -126,6 +130,9 @@ const Search = styled.input`
   font-size: 18px;
   &:focus {
     border: 1px solid ${({ theme }) => theme.blue};
+  }
+  @media (max-width: 767.98px) {
+    font-size: 14px;
   }
 `
 

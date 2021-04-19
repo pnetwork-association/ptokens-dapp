@@ -47,8 +47,8 @@ const ArrowContainer = styled.div`
   text-align: center;
   cursor: pointer;
   @media (max-width: 767.98px) {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
 `
 
@@ -59,13 +59,16 @@ const SortIcon = styled(Icon)`
     fill: ${({ theme }) => theme.primary1};
   }
   @media (max-width: 767.98px) {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
   }
 `
 
 const ContainerSwapButton = styled.div`
   margin-top: 30px;
+  @media (max-width: 767.98px) {
+    margin-top: 20px;
+  }
 `
 
 const SwapButton = styled.button`
@@ -89,6 +92,7 @@ const SwapButton = styled.button`
   }
   @media (max-width: 767.98px) {
     height: 60px;
+    font-size: 20px;
   }
 `
 
@@ -97,7 +101,8 @@ const SwapLabel = styled.label`
   margin-bottom: 20px;
   margin-left: 14px;
   @media (max-width: 767.98px) {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    font-size: 14px;
   }
 `
 

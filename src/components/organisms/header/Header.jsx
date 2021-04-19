@@ -33,9 +33,12 @@ const ConnectButton = styled.button`
     background: ${({ theme }) => theme.secondary4Hovered};
   }
   color: ${({ theme }) => theme.text1};
+  @media (max-width: 767.98px) {
+    height: 35px;
+  }
 `
 
-const StyledIcon = styled(Icon)`
+const ThemeIcon = styled(Icon)`
   width: 40px;
   height: 40px;
   cursor: pointer;
@@ -50,6 +53,11 @@ const StyledIcon = styled(Icon)`
   svg {
     fill: ${({ theme }) => theme.text1};
   }
+
+  @media (max-width: 767.98px) {
+    height: 35px;
+    width: 35px;
+  }
 `
 
 const Connected = styled.div`
@@ -60,11 +68,19 @@ const Connected = styled.div`
   background: #a8f7b5;
   border: 1px solid #a8f7b5;
   cursor: pointer;
+  @media (max-width: 767.98px) {
+    height: 35px;
+    width: 35px;
+  }
 `
 
 const Logo = styled.img`
   width: 36px;
   height: 36px;
+  @media (max-width: 767.98px) {
+    height: 30px;
+    width: 30px;
+  }
 `
 
 const StyledNavLink = styled(Nav.Link)`
@@ -72,9 +88,9 @@ const StyledNavLink = styled(Nav.Link)`
   padding-left: 15px;
   padding-right: 15px;
   color: ${({ active, theme }) => (active ? theme.text1 : theme.text3)} !important;
-  @media (max-width: 767.98px) {
+  @media (max-width: 991.98px) {
     margin-left: 10px;
-    font-size: 16px;
+    font-size: 15px;
   }
 `
 
@@ -83,7 +99,6 @@ const GoToIcon = styled(Icon)`
   height: 7px;
   position: relative;
   margin-top: -10px;
-  /* margin-left: 0px; */
   vertical-align: super;
   svg {
     fill: ${({ active, theme }) => (active ? theme.text1 : theme.text3)} !important;
@@ -91,17 +106,17 @@ const GoToIcon = styled(Icon)`
 `
 
 const StyledNav = styled(Nav)`
-  @media (max-width: 767.98px) {
+  @media (max-width: 991.98px) {
     margin-right: 0 !important;
     flex-direction: row !important;
   }
 `
 
-const ContainerBottom = styled(Container)`
+const ContainerBottomMobile = styled(Container)`
   display: none;
   position: fixed !important;
   bottom: 0;
-  height: 70px;
+  height: 65px;
   width: 100%;
   z-index: 100;
   border-top-left-radius: 20px;
@@ -178,10 +193,10 @@ const Header = _props => {
           ) : (
             <ConnectButton onClick={() => setShowWalletInfo(true)}>Connect Wallets</ConnectButton>
           )}
-          <StyledIcon
+          <ThemeIcon
             icon={theme === 'light' ? 'sun' : 'moon'}
             onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-          ></StyledIcon>
+          ></ThemeIcon>
         </ContainerOptions>
       </Navbar>
       <Walletinfo
@@ -192,7 +207,7 @@ const Header = _props => {
         onChange={onChangeWallet}
         onConnect={onConnectWallet}
       />
-      <ContainerBottom>
+      <ContainerBottomMobile>
         <Row>
           <Col xs={8}>
             {isConnected ? (
@@ -202,13 +217,13 @@ const Header = _props => {
             )}
           </Col>
           <Col xs={4} className="text-right">
-            <StyledIcon
+            <ThemeIcon
               icon={theme === 'light' ? 'sun' : 'moon'}
               onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-            ></StyledIcon>
+            ></ThemeIcon>
           </Col>
         </Row>
-      </ContainerBottom>
+      </ContainerBottomMobile>
     </HeaderWrapper>
   )
 }

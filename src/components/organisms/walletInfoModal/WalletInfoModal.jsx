@@ -8,14 +8,12 @@ import ReactTooltip from 'react-tooltip'
 const ContainerAccountInfo = styled.div`
   border-radius: 20px;
   border: 1px solid ${({ theme }) => theme.lightGray};
-  margin-left: 15px;
-  margin-right: 15px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 25px;
-  padding-bottom: 25px;
+  margin: 20px 15px 20px 15px;
+  padding: 25px 20px 25px 20px;
+  @media (max-width: 767.98px) {
+    margin: 15px 10px 15px 10px;
+    padding: 15px 10px 15px 10px;
+  }
 `
 
 const BlockchainImage = styled.img`
@@ -26,6 +24,10 @@ const BlockchainImage = styled.img`
   border-radius: 50%;
   border: 1px solid ${({ theme }) => theme.lightGray};
   box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
+  @media (max-width: 767.98px) {
+    width: 32px;
+    height: 32px;
+  }
 `
 
 const Account = styled.span`
@@ -47,6 +49,9 @@ const ChangeOrConnectButton = styled.button`
   font-size: 12px;
   &:hover {
     background: #66b8ff61;
+  }
+  @media (max-width: 767.98px) {
+    font-size: 10px;
   }
 `
 
