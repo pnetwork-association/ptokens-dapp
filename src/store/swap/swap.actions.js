@@ -8,15 +8,21 @@ import {
   PROGRESS_RESET,
   UPDATE_SWAP_BUTTON
 } from '../../constants/index'
-import store from '../index'
 import { constants, helpers } from 'ptokens-utils'
 import pTokens from 'ptokens'
 import { getConfigs } from '../../utils/ptokens-configs'
-import { loadEthBalances, loadEosBalances, loadEthBalance, loadEosBalance } from './utils/balances'
+import {
+  loadEvmCompatibleBalances,
+  loadEosioCompatibleBalances,
+  loadEvmCompatibleBalance,
+  loadEosioCompatibleBalance
+} from './utils/balances'
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
 import peginWithDepositAddress from './utils/pegin-with-deposit-address'
 import peginWithWallet from './utils/pegin-with-wallet'
 import pegout from './utils/pegout'
+import { getAssetsByBlockchain, getAssetById, getAssets } from './swap.selectors'
+import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
 
 const loadSwapData = ({ withTestnetInstance = false, pTokenDefault }) => {
   return async _dispatch => {
@@ -148,30 +154,26 @@ const getDefaultSelection = (_assets, _pTokenDefault) => {
 const loadBalances = (_account, _blockchain) => {
   return async _dispatch => {
     try {
-      const {
-        swap: { assets }
-      } = store.getState()
-
       switch (_blockchain) {
         case 'ETH': {
-          loadEthBalances({
-            assets: assets.filter(({ blockchain }) => blockchain === 'ETH'),
+          loadEvmCompatibleBalances({
+            assets: getAssetsByBlockchain('ETH'),
             account: _account,
             dispatch: _dispatch
           })
           break
         }
         case 'EOS': {
-          loadEosBalances({
-            assets: assets.filter(({ blockchain }) => blockchain === 'EOS'),
+          loadEosioCompatibleBalances({
+            assets: getAssetsByBlockchain('EOS'),
             account: _account,
             dispatch: _dispatch
           })
           break
         }
         case 'TELOS': {
-          loadEosBalances({
-            assets: assets.filter(({ blockchain }) => blockchain === 'TELOS'),
+          loadEosioCompatibleBalances({
+            assets: getAssetsByBlockchain('TELOS'),
             account: _account,
             dispatch: _dispatch,
             blockchain: 'TELOS'
@@ -179,8 +181,8 @@ const loadBalances = (_account, _blockchain) => {
           break
         }
         case 'BSC': {
-          loadEthBalances({
-            assets: assets.filter(({ blockchain }) => blockchain === 'BSC'),
+          loadEvmCompatibleBalances({
+            assets: getAssetsByBlockchain('BSC'),
             account: _account,
             dispatch: _dispatch,
             blockchain: 'BSC'
@@ -188,8 +190,8 @@ const loadBalances = (_account, _blockchain) => {
           break
         }
         case 'XDAI': {
-          loadEthBalances({
-            assets: assets.filter(({ blockchain }) => blockchain === 'XDAI'),
+          loadEvmCompatibleBalances({
+            assets: getAssetsByBlockchain('XDAI'),
             account: _account,
             dispatch: _dispatch,
             blockchain: 'XDAI'
@@ -197,8 +199,8 @@ const loadBalances = (_account, _blockchain) => {
           break
         }
         case 'POLYGON': {
-          loadEthBalances({
-            assets: assets.filter(({ blockchain }) => blockchain === 'POLYGON'),
+          loadEvmCompatibleBalances({
+            assets: getAssetsByBlockchain('POLYGON'),
             account: _account,
             dispatch: _dispatch,
             blockchain: 'POLYGON'
@@ -217,41 +219,36 @@ const loadBalances = (_account, _blockchain) => {
 const loadBalanceByAssetId = _id => {
   return async _dispatch => {
     try {
-      const {
-        wallets,
-        swap: { assets }
-      } = store.getState()
-
-      const asset = assets.find(({ id }) => id === _id)
-      if (!wallets[asset.blockchain.toLowerCase()] || !wallets[asset.blockchain.toLowerCase()].account) {
+      const asset = getAssetById(_id)
+      const wallet = getWalletByBlockchain(asset.blockchain)
+      if (!wallet || !wallet.account) {
         return
       }
-
-      const account = wallets[asset.blockchain.toLowerCase()].account
+      const account = wallet.account
 
       switch (asset.blockchain) {
         case 'ETH': {
-          loadEthBalance({ asset, account, dispatch: _dispatch })
+          loadEvmCompatibleBalance({ asset, account, dispatch: _dispatch })
           break
         }
         case 'EOS': {
-          loadEosBalance({ asset, account, dispatch: _dispatch })
+          loadEosioCompatibleBalance({ asset, account, dispatch: _dispatch })
           break
         }
         case 'BSC': {
-          loadEthBalance({ asset, account, blockchain: 'BSC', dispatch: _dispatch })
+          loadEvmCompatibleBalance({ asset, account, blockchain: 'BSC', dispatch: _dispatch })
           break
         }
         case 'POLYGON': {
-          loadEthBalance({ asset, account, blockchain: 'POLYGON', dispatch: _dispatch })
+          loadEvmCompatibleBalance({ asset, account, blockchain: 'POLYGON', dispatch: _dispatch })
           break
         }
         case 'XDAI': {
-          loadEthBalance({ asset, account, blockchain: 'XDAI', dispatch: _dispatch })
+          loadEvmCompatibleBalance({ asset, account, blockchain: 'XDAI', dispatch: _dispatch })
           break
         }
         case 'TELOS': {
-          loadEosBalance({ asset, account, blockchain: 'TELOS', dispatch: _dispatch })
+          loadEosioCompatibleBalance({ asset, account, blockchain: 'TELOS', dispatch: _dispatch })
           break
         }
         default: {
@@ -268,10 +265,8 @@ const swap = (_from, _to, _amount, _address) => {
   return async _dispatch => {
     try {
       _dispatch(resetProgress())
-      const {
-        wallets,
-        swap: { assets }
-      } = store.getState()
+      const assets = getAssets()
+      const wallets = getWallets()
 
       // NOTE: pegin
       if (!_from.isPtoken && _to.isPtoken) {
