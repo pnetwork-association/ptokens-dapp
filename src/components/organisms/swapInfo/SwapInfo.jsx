@@ -19,6 +19,7 @@ const ContainerInfo = styled(Container)`
   @media (max-width: 767.98px) {
     width: 93%;
     font-size: 13px;
+    margin-top: -30px;
   }
 `
 const MarginedRow = styled(Row)`

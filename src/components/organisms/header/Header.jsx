@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Navbar, Nav } from 'react-bootstrap'
+import { Navbar, Nav, Container, Row, Col } from 'react-bootstrap'
 import Walletinfo from '../walletInfoModal/WalletInfoModal'
 import { useWallets } from '../../../hooks/use-wallets'
 import Icon from '../../atoms/icon/Icon'
@@ -69,6 +69,9 @@ const StyledNavLink = styled(Nav.Link)`
   padding-left: 15px;
   padding-right: 15px;
   color: ${({ active, theme }) => (active ? theme.text1 : theme.text3)} !important;
+  @media (max-width: 767.98px) {
+    margin-left: 10px;
+  }
 `
 
 const GoToIcon = styled(Icon)`
@@ -80,6 +83,37 @@ const GoToIcon = styled(Icon)`
   vertical-align: super;
   svg {
     fill: ${({ active, theme }) => (active ? theme.text1 : theme.text3)} !important;
+  }
+`
+
+const StyledNav = styled(Nav)`
+  @media (max-width: 767.98px) {
+    margin-right: 0 !important;
+    flex-direction: row !important;
+  }
+`
+
+const ContainerBottom = styled(Container)`
+  display: none;
+  position: absolute;
+  bottom: 0;
+  height: 70px;
+  width: 100%;
+  z-index: 100;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding: 15px;
+  border: 1px solid ${({ theme }) => theme.lightGray};
+  @media (max-width: 767.98px) {
+    display: block;
+  }
+`
+
+const ContainerOptions = styled.div`
+  margin-left: auto;
+  display: flex;
+  @media (max-width: 767.98px) {
+    display: none;
   }
 `
 
@@ -119,22 +153,21 @@ const Header = _props => {
           {' '}
           <Logo src="../assets/svg/PNT.svg" />
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <StyledNavLink active={selectedPage === 'swap'} onClick={() => selectPage('swap')}>
-              Swap
-            </StyledNavLink>
-            <StyledNavLink active={selectedPage === 'nfts'} onClick={() => selectPage('nfts')}>
-              NFTs
-            </StyledNavLink>
-            <StyledNavLink onClick={() => window.open(settings.ptokensWebsite, '_blank')}>
-              Stats <GoToIcon icon="arrow-diagonal" />
-            </StyledNavLink>
-            <StyledNavLink onClick={() => window.open(settings.auditLinks, '_blank')}>
-              Audits <GoToIcon icon="arrow-diagonal" />
-            </StyledNavLink>
-          </Nav>
+        <StyledNav>
+          <StyledNavLink active={selectedPage === 'swap'} onClick={() => selectPage('swap')}>
+            Swap
+          </StyledNavLink>
+          <StyledNavLink active={selectedPage === 'nfts'} onClick={() => selectPage('nfts')}>
+            NFTs
+          </StyledNavLink>
+          <StyledNavLink onClick={() => window.open(settings.ptokensWebsite, '_blank')}>
+            Stats <GoToIcon icon="arrow-diagonal" />
+          </StyledNavLink>
+          <StyledNavLink onClick={() => window.open(settings.auditLinks, '_blank')}>
+            Audits <GoToIcon icon="arrow-diagonal" />
+          </StyledNavLink>
+        </StyledNav>
+        <ContainerOptions>
           {isConnected ? (
             <Connected onClick={() => setShowWalletInfo(true)} />
           ) : (
@@ -144,7 +177,7 @@ const Header = _props => {
             icon={theme === 'light' ? 'sun' : 'moon'}
             onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
           ></StyledIcon>
-        </Navbar.Collapse>
+        </ContainerOptions>
       </Navbar>
       <Walletinfo
         show={showWalletInfo}
@@ -154,6 +187,23 @@ const Header = _props => {
         onChange={onChangeWallet}
         onConnect={onConnectWallet}
       />
+      <ContainerBottom>
+        <Row>
+          <Col xs={6}>
+            {isConnected ? (
+              <Connected onClick={() => setShowWalletInfo(true)} />
+            ) : (
+              <ConnectButton onClick={() => setShowWalletInfo(true)}>Connect Wallets</ConnectButton>
+            )}
+          </Col>
+          <Col xs={6} className="text-right">
+            <StyledIcon
+              icon={theme === 'light' ? 'sun' : 'moon'}
+              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+            ></StyledIcon>
+          </Col>
+        </Row>
+      </ContainerBottom>
     </HeaderWrapper>
   )
 }

@@ -87,6 +87,9 @@ const SwapButton = styled.button`
   &:hover {
     background: ${({ theme }) => theme.primary1Hovered};
   }
+  @media (max-width: 767.98px) {
+    height: 60px;
+  }
 `
 
 const SwapLabel = styled.label`

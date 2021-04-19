@@ -9,7 +9,7 @@ const SwapLineContainer = styled.div`
   border: 1px solid ${({ theme }) => theme.lightGray};
   padding: 12px 15px 12px 15px;
   @media (max-width: 767.98px) {
-    padding: 10px 15px 10px 15px;
+    padding: 10px 15px 5px 15px;
   }
 `
 
@@ -95,6 +95,7 @@ const InnerContainerAddressInput = styled.div`
   padding-right: 15px;
   @media (max-width: 767.98px) {
     margin-top: 10px;
+    padding-top: 5px;
   }
 `
 
@@ -135,6 +136,10 @@ const MaxButton = styled.button`
   &:hover {
     background: #66b8ff61;
   }
+  @media (max-width: 767.98px) {
+    font-size: 10px;
+    height: 22px;
+  }
 `
 
 const ContainerMaxButton = styled.div`
@@ -147,7 +152,7 @@ const ContainerTypeAndBalance = styled(Row)`
   margin-bottom: 10px;
   color: ${({ theme }) => theme.text1};
   @media (max-width: 767.98px) {
-    margin-bottom: 5px;
+    margin-bottom: 0px;
   }
 `
 

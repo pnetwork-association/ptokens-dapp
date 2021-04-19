@@ -17,6 +17,9 @@ const ContainerBanner = styled(Container)`
 const ContainerText = styled(Col)`
   text-align: center;
   font-size: 15px;
+  @media (max-width: 767.98px) {
+    font-size: 14px;
+  }
 `
 
 const ContainerCloseIcon = styled(Col)`
