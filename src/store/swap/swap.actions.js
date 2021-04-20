@@ -23,14 +23,16 @@ import peginWithWallet from './utils/pegin-with-wallet'
 import pegout from './utils/pegout'
 import { getAssetsByBlockchain, getAssetById } from './swap.selectors'
 import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
+import { getDefaultSelection } from './utils/default-selection'
 
-const loadSwapData = ({ pTokenDefault }) => {
+const loadSwapData = ({ defaultSelection: { pToken, asset, from, to } }) => {
   return async _dispatch => {
     try {
+      const assestsWithDefaultSelection = [...assets, ...getDefaultSelection(assets, { pToken, asset, from, to })]
       _dispatch({
         type: SWAP_DATA_LOADED,
         payload: {
-          assets: [...assets]
+          assets: assestsWithDefaultSelection
         }
       })
 
@@ -38,7 +40,7 @@ const loadSwapData = ({ pTokenDefault }) => {
       await nodeSelector.fetchNodes('mainnet')
 
       const nodes = await Promise.all(
-        assets.map(({ workingName, blockchain, network, skipNodeSelection }) => {
+        assestsWithDefaultSelection.map(({ workingName, blockchain, network, skipNodeSelection }) => {
           if (skipNodeSelection) {
             return null
           }
@@ -62,7 +64,10 @@ const loadSwapData = ({ pTokenDefault }) => {
                 hostNetwork
               })
               .then(_resolve)
-              .catch(() => _resolve(null))
+              .catch(_err => {
+                console.error(_err)
+                _resolve(null)
+              })
           )
         })
       )
@@ -83,13 +88,16 @@ const loadSwapData = ({ pTokenDefault }) => {
                           : null
                       )
                     })
-                    .catch(null)
+                    .catch(_err => {
+                      console.error(_err)
+                      _resolve(null)
+                    })
                 : _resolve(null)
             )
         )
       )
 
-      const assetsWithAddress = assets.map((_asset, _index) => {
+      const assetsWithAddress = assestsWithDefaultSelection.map((_asset, _index) => {
         const nativeAddress = constants.tokens[helpers.getBlockchainType(_asset.blockchain)]
           ? constants.tokens[helpers.getBlockchainType(_asset.blockchain)][_asset.network][_asset.symbol]
           : null
@@ -103,7 +111,7 @@ const loadSwapData = ({ pTokenDefault }) => {
       _dispatch({
         type: SWAP_DATA_LOADED,
         payload: {
-          assets: [...assetsWithAddress]
+          assets: assetsWithAddress
         }
       })
     } catch (_err) {
@@ -111,37 +119,6 @@ const loadSwapData = ({ pTokenDefault }) => {
     }
   }
 }
-
-/*const getDefaultSelection = (_assets, _pTokenDefault) => {
-  const nativeSymbolDefault = _pTokenDefault ? _pTokenDefault.split('-')[0].toLowerCase() : 'none'
-
-  const btc = _assets.find(({ symbol }) => symbol === 'BTC')
-  const pbtc = _assets.find(({ symbol }) => symbol === 'PBTC')
-  const assetFrom = _assets.find(
-    ({ symbol, isPtoken }) =>
-      (nativeSymbolDefault === symbol.toLowerCase() || nativeSymbolDefault.slice(1) === symbol.toLowerCase()) &&
-      !isPtoken
-  )
-  const assetTo = _assets.find(({ workingName, blockchain }) =>
-    _pTokenDefault ? _pTokenDefault.toLowerCase() === `${workingName}-on-${blockchain.toLowerCase()}` : null
-  )
-
-  // NOTE: handle token with p and without p as first letter
-  const pTokenDefaultFrom = Object.assign({}, assetFrom ? assetFrom : btc)
-  const pTokenDefaultTo = Object.assign({}, assetTo ? assetTo : pbtc)
-
-  if (pTokenDefaultFrom && pTokenDefaultTo) {
-    pTokenDefaultFrom.defaultFrom = true
-    pTokenDefaultFrom.id = pTokenDefaultFrom.id + '_DEFAULT'
-    pTokenDefaultTo.defaultTo = true
-    pTokenDefaultTo.id = pTokenDefaultTo.id + '_DEFAULT'
-  }
-
-  return {
-    from: pTokenDefaultFrom,
-    to: pTokenDefaultTo
-  }
-}*/
 
 const loadBalances = (_account, _blockchain) => {
   return async _dispatch => {

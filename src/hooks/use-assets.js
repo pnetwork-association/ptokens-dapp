@@ -18,7 +18,7 @@ const useAssets = _assets => {
 
 const useAssetsWithouDefault = _assets => {
   return useMemo(() => {
-    return [_assets.filter(({ id }) => !id.includes('_DEFAULT'))]
+    return [_assets.filter(({ defaultFrom, defaultTo }) => !defaultFrom && !defaultTo)]
   }, [_assets])
 }
 

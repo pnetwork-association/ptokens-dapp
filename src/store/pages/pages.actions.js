@@ -1,8 +1,20 @@
 import { PAGE_SELECTED, SET_LOADING, SET_THEME, UPDATE_INFO_MODAL } from '../../constants'
 import history from '../../utils/history'
 
-const selectPage = _page => {
+const selectPage = (_page, _options = {}) => {
+  const { pToken, asset, from, to } = _options
   history.push(_page)
+
+  // NOTE: v2 dapp old style
+  if (_page === 'swap' && pToken) {
+    history.replace(`swap?pToken=${pToken}`)
+  }
+
+  // NOTE: v2 dapp new style
+  if (_page === 'swap' && asset && from && to) {
+    history.replace(`swap?asset=${asset}&from=${from}&to=${to}`)
+  }
+
   return {
     type: PAGE_SELECTED,
     payload: {

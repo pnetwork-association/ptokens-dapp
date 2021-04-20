@@ -3,6 +3,7 @@ import { isValidAccount } from '../utils/account-validator'
 import { getPeginOrPegoutMinutesEstimation } from '../utils/estimations'
 import { getFee } from '../utils/fee'
 import BigNumber from 'bignumber.js'
+import { updateUrlForSwap } from '../utils/url'
 
 const useSwap = ({
   wallets,
@@ -153,8 +154,8 @@ const useSwap = ({
   // NOTE: default selection
   useMemo(() => {
     if (assets.length > 0 && !assetsLoaded) {
-      const defaultFromAsset = assets.find(({ symbol }) => symbol === 'BTC')
-      const defaultToAsset = assets.find(({ symbol }) => symbol === 'PBTC')
+      const defaultFromAsset = assets.find(({ defaultFrom }) => defaultFrom)
+      const defaultToAsset = assets.find(({ defaultTo }) => defaultTo)
 
       if (defaultFromAsset && defaultToAsset) {
         setFrom(defaultFromAsset)
@@ -328,6 +329,13 @@ const useSwap = ({
       setTo(maybeToWithBalance)
     }
   }, [assets, to])
+
+  // NOTE: update url after a selection
+  useEffect(() => {
+    if (from && to) {
+      updateUrlForSwap(from, to)
+    }
+  }, [from, to])
 
   return {
     from,

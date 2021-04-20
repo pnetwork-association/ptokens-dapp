@@ -29,20 +29,20 @@ const mapStateToProps = _state => {
 const mapDispatchToProps = _dispatch => {
   return {
     loadSwapData: _options => _dispatch(loadSwapData(_options)),
-    selectPage: _page => _dispatch(selectPage(_page)),
+    selectPage: (_page, _options) => _dispatch(selectPage(_page, _options)),
     setTheme: _theme => _dispatch(setTheme(_theme))
   }
 }
 
 const App = ({ loading, setTheme, loadSwapData, selectPage }) => {
   useEffect(() => {
-    const { withTestnetInstances, pToken } = queryString.parse(window.location.search)
+    const { pToken, asset, from, to } = queryString.parse(window.location.search)
     const theme = window.localStorage.getItem('THEME')
     if (theme) setTheme(theme)
     ReactGA.pageview(window.location.pathname)
     const page = history.location.pathname.split('/')[1]
-    selectPage(page)
-    loadSwapData({ withTestnetInstances: Boolean(withTestnetInstances), pTokenDefault: pToken })
+    selectPage(page, { pToken, asset, from, to })
+    loadSwapData({ defaultSelection: { pToken, asset, from, to } })
   }, [])
 
   return (
