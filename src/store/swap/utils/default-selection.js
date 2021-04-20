@@ -1,3 +1,5 @@
+import { toastr } from 'react-redux-toastr'
+
 const getDefaultSelection = (_assets, _options = {}) => {
   const { pToken, asset, from, to } = _options
   if (!asset && !from && !to) {
@@ -47,6 +49,10 @@ const getDefaultSelectionV2 = (_assets, { asset, from, to }) => {
       (symbol.toLowerCase() === `p${asset.toLowerCase()}` || symbol.toLowerCase() === asset.toLowerCase()) &&
       blockchain.toLowerCase() === to.toLowerCase()
   )
+
+  if ((assetFrom && !assetTo) || (!assetFrom && assetTo)) {
+    toastr.error('Error', 'Invalid routing')
+  }
 
   if (assetFrom && assetTo) {
     assetFrom.defaultFrom = true

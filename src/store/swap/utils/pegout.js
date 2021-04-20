@@ -1,7 +1,6 @@
 import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
 import BigNumber from 'bignumber.js'
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
-import { toastr } from 'react-redux-toastr'
 import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
 

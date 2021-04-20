@@ -142,7 +142,7 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_TELOS_CONNECTED) {
     const { provider, account, network } = _action.payload
     return Object.assign({}, _state, {
-      eos: {
+      telos: {
         provider,
         account,
         network
