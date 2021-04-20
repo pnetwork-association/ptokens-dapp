@@ -5,7 +5,6 @@ import Web3 from 'web3'
 import ERC20Abi from '../../../utils/abi/ERC20.json'
 import BigNumber from 'bignumber.js'
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
-import { toastr } from 'react-redux-toastr'
 import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
 
@@ -15,6 +14,8 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
   if (promiEvent) {
     promiEvent.removeAllListeners()
   }
+
+  let link
 
   // NOTE: avoids brave metamask gas estimation fails
   params[params.length] = { gas: 200000, blocksBehind: 3, expireSeconds: 60, permission: 'active' }
@@ -43,11 +44,12 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
               .approve(eth.addHexPrefix(info.native_vault_address), params[0])
               .send({ from: wallets.eth.account, gas: 150000 })
               .once('hash', _hash => {
-                toastr.success('Transaction broadcasted!', 'Click here to see it', {
+                /*toastr.success('Transaction broadcasted!', 'Click here to see it', {
                   timeOut: 0,
                   onToastrClick: () =>
                     window.open(`${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_hash}`, '_blank')
-                })
+                })*/
+                link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_hash}`
               })
               .then(_resolve)
           )
@@ -60,7 +62,6 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
     }
   }
 
-  let step = 0
   dispatch(
     updateProgress({
       show: true,
@@ -74,17 +75,12 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
   promiEvent = ptokens[ptoken.name.toLowerCase()].issue(...params)
   promiEvent
     .once('nativeTxBroadcasted', _hash => {
-      toastr.success('Transaction broadcasted!', 'Click here to see it', {
-        timeOut: 0,
-        onToastrClick: () => window.open(`${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_hash}`, '_blank')
-      })
-
-      step = step + 1
+      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_hash}`
       dispatch(
         updateProgress({
           show: true,
           percent: 20,
-          message: 'Transaction broadcasted! Waiting for confirmation ...',
+          message: `<a href="${link}" target="_blank">Transaction</a> broadcasted! Waiting for confirmation ...`,
           steps: [0, 20, 40, 60, 80, 100],
           terminated: false
         })
@@ -92,72 +88,57 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
     })
     .once('nativeTxConfirmed', _e => {
       if (ptoken.blockchain === 'EOS' || ptoken.blockchain === 'TELOS') {
-        toastr.success('Transaction broadcasted!', 'Click here to see it', {
-          timeOut: 0,
-          onToastrClick: () =>
-            window.open(`${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_e.transaction_id}`, '_blank')
-        })
-
-        step = step + 1
+        link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_e.transaction_id}`
         dispatch(
           updateProgress({
             show: true,
             percent: 20,
-            message: 'Transaction broadcasted! Waiting for confirmation ...',
+            message: `<a href="${link}" target="_blank">Transaction</a> broadcasted! Waiting for confirmation ...`,
             steps: [0, 20, 40, 60, 80, 100],
             terminated: false
           })
         )
       }
 
-      step = step + 1
       dispatch(
         updateProgress({
           show: true,
           percent: 40,
-          message: 'Waiting for the pNetwork to detect your transaction ...',
+          message: `Waiting for the pNetwork to detect your <a href="${link}" target="_blank">transaction</a> ...`,
           steps: [0, 20, 40, 60, 80, 100],
           terminated: false
         })
       )
     })
     .once('nodeReceivedTx', () => {
-      step = step + 1
       dispatch(
         updateProgress({
           show: true,
           percent: 60,
-          message: 'Enclave received the transaction, broadcasting ...',
+          message: `Enclave received the <a href="${link}" target="_blank">transaction</a>, broadcasting ...`,
           steps: [0, 20, 40, 60, 80, 100],
           terminated: false
         })
       )
     })
     .once('nodeBroadcastedTx', _report => {
-      toastr.success('Transaction broadcasted!', 'Click here to see it', {
-        timeOut: 0,
-        onToastrClick: () =>
-          window.open(`${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${_report.broadcast_tx_hash}`, '_blank')
-      })
-
-      step = step + 1
+      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${_report.broadcast_tx_hash}`
       dispatch(
         updateProgress({
           show: true,
           percent: 80,
-          message: 'Asset swap transaction completed, waiting for confirmation ...',
+          message: `Asset swap <a href="${link}" target="_blank">transaction</a> completed, waiting for confirmation ...`,
           steps: [0, 20, 40, 60, 80, 100],
           terminated: false
         })
       )
     })
     .then(_result => {
-      step = step + 1
       dispatch(
         updateProgress({
           show: true,
           percent: 100,
-          message: 'Transaction Confirmed.',
+          message: `<a href="${link}" target="_blank">Transaction</a> Confirmed.`,
           steps: [0, 20, 40, 60, 80, 100],
           terminated: true
         })

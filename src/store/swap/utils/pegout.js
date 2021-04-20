@@ -18,9 +18,10 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
     promiEvent.removeAllListeners()
   }
 
+  let link
+
   // NOTE: avoids brave metamask gas estimation fails
   params[params.length] = { gas: 80000, blocksBehind: 3, expireSeconds: 60, permission: 'active' }
-
   if (ptoken.withAmountConversionPegout) {
     params[0] = BigNumber(params[0])
       .multipliedBy(10 ** ptoken.decimals)
@@ -41,16 +42,12 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
   promiEvent = ptokens[ptoken.workingName].redeem(...params)
   promiEvent
     .once('hostTxBroadcasted', _hash => {
-      toastr.success('Transaction broadcasted!', 'Click here to see it', {
-        timeOut: 0,
-        onToastrClick: () => window.open(`${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${_hash}`, '_blank')
-      })
-
+      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${_hash}`
       dispatch(
         updateProgress({
           show: true,
           percent: 20,
-          message: 'Transaction broadcasted! Waiting for confirmation ...',
+          message: `<a href="${link}" target="_blank">Transaction</a> broadcasted! Waiting for confirmation ...`,
           steps: [0, 20, 40, 60, 80, 100],
           terminated: false
         })
@@ -58,22 +55,13 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
     })
     .once('hostTxConfirmed', _tx => {
       if (ptoken.blockchain === 'EOS' || ptoken.blockchain === 'TELOS') {
-        toastr.success('Transaction broadcasted!', 'Click here to see it', {
-          timeOut: 0,
-          onToastrClick: () =>
-            window.open(
-              `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${
-                _tx[hostTransactionHash[ptoken.blockchain.toLowerCase()]]
-              }`,
-              '_blank'
-            )
-        })
-
+        // prettier-ignore
+        link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${_tx[hostTransactionHash[ptoken.blockchain.toLowerCase()]]}`
         dispatch(
           updateProgress({
             show: true,
             percent: 20,
-            message: 'Transaction broadcasted! Waiting for confirmation ...',
+            message: `<a href="${link}" target="_blank">Transaction</a> broadcasted! Waiting for confirmation ...`,
             steps: [0, 20, 40, 60, 80, 100],
             terminated: false
           })
@@ -84,7 +72,7 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
         updateProgress({
           show: true,
           percent: 40,
-          message: 'Waiting for the pNetwork to detect your transaction ...',
+          message: `Waiting for the pNetwork to detect your <a href="${link}" target="_blank">transaction</a> ...`,
           steps: [0, 20, 40, 60, 80, 100],
           terminated: false
         })
@@ -95,27 +83,19 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
         updateProgress({
           show: true,
           percent: 60,
-          message: 'Enclave received the transaction, broadcasting ...',
+          message: `Enclave received the <a href="${link}" target="_blank">transaction</a>, broadcasting ...`,
           steps: [0, 20, 40, 60, 80, 100],
           terminated: false
         })
       )
     })
     .once('nodeBroadcastedTx', _report => {
-      toastr.success('Transaction broadcasted!', 'Click here to see it', {
-        timeOut: 0,
-        onToastrClick: () =>
-          window.open(
-            `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_report.broadcast_tx_hash}`,
-            '_blank'
-          )
-      })
-
+      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_report.broadcast_tx_hash}`
       dispatch(
         updateProgress({
           show: true,
           percent: 80,
-          message: 'Asset swap transaction completed, waiting for confirmation ...',
+          message: `Asset swap <a href="${link}" target="_blank">transaction</a> completed, waiting for confirmation ...`,
           steps: [0, 20, 40, 60, 80, 100],
           terminated: false
         })
@@ -126,7 +106,7 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
         updateProgress({
           show: true,
           percent: 100,
-          message: 'Transaction Confirmed.',
+          message: `<a href="${link}" target="_blank">Transaction</a> Confirmed.`,
           steps: [0, 20, 40, 60, 80, 100],
           terminated: true
         })

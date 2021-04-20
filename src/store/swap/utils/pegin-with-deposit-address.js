@@ -6,7 +6,6 @@ import {
   resetProgress,
   updateSwapButton
 } from '../swap.actions'
-import { toastr } from 'react-redux-toastr'
 import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
 import { updateInfoModal } from '../../pages/pages.actions'
 
@@ -21,6 +20,15 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
   try {
     depositAddress = await ptokens[ptoken.workingName].getDepositAddress(address)
   } catch (_err) {
+    console.error(_err)
+    dispatch(updateSwapButton('Get Deposit Address'))
+    dispatch(
+      updateInfoModal({
+        show: true,
+        text: 'Error during pegin, try again!',
+        icon: 'cancel'
+      })
+    )
     dispatch(resetProgress())
     return
   }
@@ -39,6 +47,7 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
 
   dispatch(showDepositAddressModal(ptoken, depositAddress.toString()))
 
+  let link = null
   promiEvent = depositAddress.waitForDeposit()
   promiEvent
     .once('nativeTxBroadcasted', _tx => {
@@ -50,22 +59,13 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
 
       dispatch(hideDepositAddressModal())
 
-      toastr.success('Transaction broadcasted!', 'Click here to see it', {
-        timeOut: 0,
-        onToastrClick: () =>
-          window.open(
-            `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${
-              _tx[nativeTransactionField[ptoken.nativeBlockchain.toLowerCase()]]
-            }`,
-            '_blank'
-          )
-      })
-
+      // prettier-ignore
+      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_tx[nativeTransactionField[ptoken.nativeBlockchain.toLowerCase()]]}`
       dispatch(
         updateProgress({
           show: true,
           percent: 20,
-          message: 'Deposit detected! Waiting for confirmation ...',
+          message: `<a href="${link}" target="_blank">Deposit</a> detected! Waiting for confirmation ...`,
           steps: [0, 20, 40, 60, 80, 100],
           terminated: false
         })
@@ -76,7 +76,7 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
         updateProgress({
           show: true,
           percent: 40,
-          message: 'Waiting for the pNetwork to detect your transaction ...',
+          message: `Waiting for the pNetwork to detect your <a href="${link}" target="_blank">transaction</a> ...`,
           steps: [0, 20, 40, 60, 80, 100],
           terminated: false
         })
@@ -87,24 +87,20 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
         updateProgress({
           show: true,
           percent: 60,
-          message: 'Enclave received the transaction, broadcasting ...',
+          message: `Enclave received the <a href="${link}" target="_blank">transaction</a>, broadcasting ...`,
           steps: [0, 20, 40, 60, 80, 100],
           terminated: false
         })
       )
     })
     .once('nodeBroadcastedTx', _report => {
-      toastr.success('Transaction broadcasted!', 'Click here to see it', {
-        timeOut: 0,
-        onToastrClick: () =>
-          window.open(`${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${_report.broadcast_tx_hash}`, '_blank')
-      })
-
+      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${_report.broadcast_tx_hash}`
+      // prettier-ignore
       dispatch(
         updateProgress({
           show: true,
           percent: 80,
-          message: 'Asset swap transaction completed, waiting for confirmation ...',
+          message: `Asset swap <a href="${link}" target="_blank">transaction</a> completed, waiting for confirmation ...`,
           steps: [0, 20, 40, 60, 80, 100],
           terminated: false
         })
@@ -115,7 +111,7 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
         updateProgress({
           show: true,
           percent: 100,
-          message: 'Transaction Confirmed.',
+          message: `<a href="${link}" target="_blank">Transaction</a> Confirmed.`,
           steps: [0, 20, 40, 60, 80, 100],
           terminated: true
         })

@@ -39,7 +39,7 @@ const Progress = ({ percent, message, steps }) => {
             <Step key={_index}>{({ accomplished }) => <IndexedStep accomplished={accomplished}></IndexedStep>}</Step>
           ))}
       </ProgressBar>
-      <ContainerText>{message}</ContainerText>
+      <ContainerText dangerouslySetInnerHTML={{ __html: message }} />
     </ContainerProgress>
   )
 }
