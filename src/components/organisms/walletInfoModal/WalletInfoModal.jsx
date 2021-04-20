@@ -32,6 +32,9 @@ const BlockchainImage = styled.img`
 
 const Account = styled.span`
   margin-left: 15px;
+  @media (max-width: 767.98px) {
+    font-size: 13px;
+  }
 `
 
 const ChangeOrConnectButton = styled.button`

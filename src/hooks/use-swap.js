@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { isValidAccount } from '../utils/account-validator'
 import { getPeginOrPegoutMinutesEstimation } from '../utils/estimations'
+import { getFee } from '../utils/fee'
 import BigNumber from 'bignumber.js'
 
 const useSwap = ({
@@ -22,8 +23,9 @@ const useSwap = ({
   const [showModalFrom, setShowModalFrom] = useState(false)
   const [showModalTo, setShowModalTo] = useState(false)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
+  const [selectionChanged, setSelectionChanged] = useState(false)
 
-  const { fee } = useSwapInfo(from, to)
+  const { fee, isPegin, isPegout } = useSwapInfo(from, to)
 
   const onChangeFromAmount = useCallback(
     _amount => {
@@ -36,7 +38,7 @@ const useSwap = ({
           : _amount.toString()
       )
     },
-    [fee, setFromAmount, setToAmount]
+    [fee]
   )
 
   const onChangeToAmount = useCallback(
@@ -50,15 +52,15 @@ const useSwap = ({
           : _amount.toString()
       )
     },
-    [fee, setToAmount, setFromAmount]
+    [fee]
   )
 
   const onChangeOrder = useCallback(() => {
     const currentFrom = from
     setFrom(to)
     setTo(currentFrom)
-    // TODO: handle change default asset order
-  }, [setFrom, from, to])
+    setSelectionChanged(true)
+  }, [from, to])
 
   const onFromMax = useCallback(() => {
     const amount = from.balance
@@ -70,7 +72,7 @@ const useSwap = ({
             .toFixed()
         : amount.toString()
     )
-  }, [fee, setFromAmount, from])
+  }, [fee, from])
 
   const onToMax = useCallback(() => {
     const amount = to.balance
@@ -82,7 +84,7 @@ const useSwap = ({
             .toFixed()
         : amount.toString()
     )
-  }, [fee, setToAmount, to])
+  }, [fee, to])
 
   const onSwap = useCallback(() => {
     if (swapButton.text === 'Connect Wallet') {
@@ -95,21 +97,19 @@ const useSwap = ({
     }
   }, [from, swapButton.text, to, address, fromAmount, swap, connectWithWallet, updateSwapButton])
 
-  const onSelectFrom = useCallback(
-    _asset => {
-      setShowModalFrom(false)
-      setFrom(_asset)
-    },
-    [setFrom]
-  )
+  const onSelectFrom = useCallback(_asset => {
+    setShowModalFrom(false)
+    setFrom(_asset)
+    setFromAmount('')
+    setToAmount('')
+  }, [])
 
-  const onSelectTo = useCallback(
-    _asset => {
-      setShowModalTo(false)
-      setTo(_asset)
-    },
-    [setTo]
-  )
+  const onSelectTo = useCallback(_asset => {
+    setShowModalTo(false)
+    setTo(_asset)
+    setFromAmount('')
+    setToAmount('')
+  }, [])
 
   const onCloseDepositAddressModal = useCallback(() => {
     updateSwapButton(!wallets[from.blockchain.toLowerCase()] ? 'Get Deposit Address' : 'Swap')
@@ -162,7 +162,7 @@ const useSwap = ({
         setAssetsLoaded(true)
       }
     }
-  }, [assets, assetsLoaded, setFrom, setTo])
+  }, [assets, assetsLoaded])
 
   // NOTE: reset data when pegin/pegout terminates
   useEffect(() => {
@@ -253,7 +253,7 @@ const useSwap = ({
     }
 
     updateSwapButton('Swap')
-  }, [wallets, from, fromAmount, to, address, isValidSwap, swapType, setAddress, updateSwapButton])
+  }, [wallets, from, fromAmount, to, address, isValidSwap, swapType, updateSwapButton])
 
   // NOTE: filters based on from selection
   const [filteredAssets] = useMemo(() => {
@@ -285,6 +285,32 @@ const useSwap = ({
     return [assets]
   }, [assets, from, isValidSwap])
 
+  // NOTE: update amounts when the selection changes
+  useEffect(() => {
+    if (selectionChanged) {
+      if (isPegin) {
+        setFromAmount(
+          toAmount !== ''
+            ? BigNumber(toAmount)
+                .multipliedBy(fee)
+                .toFixed()
+            : toAmount.toString()
+        )
+      }
+
+      if (isPegout) {
+        setToAmount(
+          fromAmount !== ''
+            ? BigNumber(fromAmount)
+                .multipliedBy(fee)
+                .toFixed()
+            : fromAmount.toString()
+        )
+      }
+      setSelectionChanged(false)
+    }
+  }, [selectionChanged, fee, isPegin, isPegout, fromAmount, toAmount])
+
   // NOTE: from balance is null but it has been loaded
   useEffect(() => {
     if (!from) return
@@ -292,7 +318,7 @@ const useSwap = ({
     if (!from.balance && maybeFromWithBalance && maybeFromWithBalance.balance) {
       setFrom(maybeFromWithBalance)
     }
-  }, [assets, from, setFrom])
+  }, [assets, from])
 
   // NOTE: to balance is null but it has been loaded
   useEffect(() => {
@@ -301,7 +327,7 @@ const useSwap = ({
     if (!to.balance && maybeToWithBalance && maybeToWithBalance.balance) {
       setTo(maybeToWithBalance)
     }
-  }, [assets, to, setTo])
+  }, [assets, to])
 
   return {
     from,
@@ -343,18 +369,24 @@ const useSwapInfo = (_from, _to) => {
 
     // NOTE: fee hardcoded at the moment
     if (!_from.isPtoken && _to.isPtoken) {
+      const fee = getFee(_to.id, 'pegin')
       return {
-        fee: 1,
-        formattedFee: '0%',
+        fee: 1 - fee / 100,
+        formattedFee: `${fee}%`,
         estimatedSwapTime: `~${getPeginOrPegoutMinutesEstimation(_to.nativeBlockchain)} minutes`,
-        show: true
+        show: true,
+        isPegin: true,
+        isPegout: false
       }
     } else if (_from.isPtoken && !_to.isPtoken) {
+      const fee = getFee(_from.id, 'pegout')
       return {
-        fee: 1,
-        formattedFee: '0%',
+        fee: 1 - fee / 100,
+        formattedFee: `${fee}%`,
         estimatedSwapTime: `~${getPeginOrPegoutMinutesEstimation(_from.blockchain)} minutes`,
-        show: true
+        show: true,
+        isPegin: false,
+        isPegout: true
       }
     }
 

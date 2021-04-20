@@ -60,19 +60,7 @@ const ThemeIcon = styled(Icon)`
   }
 `
 
-const Connected = styled.div`
-  background: #66b8ff40;
-  height: 35px;
-  border-radius: 50%;
-  width: 35px;
-  background: #a8f7b5;
-  border: 1px solid #a8f7b5;
-  cursor: pointer;
-  @media (max-width: 767.98px) {
-    height: 35px;
-    width: 35px;
-  }
-`
+const ConnectedIcon = styled(ThemeIcon)``
 
 const Logo = styled.img`
   width: 36px;
@@ -90,7 +78,7 @@ const StyledNavLink = styled(Nav.Link)`
   color: ${({ active, theme }) => (active ? theme.text1 : theme.text3)} !important;
   @media (max-width: 991.98px) {
     margin-left: 10px;
-    font-size: 15px;
+    font-size: 17px;
   }
 `
 
@@ -189,7 +177,7 @@ const Header = _props => {
         </StyledNav>
         <ContainerOptions>
           {isConnected ? (
-            <Connected onClick={() => setShowWalletInfo(true)} />
+            <ConnectedIcon icon="wallet" onClick={() => setShowWalletInfo(true)} />
           ) : (
             <ConnectButton onClick={() => setShowWalletInfo(true)}>Connect Wallets</ConnectButton>
           )}
@@ -211,7 +199,7 @@ const Header = _props => {
         <Row>
           <Col xs={8}>
             {isConnected ? (
-              <Connected onClick={() => setShowWalletInfo(true)} />
+              <ConnectedIcon icon="wallet" onClick={() => setShowWalletInfo(true)} />
             ) : (
               <ConnectButton onClick={() => setShowWalletInfo(true)}>Connect Wallets</ConnectButton>
             )}

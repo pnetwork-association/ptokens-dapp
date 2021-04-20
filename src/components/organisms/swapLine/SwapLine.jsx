@@ -183,12 +183,12 @@ const SwapLine = ({
   return (
     <SwapLineContainer>
       <ContainerTypeAndBalance>
-        <ContainerTitle xs={6}>{title}</ContainerTitle>
+        <ContainerTitle xs={4}>{title}</ContainerTitle>
         {asset && asset.formattedBalance !== '-' ? (
-          <Col xs={6} className="text-right my-auto">
+          <Col xs={8} className="text-right my-auto">
             <ContainerBalance>
               <BalanceLabel>{`Balance: ${asset.formattedBalance} ${
-                asset.isPtoken ? capitalizeAllLettersExceptFirst(asset.symbol) : asset.symbol
+                asset.isPtoken && !asset.isSpecial ? capitalizeAllLettersExceptFirst(asset.symbol) : asset.symbol
               }`}</BalanceLabel>
             </ContainerBalance>
           </Col>
