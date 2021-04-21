@@ -48,7 +48,7 @@ const LabelCol = styled(Col)`
 const SwapInfo = ({ from, to }) => {
   const { show, formattedFee, estimatedSwapTime } = useSwapInfo(from, to)
   return (
-    <ContainerInfo show={show}>
+    <ContainerInfo show={Boolean(show).toString()}>
       <Row>
         <LabelCol xs={8}>Fee</LabelCol>
         <ValueCol xs={4}>{formattedFee}</ValueCol>

@@ -43,11 +43,12 @@ import {
   PUSDT_ON_TELOS_MAINNET,
   PUSDC_ON_TELOS_MAINNET,
   PNT_ON_XDAI_MAINNET,
-  PRVN_ON_BSC_MAINNET
+  PRVN_ON_BSC_MAINNET,
+  TLOS_ON_BSC_MAINNET
 } from '../constants'
 
 const settings = {
-  dappName: 'pTokens',
+  dappName: 'pTokens Dapp',
   telegram: 'https://t.me/pNetworkDefi',
   googleAnalyticsTrackId: 'UA-157173999-1',
   BLOCKSTREAM_BASE_MAINNET_ENDPOINT: 'https://blockstream.info/api/',
@@ -768,6 +769,7 @@ const settings = {
       withMiniImage: true,
       symbol: 'TLOS',
       isPtoken: true,
+      isSpecial: true,
       nativeSymbol: 'TLOS',
       nativeBlockchain: 'TELOS',
       image: 'pTLOS.svg',
@@ -1037,6 +1039,26 @@ const settings = {
       nativeBlockchain: 'RVN',
       image: 'pRVN.svg',
       withAmountConversionPegout: true,
+      withBalanceDecimalsConversion: true
+    },
+    {
+      id: TLOS_ON_BSC_MAINNET,
+      name: 'TLOS',
+      workingName: 'tlos',
+      nativeDecimals: 0,
+      network: 'mainnet',
+      minimumIssuable: '0.001',
+      minimumRedeamable: '0.00005',
+      isHidden: false,
+      blockchain: 'BSC',
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'TLOS',
+      isPtoken: true,
+      isSpecial: true,
+      nativeSymbol: 'TLOS',
+      nativeBlockchain: 'TELOS',
+      image: 'pTLOS.svg',
       withBalanceDecimalsConversion: true
     }
   ]

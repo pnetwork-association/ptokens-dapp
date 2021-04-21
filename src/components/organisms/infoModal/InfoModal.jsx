@@ -14,6 +14,7 @@ const Message = styled.div`
 
 const ContainerCenter = styled.div`
   text-align: center;
+  margin-top: 30px;
 `
 
 const StyledIcon = styled(Icon)`

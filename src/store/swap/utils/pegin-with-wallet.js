@@ -87,7 +87,7 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
       )
     })
     .once('nativeTxConfirmed', _e => {
-      if (ptoken.blockchain === 'EOS' || ptoken.blockchain === 'TELOS') {
+      if (ptoken.nativeBlockchain === 'EOS' || ptoken.nativeBlockchain === 'TELOS') {
         link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_e.transaction_id}`
         dispatch(
           updateProgress({

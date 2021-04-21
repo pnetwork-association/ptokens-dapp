@@ -6,7 +6,8 @@ export default class AnchorProvider {
     this.transport = new AnchorLinkBrowserTransport()
     this.link = new AnchorLink({
       transport: this.transport,
-      chainId: settings.chainId
+      chainId: settings.chainId,
+      rpc: settings.endpoint
     })
     this.dappName = dappName
   }

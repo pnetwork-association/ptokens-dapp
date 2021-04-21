@@ -43,7 +43,7 @@ const loadEosioCompatibleBalances = async ({ assets, account, blockchain = 'EOS'
 const loadEosioCompatibleBalance = async ({ asset, account, dispatch, blockchain = 'EOS' }) => {
   try {
     const provider = getCorrespondingReadOnlyProvider(blockchain)
-    const balance = await provider.get_currency_balance(asset.address, account, asset.name.toUpperCase())
+    const balance = await provider.get_currency_balance(asset.address, account, asset.symbol.toUpperCase())
     dispatch({
       type: SWAP_BALANCE_LOADED,
       payload: {

@@ -43,7 +43,8 @@ import {
   PUSDT_ON_TELOS_MAINNET,
   PUSDC_ON_TELOS_MAINNET,
   PNT_ON_XDAI_MAINNET,
-  PRVN_ON_BSC_MAINNET
+  PRVN_ON_BSC_MAINNET,
+  TLOS_ON_BSC_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -418,8 +419,10 @@ const getConfigs = (_pTokenId, _configs) => {
     return {
       peosioToken: {
         pToken: pTokens.TLOS,
-        network: networks.Mainnet,
-        blockchain: blockchains.Ethereum,
+        nativeBlockchain: blockchains.Telos,
+        nativeNetwork: networks.Mainnet,
+        hostBlockchain: blockchains.Ethereum,
+        hostNetwork: networks.Mainnet,
         ethProvider,
         telosRpc: settings.rpc.mainnet.telos.endpoint,
         telosSignatureProvider
@@ -569,6 +572,20 @@ const getConfigs = (_pTokenId, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.BinanceSmartChain,
         bscProvider
+      }
+    }
+  }
+  if (_pTokenId === TLOS_ON_BSC_MAINNET) {
+    return {
+      peosioToken: {
+        pToken: pTokens.TLOS,
+        nativeBlockchain: blockchains.Telos,
+        nativeNetwork: networks.Mainnet,
+        hostBlockchain: blockchains.BinanceSmartChain,
+        hostNetwork: networks.Mainnet,
+        bscProvider,
+        telosRpc: settings.rpc.mainnet.telos.endpoint,
+        telosSignatureProvider
       }
     }
   }
