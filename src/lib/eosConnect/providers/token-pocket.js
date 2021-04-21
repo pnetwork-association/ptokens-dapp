@@ -28,7 +28,7 @@ export default class TokenPocketProvider {
       if (!this.scatter.login) {
         return {
           success: false,
-          message: 'TockenPocket Not Opened'
+          message: 'TokenPocket Not Opened'
         }
       }
 
@@ -44,7 +44,9 @@ export default class TokenPocketProvider {
 
       if (isLogged && ScatterJS.identity) {
         return {
-          account: ScatterJS.account('eos'),
+          account: {
+            actor: ScatterJS.account('eos')
+          },
           success: true,
           provider: ScatterJS.eosHook(this.network)
         }

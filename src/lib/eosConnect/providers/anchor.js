@@ -16,10 +16,11 @@ export default class AnchorProvider {
     try {
       const res = await this.link.login(this.dappName)
       if (res) {
-        const { signerKey, account } = res
+        const { signerKey, signer } = res
         return {
           account: {
-            name: account.account_name
+            actor: signer.actor,
+            permission: signer.permission
           },
           success: true,
           provider: this.link.makeSignatureProvider([signerKey])

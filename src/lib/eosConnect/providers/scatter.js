@@ -44,7 +44,9 @@ export default class ScatterProvider {
 
       if (isLogged && ScatterJS.identity) {
         return {
-          account: ScatterJS.account('eos'),
+          account: {
+            actor: ScatterJS.account('eos')
+          },
           success: true,
           provider: ScatterJS.eosHook(this.network)
         }
