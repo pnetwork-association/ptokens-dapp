@@ -45,7 +45,8 @@ import {
   PUSDC_ON_TELOS_MAINNET,
   PNT_ON_XDAI_MAINNET,
   PRVN_ON_BSC_MAINNET,
-  TLOS_ON_BSC_MAINNET
+  TLOS_ON_BSC_MAINNET,
+  POPEN_ON_BSC_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_id, _role, _address) => {
@@ -280,6 +281,11 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
         ? `${settings.explorers.mainnet.telos}accounts/${_address}`
         : `${settings.explorers.mainnet.bsc}address/${_address}`
     }
+    case POPEN_ON_BSC_MAINNET: {
+      return _role === 'native'
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.bsc}address/${_address}`
+    }
     default:
       break
   }
@@ -488,6 +494,9 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
       return _role === 'native'
         ? `${settings.explorers.mainnet.telos}transaction/`
         : `${settings.explorers.mainnet.bsc}tx/`
+    }
+    case POPEN_ON_BSC_MAINNET: {
+      return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.bsc}tx/`
     }
     default:
       break

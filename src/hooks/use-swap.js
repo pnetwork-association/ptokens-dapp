@@ -260,7 +260,9 @@ const useSwap = ({
   const [filteredAssets] = useMemo(() => {
     if (from && !from.isPtoken) {
       const filtered = assets.filter(
-        ({ name, isPtoken }) => (isPtoken && name === 'p' + from.symbol) || (name[0] !== 'p' && name === from.symbol)
+        ({ name, isPtoken }) =>
+          (isPtoken && name.toLowerCase() === 'p' + from.symbol.toLowerCase()) ||
+          (name[0].toLowerCase() !== 'p' && name.toLowerCase() === from.symbol.toLowerCase())
       )
 
       if (!isValidSwap) {
@@ -273,7 +275,9 @@ const useSwap = ({
     if (from && from.isPtoken) {
       const filtered = assets.filter(
         ({ nativeSymbol, isPtoken }) =>
-          !isPtoken && (from.name.slice(1) === nativeSymbol || (from.name[0] !== 'p' && from.name === nativeSymbol))
+          !isPtoken &&
+          (from.name.slice(1).toLowerCase() === nativeSymbol.toLowerCase() ||
+            (from.name[0] !== 'p' && from.name.toLowerCase() === nativeSymbol.toLowerCase()))
       )
 
       if (!isValidSwap) {

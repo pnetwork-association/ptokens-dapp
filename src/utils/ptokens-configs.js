@@ -44,7 +44,8 @@ import {
   PUSDC_ON_TELOS_MAINNET,
   PNT_ON_XDAI_MAINNET,
   PRVN_ON_BSC_MAINNET,
-  TLOS_ON_BSC_MAINNET
+  TLOS_ON_BSC_MAINNET,
+  POPEN_ON_BSC_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -586,6 +587,17 @@ const getConfigs = (_pTokenId, _configs) => {
         bscProvider,
         telosRpc: settings.rpc.mainnet.telos.endpoint,
         telosSignatureProvider
+      }
+    }
+  }
+  if (_pTokenId === POPEN_ON_BSC_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pOPEN,
+        network: networks.BinanceSmartChainMainnet,
+        blockchain: blockchains.BinanceSmartChain,
+        ethProvider,
+        bscProvider
       }
     }
   }

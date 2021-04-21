@@ -502,6 +502,21 @@ const swapAssets = [
     nativeBlockchain: 'ETH',
     image: 'USDC.svg',
     withBalanceDecimalsConversion: true
+  },
+  {
+    id: 'OPEN',
+    symbol: 'OPEN',
+    name: 'Open Governance Token',
+    network: 'mainnet',
+    blockchain: 'ETH',
+    skipNodeSelection: true,
+    decimals: 18,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'OPEN',
+    nativeBlockchain: 'ETH',
+    image: 'OPEN.svg',
+    withBalanceDecimalsConversion: true
   }
 ]
 

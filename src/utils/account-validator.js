@@ -46,7 +46,8 @@ import {
   PUSDC_ON_TELOS_MAINNET,
   PNT_ON_XDAI_MAINNET,
   PRVN_ON_BSC_MAINNET,
-  TLOS_ON_BSC_MAINNET
+  TLOS_ON_BSC_MAINNET,
+  POPEN_ON_BSC_MAINNET
 } from '../constants'
 
 const web3 = new Web3()
@@ -266,6 +267,9 @@ const isValidAccount = (_pTokenId, _account, _type) => {
       return _type === 'pegin'
         ? pTokenUtils.eos.isValidAccountName(_account)
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case POPEN_ON_BSC_MAINNET: {
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     default:
       break

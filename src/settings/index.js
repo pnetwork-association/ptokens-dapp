@@ -44,7 +44,8 @@ import {
   PUSDC_ON_TELOS_MAINNET,
   PNT_ON_XDAI_MAINNET,
   PRVN_ON_BSC_MAINNET,
-  TLOS_ON_BSC_MAINNET
+  TLOS_ON_BSC_MAINNET,
+  POPEN_ON_BSC_MAINNET
 } from '../constants'
 
 const settings = {
@@ -1059,6 +1060,26 @@ const settings = {
       nativeSymbol: 'TLOS',
       nativeBlockchain: 'TELOS',
       image: 'pTLOS.svg',
+      withBalanceDecimalsConversion: true
+    },
+    {
+      id: POPEN_ON_BSC_MAINNET,
+      name: 'pOPEN',
+      workingName: 'popen',
+      nativeDecimals: 18,
+      network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
+      isHidden: false,
+      blockchain: 'BSC',
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'POPEN',
+      isPtoken: true,
+      isPerc20: true,
+      nativeSymbol: 'OPEN',
+      nativeBlockchain: 'ETH',
+      image: 'pOPEN.svg',
       withBalanceDecimalsConversion: true
     }
   ]
