@@ -1060,6 +1060,7 @@ const settings = {
       nativeSymbol: 'TLOS',
       nativeBlockchain: 'TELOS',
       image: 'pTLOS.svg',
+      withAmountConversionPegout: true,
       withBalanceDecimalsConversion: true
     },
     {
@@ -1080,6 +1081,7 @@ const settings = {
       nativeSymbol: 'OPEN',
       nativeBlockchain: 'ETH',
       image: 'pOPEN.svg',
+      withAmountConversionPegout: true,
       withBalanceDecimalsConversion: true
     }
   ]
