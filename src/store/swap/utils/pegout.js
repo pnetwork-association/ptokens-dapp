@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
 import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
+import { getWalletAccountByBlockchain, getWalletPermissionByBlockchain } from '../../wallets/wallets.selectors'
 
 const hostTransactionHash = {
   telos: 'transaction_id',
@@ -20,7 +21,13 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
   let link
 
   // NOTE: avoids brave metamask gas estimation fails
-  params[params.length] = { gas: 80000, blocksBehind: 3, expireSeconds: 60, permission: 'active' }
+  params[params.length] = {
+    gas: 80000,
+    blocksBehind: 3,
+    expireSeconds: 60,
+    permission: getWalletPermissionByBlockchain(ptoken.blockchain) || 'active',
+    actor: getWalletAccountByBlockchain(ptoken.blockchain)
+  }
   if (ptoken.withAmountConversionPegout) {
     params[0] = BigNumber(params[0])
       .multipliedBy(10 ** ptoken.decimals)

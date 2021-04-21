@@ -7,6 +7,7 @@ import BigNumber from 'bignumber.js'
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
 import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
+import { getWalletAccountByBlockchain, getWalletPermissionByBlockchain } from '../../wallets/wallets.selectors'
 
 let promiEvent = null
 
@@ -18,7 +19,13 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
   let link
 
   // NOTE: avoids brave metamask gas estimation fails
-  params[params.length] = { gas: 200000, blocksBehind: 3, expireSeconds: 60, permission: 'active' }
+  params[params.length] = {
+    gas: 200000,
+    blocksBehind: 3,
+    expireSeconds: 60,
+    permission: getWalletPermissionByBlockchain(ptoken.nativeBlockchain) || 'active',
+    actor: getWalletAccountByBlockchain(ptoken.nativeBlockchain)
+  }
   params[0] = BigNumber(params[0])
     .multipliedBy(10 ** ptoken.nativeDecimals)
     .toFixed()
@@ -44,11 +51,6 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
               .approve(eth.addHexPrefix(info.native_vault_address), params[0])
               .send({ from: wallets.eth.account, gas: 150000 })
               .once('hash', _hash => {
-                /*toastr.success('Transaction broadcasted!', 'Click here to see it', {
-                  timeOut: 0,
-                  onToastrClick: () =>
-                    window.open(`${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_hash}`, '_blank')
-                })*/
                 link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_hash}`
               })
               .then(_resolve)

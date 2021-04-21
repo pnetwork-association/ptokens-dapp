@@ -30,7 +30,8 @@ const connectWithEosWallet = _dispatch => {
       type: WALLET_EOS_CONNECTED,
       payload: {
         provider,
-        account: account.name,
+        account: account.actor,
+        permission: account.permission,
         network: 'mainnet'
       }
     })

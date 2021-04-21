@@ -31,7 +31,8 @@ const connectWithTelosWallet = _dispatch => {
       type: WALLET_TELOS_CONNECTED,
       payload: {
         provider,
-        account: account.name,
+        account: account.actor,
+        permission: account.permission,
         network: 'mainnet'
       }
     })

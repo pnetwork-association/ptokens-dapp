@@ -21,12 +21,14 @@ const initialState = {
   eos: {
     provider: null,
     account: null,
-    network: null
+    network: null,
+    permission: null
   },
   telos: {
     provider: null,
     account: null,
-    network: null
+    network: null,
+    permission: null
   },
   bsc: {
     provider: null,
@@ -70,12 +72,13 @@ const walletsReducer = (_state = initialState, _action) => {
     })
   }
   if (_action.type === WALLET_EOS_CONNECTED) {
-    const { provider, account, network } = _action.payload
+    const { provider, account, network, permission } = _action.payload
     return Object.assign({}, _state, {
       eos: {
         provider,
         account,
-        network
+        network,
+        permission
       }
     })
   }
@@ -140,12 +143,13 @@ const walletsReducer = (_state = initialState, _action) => {
     })
   }
   if (_action.type === WALLET_TELOS_CONNECTED) {
-    const { provider, account, network } = _action.payload
+    const { provider, account, network, permission } = _action.payload
     return Object.assign({}, _state, {
       telos: {
         provider,
         account,
-        network
+        network,
+        permission
       }
     })
   }
