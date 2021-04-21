@@ -432,7 +432,7 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
     }
     case TLOS_ON_ETH_MAINNET: {
       return _role === 'native'
-        ? `${settings.explorers.mainnet.eos}transaction/`
+        ? `${settings.explorers.mainnet.telos}transaction/`
         : `${settings.explorers.mainnet.eth}tx/`
     }
     case PNT_ON_BSC_MAINNET: {
@@ -486,7 +486,7 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
     }
     case TLOS_ON_BSC_MAINNET: {
       return _role === 'native'
-        ? `${settings.explorers.mainnet.eos}transaction/`
+        ? `${settings.explorers.mainnet.telos}transaction/`
         : `${settings.explorers.mainnet.bsc}tx/`
     }
     default:

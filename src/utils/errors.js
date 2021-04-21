@@ -10,6 +10,14 @@ const parseError = _err => {
     }
   }
 
+  // NOTE: eosConnect
+  if (_err.toString().includes('User canceled request')) {
+    return {
+      showModal: false,
+      message: _err
+    }
+  }
+
   return {
     showModal: true,
     message: _err.message ? _err.message : _err

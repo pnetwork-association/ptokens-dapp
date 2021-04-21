@@ -17,7 +17,7 @@ const loadEvmCompatibleBalance = async ({ asset, account, dispatch, blockchain =
         type: SWAP_BALANCE_LOADED,
         payload: {
           id: asset.id,
-          balance: new BigNumber(balance)
+          balance: BigNumber(balance).toFixed()
         }
       })
     } else {
@@ -27,7 +27,7 @@ const loadEvmCompatibleBalance = async ({ asset, account, dispatch, blockchain =
         type: SWAP_BALANCE_LOADED,
         payload: {
           id: asset.id,
-          balance: new BigNumber(balance)
+          balance: BigNumber(balance).toFixed()
         }
       })
     }
@@ -48,7 +48,7 @@ const loadEosioCompatibleBalance = async ({ asset, account, dispatch, blockchain
       type: SWAP_BALANCE_LOADED,
       payload: {
         id: asset.id,
-        balance: new BigNumber(balance[0] ? balance[0].split(' ')[0] : '0')
+        balance: BigNumber(balance[0] ? balance[0].split(' ')[0] : '0').toFixed()
       }
     })
   } catch (_err) {
