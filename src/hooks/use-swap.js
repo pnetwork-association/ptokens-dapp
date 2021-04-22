@@ -265,30 +265,24 @@ const useSwap = ({
           (isSpecial && name.toLowerCase() === from.symbol.toLowerCase())
       )
 
-      if (!isValidSwap) {
-        setTo(filtered[0])
-      }
-
+      setTo(filtered[0])
       return [filtered]
     }
 
     if (from && from.isPtoken) {
       const filtered = assets.filter(
-        ({ nativeSymbol, isPtoken, isSpecial }) =>
+        ({ nativeSymbol, isPtoken }) =>
           !isPtoken &&
           (from.name.slice(1).toLowerCase() === nativeSymbol.toLowerCase() ||
-            (isSpecial && from.name.toLowerCase() === nativeSymbol.toLowerCase()))
+            from.name.toLowerCase() === nativeSymbol.toLowerCase())
       )
 
-      if (!isValidSwap) {
-        setTo(filtered[0])
-      }
-
+      setTo(filtered[0])
       return [filtered]
     }
 
     return [assets]
-  }, [assets, from, isValidSwap])
+  }, [assets, from])
 
   // NOTE: update amounts when the selection changes
   useEffect(() => {
