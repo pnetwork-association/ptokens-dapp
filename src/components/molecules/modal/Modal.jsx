@@ -46,7 +46,7 @@ const MyModal = ({ show, title, body, onClose }) => {
 MyModal.propTypes = {
   title: PropTypes.string,
   show: PropTypes.bool,
-  body: PropTypes.object,
+  body: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   onClose: PropTypes.func
 }
 

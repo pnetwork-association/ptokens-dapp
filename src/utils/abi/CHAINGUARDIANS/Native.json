@@ -3,12 +3,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_id",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_nftAmount",
+        "name": "_tokenId",
         "type": "uint256"
       },
       {
@@ -17,7 +12,7 @@
         "type": "address"
       }
     ],
-    "name": "mint",
+    "name": "unwrap",
     "outputs": [
       {
         "internalType": "bool",

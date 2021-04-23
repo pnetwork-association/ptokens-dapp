@@ -1,14 +1,28 @@
 [
   {
+    "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
         "internalType": "uint256",
-        "name": "_id",
+        "name": "id",
         "type": "uint256"
       },
       {
+        "indexed": false,
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      }
+    ],
+    "name": "Wrapped",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
-        "name": "_nftAmount",
+        "name": "_tokenId",
         "type": "uint256"
       },
       {
@@ -17,7 +31,7 @@
         "type": "address"
       }
     ],
-    "name": "mint",
+    "name": "wrap",
     "outputs": [
       {
         "internalType": "bool",

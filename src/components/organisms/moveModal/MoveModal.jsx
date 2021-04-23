@@ -23,20 +23,20 @@ const StyledRow = styled(Row)`
 
 const BlokchainIcon = styled.img`
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   border: 1px solid ${({ theme }) => theme.secondary2};
   cursor: pointer;
   box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
 `
 
-const ContainerName = styled(Col)`
+const ContainerBlockchainName = styled(Col)`
   margin-bottom: auto !important;
   margin-top: auto !important;
   text-align: center;
   color: ${({ theme }) => theme.text1};
-  font-size: 18px;
+  font-size: 16px;
 `
 const ContainerRightArrow = styled(Col)`
   margin-bottom: auto !important;
@@ -91,7 +91,7 @@ const MoveButton = styled.button`
   background: ${({ theme }) => theme.primary1};
   border: 0;
   border-radius: 20px;
-  height: 60px;
+  height: 70px;
   font-size: 24px;
   outline: none !important;
   box-shadow: none;
@@ -152,7 +152,7 @@ const ModeModal = ({ currentBlockchain, show, onClose, onMove }) => {
                   <Col xs={2}>
                     <BlokchainIcon src={`../assets/svg/${symbol}.svg`} />
                   </Col>
-                  <ContainerName xs={8}>{name}</ContainerName>
+                  <ContainerBlockchainName xs={8}>{name}</ContainerBlockchainName>
                   <ContainerRightArrow xs={2}>
                     <RightArrow src="../assets/png/right-arrow.png" />
                   </ContainerRightArrow>
