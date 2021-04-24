@@ -265,7 +265,10 @@ const useSwap = ({
           (isSpecial && name.toLowerCase() === from.symbol.toLowerCase())
       )
 
-      setTo(filtered[0])
+      if (!isValidSwap) {
+        setTo(filtered[0])
+      }
+
       return [filtered]
     }
 
@@ -277,7 +280,10 @@ const useSwap = ({
             from.name.toLowerCase() === nativeSymbol.toLowerCase())
       )
 
-      setTo(filtered[0])
+      if (!isValidSwap) {
+        setTo(filtered[0])
+      }
+
       return [filtered]
     }
 
