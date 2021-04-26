@@ -26,4 +26,7 @@ const blockchainSymbolToCoin = {
 
 const getAssetFromNativeSymbol = (_assets, _symbol) => _assets.find(({ symbol }) => symbol === _symbol)
 
-export { blockchainSymbolToName, getAssetFromNativeSymbol, blockchainSymbolToCoin }
+const getWorkingNameForNodeSelection = _workingName =>
+  _workingName.toLowerCase() === 'peth' ? 'pweth' : _workingName.toLowerCase()
+
+export { blockchainSymbolToName, getAssetFromNativeSymbol, blockchainSymbolToCoin, getWorkingNameForNodeSelection }

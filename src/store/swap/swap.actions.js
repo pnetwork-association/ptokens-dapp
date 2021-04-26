@@ -24,6 +24,7 @@ import pegout from './utils/pegout'
 import { getAssetsByBlockchain, getAssetById } from './swap.selectors'
 import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
 import { getDefaultSelection } from './utils/default-selection'
+import { getWorkingNameForNodeSelection } from '../../utils/maps'
 
 const loadSwapData = ({ defaultSelection: { pToken, asset, from, to } }) => {
   return async _dispatch => {
@@ -57,7 +58,8 @@ const loadSwapData = ({ defaultSelection: { pToken, asset, from, to } }) => {
           return new Promise(_resolve =>
             nodeSelector
               .select({
-                pToken: workingName,
+                timeout: 20 * 1000,
+                pToken: getWorkingNameForNodeSelection(workingName),
                 nativeBlockchain,
                 nativeNetwork,
                 hostBlockchain,
