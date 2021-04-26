@@ -288,7 +288,7 @@ const useSwap = ({
     }
 
     return [assets]
-  }, [assets, from])
+  }, [assets, isValidSwap, from])
 
   // NOTE: update amounts when the selection changes
   useEffect(() => {
