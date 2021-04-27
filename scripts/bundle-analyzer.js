@@ -11,8 +11,8 @@ webpackConfigProd.plugins.push(new BundleAnalyzerPlugin())
 
 webpackConfigProd.plugins.push(
   new ProgressBarPlugin({
-    format: `${green('analyzing...')} ${green('[:bar]')}${green('[:percent]')}${green('[:elapsed seconds]')} - :msg`,
-  }),
+    format: `${green('analyzing...')} ${green('[:bar]')}${green('[:percent]')}${green('[:elapsed seconds]')} - :msg`
+  })
 )
 
 console.log(webpackConfigProd)

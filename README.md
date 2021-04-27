@@ -45,3 +45,22 @@ Start __`ptokens-dapp`__ via:
 ```
 npm start
 ```
+
+&nbsp;
+
+***
+
+&nbsp;
+
+### :rocket: Deploy:
+
+Create an env __`.env`__ containing the following values:
+
+```
+HOST=
+USERNAME=
+SUDO_PASSWORD=
+PATH=
+PRIVATE_KEY_PATH=
+WEBSITE_FOLDER_PATH=
+```
