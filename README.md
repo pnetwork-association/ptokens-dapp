@@ -54,7 +54,7 @@ npm start
 
 ### :rocket: Deploy:
 
-Create an env __`.env`__ containing the following values:
+Create an __`.env`__ file containing the following values:
 
 ```
 HOST=
