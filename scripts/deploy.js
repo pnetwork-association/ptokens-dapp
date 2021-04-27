@@ -32,7 +32,8 @@ const start = async () => {
     })
 
     console.log('Copying new build ...')
-    await ssh.exec('sudo', [`sudo cp -fr /home/${process.env.USERNAME}/* ${process.env.WEBSITE_FOLDER_PATH}`], {
+    // NOTE: use execCommand because with exec there are some wrong characters that cause "command not found"
+    await ssh.execCommand(`sudo cp -fr /home/${process.env.USERNAME}/* ${process.env.WEBSITE_FOLDER_PATH}`, {
       execOptions: { pty: true },
       stdin: `${process.env.SUDO_PASSWORD}\n`
     })
