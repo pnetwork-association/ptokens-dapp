@@ -106,7 +106,7 @@ const MoveButton = styled.button`
   }
 `
 
-const ModeModal = ({ currentBlockchain, show, onClose, onMove }) => {
+const ModeModal = ({ currentBlockchain, show, type, onClose, onMove }) => {
   const [step, setStep] = useState(0)
   const [blockchain, setBlockchain] = useState(null)
   const [address, setAddress] = useState('')
@@ -162,7 +162,14 @@ const ModeModal = ({ currentBlockchain, show, onClose, onMove }) => {
         ) : (
           <ContainerAddressInputAndButton>
             <AddressInput value={address} onChange={e => setAddress(e.target.value)} placeholder="address" />
-            <AmountInput value={amount} onChange={e => setAmount(e.target.value)} placeholder="amount" type="number" />
+            {type === 'ERC1155' ? (
+              <AmountInput
+                value={amount}
+                onChange={e => setAmount(e.target.value)}
+                placeholder="amount"
+                type="number"
+              />
+            ) : null}
             <MoveButton disabled={!isValidAccount} onClick={onClick}>
               {' '}
               Move{' '}
@@ -175,6 +182,7 @@ const ModeModal = ({ currentBlockchain, show, onClose, onMove }) => {
 }
 
 ModeModal.propTypes = {
+  type: PropTypes.string,
   currentBlockchain: PropTypes.string,
   show: PropTypes.bool,
   onClose: PropTypes.func,

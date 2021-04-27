@@ -1,9 +1,15 @@
-import CGTAbi from '../../../utils/abi/CHAINGUARDIANS/CGT.json'
 import BigNumber from 'bignumber.js'
 import axios from 'axios'
+import CGTAbi from '../../../utils/abi/CHAINGUARDIANS/CGT.json'
+import { loadErc721 } from './erc721'
 
 // NOTE: this fx will be called with alwats nfts.length = 0
-const loadCgtData = async ({ nfts, blockchain: _blockchain, account, web3 }) => {
+const loadCgtData = ({ nfts, blockchain, account, web3 }) => {
+  if (blockchain === 'ETH') return loadCgtFromEthereum({ nfts, blockchain, account, web3 })
+  if (blockchain === 'BSC') return loadErc721({ nfts, blockchain, account, web3 })
+}
+
+const loadCgtFromEthereum = async ({ nfts, blockchain: _blockchain, account, web3 }) => {
   try {
     if (nfts.length === 0) return []
 

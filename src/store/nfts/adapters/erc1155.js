@@ -7,7 +7,7 @@ const loadERC155Data = async ({ nfts, account, web3 }) => {
     const erc1155s = nfts.map(_nft => new web3.eth.Contract(ERC1155Abi, _nft.contractAddress))
 
     // NOTE: get all received nfts
-    const nftsEvents = await Promise.all(
+    const events = await Promise.all(
       erc1155s.map((_erc1155, _index) =>
         _erc1155.getPastEvents('TransferSingle', {
           filter: {
@@ -20,22 +20,14 @@ const loadERC155Data = async ({ nfts, account, web3 }) => {
     )
 
     // NOTE: remove double ids
-    const nftsWithIds = nfts.map((_nft, _index) => ({
+    const erc1155WithIds = nfts.map((_nft, _index) => ({
       ..._nft,
-      ids: nftsEvents[_index] ? Array.from(new Set(nftsEvents[_index].map(({ returnValues: { _id } }) => _id))) : []
+      ids: events[_index] ? Array.from(new Set(events[_index].map(({ returnValues: { _id } }) => _id))) : []
     }))
 
     const nfstArray = []
-    for (const {
-      blockchain,
-      contractAddress,
-      isNative,
-      symbol,
-      ids,
-      type,
-      portalsAddress,
-      hostPortalsAddress
-    } of nftsWithIds) {
+    for (const erc1155 of erc1155WithIds) {
+      const { ids, symbol } = erc1155
       const uris = await Promise.all(
         ids.map(
           (_id, _index) =>
@@ -69,18 +61,12 @@ const loadERC155Data = async ({ nfts, account, web3 }) => {
 
       nfstArray.push(
         ...nftsData
-          .filter((_, _index) => BigNumber(balances[_index]).isGreaterThan(0))
+          //.filter((_, _index) => BigNumber(balances[_index]).isGreaterThan(0))
           .map((_data, _index) => ({
+            ...erc1155,
             ...adapt(symbol, _data),
-            portalsAddress,
-            hostPortalsAddress,
-            blockchain,
-            contractAddress,
             id: ids[_index],
-            balance: new BigNumber(balances[_index]),
-            isNative,
-            symbol,
-            type
+            balance: new BigNumber(balances[_index])
           }))
       )
     }

@@ -1,7 +1,7 @@
 const nfts = [
   {
     id: 'RAREBIT',
-    name: 'Rarebit',
+    name: 'Rarebit Bunnies',
     type: 'ERC1155',
     portalsAddress: '0x82a19ab3B463359bb07151d8De9b6630428EC7Cc',
     contractAddress: '0x61bd6B10C7bf3e548F8659d016079e099510a4Dc',
@@ -13,7 +13,7 @@ const nfts = [
   },
   {
     id: 'RAREBIT',
-    name: 'Rarebit',
+    name: 'Rarebit Bunnies',
     type: 'ERC1155',
     portalsAddress: '0xF6fD8bE7D3B9fd9B52f18f78a07963777383B898',
     contractAddress: '0xF6fD8bE7D3B9fd9B52f18f78a07963777383B898',
@@ -32,6 +32,19 @@ const nfts = [
     symbol: 'CGT',
     isNative: true,
     blockchain: 'ETH',
+    //fromBlock: null since it's used getOwnedTokenData
+    loadDataKey: 'cgt'
+  },
+  {
+    id: 'CHAINGUARDIANS_V1',
+    name: 'Chain Guardians',
+    type: 'ERC721',
+    portalsAddress: '',
+    contractAddress: '',
+    symbol: 'CGT',
+    isNative: true,
+    blockchain: 'BSC',
+    fromBlock: 6170510,
     loadDataKey: 'cgt'
   }
 ]

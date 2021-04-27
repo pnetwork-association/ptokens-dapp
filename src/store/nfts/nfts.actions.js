@@ -2,15 +2,11 @@ import nfts from '../../settings/nfts'
 import Web3 from 'web3'
 import _ from 'lodash'
 import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
-import ERC1155Abi from '../../utils/abi/ERC1155.json'
 import { NFTS_DATA_LOADED } from '../../constants'
 import { setLoading } from '../pages/pages.actions'
-import { getProviderByBlockchain, getAccountByBlockchain } from './nfts.selectors'
-import NativeAbi from '../../utils/abi/RAREBIT/Native.json'
-import { toastr } from 'react-redux-toastr'
-import { getCorrespondingBaseTxExplorerLinkByBlockchain } from '../../utils/explorer'
 import { loadERC155Data } from './adapters/erc1155'
 import { loadCgtData } from './adapters/cgt'
+import { moveRarebitBunnies } from './adapters/rarebit-bunnies'
 
 const loadNftsData = (_account, _blockchain) => {
   return async _dispatch => {
@@ -57,37 +53,18 @@ const loadNftsData = (_account, _blockchain) => {
   }
 }
 
-const move = (_nft, _blockchain, _account, _amount) => {
+const move = (_nft, _blockchain, _destinationAccount, _amount) => {
   return async _dispatch => {
     try {
-      const provider = getProviderByBlockchain(_nft.blockchain)
-      const account = getAccountByBlockchain(_nft.blockchain)
-
-      if (_nft.isNative) {
-        const web3 = new Web3(provider)
-        const nft = new web3.eth.Contract(ERC1155Abi, _nft.contractAddress)
-        const portals = new web3.eth.Contract(NativeAbi, _nft.portalsAddress)
-
-        const isApprovedForAll = await nft.methods.isApprovedForAll(account, _nft.portalsAddress).call()
-        if (!isApprovedForAll) {
-          await nft.methods.setApprovalForAll(_nft.portalsAddress, true).send({
-            from: account
-          })
-        }
-
-        portals.methods
-          .mint(_nft.id, _amount, _account)
-          .send({
-            from: account
-          })
-          .once('hash', _hash => {
-            toastr.success('Transaction broadcasted!', 'Click here to see it', {
-              timeOut: 0,
-              onToastrClick: () =>
-                window.open(`${getCorrespondingBaseTxExplorerLinkByBlockchain('ETH')}${_hash}`, '_blank')
-            })
-          })
+      const moves = {
+        'Rarebit Bunnies': (...params) => moveRarebitBunnies(...params)
       }
+      await moves[_nft.name]({
+        nft: _nft,
+        blockchain: _blockchain,
+        destinationAccount: _destinationAccount,
+        amount: _amount
+      })
     } catch (_err) {
       console.error(_err)
     }

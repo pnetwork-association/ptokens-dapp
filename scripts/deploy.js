@@ -24,13 +24,13 @@ const start = async () => {
 
     console.log('Uploading ...')
     await sftp.uploadDir('./build', `/home/${process.env.USERNAME}`)
-    
+
     console.log('Removing old build ...')
     await ssh.exec('sudo', [`rm -fr ${process.env.WEBSITE_FOLDER_PATH}`], {
       execOptions: { pty: true },
       stdin: `${process.env.SUDO_PASSWORD}\n`
     })
-    
+
     console.log('Copying new build ...')
     await ssh.exec('sudo', [`sudo cp -fr /home/${process.env.USERNAME}/* ${process.env.WEBSITE_FOLDER_PATH}`], {
       execOptions: { pty: true },

@@ -107,6 +107,7 @@ const NftCard = ({ nft, move }) => {
         </StyledCardBody>
       </StyledCard>
       <MoveModal
+        type={type}
         currentBlockchain={blockchain}
         show={showBlockchainSelectionModal}
         onClose={() => setShowBlockchainSelectionModal(false)}
