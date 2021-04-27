@@ -40,6 +40,7 @@ const start = async () => {
     console.log('Deploy finished succesfully!')
   } catch (_err) {
     console.error(_err)
+    process.exit(-1)
   }
 
   await sftp.end()
