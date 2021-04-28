@@ -17,7 +17,7 @@ import {
   loadEvmCompatibleBalance,
   loadEosioCompatibleBalance
 } from './utils/balances'
-import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
+import { getReadOnlyProviderByBlockchain } from '../../utils/read-only-providers'
 import peginWithDepositAddress from './utils/pegin-with-deposit-address'
 import peginWithWallet from './utils/pegin-with-wallet'
 import pegout from './utils/pegout'
@@ -245,12 +245,12 @@ const swap = (_from, _to, _amount, _address) => {
 
         const ptokens = new pTokens(
           getConfigs(ptokenId, {
-            ethProvider: wallets.eth.provider || getCorrespondingReadOnlyProvider('ETH'),
-            eosSignatureProvider: wallets.eos.provider || getCorrespondingReadOnlyProvider('EOS'),
-            telosSignatureProvider: wallets.telos.provider || getCorrespondingReadOnlyProvider('TELOS'),
-            polygonProvider: wallets.polygon.provider || getCorrespondingReadOnlyProvider('POLYGON'),
-            xdaiProvider: wallets.xdai.provider || getCorrespondingReadOnlyProvider('XDAI'),
-            bscProvider: wallets.bsc.provider || getCorrespondingReadOnlyProvider('BSC')
+            ethProvider: wallets.eth.provider || getReadOnlyProviderByBlockchain('ETH'),
+            eosSignatureProvider: wallets.eos.provider || getReadOnlyProviderByBlockchain('EOS'),
+            telosSignatureProvider: wallets.telos.provider || getReadOnlyProviderByBlockchain('TELOS'),
+            polygonProvider: wallets.polygon.provider || getReadOnlyProviderByBlockchain('POLYGON'),
+            xdaiProvider: wallets.xdai.provider || getReadOnlyProviderByBlockchain('XDAI'),
+            bscProvider: wallets.bsc.provider || getReadOnlyProviderByBlockchain('BSC')
           })
         )
 
@@ -290,12 +290,12 @@ const swap = (_from, _to, _amount, _address) => {
 
         const ptokens = new pTokens(
           getConfigs(ptokenId, {
-            ethProvider: wallets.eth.provider || getCorrespondingReadOnlyProvider('ETH'),
-            eosSignatureProvider: wallets.eos.provider || getCorrespondingReadOnlyProvider('EOS'),
-            telosSignatureProvider: wallets.telos.provider || getCorrespondingReadOnlyProvider('TELOS'),
-            polygonProvider: wallets.polygon.provider || getCorrespondingReadOnlyProvider('POLYGON'),
-            xdaiProvider: wallets.xdai.provider || getCorrespondingReadOnlyProvider('XDAI'),
-            bscProvider: wallets.bsc.provider || getCorrespondingReadOnlyProvider('BSC')
+            ethProvider: wallets.eth.provider || getReadOnlyProviderByBlockchain('ETH'),
+            eosSignatureProvider: wallets.eos.provider || getReadOnlyProviderByBlockchain('EOS'),
+            telosSignatureProvider: wallets.telos.provider || getReadOnlyProviderByBlockchain('TELOS'),
+            polygonProvider: wallets.polygon.provider || getReadOnlyProviderByBlockchain('POLYGON'),
+            xdaiProvider: wallets.xdai.provider || getReadOnlyProviderByBlockchain('XDAI'),
+            bscProvider: wallets.bsc.provider || getReadOnlyProviderByBlockchain('BSC')
           })
         )
 

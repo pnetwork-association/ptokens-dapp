@@ -1,7 +1,7 @@
 import nfts from '../../settings/nfts'
 import Web3 from 'web3'
 import _ from 'lodash'
-import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
+import { getReadOnlyProviderByBlockchain } from '../../utils/read-only-providers'
 import { NFTS_DATA_LOADED } from '../../constants'
 import { setLoading } from '../pages/pages.actions'
 import { loadERC155Data } from './adapters/erc1155'
@@ -18,7 +18,7 @@ const loadNftsData = (_account, _blockchain) => {
         })
       )
 
-      const web3 = new Web3(getCorrespondingReadOnlyProvider(_blockchain))
+      const web3 = new Web3(getReadOnlyProviderByBlockchain(_blockchain))
 
       const nftsGrouped = _.groupBy(nfts, 'loadDataKey')
       const [erc1155s, cgts] = await Promise.all([

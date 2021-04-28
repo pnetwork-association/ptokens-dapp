@@ -3,7 +3,7 @@ import Web3 from 'web3'
 import { JsonRpc } from 'eosjs'
 import fetch from 'node-fetch'
 
-const getCorrespondingReadOnlyProvider = _blockchain => {
+const getReadOnlyProviderByBlockchain = _blockchain => {
   // TODO: only mainnet at the moment
   if (_blockchain === 'ETH') {
     return new Web3.providers.WebsocketProvider(settings.rpc.mainnet.eth.wsEndpoint)
@@ -27,4 +27,4 @@ const getCorrespondingReadOnlyProvider = _blockchain => {
   return null
 }
 
-export { getCorrespondingReadOnlyProvider }
+export { getReadOnlyProviderByBlockchain }

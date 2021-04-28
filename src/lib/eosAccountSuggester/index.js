@@ -1,4 +1,4 @@
-import { getCorrespondingReadOnlyProvider } from '../../utils/read-only-providers'
+import { getReadOnlyProviderByBlockchain } from '../../utils/read-only-providers'
 import { Mutex } from 'async-mutex'
 
 const mutex = new Mutex()
@@ -17,7 +17,7 @@ class EosAccountSuggester {
         return _currentAccounts
       }
 
-      const rpc = getCorrespondingReadOnlyProvider(_pToken, _role)
+      const rpc = getReadOnlyProviderByBlockchain(_pToken, _role)
       const res = await rpc.get_table_by_scope({
         code: 'eosio',
         table: 'userres',
