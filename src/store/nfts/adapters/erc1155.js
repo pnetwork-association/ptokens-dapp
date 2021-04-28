@@ -43,25 +43,24 @@ const loadERC155Data = async ({ nfts, account, web3 }) => {
         )
       )
 
-      const balances = await Promise.all(
-        ids.map((_id, _index) => erc1155s[_index].methods.balanceOf(account, _id).call())
-      )
-
-      const nftsData = await Promise.all(
-        uris.map(
-          _uri =>
-            new Promise((_resolve, _reject) =>
-              axios
-                .get(_uri)
-                .then(({ data }) => _resolve(data))
-                .catch(_reject)
-            )
+      const [balances, nftsData] = await Promise.all([
+        Promise.all(ids.map((_id, _index) => erc1155s[_index].methods.balanceOf(account, _id).call())),
+        Promise.all(
+          uris.map(
+            _uri =>
+              new Promise((_resolve, _reject) =>
+                axios
+                  .get(_uri)
+                  .then(({ data }) => _resolve(data))
+                  .catch(_reject)
+              )
+          )
         )
-      )
+      ])
 
       nfstArray.push(
         ...nftsData
-          //.filter((_, _index) => BigNumber(balances[_index]).isGreaterThan(0))
+          .filter((_, _index) => BigNumber(balances[_index]).isGreaterThan(0))
           .map((_data, _index) => ({
             ...erc1155,
             ...adapt(symbol, _data),
@@ -80,7 +79,7 @@ const loadERC155Data = async ({ nfts, account, web3 }) => {
 
 const adapt = (_symbol, _data) => {
   switch (_symbol) {
-    case 'RAREBIT': {
+    case 'RAREBITBUNNIES': {
       const { image, attributes, name } = _data
       return {
         image: image.replace('ipfs://', 'https://gateway.ipfs.io/'),

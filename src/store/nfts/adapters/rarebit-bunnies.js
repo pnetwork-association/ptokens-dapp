@@ -1,8 +1,7 @@
 import Web3 from 'web3'
-import { toastr } from 'react-redux-toastr'
-import NativeAbi from '../../../utils/abi/RAREBIT/Native.json'
-import HostAbi from '../../../utils/abi/RAREBIT/Host.json'
-import { getCorrespondingBaseTxExplorerLinkByBlockchain } from '../../../utils/explorer'
+import NativeAbi from '../../../utils/abi/RAREBITBUNNIES/Native.json'
+import HostAbi from '../../../utils/abi/RAREBITBUNNIES/Host.json'
+import { executeEvmCompatibleTxWithToast } from '../../../utils/tx-utils'
 import { getProviderByBlockchain, getAccountByBlockchain } from '../nfts.selectors'
 import ERC1155Abi from '../../../utils/abi/ERC1155.json'
 
@@ -10,47 +9,31 @@ const moveRarebitBunnies = async ({ nft, blockchain, destinationAccount, amount 
   try {
     const provider = getProviderByBlockchain(nft.blockchain)
     const account = getAccountByBlockchain(nft.blockchain)
+    const web3 = new Web3(provider)
 
     if (nft.isNative) {
-      const web3 = new Web3(provider)
       const nftContract = new web3.eth.Contract(ERC1155Abi, nft.contractAddress)
       const portals = new web3.eth.Contract(NativeAbi, nft.portalsAddress)
 
       const isApprovedForAll = await nftContract.methods.isApprovedForAll(account, nft.portalsAddress).call()
       if (!isApprovedForAll) {
-        await nftContract.methods.setApprovalForAll(nft.portalsAddress, true).send({
-          from: account
+        await executeEvmCompatibleTxWithToast(nftContract.methods.setApprovalForAll(nft.portalsAddress, true), {
+          from: account,
+          blockchain: 'ETH'
         })
       }
 
-      portals.methods
-        .mint(nft.id, amount, account)
-        .send({
-          from: account
-        })
-        .once('hash', _hash => {
-          toastr.success('Transaction broadcasted!', 'Click here to see it', {
-            timeOut: 0,
-            onToastrClick: () =>
-              window.open(`${getCorrespondingBaseTxExplorerLinkByBlockchain('ETH')}${_hash}`, '_blank')
-          })
-        })
+      await executeEvmCompatibleTxWithToast(portals.methods.mint(nft.id, amount, account), {
+        from: account,
+        blockchain: 'ETH'
+      })
     } else {
       const web3 = new Web3(provider)
       const portals = new web3.eth.Contract(HostAbi, nft.portalsAddress)
-
-      portals.methods
-        .burn(nft.id, amount, destinationAccount)
-        .send({
-          from: account
-        })
-        .once('hash', _hash => {
-          toastr.success('Transaction broadcasted!', 'Click here to see it', {
-            timeOut: 0,
-            onToastrClick: () =>
-              window.open(`${getCorrespondingBaseTxExplorerLinkByBlockchain('BSC')}${_hash}`, '_blank')
-          })
-        })
+      await executeEvmCompatibleTxWithToast(portals.methods.burn(nft.id, amount, destinationAccount), {
+        from: account,
+        blockchain: 'BSC'
+      })
     }
   } catch (_err) {
     console.error(_err)

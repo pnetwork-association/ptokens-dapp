@@ -5,7 +5,8 @@ import { getReadOnlyProviderByBlockchain } from '../../utils/read-only-providers
 import { NFTS_DATA_LOADED } from '../../constants'
 import { setLoading } from '../pages/pages.actions'
 import { loadERC155Data } from './adapters/erc1155'
-import { loadCgtData } from './adapters/cgt'
+import { loadErc721Data } from './adapters/erc721'
+import { moveChainGuardians } from './adapters/cgt'
 import { moveRarebitBunnies } from './adapters/rarebit-bunnies'
 
 const loadNftsData = (_account, _blockchain) => {
@@ -21,15 +22,15 @@ const loadNftsData = (_account, _blockchain) => {
       const web3 = new Web3(getReadOnlyProviderByBlockchain(_blockchain))
 
       const nftsGrouped = _.groupBy(nfts, 'loadDataKey')
-      const [erc1155s, cgts] = await Promise.all([
+      const [erc1155s, erc721s] = await Promise.all([
         loadERC155Data({
           nfts: nftsGrouped['erc1155'].filter(({ blockchain }) => blockchain === _blockchain),
           blockchain: _blockchain,
           account: _account,
           web3
         }),
-        loadCgtData({
-          nfts: nftsGrouped['cgt'].filter(({ blockchain }) => blockchain === _blockchain),
+        loadErc721Data({
+          nfts: nftsGrouped['erc721'].filter(({ blockchain }) => blockchain === _blockchain),
           blockchain: _blockchain,
           account: _account,
           web3
@@ -39,7 +40,7 @@ const loadNftsData = (_account, _blockchain) => {
       _dispatch({
         type: NFTS_DATA_LOADED,
         payload: {
-          nfts: [...erc1155s, ...cgts]
+          nfts: [...erc1155s, ...erc721s]
         }
       })
     } catch (_err) {
@@ -57,9 +58,10 @@ const move = (_nft, _blockchain, _destinationAccount, _amount) => {
   return async _dispatch => {
     try {
       const moves = {
-        'Rarebit Bunnies': (...params) => moveRarebitBunnies(...params)
+        RAREBITBUNNIES: (...params) => moveRarebitBunnies(...params),
+        CHAINGUARDIANS: (...params) => moveChainGuardians(...params)
       }
-      await moves[_nft.name]({
+      await moves[_nft.internalId]({
         nft: _nft,
         blockchain: _blockchain,
         destinationAccount: _destinationAccount,

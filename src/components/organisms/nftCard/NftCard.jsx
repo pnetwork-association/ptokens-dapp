@@ -25,7 +25,7 @@ const StyledCardBody = styled(Card.Body)`
 
 const Image = styled.img`
   width: 100%;
-  heigth: 70px;
+  height: 300px !important;
 `
 
 const Name = styled.label`

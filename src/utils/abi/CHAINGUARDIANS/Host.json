@@ -1,24 +1,5 @@
 [
   {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      }
-    ],
-    "name": "Wrapped",
-    "type": "event"
-  },
-  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -31,7 +12,7 @@
         "type": "address"
       }
     ],
-    "name": "wrap",
+    "name": "unwrap",
     "outputs": [
       {
         "internalType": "bool",

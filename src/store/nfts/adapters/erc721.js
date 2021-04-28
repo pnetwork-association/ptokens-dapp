@@ -1,38 +1,38 @@
 import BigNumber from 'bignumber.js'
 import axios from 'axios'
-import CGTAbi from '../../../utils/abi/ERC721.json'
+import ERC721Abi from '../../../utils/abi/ERC721.json'
 
-const loadErc721 = async ({ nfts, blockchain: _blockchain, account, web3 }) => {
+const loadErc721Data = async ({ nfts, blockchain: _blockchain, account, web3 }) => {
   try {
     if (nfts.length === 0) return []
 
-    const { portalsAddress, hostPortalsAddress, blockchain, contractAddress, isNative, symbol, fromBlock } = nfts[0]
-    const erc721 = new web3.eth.Contract(CGTAbi, contractAddress)
+    const erc721s = nfts.map(({ contractAddress }) => new web3.eth.Contract(ERC721Abi, contractAddress))
+    const events = await Promise.all(
+      erc721s.map((_erc721, _index) =>
+        _erc721.getPastEvents('Transfer', {
+          filter: {
+            to: account
+          },
+          fromBlock: nfts[_index].fromBlock,
+          toBlock: 'latest'
+        })
+      )
+    )
 
-    // NOTE: get all received nfts
-    const events = await erc721.getPastEvents('Transfer', {
-      filter: {
-        to: [account]
-      },
-      fromBlock: fromBlock,
-      toBlock: 'latest'
-    })
-
-    // NOTE: remove double ids
     const erc721WithIds = nfts.map((_nft, _index) => ({
       ..._nft,
-      ids: events[_index] ? Array.from(new Set(events[_index].map(({ returnValues: { id } }) => id))) : []
+      ids: events[_index] ? Array.from(new Set(events[_index].map(({ returnValues: { tokenId } }) => tokenId))) : []
     }))
 
     const nfstArray = []
     for (const erc721 of erc721WithIds) {
-      const { ids, type } = erc721
+      const { ids } = erc721
       const uris = await Promise.all(
         ids.map(
-          _id =>
+          (_id, _index) =>
             new Promise((_resolve, _reject) =>
-              erc721.methods
-                .uri(_id)
+              erc721s[_index].methods
+                .tokenURI(_id)
                 .call()
                 .then(_uri =>
                   _resolve(_uri.includes('ipfs') ? _uri.replace('ipfs://', 'https://gateway.ipfs.io/') : _uri)
@@ -42,37 +42,38 @@ const loadErc721 = async ({ nfts, blockchain: _blockchain, account, web3 }) => {
         )
       )
 
-      const balances = await Promise.all(ids.map(_id => erc721.methods.balanceOf(account, _id).call()))
-
-      const nftsData = await Promise.all(
-        uris.map(
-          _uri =>
-            new Promise((_resolve, _reject) =>
-              axios
-                .get(_uri)
-                .then(({ data }) => _resolve(data))
-                .catch(_reject)
-            )
+      const [owners, nftsData] = await Promise.all([
+        Promise.all(ids.map((_id, _index) => erc721s[_index].methods.ownerOf(_id).call())),
+        Promise.all(
+          uris.map(
+            _uri =>
+              new Promise((_resolve, _reject) =>
+                axios
+                  .get(_uri)
+                  .then(({ data }) => _resolve(data))
+                  .catch(_reject)
+              )
+          )
         )
-      )
+      ])
 
       nfstArray.push(
         ...nftsData
-          .filter((_, _index) => BigNumber(balances[_index]).isGreaterThan(0))
+          .filter((_, _index) => owners[_index].toLowerCase() === account.toLowerCase())
           .map((_data, _index) => ({
             ...erc721,
             ..._data,
             id: ids[_index],
-            balance: new BigNumber(balances[_index])
+            balance: new BigNumber(1)
           }))
       )
     }
 
-    return []
+    return nfstArray
   } catch (_err) {
     console.error(_err)
     return []
   }
 }
 
-export { loadErc721 }
+export { loadErc721Data }
