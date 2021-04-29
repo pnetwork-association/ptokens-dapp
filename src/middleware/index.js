@@ -8,12 +8,16 @@ import {
   WALLET_XDAI_CONNECTED,
   WALLET_POLYGON_ACCOUNT_CHANGED,
   WALLET_POLYGON_CONNECTED,
-  WALLET_TELOS_CONNECTED
+  WALLET_TELOS_CONNECTED,
+  NFTS_DATA_LOADED,
+  NFT_DATA_LOADED
 } from '../constants'
 import { waitUntil } from 'async-wait-until'
 import { loadBalances } from '../store/swap/swap.actions'
 import { loadNftsData } from '../store/nfts/nfts.actions'
 import { getAssetsWithAddress } from '../store/swap/swap.selectors'
+import { setLoading } from '../store/pages/pages.actions'
+import { getIsLoading } from '../store/pages/pages.selectors'
 
 const middleware = ({ dispatch }) => {
   return _next => {
@@ -55,6 +59,16 @@ const middleware = ({ dispatch }) => {
         await waitUntil(() => getAssetsWithAddress().length > 0)
         dispatch(loadBalances(payload.account, 'TELOS'))
         dispatch(loadNftsData(payload.account, 'TELOS'))
+      }
+
+      if (type === NFTS_DATA_LOADED || type === NFT_DATA_LOADED) {
+        if (getIsLoading()) {
+          dispatch(
+            setLoading({
+              isLoading: false
+            })
+          )
+        }
       }
 
       return _next(_action)

@@ -17,6 +17,7 @@ export const UPDATE_SWAP_BUTTON = 'UPDATE_SWAP_BUTTON'
 
 // nfts
 export const NFTS_DATA_LOADED = 'NFTS_DATA_LOADED'
+export const NFT_DATA_LOADED = 'NFT_DATA_LOADED'
 
 // wallets
 export const WALLET_ETH_CONNECTED = 'WALLET_ETH_CONNECTED'

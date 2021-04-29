@@ -1,8 +1,9 @@
 import BigNumber from 'bignumber.js'
 import axios from 'axios'
 import ERC1155Abi from '../../../utils/abi/ERC1155.json'
+import { nftsDataLoaded } from '../nfts.actions'
 
-const loadERC155Data = async ({ nfts, account, web3 }) => {
+const loadERC155Data = async ({ nfts, account, web3, dispatch }) => {
   try {
     const erc1155s = nfts.map(_nft => new web3.eth.Contract(ERC1155Abi, _nft.contractAddress))
 
@@ -25,7 +26,6 @@ const loadERC155Data = async ({ nfts, account, web3 }) => {
       ids: events[_index] ? Array.from(new Set(events[_index].map(({ returnValues: { _id } }) => _id))) : []
     }))
 
-    const nfstArray = []
     for (const erc1155 of erc1155WithIds) {
       const { ids, symbol } = erc1155
       const uris = await Promise.all(
@@ -58,22 +58,21 @@ const loadERC155Data = async ({ nfts, account, web3 }) => {
         )
       ])
 
-      nfstArray.push(
-        ...nftsData
-          .filter((_, _index) => BigNumber(balances[_index]).isGreaterThan(0))
-          .map((_data, _index) => ({
-            ...erc1155,
-            ...adapt(symbol, _data),
-            id: ids[_index],
-            balance: new BigNumber(balances[_index])
-          }))
+      dispatch(
+        nftsDataLoaded(
+          nftsData
+            .filter((_, _index) => BigNumber(balances[_index]).isGreaterThan(0))
+            .map((_data, _index) => ({
+              ...erc1155,
+              ...adapt(symbol, _data),
+              id: ids[_index],
+              balance: new BigNumber(balances[_index])
+            }))
+        )
       )
     }
-
-    return nfstArray
   } catch (_err) {
     console.log(_err)
-    return []
   }
 }
 

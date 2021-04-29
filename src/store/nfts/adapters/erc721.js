@@ -1,8 +1,9 @@
 import BigNumber from 'bignumber.js'
 import axios from 'axios'
 import ERC721Abi from '../../../utils/abi/ERC721.json'
+import { nftsDataLoaded } from '../nfts.actions'
 
-const loadErc721Data = async ({ nfts, blockchain: _blockchain, account, web3 }) => {
+const loadErc721Data = async ({ nfts, blockchain: _blockchain, account, web3, dispatch }) => {
   try {
     if (nfts.length === 0) return []
 
@@ -24,7 +25,6 @@ const loadErc721Data = async ({ nfts, blockchain: _blockchain, account, web3 }) 
       ids: events[_index] ? Array.from(new Set(events[_index].map(({ returnValues: { tokenId } }) => tokenId))) : []
     }))
 
-    const nfstArray = []
     for (const erc721 of erc721WithIds) {
       const { ids } = erc721
       const uris = await Promise.all(
@@ -57,22 +57,21 @@ const loadErc721Data = async ({ nfts, blockchain: _blockchain, account, web3 }) 
         )
       ])
 
-      nfstArray.push(
-        ...nftsData
-          .filter((_, _index) => owners[_index].toLowerCase() === account.toLowerCase())
-          .map((_data, _index) => ({
-            ...erc721,
-            ..._data,
-            id: ids[_index],
-            balance: new BigNumber(1)
-          }))
+      dispatch(
+        nftsDataLoaded(
+          nftsData
+            .filter((_, _index) => owners[_index].toLowerCase() === account.toLowerCase())
+            .map((_data, _index) => ({
+              ...erc721,
+              ..._data,
+              id: ids[_index],
+              balance: new BigNumber(1)
+            }))
+        )
       )
     }
-
-    return nfstArray
   } catch (_err) {
     console.error(_err)
-    return []
   }
 }
 

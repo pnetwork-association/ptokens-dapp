@@ -1,9 +1,9 @@
+import Web3 from 'web3'
 import CGTAbi from '../../../utils/abi/CHAINGUARDIANS/CGT.json'
 import NativeAbi from '../../../utils/abi/CHAINGUARDIANS/Native.json'
 import HostAbi from '../../../utils/abi/CHAINGUARDIANS/Host.json'
 import { executeEvmCompatibleTxWithToast } from '../../../utils/tx-utils'
 import { getProviderByBlockchain, getAccountByBlockchain } from '../nfts.selectors'
-import Web3 from 'web3'
 
 /*const loadChainGuardiansFromEthereum = async ({ nfts, blockchain: _blockchain, account, web3 }) => {
   try {

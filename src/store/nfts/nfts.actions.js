@@ -22,35 +22,23 @@ const loadNftsData = (_account, _blockchain) => {
       const web3 = new Web3(getReadOnlyProviderByBlockchain(_blockchain))
 
       const nftsGrouped = _.groupBy(nfts, 'loadDataKey')
-      const [erc1155s, erc721s] = await Promise.all([
-        loadERC155Data({
-          nfts: nftsGrouped['erc1155'].filter(({ blockchain }) => blockchain === _blockchain),
-          blockchain: _blockchain,
-          account: _account,
-          web3
-        }),
-        loadErc721Data({
-          nfts: nftsGrouped['erc721'].filter(({ blockchain }) => blockchain === _blockchain),
-          blockchain: _blockchain,
-          account: _account,
-          web3
-        })
-      ])
-
-      _dispatch({
-        type: NFTS_DATA_LOADED,
-        payload: {
-          nfts: [...erc1155s, ...erc721s]
-        }
+      loadERC155Data({
+        dispatch: _dispatch,
+        nfts: nftsGrouped['erc1155'].filter(({ blockchain }) => blockchain === _blockchain),
+        blockchain: _blockchain,
+        account: _account,
+        web3
+      })
+      loadErc721Data({
+        dispatch: _dispatch,
+        nfts: nftsGrouped['erc721'].filter(({ blockchain }) => blockchain === _blockchain),
+        blockchain: _blockchain,
+        account: _account,
+        web3
       })
     } catch (_err) {
       console.error(_err)
     }
-    _dispatch(
-      setLoading({
-        isLoading: false
-      })
-    )
   }
 }
 
@@ -73,4 +61,11 @@ const move = (_nft, _blockchain, _destinationAccount, _amount) => {
   }
 }
 
-export { loadNftsData, move }
+const nftsDataLoaded = _data => ({
+  type: NFTS_DATA_LOADED,
+  payload: {
+    nfts: _data
+  }
+})
+
+export { loadNftsData, move, nftsDataLoaded }
