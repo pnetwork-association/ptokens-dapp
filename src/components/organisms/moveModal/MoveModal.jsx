@@ -2,9 +2,9 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import settings from '../../../settings'
 import { isValidAccountByBlockchain } from '../../../utils/account-validator'
 import Modal from '../../molecules/modal/Modal'
+import { blockchainSymbolToName } from '../../../utils/maps'
 
 const ContainerRow = styled.div`
   padding-top: 10px;
@@ -106,7 +106,7 @@ const MoveButton = styled.button`
   }
 `
 
-const ModeModal = ({ currentBlockchain, show, type, onClose, onMove }) => {
+const ModeModal = ({ supportedBlockchains, show, type, onClose, onMove }) => {
   const [step, setStep] = useState(0)
   const [blockchain, setBlockchain] = useState(null)
   const [address, setAddress] = useState('')
@@ -144,21 +144,19 @@ const ModeModal = ({ currentBlockchain, show, type, onClose, onMove }) => {
       title={step === 0 ? 'Select the blockchain ...' : 'Finalize ...'}
       body={
         step === 0 ? (
-          settings.supportedBlockchains
-            .filter(({ symbol }) => symbol !== currentBlockchain)
-            .map(({ name, symbol }) => (
-              <ContainerRow key={name} onClick={() => onNext(symbol)}>
-                <StyledRow>
-                  <Col xs={2}>
-                    <BlokchainIcon src={`../assets/svg/${symbol}.svg`} />
-                  </Col>
-                  <ContainerBlockchainName xs={8}>{name}</ContainerBlockchainName>
-                  <ContainerRightArrow xs={2}>
-                    <RightArrow src="../assets/png/right-arrow.png" />
-                  </ContainerRightArrow>
-                </StyledRow>
-              </ContainerRow>
-            ))
+          supportedBlockchains.map(_symbol => (
+            <ContainerRow key={_symbol} onClick={() => onNext(_symbol)}>
+              <StyledRow>
+                <Col xs={2}>
+                  <BlokchainIcon src={`../assets/svg/${_symbol}.svg`} />
+                </Col>
+                <ContainerBlockchainName xs={8}>{blockchainSymbolToName[_symbol]}</ContainerBlockchainName>
+                <ContainerRightArrow xs={2}>
+                  <RightArrow src="../assets/png/right-arrow.png" />
+                </ContainerRightArrow>
+              </StyledRow>
+            </ContainerRow>
+          ))
         ) : (
           <ContainerAddressInputAndButton>
             <AddressInput value={address} onChange={e => setAddress(e.target.value)} placeholder="address" />

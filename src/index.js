@@ -12,6 +12,7 @@ import ThemeProvider, { ThemedGlobalStyle } from './theme/ThemeProvider'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 import 'react-step-progress-bar/styles.css'
+import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import './theme/font.css'
 
 ReactGA.initialize(settings.googleAnalyticsTrackId)

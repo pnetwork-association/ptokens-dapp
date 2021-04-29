@@ -795,6 +795,7 @@ const settings = {
       nativeBlockchain: 'ETH',
       image: 'PNT.svg',
       withBalanceDecimalsConversion: true,
+      withAmountConversionPegout: true,
       isSpecial: true
     },
     {
@@ -815,7 +816,8 @@ const settings = {
       nativeSymbol: 'PTERIA',
       nativeBlockchain: 'ETH',
       image: 'PTERIA.svg',
-      withBalanceDecimalsConversion: true
+      withBalanceDecimalsConversion: true,
+      withAmountConversionPegout: true,
     },
     {
       id: POPIUM_ON_BSC_MAINNET,
@@ -835,7 +837,8 @@ const settings = {
       nativeSymbol: 'OPIUM',
       nativeBlockchain: 'ETH',
       image: 'pOPIUM.svg',
-      withBalanceDecimalsConversion: true
+      withBalanceDecimalsConversion: true,
+      withAmountConversionPegout: true,
     },
     {
       id: PDEFIPLUSPLUS_ON_BSC_MAINNET,
@@ -855,7 +858,8 @@ const settings = {
       nativeSymbol: 'DEFI++',
       nativeBlockchain: 'ETH',
       image: 'pDEFI++.svg',
-      withBalanceDecimalsConversion: true
+      withBalanceDecimalsConversion: true,
+      withAmountConversionPegout: true,
     },
     {
       id: PBCP_ON_BSC_MAINNET,
@@ -875,7 +879,8 @@ const settings = {
       nativeSymbol: 'BCP',
       nativeBlockchain: 'ETH',
       image: 'pBCP.svg',
-      withBalanceDecimalsConversion: true
+      withBalanceDecimalsConversion: true,
+      withAmountConversionPegout: true,
     },
     {
       id: CGG_ON_BSC_MAINNET,
@@ -1083,6 +1088,16 @@ const settings = {
       image: 'pOPEN.svg',
       withAmountConversionPegout: true,
       withBalanceDecimalsConversion: true
+    }
+  ],
+  supportedNfts: [
+    {
+      symbol: 'RAREBIT',
+      name: 'Rarebit Bunnies'
+    },
+    {
+      symbol: 'CGT',
+      name: 'ChainGuardians'
     }
   ]
 }

@@ -25,7 +25,7 @@ const StyledCardBody = styled(Card.Body)`
 
 const Image = styled.img`
   width: 100%;
-  height: 300px !important;
+  height: 270px !important;
 `
 
 const Name = styled.label`
@@ -76,7 +76,7 @@ const ContainerButtonAndBlockchain = styled(Row)`
 `
 
 const NftCard = ({ nft, move }) => {
-  const { name, image, blockchain, type } = nft
+  const { name, image, blockchain, type, supportedBlockchains } = nft
   const [showBlockchainSelectionModal, setShowBlockchainSelectionModal] = useState(false)
 
   return (
@@ -108,7 +108,7 @@ const NftCard = ({ nft, move }) => {
       </StyledCard>
       <MoveModal
         type={type}
-        currentBlockchain={blockchain}
+        supportedBlockchains={supportedBlockchains}
         show={showBlockchainSelectionModal}
         onClose={() => setShowBlockchainSelectionModal(false)}
         onMove={(_blockchain, _address, _amount) => move(nft, _blockchain, _address, _amount)}

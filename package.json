@@ -32,6 +32,7 @@
     "react-loading-overlay": "^1.0.1",
     "react-redux-toastr": "^7.6.5",
     "react-responsive": "^8.0.1",
+    "react-responsive-carousel": "^3.2.18",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.1.1",
     "react-step-progress-bar": "^1.0.3",

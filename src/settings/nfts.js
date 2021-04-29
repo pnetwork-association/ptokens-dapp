@@ -11,7 +11,8 @@ const nfts = [
     isNative: true,
     blockchain: 'ETH',
     fromBlock: 11701037,
-    loadDataKey: 'erc1155'
+    loadDataKey: 'erc1155',
+    supportedBlockchains: ['BSC']
   },
   {
     internalId: RAREBITBUNNIES,
@@ -23,7 +24,8 @@ const nfts = [
     isNative: false,
     blockchain: 'BSC',
     fromBlock: 6170510,
-    loadDataKey: 'erc1155'
+    loadDataKey: 'erc1155',
+    supportedBlockchains: ['ETH']
   },
   {
     internalId: CHAINGUARDIANS,
@@ -35,7 +37,8 @@ const nfts = [
     isNative: true,
     blockchain: 'ETH',
     fromBlock: 8104026,
-    loadDataKey: 'erc721'
+    loadDataKey: 'erc721',
+    supportedBlockchains: ['BSC']
   },
   {
     internalId: CHAINGUARDIANS,
@@ -47,7 +50,8 @@ const nfts = [
     isNative: false,
     blockchain: 'BSC',
     fromBlock: 6953247,
-    loadDataKey: 'erc721'
+    loadDataKey: 'erc721',
+    supportedBlockchains: ['ETH']
   }
 ]
 

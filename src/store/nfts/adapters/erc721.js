@@ -34,9 +34,7 @@ const loadErc721Data = async ({ nfts, blockchain: _blockchain, account, web3, di
               erc721s[_index].methods
                 .tokenURI(_id)
                 .call()
-                .then(_uri =>
-                  _resolve(_uri.includes('ipfs') ? _uri.replace('ipfs://', 'https://gateway.ipfs.io/') : _uri)
-                )
+                .then(_uri => _resolve(_uri.includes('http:') ? _uri.replace('http:', 'https:') : _uri))
                 .catch(_reject)
             )
         )
