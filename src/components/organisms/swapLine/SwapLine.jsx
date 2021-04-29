@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Row, Col } from 'react-bootstrap'
 import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
+import AssetInfo from '../assetInfo/AssetInfo'
+import Icon from '../../atoms/icon/Icon'
 
 const SwapLineContainer = styled.div`
   border-radius: 20px;
   border: 1px solid ${({ theme }) => theme.lightGray};
   padding: 12px 15px 12px 15px;
   @media (max-width: 767.98px) {
-    padding: 10px 15px 5px 15px;
+    padding: 10px 15px 10px 15px;
   }
 `
 
@@ -168,6 +170,26 @@ const ContainerTitle = styled(Col)`
   }
 `
 
+const ExpandContainer = styled(Col)`
+  text-align: right;
+  margin-top: 5px;
+`
+
+const Expand = styled.span`
+  color: ${({ theme }) => theme.text2};
+  font-size: 12px;
+  cursor: pointer;
+`
+
+const Arrow = styled(Icon)`
+  width: 12px;
+  height: 12px;
+  margin-right: 5px;
+  svg {
+    fill: ${({ theme }) => (theme.type === 'light' ? theme.text1 : 'white')};
+  }
+`
+
 const SwapLine = ({
   asset,
   amount,
@@ -175,11 +197,14 @@ const SwapLine = ({
   defaultImage,
   defaultMiniImage,
   title,
+  wallet,
   onChangeAmount,
   onClickImage,
   onChangeAddress,
   onMax
 }) => {
+  const [showInfo, setShowInfo] = useState(false)
+
   return (
     <SwapLineContainer>
       <ContainerTypeAndBalance>
@@ -219,6 +244,19 @@ const SwapLine = ({
           </ContainerAmountInput>
         </Col>
       </Row>
+      <Row>
+        <ExpandContainer>
+          <Expand onClick={() => setShowInfo(!showInfo)}>
+            {asset && asset.address ? (
+              <React.Fragment>
+                <Arrow icon={showInfo ? 'arrow-up' : 'arrow-down'} />
+              </React.Fragment>
+            ) : (
+              ''
+            )}
+          </Expand>
+        </ExpandContainer>
+      </Row>
       {address || address === '' ? (
         <Row>
           <OuterContainerAddressInput>
@@ -232,6 +270,7 @@ const SwapLine = ({
           </OuterContainerAddressInput>
         </Row>
       ) : null}
+      {showInfo ? <AssetInfo asset={asset} wallet={wallet} /> : null}
     </SwapLineContainer>
   )
 }
@@ -240,6 +279,7 @@ SwapLine.propTypes = {
   asset: PropTypes.object,
   amount: PropTypes.string,
   address: PropTypes.string,
+  wallets: PropTypes.object,
   defaultImage: PropTypes.string,
   defaultMiniImage: PropTypes.string,
   onChangeAmount: PropTypes.func,

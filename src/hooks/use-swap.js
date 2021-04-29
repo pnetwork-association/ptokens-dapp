@@ -4,6 +4,7 @@ import { getPeginOrPegoutMinutesEstimation } from '../utils/estimations'
 import { getFee } from '../utils/fee'
 import BigNumber from 'bignumber.js'
 import { updateUrlForSwap } from '../utils/url'
+import { useWalletByBlockchain } from './use-wallets'
 
 const useSwap = ({
   wallets,
@@ -24,6 +25,7 @@ const useSwap = ({
   const [showModalFrom, setShowModalFrom] = useState(false)
   const [showModalTo, setShowModalTo] = useState(false)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
+  const [assetsWithAddressLoaded, setAssetsWithAddressLoaded] = useState(false)
   const [selectionChanged, setSelectionChanged] = useState(false)
 
   const { fee, isPegin, isPegout } = useSwapInfo(from, to)
@@ -163,7 +165,25 @@ const useSwap = ({
         setAssetsLoaded(true)
       }
     }
-  }, [assets, assetsLoaded])
+
+    // NOTE: reselect the current selection when address is loaded
+    if (assetsLoaded && !assetsWithAddressLoaded) {
+      const currentFromWithAddress = assets.find(
+        ({ id, address, isBlockchainTokenNative }) =>
+          (id === from.id && address) || (id === from.id && isBlockchainTokenNative)
+      )
+      const currentToWithAddress = assets.find(
+        ({ id, address, isBlockchainTokenNative }) =>
+          (id === to.id && address) || (id === to.id && isBlockchainTokenNative)
+      )
+
+      if (currentFromWithAddress && currentToWithAddress) {
+        setFrom(currentFromWithAddress)
+        setTo(currentToWithAddress)
+        setAssetsWithAddressLoaded(true)
+      }
+    }
+  }, [from, to, assets, assetsLoaded, assetsWithAddressLoaded])
 
   // NOTE: reset data when pegin/pegout terminates
   useEffect(() => {
@@ -341,6 +361,10 @@ const useSwap = ({
     }
   }, [from, to])
 
+  // NOTE: wallet selection
+  const fromWallet = useWalletByBlockchain(wallets, from ? from.blockchain : null)
+  const toWallet = useWalletByBlockchain(wallets, to ? to.blockchain : null)
+
   return {
     from,
     to,
@@ -352,6 +376,8 @@ const useSwap = ({
     toAmount,
     isValidSwap,
     filteredAssets,
+    fromWallet,
+    toWallet,
     onChangeFromAmount,
     onChangeToAmount,
     onChangeOrder,

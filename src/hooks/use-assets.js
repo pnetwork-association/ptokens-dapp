@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { offChainFormat, strip } from '../utils/amount-utils'
 import { blockchainSymbolToName, blockchainSymbolToCoin } from '../utils/maps'
+import { getCorrespondingBaseAccountExplorerLinkByBlockchain } from '../utils/explorer'
 import utils from 'ptokens-utils'
 
 const useAssets = _assets => {
@@ -22,12 +23,21 @@ const useAssetsWithouDefault = _assets => {
   }, [_assets])
 }
 
+const usePtoken = _asset => {
+  return useMemo(() => {
+    return [_asset && _asset.isPtoken ? true : false]
+  }, [_asset])
+}
+
 const updateAsset = _asset => ({
   ..._asset,
   address:
     _asset.address && _asset.blockchain !== 'EOS' && _asset.blockchain !== 'TELOS'
       ? utils.eth.addHexPrefix(_asset.address)
       : _asset.address,
+  explorer: _asset.address
+    ? `${getCorrespondingBaseAccountExplorerLinkByBlockchain(_asset.blockchain)}${_asset.address}`
+    : null,
   formattedBalance: _asset.balance
     ? _asset.withBalanceDecimalsConversion
       ? strip(offChainFormat(_asset.balance, _asset.decimals))
@@ -48,4 +58,4 @@ const updateAsset = _asset => ({
   miniImage: `../assets/svg/${_asset.blockchain}.svg`
 })
 
-export { useAssets, useAssetsWithouDefault }
+export { useAssets, useAssetsWithouDefault, usePtoken }

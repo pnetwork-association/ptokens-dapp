@@ -4,7 +4,6 @@ import WalletConnectProvider from '@walletconnect/web3-provider'
 import Portis from '@portis/web3'
 import Fortmatic from 'fortmatic'
 import settings from '../../../settings'
-import { toastr } from 'react-redux-toastr'
 import { WALLET_ETH_CONNECTED, WALLET_ETH_NETWORK_CHANGED, WALLET_ETH_ACCOUNT_CHANGED } from '../../../constants'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
@@ -45,10 +44,6 @@ const connectWithEthWallet = async _dispatch => {
     })
 
     provider.on('chainChanged', _chainId => {
-      if (Number(_chainId) !== 1) {
-        toastr.error('Invalid Ethereum Network. Please switch on Mainnet!')
-      }
-
       _dispatch({
         type: WALLET_ETH_NETWORK_CHANGED,
         payload: {

@@ -24,4 +24,21 @@ const useWallets = _wallets => {
   }, [_wallets])
 }
 
-export { useWallets }
+const useWalletByBlockchain = (_wallets, _blockchain) => {
+  return useMemo(() => {
+    if (!_blockchain) {
+      return {
+        isConnected: false,
+        provider: null
+      }
+    }
+
+    const wallet = _wallets[_blockchain.toLowerCase()]
+    return {
+      isConnected: wallet && wallet.account,
+      provider: wallet && wallet.account ? wallet.provider : null
+    }
+  }, [_wallets, _blockchain])
+}
+
+export { useWallets, useWalletByBlockchain }

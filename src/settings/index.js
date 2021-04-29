@@ -817,7 +817,7 @@ const settings = {
       nativeBlockchain: 'ETH',
       image: 'PTERIA.svg',
       withBalanceDecimalsConversion: true,
-      withAmountConversionPegout: true,
+      withAmountConversionPegout: true
     },
     {
       id: POPIUM_ON_BSC_MAINNET,
@@ -838,7 +838,7 @@ const settings = {
       nativeBlockchain: 'ETH',
       image: 'pOPIUM.svg',
       withBalanceDecimalsConversion: true,
-      withAmountConversionPegout: true,
+      withAmountConversionPegout: true
     },
     {
       id: PDEFIPLUSPLUS_ON_BSC_MAINNET,
@@ -859,7 +859,7 @@ const settings = {
       nativeBlockchain: 'ETH',
       image: 'pDEFI++.svg',
       withBalanceDecimalsConversion: true,
-      withAmountConversionPegout: true,
+      withAmountConversionPegout: true
     },
     {
       id: PBCP_ON_BSC_MAINNET,
@@ -880,7 +880,7 @@ const settings = {
       nativeBlockchain: 'ETH',
       image: 'pBCP.svg',
       withBalanceDecimalsConversion: true,
-      withAmountConversionPegout: true,
+      withAmountConversionPegout: true
     },
     {
       id: CGG_ON_BSC_MAINNET,

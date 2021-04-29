@@ -9,7 +9,7 @@ const slicerByBlockchain = (_address, _blockchain) => {
       return _address
     }
     default: {
-      return slicer(_address)
+      return _address ? slicer(_address) : _address
     }
   }
 }

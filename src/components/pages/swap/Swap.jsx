@@ -129,6 +129,8 @@ const Swap = ({
     fromAmount,
     toAmount,
     filteredAssets,
+    fromWallet,
+    toWallet,
     onChangeFromAmount,
     onChangeToAmount,
     onChangeOrder,
@@ -165,6 +167,7 @@ const Swap = ({
                 title="From"
                 asset={from}
                 amount={fromAmount}
+                wallet={fromWallet}
                 onChangeAmount={onChangeFromAmount}
                 onClickImage={() => setShowModalFrom(true)}
                 onMax={onFromMax}
@@ -179,6 +182,7 @@ const Swap = ({
                 asset={to}
                 amount={toAmount}
                 address={address}
+                wallet={toWallet}
                 onChangeAmount={onChangeToAmount}
                 onClickImage={() => setShowModalTo(true)}
                 onChangeAddress={setAddress}
