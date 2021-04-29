@@ -30,44 +30,78 @@ import {
   /*PEOS_ON_POLYGON_MAINNET,*/
   PBTC_ON_XDAI_MAINNET,
   /*IQ_ON_ETH_MAINNET,
-  TLOS_ON_ETH_MAINNET,
+  TLOS_ON_ETH_MAINNET,*/
   PNT_ON_BSC_MAINNET,
   POPIUM_ON_BSC_MAINNET,
   PDEFIPLUSPLUS_ON_BSC_MAINNET,
   PTERIA_ON_BSC_MAINNET,
   PBCP_ON_BSC_MAINNET,
   CGG_ON_BSC_MAINNET,
-  PETH_ON_TELOS_MAINNET,
+  /*PETH_ON_TELOS_MAINNET,
   PLINK_ON_TELOS_MAINNET,
   PNT_ON_TELOS_MAINNET,
   PUSDT_ON_TELOS_MAINNET,
-  PUSDC_ON_TELOS_MAINNET,
-  PNT_ON_XDAI_MAINNET,*/
-  PRVN_ON_BSC_MAINNET
+  PUSDC_ON_TELOS_MAINNET,*/
+  /*PNT_ON_XDAI_MAINNET,*/
+  PRVN_ON_BSC_MAINNET,
+  OCP_ON_ETH_MAINNET
 } from '../constants'
+
+const map = {
+  [PBTC_ON_ETH_MAINNET]: {
+    pegin: 0,
+    pegout: 0.25
+  },
+  [PBTC_ON_BSC_MAINNET]: {
+    pegin: 0,
+    pegout: 0.25
+  },
+  [PLTC_ON_ETH_MAINNET]: {
+    pegin: 0,
+    pegout: 0.25
+  },
+  [PBTC_ON_XDAI_MAINNET]: {
+    pegin: 0,
+    pegout: 0.25
+  },
+  [PRVN_ON_BSC_MAINNET]: {
+    pegin: 0,
+    pegout: 0.25
+  },
+  [PNT_ON_BSC_MAINNET]: {
+    pegin: 0,
+    pegout: 0.25
+  },
+  [PDEFIPLUSPLUS_ON_BSC_MAINNET]: {
+    pegin: 0,
+    pegout: 0.25
+  },
+  [POPIUM_ON_BSC_MAINNET]: {
+    pegin: 0,
+    pegout: 0.25
+  },
+  [PBCP_ON_BSC_MAINNET]: {
+    pegin: 0,
+    pegout: 0.25
+  },
+  [PTERIA_ON_BSC_MAINNET]: {
+    pegin: 0,
+    pegout: 0.25
+  },
+  [CGG_ON_BSC_MAINNET]: {
+    pegin: 0,
+    pegout: 0.25
+  },
+  [OCP_ON_ETH_MAINNET]: {
+    pegin: 0,
+    pegout: 0.25
+  }
+}
 
 const getFee = (_ptokenId, _type) => {
   if (_type !== 'pegin' && _type !== 'pegout') throw new Error('Invalid type. Please use (pegin or pegout)')
-
-  switch (_ptokenId) {
-    case PBTC_ON_ETH_MAINNET: {
-      return _type === 'pegin' ? 0 : 0.25
-    }
-    case PBTC_ON_BSC_MAINNET: {
-      return _type === 'pegin' ? 0 : 0.25
-    }
-    case PLTC_ON_ETH_MAINNET: {
-      return _type === 'pegin' ? 0 : 0.25
-    }
-    case PBTC_ON_XDAI_MAINNET: {
-      return _type === 'pegin' ? 0 : 0.25
-    }
-    case PRVN_ON_BSC_MAINNET: {
-      return _type === 'pegin' ? 0 : 0.25
-    }
-    default:
-      return 0
-  }
+  const result = map[_ptokenId] ? map[_ptokenId][_type] : null
+  return result ? result : 0
 }
 
 export { getFee }

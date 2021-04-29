@@ -5,8 +5,10 @@ import { Row, Col } from 'react-bootstrap'
 import ReactTooltip from 'react-tooltip'
 import Icon from '../../atoms/icon/Icon'
 import { copyToClipboard } from '../../../utils/utils'
-import { slicerByBlockchain } from '../../../utils/account-viewer'
 import { registerToken } from '../../../utils/wallet'
+import imageToBase64 from 'image-to-base64'
+import { useProvider } from '../../../hooks/use-provider'
+import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
 
 const ContainerAssetInfo = styled(Col)`
   margin-top: 10px;
@@ -57,22 +59,29 @@ const MetamaskIcon = styled(Icon)`
 `
 
 const AssetInfo = ({ asset, wallet }) => {
+  const { symbol, address, explorer, blockchain, decimals, isSpecial, isPtoken } = asset
   const [isCopiedToClipboard, setIsCopiedToClipboard] = useState(false)
-  const { blockchain, address, explorer } = asset
+  const { isMetamask } = useProvider(wallet.provider)
 
   useEffect(() => {
     ReactTooltip.rebuild()
   })
 
-  const onAddToken = useCallback(() => {
-    registerToken({
-      provider: wallet.provider,
-      tokenAddress: asset.address,
-      tokenSymbol: asset.symbol,
-      tokenDecimals: asset.decimals,
-      tokenImage: null
-    })
-  }, [asset, wallet])
+  const onAddToken = useCallback(async () => {
+    try {
+      if (!wallet.provider || !isMetamask) return
+      //const image = await imageToBase64('./assets/svg/pBTC.svg')
+      registerToken({
+        provider: wallet.provider,
+        tokenAddress: address,
+        tokenSymbol: symbol,
+        tokenDecimals: decimals
+        //tokenImage: image
+      })
+    } catch (_err) {
+      console.error(_err)
+    }
+  }, [decimals, address, symbol, wallet, isMetamask])
 
   return (
     <Row>
@@ -81,7 +90,7 @@ const AssetInfo = ({ asset, wallet }) => {
           <Address xs={6}>
             <a href={explorer} target="blank">
               <WorldIcon icon="world" />
-              {slicerByBlockchain(address, blockchain)}
+              {!isPtoken ? symbol : isSpecial ? symbol : capitalizeAllLettersExceptFirst(symbol)}
             </a>
           </Address>
           <ContainerOptions>
@@ -96,14 +105,22 @@ const AssetInfo = ({ asset, wallet }) => {
                 }, 1500)
               }}
             />
-            {blockchain !== 'EOS' && blockchain !== 'TELOS' && wallet.provider ? (
-              <MetamaskIcon icon="metamask" data-tip={'Add to metamask'} onClick={onAddToken} />
+            {blockchain !== 'EOS' && blockchain !== 'TELOS' ? (
+              <MetamaskIcon
+                icon="metamask"
+                data-tip={!wallet.provider ? 'Connect Metamask to add the token' : 'Add to Metamask'}
+                onClick={onAddToken}
+              />
             ) : null}
           </ContainerOptions>
         </Row>
         <ReactTooltip
           getContent={_dataTip =>
-            _dataTip === 'Add to metamask' ? _dataTip : isCopiedToClipboard ? 'Copied!' : 'Copy to clipboard'
+            _dataTip === 'Add to metamask' || _dataTip === 'Connect Metamask to add the token'
+              ? _dataTip
+              : isCopiedToClipboard
+              ? 'Copied!'
+              : 'Copy to clipboard'
           }
         />
       </ContainerAssetInfo>

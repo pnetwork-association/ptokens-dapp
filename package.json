@@ -18,6 +18,7 @@
     "eosjs": "^20.0.0",
     "eventemitter3": "^4.0.7",
     "fortmatic": "^2.0.5",
+    "image-to-base64": "^2.2.0",
     "is-mobile": "^3.0.0",
     "lodash": "^4.17.21",
     "node-ssh": "^11.1.1",

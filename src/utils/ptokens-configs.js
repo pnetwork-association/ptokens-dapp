@@ -45,7 +45,8 @@ import {
   PNT_ON_XDAI_MAINNET,
   PRVN_ON_BSC_MAINNET,
   TLOS_ON_BSC_MAINNET,
-  POPEN_ON_BSC_MAINNET
+  POPEN_ON_BSC_MAINNET,
+  OCP_ON_ETH_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -596,6 +597,17 @@ const getConfigs = (_pTokenId, _configs) => {
         pToken: pTokens.pOPEN,
         network: networks.BinanceSmartChainMainnet,
         blockchain: blockchains.BinanceSmartChain,
+        ethProvider,
+        bscProvider
+      }
+    }
+  }
+  if (_pTokenId === OCP_ON_ETH_MAINNET) {
+    return {
+      pbep20: {
+        pToken: pTokens.OCP,
+        network: networks.EthereumMainnet,
+        blockchain: blockchains.Ethereum,
         ethProvider,
         bscProvider
       }

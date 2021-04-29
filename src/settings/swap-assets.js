@@ -517,6 +517,21 @@ const swapAssets = [
     nativeBlockchain: 'ETH',
     image: 'OPEN.svg',
     withBalanceDecimalsConversion: true
+  },
+  {
+    id: 'OCP',
+    symbol: 'OCP',
+    name: 'Omni Consumer Protocols',
+    network: 'mainnet',
+    blockchain: 'BSC',
+    skipNodeSelection: true,
+    decimals: 18,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'OCP',
+    nativeBlockchain: 'BSC',
+    image: 'OCP.svg',
+    withBalanceDecimalsConversion: true
   }
 ]
 

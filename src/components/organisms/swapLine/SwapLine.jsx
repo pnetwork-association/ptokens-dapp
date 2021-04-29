@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Row, Col } from 'react-bootstrap'
@@ -204,6 +204,15 @@ const SwapLine = ({
   onMax
 }) => {
   const [showInfo, setShowInfo] = useState(false)
+  const [id, setId] = useState(false)
+
+  // NOTE: avoid to close show info when asset is reloaded with the balance
+  useEffect(() => {
+    if (asset && asset.id !== id) {
+      setShowInfo(false)
+      setId(asset.id)
+    }
+  }, [asset, id])
 
   return (
     <SwapLineContainer>

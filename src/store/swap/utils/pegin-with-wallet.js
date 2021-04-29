@@ -1,5 +1,4 @@
 import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
-import store from '../../../store'
 import { eth } from 'ptokens-utils'
 import Web3 from 'web3'
 import ERC20Abi from '../../../utils/abi/ERC20.json'
@@ -7,7 +6,11 @@ import BigNumber from 'bignumber.js'
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
 import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
-import { getWalletAccountByBlockchain, getWalletPermissionByBlockchain } from '../../wallets/wallets.selectors'
+import {
+  getWalletAccountByBlockchain,
+  getWalletPermissionByBlockchain,
+  getWalletByBlockchain
+} from '../../wallets/wallets.selectors'
 
 let promiEvent = null
 
@@ -31,25 +34,21 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
     .toFixed()
 
   // NOTE: peth uses ethers
-  if (ptoken.isPerc20 && ptoken.name !== 'pETH') {
+  if ((ptoken.isPerc20 && ptoken.name !== 'pETH') || ptoken.isBep20) {
     try {
       await ptokens[ptoken.workingName].select()
       const info = await ptokens[ptoken.workingName].selectedNode.getInfo()
-      const { wallets } = store.getState()
+      const { account, provider } = getWalletByBlockchain(ptoken.nativeBlockchain)
+      const web3 = new Web3(provider)
 
-      const web3 = new Web3(wallets.eth.provider)
       const toApprove = new web3.eth.Contract(ERC20Abi, eth.addHexPrefix(info.native_smart_contract_address))
-
-      const allowance = await toApprove.methods
-        .allowance(wallets.eth.account, eth.addHexPrefix(info.native_vault_address))
-        .call()
-
+      const allowance = await toApprove.methods.allowance(account, eth.addHexPrefix(info.native_vault_address)).call()
       if (!BigNumber(allowance).isGreaterThanOrEqualTo(params[0])) {
         const _approve = () =>
           new Promise(_resolve =>
             toApprove.methods
               .approve(eth.addHexPrefix(info.native_vault_address), params[0])
-              .send({ from: wallets.eth.account, gas: 150000 })
+              .send({ from: account, gas: 75000 })
               .once('hash', _hash => {
                 link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_hash}`
               })

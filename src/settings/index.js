@@ -45,7 +45,8 @@ import {
   PNT_ON_XDAI_MAINNET,
   PRVN_ON_BSC_MAINNET,
   TLOS_ON_BSC_MAINNET,
-  POPEN_ON_BSC_MAINNET
+  POPEN_ON_BSC_MAINNET,
+  OCP_ON_ETH_MAINNET
 } from '../constants'
 
 const settings = {
@@ -1088,6 +1089,28 @@ const settings = {
       image: 'pOPEN.svg',
       withAmountConversionPegout: true,
       withBalanceDecimalsConversion: true
+    },
+    {
+      id: OCP_ON_ETH_MAINNET,
+      name: 'OCP',
+      workingName: 'ocp',
+      nativeDecimals: 18,
+      network: 'mainnet',
+      minimumIssuable: '0.000000001',
+      minimumRedeamable: '0.000000001',
+      isHidden: false,
+      blockchain: 'ETH',
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'OCP',
+      isPtoken: true,
+      isBep20: true,
+      nativeSymbol: 'OCP',
+      nativeBlockchain: 'BSC',
+      image: 'pOCP.svg',
+      withAmountConversionPegout: true,
+      withBalanceDecimalsConversion: true,
+      isSpecial: true
     }
   ],
   supportedNfts: [
