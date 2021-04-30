@@ -22,11 +22,12 @@ const ContainerAssetInfo = styled(Col)`
   }
 `
 
-const Address = styled(Col)`
+const Token = styled.a`
   color: ${({ theme }) => theme.blue};
-  text-align: left;
   font-size: 14px;
   text-decoration: underline;
+  margin-left: 7px;
+  margin-top: 3px;
   @media (max-width: 767.98px) {
     font-size: 12px;
   }
@@ -86,14 +87,8 @@ const AssetInfo = ({ asset, wallet }) => {
     <Row>
       <ContainerAssetInfo>
         <Row>
-          <Address xs={6}>
-            <a href={explorer} target="blank">
-              <WorldIcon icon="world" />
-              {!isPtoken ? symbol : isSpecial ? symbol : capitalizeAllLettersExceptFirst(symbol)}
-            </a>
-          </Address>
           <ContainerOptions>
-            <CopyIcon
+          <CopyIcon
               icon="copy"
               data-tip={isCopiedToClipboard ? 'Copied!' : 'Copy to clipboard'}
               onClick={() => {
@@ -111,6 +106,10 @@ const AssetInfo = ({ asset, wallet }) => {
                 onClick={onAddToken}
               />
             ) : null}
+            <Token href={explorer} target="blank">
+              <WorldIcon icon="world" />
+              {!isPtoken ? symbol : isSpecial ? symbol : capitalizeAllLettersExceptFirst(symbol)}
+            </Token>
           </ContainerOptions>
         </Row>
         <ReactTooltip

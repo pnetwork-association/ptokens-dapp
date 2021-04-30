@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { offChainFormat, strip } from '../utils/amount-utils'
 import { blockchainSymbolToName, blockchainSymbolToCoin } from '../utils/maps'
-import { getCorrespondingBaseAccountExplorerLinkByBlockchain } from '../utils/explorer'
+import { getCorrespondingBaseTokenExplorerLinkByBlockchain } from '../utils/explorer'
 import utils from 'ptokens-utils'
 
 const useAssets = _assets => {
@@ -36,7 +36,7 @@ const updateAsset = _asset => ({
       ? utils.eth.addHexPrefix(_asset.address)
       : _asset.address,
   explorer: _asset.address
-    ? `${getCorrespondingBaseAccountExplorerLinkByBlockchain(_asset.blockchain)}${_asset.address}`
+    ? `${getCorrespondingBaseTokenExplorerLinkByBlockchain(_asset.blockchain)}${_asset.address}`
     : null,
   formattedBalance: _asset.balance
     ? _asset.withBalanceDecimalsConversion

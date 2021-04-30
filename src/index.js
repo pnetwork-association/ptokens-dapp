@@ -19,6 +19,10 @@ ReactGA.initialize(settings.googleAnalyticsTrackId)
 
 if (window.ethereum) window.ethereum.autoRefreshOnNetworkChange = false
 
+// NOTE: remove loader
+const loader = document.getElementsByClassName('loader')
+loader[0].parentNode.removeChild(loader[0])
+
 ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider>

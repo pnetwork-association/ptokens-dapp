@@ -1,57 +1,52 @@
 import settings from '../settings'
 
-const getCorrespondingBaseTxExplorerLinkByBlockchain = _blockchain => {
-  switch (_blockchain) {
-    case 'ETH':
-      return `${settings.explorers.mainnet.eth}tx/`
-    case 'XDAI':
-      return `${settings.explorers.mainnet.xdai}tx/`
-    case 'POLYGON':
-      return `${settings.explorers.mainnet.polygon}tx/`
-    case 'BSC':
-      return `${settings.explorers.mainnet.bsc}tx/`
-    case 'EOS':
-      return `${settings.explorers.mainnet.eos}tx/`
-    case 'TELOS':
-      return `${settings.explorers.mainnet.telos}transaction/`
-    case 'BTC':
-      return `${settings.explorers.mainnet.btc}tx/`
-    case 'LTC':
-      return `${settings.explorers.mainnet.ltc}tx/`
-    case 'RVN':
-      return `${settings.explorers.mainnet.rvn}tx/`
-    case 'DOGE':
-      return `${settings.explorers.mainnet.doge}tx/`
-    default:
-      throw new Error('Invalid blockchain')
-  }
+const transactionBaseLink = {
+  ETH: `${settings.explorers.mainnet.eth}tx/`,
+  XDAI: `${settings.explorers.mainnet.xdai}tx/`,
+  POLYGON: `${settings.explorers.mainnet.polygon}tx/`,
+  BSC: `${settings.explorers.mainnet.bsc}tx/`,
+  EOS: `${settings.explorers.mainnet.eos}tx/`,
+  TELOS: `${settings.explorers.mainnet.telos}transaction/`,
+  BTC: `${settings.explorers.mainnet.btc}tx/`,
+  LTC: `${settings.explorers.mainnet.ltc}tx/`,
+  RVN: `${settings.explorers.mainnet.rvn}tx/`,
+  DOGE: `${settings.explorers.mainnet.doge}tx/`
 }
 
-const getCorrespondingBaseAccountExplorerLinkByBlockchain = _blockchain => {
-  switch (_blockchain) {
-    case 'ETH':
-      return `${settings.explorers.mainnet.eth}address/`
-    case 'XDAI':
-      return `${settings.explorers.mainnet.xdai}address/`
-    case 'POLYGON':
-      return `${settings.explorers.mainnet.polygon}address/`
-    case 'BSC':
-      return `${settings.explorers.mainnet.bsc}address/`
-    case 'EOS':
-      return `${settings.explorers.mainnet.eos}address/`
-    case 'TELOS':
-      return `${settings.explorers.mainnet.telos}accounts/`
-    case 'BTC':
-      return `${settings.explorers.mainnet.btc}address/`
-    case 'LTC':
-      return `${settings.explorers.mainnet.ltc}address/`
-    case 'RVN':
-      return `${settings.explorers.mainnet.rvn}address/`
-    case 'DOGE':
-      return `${settings.explorers.mainnet.doge}address/`
-    default:
-      throw new Error('Invalid blockchain')
-  }
+const addressBaseLink = {
+  ETH: `${settings.explorers.mainnet.eth}address/`,
+  XDAI: `${settings.explorers.mainnet.xdai}address/`,
+  POLYGON: `${settings.explorers.mainnet.polygon}address/`,
+  BSC: `${settings.explorers.mainnet.bsc}address/`,
+  EOS: `${settings.explorers.mainnet.eos}address/`,
+  TELOS: `${settings.explorers.mainnet.telos}accounts/`,
+  BTC: `${settings.explorers.mainnet.btc}address/`,
+  LTC: `${settings.explorers.mainnet.ltc}address/`,
+  RVN: `${settings.explorers.mainnet.rvn}address/`,
+  DOGE: `${settings.explorers.mainnet.doge}address/`
 }
 
-export { getCorrespondingBaseTxExplorerLinkByBlockchain, getCorrespondingBaseAccountExplorerLinkByBlockchain }
+const tokenBaseLink = {
+  ETH: `${settings.explorers.mainnet.eth}token/`,
+  XDAI: `${settings.explorers.mainnet.xdai}address/`,
+  POLYGON: `${settings.explorers.mainnet.polygon}address/`,
+  BSC: `${settings.explorers.mainnet.bsc}token/`,
+  EOS: `${settings.explorers.mainnet.eos}address/`,
+  TELOS: `${settings.explorers.mainnet.telos}accounts/`,
+  BTC: `${settings.explorers.mainnet.btc}address/`,
+  LTC: `${settings.explorers.mainnet.ltc}address/`,
+  RVN: `${settings.explorers.mainnet.rvn}address/`,
+  DOGE: `${settings.explorers.mainnet.doge}address/`
+}
+
+const getCorrespondingBaseTxExplorerLinkByBlockchain = _blockchain => transactionBaseLink[_blockchain.toUpperCase()]
+
+const getCorrespondingBaseAccountExplorerLinkByBlockchain = _blockchain => addressBaseLink[_blockchain.toUpperCase()]
+
+const getCorrespondingBaseTokenExplorerLinkByBlockchain = _blockchain => tokenBaseLink[_blockchain.toUpperCase()]
+
+export {
+  getCorrespondingBaseTxExplorerLinkByBlockchain,
+  getCorrespondingBaseAccountExplorerLinkByBlockchain,
+  getCorrespondingBaseTokenExplorerLinkByBlockchain
+}
