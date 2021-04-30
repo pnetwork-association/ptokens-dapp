@@ -6,7 +6,7 @@ import ReactTooltip from 'react-tooltip'
 import Icon from '../../atoms/icon/Icon'
 import { copyToClipboard } from '../../../utils/utils'
 import { registerToken } from '../../../utils/wallet'
-import imageToBase64 from 'image-to-base64'
+import { getBase64Image } from '../../../utils/image'
 import { useProvider } from '../../../hooks/use-provider'
 import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
 
@@ -59,9 +59,9 @@ const MetamaskIcon = styled(Icon)`
 `
 
 const AssetInfo = ({ asset, wallet }) => {
-  const { symbol, address, explorer, blockchain, decimals, isSpecial, isPtoken } = asset
+  const { symbol, address, explorer, blockchain, decimals, isSpecial, isPtoken, image } = asset
   const [isCopiedToClipboard, setIsCopiedToClipboard] = useState(false)
-  const { isMetamask } = useProvider(wallet.provider)
+  const { isMetaMask } = useProvider(wallet.provider)
 
   useEffect(() => {
     ReactTooltip.rebuild()
@@ -69,19 +69,18 @@ const AssetInfo = ({ asset, wallet }) => {
 
   const onAddToken = useCallback(async () => {
     try {
-      if (!wallet.provider || !isMetamask) return
-      //const image = await imageToBase64('./assets/svg/pBTC.svg')
+      if (!wallet.provider || !isMetaMask) return
       registerToken({
         provider: wallet.provider,
         tokenAddress: address,
         tokenSymbol: symbol,
-        tokenDecimals: decimals
-        //tokenImage: image
+        tokenDecimals: decimals,
+        tokenImage: await getBase64Image(image)
       })
     } catch (_err) {
       console.error(_err)
     }
-  }, [decimals, address, symbol, wallet, isMetamask])
+  }, [decimals, address, symbol, wallet, image, isMetaMask])
 
   return (
     <Row>
@@ -108,7 +107,7 @@ const AssetInfo = ({ asset, wallet }) => {
             {blockchain !== 'EOS' && blockchain !== 'TELOS' ? (
               <MetamaskIcon
                 icon="metamask"
-                data-tip={!wallet.provider ? 'Connect Metamask to add the token' : 'Add to Metamask'}
+                data-tip={!wallet.provider ? 'Connect MetaMask to add the token' : 'Add to MetaMask'}
                 onClick={onAddToken}
               />
             ) : null}
@@ -116,7 +115,7 @@ const AssetInfo = ({ asset, wallet }) => {
         </Row>
         <ReactTooltip
           getContent={_dataTip =>
-            _dataTip === 'Add to metamask' || _dataTip === 'Connect Metamask to add the token'
+            _dataTip === 'Add to MetaMask' || _dataTip === 'Connect MetaMask to add the token'
               ? _dataTip
               : isCopiedToClipboard
               ? 'Copied!'

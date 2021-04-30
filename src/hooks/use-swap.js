@@ -164,7 +164,7 @@ const useSwap = ({
         setAssetsLoaded(true)
       }
     }
-  }, [from, to, assets, assetsLoaded])
+  }, [assets, assetsLoaded])
 
   // NOTE: reset data when pegin/pegout terminates
   useEffect(() => {
