@@ -1,4 +1,3 @@
-import { NodeSelector } from 'ptokens-node-selector'
 import assets from '../../settings/swap-assets'
 import {
   SWAP_DATA_LOADED,
@@ -8,7 +7,6 @@ import {
   PROGRESS_RESET,
   UPDATE_SWAP_BUTTON
 } from '../../constants/index'
-import { constants, helpers } from 'ptokens-utils'
 import pTokens from 'ptokens'
 import { getConfigs } from '../../utils/ptokens-configs'
 import {
@@ -24,101 +22,15 @@ import pegout from './utils/pegout'
 import { getAssetsByBlockchain, getAssetById } from './swap.selectors'
 import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
 import { getDefaultSelection } from './utils/default-selection'
-import { getWorkingNameForNodeSelection } from '../../utils/maps'
 
 const loadSwapData = ({ defaultSelection: { pToken, asset, from, to } }) => {
   return async _dispatch => {
-    try {
-      const assestsWithDefaultSelection = [...assets, ...getDefaultSelection(assets, { pToken, asset, from, to })]
-      _dispatch({
-        type: SWAP_DATA_LOADED,
-        payload: {
-          assets: assestsWithDefaultSelection
-        }
-      })
-
-      const nodeSelector = new NodeSelector()
-      await nodeSelector.fetchNodes('mainnet')
-
-      const nodes = await Promise.all(
-        assestsWithDefaultSelection.map(({ workingName, blockchain, network, skipNodeSelection }) => {
-          if (skipNodeSelection) {
-            return null
-          }
-
-          const { hostBlockchain, hostNetwork, nativeBlockchain, nativeNetwork } = helpers.parseParams(
-            {
-              pToken: workingName,
-              blockchain: helpers.getBlockchainType(blockchain.toLowerCase()),
-              network
-            },
-            helpers.getNativeBlockchainFromPtokenName(workingName)
-          )
-
-          return new Promise(_resolve =>
-            nodeSelector
-              .select({
-                timeout: 20 * 1000,
-                pToken: getWorkingNameForNodeSelection(workingName),
-                nativeBlockchain,
-                nativeNetwork,
-                hostBlockchain,
-                hostNetwork
-              })
-              .then(_resolve)
-              .catch(_err => {
-                console.error(_err)
-                _resolve(null)
-              })
-          )
-        })
-      )
-
-      const pTokensAddresses = await Promise.all(
-        nodes.map(
-          _node =>
-            new Promise(_resolve =>
-              _node
-                ? _node
-                    .getInfo()
-                    .then(({ smart_contract_address, host_smart_contract_address }) => {
-                      _resolve(
-                        smart_contract_address
-                          ? smart_contract_address
-                          : host_smart_contract_address
-                          ? host_smart_contract_address
-                          : null
-                      )
-                    })
-                    .catch(_err => {
-                      console.error(_err)
-                      _resolve(null)
-                    })
-                : _resolve(null)
-            )
-        )
-      )
-
-      const assetsWithAddress = assestsWithDefaultSelection.map((_asset, _index) => {
-        const nativeAddress = constants.tokens[helpers.getBlockchainType(_asset.blockchain)]
-          ? constants.tokens[helpers.getBlockchainType(_asset.blockchain)][_asset.network][_asset.symbol]
-          : null
-
-        return {
-          ..._asset,
-          address: nativeAddress ? nativeAddress : pTokensAddresses[_index]
-        }
-      })
-
-      _dispatch({
-        type: SWAP_DATA_LOADED,
-        payload: {
-          assets: assetsWithAddress
-        }
-      })
-    } catch (_err) {
-      console.error(_err)
-    }
+    _dispatch({
+      type: SWAP_DATA_LOADED,
+      payload: {
+        assets: [...assets, ...getDefaultSelection(assets, { pToken, asset, from, to })]
+      }
+    })
   }
 }
 
