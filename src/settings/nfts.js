@@ -36,8 +36,7 @@ const nfts = [
     symbol: 'CGT',
     isNative: true,
     blockchain: 'ETH',
-    fromBlock: 8104026,
-    loadDataKey: 'cgt',
+    loadDataKey: 'erc721',
     supportedBlockchains: ['BSC'],
     baseUri: 'http://api.chainguardians.io/api/opensea'
   },
@@ -50,9 +49,9 @@ const nfts = [
     symbol: 'pCGT',
     isNative: false,
     blockchain: 'BSC',
-    fromBlock: 6953247,
     loadDataKey: 'erc721',
-    supportedBlockchains: ['ETH']
+    supportedBlockchains: ['ETH'],
+    baseUri: 'http://api.chainguardians.io/api/opensea'
   }
 ]
 
