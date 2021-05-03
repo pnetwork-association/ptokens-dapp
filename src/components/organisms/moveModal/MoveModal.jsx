@@ -106,7 +106,7 @@ const MoveButton = styled.button`
   }
 `
 
-const ModeModal = ({ supportedBlockchains, show, type, onClose, onMove }) => {
+const MoveModal = ({ supportedBlockchains, show, type, onClose, onMove }) => {
   const [step, setStep] = useState(0)
   const [blockchain, setBlockchain] = useState(null)
   const [address, setAddress] = useState('')
@@ -179,7 +179,7 @@ const ModeModal = ({ supportedBlockchains, show, type, onClose, onMove }) => {
   )
 }
 
-ModeModal.propTypes = {
+MoveModal.propTypes = {
   type: PropTypes.string,
   currentBlockchain: PropTypes.string,
   show: PropTypes.bool,
@@ -187,4 +187,4 @@ ModeModal.propTypes = {
   onMove: PropTypes.func
 }
 
-export default ModeModal
+export default MoveModal

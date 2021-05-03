@@ -14,7 +14,7 @@ const ContainerCenter = styled.div`
   width: 750px;
   height: 0;
   position: absolute;
-  top: 0;
+  top: 300px;
   bottom: 0;
   left: 0;
   right: 0;

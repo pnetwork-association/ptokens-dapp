@@ -88,7 +88,7 @@ const AssetInfo = ({ asset, wallet }) => {
       <ContainerAssetInfo>
         <Row>
           <ContainerOptions>
-          <CopyIcon
+            <CopyIcon
               icon="copy"
               data-tip={isCopiedToClipboard ? 'Copied!' : 'Copy to clipboard'}
               onClick={() => {

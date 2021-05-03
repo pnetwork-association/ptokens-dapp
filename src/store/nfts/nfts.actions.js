@@ -6,7 +6,7 @@ import { NFTS_DATA_LOADED } from '../../constants'
 import { setLoading } from '../pages/pages.actions'
 import { loadERC155Data } from './adapters/erc1155'
 import { loadErc721Data } from './adapters/erc721'
-import { moveChainGuardians } from './adapters/cgt'
+import { moveChainGuardians, loadChainGuardiansFromEthereum } from './adapters/cgt'
 import { moveRarebitBunnies } from './adapters/rarebit-bunnies'
 
 const loadNftsData = (_account, _blockchain) => {
@@ -22,6 +22,13 @@ const loadNftsData = (_account, _blockchain) => {
       const web3 = new Web3(getReadOnlyProviderByBlockchain(_blockchain))
 
       const nftsGrouped = _.groupBy(nfts, 'loadDataKey')
+      loadChainGuardiansFromEthereum({
+        dispatch: _dispatch,
+        nfts: nftsGrouped['cgt'].filter(({ blockchain }) => blockchain === _blockchain),
+        blockchain: _blockchain,
+        account: _account,
+        web3
+      })
       loadERC155Data({
         dispatch: _dispatch,
         nfts: nftsGrouped['erc1155'].filter(({ blockchain }) => blockchain === _blockchain),

@@ -37,8 +37,9 @@ const nfts = [
     isNative: true,
     blockchain: 'ETH',
     fromBlock: 8104026,
-    loadDataKey: 'erc721',
-    supportedBlockchains: ['BSC']
+    loadDataKey: 'cgt',
+    supportedBlockchains: ['BSC'],
+    baseUri: 'http://api.chainguardians.io/api/opensea'
   },
   {
     internalId: CHAINGUARDIANS,

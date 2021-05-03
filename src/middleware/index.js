@@ -16,7 +16,9 @@ import { loadBalances } from '../store/swap/swap.actions'
 import { loadNftsData } from '../store/nfts/nfts.actions'
 import { setLoading } from '../store/pages/pages.actions'
 import { getIsLoading } from '../store/pages/pages.selectors'
+import settings from '../settings'
 
+let countNftsLoading = 0
 const middleware = ({ dispatch }) => {
   return _next => {
     return async _action => {
@@ -54,7 +56,9 @@ const middleware = ({ dispatch }) => {
       }
 
       if (type === NFTS_DATA_LOADED || type === NFT_DATA_LOADED) {
-        if (getIsLoading()) {
+        countNftsLoading += 1
+        if ((getIsLoading() && payload.nfts.length > 0) || countNftsLoading === settings.supportedNfts.length) {
+          countNftsLoading = 0
           dispatch(
             setLoading({
               isLoading: false

@@ -1,49 +1,54 @@
 import Web3 from 'web3'
+import axios from 'axios'
+import BigNumber from 'bignumber.js'
 import CGTAbi from '../../../utils/abi/CHAINGUARDIANS/CGT.json'
 import NativeAbi from '../../../utils/abi/CHAINGUARDIANS/Native.json'
 import HostAbi from '../../../utils/abi/CHAINGUARDIANS/Host.json'
 import { executeEvmCompatibleTxWithToast } from '../../../utils/tx-utils'
 import { getProviderByBlockchain, getAccountByBlockchain } from '../nfts.selectors'
+import { nftsDataLoaded } from '../nfts.actions'
 
-/*const loadChainGuardiansFromEthereum = async ({ nfts, blockchain: _blockchain, account, web3 }) => {
+const loadChainGuardiansFromEthereum = async ({ nfts, blockchain: _blockchain, account, web3, dispatch }) => {
   try {
     if (nfts.length === 0) return []
 
-    const { portalsAddress, hostPortalsAddress, blockchain, contractAddress, isNative, symbol } = nfts[0]
-    const cgt = new web3.eth.Contract(CGTAbi, nfts[0].contractAddress)
-    const { tokens } = await cgt.methods.getOwnedTokenData('0xc97ef8b510ef22d9194b9542c37e631777225b3d').call()
+    const { contractAddress, baseUri } = nfts[0]
+    const cgt = new web3.eth.Contract(CGTAbi, contractAddress)
+    const totalbalance = await cgt.methods.balanceOf(account).call()
 
-    console.log(tokens, account)
+    const ids = await Promise.all(
+      [...Array(BigNumber(totalbalance).toNumber()).keys()].map((_, _index) =>
+        cgt.methods.tokenOfOwnerByIndex(account, _index).call()
+      )
+    )
 
-    const uris = await Promise.all(tokens.map(_token => cgt.methods.tokenURI(_token).call()))
     const data = await Promise.all(
-      uris.map(
-        _uri =>
+      ids.map(
+        _id =>
           new Promise((_resolve, _reject) =>
             axios
-              .get(_uri)
+              .get(`${baseUri}/${_id}`)
               .then(({ data }) => _resolve(data))
               .catch(_reject)
           )
       )
     )
 
-    return tokens.map((_token, _index) => ({
-      ...data[_index],
-      portalsAddress,
-      hostPortalsAddress,
-      blockchain,
-      contractAddress,
-      id: _token,
-      balance: BigNumber(1),
-      isNative,
-      symbol
-    }))
+    dispatch(
+      nftsDataLoaded(
+        ids.map((_id, _index) => ({
+          ...nfts[0],
+          ...data[_index],
+          id: _id,
+          balance: BigNumber(1)
+        }))
+      )
+    )
   } catch (_err) {
     console.error(_err)
     return []
   }
-}*/
+}
 
 const moveChainGuardians = async ({ nft, blockchain, destinationAccount }) => {
   try {
@@ -79,4 +84,4 @@ const moveChainGuardians = async ({ nft, blockchain, destinationAccount }) => {
   }
 }
 
-export { moveChainGuardians }
+export { moveChainGuardians, loadChainGuardiansFromEthereum }
