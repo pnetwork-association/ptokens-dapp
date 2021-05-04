@@ -4,8 +4,9 @@ import HostAbi from '../../../utils/abi/RAREBITBUNNIES/Host.json'
 import { executeEvmCompatibleTxWithToast } from '../../../utils/tx-utils'
 import { getProviderByBlockchain, getAccountByBlockchain } from '../nfts.selectors'
 import ERC1155Abi from '../../../utils/abi/ERC1155.json'
+import { loadNftData } from '../nfts.actions'
 
-const moveRarebitBunnies = async ({ nft, blockchain, destinationAccount, amount }) => {
+const moveRarebitBunnies = async ({ nft, destinationAccount, amount, dispatch }) => {
   try {
     const provider = getProviderByBlockchain(nft.blockchain)
     const account = getAccountByBlockchain(nft.blockchain)
@@ -35,6 +36,8 @@ const moveRarebitBunnies = async ({ nft, blockchain, destinationAccount, amount 
         blockchain: 'BSC'
       })
     }
+
+    dispatch(loadNftData(nft))
   } catch (_err) {
     console.error(_err)
   }

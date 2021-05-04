@@ -1,8 +1,6 @@
-import { RAREBITBUNNIES, CHAINGUARDIANS } from '../constants'
-
 const nfts = [
   {
-    internalId: RAREBITBUNNIES,
+    internalId: 'RAREBITBUNNIES_ON_ETH',
     name: 'Rarebit Bunnies',
     type: 'ERC1155',
     portalsAddress: '0x82a19ab3B463359bb07151d8De9b6630428EC7Cc',
@@ -15,7 +13,7 @@ const nfts = [
     supportedBlockchains: ['BSC']
   },
   {
-    internalId: RAREBITBUNNIES,
+    internalId: 'RAREBITBUNNIES_ON_BSC',
     name: 'Rarebit Bunnies',
     type: 'ERC1155',
     portalsAddress: '0xF6fD8bE7D3B9fd9B52f18f78a07963777383B898',
@@ -28,7 +26,7 @@ const nfts = [
     supportedBlockchains: ['ETH']
   },
   {
-    internalId: CHAINGUARDIANS,
+    internalId: 'CHAINGUARDIANS_ON_ETH',
     name: 'Chain Guardians',
     type: 'ERC721',
     portalsAddress: '0x8CdA44DD19DaA90D9E20319d9a4e7731a7f9c56d',
@@ -36,12 +34,12 @@ const nfts = [
     symbol: 'CGT',
     isNative: true,
     blockchain: 'ETH',
-    loadDataKey: 'erc721',
+    loadDataKey: 'cgt',
     supportedBlockchains: ['BSC'],
-    baseUri: 'http://api.chainguardians.io/api/opensea'
+    baseUri: 'https://api.chainguardians.io/api/opensea'
   },
   {
-    internalId: CHAINGUARDIANS,
+    internalId: 'CHAINGUARDIANS_ON_BSC',
     name: 'Chain Guardians',
     type: 'ERC721',
     portalsAddress: '0x17D8214A8B81A0F55fcd4E401B098579Cb457008',
@@ -49,9 +47,9 @@ const nfts = [
     symbol: 'pCGT',
     isNative: false,
     blockchain: 'BSC',
-    loadDataKey: 'erc721',
+    loadDataKey: 'cgt',
     supportedBlockchains: ['ETH'],
-    baseUri: 'http://api.chainguardians.io/api/opensea'
+    baseUri: 'https://api.chainguardians.io/api/opensea'
   }
 ]
 

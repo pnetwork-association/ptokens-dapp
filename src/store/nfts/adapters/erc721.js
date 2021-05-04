@@ -3,7 +3,7 @@ import axios from 'axios'
 import ERC721Abi from '../../../utils/abi/ERC721.json'
 import { nftsDataLoaded } from '../nfts.actions'
 
-const loadErc721Data = async ({ nfts, blockchain: _blockchain, account, web3, dispatch }) => {
+const loadErc721Data = async ({ nfts, account, web3, dispatch }) => {
   try {
     if (nfts.length === 0) return []
     const erc721s = nfts.map(({ contractAddress }) => new web3.eth.Contract(ERC721Abi, contractAddress))

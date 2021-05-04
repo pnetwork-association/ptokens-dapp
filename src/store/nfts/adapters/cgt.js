@@ -4,8 +4,10 @@ import NativeAbi from '../../../utils/abi/CHAINGUARDIANS/Native.json'
 import HostAbi from '../../../utils/abi/CHAINGUARDIANS/Host.json'
 import { executeEvmCompatibleTxWithToast } from '../../../utils/tx-utils'
 import { getProviderByBlockchain, getAccountByBlockchain } from '../nfts.selectors'
+import { loadErc721Data } from './erc721'
+import { loadNftData } from '../nfts.actions'
 
-const moveChainGuardians = async ({ nft, destinationAccount }) => {
+const moveChainGuardians = async ({ nft, destinationAccount, dispatch }) => {
   try {
     const provider = getProviderByBlockchain(nft.blockchain)
     const account = getAccountByBlockchain(nft.blockchain)
@@ -34,9 +36,15 @@ const moveChainGuardians = async ({ nft, destinationAccount }) => {
         blockchain: 'BSC'
       })
     }
+
+    // NOTE: reload balances considering that the host account is the same as native account
+    dispatch(loadNftData(nft))
   } catch (_err) {
     console.error(_err)
   }
 }
 
-export { moveChainGuardians }
+const loadChainGuardiansData = ({ nfts, blockchain: _blockchain, account, web3, dispatch }) =>
+  loadErc721Data({ nfts, blockchain: _blockchain, account, web3, dispatch })
+
+export { moveChainGuardians, loadChainGuardiansData }
