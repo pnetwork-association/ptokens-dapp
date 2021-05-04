@@ -55,9 +55,11 @@ const getDefaultSelectionV2 = (_assets, { asset, from, to }) => {
   }
 
   if (assetFrom && assetTo) {
-    assetFrom.defaultFrom = true
-    assetTo.defaultTo = true
-    return [assetFrom, assetTo]
+    const pTokenDefaultFrom = Object.assign({}, assetFrom)
+    const pTokenDefaultTo = Object.assign({}, assetTo)
+    pTokenDefaultFrom.defaultFrom = true
+    pTokenDefaultTo.defaultTo = true
+    return [pTokenDefaultFrom, pTokenDefaultTo]
   }
 
   return [btc, pbtc]
