@@ -46,7 +46,8 @@ import {
   PRVN_ON_BSC_MAINNET,
   TLOS_ON_BSC_MAINNET,
   POPEN_ON_BSC_MAINNET,
-  OCP_ON_ETH_MAINNET
+  OCP_ON_ETH_MAINNET,
+  ANRX_ON_BSC_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -608,6 +609,17 @@ const getConfigs = (_pTokenId, _configs) => {
         pToken: pTokens.OCP,
         network: networks.EthereumMainnet,
         blockchain: blockchains.Ethereum,
+        ethProvider,
+        bscProvider
+      }
+    }
+  }
+  if (_pTokenId === ANRX_ON_BSC_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.ANRX,
+        network: networks.BinanceSmartChainMainnet,
+        blockchain: blockchains.BinanceSmartChain,
         ethProvider,
         bscProvider
       }

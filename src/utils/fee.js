@@ -44,7 +44,8 @@ import {
   PUSDC_ON_TELOS_MAINNET,*/
   /*PNT_ON_XDAI_MAINNET,*/
   PRVN_ON_BSC_MAINNET,
-  OCP_ON_ETH_MAINNET
+  OCP_ON_ETH_MAINNET,
+  ANRX_ON_BSC_MAINNET
 } from '../constants'
 
 const map = {
@@ -93,6 +94,10 @@ const map = {
     pegout: 0.25
   },
   [OCP_ON_ETH_MAINNET]: {
+    pegin: 0,
+    pegout: 0.25
+  },
+  [ANRX_ON_BSC_MAINNET]: {
     pegin: 0,
     pegout: 0.25
   }

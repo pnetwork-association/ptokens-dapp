@@ -73,7 +73,8 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
     })
   )
 
-  promiEvent = ptokens[ptoken.name.toLowerCase()].issue(...params)
+  // TODO: fix peth since now would be pweth
+  promiEvent = ptokens[ptoken.workingName.toLowerCase()].issue(...params)
   promiEvent
     .once('nativeTxBroadcasted', _hash => {
       link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_hash}`

@@ -47,7 +47,8 @@ import {
   PRVN_ON_BSC_MAINNET,
   TLOS_ON_BSC_MAINNET,
   POPEN_ON_BSC_MAINNET,
-  OCP_ON_ETH_MAINNET
+  OCP_ON_ETH_MAINNET,
+  ANRX_ON_BSC_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_id, _role, _address) => {
@@ -292,6 +293,11 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
         ? `${settings.explorers.mainnet.bsc}address/${_address}`
         : `${settings.explorers.mainnet.eth}address/${_address}`
     }
+    case ANRX_ON_BSC_MAINNET: {
+      return _role === 'native'
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.bsc}address/${_address}`
+    }
     default:
       break
   }
@@ -506,6 +512,9 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
     }
     case OCP_ON_ETH_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.bsc}tx/` : `${settings.explorers.mainnet.eth}tx/`
+    }
+    case ANRX_ON_BSC_MAINNET: {
+      return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.bsc}tx/`
     }
     default:
       break

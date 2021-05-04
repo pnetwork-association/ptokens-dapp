@@ -39,6 +39,10 @@ const ContainerOptions = styled(Col)`
   margin-bottom: auto !important;
 `
 
+const ContainerName = styled(Col)`
+  margin-bottom: auto !important;
+`
+
 const CopyIcon = styled(Icon)`
   width: 18px;
   height: 18px;
@@ -87,7 +91,12 @@ const AssetInfo = ({ asset, wallet }) => {
     <Row>
       <ContainerAssetInfo>
         <Row>
-          <ContainerOptions>
+          <ContainerName xs={6}>
+            <Token href={explorer} target="blank">
+              {!isPtoken ? symbol : isSpecial ? symbol : capitalizeAllLettersExceptFirst(symbol)}
+            </Token>
+          </ContainerName>
+          <ContainerOptions xs={6}>
             <CopyIcon
               icon="copy"
               data-tip={isCopiedToClipboard ? 'Copied!' : 'Copy to clipboard'}
@@ -108,7 +117,6 @@ const AssetInfo = ({ asset, wallet }) => {
             ) : null}
             <Token href={explorer} target="blank">
               <WorldIcon icon="world" />
-              {!isPtoken ? symbol : isSpecial ? symbol : capitalizeAllLettersExceptFirst(symbol)}
             </Token>
           </ContainerOptions>
         </Row>

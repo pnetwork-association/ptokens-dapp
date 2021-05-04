@@ -48,7 +48,8 @@ import {
   PRVN_ON_BSC_MAINNET,
   TLOS_ON_BSC_MAINNET,
   POPEN_ON_BSC_MAINNET,
-  OCP_ON_ETH_MAINNET
+  OCP_ON_ETH_MAINNET,
+  ANRX_ON_BSC_MAINNET
 } from '../constants'
 
 const web3 = new Web3()
@@ -273,6 +274,9 @@ const isValidAccount = (_pTokenId, _account, _type) => {
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case OCP_ON_ETH_MAINNET: {
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case ANRX_ON_BSC_MAINNET: {
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     default:
