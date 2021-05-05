@@ -1046,6 +1046,27 @@ const swapAssets = [
     withBalanceDecimalsConversion: true
   },
   {
+    address: '0xd7ecf95cf7ef5256990beaf4ac895cd9e64cb947',
+    id: 'PBTC_ON_POLYGON_MAINNET',
+    name: 'pBTC',
+    workingName: 'pbtc',
+    nativeDecimals: 8,
+    network: 'mainnet',
+    minimumIssuable: '0',
+    minimumRedeamable: '0.00005',
+    isHidden: false,
+    blockchain: 'POLYGON',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'PBTC',
+    isPtoken: true,
+    nativeSymbol: 'BTC',
+    nativeBlockchain: 'BTC',
+    image: 'pBTC.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true
+  },
+  {
     address: '0x0000000000000000000000000000000000000000',
     id: 'ETH',
     symbol: 'ETH',

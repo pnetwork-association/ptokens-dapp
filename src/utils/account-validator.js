@@ -49,7 +49,8 @@ import {
   TLOS_ON_BSC_MAINNET,
   POPEN_ON_BSC_MAINNET,
   OCP_ON_ETH_MAINNET,
-  ANRX_ON_BSC_MAINNET
+  ANRX_ON_BSC_MAINNET,
+  PBTC_ON_POLYGON_MAINNET
 } from '../constants'
 
 const web3 = new Web3()
@@ -278,6 +279,11 @@ const isValidAccount = (_pTokenId, _account, _type) => {
     }
     case ANRX_ON_BSC_MAINNET: {
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case PBTC_ON_POLYGON_MAINNET: {
+      return _type === 'pegin'
+        ? pTokenUtils.btc.isValidAddress(_account)
+        : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     default:
       break

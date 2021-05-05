@@ -47,7 +47,8 @@ import {
   TLOS_ON_BSC_MAINNET,
   POPEN_ON_BSC_MAINNET,
   OCP_ON_ETH_MAINNET,
-  ANRX_ON_BSC_MAINNET
+  ANRX_ON_BSC_MAINNET,
+  PBTC_ON_POLYGON_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -62,8 +63,6 @@ const getConfigs = (_pTokenId, _configs) => {
     bscProvider
   } = _configs
   const { networks, blockchains, pTokens } = constants
-
-  // const pTokenId = _pTokenId.includes('_DEFAULT') ? _pTokenId.split('_DEFAULT')[0] : _pTokenId
 
   if (_pTokenId === PBTC_ON_ETH_MAINNET) {
     return {
@@ -622,6 +621,15 @@ const getConfigs = (_pTokenId, _configs) => {
         blockchain: blockchains.BinanceSmartChain,
         ethProvider,
         bscProvider
+      }
+    }
+  }
+  if (_pTokenId === PBTC_ON_POLYGON_MAINNET) {
+    return {
+      pbtc: {
+        network: networks.Mainnet,
+        blockchain: blockchains.Polygon,
+        ethProvider: polygonProvider
       }
     }
   }

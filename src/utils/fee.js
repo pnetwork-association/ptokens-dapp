@@ -45,7 +45,8 @@ import {
   /*PNT_ON_XDAI_MAINNET,*/
   PRVN_ON_BSC_MAINNET,
   OCP_ON_ETH_MAINNET,
-  ANRX_ON_BSC_MAINNET
+  ANRX_ON_BSC_MAINNET,
+  PBTC_ON_POLYGON_MAINNET
 } from '../constants'
 
 const map = {
@@ -98,6 +99,10 @@ const map = {
     pegout: 0.25
   },
   [ANRX_ON_BSC_MAINNET]: {
+    pegin: 0,
+    pegout: 0.25
+  },
+  [PBTC_ON_POLYGON_MAINNET]: {
     pegin: 0,
     pegout: 0.25
   }
