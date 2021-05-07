@@ -41,7 +41,7 @@ const settings = {
   rpc: {
     mainnet: {
       eth: {
-        wsEndpoint: 'wss://aged-wispy-sun.quiknode.pro/a9c866c62d28d63303de21fd44e95f747f725857/',
+        wsEndpoint: 'wss://dapp-eth-node-1.ptokens.io/a9c866c62d28d63303de21fd44e95f747f725857/',
         endpoint: 'https://mainnet.infura.io/v3/ '
       },
       eos: {
@@ -87,11 +87,11 @@ const settings = {
     {
       symbol: 'RAREBIT',
       name: 'Rarebit Bunnies'
-    },
-    {
+    }
+    /*{
       symbol: 'CGT',
       name: 'ChainGuardians'
-    }
+    }*/
   ]
 }
 
