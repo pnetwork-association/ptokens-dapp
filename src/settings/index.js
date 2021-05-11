@@ -87,11 +87,11 @@ const settings = {
     {
       symbol: 'RAREBIT',
       name: 'Rarebit Bunnies'
-    }
-    /*{
+    },
+    {
       symbol: 'CGT',
       name: 'ChainGuardians'
-    }*/
+    }
   ]
 }
 
