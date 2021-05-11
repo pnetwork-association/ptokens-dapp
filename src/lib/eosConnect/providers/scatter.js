@@ -1,65 +1,53 @@
-import ScatterJS from '@scatterjs/core'
-import ScatterEOS from '@scatterjs/eosjs2'
+import ScatterWalletProvider from 'eos-transit-scatter-provider'
 
 export default class ScatterProvider {
   constructor({ dappName, settings }) {
     this.dappName = dappName
-    ScatterJS.plugins(new ScatterEOS())
-    this.network = ScatterJS.Network.fromJson(settings)
+    this.provider = ScatterWalletProvider()(settings)
   }
 
   connect = async () => {
     try {
-      this.connected = await ScatterJS.connect(this.dappName, {
-        network: this.network
-      })
-      this.scatter = ScatterJS.scatter
+      this.connected = await this.provider.connect(this.dappName)
       return this._login()
     } catch (_err) {
       return {
         success: false,
-        message: _err.message
+        message: _err.message ? _err.message : _err
       }
     }
   }
 
   _login = async () => {
     try {
-      if (!this.scatter.login) {
+      if (!this.provider.login) {
         return {
           success: false,
           message: 'Scatter Not Opened'
         }
       }
 
-      await ScatterJS.logout()
-      const isLogged = await this.scatter.login()
-      const account = ScatterJS.account('eos')
-      if (!account) {
-        return {
-          success: false,
-          message: 'Error while detecting your account'
-        }
-      }
-
-      if (isLogged && ScatterJS.identity) {
+      await this.provider.logout()
+      const account = await this.provider.login()
+      if (account) {
         return {
           account: {
-            actor: ScatterJS.account('eos')
+            actor: account.accountName,
+            permission: account.permission,
           },
           success: true,
-          provider: ScatterJS.eosHook(this.network)
+          provider: this.provider.signatureProvider
         }
       } else {
         return {
           success: false,
-          message: 'User denied to login'
+          message: 'Error while detecting your Scatter account'
         }
       }
     } catch (_err) {
       return {
         success: false,
-        message: _err.message
+        message: _err.message ? _err.message : _err
       }
     }
   }
