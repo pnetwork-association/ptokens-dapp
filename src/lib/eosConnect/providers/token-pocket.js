@@ -1,4 +1,3 @@
-
 import TokenPocketWalletProvider from 'eos-transit-tokenpocket-provider'
 
 export default class TokenPocketProvider {
@@ -34,7 +33,7 @@ export default class TokenPocketProvider {
         return {
           account: {
             actor: account.accountName,
-            permission: account.permission,
+            permission: account.permission
           },
           success: true,
           provider: this.provider.signatureProvider

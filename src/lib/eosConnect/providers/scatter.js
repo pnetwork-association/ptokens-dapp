@@ -33,7 +33,7 @@ export default class ScatterProvider {
         return {
           account: {
             actor: account.accountName,
-            permission: account.permission,
+            permission: account.permission
           },
           success: true,
           provider: this.provider.signatureProvider

@@ -1649,7 +1649,7 @@ const swapAssets = [
     nativeBlockchain: 'BSC',
     image: 'TFF.svg',
     withBalanceDecimalsConversion: true
-  },
+  }
 ]
 
 export default swapAssets
