@@ -49,7 +49,8 @@ import {
   POPEN_ON_BSC_MAINNET,
   OCP_ON_ETH_MAINNET,
   ANRX_ON_BSC_MAINNET,
-  PBTC_ON_POLYGON_MAINNET
+  PBTC_ON_POLYGON_MAINNET,
+  TFF_ON_POLYGON_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_id, _role, _address) => {
@@ -304,6 +305,11 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
         ? `${settings.explorers.mainnet.btc}address/${_address}`
         : `${settings.explorers.mainnet.polygon}address/${_address}`
     }
+    case TFF_ON_POLYGON_MAINNET: {
+      return _role === 'native'
+        ? `${settings.explorers.mainnet.bsc}address/${_address}`
+        : `${settings.explorers.mainnet.polygon}address/${_address}`
+    }
     default:
       break
   }
@@ -524,6 +530,9 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
     }
     case PBTC_ON_POLYGON_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.btc}tx/` : `${settings.explorers.mainnet.polygon}tx/`
+    }
+    case TFF_ON_POLYGON_MAINNET: {
+      return _role === 'native' ? `${settings.explorers.mainnet.bsc}tx/` : `${settings.explorers.mainnet.polygon}tx/`
     }
     default:
       break

@@ -48,7 +48,8 @@ import {
   POPEN_ON_BSC_MAINNET,
   OCP_ON_ETH_MAINNET,
   ANRX_ON_BSC_MAINNET,
-  PBTC_ON_POLYGON_MAINNET
+  PBTC_ON_POLYGON_MAINNET,
+  TFF_ON_POLYGON_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -630,6 +631,17 @@ const getConfigs = (_pTokenId, _configs) => {
         network: networks.Mainnet,
         blockchain: blockchains.Polygon,
         ethProvider: polygonProvider
+      }
+    }
+  }
+  if (_pTokenId === TFF_ON_POLYGON_MAINNET) {
+    return {
+      pbep20: {
+        pToken: pTokens.TFF,
+        network: networks.PolygonMainnet,
+        blockchain: blockchains.Polygon,
+        polygonProvider,
+        bscProvider
       }
     }
   }

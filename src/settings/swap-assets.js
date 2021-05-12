@@ -1067,6 +1067,29 @@ const swapAssets = [
     withBalanceDecimalsConversion: true
   },
   {
+    address: '0xad178e5d81dbbf0e7da5106e8c035d9289091c45',
+    id: 'TFF_ON_POLYGON_MAINNET',
+    name: 'TFF',
+    workingName: 'tff',
+    nativeDecimals: 18,
+    network: 'mainnet',
+    minimumIssuable: '0.000000001',
+    minimumRedeamable: '0.000000001',
+    isHidden: false,
+    blockchain: 'POLYGON',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'TFF',
+    isPtoken: true,
+    isBep20: true,
+    nativeSymbol: 'TFF',
+    nativeBlockchain: 'BSC',
+    image: 'pTFF.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true,
+    isSpecial: true
+  },
+  {
     address: '0x0000000000000000000000000000000000000000',
     id: 'ETH',
     symbol: 'ETH',
@@ -1611,7 +1634,22 @@ const swapAssets = [
     nativeBlockchain: 'ETH',
     image: '$ANRX.svg',
     withBalanceDecimalsConversion: true
-  }
+  },
+  {
+    address: '0x2d69c55baecefc6ec815239da0a985747b50db6e',
+    id: 'TFF',
+    symbol: 'TFF',
+    name: 'Tutti Frutti',
+    network: 'mainnet',
+    blockchain: 'BSC',
+    decimals: 18,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'TFF',
+    nativeBlockchain: 'BSC',
+    image: 'TFF.svg',
+    withBalanceDecimalsConversion: true
+  },
 ]
 
 export default swapAssets
