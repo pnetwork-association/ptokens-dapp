@@ -23,7 +23,7 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
 
   // NOTE: avoids brave metamask gas estimation fails
   params[params.length] = {
-    gas: 200000,
+    gas: ptoken.gasLimitPegin ? ptoken.gasLimitPegin : 200000,
     blocksBehind: 3,
     expireSeconds: 60,
     permission: getWalletPermissionByBlockchain(ptoken.nativeBlockchain) || 'active',

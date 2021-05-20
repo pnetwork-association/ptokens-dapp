@@ -72,7 +72,7 @@ const loadERC155Data = async ({ nfts, account, web3, dispatch }) => {
       )
     }
   } catch (_err) {
-    console.log(_err)
+    console.error(_err)
   }
 }
 

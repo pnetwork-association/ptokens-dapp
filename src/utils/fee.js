@@ -47,7 +47,8 @@ import {
   OCP_ON_ETH_MAINNET,
   ANRX_ON_BSC_MAINNET,
   PBTC_ON_POLYGON_MAINNET,
-  TFF_ON_POLYGON_MAINNET
+  TFF_ON_POLYGON_MAINNET,
+  PSAFEMOON_ON_ETH_MAINNET
 } from '../constants'
 
 const map = {
@@ -111,6 +112,10 @@ const map = {
     pegin: 0,
     pegout: 0.25
   }
+  /*[PSAFEMOON_ON_ETH_MAINNET]: {
+    pegin: 0,
+    pegout: 0.25
+  }*/
 }
 
 const getFee = (_ptokenId, _type) => {

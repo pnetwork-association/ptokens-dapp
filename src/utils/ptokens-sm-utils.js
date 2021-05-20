@@ -50,7 +50,8 @@ import {
   OCP_ON_ETH_MAINNET,
   ANRX_ON_BSC_MAINNET,
   PBTC_ON_POLYGON_MAINNET,
-  TFF_ON_POLYGON_MAINNET
+  TFF_ON_POLYGON_MAINNET,
+  PSAFEMOON_ON_ETH_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_id, _role, _address) => {
@@ -310,6 +311,11 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
         ? `${settings.explorers.mainnet.bsc}address/${_address}`
         : `${settings.explorers.mainnet.polygon}address/${_address}`
     }
+    case PSAFEMOON_ON_ETH_MAINNET: {
+      return _role === 'native'
+        ? `${settings.explorers.mainnet.bsc}address/${_address}`
+        : `${settings.explorers.mainnet.eth}address/${_address}`
+    }
     default:
       break
   }
@@ -533,6 +539,9 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
     }
     case TFF_ON_POLYGON_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.bsc}tx/` : `${settings.explorers.mainnet.polygon}tx/`
+    }
+    case PSAFEMOON_ON_ETH_MAINNET: {
+      return _role === 'native' ? `${settings.explorers.mainnet.bsc}tx/` : `${settings.explorers.mainnet.eth}tx/`
     }
     default:
       break

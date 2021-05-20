@@ -22,12 +22,13 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
 
   // NOTE: avoids brave metamask gas estimation fails
   params[params.length] = {
-    gas: 80000,
+    gas: ptoken.gasLimitPegout ? ptoken.gasLimitPegout : 80000,
     blocksBehind: 3,
     expireSeconds: 60,
     permission: getWalletPermissionByBlockchain(ptoken.blockchain) || 'active',
     actor: getWalletAccountByBlockchain(ptoken.blockchain)
   }
+
   if (ptoken.withAmountConversionPegout) {
     params[0] = BigNumber(params[0])
       .multipliedBy(10 ** ptoken.decimals)

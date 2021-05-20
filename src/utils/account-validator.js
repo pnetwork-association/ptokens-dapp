@@ -51,7 +51,8 @@ import {
   OCP_ON_ETH_MAINNET,
   ANRX_ON_BSC_MAINNET,
   PBTC_ON_POLYGON_MAINNET,
-  TFF_ON_POLYGON_MAINNET
+  TFF_ON_POLYGON_MAINNET,
+  PSAFEMOON_ON_ETH_MAINNET
 } from '../constants'
 
 const web3 = new Web3()
@@ -287,6 +288,9 @@ const isValidAccount = (_pTokenId, _account, _type) => {
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case TFF_ON_POLYGON_MAINNET: {
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case PSAFEMOON_ON_ETH_MAINNET: {
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     default:

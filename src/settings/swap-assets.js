@@ -1090,6 +1090,29 @@ const swapAssets = [
     isSpecial: true
   },
   {
+    address: '0xd471f96de6d91f7ab67d78c38b46e9eb75ff8418',
+    id: 'PSAFEMOON_ON_ETH_MAINNET',
+    name: 'pSAFEMOON',
+    workingName: 'psafemoon',
+    nativeDecimals: 9,
+    network: 'mainnet',
+    minimumIssuable: '0.000000001',
+    minimumRedeamable: '0.000000001',
+    isHidden: false,
+    blockchain: 'ETH',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'PSAFEMOON',
+    isPtoken: true,
+    isBep20: true,
+    nativeSymbol: 'SAFEMOON',
+    nativeBlockchain: 'BSC',
+    image: 'pSAFEMOON.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true,
+    gasLimitPegin: 850000
+  },
+  {
     address: '0x0000000000000000000000000000000000000000',
     id: 'ETH',
     symbol: 'ETH',
@@ -1648,6 +1671,21 @@ const swapAssets = [
     nativeSymbol: 'TFF',
     nativeBlockchain: 'BSC',
     image: 'TFF.svg',
+    withBalanceDecimalsConversion: true
+  },
+  {
+    address: '0x8076c74c5e3f5852037f31ff0093eeb8c8add8d3',
+    id: 'SAFEMOON',
+    symbol: 'SAFEMOON',
+    name: 'SafeMoon',
+    network: 'mainnet',
+    blockchain: 'BSC',
+    decimals: 9,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'SAFEMOON',
+    nativeBlockchain: 'BSC',
+    image: 'SAFEMOON.svg',
     withBalanceDecimalsConversion: true
   }
 ]
