@@ -2,16 +2,14 @@ const settings = {
   dappName: 'pTokens Dapp',
   telegram: 'https://t.me/pNetworkDefi',
   googleAnalyticsTrackId: 'UA-157173999-1',
-  BLOCKSTREAM_BASE_MAINNET_ENDPOINT: 'https://blockstream.info/api/',
-  BLOCKSTREAM_BASE_TESTNET_ENDPOINT: 'https://blockstream.info/testnet/api/',
-  pNetworkStats: 'https://chart.ptokens.io/index.php?a=pnetwork-node-stats',
-  LTC_PTOKENS_NODE_MAINNET_API: 'https://ltc-node-1.ptokens.io/insight-lite-api',
-  LTC_PTOKENS_NODE_TESTNET_API: 'https://ltc-testnet-node-1.ptokens.io/insight-lite-api',
   infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
   portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
   fortmaticKey: 'pk_live_D0A703008A4B17B7',
   auditLinks: 'https://github.com/cryptonicsconsulting/audits/tree/master/pToken',
   ptokensWebsite: 'https://ptokens.io',
+  api: {
+    bpm: 'https://chart.ptokens.io/index.php?a=bpm'
+  },
   supportedBlockchains: [
     {
       name: 'Ethereum',

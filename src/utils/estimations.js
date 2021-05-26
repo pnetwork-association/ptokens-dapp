@@ -11,6 +11,14 @@ const estimations = {
   rvn: 5
 }
 
-const getPeginOrPegoutMinutesEstimation = _from => estimations[_from.toLowerCase()]
+const getPeginOrPegoutMinutesEstimation = _from => `~${estimations[_from.toLowerCase()]} minutes`
 
-export { getPeginOrPegoutMinutesEstimation }
+const getPeginOrPegoutMinutesEstimationByBpm = (
+  { native: { eta: nativeEta }, host: { eta: hostEta } },
+  _blockchain
+) => {
+  if (nativeEta === -1 || hostEta === -1) return 'Very High'
+  return `~${nativeEta + hostEta} minutes`
+}
+
+export { getPeginOrPegoutMinutesEstimation, getPeginOrPegoutMinutesEstimationByBpm }

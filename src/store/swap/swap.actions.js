@@ -1,13 +1,15 @@
+import pTokens from 'ptokens'
+import axios from 'axios'
 import assets from '../../settings/swap-assets'
 import {
-  SWAP_DATA_LOADED,
+  ASSETS_LOADED,
   SHOW_DEPOSIT_ADDRESS_MODAL,
   HIDE_DEPOSIT_ADDRESS_MODAL,
   PROGRESS_UPDATED,
   PROGRESS_RESET,
-  UPDATE_SWAP_BUTTON
+  UPDATE_SWAP_BUTTON,
+  BPM_LOADED
 } from '../../constants/index'
-import pTokens from 'ptokens'
 import { getConfigs } from '../../utils/ptokens-configs'
 import {
   loadEvmCompatibleBalances,
@@ -22,15 +24,39 @@ import pegout from './utils/pegout'
 import { getAssetsByBlockchain, getAssetById } from './swap.selectors'
 import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
 import { getDefaultSelection } from './utils/default-selection'
+import settings from '../../settings/'
 
 const loadSwapData = ({ defaultSelection: { pToken, asset, from, to } }) => {
   return async _dispatch => {
-    _dispatch({
-      type: SWAP_DATA_LOADED,
-      payload: {
-        assets: [...assets, ...getDefaultSelection(assets, { pToken, asset, from, to })]
-      }
-    })
+    try {
+      _dispatch({
+        type: ASSETS_LOADED,
+        payload: {
+          assets: [...assets, ...getDefaultSelection(assets, { pToken, asset, from, to })]
+        }
+      })
+
+      const {
+        data: { sync_status: syncStatusByBridge }
+      } = await axios.get(settings.api.bpm)
+
+      let bpm = {}
+      Object.values(syncStatusByBridge)
+        .map(_obj => Object.keys(_obj).map(_key => ({ [_key]: _obj[_key] })))
+        .flat()
+        .forEach(_val => {
+          bpm = { ...bpm, ..._val }
+        })
+
+      _dispatch({
+        type: BPM_LOADED,
+        payload: {
+          bpm
+        }
+      })
+    } catch (_err) {
+      console.error(_err)
+    }
   }
 }
 

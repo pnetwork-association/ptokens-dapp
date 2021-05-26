@@ -9,6 +9,7 @@ import { updateInfoModal } from '../../../store/pages/pages.actions'
 const mapStateToProps = _state => {
   return {
     assets: _state.swap.assets,
+    bpm: _state.swap.bpm,
     wallets: _state.wallets,
     depositAddressModal: _state.swap.depositAddressModal,
     progress: _state.swap.progress,
@@ -32,6 +33,7 @@ const SwapController = _props => <Swap {..._props} />
 
 SwapController.propTypes = {
   assets: PropTypes.array.isRequired,
+  bpm: PropTypes.array.isRequired,
   wallets: PropTypes.object.isRequired,
   depositAddressModal: PropTypes.object,
   infoModal: PropTypes.object,

@@ -108,6 +108,7 @@ const SwapLabel = styled.label`
 
 const Swap = ({
   assets: _assets,
+  bpm,
   wallets,
   progress,
   infoModal,
@@ -147,6 +148,7 @@ const Swap = ({
   } = useSwap({
     progress,
     wallets,
+    bpm,
     assets,
     connectWithWallet,
     swap,
@@ -203,7 +205,7 @@ const Swap = ({
           </OuterContainerSwap>
         </Row>
       </Container>
-      <SwapInfo from={from} to={to} />
+      <SwapInfo from={from} to={to} bpm={bpm} />
       <AssetListModal
         title="Swap from ..."
         defaultAssets={assets.length === 0 ? defaultAssets : assets}
@@ -234,6 +236,7 @@ const Swap = ({
 
 Swap.propTypes = {
   assets: PropTypes.array.isRequired,
+  bpm: PropTypes.array.isRequired,
   wallets: PropTypes.object.isRequired,
   depositAddressModal: PropTypes.object,
   defaultSelection: PropTypes.object,

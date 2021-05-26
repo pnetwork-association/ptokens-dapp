@@ -45,8 +45,11 @@ const LabelCol = styled(Col)`
   }
 `
 
-const SwapInfo = ({ from, to }) => {
-  const { show, formattedFee, estimatedSwapTime } = useSwapInfo(from, to)
+const SwapInfo = ({ from, to, bpm }) => {
+  const { show, formattedFee, estimatedSwapTime, eta } = useSwapInfo({ from, to, bpm })
+
+  console.log(eta)
+
   return (
     <ContainerInfo show={Boolean(show).toString()}>
       <Row>
@@ -54,14 +57,15 @@ const SwapInfo = ({ from, to }) => {
         <ValueCol xs={4}>{formattedFee}</ValueCol>
       </Row>
       <MarginedRow>
-        <LabelCol xs={8}>Estimated processing time</LabelCol>
-        <ValueCol xs={4}>{estimatedSwapTime}</ValueCol>
+        <LabelCol xs={7}>Estimated processing time</LabelCol>
+        <ValueCol xs={5}>{estimatedSwapTime}</ValueCol>
       </MarginedRow>
     </ContainerInfo>
   )
 }
 
 SwapInfo.propTypes = {
+  bpm: PropTypes.object,
   from: PropTypes.object,
   to: PropTypes.object
 }

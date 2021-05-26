@@ -1089,7 +1089,7 @@ const swapAssets = [
     withBalanceDecimalsConversion: true,
     isSpecial: true
   },
-  {
+  /*{
     address: '0xa09ff8842a6e251219346c9bbdab306e02eb6bf1',
     id: 'PSAFEMOON_ON_ETH_MAINNET',
     name: 'pSAFEMOON',
@@ -1133,7 +1133,7 @@ const swapAssets = [
     image: 'pEFX.svg',
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true
-  },
+  },*/
   {
     address: '0x0000000000000000000000000000000000000000',
     id: 'ETH',
@@ -1694,8 +1694,8 @@ const swapAssets = [
     nativeBlockchain: 'BSC',
     image: 'TFF.svg',
     withBalanceDecimalsConversion: true
-  },
-  {
+  }
+  /*{
     address: '0x8076c74c5e3f5852037f31ff0093eeb8c8add8d3',
     id: 'SAFEMOON',
     symbol: 'SAFEMOON',
@@ -1724,7 +1724,7 @@ const swapAssets = [
     nativeBlockchain: 'EOS',
     image: 'EFX.svg',
     withBalanceDecimalsConversion: false
-  }
+  }*/
 ]
 
 export default swapAssets
