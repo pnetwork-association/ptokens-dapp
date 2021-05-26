@@ -50,7 +50,8 @@ import {
   ANRX_ON_BSC_MAINNET,
   PBTC_ON_POLYGON_MAINNET,
   TFF_ON_POLYGON_MAINNET,
-  PSAFEMOON_ON_ETH_MAINNET
+  PSAFEMOON_ON_ETH_MAINNET,
+  EFX_ON_BSC_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -654,6 +655,20 @@ const getConfigs = (_pTokenId, _configs) => {
         blockchain: blockchains.Ethereum,
         ethProvider,
         bscProvider
+      }
+    }
+  }
+  if (_pTokenId === EFX_ON_BSC_MAINNET) {
+    return {
+      peosioToken: {
+        pToken: pTokens.EFX,
+        nativeBlockchain: blockchains.Eosio,
+        nativeNetwork: networks.Mainnet,
+        hostBlockchain: blockchains.BinanceSmartChain,
+        hostNetwork: networks.Mainnet,
+        bscProvider,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
+        eosSignatureProvider
       }
     }
   }

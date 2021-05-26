@@ -51,7 +51,8 @@ import {
   ANRX_ON_BSC_MAINNET,
   PBTC_ON_POLYGON_MAINNET,
   TFF_ON_POLYGON_MAINNET,
-  PSAFEMOON_ON_ETH_MAINNET
+  PSAFEMOON_ON_ETH_MAINNET,
+  EFX_ON_BSC_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_id, _role, _address) => {
@@ -316,6 +317,11 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
         ? `${settings.explorers.mainnet.bsc}address/${_address}`
         : `${settings.explorers.mainnet.eth}address/${_address}`
     }
+    case EFX_ON_BSC_MAINNET: {
+      return _role === 'native'
+        ? `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.bsc}address/${_address}`
+    }
     default:
       break
   }
@@ -542,6 +548,11 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
     }
     case PSAFEMOON_ON_ETH_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.bsc}tx/` : `${settings.explorers.mainnet.eth}tx/`
+    }
+    case EFX_ON_BSC_MAINNET: {
+      return _role === 'native'
+        ? `${settings.explorers.mainnet.eos}transaction/`
+        : `${settings.explorers.mainnet.bsc}tx/`
     }
     default:
       break

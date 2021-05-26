@@ -1090,7 +1090,7 @@ const swapAssets = [
     isSpecial: true
   },
   {
-    address: '0xd471f96de6d91f7ab67d78c38b46e9eb75ff8418',
+    address: '0xa09ff8842a6e251219346c9bbdab306e02eb6bf1',
     id: 'PSAFEMOON_ON_ETH_MAINNET',
     name: 'pSAFEMOON',
     workingName: 'psafemoon',
@@ -1110,7 +1110,29 @@ const swapAssets = [
     image: 'pSAFEMOON.svg',
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true,
-    gasLimitPegin: 850000
+    gasLimitPegin: 1500000
+  },
+  {
+    address: '0xC51Ef828319b131B595b7ec4B28210eCf4d05aD0',
+    id: 'EFX_ON_BSC_MAINNET',
+    name: 'EFX',
+    workingName: 'efx',
+    nativeDecimals: 0,
+    network: 'mainnet',
+    minimumIssuable: '0.001',
+    minimumRedeamable: '0.00005',
+    isHidden: false,
+    blockchain: 'BSC',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'EFX',
+    isPtoken: true,
+    isSpecial: true,
+    nativeSymbol: 'EFX',
+    nativeBlockchain: 'EOS',
+    image: 'pEFX.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true
   },
   {
     address: '0x0000000000000000000000000000000000000000',
@@ -1687,6 +1709,21 @@ const swapAssets = [
     nativeBlockchain: 'BSC',
     image: 'SAFEMOON.svg',
     withBalanceDecimalsConversion: true
+  },
+  {
+    address: 'effecttokens',
+    id: 'EFX',
+    symbol: 'EFX',
+    name: 'Effects',
+    network: 'mainnet',
+    blockchain: 'EOS',
+    decimals: 0,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'EFX',
+    nativeBlockchain: 'EOS',
+    image: 'EFX.svg',
+    withBalanceDecimalsConversion: false
   }
 ]
 

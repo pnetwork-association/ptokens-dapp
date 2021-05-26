@@ -59,7 +59,7 @@ const settings = {
         endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://telos.greymass.com'
       },
       bsc: {
-        endpoint: 'https://spring-empty-snow.bsc.quiknode.pro/1d41dfe1e612c360f560fd147968f99a0f4acfb1/'
+        endpoint: 'https://broken-falling-sun.bsc.quiknode.pro/cdba42b4cfeb02e1048100066283fbf3806c486a/'
       },
       xdai: {
         endpoint: 'https://rpc.xdaichain.com/'

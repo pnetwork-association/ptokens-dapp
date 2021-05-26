@@ -52,7 +52,8 @@ import {
   ANRX_ON_BSC_MAINNET,
   PBTC_ON_POLYGON_MAINNET,
   TFF_ON_POLYGON_MAINNET,
-  PSAFEMOON_ON_ETH_MAINNET
+  PSAFEMOON_ON_ETH_MAINNET,
+  EFX_ON_BSC_MAINNET
 } from '../constants'
 
 const web3 = new Web3()
@@ -292,6 +293,11 @@ const isValidAccount = (_pTokenId, _account, _type) => {
     }
     case PSAFEMOON_ON_ETH_MAINNET: {
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case EFX_ON_BSC_MAINNET: {
+      return _type === 'pegin'
+        ? pTokenUtils.eos.isValidAccountName(_account)
+        : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     default:
       break
