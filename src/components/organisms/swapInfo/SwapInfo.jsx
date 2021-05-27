@@ -46,7 +46,7 @@ const LabelCol = styled(Col)`
 `
 
 const SwapInfo = ({ from, to, bpm }) => {
-  const { show, formattedFee, estimatedSwapTime, eta } = useSwapInfo({ from, to, bpm })
+  const { show, formattedFee, estimatedSwapTime } = useSwapInfo({ from, to, bpm })
 
   return (
     <ContainerInfo show={Boolean(show).toString()}>
