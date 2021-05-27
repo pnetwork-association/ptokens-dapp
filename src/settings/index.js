@@ -78,7 +78,8 @@ const settings = {
       xdai: 'https://blockscout.com/poa/xdai/',
       polygon: 'https://explorer-mainnet.maticvigil.com/',
       doge: 'https://dogechain.info/',
-      rvn: 'https://ravencoin.network/'
+      rvn: 'https://ravencoin.network/',
+      lbc: 'https://explorer.lbry.com'
     }
   },
   supportedNfts: [

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { isValidAccount } from '../utils/account-validator'
-import { getPeginOrPegoutMinutesEstimation, getPeginOrPegoutMinutesEstimationByBpm } from '../utils/estimations'
+import { getPeginOrPegoutMinutesEstimationByBlockchainAndEta } from '../utils/estimations'
 import { getFee } from '../utils/fee'
 import BigNumber from 'bignumber.js'
 import { updateUrlForSwap } from '../utils/url'
@@ -28,7 +28,7 @@ const useSwap = ({
   const [assetsLoaded, setAssetsLoaded] = useState(false)
   const [selectionChanged, setSelectionChanged] = useState(false)
 
-  const { fee, isPegin, isPegout } = useSwapInfo({ from, to, bpm })
+  const { fee, isPegin, isPegout, eta } = useSwapInfo({ from, to, bpm })
 
   const onChangeFromAmount = useCallback(
     _amount => {
@@ -360,6 +360,7 @@ const useSwap = ({
     filteredAssets,
     fromWallet,
     toWallet,
+    eta,
     onChangeFromAmount,
     onChangeToAmount,
     onChangeOrder,
@@ -384,34 +385,36 @@ const useSwapInfo = ({ from, to, bpm }) => {
         formattedFee: '-',
         estimatedSwapTime: `-`,
         show: false,
-        eta: '-'
+        eta: null
       }
     }
 
     // NOTE: fee hardcoded at the moment
     if (!from.isPtoken && to.isPtoken) {
       const fee = getFee(to.id, 'pegin')
-      //const selectedBpm = bpm[`${to.name.toLowerCase()}-on-${to.blockchain.toLowerCase()}`]
+      const selectedBpm = bpm[`${to.name.toLowerCase()}-on-${to.blockchain.toLowerCase()}`]
+      const eta = selectedBpm && selectedBpm.native ? selectedBpm.native.eta : 0
       return {
         fee: 1 - fee / 100,
         formattedFee: `${fee}%`,
-        estimatedSwapTime: getPeginOrPegoutMinutesEstimation(to.blockchain),
+        estimatedSwapTime: getPeginOrPegoutMinutesEstimationByBlockchainAndEta(to.blockchain, eta),
         show: true,
         isPegin: true,
         isPegout: false,
-        eta: bpm[`${to.name.toLowerCase()}-on-${to.blockchain.toLowerCase()}`]
+        eta
       }
     } else if (from.isPtoken && !to.isPtoken) {
       const fee = getFee(from.id, 'pegout')
-      //const selectedBpm = bpm[`${from.name.toLowerCase()}-on-${from.blockchain.toLowerCase()}`]
+      const selectedBpm = bpm[`${to.name.toLowerCase()}-on-${to.blockchain.toLowerCase()}`]
+      const eta = selectedBpm && selectedBpm.native ? selectedBpm.native.eta : 0
       return {
         fee: 1 - fee / 100,
         formattedFee: `${fee}%`,
-        estimatedSwapTime: getPeginOrPegoutMinutesEstimation(from.blockchain),
+        estimatedSwapTime: getPeginOrPegoutMinutesEstimationByBlockchainAndEta(from.blockchain, eta),
         show: true,
         isPegin: false,
         isPegout: true,
-        eta: bpm[`${from.name.toLowerCase()}-on-${from.blockchain.toLowerCase()}`]
+        eta
       }
     }
 

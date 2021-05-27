@@ -1,6 +1,4 @@
-const sleep = ms => {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}
+const sleep = _ms => new Promise(_resolve => setTimeout(_resolve, _ms))
 
 const copyToClipboard = _value => {
   const textField = document.createElement('textarea')

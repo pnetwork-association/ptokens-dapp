@@ -10,7 +10,8 @@ const transactionBaseLink = {
   BTC: `${settings.explorers.mainnet.btc}tx/`,
   LTC: `${settings.explorers.mainnet.ltc}tx/`,
   RVN: `${settings.explorers.mainnet.rvn}tx/`,
-  DOGE: `${settings.explorers.mainnet.doge}tx/`
+  DOGE: `${settings.explorers.mainnet.doge}tx/`,
+  LBC: `${settings.explorers.mainnet.lbc}tx/`
 }
 
 const addressBaseLink = {
@@ -23,7 +24,8 @@ const addressBaseLink = {
   BTC: `${settings.explorers.mainnet.btc}address/`,
   LTC: `${settings.explorers.mainnet.ltc}address/`,
   RVN: `${settings.explorers.mainnet.rvn}address/`,
-  DOGE: `${settings.explorers.mainnet.doge}address/`
+  DOGE: `${settings.explorers.mainnet.doge}address/`,
+  LBC: `${settings.explorers.mainnet.lbc}address/`
 }
 
 const tokenBaseLink = {
@@ -36,7 +38,8 @@ const tokenBaseLink = {
   BTC: `${settings.explorers.mainnet.btc}address/`,
   LTC: `${settings.explorers.mainnet.ltc}address/`,
   RVN: `${settings.explorers.mainnet.rvn}address/`,
-  DOGE: `${settings.explorers.mainnet.doge}address/`
+  DOGE: `${settings.explorers.mainnet.doge}address/`,
+  LBC: `${settings.explorers.mainnet.lbc}address/`
 }
 
 const getCorrespondingBaseTxExplorerLinkByBlockchain = _blockchain => transactionBaseLink[_blockchain.toUpperCase()]

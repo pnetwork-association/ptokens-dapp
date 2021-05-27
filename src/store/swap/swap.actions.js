@@ -36,24 +36,29 @@ const loadSwapData = ({ defaultSelection: { pToken, asset, from, to } }) => {
         }
       })
 
-      const {
-        data: { sync_status: syncStatusByBridge }
-      } = await axios.get(settings.api.bpm)
+      const loadBpm = async () => {
+        const {
+          data: { sync_status: syncStatusByBridge }
+        } = await axios.get(settings.api.bpm)
 
-      let bpm = {}
-      Object.values(syncStatusByBridge)
-        .map(_obj => Object.keys(_obj).map(_key => ({ [_key]: _obj[_key] })))
-        .flat()
-        .forEach(_val => {
-          bpm = { ...bpm, ..._val }
+        let bpm = {}
+        Object.values(syncStatusByBridge)
+          .map(_obj => Object.keys(_obj).map(_key => ({ [_key]: _obj[_key] })))
+          .flat()
+          .forEach(_val => {
+            bpm = { ...bpm, ..._val }
+          })
+
+        _dispatch({
+          type: BPM_LOADED,
+          payload: {
+            bpm
+          }
         })
+      }
 
-      _dispatch({
-        type: BPM_LOADED,
-        payload: {
-          bpm
-        }
-      })
+      loadBpm()
+      setInterval(() => loadBpm(), 1000 * 60)
     } catch (_err) {
       console.error(_err)
     }
@@ -206,6 +211,10 @@ const swap = (_from, _to, _amount, _address) => {
             break
           }
           case 'pRVN': {
+            peginWithDepositAddress({ ptokens, address: _address, ptoken, dispatch: _dispatch })
+            break
+          }
+          case 'pLBC': {
             peginWithDepositAddress({ ptokens, address: _address, ptoken, dispatch: _dispatch })
             break
           }

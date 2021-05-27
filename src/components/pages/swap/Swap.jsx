@@ -106,6 +106,17 @@ const SwapLabel = styled.label`
   }
 `
 
+const InfoEta = styled.div`
+  margin-top: 30px;
+  padding: 20px;
+  margin-botton: 10px;
+  background: #66b8ff40;
+  border: 0.5px solid ${({ theme }) => theme.blue};
+  border-radius: 10px;
+  color: ${({ theme }) => theme.blue};
+  text-align: center;
+`
+
 const Swap = ({
   assets: _assets,
   bpm,
@@ -132,6 +143,7 @@ const Swap = ({
     filteredAssets,
     fromWallet,
     toWallet,
+    eta,
     onChangeFromAmount,
     onChangeToAmount,
     onChangeOrder,
@@ -193,6 +205,13 @@ const Swap = ({
               {progress.show ? (
                 <Progress percent={progress.percent} message={progress.message} steps={progress.steps} />
               ) : null}
+              {eta < 0 || eta > 15 ? (
+                <InfoEta>
+                  {eta > 15
+                    ? 'Please note that this operation may take longer than usual to get processed as the bridge is experiencing some delays'
+                    : 'Please note that this operation may take longer than usual to get processed as the bridge is experiencing some delays.'}
+                </InfoEta>
+              ) : null}
               <ContainerSwapButton>
                 <SwapButton
                   onClick={onSwap}
@@ -236,7 +255,7 @@ const Swap = ({
 
 Swap.propTypes = {
   assets: PropTypes.array.isRequired,
-  bpm: PropTypes.array.isRequired,
+  bpm: PropTypes.object.isRequired,
   wallets: PropTypes.object.isRequired,
   depositAddressModal: PropTypes.object,
   defaultSelection: PropTypes.object,

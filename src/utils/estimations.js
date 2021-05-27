@@ -8,17 +8,20 @@ const estimations = {
   polygon: 5,
   ltc: 10,
   doge: 5,
-  rvn: 5
+  rvn: 5,
+  lbc: 5
 }
 
-const getPeginOrPegoutMinutesEstimation = _from => `~${estimations[_from.toLowerCase()]} minutes`
+const getPeginOrPegoutMinutesEstimationByBlockchainAndEta = (_blockchain, _eta) => {
+  if (_eta >= 0 && _eta <= 15) {
+    return `~${estimations[_blockchain.toLowerCase()]} minutes`
+  }
 
-const getPeginOrPegoutMinutesEstimationByBpm = (
-  { native: { eta: nativeEta }, host: { eta: hostEta } },
-  _blockchain
-) => {
-  if (nativeEta === -1 || hostEta === -1) return 'Very High'
-  return `~${nativeEta + hostEta} minutes`
+  if (_eta === -1) {
+    return `Unknown`
+  }
+
+  return `~${_eta} minutes`
 }
 
-export { getPeginOrPegoutMinutesEstimation, getPeginOrPegoutMinutesEstimationByBpm }
+export { getPeginOrPegoutMinutesEstimationByBlockchainAndEta }

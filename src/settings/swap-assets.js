@@ -1,4 +1,5 @@
 const swapAssets = [
+  /* #################   pTokens   #################*/
   {
     address: '5228a22e72ccc52d415ecfd199f99d0665e7733b',
     id: 'PBTC_ON_ETH_MAINNET',
@@ -1089,7 +1090,7 @@ const swapAssets = [
     withBalanceDecimalsConversion: true,
     isSpecial: true
   },
-  /*{
+  {
     address: '0xa09ff8842a6e251219346c9bbdab306e02eb6bf1',
     id: 'PSAFEMOON_ON_ETH_MAINNET',
     name: 'pSAFEMOON',
@@ -1133,7 +1134,51 @@ const swapAssets = [
     image: 'pEFX.svg',
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true
-  },*/
+  },
+  {
+    address: '0x6db338e6ED75F67Cd5A4eF8bDf59163b32d4bD46',
+    id: 'PSEEDS_ON_ETH_MAINNET',
+    name: 'pSEEDS',
+    workingName: 'pseeds',
+    nativeDecimals: 0,
+    network: 'mainnet',
+    minimumIssuable: '0.001',
+    minimumRedeamable: '0.00005',
+    isHidden: false,
+    blockchain: 'ETH',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'SEEDS',
+    isPtoken: true,
+    isSpecial: true,
+    nativeSymbol: 'SEEDS',
+    nativeBlockchain: 'TELOS',
+    image: 'pSEEDS.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true
+  },
+  {
+    address: '',
+    id: 'PLBC_ON_BSC_MAINNET',
+    name: 'pLBC',
+    workingName: 'pbtc',
+    nativeDecimals: 8,
+    network: 'mainnet',
+    minimumIssuable: '0',
+    minimumRedeamable: '0.00005',
+    isHidden: false,
+    blockchain: 'BSC',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'PLBC',
+    isPtoken: true,
+    nativeSymbol: 'LBC',
+    nativeBlockchain: 'LBC',
+    image: 'PLBC.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true
+  },
+  /* #################   Native Tokens   #################*/
   {
     address: '0x0000000000000000000000000000000000000000',
     id: 'ETH',
@@ -1226,6 +1271,22 @@ const swapAssets = [
     nativeSymbol: 'RVN',
     nativeBlockchain: 'RVN',
     image: 'RVN.svg',
+    peginWithDepositAddress: true,
+    withBalanceDecimalsConversion: null,
+    isBlockchainTokenNative: true
+  },
+  {
+    address: null,
+    id: 'LBC',
+    symbol: 'LBC',
+    name: 'Lbry Credits',
+    network: 'mainnet',
+    blockchain: 'LBC',
+    withMiniImage: false,
+    isPtoken: false,
+    nativeSymbol: 'LBC',
+    nativeBlockchain: 'LBC',
+    image: 'LBC.svg',
     peginWithDepositAddress: true,
     withBalanceDecimalsConversion: null,
     isBlockchainTokenNative: true
@@ -1694,8 +1755,8 @@ const swapAssets = [
     nativeBlockchain: 'BSC',
     image: 'TFF.svg',
     withBalanceDecimalsConversion: true
-  }
-  /*{
+  },
+  {
     address: '0x8076c74c5e3f5852037f31ff0093eeb8c8add8d3',
     id: 'SAFEMOON',
     symbol: 'SAFEMOON',
@@ -1724,7 +1785,22 @@ const swapAssets = [
     nativeBlockchain: 'EOS',
     image: 'EFX.svg',
     withBalanceDecimalsConversion: false
-  }*/
+  },
+  {
+    address: 'token.seeds',
+    id: 'SEEDS',
+    symbol: 'SEEDS',
+    name: 'Seeds',
+    network: 'mainnet',
+    blockchain: 'TELOS',
+    decimals: 0,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'SEEDS',
+    nativeBlockchain: 'TELOS',
+    image: 'SEEDS.svg',
+    withBalanceDecimalsConversion: false
+  }
 ]
 
 export default swapAssets

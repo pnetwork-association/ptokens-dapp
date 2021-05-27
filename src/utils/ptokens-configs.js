@@ -51,7 +51,9 @@ import {
   PBTC_ON_POLYGON_MAINNET,
   TFF_ON_POLYGON_MAINNET,
   PSAFEMOON_ON_ETH_MAINNET,
-  EFX_ON_BSC_MAINNET
+  EFX_ON_BSC_MAINNET,
+  PSEEDS_ON_ETH_MAINNET,
+  PLBC_ON_BSC_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -669,6 +671,32 @@ const getConfigs = (_pTokenId, _configs) => {
         bscProvider,
         eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
+      }
+    }
+  }
+  if (_pTokenId === PSEEDS_ON_ETH_MAINNET) {
+    return {
+      peosioToken: {
+        pToken: pTokens.pSEEDS,
+        nativeBlockchain: blockchains.Telos,
+        nativeNetwork: networks.Mainnet,
+        hostBlockchain: blockchains.Ethereum,
+        hostNetwork: networks.Mainnet,
+        ethProvider,
+        telosRpc: settings.rpc.mainnet.telos.endpoint,
+        telosSignatureProvider
+      }
+    }
+  }
+  if (_pTokenId === PLBC_ON_BSC_MAINNET) {
+    return {
+      pbtc: {
+        pToken: pTokens.pLBC,
+        nativeBlockchain: blockchains.Lbry,
+        nativeNetwork: networks.Mainnet,
+        hostBlockchain: blockchains.BinanceSmartChain,
+        hostNetwork: networks.Mainnet,
+        ethProvider: bscProvider
       }
     }
   }

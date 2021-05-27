@@ -33,7 +33,7 @@ const SwapController = _props => <Swap {..._props} />
 
 SwapController.propTypes = {
   assets: PropTypes.array.isRequired,
-  bpm: PropTypes.array.isRequired,
+  bpm: PropTypes.object.isRequired,
   wallets: PropTypes.object.isRequired,
   depositAddressModal: PropTypes.object,
   infoModal: PropTypes.object,
