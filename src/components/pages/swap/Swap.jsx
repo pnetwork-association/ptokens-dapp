@@ -208,8 +208,8 @@ const Swap = ({
               {eta < 0 || eta > 15 ? (
                 <InfoEta>
                   {eta > 15
-                    ? 'Please note that this operation may take longer than usual to get processed as the bridge is experiencing some delays'
-                    : 'Please note that this operation may take longer than usual to get processed as the bridge is experiencing some delays.'}
+                    ? 'Please note that this operation may take longer than usual to get processed as the bridge is experiencing some delays.'
+                    : 'Please note that this operation may take longer than usual to get processed as the bridge is experiencing major delays.'}
                 </InfoEta>
               ) : null}
               <ContainerSwapButton>

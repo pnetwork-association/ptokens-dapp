@@ -406,7 +406,7 @@ const useSwapInfo = ({ from, to, bpm }) => {
     } else if (from.isPtoken && !to.isPtoken) {
       const fee = getFee(from.id, 'pegout')
       const selectedBpm = bpm[`${to.name.toLowerCase()}-on-${to.blockchain.toLowerCase()}`]
-      const eta = selectedBpm && selectedBpm.native ? selectedBpm.native.eta : 0
+      const eta = selectedBpm && selectedBpm.host ? selectedBpm.host.eta : 0
       return {
         fee: 1 - fee / 100,
         formattedFee: `${fee}%`,
