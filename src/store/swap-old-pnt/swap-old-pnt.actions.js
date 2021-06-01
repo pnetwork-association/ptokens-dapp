@@ -130,10 +130,7 @@ const swap = (_amount, _address) => {
                 })
               )
             })
-            .then(() => {
-              console.log('coao')
-              _resolve()
-            })
+            .then(_resolve)
             .catch(() => {
               _dispatch(resetProgress())
               _dispatch(updateSwapButton('Swap'))
