@@ -1,14 +1,17 @@
 import pTokens from 'ptokens'
 import axios from 'axios'
 import assets from '../../settings/swap-assets'
+import settings from '../../settings'
 import {
   ASSETS_LOADED,
+  ASSETS_LOADED_SWAP_OLD_PNT,
   SHOW_DEPOSIT_ADDRESS_MODAL,
   HIDE_DEPOSIT_ADDRESS_MODAL,
   PROGRESS_UPDATED,
   PROGRESS_RESET,
   UPDATE_SWAP_BUTTON,
-  BPM_LOADED
+  BPM_LOADED,
+  PNT_ON_BSC_MAINNET
 } from '../../constants/index'
 import { getConfigs } from '../../utils/ptokens-configs'
 import {
@@ -24,7 +27,6 @@ import pegout from './utils/pegout'
 import { getAssetsByBlockchain, getAssetById } from './swap.selectors'
 import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
 import { getDefaultSelection } from './utils/default-selection'
-import settings from '../../settings/'
 
 const loadSwapData = ({ defaultSelection: { pToken, asset, from, to } }) => {
   return async _dispatch => {
@@ -33,6 +35,14 @@ const loadSwapData = ({ defaultSelection: { pToken, asset, from, to } }) => {
         type: ASSETS_LOADED,
         payload: {
           assets: [...assets, ...getDefaultSelection(assets, { pToken, asset, from, to })]
+        }
+      })
+
+      _dispatch({
+        type: ASSETS_LOADED_SWAP_OLD_PNT,
+        payload: {
+          from: settings.swapOldPntOnBsc.asset,
+          to: assets.find(({ id }) => id === PNT_ON_BSC_MAINNET)
         }
       })
 

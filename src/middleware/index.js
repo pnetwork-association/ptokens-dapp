@@ -13,6 +13,7 @@ import {
   NFT_DATA_LOADED
 } from '../constants'
 import { loadBalances } from '../store/swap/swap.actions'
+import { loadOldPntBalance } from '../store/swap-old-pnt/swap-old-pnt.actions'
 import { loadNftsData } from '../store/nfts/nfts.actions'
 import { setLoading } from '../store/pages/pages.actions'
 import { getIsLoading } from '../store/pages/pages.selectors'
@@ -33,6 +34,7 @@ const middleware = ({ dispatch }) => {
       if (type === WALLET_BSC_CONNECTED || type === WALLET_BSC_ACCOUNT_CHANGED) {
         dispatch(loadBalances(payload.account, 'BSC'))
         dispatch(loadNftsData(payload.account, 'BSC'))
+        dispatch(loadOldPntBalance(payload.account))
       }
 
       if (type === WALLET_XDAI_CONNECTED || type === WALLET_XDAI_ACCOUNT_CHANGED) {

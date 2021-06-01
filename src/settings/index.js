@@ -91,7 +91,24 @@ const settings = {
       symbol: 'CGT',
       name: 'ChainGuardians'
     }
-  ]
+  ],
+  swapOldPntOnBsc: {
+    swapContractAddress: '0x66e75D37a6fa02Fd385f94476901f95c205EfC61',
+    asset: {
+      address: '0x7a1da9f49224ef98389b071b8a3294d1cc5e3e6a',
+      id: 'PNT_ON_BSC_MAINNET_OLD',
+      name: 'PNT',
+      workingName: 'pnt',
+      nativeDecimals: 18,
+      blockchain: 'BSC',
+      decimals: 18,
+      withMiniImage: true,
+      symbol: 'PNT',
+      nativeSymbol: 'PNT',
+      image: 'PNT_gray.svg',
+      withBalanceDecimalsConversion: true
+    }
+  }
 }
 
 export default settings

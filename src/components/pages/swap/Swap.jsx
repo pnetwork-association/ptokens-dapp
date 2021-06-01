@@ -13,14 +13,14 @@ import { useAssets } from '../../../hooks/use-assets'
 import Icon from '../../atoms/icon/Icon'
 import InfoModal from '../../organisms/infoModal/InfoModal'
 
-const OuterContainerSwap = styled.div`
+export const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
     padding-left: 10px;
     padding-right: 10px;
   }
 `
 
-const ContainerSwap = styled.div`
+export const ContainerSwap = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -41,7 +41,7 @@ const ContainerSwap = styled.div`
   }
 `
 
-const ArrowContainer = styled.div`
+export const ArrowContainer = styled.div`
   margin-top: 15px;
   margin-bottom: 15px;
   text-align: center;
@@ -64,14 +64,14 @@ const SortIcon = styled(Icon)`
   }
 `
 
-const ContainerSwapButton = styled.div`
+export const ContainerSwapButton = styled.div`
   margin-top: 30px;
   @media (max-width: 767.98px) {
     margin-top: 20px;
   }
 `
 
-const SwapButton = styled.button`
+export const SwapButton = styled.button`
   width: 100%;
   color: white;
   background: ${({ theme }) => theme.primary1};
@@ -96,7 +96,7 @@ const SwapButton = styled.button`
   }
 `
 
-const SwapLabel = styled.label`
+export const SwapLabel = styled.label`
   color: ${({ theme }) => theme.text1};
   margin-bottom: 20px;
   margin-left: 14px;

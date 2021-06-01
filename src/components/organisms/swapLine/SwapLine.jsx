@@ -198,6 +198,7 @@ const SwapLine = ({
   defaultMiniImage,
   title,
   wallet,
+  hideMaxButton,
   onChangeAmount,
   onClickImage,
   onChangeAddress,
@@ -236,7 +237,7 @@ const SwapLine = ({
               <MiniImage src={!asset ? defaultMiniImage : asset.miniImage} />
             ) : null}
           </ContainerImage>{' '}
-          {asset && asset.formattedBalance !== '-' ? (
+          {asset && asset.formattedBalance !== '-' && !hideMaxButton ? (
             <ContainerMaxButton>
               <MaxButton onClick={onMax}>MAX</MaxButton>
             </ContainerMaxButton>
@@ -291,10 +292,15 @@ SwapLine.propTypes = {
   wallets: PropTypes.object,
   defaultImage: PropTypes.string,
   defaultMiniImage: PropTypes.string,
+  hideMaxButton: PropTypes.bool,
   onChangeAmount: PropTypes.func,
   onClickImage: PropTypes.func,
   onChangeAddress: PropTypes.func,
   onMax: PropTypes.func
+}
+
+SwapLine.defaultProps = {
+  hideMaxButton: false
 }
 
 export default SwapLine

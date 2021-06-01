@@ -670,6 +670,7 @@ const swapAssets = [
     nativeSymbol: 'TLOS',
     nativeBlockchain: 'TELOS',
     image: 'pTLOS.svg',
+    withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true
   },
   {
@@ -1090,7 +1091,7 @@ const swapAssets = [
     withBalanceDecimalsConversion: true,
     isSpecial: true
   },
-  {
+  /*{
     address: '0xa09ff8842a6e251219346c9bbdab306e02eb6bf1',
     id: 'PSAFEMOON_ON_ETH_MAINNET',
     name: 'pSAFEMOON',
@@ -1112,7 +1113,7 @@ const swapAssets = [
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true,
     gasLimitPegin: 1500000
-  },
+  },*/
   {
     address: '0xC51Ef828319b131B595b7ec4B28210eCf4d05aD0',
     id: 'EFX_ON_BSC_MAINNET',
@@ -1756,7 +1757,7 @@ const swapAssets = [
     image: 'TFF.svg',
     withBalanceDecimalsConversion: true
   },
-  {
+  /*{
     address: '0x8076c74c5e3f5852037f31ff0093eeb8c8add8d3',
     id: 'SAFEMOON',
     symbol: 'SAFEMOON',
@@ -1770,7 +1771,7 @@ const swapAssets = [
     nativeBlockchain: 'BSC',
     image: 'SAFEMOON.svg',
     withBalanceDecimalsConversion: true
-  },
+  },*/
   {
     address: 'effecttokens',
     id: 'EFX',

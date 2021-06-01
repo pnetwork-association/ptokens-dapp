@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { loadSwapData } from './store/swap/swap.actions'
+import { loadSwapOldPntData } from './store/swap-old-pnt/swap-old-pnt.actions'
 import { selectPage, setTheme } from './store/pages/pages.actions'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import history from './utils/history'
@@ -8,6 +9,7 @@ import ReactGA from 'react-ga'
 import queryString from 'query-string'
 import { connect } from 'react-redux'
 import SwapController from './components/pages/swap/SwapController'
+import SwapOldPntController from './components/pages/swapOldPnt/SwapOldPntController'
 import HeaderController from './components/organisms/header/HeaderController'
 import MainWrapper from './components/atoms/mainWrapper/MainWrapper'
 import Notifications from './components/molecules/notifications/Notifications'
@@ -29,12 +31,13 @@ const mapStateToProps = _state => {
 const mapDispatchToProps = _dispatch => {
   return {
     loadSwapData: _options => _dispatch(loadSwapData(_options)),
+    loadSwapOldPntData: () => _dispatch(loadSwapOldPntData()),
     selectPage: (_page, _options) => _dispatch(selectPage(_page, _options)),
     setTheme: _theme => _dispatch(setTheme(_theme))
   }
 }
 
-const App = ({ loading, setTheme, loadSwapData, selectPage }) => {
+const App = ({ loading, setTheme, loadSwapData, loadSwapOldPntData, selectPage }) => {
   useEffect(() => {
     const { pToken, asset, from, to } = queryString.parse(window.location.search)
     const theme = window.localStorage.getItem('THEME')
@@ -43,65 +46,37 @@ const App = ({ loading, setTheme, loadSwapData, selectPage }) => {
     const page = history.location.pathname.split('/')[1]
     selectPage(page, { pToken, asset, from, to })
     loadSwapData({ defaultSelection: { pToken, asset, from, to } })
+    loadSwapOldPntData()
   }, [])
 
   return (
-    <Switch>
-      <Route
-        exact
-        path={'/swap'}
-        render={() => {
-          return (
-            <React.Fragment>
-              <MainWrapper>
-                <Notifications />
-                <Banner>
-                  Looking for the old dapp? Click{' '}
-                  <a
-                    style={{ color: 'white' }}
-                    href="https://dapp-legacy.ptokens.io"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    here
-                  </a>
-                </Banner>
-                <HeaderController />
-                <SwapController />
-              </MainWrapper>
-            </React.Fragment>
-          )
-        }}
-      />
-      <Route
-        exact
-        path={'/nfts'}
-        render={() => {
-          return (
-            <React.Fragment>
-              <MainWrapper>
+    <React.Fragment>
+      <MainWrapper>
+        <Notifications />
+        <Banner>
+          Looking for the old dapp? Click{' '}
+          <a style={{ color: 'white' }} href="https://dapp-legacy.ptokens.io" target="_blank" rel="noopener noreferrer">
+            here
+          </a>
+        </Banner>
+        <HeaderController />
+        <Switch>
+          <Route exact path={'/swap'} render={() => <SwapController />} />
+          <Route
+            exact
+            path={'/nfts'}
+            render={() => (
+              <React.Fragment>
                 <Loader loading={loading} />
-                <Notifications />
-                <Banner>
-                  Looking for the old dapp? Click{' '}
-                  <a
-                    style={{ color: 'white' }}
-                    href="https://dapp-legacy.ptokens.io"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    here
-                  </a>
-                </Banner>
-                <HeaderController />
                 <NftsController />
-              </MainWrapper>
-            </React.Fragment>
-          )
-        }}
-      />
-      <Route render={() => <Redirect to="swap" />} />
-    </Switch>
+              </React.Fragment>
+            )}
+          />
+          <Route exact path={'/oldpnt-swap'} render={() => <SwapOldPntController />} />
+          <Route render={() => <Redirect to="swap" />} />
+        </Switch>
+      </MainWrapper>
+    </React.Fragment>
   )
 }
 
