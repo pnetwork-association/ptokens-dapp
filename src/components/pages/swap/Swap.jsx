@@ -52,7 +52,7 @@ export const ArrowContainer = styled.div`
   }
 `
 
-const SortIcon = styled(Icon)`
+export const SortIcon = styled(Icon)`
   width: 16px;
   height: 16px;
   svg {

@@ -1,23 +1,36 @@
 import React from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Row, Container } from 'react-bootstrap'
+import styled from 'styled-components'
+import { Row, Container, Col } from 'react-bootstrap'
 import Progress from '../../molecules/progress/Progress'
 import { useSwap } from '../../../hooks/use-old-pnt-swap'
 import SwapLine from '../../organisms/swapLine/SwapLine'
 import { useAssets } from '../../../hooks/use-assets'
 import InfoModal from '../../organisms/infoModal/InfoModal'
-import { OuterContainerSwap, ContainerSwap, SwapLabel, ContainerSwapButton, SwapButton } from '../swap/Swap'
+import {
+  OuterContainerSwap,
+  ContainerSwap,
+  SwapLabel,
+  ContainerSwapButton,
+  SwapButton,
+  ArrowContainer,
+  SortIcon
+} from '../swap/Swap'
 
-const Divider = styled.div`
-  margin-top: 15px;
-  margin-bottom: 15px;
+const StyledArrowContainer = styled(ArrowContainer)`
+  cursor: default;
+`
+
+const StyledSortIcon = styled(SortIcon)`
+  cursor: default;
+`
+
+const TitleCol = styled(Col)`
   text-align: center;
-  cursor: pointer;
-  @media (max-width: 767.98px) {
-    margin-top: 5px;
-    margin-bottom: 5px;
-  }
+  margin-top: 20px;
+  margin-bottom: 40px;
+  color: ${({ theme }) => theme.text1};
+  font-size: 20px;
 `
 
 const SwapOldPnt = ({
@@ -61,6 +74,9 @@ const SwapOldPnt = ({
     <React.Fragment>
       <Container>
         <Row>
+          <TitleCol>{'PNT Converter (binance bridge -> pnetwork bridge)'}</TitleCol>
+        </Row>
+        <Row>
           <OuterContainerSwap className="mx-auto">
             <ContainerSwap>
               <SwapLabel>Swap</SwapLabel>
@@ -73,7 +89,9 @@ const SwapOldPnt = ({
                 onClickImage={() => ({})}
                 onMax={onMax}
               />
-              <Divider />
+              <StyledArrowContainer>
+                <StyledSortIcon icon="down-arrow" />
+              </StyledArrowContainer>
               <SwapLine
                 title="To"
                 asset={to}

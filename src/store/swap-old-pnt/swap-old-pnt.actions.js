@@ -39,7 +39,9 @@ const swap = (_amount, _address) => {
       let withApprove = false
       let link
 
-      const amount = BigNumber(_amount).multipliedBy(10 ** 18)
+      const amount = BigNumber(_amount)
+        .multipliedBy(10 ** 18)
+        .toFixed()
 
       _dispatch(resetProgress())
 
