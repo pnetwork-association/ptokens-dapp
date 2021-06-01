@@ -79,7 +79,7 @@ const settings = {
       polygon: 'https://explorer-mainnet.maticvigil.com/',
       doge: 'https://dogechain.info/',
       rvn: 'https://ravencoin.network/',
-      lbc: 'https://explorer.lbry.com'
+      lbc: 'https://explorer.lbry.com/'
     }
   },
   supportedNfts: [

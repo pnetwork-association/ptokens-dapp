@@ -1158,7 +1158,7 @@ const swapAssets = [
     withBalanceDecimalsConversion: true
   },
   {
-    address: '',
+    address: '0xd52678d5ec8e6616db23011c1b828da26e27d937',
     id: 'PLBC_ON_BSC_MAINNET',
     name: 'pLBC',
     workingName: 'pbtc',
@@ -1174,7 +1174,7 @@ const swapAssets = [
     isPtoken: true,
     nativeSymbol: 'LBC',
     nativeBlockchain: 'LBC',
-    image: 'PLBC.svg',
+    image: 'pLBC.svg',
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true
   },
