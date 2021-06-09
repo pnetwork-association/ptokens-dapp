@@ -76,7 +76,7 @@ const settings = {
       ltc: 'https://live.blockcypher.com/ltc/',
       bsc: 'https://bscscan.com/',
       xdai: 'https://blockscout.com/poa/xdai/',
-      polygon: 'https://explorer-mainnet.maticvigil.com/',
+      polygon: 'https://polygonscan.com/',
       doge: 'https://dogechain.info/',
       rvn: 'https://ravencoin.network/',
       lbc: 'https://explorer.lbry.com/'
