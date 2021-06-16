@@ -1091,7 +1091,7 @@ const swapAssets = [
     withBalanceDecimalsConversion: true,
     isSpecial: true
   },
-  {
+  /*{
     address: '0xa09ff8842a6e251219346c9bbdab306e02eb6bf1',
     id: 'PSAFEMOON_ON_ETH_MAINNET',
     name: 'pSAFEMOON',
@@ -1113,7 +1113,7 @@ const swapAssets = [
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true,
     gasLimitPegin: 1500000
-  },
+  },*/
   {
     address: '0xC51Ef828319b131B595b7ec4B28210eCf4d05aD0',
     id: 'EFX_ON_BSC_MAINNET',
@@ -1176,6 +1176,29 @@ const swapAssets = [
     nativeSymbol: 'LBC',
     nativeBlockchain: 'LBC',
     image: 'pLBC.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true
+  },
+  {
+    address: '0xc79358de3868a7c751f52cfeecd650595aee8b18',
+    id: 'USDO_ON_POLYGON_MAINNET',
+    name: 'USDO',
+    workingName: 'usdo',
+    nativeDecimals: 18,
+    network: 'mainnet',
+    minimumIssuable: '0.000000001',
+    minimumRedeamable: '0.000000001',
+    isHidden: false,
+    blockchain: 'POLYGON',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'USDO',
+    isPtoken: true,
+    isSpecial: true,
+    isBep20: true,
+    nativeSymbol: 'USDO',
+    nativeBlockchain: 'BSC',
+    image: 'pUSDO.svg',
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true
   },
@@ -1757,7 +1780,7 @@ const swapAssets = [
     image: 'TFF.svg',
     withBalanceDecimalsConversion: true
   },
-  {
+  /*{
     address: '0x8076c74c5e3f5852037f31ff0093eeb8c8add8d3',
     id: 'SAFEMOON',
     symbol: 'SAFEMOON',
@@ -1771,7 +1794,7 @@ const swapAssets = [
     nativeBlockchain: 'BSC',
     image: 'SAFEMOON.svg',
     withBalanceDecimalsConversion: true
-  },
+  },*/
   {
     address: 'effecttokens',
     id: 'EFX',
@@ -1801,6 +1824,21 @@ const swapAssets = [
     nativeBlockchain: 'TELOS',
     image: 'SEEDS.svg',
     withBalanceDecimalsConversion: false
+  },
+  {
+    address: '0x5801d0e1c7d977d78e4890880b8e579eb4943276',
+    id: 'USDO',
+    symbol: 'USDO',
+    name: 'USD Open Dollar',
+    network: 'mainnet',
+    blockchain: 'BSC',
+    decimals: 18,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'USDO',
+    nativeBlockchain: 'BSC',
+    image: 'USDO.svg',
+    withBalanceDecimalsConversion: true
   }
 ]
 

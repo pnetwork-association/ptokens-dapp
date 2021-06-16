@@ -54,7 +54,8 @@ import {
   PSAFEMOON_ON_ETH_MAINNET,
   EFX_ON_BSC_MAINNET,
   PSEEDS_ON_ETH_MAINNET,
-  PLBC_ON_BSC_MAINNET
+  PLBC_ON_BSC_MAINNET,
+  USDO_ON_POLYGON_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_id, _role, _address) => {
@@ -334,6 +335,11 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
         ? `${settings.explorers.mainnet.lbc}address/${_address}`
         : `${settings.explorers.mainnet.bsc}address/${_address}`
     }
+    case USDO_ON_POLYGON_MAINNET: {
+      return _role === 'native'
+        ? `${settings.explorers.mainnet.bsc}address/${_address}`
+        : `${settings.explorers.mainnet.polygon}address/${_address}`
+    }
     default:
       break
   }
@@ -573,6 +579,9 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
     }
     case PLBC_ON_BSC_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.lbc}tx/` : `${settings.explorers.mainnet.bsc}tx/`
+    }
+    case USDO_ON_POLYGON_MAINNET: {
+      return _role === 'native' ? `${settings.explorers.mainnet.bsc}tx/` : `${settings.explorers.mainnet.polygon}tx/`
     }
     default:
       break

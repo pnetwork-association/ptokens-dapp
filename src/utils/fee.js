@@ -51,7 +51,8 @@ import {
   PSAFEMOON_ON_ETH_MAINNET,
   EFX_ON_BSC_MAINNET,
   PSEEDS_ON_ETH_MAINNET,
-  PLBC_ON_BSC_MAINNET
+  PLBC_ON_BSC_MAINNET,
+  USDO_ON_POLYGON_MAINNET
 } from '../constants'
 
 const map = {
@@ -128,6 +129,10 @@ const map = {
     pegout: 0.25
   },
   [PLBC_ON_BSC_MAINNET]: {
+    pegin: 0,
+    pegout: 0.25
+  },
+  [USDO_ON_POLYGON_MAINNET]: {
     pegin: 0,
     pegout: 0.25
   }

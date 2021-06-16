@@ -53,7 +53,8 @@ import {
   PSAFEMOON_ON_ETH_MAINNET,
   EFX_ON_BSC_MAINNET,
   PSEEDS_ON_ETH_MAINNET,
-  PLBC_ON_BSC_MAINNET
+  PLBC_ON_BSC_MAINNET,
+  USDO_ON_POLYGON_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -697,6 +698,17 @@ const getConfigs = (_pTokenId, _configs) => {
         hostBlockchain: blockchains.BinanceSmartChain,
         hostNetwork: networks.Mainnet,
         ethProvider: bscProvider
+      }
+    }
+  }
+  if (_pTokenId === USDO_ON_POLYGON_MAINNET) {
+    return {
+      pbep20: {
+        pToken: pTokens.USDO,
+        network: networks.PolygonMainnet,
+        blockchain: blockchains.Polygon,
+        polygonProvider,
+        bscProvider
       }
     }
   }

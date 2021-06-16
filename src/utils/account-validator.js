@@ -55,7 +55,8 @@ import {
   PSAFEMOON_ON_ETH_MAINNET,
   EFX_ON_BSC_MAINNET,
   PSEEDS_ON_ETH_MAINNET,
-  PLBC_ON_BSC_MAINNET
+  PLBC_ON_BSC_MAINNET,
+  USDO_ON_POLYGON_MAINNET
 } from '../constants'
 
 const web3 = new Web3()
@@ -308,6 +309,9 @@ const isValidAccount = (_pTokenId, _account, _type) => {
     }
     case PLBC_ON_BSC_MAINNET: {
       return _type === 'pegin' ? true : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case USDO_ON_POLYGON_MAINNET: {
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     default:
       break
