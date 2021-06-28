@@ -15,7 +15,6 @@ import MainWrapper from './components/atoms/mainWrapper/MainWrapper'
 import Notifications from './components/molecules/notifications/Notifications'
 import NftsController from './components/pages/nfts/NftsController'
 import Loader from './components/atoms/loader/Loader'
-import Banner from './components/molecules/banner/Banner'
 
 history.listen(location => {
   ReactGA.set({ page: location.pathname })
@@ -53,12 +52,6 @@ const App = ({ loading, setTheme, loadSwapData, loadSwapOldPntData, selectPage }
     <React.Fragment>
       <MainWrapper>
         <Notifications />
-        <Banner>
-          Looking for the old dapp? Click{' '}
-          <a style={{ color: 'white' }} href="https://dapp-legacy.ptokens.io" target="_blank" rel="noopener noreferrer">
-            here
-          </a>
-        </Banner>
         <HeaderController />
         <Switch>
           <Route exact path={'/swap'} render={() => <SwapController />} />
