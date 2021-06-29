@@ -187,75 +187,84 @@ const useSwap = ({
 
   // NOTE: calculates button text
   useEffect(() => {
-    if (!from || !to) {
-      updateSwapButton('Loading ...', true)
-      return
-    }
+    const validate = async () => {
+      if (!from || !to) {
+        updateSwapButton('Loading ...', true)
+        return
+      }
 
-    if (!isValidSwap) {
-      setAddress('')
-      updateSwapButton('Invalid Swap', true)
-      return
-    }
+      if (!isValidSwap) {
+        setAddress('')
+        updateSwapButton('Invalid Swap', true)
+        return
+      }
 
-    // NOTE: if wallet is connected but balance is still null it means that we are loading balances
-    if (wallets[from.blockchain.toLowerCase()] && wallets[from.blockchain.toLowerCase()].account && !from.balance) {
-      updateSwapButton('Loading balances ...', true)
-      return
-    }
+      // NOTE: if wallet is connected but balance is still null it means that we are loading balances
+      if (wallets[from.blockchain.toLowerCase()] && wallets[from.blockchain.toLowerCase()].account && !from.balance) {
+        updateSwapButton('Loading balances ...', true)
+        return
+      }
 
-    if (wallets[to.blockchain.toLowerCase()] && wallets[to.blockchain.toLowerCase()].account && !to.balance) {
-      updateSwapButton('Loading balances ...', true)
-      return
-    }
+      if (wallets[to.blockchain.toLowerCase()] && wallets[to.blockchain.toLowerCase()].account && !to.balance) {
+        updateSwapButton('Loading balances ...', true)
+        return
+      }
 
-    // NOTE: pegin with deposit address
-    if (!wallets[from.blockchain.toLowerCase()]) {
+      // NOTE: pegin with deposit address
+      if (!wallets[from.blockchain.toLowerCase()]) {
+        if (!address || address === '') {
+          updateSwapButton('Enter an address', true)
+          return
+        }
+
+        if (swapType === 'pegin' && !(await isValidAccount(to.id, address, 'pegout'))) {
+          updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
+          return
+        }
+
+        if (swapType === 'pegout' && !(await isValidAccount(from.id, address, 'pegin'))) {
+          updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
+          return
+        }
+
+        updateSwapButton('Get Deposit Address')
+        return
+      }
+
+      // NOTE: missing from account for a non deposit address pegin
+      if (!wallets[from.blockchain.toLowerCase()].account) {
+        updateSwapButton('Connect Wallet')
+        return
+      }
+
+      if (fromAmount === '' && !from.peginWithDepositAddress) {
+        updateSwapButton('Enter an amount', true)
+        return
+      }
+
       if (!address || address === '') {
         updateSwapButton('Enter an address', true)
-        return
       }
 
-      if (swapType === 'pegin' && !isValidAccount(to.id, address, 'pegout')) {
+      if (swapType === 'pegin' && !(await isValidAccount(to.id, address, 'pegout'))) {
         updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
         return
       }
 
-      if (swapType === 'pegout' && !isValidAccount(from.id, address, 'pegin')) {
+      // safemoon does not accr
+      /*if (swapType === 'pegin' && to.id === PSAFEMOON_ON_ETH_MAINNET && address !== '' && web3.eth.getCode(address) !== '0x') {
         updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
+        return
+      }*/
+
+      if (swapType === 'pegout' && !(await isValidAccount(from.id, address, 'pegin'))) {
+        updateSwapButton('Invalid Address', true)
         return
       }
 
-      updateSwapButton('Get Deposit Address')
-      return
+      updateSwapButton('Swap')
     }
-
-    // NOTE: missing from account for a non deposit address pegin
-    if (!wallets[from.blockchain.toLowerCase()].account) {
-      updateSwapButton('Connect Wallet')
-      return
-    }
-
-    if (fromAmount === '' && !from.peginWithDepositAddress) {
-      updateSwapButton('Enter an amount', true)
-      return
-    }
-
-    if (!address || address === '') {
-      updateSwapButton('Enter an address', true)
-    }
-
-    if (swapType === 'pegin' && !isValidAccount(to.id, address, 'pegout')) {
-      updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
-      return
-    }
-
-    if (swapType === 'pegout' && !isValidAccount(from.id, address, 'pegin')) {
-      updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
-      return
-    }
-
-    updateSwapButton('Swap')
+    validate()
   }, [wallets, from, fromAmount, to, address, isValidSwap, swapType, updateSwapButton])
 
   // NOTE: filters based on from selection

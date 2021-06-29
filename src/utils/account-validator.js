@@ -58,10 +58,11 @@ import {
   PLBC_ON_BSC_MAINNET,
   USDO_ON_POLYGON_MAINNET
 } from '../constants'
+import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 
 const web3 = new Web3()
 
-const isValidAccount = (_pTokenId, _account, _type) => {
+const isValidAccount = async (_pTokenId, _account, _type) => {
   if (_account === '') return false
 
   // const pTokenId = _pTokenId.includes('_DEFAULT') ? _pTokenId.split('_DEFAULT')[0] : _pTokenId
@@ -295,7 +296,14 @@ const isValidAccount = (_pTokenId, _account, _type) => {
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case PSAFEMOON_ON_ETH_MAINNET: {
-      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+      web3.setProvider(getReadOnlyProviderByBlockchain(_type === 'pegin' ? 'BSC' : 'ETH'))
+      try {
+        return (
+          web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account)) && (await web3.eth.getCode(_account)) === '0x'
+        )
+      } catch (_err) {
+        return false
+      }
     }
     case EFX_ON_BSC_MAINNET: {
       return _type === 'pegin'

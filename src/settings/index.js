@@ -40,7 +40,7 @@ const settings = {
     mainnet: {
       eth: {
         wsEndpoint: 'wss://dapp-eth-node-1.ptokens.io/a9c866c62d28d63303de21fd44e95f747f725857/',
-        endpoint: 'https://mainnet.infura.io/v3/ '
+        endpoint: 'https://dapp-eth-node-1.ptokens.io/a9c866c62d28d63303de21fd44e95f747f725857/'
       },
       eos: {
         chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',

@@ -116,10 +116,10 @@ const map = {
     pegin: 0,
     pegout: 0.25
   },
-  /*[PSAFEMOON_ON_ETH_MAINNET]: {
+  [PSAFEMOON_ON_ETH_MAINNET]: {
     pegin: 0,
     pegout: 0.25
-  }*/
+  },
   [EFX_ON_BSC_MAINNET]: {
     pegin: 0,
     pegout: 0.25
