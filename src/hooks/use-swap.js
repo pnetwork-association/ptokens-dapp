@@ -5,6 +5,8 @@ import { getFee } from '../utils/fee'
 import BigNumber from 'bignumber.js'
 import { updateUrlForSwap } from '../utils/url'
 import { useWalletByBlockchain } from './use-wallets'
+import getMinimumPeggable from '../utils/minimum-peggables'
+import { numberWithCommas } from '../utils/utils'
 
 const useSwap = ({
   wallets,
@@ -28,7 +30,7 @@ const useSwap = ({
   const [assetsLoaded, setAssetsLoaded] = useState(false)
   const [selectionChanged, setSelectionChanged] = useState(false)
 
-  const { fee, isPegin, isPegout, eta } = useSwapInfo({ from, to, bpm })
+  const { fee, isPegin, isPegout, eta, minimumPeggable } = useSwapInfo({ from, to, bpm })
 
   const onChangeFromAmount = useCallback(
     _amount => {
@@ -242,6 +244,11 @@ const useSwap = ({
         return
       }
 
+      if (BigNumber(fromAmount).isLessThan(minimumPeggable)) {
+        updateSwapButton('Amount too low', true)
+        return
+      }
+
       if (!address || address === '') {
         updateSwapButton('Enter an address', true)
       }
@@ -251,12 +258,6 @@ const useSwap = ({
         return
       }
 
-      // safemoon does not accr
-      /*if (swapType === 'pegin' && to.id === PSAFEMOON_ON_ETH_MAINNET && address !== '' && web3.eth.getCode(address) !== '0x') {
-        updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
-        return
-      }*/
-
       if (swapType === 'pegout' && !(await isValidAccount(from.id, address, 'pegin'))) {
         updateSwapButton('Invalid Address', true)
         return
@@ -265,7 +266,7 @@ const useSwap = ({
       updateSwapButton('Swap')
     }
     validate()
-  }, [wallets, from, fromAmount, to, address, isValidSwap, swapType, updateSwapButton])
+  }, [wallets, from, fromAmount, to, address, isValidSwap, minimumPeggable, swapType, updateSwapButton])
 
   // NOTE: filters based on from selection
   const [filteredAssets] = useMemo(() => {
@@ -400,10 +401,15 @@ const useSwapInfo = ({ from, to, bpm }) => {
 
     // NOTE: fee hardcoded at the moment
     if (!from.isPtoken && to.isPtoken) {
+      const minimumPeggable = getMinimumPeggable(to.id, 'pegin')
       const fee = getFee(to.id, 'pegin')
       const selectedBpm = bpm[`${to.name.toLowerCase()}-on-${to.blockchain.toLowerCase()}`]
       const eta = selectedBpm && selectedBpm.native ? selectedBpm.native.eta : 0
       return {
+        minimumPeggable: minimumPeggable ? BigNumber(minimumPeggable).toFixed() : 0,
+        formattedMinimumPeggable: minimumPeggable
+          ? `${numberWithCommas(minimumPeggable.toString())} ${from.symbol}`
+          : null,
         fee: 1 - fee / 100,
         formattedFee: `${fee}%`,
         estimatedSwapTime: getPeginOrPegoutMinutesEstimationByBlockchainAndEta(to.blockchain, eta),
@@ -413,10 +419,15 @@ const useSwapInfo = ({ from, to, bpm }) => {
         eta
       }
     } else if (from.isPtoken && !to.isPtoken) {
+      const minimumPeggable = getMinimumPeggable(from.id, 'pegin')
       const fee = getFee(from.id, 'pegout')
       const selectedBpm = bpm[`${to.name.toLowerCase()}-on-${to.blockchain.toLowerCase()}`]
       const eta = selectedBpm && selectedBpm.host ? selectedBpm.host.eta : 0
       return {
+        minimumPeggable: minimumPeggable ? BigNumber(minimumPeggable).toFixed() : 0,
+        formattedMinimumPeggable: minimumPeggable
+          ? `${numberWithCommas(minimumPeggable.toString())} ${to.symbol}`
+          : null,
         fee: 1 - fee / 100,
         formattedFee: `${fee}%`,
         estimatedSwapTime: getPeginOrPegoutMinutesEstimationByBlockchainAndEta(from.blockchain, eta),

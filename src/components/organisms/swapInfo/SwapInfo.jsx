@@ -46,7 +46,7 @@ const LabelCol = styled(Col)`
 `
 
 const SwapInfo = ({ from, to, bpm }) => {
-  const { show, formattedFee, estimatedSwapTime } = useSwapInfo({ from, to, bpm })
+  const { show, formattedFee, estimatedSwapTime, formattedMinimumPeggable } = useSwapInfo({ from, to, bpm })
 
   return (
     <ContainerInfo show={Boolean(show).toString()}>
@@ -58,6 +58,12 @@ const SwapInfo = ({ from, to, bpm }) => {
         <LabelCol xs={7}>Estimated processing time</LabelCol>
         <ValueCol xs={5}>{estimatedSwapTime}</ValueCol>
       </MarginedRow>
+      {formattedMinimumPeggable ? (
+        <MarginedRow>
+          <LabelCol xs={5}>Minimum Peggable</LabelCol>
+          <ValueCol xs={7}>{formattedMinimumPeggable}</ValueCol>
+        </MarginedRow>
+      ) : null}
     </ContainerInfo>
   )
 }

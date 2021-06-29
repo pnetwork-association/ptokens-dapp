@@ -9,4 +9,6 @@ const copyToClipboard = _value => {
   textField.remove()
 }
 
-export { sleep, copyToClipboard }
+const numberWithCommas = _stringNumber => _stringNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
+export { sleep, copyToClipboard, numberWithCommas }
