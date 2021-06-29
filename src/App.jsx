@@ -15,6 +15,8 @@ import MainWrapper from './components/atoms/mainWrapper/MainWrapper'
 import Notifications from './components/molecules/notifications/Notifications'
 import NftsController from './components/pages/nfts/NftsController'
 import Loader from './components/atoms/loader/Loader'
+import Popup from './components/molecules/popup/Popup'
+import settings from './settings'
 
 history.listen(location => {
   ReactGA.set({ page: location.pathname })
@@ -69,6 +71,21 @@ const App = ({ loading, setTheme, loadSwapData, loadSwapOldPntData, selectPage }
           <Route exact path={'/oldpnt-swap'} render={() => <SwapOldPntController />} />
           <Route render={() => <Redirect to="swap" />} />
         </Switch>
+        <Popup
+          content={
+            <React.Fragment>
+              Want to know more about pNetwork? <br />
+              Join us on{' '}
+              <a href={settings.links.twitter} target="_blank" rel="noopener noreferrer">
+                Twitter
+              </a>{' '}
+              or{' '}
+              <a href={settings.links.telegram} target="_blank" rel="noopener noreferrer">
+                Telegram
+              </a>
+            </React.Fragment>
+          }
+        />
       </MainWrapper>
     </React.Fragment>
   )

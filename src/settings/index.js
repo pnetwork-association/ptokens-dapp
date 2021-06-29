@@ -1,6 +1,5 @@
 const settings = {
   dappName: 'pTokens Dapp',
-  telegram: 'https://t.me/pNetworkDefi',
   googleAnalyticsTrackId: 'UA-157173999-1',
   infuraProjectId: 'c2efa32f17a349c9b44d0e5c358cef3c',
   portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
@@ -8,7 +7,9 @@ const settings = {
   links: {
     audit: 'https://github.com/cryptonicsconsulting/audits/tree/master/pToken',
     stats: 'https://pnetwork.watch/',
-    coinmarketcap: 'https://coinmarketcap.com/currencies/pnetwork/'
+    coinmarketcap: 'https://coinmarketcap.com/currencies/pnetwork/',
+    twitter: 'https://twitter.com/pNetworkDeFi',
+    telegram: 'https://t.me/pNetworkDefi'
   },
   api: {
     bpm: 'https://chart.ptokens.io/index.php?a=bpm'

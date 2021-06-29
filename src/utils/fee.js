@@ -48,7 +48,7 @@ import {
   ANRX_ON_BSC_MAINNET,
   PBTC_ON_POLYGON_MAINNET,
   TFF_ON_POLYGON_MAINNET,
-  PSAFEMOON_ON_ETH_MAINNET,
+  // PSAFEMOON_ON_ETH_MAINNET,
   EFX_ON_BSC_MAINNET,
   PSEEDS_ON_ETH_MAINNET,
   PLBC_ON_BSC_MAINNET,
@@ -113,10 +113,6 @@ const map = {
     pegout: 0.25
   },
   [TFF_ON_POLYGON_MAINNET]: {
-    pegin: 0,
-    pegout: 0.25
-  },
-  [PSAFEMOON_ON_ETH_MAINNET]: {
     pegin: 0,
     pegout: 0.25
   },
