@@ -168,11 +168,14 @@ const Header = _props => {
           <StyledNavLink active={selectedPage === 'nfts'} onClick={() => selectPage('nfts')}>
             NFTs
           </StyledNavLink>
-          <StyledNavLink onClick={() => window.open(settings.ptokensWebsite, '_blank')}>
+          <StyledNavLink onClick={() => window.open(settings.links.stats, '_blank')}>
             Stats <GoToIcon icon="arrow-diagonal" />
           </StyledNavLink>
-          <StyledNavLink onClick={() => window.open(settings.auditLinks, '_blank')}>
+          <StyledNavLink onClick={() => window.open(settings.links.audit, '_blank')}>
             Audits <GoToIcon icon="arrow-diagonal" />
+          </StyledNavLink>
+          <StyledNavLink onClick={() => window.open(settings.links.coinmarketcap, '_blank')}>
+            $PNT <GoToIcon icon="arrow-diagonal" />
           </StyledNavLink>
         </StyledNav>
         <ContainerOptions>

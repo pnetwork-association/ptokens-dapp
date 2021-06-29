@@ -46,6 +46,7 @@ const App = ({ loading, setTheme, loadSwapData, loadSwapOldPntData, selectPage }
     selectPage(page, { pToken, asset, from, to })
     loadSwapData({ defaultSelection: { pToken, asset, from, to } })
     loadSwapOldPntData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
