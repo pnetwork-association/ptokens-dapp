@@ -19,7 +19,10 @@ const connectWithBscWallet = async _dispatch => {
         walletconnect: {
           package: WalletConnectProvider,
           options: {
-            infuraId: settings.infuraProjectId
+            network: 'binance',
+            rpc: {
+              56: settings.rpc.mainnet.bsc.endpoint
+            }
           }
         }
       }
