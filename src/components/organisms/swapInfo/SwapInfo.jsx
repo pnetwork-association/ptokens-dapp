@@ -60,8 +60,8 @@ const SwapInfo = ({ from, to, bpm }) => {
       </MarginedRow>
       {formattedMinimumPeggable ? (
         <MarginedRow>
-          <LabelCol xs={5}>Minimum Peggable</LabelCol>
-          <ValueCol xs={7}>{formattedMinimumPeggable}</ValueCol>
+          <LabelCol xs={6}>Minimum swap amount</LabelCol>
+          <ValueCol xs={6}>{formattedMinimumPeggable}</ValueCol>
         </MarginedRow>
       ) : null}
     </ContainerInfo>

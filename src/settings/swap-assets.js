@@ -1092,7 +1092,7 @@ const swapAssets = [
     isSpecial: true
   },
   {
-    address: '0x420e0611f8B234C9C0E0B9d26dF8BA39cf108864',
+    address: '0x16631e53C20Fd2670027C6D53EfE2642929b285C',
     id: 'PSAFEMOON_ON_ETH_MAINNET',
     name: 'pSAFEMOON',
     workingName: 'psafemoon',

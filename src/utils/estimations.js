@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js'
+
 const estimations = {
   eth: 5,
   btc: 10,
@@ -14,7 +16,7 @@ const estimations = {
 
 const getPeginOrPegoutMinutesEstimationByBlockchainAndEta = (_blockchain, _eta) => {
   if (_eta >= 0 && _eta <= 15) {
-    return `~${estimations[_blockchain.toLowerCase()]} minutes`
+    return `~${BigNumber(estimations[_blockchain.toLowerCase()]).toFixed(0)} minutes`
   }
 
   if (_eta === -1) {
