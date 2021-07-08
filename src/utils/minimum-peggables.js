@@ -11,6 +11,18 @@ import {
   PLTC_ON_EOS_MAINNET,
   PLTC_ON_ETH_MAINNET,
   PRVN_ON_BSC_MAINNET,
+  PEOS_ON_ETH_MAINNET,
+  PEOS_ON_POLYGON_MAINNET,
+  PSEEDS_ON_ETH_MAINNET,
+  IQ_ON_ETH_MAINNET,
+  TLOS_ON_BSC_MAINNET,
+  TLOS_ON_ETH_MAINNET,
+  EFX_ON_BSC_MAINNET,
+  PNT_ON_TELOS_MAINNET,
+  PETH_ON_TELOS_MAINNET,
+  PLINK_ON_TELOS_MAINNET,
+  PUSDC_ON_TELOS_MAINNET,
+  PUSDT_ON_TELOS_MAINNET
 } from '../constants'
 
 const minimumPeggable = {
@@ -56,6 +68,54 @@ const minimumPeggable = {
   },
   [PRVN_ON_BSC_MAINNET]: {
     pegin: 0.001,
+    pegout: 0
+  },
+  [PEOS_ON_ETH_MAINNET]: {
+    pegin: 0.0001,
+    pegout: 0
+  },
+  [PEOS_ON_POLYGON_MAINNET]: {
+    pegin: 0.0001,
+    pegout: 0
+  },
+  [PSEEDS_ON_ETH_MAINNET]: {
+    pegin: 0.0001,
+    pegout: 0
+  },
+  [IQ_ON_ETH_MAINNET]: {
+    pegin: 0.0001,
+    pegout: 0
+  },
+  [TLOS_ON_BSC_MAINNET]: {
+    pegin: 0.0001,
+    pegout: 0
+  },
+  [TLOS_ON_ETH_MAINNET]: {
+    pegin: 0.0001,
+    pegout: 0
+  },
+  [EFX_ON_BSC_MAINNET]: {
+    pegin: 0.0001,
+    pegout: 0
+  },
+  [PNT_ON_TELOS_MAINNET]: {
+    pegin: 0.0001,
+    pegout: 0
+  },
+  [PETH_ON_TELOS_MAINNET]: {
+    pegin: 0.0001,
+    pegout: 0
+  },
+  [PLINK_ON_TELOS_MAINNET]: {
+    pegin: 0.0001,
+    pegout: 0
+  },
+  [PUSDC_ON_TELOS_MAINNET]: {
+    pegin: 0.0001,
+    pegout: 0
+  },
+  [PUSDT_ON_TELOS_MAINNET]: {
+    pegin: 0.0001,
     pegout: 0
   },
   [PSAFEMOON_ON_ETH_MAINNET]: {
