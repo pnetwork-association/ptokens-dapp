@@ -6,7 +6,7 @@ import BigNumber from 'bignumber.js'
 import { updateUrlForSwap } from '../utils/url'
 import { useWalletByBlockchain } from './use-wallets'
 import getMinimumPeggable from '../utils/minimum-peggables'
-import { numberWithCommas } from '../utils/utils'
+import { numberWithCommas } from '../utils/amount-utils'
 
 const useSwap = ({
   wallets,
@@ -212,6 +212,11 @@ const useSwap = ({
         return
       }
 
+      if (minimumPeggable && BigNumber(fromAmount).isLessThan(minimumPeggable)) {
+        updateSwapButton('Amount too low', true)
+        return
+      }
+
       // NOTE: pegin with deposit address
       if (!wallets[from.blockchain.toLowerCase()]) {
         if (!address || address === '') {
@@ -241,11 +246,6 @@ const useSwap = ({
 
       if (fromAmount === '' && !from.peginWithDepositAddress) {
         updateSwapButton('Enter an amount', true)
-        return
-      }
-
-      if (BigNumber(fromAmount).isLessThan(minimumPeggable)) {
-        updateSwapButton('Amount too low', true)
         return
       }
 
@@ -419,7 +419,7 @@ const useSwapInfo = ({ from, to, bpm }) => {
         eta
       }
     } else if (from.isPtoken && !to.isPtoken) {
-      const minimumPeggable = getMinimumPeggable(from.id, 'pegin')
+      const minimumPeggable = getMinimumPeggable(from.id, 'pegout')
       const fee = getFee(from.id, 'pegout')
       const selectedBpm = bpm[`${to.name.toLowerCase()}-on-${to.blockchain.toLowerCase()}`]
       const eta = selectedBpm && selectedBpm.host ? selectedBpm.host.eta : 0
