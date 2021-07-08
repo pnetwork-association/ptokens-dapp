@@ -52,7 +52,8 @@
     "analyze:bundle": "node ./scripts/bundle-analyzer.js",
     "build-and-deploy": "npm run build && npm run deploy",
     "fetch-addresses-assets": "node ./scripts/fetch-addresses-assets.js",
-    "deploy": "node ./scripts/deploy.js"
+    "deploy": "node ./scripts/deploy.js",
+    "postinstall": "./scripts/postinstall.sh"
   },
   "eslintConfig": {
     "extends": [
@@ -74,11 +75,15 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
     "dotenv": "^8.2.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
     "prettier": "^1.19.1",
     "progress-bar-webpack-plugin": "^2.1.0",
     "react-redux": "^7.1.0",
@@ -88,5 +93,9 @@
     "sinon": "^7.5.0",
     "ssh2-sftp-client": "^6.0.1",
     "webpack-bundle-analyzer": "^4.4.1"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.+(js|jsx|ts|json)": "prettier --config ./.prettierrc --write"
   }
 }
