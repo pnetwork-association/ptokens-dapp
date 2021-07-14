@@ -56,7 +56,8 @@ import {
   EFX_ON_BSC_MAINNET,
   PSEEDS_ON_ETH_MAINNET,
   PLBC_ON_BSC_MAINNET,
-  USDO_ON_POLYGON_MAINNET
+  USDO_ON_POLYGON_MAINNET,
+  GALA_ON_BSC_MAINNET
 } from '../constants'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 
@@ -319,6 +320,9 @@ const isValidAccount = async (_pTokenId, _account, _type) => {
       return _type === 'pegin' ? true : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case USDO_ON_POLYGON_MAINNET: {
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case GALA_ON_BSC_MAINNET: {
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     default:

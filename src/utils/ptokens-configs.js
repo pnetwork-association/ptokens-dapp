@@ -54,7 +54,8 @@ import {
   EFX_ON_BSC_MAINNET,
   PSEEDS_ON_ETH_MAINNET,
   PLBC_ON_BSC_MAINNET,
-  USDO_ON_POLYGON_MAINNET
+  USDO_ON_POLYGON_MAINNET,
+  GALA_ON_BSC_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -708,6 +709,17 @@ const getConfigs = (_pTokenId, _configs) => {
         network: networks.PolygonMainnet,
         blockchain: blockchains.Polygon,
         polygonProvider,
+        bscProvider
+      }
+    }
+  }
+  if (_pTokenId === GALA_ON_BSC_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.GALA,
+        network: networks.BinanceSmartChainMainnet,
+        blockchain: blockchains.BinanceSmartChain,
+        ethProvider,
         bscProvider
       }
     }

@@ -22,7 +22,8 @@ import {
   PETH_ON_TELOS_MAINNET,
   PLINK_ON_TELOS_MAINNET,
   PUSDC_ON_TELOS_MAINNET,
-  PUSDT_ON_TELOS_MAINNET
+  PUSDT_ON_TELOS_MAINNET,
+  GALA_ON_BSC_MAINNET
 } from '../constants'
 
 const minimumPeggable = {
@@ -121,6 +122,10 @@ const minimumPeggable = {
   [PSAFEMOON_ON_ETH_MAINNET]: {
     pegin: 10000000,
     pegout: 10000000
+  },
+  [GALA_ON_BSC_MAINNET]: {
+    pegin: 0.00000001,
+    pegout: 0.00000001
   }
 }
 
