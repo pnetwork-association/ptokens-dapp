@@ -8,6 +8,9 @@ const slicerByBlockchain = (_address, _blockchain) => {
     case 'TELOS': {
       return _address
     }
+    case 'ULTRA': {
+      return _address
+    }
     default: {
       return _address ? slicer(_address) : _address
     }

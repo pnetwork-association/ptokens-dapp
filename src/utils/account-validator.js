@@ -57,7 +57,8 @@ import {
   PSEEDS_ON_ETH_MAINNET,
   PLBC_ON_BSC_MAINNET,
   USDO_ON_POLYGON_MAINNET,
-  GALA_ON_BSC_MAINNET
+  GALA_ON_BSC_MAINNET,
+  PUOS_ON_ULTRA_MAINNET
 } from '../constants'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 
@@ -325,6 +326,11 @@ const isValidAccount = async (_pTokenId, _account, _type) => {
     case GALA_ON_BSC_MAINNET: {
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
+    case PUOS_ON_ULTRA_MAINNET: {
+      return _type === 'pegin'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
+    }
     default:
       break
   }
@@ -344,6 +350,8 @@ const isValidAccountByBlockchain = (_account, _blockchain) => {
     case 'TELOS':
       return pTokenUtils.eos.isValidAccountName(_account)
     case 'EOS':
+      return pTokenUtils.eos.isValidAccountName(_account)
+    case 'ULTRA':
       return pTokenUtils.eos.isValidAccountName(_account)
     default:
       return false

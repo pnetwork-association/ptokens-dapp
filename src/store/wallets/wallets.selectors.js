@@ -8,4 +8,12 @@ const getWalletAccountByBlockchain = _blockchain => store.getState().wallets[_bl
 
 const getWalletPermissionByBlockchain = _blockchain => store.getState().wallets[_blockchain.toLowerCase()].permission
 
-export { getWallets, getWalletByBlockchain, getWalletAccountByBlockchain, getWalletPermissionByBlockchain }
+const getWalletProviderByBlockchain = _blockchain => store.getState().wallets[_blockchain.toLowerCase()].provider
+
+export {
+  getWallets,
+  getWalletByBlockchain,
+  getWalletAccountByBlockchain,
+  getWalletPermissionByBlockchain,
+  getWalletProviderByBlockchain
+}

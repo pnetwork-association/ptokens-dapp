@@ -53,7 +53,8 @@ import {
   PSEEDS_ON_ETH_MAINNET,
   PLBC_ON_BSC_MAINNET,
   USDO_ON_POLYGON_MAINNET,
-  GALA_ON_BSC_MAINNET
+  GALA_ON_BSC_MAINNET,
+  PUOS_ON_ULTRA_MAINNET
 } from '../constants'
 
 const map = {
@@ -134,6 +135,10 @@ const map = {
     pegout: 0.25
   },
   [GALA_ON_BSC_MAINNET]: {
+    pegin: 0,
+    pegout: 0.25
+  },
+  [PUOS_ON_ULTRA_MAINNET]: {
     pegin: 0,
     pegout: 0.25
   }

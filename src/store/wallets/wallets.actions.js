@@ -4,6 +4,7 @@ import { connectWithBscWallet, disconnectFromBscWallet } from './bsc'
 import { connectWithPolygonWallet, disconnectFromPolygonWallet } from './polygon'
 import { connectWithXdaiWallet, disconnectFromXdaiWallet } from './xdai'
 import { connectWithTelosWallet, disconnectFromTelosWallet } from './telos'
+import { connectWithUltraWallet, disconnectFromUltraWallet } from './ultra'
 
 const connectWithWallet = _blockchain => {
   return async _dispatch => {
@@ -30,6 +31,10 @@ const connectWithWallet = _blockchain => {
       }
       case 'XDAI': {
         connectWithXdaiWallet(_dispatch)
+        break
+      }
+      case 'ULTRA': {
+        connectWithUltraWallet(_dispatch)
         break
       }
       default:
@@ -63,6 +68,10 @@ const disconnectFromWallet = _blockchain => {
       }
       case 'XDAI': {
         disconnectFromXdaiWallet(_dispatch)
+        break
+      }
+      case 'ULTRA': {
+        disconnectFromUltraWallet(_dispatch)
         break
       }
       default:

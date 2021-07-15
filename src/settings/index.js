@@ -38,6 +38,10 @@ const settings = {
     {
       name: 'xDai',
       symbol: 'XDAI'
+    },
+    {
+      name: 'Ultra',
+      symbol: 'ULTRA'
     }
   ],
   rpc: {
@@ -68,6 +72,13 @@ const settings = {
       },
       polygon: {
         endpoint: 'https://rpc-mainnet.matic.network'
+      },
+      ultra: {
+        chainId: 'a9c481dfbc7d9506dc7e87e9a137c931b0a9303f64fd7a1d08b8230133920097',
+        host: 'corsproxy.ptokens.io/v1/?apiurl=http://145.239.253.117:8888',
+        port: 443,
+        protocol: 'https',
+        endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=http://145.239.253.117:8888'
       }
     }
   },
@@ -83,7 +94,8 @@ const settings = {
       polygon: 'https://polygonscan.com/',
       doge: 'https://dogechain.info/',
       rvn: 'https://ravencoin.network/',
-      lbc: 'https://explorer.lbry.com/'
+      lbc: 'https://explorer.lbry.com/',
+      ultra: 'hhttps://explorer.mainnet.ultra.io/'
     }
   },
   supportedNfts: [

@@ -8,7 +8,8 @@ import {
   WALLET_POLYGON_ACCOUNT_CHANGED,
   WALLET_XDAI_ACCOUNT_CHANGED,
   WALLET_XDAI_CONNECTED,
-  WALLET_TELOS_CONNECTED
+  WALLET_TELOS_CONNECTED,
+  WALLET_ULTRA_CONNECTED
 } from '../../constants/index'
 
 const initialState = {
@@ -47,6 +48,12 @@ const initialState = {
     account: null,
     chainId: null,
     network: null
+  },
+  ultra: {
+    provider: null,
+    account: null,
+    network: null,
+    permission: null
   }
 }
 
@@ -146,6 +153,17 @@ const walletsReducer = (_state = initialState, _action) => {
     const { provider, account, network, permission } = _action.payload
     return Object.assign({}, _state, {
       telos: {
+        provider,
+        account,
+        network,
+        permission
+      }
+    })
+  }
+  if (_action.type === WALLET_ULTRA_CONNECTED) {
+    const { provider, account, network, permission } = _action.payload
+    return Object.assign({}, _state, {
+      ultra: {
         provider,
         account,
         network,

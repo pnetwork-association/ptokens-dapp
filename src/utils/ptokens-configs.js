@@ -55,7 +55,8 @@ import {
   PSEEDS_ON_ETH_MAINNET,
   PLBC_ON_BSC_MAINNET,
   USDO_ON_POLYGON_MAINNET,
-  GALA_ON_BSC_MAINNET
+  GALA_ON_BSC_MAINNET,
+  PUOS_ON_ULTRA_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -67,7 +68,8 @@ const getConfigs = (_pTokenId, _configs) => {
     telosSignatureProvider,
     polygonProvider,
     xdaiProvider,
-    bscProvider
+    bscProvider,
+    ultraSignatureProvider
   } = _configs
   const { networks, blockchains, pTokens } = constants
 
@@ -721,6 +723,18 @@ const getConfigs = (_pTokenId, _configs) => {
         blockchain: blockchains.BinanceSmartChain,
         ethProvider,
         bscProvider
+      }
+    }
+  }
+  if (_pTokenId === PUOS_ON_ULTRA_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pUOS,
+        network: networks.UltraMainnet,
+        blockchain: blockchains.Ultra,
+        ethProvider,
+        ultraRpc: settings.rpc.mainnet.ultra.endpoint,
+        ultraSignatureProvider
       }
     }
   }

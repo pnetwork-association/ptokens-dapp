@@ -9,7 +9,8 @@ const blockchainSymbolToName = {
   EOS: 'EOS',
   POLYGON: 'Polygon',
   RVN: 'Ravencoin',
-  LBC: 'Lbry Credits'
+  LBC: 'Lbry Credits',
+  ULTRA: 'Ultra'
 }
 
 const blockchainSymbolToCoin = {
@@ -23,7 +24,8 @@ const blockchainSymbolToCoin = {
   EOS: 'EOS',
   POLYGON: 'MATIC',
   RVN: 'Ravencoin',
-  LBC: 'Lbry Credits'
+  LBC: 'Lbry Credits',
+  ULTRA: 'Ultra Token'
 }
 
 const getAssetFromNativeSymbol = (_assets, _symbol) => _assets.find(({ symbol }) => symbol === _symbol)

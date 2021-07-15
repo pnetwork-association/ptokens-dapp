@@ -11,7 +11,8 @@ import {
   PROGRESS_RESET,
   UPDATE_SWAP_BUTTON,
   BPM_LOADED,
-  PNT_ON_BSC_MAINNET
+  PNT_ON_BSC_MAINNET,
+  PUOS_ON_ULTRA_MAINNET
 } from '../../constants/index'
 import { getConfigs } from '../../utils/ptokens-configs'
 import {
@@ -27,6 +28,7 @@ import pegout from './utils/pegout'
 import { getAssetsByBlockchain, getAssetById } from './swap.selectors'
 import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
 import { getDefaultSelection } from './utils/default-selection'
+import pegoutPuosOnUltra from './utils/pegout-puos-on-ultra'
 
 const loadSwapData = ({ defaultSelection: { pToken, asset, from, to } }) => {
   return async _dispatch => {
@@ -104,6 +106,15 @@ const loadBalances = (_account, _blockchain) => {
           })
           break
         }
+        case 'ULTRA': {
+          loadEosioCompatibleBalances({
+            assets: getAssetsByBlockchain('ULTRA'),
+            account: _account,
+            dispatch: _dispatch,
+            blockchain: 'ULTRA'
+          })
+          break
+        }
         case 'BSC': {
           loadEvmCompatibleBalances({
             assets: getAssetsByBlockchain('BSC'),
@@ -175,6 +186,10 @@ const loadBalanceByAssetId = _id => {
           loadEosioCompatibleBalance({ asset, account, blockchain: 'TELOS', dispatch: _dispatch })
           break
         }
+        case 'ULTRA': {
+          loadEosioCompatibleBalance({ asset, account, blockchain: 'ULTRA', dispatch: _dispatch })
+          break
+        }
         default: {
           break
         }
@@ -203,7 +218,8 @@ const swap = (_from, _to, _amount, _address) => {
             telosSignatureProvider: wallets.telos.provider || getReadOnlyProviderByBlockchain('TELOS'),
             polygonProvider: wallets.polygon.provider || getReadOnlyProviderByBlockchain('POLYGON'),
             xdaiProvider: wallets.xdai.provider || getReadOnlyProviderByBlockchain('XDAI'),
-            bscProvider: wallets.bsc.provider || getReadOnlyProviderByBlockchain('BSC')
+            bscProvider: wallets.bsc.provider || getReadOnlyProviderByBlockchain('BSC'),
+            ultraSignatureProvider: wallets.ultra.provider || getReadOnlyProviderByBlockchain('ULTRA')
           })
         )
 
@@ -252,11 +268,24 @@ const swap = (_from, _to, _amount, _address) => {
             telosSignatureProvider: wallets.telos.provider || getReadOnlyProviderByBlockchain('TELOS'),
             polygonProvider: wallets.polygon.provider || getReadOnlyProviderByBlockchain('POLYGON'),
             xdaiProvider: wallets.xdai.provider || getReadOnlyProviderByBlockchain('XDAI'),
-            bscProvider: wallets.bsc.provider || getReadOnlyProviderByBlockchain('BSC')
+            bscProvider: wallets.bsc.provider || getReadOnlyProviderByBlockchain('BSC'),
+            ultraSignatureProvider: wallets.ultra.provider || getReadOnlyProviderByBlockchain('ULTRA')
           })
         )
 
-        pegout({ ptokens, address: _address, ptoken, dispatch: _dispatch, params: [_amount, _address] })
+        switch (ptokenId) {
+          case PUOS_ON_ULTRA_MAINNET: {
+            pegoutPuosOnUltra({
+              dispatch: _dispatch,
+              params: [_amount, _address]
+            })
+            break
+          }
+          default: {
+            pegout({ ptokens, ptoken, dispatch: _dispatch, params: [_amount, _address] })
+            break
+          }
+        }
       }
     } catch (_err) {
       console.error(_err)

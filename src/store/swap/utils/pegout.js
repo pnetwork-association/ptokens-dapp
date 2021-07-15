@@ -61,7 +61,7 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
       )
     })
     .once('hostTxConfirmed', _tx => {
-      if (ptoken.blockchain === 'EOS' || ptoken.blockchain === 'TELOS') {
+      if (ptoken.blockchain === 'EOS' || ptoken.blockchain === 'TELOS' || ptoken.blockchain === 'ULTRA') {
         // prettier-ignore
         link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${_tx[hostTransactionHash[ptoken.blockchain.toLowerCase()]]}`
         dispatch(
