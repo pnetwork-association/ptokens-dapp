@@ -1130,7 +1130,7 @@ const swapAssets = [
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true
   },
-  /*{
+  {
     address: '0x7ddee176f665cd201f93eede625770e2fd911990',
     id: 'GALA_ON_BSC_MAINNET',
     name: 'GALA',
@@ -1150,11 +1150,11 @@ const swapAssets = [
     image: 'pGALA.svg',
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true
-  },*/
+  },
   {
-    address: '',
+    address: 'eosio.token',
     id: 'PUOS_ON_ULTRA_MAINNET',
-    name: 'pUOS',
+    name: 'UOS',
     workingName: 'puos',
     nativeDecimals: 4,
     network: 'mainnet',
@@ -1163,6 +1163,7 @@ const swapAssets = [
     decimals: 0,
     withMiniImage: true,
     symbol: 'PUOS',
+    symbolBalance: 'UOS',
     isPtoken: true,
     nativeSymbol: 'UOS',
     nativeBlockchain: 'ETH',
@@ -1530,7 +1531,7 @@ const swapAssets = [
     name: 'Ultra',
     network: 'mainnet',
     blockchain: 'ETH',
-    decimals: 18,
+    decimals: 4,
     withMiniImage: true,
     isPtoken: false,
     nativeSymbol: 'UOS',
@@ -1807,8 +1808,8 @@ const swapAssets = [
     nativeBlockchain: 'BSC',
     image: 'USDO.svg',
     withBalanceDecimalsConversion: true
-  }
-  /*{
+  },
+  {
     address: '0x15d4c048f83bd7e37d49ea4c83a07267ec4203da',
     id: 'GALA',
     symbol: 'GALA',
@@ -1822,7 +1823,7 @@ const swapAssets = [
     nativeBlockchain: 'ETH',
     image: 'GALA.svg',
     withBalanceDecimalsConversion: true
-  },*/
+  }
 ]
 
 export default swapAssets

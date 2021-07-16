@@ -32,7 +32,7 @@ const usePtoken = _asset => {
 const updateAsset = _asset => ({
   ..._asset,
   address:
-    _asset.address && _asset.blockchain !== 'EOS' && _asset.blockchain !== 'TELOS'
+    _asset.address && _asset.blockchain !== 'EOS' && _asset.blockchain !== 'TELOS' && _asset.blockchain !== 'ULTRA'
       ? utils.eth.addHexPrefix(_asset.address)
       : _asset.address,
   explorer: _asset.address

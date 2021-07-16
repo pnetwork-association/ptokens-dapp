@@ -327,9 +327,21 @@ const isValidAccount = async (_pTokenId, _account, _type) => {
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case PUOS_ON_ULTRA_MAINNET: {
-      return _type === 'pegin'
-        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
-        : pTokenUtils.eos.isValidAccountName(_account)
+      if (_type === 'pegin') {
+        return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+      }
+
+      const rpc = getReadOnlyProviderByBlockchain('ULTRA')
+      return new Promise(_resolve => {
+        rpc
+          .get_account(_account)
+          .then(_res => {
+            _resolve(!_res ? false : true)
+          })
+          .catch(() => {
+            _resolve(false)
+          })
+      })
     }
     default:
       break

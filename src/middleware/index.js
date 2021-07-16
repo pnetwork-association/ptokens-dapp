@@ -9,6 +9,7 @@ import {
   WALLET_POLYGON_ACCOUNT_CHANGED,
   WALLET_POLYGON_CONNECTED,
   WALLET_TELOS_CONNECTED,
+  WALLET_ULTRA_CONNECTED,
   NFTS_DATA_LOADED,
   NFT_DATA_LOADED
 } from '../constants'
@@ -55,6 +56,11 @@ const middleware = ({ dispatch }) => {
       if (type === WALLET_TELOS_CONNECTED) {
         dispatch(loadBalances(payload.account, 'TELOS'))
         dispatch(loadNftsData(payload.account, 'TELOS'))
+      }
+
+      if (type === WALLET_ULTRA_CONNECTED) {
+        dispatch(loadBalances(payload.account, 'ULTRA'))
+        dispatch(loadNftsData(payload.account, 'ULTRA'))
       }
 
       if (type === NFTS_DATA_LOADED || type === NFT_DATA_LOADED) {

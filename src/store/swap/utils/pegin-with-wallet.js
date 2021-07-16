@@ -78,11 +78,9 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
   if (ptoken.id === PUOS_ON_ULTRA_MAINNET) {
     const web3 = new Web3()
     const metadata = web3.utils.utf8ToHex(params[1])
-    params[1] = 'swapcontract'
+    params[1] = 'ultra.swap'
     params.splice(2, 0, metadata)
-    console.log(params)
-    return
-    //promiEvent = ptokens[ptoken.workingName.toLowerCase()].issueWithMetadata(...params)
+    promiEvent = ptokens[ptoken.workingName.toLowerCase()].issueWithMetadata(...params)
   } else {
     // TODO: fix peth since now would be pweth
     promiEvent = ptokens[ptoken.workingName.toLowerCase()].issue(...params)

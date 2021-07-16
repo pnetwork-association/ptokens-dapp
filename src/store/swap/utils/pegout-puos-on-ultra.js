@@ -14,21 +14,16 @@ import { PUOS_ON_ULTRA_MAINNET } from '../../../constants'
 const pegoutPuosOnUltra = async ({ params, dispatch }) => {
   try {
     const web3 = new Web3(getReadOnlyProviderByBlockchain('ETH'))
-    const { permission = 'active', actor, provider } = getWalletByBlockchain('ULTRA')
+    const { permission = 'active', account: actor, provider } = getWalletByBlockchain('ULTRA')
     const api = eos.getApi(null, getReadOnlyProviderByBlockchain('ULTRA'), provider)
-
-    /*api.cachedAbis.set(_contractAddress, {
-      abi: pTokenOnEosAbi,
-      rawAbi: null
-    })*/
 
     // U L T R A   T R A N S A C T I O N
     const { transaction_id } = await api.transact(
       {
         actions: [
           {
-            account: 'contract address',
-            name: 'redeem',
+            account: 'eosio.token',
+            name: 'transfer',
             authorization: [
               {
                 actor,
@@ -36,9 +31,10 @@ const pegoutPuosOnUltra = async ({ params, dispatch }) => {
               }
             ],
             data: {
-              sender: actor,
-              quantity: eos.getAmountInEosFormat(params[1], 9, 'uos1ptokens1'),
-              memo: 'memo'
+              from: actor,
+              to: 'ultra.swap',
+              quantity: eos.getAmountInEosFormat(params[0], 8, 'UOS'),
+              memo: params[1]
             }
           }
         ]
