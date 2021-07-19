@@ -223,7 +223,11 @@ const SwapLine = ({
           <Col xs={8} className="text-right my-auto">
             <ContainerBalance>
               <BalanceLabel>{`Balance: ${asset.formattedBalance} ${
-                asset.isPtoken && !asset.isSpecial ? capitalizeAllLettersExceptFirst(asset.symbol) : asset.symbol
+                asset.symbolToDisplay
+                  ? asset.symbolToDisplay
+                  : asset.isPtoken && !asset.isSpecial
+                  ? capitalizeAllLettersExceptFirst(asset.symbol)
+                  : asset.symbol
               }`}</BalanceLabel>
             </ContainerBalance>
           </Col>

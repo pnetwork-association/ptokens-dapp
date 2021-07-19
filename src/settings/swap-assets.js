@@ -1154,7 +1154,7 @@ const swapAssets = [
   {
     address: 'eosio.token',
     id: 'PUOS_ON_ULTRA_MAINNET',
-    name: 'UOS',
+    name: 'pUOS',
     workingName: 'puos',
     nativeDecimals: 4,
     network: 'mainnet',
@@ -1163,6 +1163,7 @@ const swapAssets = [
     decimals: 0,
     withMiniImage: true,
     symbol: 'PUOS',
+    symbolToDisplay: 'UOS',
     symbolBalance: 'UOS',
     isPtoken: true,
     nativeSymbol: 'UOS',
