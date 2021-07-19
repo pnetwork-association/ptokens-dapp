@@ -71,7 +71,7 @@ const pegoutPuosOnUltra = async ({ params, dispatch }) => {
     const node = new Node({
       pToken: constants.pTokens.pUOS,
       blockchain: constants.blockchains.Ultra,
-      provider: new HttpProvider('https://puosonultra-testnet-1a.ngrok.io', {
+      provider: new HttpProvider('https://perc20onultra-node-1a.ngrok.io/', {
         'Access-Control-Allow-Origin': '*'
       })
     })
