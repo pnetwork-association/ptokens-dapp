@@ -403,8 +403,9 @@ const useSwapInfo = ({ from, to, bpm }) => {
     if (!from.isPtoken && to.isPtoken) {
       const minimumPeggable = getMinimumPeggable(to.id, 'pegin')
       const fee = getFee(to.id, 'pegin')
-      const selectedBpm = bpm[`${to.name.toLowerCase()}-on-${to.blockchain.toLowerCase()}`]
+      const selectedBpm = bpm[`${to.symbol.toLowerCase()}-on-${to.blockchain.toLowerCase()}`]
       const eta = selectedBpm && selectedBpm.native ? selectedBpm.native.eta : 0
+
       return {
         minimumPeggable: minimumPeggable ? BigNumber(minimumPeggable).toFixed() : 0,
         formattedMinimumPeggable: minimumPeggable
@@ -421,12 +422,13 @@ const useSwapInfo = ({ from, to, bpm }) => {
     } else if (from.isPtoken && !to.isPtoken) {
       const minimumPeggable = getMinimumPeggable(from.id, 'pegout')
       const fee = getFee(from.id, 'pegout')
-      const selectedBpm = bpm[`${to.name.toLowerCase()}-on-${to.blockchain.toLowerCase()}`]
+      const selectedBpm = bpm[`${from.symbol.toLowerCase()}-on-${from.blockchain.toLowerCase()}`]
       const eta = selectedBpm && selectedBpm.host ? selectedBpm.host.eta : 0
+
       return {
         minimumPeggable: minimumPeggable ? BigNumber(minimumPeggable).toFixed() : 0,
         formattedMinimumPeggable: minimumPeggable
-          ? `${numberWithCommas(minimumPeggable.toString())} ${to.symbol}`
+          ? `${numberWithCommas(minimumPeggable.toString())} ${from.symbol}`
           : null,
         fee: 1 - fee / 100,
         formattedFee: `${fee}%`,
