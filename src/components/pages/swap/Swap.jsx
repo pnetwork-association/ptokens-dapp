@@ -207,13 +207,13 @@ const Swap = ({
               {progress.show ? (
                 <Progress percent={progress.percent} message={progress.message} steps={progress.steps} />
               ) : null}
-              {/*eta < 0 || eta > 15 ? (
+              {eta < 0 || eta > 15 ? (
                 <InfoEta>
                   {eta > 15
                     ? 'Please note that this operation may take longer than usual to get processed as the bridge is experiencing some delays.'
                     : 'Please note that this operation may take longer than usual to get processed as the bridge is experiencing major delays.'}
                 </InfoEta>
-              ) : null*/}
+              ) : null}
               {from && to && (from.symbol.toUpperCase() === 'SAFEMOON' || to.symbol.toUpperCase() === 'SAFEMOON') ? (
                 <ProvisionalSafemoonBox>
                   Using this bridge requires a SFM transfer on BSC so a transfer fee may apply
