@@ -20,7 +20,10 @@ const connectWithEthWallet = async _dispatch => {
         walletconnect: {
           package: WalletConnectProvider,
           options: {
-            infuraId: settings.infuraProjectId
+            network: 'mainnet',
+            rpc: {
+              1: settings.rpc.mainnet.eth.endpoint
+            }
           }
         },
         portis: {
