@@ -38,7 +38,7 @@ const ShowMoreText = styled.div`
   font-size: 13px;
 `
 
-const InfoModal = ({ show, text, showMoreText, icon, onClose }) => {
+const InfoModal = ({ show, text, showMoreText, showMoreLabel, icon, onClose }) => {
   const [showMore, setShowMore] = useState(false)
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const InfoModal = ({ show, text, showMoreText, icon, onClose }) => {
           {' '}
           {icon ? <StyledIcon icon={icon} /> : null}
           <Message>{text}</Message>
-          {showMoreText ? <ShowMore onClick={() => setShowMore(!showMore)}>Show more</ShowMore> : null}
+          {showMoreText ? <ShowMore onClick={() => setShowMore(true)}>{showMoreLabel}</ShowMore> : null}
           {showMore ? <ShowMoreText>{showMoreText}</ShowMoreText> : null}
         </ContainerCenter>
       }

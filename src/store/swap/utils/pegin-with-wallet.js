@@ -174,6 +174,7 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
             show: true,
             text: 'Error during pegin, try again!',
             showMoreText: _err.message ? _err.message : _err,
+            showMoreLabel: 'Show Details',
             icon: 'cancel'
           })
         )

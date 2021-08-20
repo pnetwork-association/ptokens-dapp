@@ -133,6 +133,7 @@ const pegoutPuosOnUltra = async ({ params, dispatch }) => {
           show: true,
           text: 'Error during pegout, try again!',
           showMoreText: _err.message ? _err.message : _err,
+          showMoreLabel: 'Show Details',
           icon: 'cancel'
         })
       )

@@ -10,7 +10,8 @@ const initialState = {
   infoModal: {
     show: false,
     text: null,
-    showMoreText: null
+    showMoreText: null,
+    showMoreLabel: null
   }
 }
 
