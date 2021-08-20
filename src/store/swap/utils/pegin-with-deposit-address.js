@@ -26,6 +26,7 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
       updateInfoModal({
         show: true,
         text: 'Error during pegin, try again!',
+        showMoreText: _err.message ? _err.message : _err,
         icon: 'cancel'
       })
     )
@@ -128,6 +129,7 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
         updateInfoModal({
           show: true,
           text: 'Error during pegin, try again!',
+          showMoreText: _err.message ? _err.message : _err,
           icon: 'cancel'
         })
       )

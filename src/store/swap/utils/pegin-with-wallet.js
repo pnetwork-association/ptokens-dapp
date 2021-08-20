@@ -173,6 +173,7 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
           updateInfoModal({
             show: true,
             text: 'Error during pegin, try again!',
+            showMoreText: _err.message ? _err.message : _err,
             icon: 'cancel'
           })
         )

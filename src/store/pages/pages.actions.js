@@ -33,13 +33,14 @@ const setLoading = ({ isLoading, text }) => ({
   }
 })
 
-const updateInfoModal = ({ show, text, icon }) => ({
+const updateInfoModal = ({ show, text, showMoreText, icon }) => ({
   type: UPDATE_INFO_MODAL,
   payload: {
     infoModal: {
       show,
       text,
-      icon
+      icon,
+      showMoreText
     }
   }
 })

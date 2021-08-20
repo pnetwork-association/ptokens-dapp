@@ -9,7 +9,8 @@ const initialState = {
   theme: 'light',
   infoModal: {
     show: false,
-    text: null
+    text: null,
+    showMoreText: null
   }
 }
 

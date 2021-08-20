@@ -131,6 +131,7 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
           updateInfoModal({
             show: true,
             text: 'Error during pegout, try again!',
+            showMoreText: _err.message ? _err.message : _err,
             icon: 'cancel'
           })
         )
