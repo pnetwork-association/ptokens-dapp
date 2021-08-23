@@ -1,6 +1,6 @@
 import settings from '../../../settings'
 import { toastr } from 'react-redux-toastr'
-import { WALLET_ULTRA_CONNECTED } from '../../../constants'
+import { WALLET_ULTRA_CONNECTED, WALLET_ULTRA_DISCONNECTED } from '../../../constants'
 import EosConnect from '../../../lib/eosConnect/'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
@@ -44,8 +44,10 @@ const connectWithUltraWallet = _dispatch => {
   eosConnect.toggleModal()
 }
 
-const disconnectFromUltraWallet = () => {
-  // TODO
+const disconnectFromUltraWallet = _dispatch => {
+  _dispatch({
+    type: WALLET_ULTRA_DISCONNECTED
+  })
 }
 
 export { connectWithUltraWallet, disconnectFromUltraWallet }

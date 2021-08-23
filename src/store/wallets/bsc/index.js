@@ -1,11 +1,14 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
-import { WALLET_BSC_CONNECTED, WALLET_BSC_ACCOUNT_CHANGED } from '../../../constants'
+import { WALLET_BSC_CONNECTED, WALLET_BSC_DISCONNECTED, WALLET_BSC_ACCOUNT_CHANGED } from '../../../constants'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import settings from '../../../settings'
 import { setupNetwork } from '../../../utils/wallet'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
+import { getWalletProviderByBlockchain } from '../wallets.selectors'
+
+let web3Modal
 
 const connectWithBscWallet = async _dispatch => {
   try {
@@ -13,7 +16,7 @@ const connectWithBscWallet = async _dispatch => {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
     }
 
-    const web3Modal = new Web3Modal({
+    web3Modal = new Web3Modal({
       theme: getWeb3ModalTheme(getTheme()),
       providerOptions: {
         walletconnect: {
@@ -53,8 +56,15 @@ const connectWithBscWallet = async _dispatch => {
   }
 }
 
-const disconnectFromBscWallet = () => {
-  //TODO: disconnect from BSC wallet
+const disconnectFromBscWallet = async _dispatch => {
+  const provider = getWalletProviderByBlockchain('BSC')
+  if (provider.close) {
+    await provider.close()
+  }
+  await web3Modal.clearCachedProvider()
+  _dispatch({
+    type: WALLET_BSC_DISCONNECTED
+  })
 }
 
 const _connectionSuccesfull = async (_provider, _dispatch) => {

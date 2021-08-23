@@ -32,12 +32,13 @@ const BlockchainImage = styled.img`
 
 const Account = styled.span`
   margin-left: 15px;
+  font-size: 15px;
   @media (max-width: 767.98px) {
     font-size: 13px;
   }
 `
 
-const ChangeOrConnectButton = styled.button`
+const ConnectButton = styled.button`
   width: auto;
   color: ${({ theme }) => theme.blue};
   background: #66b8ff40;
@@ -58,7 +59,13 @@ const ChangeOrConnectButton = styled.button`
   }
 `
 
-const WalletInfoModal = ({ show, wallets, onClose, onChange, onConnect }) => {
+const ChangeButton = styled(ConnectButton)``
+
+const DisconnectButton = styled(ConnectButton)`
+  margin-left: 10px;
+`
+
+const WalletInfoModal = ({ show, wallets, onClose, onChange, onConnect, onDisconnect }) => {
   return (
     <Modal
       show={show}
@@ -69,15 +76,18 @@ const WalletInfoModal = ({ show, wallets, onClose, onChange, onConnect }) => {
           {wallets.map(({ formattedAccount, blockchain, formattedBlockchain, isConnected }) => (
             <ContainerAccountInfo key={`${blockchain}-wallet`}>
               <Row>
-                <Col xs={8} className="my-auto">
+                <Col xs={6} className="my-auto">
                   <BlockchainImage src={`../assets/svg/${blockchain}.svg`} data-tip={formattedBlockchain} />
                   <Account>{formattedAccount}</Account>
                 </Col>
-                <Col xs={4} className="my-auto text-right">
+                <Col xs={6} className="my-auto text-right">
                   {isConnected ? (
-                    <ChangeOrConnectButton onClick={() => onChange(blockchain)}>CHANGE</ChangeOrConnectButton>
+                    <React.Fragment>
+                      <ChangeButton onClick={() => onChange(blockchain)}>CHANGE</ChangeButton>
+                      <DisconnectButton onClick={() => onDisconnect(blockchain)}>DISCONNECT</DisconnectButton>
+                    </React.Fragment>
                   ) : (
-                    <ChangeOrConnectButton onClick={() => onConnect(blockchain)}>CONNECT</ChangeOrConnectButton>
+                    <ConnectButton onClick={() => onConnect(blockchain)}>CONNECT</ConnectButton>
                   )}
                 </Col>
               </Row>

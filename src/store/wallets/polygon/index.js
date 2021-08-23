@@ -1,11 +1,18 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
-import { WALLET_POLYGON_CONNECTED, WALLET_POLYGON_ACCOUNT_CHANGED } from '../../../constants'
+import {
+  WALLET_POLYGON_CONNECTED,
+  WALLET_POLYGON_ACCOUNT_CHANGED,
+  WALLET_POLYGON_DISCONNECTED
+} from '../../../constants'
 import { setupNetwork } from '../../../utils/wallet'
 import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
+import { getWalletProviderByBlockchain } from '../wallets.selectors'
+
+let web3Modal
 
 const connectWithPolygonWallet = async _dispatch => {
   try {
@@ -13,7 +20,7 @@ const connectWithPolygonWallet = async _dispatch => {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
     }
 
-    const web3Modal = new Web3Modal({
+    web3Modal = new Web3Modal({
       theme: getWeb3ModalTheme(getTheme()),
       providerOptions: {
         walletconnect: {
@@ -46,8 +53,15 @@ const connectWithPolygonWallet = async _dispatch => {
   }
 }
 
-const disconnectFromPolygonWallet = () => {
-  //TODO: disconnect from POLYGON wallet
+const disconnectFromPolygonWallet = async _dispatch => {
+  const provider = getWalletProviderByBlockchain('POLYGON')
+  if (provider.close) {
+    await provider.close()
+  }
+  await web3Modal.clearCachedProvider()
+  _dispatch({
+    type: WALLET_POLYGON_DISCONNECTED
+  })
 }
 
 const _connectionSuccesfull = async (_provider, _dispatch) => {

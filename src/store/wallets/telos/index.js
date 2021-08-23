@@ -44,8 +44,10 @@ const connectWithTelosWallet = _dispatch => {
   eosConnect.toggleModal()
 }
 
-const disconnectFromTelosWallet = () => {
-  // TODO
+const disconnectFromTelosWallet = _dispatch => {
+  _dispatch({
+    type: WALLET_TELOS_CONNECTED
+  })
 }
 
 export { connectWithTelosWallet, disconnectFromTelosWallet }

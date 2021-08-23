@@ -4,9 +4,17 @@ import WalletConnectProvider from '@walletconnect/web3-provider'
 import Portis from '@portis/web3'
 import Fortmatic from 'fortmatic'
 import settings from '../../../settings'
-import { WALLET_ETH_CONNECTED, WALLET_ETH_NETWORK_CHANGED, WALLET_ETH_ACCOUNT_CHANGED } from '../../../constants'
+import {
+  WALLET_ETH_CONNECTED,
+  WALLET_ETH_DISCONNECTED,
+  WALLET_ETH_NETWORK_CHANGED,
+  WALLET_ETH_ACCOUNT_CHANGED
+} from '../../../constants'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
+import { getWalletProviderByBlockchain } from '../wallets.selectors'
+
+let web3Modal
 
 const connectWithEthWallet = async _dispatch => {
   try {
@@ -14,7 +22,7 @@ const connectWithEthWallet = async _dispatch => {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
     }
 
-    const web3Modal = new Web3Modal({
+    web3Modal = new Web3Modal({
       theme: getWeb3ModalTheme(getTheme()),
       providerOptions: {
         walletconnect: {
@@ -69,8 +77,15 @@ const connectWithEthWallet = async _dispatch => {
   }
 }
 
-const disconnectFromEthWallet = () => {
-  //TODO: disconnect from ETH wallet
+const disconnectFromEthWallet = async _dispatch => {
+  const provider = getWalletProviderByBlockchain('ETH')
+  if (provider.close) {
+    await provider.close()
+  }
+  await web3Modal.clearCachedProvider()
+  _dispatch({
+    type: WALLET_ETH_DISCONNECTED
+  })
 }
 
 const _connectionSuccesfull = async (_provider, _dispatch) => {

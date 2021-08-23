@@ -1,11 +1,14 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
-import { WALLET_XDAI_CONNECTED, WALLET_XDAI_ACCOUNT_CHANGED } from '../../../constants'
+import { WALLET_XDAI_CONNECTED, WALLET_XDAI_ACCOUNT_CHANGED, WALLET_XDAI_DISCONNECTED } from '../../../constants'
 import { setupNetwork } from '../../../utils/wallet'
 import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
+import { getWalletProviderByBlockchain } from '../wallets.selectors'
+
+let web3Modal
 
 const connectWithXdaiWallet = async _dispatch => {
   try {
@@ -13,7 +16,7 @@ const connectWithXdaiWallet = async _dispatch => {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
     }
 
-    const web3Modal = new Web3Modal({
+    web3Modal = new Web3Modal({
       theme: getWeb3ModalTheme(getTheme()),
       providerOptions: {
         walletconnect: {
@@ -46,8 +49,15 @@ const connectWithXdaiWallet = async _dispatch => {
   }
 }
 
-const disconnectFromXdaiWallet = () => {
-  //TODO: disconnect from XDAI wallet
+const disconnectFromXdaiWallet = async _dispatch => {
+  const provider = getWalletProviderByBlockchain('XDAI')
+  if (provider.close) {
+    await provider.close()
+  }
+  await web3Modal.clearCachedProvider()
+  _dispatch({
+    type: WALLET_XDAI_DISCONNECTED
+  })
 }
 
 const _connectionSuccesfull = async (_provider, _dispatch) => {

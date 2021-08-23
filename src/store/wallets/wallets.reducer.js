@@ -9,7 +9,14 @@ import {
   WALLET_XDAI_ACCOUNT_CHANGED,
   WALLET_XDAI_CONNECTED,
   WALLET_TELOS_CONNECTED,
-  WALLET_ULTRA_CONNECTED
+  WALLET_ULTRA_CONNECTED,
+  WALLET_ETH_DISCONNECTED,
+  WALLET_BSC_DISCONNECTED,
+  WALLET_POLYGON_DISCONNECTED,
+  WALLET_XDAI_DISCONNECTED,
+  WALLET_EOS_DISCONNECTED,
+  WALLET_ULTRA_DISCONNECTED,
+  WALLET_TELOS_DISCONNECTED
 } from '../../constants/index'
 
 const initialState = {
@@ -168,6 +175,72 @@ const walletsReducer = (_state = initialState, _action) => {
         account,
         network,
         permission
+      }
+    })
+  }
+  if (_action.type === WALLET_ETH_DISCONNECTED) {
+    return Object.assign({}, _state, {
+      eth: {
+        provider: null,
+        account: null,
+        network: null
+      }
+    })
+  }
+  if (_action.type === WALLET_BSC_DISCONNECTED) {
+    return Object.assign({}, _state, {
+      bsc: {
+        provider: null,
+        account: null,
+        network: null
+      }
+    })
+  }
+  if (_action.type === WALLET_POLYGON_DISCONNECTED) {
+    return Object.assign({}, _state, {
+      polygon: {
+        provider: null,
+        account: null,
+        network: null
+      }
+    })
+  }
+  if (_action.type === WALLET_XDAI_DISCONNECTED) {
+    return Object.assign({}, _state, {
+      xdai: {
+        provider: null,
+        account: null,
+        network: null
+      }
+    })
+  }
+  if (_action.type === WALLET_EOS_DISCONNECTED) {
+    return Object.assign({}, _state, {
+      eos: {
+        provider: null,
+        account: null,
+        network: null,
+        permission: null
+      }
+    })
+  }
+  if (_action.type === WALLET_TELOS_DISCONNECTED) {
+    return Object.assign({}, _state, {
+      telos: {
+        provider: null,
+        account: null,
+        network: null,
+        permission: null
+      }
+    })
+  }
+  if (_action.type === WALLET_ULTRA_DISCONNECTED) {
+    return Object.assign({}, _state, {
+      ultra: {
+        provider: null,
+        account: null,
+        network: null,
+        permission: null
       }
     })
   }
