@@ -11,27 +11,26 @@ const StyledCard = styled(Card)`
   bottom: 30px;
   border: 0;
   border: 1px solid ${({ theme }) => (theme.type === 'ligth' ? '#f1f2f3' : theme.lightGray)};
-  border-radius: 8px;
   box-shadow: 0 0 15px rgb(0 0 0 / 5%);
   z-index: 1010;
   animation: 1s ${keyframes`${bounceInUp}`};
-  background: transparent;
+  background: ${({ theme }) => theme.secondary3};
   display: ${({ show }) => (show ? 'block' : 'none')};
   @media (max-width: 767.98px) {
     width: 50%;
     right: 5px;
     bottom: 10px;
-    background: ${({ theme }) => theme.secondary3};
   }
 `
 
 const StyledHeader = styled(Card.Header)`
-  background: transparent;
+  background: white;
   border: 0;
   display: flex;
   justify-content: flex-end;
   padding-top: 10px;
   padding-bottom: 0px;
+  background: transparent;
 `
 
 const StyledBody = styled(Card.Body)`
