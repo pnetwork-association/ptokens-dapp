@@ -1,7 +1,7 @@
 import {
   PBTC_ON_ETH_MAINNET,
-  /*PBTC_ON_EOS_MAINNET,
-  PBTC_ON_TELOS_MAINNET,*/
+  PBTC_ON_EOS_MAINNET,
+  // PBTC_ON_TELOS_MAINNET,
   PLTC_ON_ETH_MAINNET,
   /*PLTC_ON_EOS_MAINNET,
   PETH_ON_EOS_MAINNET,
@@ -59,11 +59,15 @@ import {
 
 const map = {
   [PBTC_ON_ETH_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [PBTC_ON_BSC_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
+    pegout: 0.25
+  },
+  [PBTC_ON_EOS_MAINNET]: {
+    pegin: 0.1,
     pegout: 0.25
   },
   [PLTC_ON_ETH_MAINNET]: {
