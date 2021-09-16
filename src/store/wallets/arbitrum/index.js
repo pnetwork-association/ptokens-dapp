@@ -1,16 +1,21 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
-import { WALLET_BSC_CONNECTED, WALLET_BSC_DISCONNECTED, WALLET_BSC_ACCOUNT_CHANGED } from '../../../constants'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import settings from '../../../settings'
-import { setupNetwork } from '../../../utils/wallet'
+import {
+  WALLET_ARBITRUM_CONNECTED,
+  WALLET_ARBITRUM_DISCONNECTED,
+  WALLET_ARBITRUM_NETWORK_CHANGED,
+  WALLET_ARBITRUM_ACCOUNT_CHANGED
+} from '../../../constants'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
+import { setupNetwork } from '../../../utils/wallet'
 
 let web3Modal
 
-const connectWithBscWallet = async _dispatch => {
+const connectWithArbitrumWallet = async _dispatch => {
   try {
     if (document.getElementById('WEB3_CONNECT_MODAL_ID')) {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
@@ -22,9 +27,9 @@ const connectWithBscWallet = async _dispatch => {
         walletconnect: {
           package: WalletConnectProvider,
           options: {
-            network: 'binance',
+            network: 'mainnet',
             rpc: {
-              56: settings.rpc.mainnet.bsc.endpoint
+              42161: settings.rpc.mainnet.arbitrum.endpoint
             }
           }
         }
@@ -36,16 +41,19 @@ const connectWithBscWallet = async _dispatch => {
       type: 'multiWallet'
     })
 
-    /*provider.on('chainChanged', _chainId => {
-      if (Number(_chainId) !== 56) {
-        toastr.error('Invalid Binance Smart Chain Network. Please use chainId = 56')
-        return
-      }
-    })*/
+    provider.on('chainChanged', _chainId => {
+      _dispatch({
+        type: WALLET_ARBITRUM_NETWORK_CHANGED,
+        payload: {
+          network: Number(_chainId) === 42161 ? 'mainnet' : 'testnet',
+          chainId: _chainId
+        }
+      })
+    })
 
     provider.on('accountsChanged', _accounts => {
       _dispatch({
-        type: WALLET_BSC_ACCOUNT_CHANGED,
+        type: WALLET_ARBITRUM_ACCOUNT_CHANGED,
         payload: {
           account: _accounts[0]
         }
@@ -56,14 +64,14 @@ const connectWithBscWallet = async _dispatch => {
   }
 }
 
-const disconnectFromBscWallet = async _dispatch => {
-  const provider = getWalletProviderByBlockchain('BSC')
+const disconnectFromArbitrumWallet = async _dispatch => {
+  const provider = getWalletProviderByBlockchain('ARBITRUM')
   if (provider.close) {
     await provider.close()
   }
   await web3Modal.clearCachedProvider()
   _dispatch({
-    type: WALLET_BSC_DISCONNECTED
+    type: WALLET_ARBITRUM_DISCONNECTED
   })
 }
 
@@ -72,33 +80,33 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
     const { accounts, chainId } = _provider
     const account = accounts ? accounts[0] : await _getAccount(_provider)
 
-    if (Number(chainId) !== 56 && _provider.isMetaMask) {
+    if (Number(chainId) !== 42161 && _provider.isMetaMask) {
       await setupNetwork({
         provider: _provider,
-        chainId: 56,
-        chainName: 'Binance Smart Chain',
+        chainId: 42161,
+        chainName: 'Arbitrum',
         nativeCurrency: {
-          name: 'BNB',
-          symbol: 'bnb',
+          name: 'AETH',
+          symbol: 'AETH',
           decimals: 18
         },
-        nodes: [settings.rpc.mainnet.bsc.endpoint],
-        blockExplorerUrls: [settings.explorers.mainnet.bsc]
+        nodes: [settings.rpc.mainnet.arbitrum.endpoint],
+        blockExplorerUrls: [settings.explorers.mainnet.arbitrum]
       })
 
       _dispatch({
-        type: WALLET_BSC_CONNECTED,
+        type: WALLET_ARBITRUM_CONNECTED,
         payload: {
           provider: _provider,
           account,
           network: 'mainnet',
-          chainId: 56
+          chainId: 42161
         }
       })
       return
-    } else if (Number(chainId) === 56) {
+    } else if (Number(chainId) === 42161) {
       _dispatch({
-        type: WALLET_BSC_CONNECTED,
+        type: WALLET_ARBITRUM_CONNECTED,
         payload: {
           provider: _provider,
           account,
@@ -118,8 +126,8 @@ const _getAccount = async _provider => {
     const accounts = await web3.eth.getAccounts()
     return accounts[0]
   } catch (_err) {
-    console.error(`Error during getting Binance Smart Chain account ${_err.message}`)
+    console.error(`Error during getting Ethereum account ${_err.message}`)
   }
 }
 
-export { connectWithBscWallet, disconnectFromBscWallet }
+export { connectWithArbitrumWallet, disconnectFromArbitrumWallet }

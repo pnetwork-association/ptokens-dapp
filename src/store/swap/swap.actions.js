@@ -142,6 +142,15 @@ const loadBalances = (_account, _blockchain) => {
           })
           break
         }
+        case 'ARBITRUM': {
+          loadEvmCompatibleBalances({
+            assets: getAssetsByBlockchain('ARBITRUM'),
+            account: _account,
+            dispatch: _dispatch,
+            blockchain: 'ARBITRUM'
+          })
+          break
+        }
         default:
           break
       }
@@ -190,6 +199,10 @@ const loadBalanceByAssetId = _id => {
           loadEosioCompatibleBalance({ asset, account, blockchain: 'ULTRA', dispatch: _dispatch })
           break
         }
+        case 'ARBITRUM': {
+          loadEvmCompatibleBalance({ asset, account, blockchain: 'BSC', dispatch: _dispatch })
+          break
+        }
         default: {
           break
         }
@@ -219,7 +232,8 @@ const swap = (_from, _to, _amount, _address) => {
             polygonProvider: wallets.polygon.provider || getReadOnlyProviderByBlockchain('POLYGON'),
             xdaiProvider: wallets.xdai.provider || getReadOnlyProviderByBlockchain('XDAI'),
             bscProvider: wallets.bsc.provider || getReadOnlyProviderByBlockchain('BSC'),
-            ultraSignatureProvider: wallets.ultra.provider || getReadOnlyProviderByBlockchain('ULTRA')
+            ultraSignatureProvider: wallets.ultra.provider || getReadOnlyProviderByBlockchain('ULTRA'),
+            arbitrumProvider: wallets.arbitrum.provider || getReadOnlyProviderByBlockchain('ARBITRUM')
           })
         )
 
@@ -269,7 +283,8 @@ const swap = (_from, _to, _amount, _address) => {
             polygonProvider: wallets.polygon.provider || getReadOnlyProviderByBlockchain('POLYGON'),
             xdaiProvider: wallets.xdai.provider || getReadOnlyProviderByBlockchain('XDAI'),
             bscProvider: wallets.bsc.provider || getReadOnlyProviderByBlockchain('BSC'),
-            ultraSignatureProvider: wallets.ultra.provider || getReadOnlyProviderByBlockchain('ULTRA')
+            ultraSignatureProvider: wallets.ultra.provider || getReadOnlyProviderByBlockchain('ULTRA'),
+            arbitrumProvider: wallets.arbitrum.provider || getReadOnlyProviderByBlockchain('ARBITRUM')
           })
         )
 

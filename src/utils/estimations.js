@@ -12,7 +12,8 @@ const estimations = {
   doge: 5,
   rvn: 5,
   lbc: 5,
-  ultra: 4
+  ultra: 4,
+  arbitrum: 5
 }
 
 const getPeginOrPegoutMinutesEstimationByBlockchainAndEta = (_blockchain, _eta) => {

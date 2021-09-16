@@ -1,3 +1,4 @@
+import { connectWithArbitrumWallet, disconnectFromArbitrumWallet } from './arbitrum'
 import { connectWithEosWallet, disconnectFromEosWallet } from './eos'
 import { connectWithEthWallet, disconnectFromEthWallet } from './eth'
 import { connectWithBscWallet, disconnectFromBscWallet } from './bsc'
@@ -37,6 +38,10 @@ const connectWithWallet = _blockchain => {
         connectWithUltraWallet(_dispatch)
         break
       }
+      case 'ARBITRUM': {
+        connectWithArbitrumWallet(_dispatch)
+        break
+      }
       default:
         break
     }
@@ -72,6 +77,10 @@ const disconnectFromWallet = _blockchain => {
       }
       case 'ULTRA': {
         disconnectFromUltraWallet(_dispatch)
+        break
+      }
+      case 'ARBITRUM': {
+        disconnectFromArbitrumWallet(_dispatch)
         break
       }
       default:

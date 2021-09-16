@@ -3,6 +3,10 @@ import {
   PBTC_ON_ETH_MAINNET,
   PBTC_ON_TELOS_MAINNET,
   PBTC_ON_EOS_MAINNET,
+  PBTC_ON_BSC_MAINNET,
+  PBTC_ON_XDAI_MAINNET,
+  PBTC_ON_POLYGON_MAINNET,
+  PBTC_ON_ARBITRUM_MAINNET,
   PLTC_ON_ETH_MAINNET,
   PLTC_ON_EOS_MAINNET,
   PETH_ON_EOS_MAINNET,
@@ -27,8 +31,6 @@ import {
   PPNK_ON_EOS_MAINNET,
   PDOGE_ON_ETH_MAINNET,
   PEOS_ON_ETH_MAINNET,
-  PBTC_ON_BSC_MAINNET,
-  PBTC_ON_XDAI_MAINNET,
   PEOS_ON_POLYGON_MAINNET,
   IQ_ON_ETH_MAINNET,
   TLOS_ON_ETH_MAINNET,
@@ -49,7 +51,6 @@ import {
   POPEN_ON_BSC_MAINNET,
   OCP_ON_ETH_MAINNET,
   ANRX_ON_BSC_MAINNET,
-  PBTC_ON_POLYGON_MAINNET,
   TFF_ON_POLYGON_MAINNET,
   PSAFEMOON_ON_ETH_MAINNET,
   EFX_ON_BSC_MAINNET,
@@ -76,6 +77,11 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
       return _role === 'native'
         ? `${settings.explorers.mainnet.btc}address/${_address}`
         : `${settings.explorers.mainnet.telos}accounts/${_address}`
+    }
+    case PBTC_ON_ARBITRUM_MAINNET: {
+      return _role === 'native'
+        ? `${settings.explorers.mainnet.btc}address/${_address}`
+        : `${settings.explorers.mainnet.arbitrum}address/${_address}`
     }
     case PLTC_ON_EOS_MAINNET: {
       return _role === 'native'
@@ -369,6 +375,9 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
     }
     case PBTC_ON_TELOS_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.btc}tx/` : `${settings.telos.explorer}transaction/`
+    }
+    case PBTC_ON_ARBITRUM_MAINNET: {
+      return _role === 'native' ? `${settings.explorers.mainnet.btc}tx/` : `${settings.explorers.mainnet.arbitrum}tx/`
     }
     case PLTC_ON_EOS_MAINNET: {
       return _role === 'native'

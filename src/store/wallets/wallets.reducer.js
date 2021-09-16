@@ -1,4 +1,7 @@
 import {
+  WALLET_ARBITRUM_CONNECTED,
+  WALLET_ARBITRUM_DISCONNECTED,
+  WALLET_ARBITRUM_ACCOUNT_CHANGED,
   WALLET_ETH_CONNECTED,
   WALLET_ETH_ACCOUNT_CHANGED,
   WALLET_EOS_CONNECTED,
@@ -20,6 +23,12 @@ import {
 } from '../../constants/index'
 
 const initialState = {
+  arbitrum: {
+    provider: null,
+    account: null,
+    chainId: null,
+    network: null
+  },
   eth: {
     provider: null,
     account: null,
@@ -241,6 +250,35 @@ const walletsReducer = (_state = initialState, _action) => {
         account: null,
         network: null,
         permission: null
+      }
+    })
+  }
+  if (_action.type === WALLET_ARBITRUM_CONNECTED) {
+    const { provider, account, network, chainId } = _action.payload
+    return Object.assign({}, _state, {
+      arbitrum: {
+        provider,
+        account,
+        network,
+        chainId
+      }
+    })
+  }
+  if (_action.type === WALLET_ARBITRUM_ACCOUNT_CHANGED) {
+    const { account } = _action.payload
+    return Object.assign({}, _state, {
+      arbitrum: {
+        ..._state.eth,
+        account
+      }
+    })
+  }
+  if (_action.type === WALLET_ARBITRUM_DISCONNECTED) {
+    return Object.assign({}, _state, {
+      arbitrum: {
+        provider: null,
+        account: null,
+        network: null
       }
     })
   }

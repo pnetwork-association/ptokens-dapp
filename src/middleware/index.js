@@ -1,4 +1,6 @@
 import {
+  WALLET_ARBITRUM_CONNECTED,
+  WALLET_ARBITRUM_ACCOUNT_CHANGED,
   WALLET_ETH_CONNECTED,
   WALLET_ETH_ACCOUNT_CHANGED,
   WALLET_EOS_CONNECTED,
@@ -61,6 +63,11 @@ const middleware = ({ dispatch }) => {
       if (type === WALLET_ULTRA_CONNECTED) {
         dispatch(loadBalances(payload.account, 'ULTRA'))
         dispatch(loadNftsData(payload.account, 'ULTRA'))
+      }
+
+      if (type === WALLET_ARBITRUM_CONNECTED || type === WALLET_ARBITRUM_ACCOUNT_CHANGED) {
+        dispatch(loadBalances(payload.account, 'ARBITRUM'))
+        dispatch(loadNftsData(payload.account, 'ARBITRUM'))
       }
 
       if (type === NFTS_DATA_LOADED || type === NFT_DATA_LOADED) {

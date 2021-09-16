@@ -2,6 +2,10 @@ import {
   PBTC_ON_ETH_MAINNET,
   PBTC_ON_TELOS_MAINNET,
   PBTC_ON_EOS_MAINNET,
+  PBTC_ON_BSC_MAINNET,
+  PBTC_ON_XDAI_MAINNET,
+  PBTC_ON_POLYGON_MAINNET,
+  PBTC_ON_ARBITRUM_MAINNET,
   PLTC_ON_ETH_MAINNET,
   PLTC_ON_EOS_MAINNET,
   PETH_ON_EOS_MAINNET,
@@ -26,8 +30,6 @@ import {
   PPNK_ON_EOS_MAINNET,
   PDOGE_ON_ETH_MAINNET,
   PEOS_ON_ETH_MAINNET,
-  PBTC_ON_BSC_MAINNET,
-  PBTC_ON_XDAI_MAINNET,
   PEOS_ON_POLYGON_MAINNET,
   IQ_ON_ETH_MAINNET,
   TLOS_ON_ETH_MAINNET,
@@ -48,7 +50,6 @@ import {
   POPEN_ON_BSC_MAINNET,
   OCP_ON_ETH_MAINNET,
   ANRX_ON_BSC_MAINNET,
-  PBTC_ON_POLYGON_MAINNET,
   TFF_ON_POLYGON_MAINNET,
   PSAFEMOON_ON_ETH_MAINNET,
   EFX_ON_BSC_MAINNET,
@@ -69,7 +70,8 @@ const getConfigs = (_pTokenId, _configs) => {
     polygonProvider,
     xdaiProvider,
     bscProvider,
-    ultraSignatureProvider
+    ultraSignatureProvider,
+    arbitrumProvider
   } = _configs
   const { networks, blockchains, pTokens } = constants
 
@@ -101,6 +103,15 @@ const getConfigs = (_pTokenId, _configs) => {
         hostBlockchain: blockchains.Telos,
         eosRpc: settings.rpc.mainnet.telos.endpoint,
         eosSignatureProvider: telosSignatureProvider
+      }
+    }
+  }
+  if (_pTokenId === PBTC_ON_ARBITRUM_MAINNET) {
+    return {
+      pbtc: {
+        network: networks.Mainnet,
+        blockchain: blockchains.Arbitrum,
+        ethProvider: arbitrumProvider
       }
     }
   }

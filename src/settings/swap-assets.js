@@ -62,6 +62,28 @@ const swapAssets = [
     withBalanceDecimalsConversion: false
   },
   {
+    address: '0x115d8bf0a53e751f8a472f88d587944ec1c8ca6d',
+    id: 'PBTC_ON_ARBITRUM_MAINNET',
+    name: 'pBTC',
+    workingName: 'pbtc',
+    nativeDecimals: 8,
+    network: 'mainnet',
+    minimumIssuable: '0',
+    minimumRedeamable: '0.00005',
+    isHidden: false,
+    blockchain: 'ARBITRUM',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'PBTC',
+    isPtoken: true,
+    nativeSymbol: 'BTC',
+    nativeBlockchain: 'BTC',
+    image: 'pBTC.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true,
+    gasLimitPegout: 80000 * 10
+  },
+  {
     address: '0x5979f50f1d4c08f9a53863c2f39a7b0492c38d0f',
     id: 'PLTC_ON_ETH_MAINNET',
     name: 'pLTC',

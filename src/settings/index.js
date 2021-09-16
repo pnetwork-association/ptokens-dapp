@@ -41,6 +41,10 @@ const settings = {
     {
       name: 'Ultra',
       symbol: 'ULTRA'
+    },
+    {
+      name: 'Arbitrum',
+      symbol: 'ARBITRUM'
     }
   ],
   rpc: {
@@ -78,6 +82,9 @@ const settings = {
         port: 443,
         protocol: 'https',
         endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=http://ultra-mainnet-1.ptokens.io:8888'
+      },
+      arbitrum: {
+        endpoint: 'https://arb1.arbitrum.io/rpc'
       }
     }
   },
@@ -94,7 +101,8 @@ const settings = {
       doge: 'https://dogechain.info/',
       rvn: 'https://ravencoin.network/',
       lbc: 'https://explorer.lbry.com/',
-      ultra: 'https://explorer.mainnet.ultra.io/'
+      ultra: 'https://explorer.mainnet.ultra.io/',
+      arbitrum: 'https://arbiscan.io/'
     }
   },
   supportedNfts: [

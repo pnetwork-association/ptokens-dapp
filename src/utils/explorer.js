@@ -12,7 +12,8 @@ const transactionBaseLink = {
   RVN: `${settings.explorers.mainnet.rvn}tx/`,
   DOGE: `${settings.explorers.mainnet.doge}tx/`,
   LBC: `${settings.explorers.mainnet.lbc}tx/`,
-  ULTRA: `${settings.explorers.mainnet.ultra}tx/`
+  ULTRA: `${settings.explorers.mainnet.ultra}tx/`,
+  ARBITRUM: `${settings.explorers.mainnet.arbitrum}tx/`
 }
 
 const addressBaseLink = {
@@ -27,7 +28,8 @@ const addressBaseLink = {
   RVN: `${settings.explorers.mainnet.rvn}address/`,
   DOGE: `${settings.explorers.mainnet.doge}address/`,
   LBC: `${settings.explorers.mainnet.lbc}address/`,
-  ULTRA: `${settings.explorers.mainnet.ultra}account/`
+  ULTRA: `${settings.explorers.mainnet.ultra}account/`,
+  ARBITRUM: `${settings.explorers.mainnet.arbitrum}address/`
 }
 
 const tokenBaseLink = {
@@ -42,7 +44,8 @@ const tokenBaseLink = {
   RVN: `${settings.explorers.mainnet.rvn}address/`,
   DOGE: `${settings.explorers.mainnet.doge}address/`,
   LBC: `${settings.explorers.mainnet.lbc}address/`,
-  ULTRA: `${settings.explorers.mainnet.ultra}account/`
+  ULTRA: `${settings.explorers.mainnet.ultra}account/`,
+  ARBITRUM: `${settings.explorers.mainnet.arbitrum}token/`
 }
 
 const getCorrespondingBaseTxExplorerLinkByBlockchain = _blockchain => transactionBaseLink[_blockchain.toUpperCase()]

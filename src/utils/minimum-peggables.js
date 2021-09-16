@@ -1,6 +1,7 @@
 import {
   PSAFEMOON_ON_ETH_MAINNET,
   PBTC_ON_BSC_MAINNET,
+  PBTC_ON_ARBITRUM_MAINNET,
   PBTC_ON_POLYGON_MAINNET,
   PBTC_ON_EOS_MAINNET,
   PBTC_ON_TELOS_MAINNET,
@@ -49,6 +50,10 @@ const minimumPeggable = {
     pegout: 0
   },
   [PBTC_ON_ETH_MAINNET]: {
+    pegin: 0.00005,
+    pegout: 0
+  },
+  [PBTC_ON_ARBITRUM_MAINNET]: {
     pegin: 0.00005,
     pegout: 0
   },

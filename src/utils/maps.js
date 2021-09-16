@@ -10,7 +10,8 @@ const blockchainSymbolToName = {
   POLYGON: 'Polygon',
   RVN: 'Ravencoin',
   LBC: 'Lbry Credits',
-  ULTRA: 'Ultra'
+  ULTRA: 'Ultra',
+  ARBITRUM: 'Arbitrum'
 }
 
 const blockchainSymbolToCoin = {
@@ -25,7 +26,8 @@ const blockchainSymbolToCoin = {
   POLYGON: 'MATIC',
   RVN: 'Ravencoin',
   LBC: 'Lbry Credits',
-  ULTRA: 'Ultra Token'
+  ULTRA: 'Ultra Token',
+  ARBITRUM: 'Arbitrum'
 }
 
 const getAssetFromNativeSymbol = (_assets, _symbol) => _assets.find(({ symbol }) => symbol === _symbol)
