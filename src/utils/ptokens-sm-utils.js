@@ -58,7 +58,8 @@ import {
   PLBC_ON_BSC_MAINNET,
   USDO_ON_POLYGON_MAINNET,
   GALA_ON_BSC_MAINNET,
-  PUOS_ON_ULTRA_MAINNET
+  PUOS_ON_ULTRA_MAINNET,
+  EFX_ON_ETH_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_id, _role, _address) => {
@@ -358,6 +359,11 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
         ? `${settings.explorers.mainnet.eth}address/${_address}`
         : `${settings.explorers.mainnet.ultra}account/${_address}`
     }
+    case EFX_ON_ETH_MAINNET: {
+      return _role === 'native'
+        ? `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eth}address/${_address}`
+    }
     default:
       break
   }
@@ -609,6 +615,11 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
     }
     case PUOS_ON_ULTRA_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.ultra}tx/`
+    }
+    case EFX_ON_ETH_MAINNET: {
+      return _role === 'native'
+        ? `${settings.explorers.mainnet.eos}transaction/`
+        : `${settings.explorers.mainnet.eth}tx/`
     }
     default:
       break

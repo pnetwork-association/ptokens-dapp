@@ -25,7 +25,8 @@ import {
   PUSDC_ON_TELOS_MAINNET,
   PUSDT_ON_TELOS_MAINNET,
   GALA_ON_BSC_MAINNET,
-  PUOS_ON_ULTRA_MAINNET
+  PUOS_ON_ULTRA_MAINNET,
+  EFX_ON_ETH_MAINNET
 } from '../constants'
 
 const minimumPeggable = {
@@ -136,6 +137,10 @@ const minimumPeggable = {
   [PUOS_ON_ULTRA_MAINNET]: {
     pegin: 50,
     pegout: 50
+  },
+  [EFX_ON_ETH_MAINNET]: {
+    pegin: 0.0001,
+    pegout: 0
   }
 }
 

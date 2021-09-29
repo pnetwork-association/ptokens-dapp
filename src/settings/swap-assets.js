@@ -1194,6 +1194,28 @@ const swapAssets = [
     withBalanceDecimalsConversion: false,
     isPerc20: true
   },
+  {
+    address: '0x9b917D94Fb0138eDF520332f3d45494f1a74Bec8',
+    id: 'EFX_ON_ETH_MAINNET',
+    name: 'EFX',
+    workingName: 'efx',
+    nativeDecimals: 0,
+    network: 'mainnet',
+    minimumIssuable: '0.001',
+    minimumRedeamable: '0.00005',
+    isHidden: false,
+    blockchain: 'ETH',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'EFX',
+    isPtoken: true,
+    isSpecial: true,
+    nativeSymbol: 'EFX',
+    nativeBlockchain: 'EOS',
+    image: 'pEFX.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true
+  },
   /* #################   Native Tokens   #################*/
   {
     address: '0x0000000000000000000000000000000000000000',

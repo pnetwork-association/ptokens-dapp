@@ -57,7 +57,8 @@ import {
   PLBC_ON_BSC_MAINNET,
   USDO_ON_POLYGON_MAINNET,
   GALA_ON_BSC_MAINNET,
-  PUOS_ON_ULTRA_MAINNET
+  PUOS_ON_ULTRA_MAINNET,
+  EFX_ON_ETH_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -746,6 +747,20 @@ const getConfigs = (_pTokenId, _configs) => {
         ethProvider,
         ultraRpc: settings.rpc.mainnet.ultra.endpoint,
         ultraSignatureProvider
+      }
+    }
+  }
+  if (_pTokenId === EFX_ON_ETH_MAINNET) {
+    return {
+      peosioToken: {
+        pToken: pTokens.EFX,
+        nativeBlockchain: blockchains.Eosio,
+        nativeNetwork: networks.Mainnet,
+        hostBlockchain: blockchains.Ethereum,
+        hostNetwork: networks.Mainnet,
+        ethProvider,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
+        eosSignatureProvider
       }
     }
   }

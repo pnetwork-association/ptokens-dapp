@@ -59,7 +59,8 @@ import {
   PLBC_ON_BSC_MAINNET,
   USDO_ON_POLYGON_MAINNET,
   GALA_ON_BSC_MAINNET,
-  PUOS_ON_ULTRA_MAINNET
+  PUOS_ON_ULTRA_MAINNET,
+  EFX_ON_ETH_MAINNET
 } from '../constants'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 
@@ -348,6 +349,11 @@ const isValidAccount = async (_pTokenId, _account, _type) => {
             _resolve(false)
           })
       })
+    }
+    case EFX_ON_ETH_MAINNET: {
+      return _type === 'pegin'
+        ? pTokenUtils.eos.isValidAccountName(_account)
+        : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     default:
       break
