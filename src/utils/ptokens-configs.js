@@ -58,7 +58,8 @@ import {
   USDO_ON_POLYGON_MAINNET,
   GALA_ON_BSC_MAINNET,
   PUOS_ON_ULTRA_MAINNET,
-  EFX_ON_ETH_MAINNET
+  EFX_ON_ETH_MAINNET,
+  ZMT_ON_BSC_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -761,6 +762,17 @@ const getConfigs = (_pTokenId, _configs) => {
         ethProvider,
         eosRpc: settings.rpc.mainnet.eos.endpoint,
         eosSignatureProvider
+      }
+    }
+  }
+  if (_pTokenId === ZMT_ON_BSC_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.ZMT,
+        network: networks.BinanceSmartChainMainnet,
+        blockchain: blockchains.BinanceSmartChain,
+        ethProvider,
+        bscProvider
       }
     }
   }

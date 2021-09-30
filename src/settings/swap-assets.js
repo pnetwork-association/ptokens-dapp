@@ -1216,6 +1216,29 @@ const swapAssets = [
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true
   },
+  {
+    address: '0xde960267b9aabfb5404d9a566c1ed6db9db09522',
+    id: 'ZMT_ON_BSC_MAINNET',
+    name: 'ZMT',
+    workingName: 'zmt',
+    nativeDecimals: 18,
+    network: 'mainnet',
+    minimumIssuable: '0.001',
+    minimumRedeamable: '0.00005',
+    isHidden: false,
+    blockchain: 'BSC',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'ZMT',
+    isPtoken: true,
+    isSpecial: true,
+    isPerc20: true,
+    nativeSymbol: 'ZMT',
+    nativeBlockchain: 'ETH',
+    image: 'pZMT.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true
+  },
   /* #################   Native Tokens   #################*/
   {
     address: '0x0000000000000000000000000000000000000000',
@@ -1867,6 +1890,21 @@ const swapAssets = [
     nativeSymbol: 'GALA',
     nativeBlockchain: 'ETH',
     image: 'GALA.svg',
+    withBalanceDecimalsConversion: true
+  },
+  {
+    address: '0xaa602dE53347579f86b996D2Add74bb6F79462b2',
+    id: 'ZMT',
+    symbol: 'ZMT',
+    name: 'Zipmex Token',
+    network: 'mainnet',
+    blockchain: 'ETH',
+    decimals: 18,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'ZMT',
+    nativeBlockchain: 'ETH',
+    image: 'ZMT.svg',
     withBalanceDecimalsConversion: true
   }
 ]

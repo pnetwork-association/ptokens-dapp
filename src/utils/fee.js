@@ -56,7 +56,8 @@ import {
   USDO_ON_POLYGON_MAINNET,
   GALA_ON_BSC_MAINNET,
   PUOS_ON_ULTRA_MAINNET,
-  EFX_ON_ETH_MAINNET
+  EFX_ON_ETH_MAINNET,
+  ZMT_ON_BSC_MAINNET
 } from '../constants'
 
 const map = {
@@ -153,6 +154,10 @@ const map = {
     pegout: 0.25
   },
   [EFX_ON_ETH_MAINNET]: {
+    pegin: 0,
+    pegout: 0.25
+  },
+  [ZMT_ON_BSC_MAINNET]: {
     pegin: 0,
     pegout: 0.25
   }
