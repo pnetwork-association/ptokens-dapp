@@ -1,13 +1,13 @@
 import {
-  PBTC_ON_ETH_MAINNET,
+  /*PBTC_ON_ETH_MAINNET,
+  PBTC_ON_TELOS_MAINNET,
   PBTC_ON_EOS_MAINNET,
   PBTC_ON_BSC_MAINNET,
   PBTC_ON_XDAI_MAINNET,
   PBTC_ON_POLYGON_MAINNET,
   PBTC_ON_ARBITRUM_MAINNET,
-  // PBTC_ON_TELOS_MAINNET,
   PLTC_ON_ETH_MAINNET,
-  /*PLTC_ON_EOS_MAINNET,
+  PLTC_ON_EOS_MAINNET,
   PETH_ON_EOS_MAINNET,
   PNT_ON_EOS_MAINNET,
   PMKR_ON_EOS_MAINNET,
@@ -29,38 +29,40 @@ import {
   PZRX_ON_EOS_MAINNET,
   PPNK_ON_EOS_MAINNET,
   PDOGE_ON_ETH_MAINNET,
-  PEOS_ON_ETH_MAINNET,*/
-  /*PEOS_ON_POLYGON_MAINNET,*/
-  /*IQ_ON_ETH_MAINNET,
-  TLOS_ON_ETH_MAINNET,*/
+  PEOS_ON_ETH_MAINNET,
+  PEOS_ON_POLYGON_MAINNET,
+  IQ_ON_ETH_MAINNET,
+  TLOS_ON_ETH_MAINNET,
   PNT_ON_BSC_MAINNET,
   POPIUM_ON_BSC_MAINNET,
-  PDEFIPLUSPLUS_ON_BSC_MAINNET,
   PTERIA_ON_BSC_MAINNET,
-  PBCP_ON_BSC_MAINNET,
+  PDEFIPLUSPLUS_ON_BSC_MAINNET,
   CGG_ON_BSC_MAINNET,
-  /*PETH_ON_TELOS_MAINNET,
+  PBCP_ON_BSC_MAINNET,
+  PETH_ON_TELOS_MAINNET,
   PLINK_ON_TELOS_MAINNET,
   PNT_ON_TELOS_MAINNET,
   PUSDT_ON_TELOS_MAINNET,
-  PUSDC_ON_TELOS_MAINNET,*/
-  /*PNT_ON_XDAI_MAINNET,*/
+  PUSDC_ON_TELOS_MAINNET,
+  PNT_ON_XDAI_MAINNET,
   PRVN_ON_BSC_MAINNET,
+  TLOS_ON_BSC_MAINNET,
+  POPEN_ON_BSC_MAINNET,
   OCP_ON_ETH_MAINNET,
   ANRX_ON_BSC_MAINNET,
-  TFF_ON_POLYGON_MAINNET,
-  // PSAFEMOON_ON_ETH_MAINNET,
-  EFX_ON_BSC_MAINNET,
+  TFF_ON_POLYGON_MAINNET,*/
+  PSAFEMOON_ON_ETH_MAINNET
+  /*EFX_ON_BSC_MAINNET,
   PSEEDS_ON_ETH_MAINNET,
   PLBC_ON_BSC_MAINNET,
   USDO_ON_POLYGON_MAINNET,
   GALA_ON_BSC_MAINNET,
   PUOS_ON_ULTRA_MAINNET,
   EFX_ON_ETH_MAINNET,
-  ZMT_ON_BSC_MAINNET
+  ZMT_ON_BSC_MAINNET*/
 } from '../constants'
 
-const map = {
+/*const map = {
   [PBTC_ON_ETH_MAINNET]: {
     pegin: 0.1,
     pegout: 0.25
@@ -78,95 +80,106 @@ const map = {
     pegout: 0.25
   },
   [PLTC_ON_ETH_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [PBTC_ON_XDAI_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [PRVN_ON_BSC_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [PNT_ON_BSC_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [PDEFIPLUSPLUS_ON_BSC_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [POPIUM_ON_BSC_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [PBCP_ON_BSC_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [PTERIA_ON_BSC_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [CGG_ON_BSC_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [OCP_ON_ETH_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [ANRX_ON_BSC_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [PBTC_ON_POLYGON_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [TFF_ON_POLYGON_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [EFX_ON_BSC_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [PSEEDS_ON_ETH_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [PLBC_ON_BSC_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [USDO_ON_POLYGON_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [GALA_ON_BSC_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [PUOS_ON_ULTRA_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [EFX_ON_ETH_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   },
   [ZMT_ON_BSC_MAINNET]: {
-    pegin: 0,
+    pegin: 0.1,
     pegout: 0.25
   }
+}*/
+
+const map = {
+  pegin: 0.1,
+  pegout: 0.25
 }
 
 const getFee = (_ptokenId, _type) => {
   if (_type !== 'pegin' && _type !== 'pegout') throw new Error('Invalid type. Please use (pegin or pegout)')
-  const result = map[_ptokenId] ? map[_ptokenId][_type] : null
-  return result ? result : 0
+  switch (_ptokenId) {
+    case PSAFEMOON_ON_ETH_MAINNET: {
+      return 0
+    }
+    default: {
+      return map[_type]
+    }
+  }
 }
 
 export { getFee }
