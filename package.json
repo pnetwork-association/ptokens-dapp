@@ -5,7 +5,7 @@
   "author": "alle.manfredi@gmail.com @provable-things",
   "dependencies": {
     "@portis/web3": "^2.0.0-beta.43",
-    "@walletconnect/web3-provider": "^1.3.1",
+    "@walletconnect/web3-provider": "^1.6.6",
     "anchor-link": "^2.1.3",
     "anchor-link-browser-transport": "^2.1.2",
     "async-mutex": "^0.1.4",
