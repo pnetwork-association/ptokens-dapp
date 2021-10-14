@@ -59,7 +59,8 @@ import {
   GALA_ON_BSC_MAINNET,
   PUOS_ON_ULTRA_MAINNET,
   EFX_ON_ETH_MAINNET,
-  ZMT_ON_BSC_MAINNET
+  ZMT_ON_BSC_MAINNET,
+  BIST_ON_BSC_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -769,6 +770,17 @@ const getConfigs = (_pTokenId, _configs) => {
     return {
       perc20: {
         pToken: pTokens.ZMT,
+        network: networks.BinanceSmartChainMainnet,
+        blockchain: blockchains.BinanceSmartChain,
+        ethProvider,
+        bscProvider
+      }
+    }
+  }
+  if (_pTokenId === BIST_ON_BSC_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.BIST,
         network: networks.BinanceSmartChainMainnet,
         blockchain: blockchains.BinanceSmartChain,
         ethProvider,

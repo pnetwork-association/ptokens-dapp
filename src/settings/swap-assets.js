@@ -1239,6 +1239,29 @@ const swapAssets = [
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true
   },
+  /*{
+    address: '0xbd525e51384905c6c0936a431bc7efb6c4903ea0',
+    id: 'BIST_ON_BSC_MAINNET',
+    name: 'BIST',
+    workingName: 'bist',
+    nativeDecimals: 18,
+    network: 'mainnet',
+    minimumIssuable: '0.001',
+    minimumRedeamable: '0.00005',
+    isHidden: false,
+    blockchain: 'BSC',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'BIST',
+    isPtoken: true,
+    isSpecial: true,
+    isPerc20: true,
+    nativeSymbol: 'BIST',
+    nativeBlockchain: 'ETH',
+    image: 'pBIST.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true
+  },*/
   /* #################   Native Tokens   #################*/
   {
     address: '0x0000000000000000000000000000000000000000',
@@ -1907,6 +1930,21 @@ const swapAssets = [
     image: 'ZMT.svg',
     withBalanceDecimalsConversion: true
   }
+  /*{
+    address: '0x6e8908cfa881c9f6f2c64d3436e7b80b1bf0093f',
+    id: 'BIST',
+    symbol: 'BIST',
+    name: 'Bistroo Token',
+    network: 'mainnet',
+    blockchain: 'ETH',
+    decimals: 18,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'BIST',
+    nativeBlockchain: 'ETH',
+    image: 'BIST.svg',
+    withBalanceDecimalsConversion: true
+  }*/
 ]
 
 export default swapAssets

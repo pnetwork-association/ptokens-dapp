@@ -27,7 +27,8 @@ import {
   GALA_ON_BSC_MAINNET,
   PUOS_ON_ULTRA_MAINNET,
   EFX_ON_ETH_MAINNET,
-  ZMT_ON_BSC_MAINNET
+  ZMT_ON_BSC_MAINNET,
+  BIST_ON_BSC_MAINNET
 } from '../constants'
 
 const minimumPeggable = {
@@ -144,6 +145,10 @@ const minimumPeggable = {
     pegout: 0
   },
   [ZMT_ON_BSC_MAINNET]: {
+    pegin: 0.001,
+    pegout: 0
+  },
+  [BIST_ON_BSC_MAINNET]: {
     pegin: 0.001,
     pegout: 0
   }
