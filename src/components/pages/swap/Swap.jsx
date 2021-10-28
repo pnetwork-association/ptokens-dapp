@@ -207,6 +207,7 @@ const Swap = ({
               {progress.show ? (
                 <Progress percent={progress.percent} message={progress.message} steps={progress.steps} />
               ) : null}
+
               {eta < 0 || eta > 15 ? (
                 <InfoEta>
                   {eta > 15
@@ -218,6 +219,15 @@ const Swap = ({
                 <ProvisionalSafemoonBox>
                   Using this bridge requires a SFM transfer on BSC so a transfer fee may apply
                 </ProvisionalSafemoonBox>
+              ) : null}
+              {to && to.id === 'PBTC_ON_BSC_MAINNET' ? (
+                <InfoEta>
+                  The pBTC-on-BSC pToken is currently off-peg due to a hack - a compensation plan to recoup value in
+                  various crypto assets (not strictly BTC) is being discussed by the community. More details{' '}
+                  <a href="https://twitter.com/pNetworkDeFi/status/1439690593211490324">here</a>. Updates on the launch
+                  of a new pBTC-on-BSC bridge to follow. All other pTokens are working as usual and pegged 1:1 with
+                  their underlying assets.
+                </InfoEta>
               ) : null}
               <ContainerSwapButton>
                 <SwapButton
