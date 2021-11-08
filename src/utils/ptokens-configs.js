@@ -60,7 +60,8 @@ import {
   PUOS_ON_ULTRA_MAINNET,
   EFX_ON_ETH_MAINNET,
   ZMT_ON_BSC_MAINNET,
-  BIST_ON_BSC_MAINNET
+  BIST_ON_BSC_MAINNET,
+  PNT_ON_POLYGON_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -783,6 +784,17 @@ const getConfigs = (_pTokenId, _configs) => {
         pToken: pTokens.BIST,
         network: networks.BinanceSmartChainMainnet,
         blockchain: blockchains.BinanceSmartChain,
+        ethProvider,
+        bscProvider
+      }
+    }
+  }
+  if (_pTokenId === PNT_ON_POLYGON_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.PNT,
+        network: networks.PolygonMainnet,
+        blockchain: blockchains.Polygon,
         ethProvider,
         bscProvider
       }

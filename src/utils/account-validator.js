@@ -62,7 +62,8 @@ import {
   PUOS_ON_ULTRA_MAINNET,
   EFX_ON_ETH_MAINNET,
   ZMT_ON_BSC_MAINNET,
-  BIST_ON_BSC_MAINNET
+  BIST_ON_BSC_MAINNET,
+  PNT_ON_POLYGON_MAINNET
 } from '../constants'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 
@@ -361,6 +362,9 @@ const isValidAccount = async (_pTokenId, _account, _type) => {
       return _type === 'pegin' ? true : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case BIST_ON_BSC_MAINNET: {
+      return _type === 'pegin' ? true : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case PNT_ON_POLYGON_MAINNET: {
       return _type === 'pegin' ? true : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     default:

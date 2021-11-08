@@ -1239,7 +1239,7 @@ const swapAssets = [
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true
   },
-  /*{
+  {
     address: '0xbd525e51384905c6c0936a431bc7efb6c4903ea0',
     id: 'BIST_ON_BSC_MAINNET',
     name: 'BIST',
@@ -1261,7 +1261,28 @@ const swapAssets = [
     image: 'pBIST.svg',
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true
-  },*/
+  },
+  {
+    address: '0xb6bcae6468760bc0cdfb9c8ef4ee75c9dd23e1ed',
+    id: 'PNT_ON_POLYGON_MAINNET',
+    name: 'PNT',
+    workingName: 'pnt',
+    nativeDecimals: 18,
+    network: 'mainnet',
+    isHidden: false,
+    blockchain: 'POLYGON',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'PNT',
+    isPtoken: true,
+    nativeSymbol: 'PNT',
+    nativeBlockchain: 'ETH',
+    image: 'PNT.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true,
+    isSpecial: true,
+    isPerc20: true
+  },
   /* #################   Native Tokens   #################*/
   {
     address: '0x0000000000000000000000000000000000000000',
@@ -1929,8 +1950,8 @@ const swapAssets = [
     nativeBlockchain: 'ETH',
     image: 'ZMT.svg',
     withBalanceDecimalsConversion: true
-  }
-  /*{
+  },
+  {
     address: '0x6e8908cfa881c9f6f2c64d3436e7b80b1bf0093f',
     id: 'BIST',
     symbol: 'BIST',
@@ -1944,7 +1965,7 @@ const swapAssets = [
     nativeBlockchain: 'ETH',
     image: 'BIST.svg',
     withBalanceDecimalsConversion: true
-  }*/
+  }
 ]
 
 export default swapAssets
