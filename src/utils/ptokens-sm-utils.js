@@ -62,7 +62,8 @@ import {
   EFX_ON_ETH_MAINNET,
   ZMT_ON_BSC_MAINNET,
   BIST_ON_BSC_MAINNET,
-  PNT_ON_POLYGON_MAINNET
+  PNT_ON_POLYGON_MAINNET,
+  PVAI_ON_ETH_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_id, _role, _address) => {
@@ -647,6 +648,9 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
     }
     case PNT_ON_POLYGON_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.polygon}tx/`
+    }
+    case PVAI_ON_ETH_MAINNET: {
+      return _role === 'native' ? `${settings.explorers.mainnet.bsc}tx/` : `${settings.explorers.mainnet.eth}tx/`
     }
     default:
       break

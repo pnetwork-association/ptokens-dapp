@@ -1283,6 +1283,27 @@ const swapAssets = [
     isSpecial: true,
     isPerc20: true
   },
+  {
+    address: '0x917847de47b375C59ddC66AAfae113604b205039',
+    id: 'PVAI_ON_ETH_MAINNET',
+    name: 'PVAI',
+    workingName: 'pvai',
+    nativeDecimals: 18,
+    network: 'mainnet',
+    isHidden: false,
+    blockchain: 'ETH',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'PVAI',
+    isPtoken: true,
+    isSpecial: false,
+    isBep20: true,
+    nativeSymbol: 'VAI',
+    nativeBlockchain: 'BSC',
+    image: 'pVAI.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true
+  },
   /* #################   Native Tokens   #################*/
   {
     address: '0x0000000000000000000000000000000000000000',
@@ -1964,6 +1985,21 @@ const swapAssets = [
     nativeSymbol: 'BIST',
     nativeBlockchain: 'ETH',
     image: 'BIST.svg',
+    withBalanceDecimalsConversion: true
+  },
+  {
+    address: '0x4bd17003473389a42daf6a0a729f6fdb328bbbd7',
+    id: 'VAI',
+    symbol: 'VAI',
+    name: 'VAI Stablecoin',
+    network: 'mainnet',
+    blockchain: 'BSC',
+    decimals: 18,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'VAI',
+    nativeBlockchain: 'BSC',
+    image: 'VAI.svg',
     withBalanceDecimalsConversion: true
   }
 ]

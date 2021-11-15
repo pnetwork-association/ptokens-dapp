@@ -63,7 +63,8 @@ import {
   EFX_ON_ETH_MAINNET,
   ZMT_ON_BSC_MAINNET,
   BIST_ON_BSC_MAINNET,
-  PNT_ON_POLYGON_MAINNET
+  PNT_ON_POLYGON_MAINNET,
+  PVAI_ON_ETH_MAINNET
 } from '../constants'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 
@@ -359,13 +360,16 @@ const isValidAccount = async (_pTokenId, _account, _type) => {
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case ZMT_ON_BSC_MAINNET: {
-      return _type === 'pegin' ? true : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case BIST_ON_BSC_MAINNET: {
-      return _type === 'pegin' ? true : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case PNT_ON_POLYGON_MAINNET: {
-      return _type === 'pegin' ? true : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case PVAI_ON_ETH_MAINNET: {
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     default:
       break
