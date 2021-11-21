@@ -74,7 +74,7 @@ const settings = {
         endpoint: 'https://rpc.xdaichain.com/'
       },
       polygon: {
-        endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://rpc-mainnet.maticvigil.com'
+        endpoint: 'https://polygon-rpc.com'
       },
       ultra: {
         chainId: 'a9c481dfbc7d9506dc7e87e9a137c931b0a9303f64fd7a1d08b8230133920097',
