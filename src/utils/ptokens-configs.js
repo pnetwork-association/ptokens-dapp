@@ -798,7 +798,7 @@ const getConfigs = (_pTokenId, _configs) => {
         network: networks.PolygonMainnet,
         blockchain: blockchains.Polygon,
         ethProvider,
-        bscProvider
+        polygonProvider
       }
     }
   }
