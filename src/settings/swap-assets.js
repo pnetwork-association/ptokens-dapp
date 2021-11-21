@@ -554,7 +554,7 @@ const swapAssets = [
     withBalanceDecimalsConversion: true
   },
   {
-    address: '0xed28a457a5a76596ac48d87c0f577020f6ea1c4c',
+    address: '0x1003d3574ac79303a5fa0951ecb04cc7acba9747',
     id: 'PBTC_ON_BSC_MAINNET',
     name: 'pBTC',
     workingName: 'pbtc',
@@ -1304,6 +1304,27 @@ const swapAssets = [
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true
   },
+  {
+    address: '0xe1590a6fa0cff9c960181cb77d8a873601772f64',
+    id: 'WSB_ON_ETH_MAINNET',
+    name: 'WSB',
+    workingName: 'wsb',
+    nativeDecimals: 18,
+    network: 'mainnet',
+    isHidden: false,
+    blockchain: 'ETH',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'WSB',
+    isPtoken: true,
+    isSpecial: true,
+    isBep20: true,
+    nativeSymbol: 'WSB',
+    nativeBlockchain: 'BSC',
+    image: 'pWSB.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true
+  },
   /* #################   Native Tokens   #################*/
   {
     address: '0x0000000000000000000000000000000000000000',
@@ -2000,6 +2021,21 @@ const swapAssets = [
     nativeSymbol: 'VAI',
     nativeBlockchain: 'BSC',
     image: 'VAI.svg',
+    withBalanceDecimalsConversion: true
+  },
+  {
+    address: '0x8244609023097aef71c702ccbaefc0bde5b48694',
+    id: 'WSB',
+    symbol: 'WSB',
+    name: 'WallStreetBets Token',
+    network: 'mainnet',
+    blockchain: 'BSC',
+    decimals: 18,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'WSB',
+    nativeBlockchain: 'BSC',
+    image: 'WSB.svg',
     withBalanceDecimalsConversion: true
   }
 ]

@@ -62,7 +62,8 @@ import {
   ZMT_ON_BSC_MAINNET,
   BIST_ON_BSC_MAINNET,
   PNT_ON_POLYGON_MAINNET,
-  PVAI_ON_ETH_MAINNET
+  PVAI_ON_ETH_MAINNET,
+  WSB_ON_ETH_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -805,6 +806,17 @@ const getConfigs = (_pTokenId, _configs) => {
     return {
       pbep20: {
         pToken: pTokens.pVAI,
+        network: networks.EthereumMainnet,
+        blockchain: blockchains.Ethereum,
+        ethProvider,
+        bscProvider
+      }
+    }
+  }
+  if (_pTokenId === WSB_ON_ETH_MAINNET) {
+    return {
+      pbep20: {
+        pToken: pTokens.WSB,
         network: networks.EthereumMainnet,
         blockchain: blockchains.Ethereum,
         ethProvider,

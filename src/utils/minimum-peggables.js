@@ -30,7 +30,8 @@ import {
   ZMT_ON_BSC_MAINNET,
   BIST_ON_BSC_MAINNET,
   PNT_ON_POLYGON_MAINNET,
-  PVAI_ON_ETH_MAINNET
+  PVAI_ON_ETH_MAINNET,
+  WSB_ON_ETH_MAINNET
 } from '../constants'
 
 const minimumPeggable = {
@@ -159,6 +160,10 @@ const minimumPeggable = {
     pegout: 10
   },
   [PVAI_ON_ETH_MAINNET]: {
+    pegin: 10,
+    pegout: 10
+  },
+  [WSB_ON_ETH_MAINNET]: {
     pegin: 10,
     pegout: 10
   }

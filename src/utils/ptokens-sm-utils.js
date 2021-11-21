@@ -63,7 +63,8 @@ import {
   ZMT_ON_BSC_MAINNET,
   BIST_ON_BSC_MAINNET,
   PNT_ON_POLYGON_MAINNET,
-  PVAI_ON_ETH_MAINNET
+  PVAI_ON_ETH_MAINNET,
+  WSB_ON_ETH_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_id, _role, _address) => {
@@ -383,6 +384,11 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
         ? `${settings.explorers.mainnet.eth}address/${_address}`
         : `${settings.explorers.mainnet.polygon}address/${_address}`
     }
+    case WSB_ON_ETH_MAINNET: {
+      return _role === 'native'
+        ? `${settings.explorers.mainnet.bsc}address/${_address}`
+        : `${settings.explorers.mainnet.eth}address/${_address}`
+    }
     default:
       break
   }
@@ -650,6 +656,9 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
       return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.polygon}tx/`
     }
     case PVAI_ON_ETH_MAINNET: {
+      return _role === 'native' ? `${settings.explorers.mainnet.bsc}tx/` : `${settings.explorers.mainnet.eth}tx/`
+    }
+    case WSB_ON_ETH_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.bsc}tx/` : `${settings.explorers.mainnet.eth}tx/`
     }
     default:
