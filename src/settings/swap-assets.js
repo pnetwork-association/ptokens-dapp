@@ -635,7 +635,8 @@ const swapAssets = [
     nativeSymbol: 'IQ',
     nativeBlockchain: 'EOS',
     image: 'pIQ.svg',
-    withBalanceDecimalsConversion: true
+    withBalanceDecimalsConversion: true,
+    isSpecial: true
   },
   {
     address: '0x7825e833d495f3d1c28872415a4aee339d26ac88',
