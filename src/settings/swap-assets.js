@@ -2024,7 +2024,7 @@ const swapAssets = [
     withBalanceDecimalsConversion: true
   },
   {
-    address: '0x8244609023097aef71c702ccbaefc0bde5b48694',
+    address: '0x22168882276e5d5e1da694343b41dd7726eeb288',
     id: 'WSB',
     symbol: 'WSB',
     name: 'WallStreetBets Token',
