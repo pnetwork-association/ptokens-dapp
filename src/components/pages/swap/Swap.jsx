@@ -207,6 +207,9 @@ const Swap = ({
               {progress.show ? (
                 <Progress percent={progress.percent} message={progress.message} steps={progress.steps} />
               ) : null}
+              {(to && to.id === 'PSAFEMOON_ON_ETH_MAINNET') || (from && from.id === 'PSAFEMOON_ON_ETH_MAINNET') ? (
+                <InfoEta>Temporary suspended for maintenance</InfoEta>
+              ) : null}
               {(to && to.id === 'PBTC_ON_BSC_MAINNET') || (from && from.id === 'PBTC_ON_BSC_MAINNET') ? (
                 <InfoEta>
                   The pBTC-on-BSC pToken is currently off-peg due to a hack - a compensation plan to recoup value in
@@ -223,16 +226,21 @@ const Swap = ({
                     : 'Please note that this operation may take longer than usual to get processed as the bridge is experiencing major delays.'}
                 </InfoEta>
               ) : null}
-              {from && to && (from.symbol.toUpperCase() === 'SAFEMOON' || to.symbol.toUpperCase() === 'SAFEMOON') ? (
+              {/*from && to && (from.symbol.toUpperCase() === 'SAFEMOON' || to.symbol.toUpperCase() === 'SAFEMOON') ? (
                 <ProvisionalSafemoonBox>
                   Using this bridge requires a SFM transfer on BSC so a transfer fee may apply
                 </ProvisionalSafemoonBox>
-              ) : null}
+              ) : null*/}
 
               <ContainerSwapButton>
                 <SwapButton
                   onClick={onSwap}
-                  disabled={swapButton.disabled || (address === '' && swapButton.text !== 'Connect Wallet')}
+                  disabled={
+                    swapButton.disabled ||
+                    (address === '' && swapButton.text !== 'Connect Wallet') ||
+                    (to && to.id === 'PSAFEMOON_ON_ETH_MAINNET') ||
+                    (from && from.id === 'PSAFEMOON_ON_ETH_MAINNET')
+                  }
                 >
                   {swapButton.text}
                 </SwapButton>
