@@ -30,7 +30,7 @@ const useSwap = ({
   const [assetsLoaded, setAssetsLoaded] = useState(false)
   const [selectionChanged, setSelectionChanged] = useState(false)
 
-  const { fee, isPegin, isPegout, eta, minimumPeggable } = useSwapInfo({ from, to, bpm })
+  const { fee, isPegin, isPegout, eta, minimumPeggable, onPnetworkV2 } = useSwapInfo({ from, to, bpm })
 
   const onChangeFromAmount = useCallback(
     _amount => {
@@ -371,6 +371,7 @@ const useSwap = ({
     fromWallet,
     toWallet,
     eta,
+    onPnetworkV2,
     onChangeFromAmount,
     onChangeToAmount,
     onChangeOrder,
@@ -399,6 +400,8 @@ const useSwapInfo = ({ from, to, bpm }) => {
       }
     }
 
+    const onPnetworkV2 = Boolean((from && from.onPnetworkV2) || (to && to.onPnetworkV2))
+
     // NOTE: fee hardcoded at the moment
     if (!from.isPtoken && to.isPtoken) {
       const minimumPeggable = getMinimumPeggable(to.id, 'pegin')
@@ -417,7 +420,8 @@ const useSwapInfo = ({ from, to, bpm }) => {
         show: true,
         isPegin: true,
         isPegout: false,
-        eta
+        eta,
+        onPnetworkV2
       }
     } else if (from.isPtoken && !to.isPtoken) {
       const minimumPeggable = getMinimumPeggable(from.id, 'pegout')
@@ -436,7 +440,8 @@ const useSwapInfo = ({ from, to, bpm }) => {
         show: true,
         isPegin: false,
         isPegout: true,
-        eta
+        eta,
+        onPnetworkV2
       }
     }
 

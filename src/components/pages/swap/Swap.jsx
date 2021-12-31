@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Row, Container } from 'react-bootstrap'
+import { Row, Col, Container } from 'react-bootstrap'
 import AssetListModal from '../../organisms/assetListModal/AssetListModal'
 import Progress from '../../molecules/progress/Progress'
 import { useSwap } from '../../../hooks/use-swap'
@@ -119,6 +119,14 @@ const InfoEta = styled.div`
 
 const ProvisionalSafemoonBox = styled(InfoEta)``
 
+const PnetworkV2Badge = styled.span`
+  color: white;
+  background: ${({ theme }) => theme.primary1};
+  font-size: 11px;
+  border-radius: 10px;
+  padding: 5px 10px 5px 10px;
+`
+
 const Swap = ({
   assets: _assets,
   bpm,
@@ -146,6 +154,7 @@ const Swap = ({
     fromWallet,
     toWallet,
     eta,
+    onPnetworkV2,
     onChangeFromAmount,
     onChangeToAmount,
     onChangeOrder,
@@ -177,7 +186,12 @@ const Swap = ({
         <Row>
           <OuterContainerSwap className="mx-auto">
             <ContainerSwap>
-              <SwapLabel>Swap</SwapLabel>
+              <Row>
+                <Col xs={6}>
+                  <SwapLabel>Swap</SwapLabel>
+                </Col>
+                <Col className="text-right">{onPnetworkV2 ? <PnetworkV2Badge>pNetwork v2</PnetworkV2Badge> : null}</Col>
+              </Row>
               <SwapLine
                 defaultImage="../assets/svg/BTC.svg"
                 title="From"
@@ -207,9 +221,6 @@ const Swap = ({
               {progress.show ? (
                 <Progress percent={progress.percent} message={progress.message} steps={progress.steps} />
               ) : null}
-              {(to && to.id === 'PSAFEMOON_ON_ETH_MAINNET') || (from && from.id === 'PSAFEMOON_ON_ETH_MAINNET') ? (
-                <InfoEta>Temporary suspended for maintenance</InfoEta>
-              ) : null}
               {(to && to.id === 'PBTC_ON_BSC_MAINNET') || (from && from.id === 'PBTC_ON_BSC_MAINNET') ? (
                 <InfoEta>
                   The pBTC-on-BSC pToken is currently off-peg due to a hack - a compensation plan to recoup value in
@@ -226,12 +237,11 @@ const Swap = ({
                     : 'Please note that this operation may take longer than usual to get processed as the bridge is experiencing major delays.'}
                 </InfoEta>
               ) : null}
-              {/*from && to && (from.symbol.toUpperCase() === 'SAFEMOON' || to.symbol.toUpperCase() === 'SAFEMOON') ? (
+              {from && to && (from.symbol.toUpperCase() === 'SAFEMOON' || to.symbol.toUpperCase() === 'SAFEMOON') ? (
                 <ProvisionalSafemoonBox>
                   Using this bridge requires a SFM transfer on BSC so a transfer fee may apply
                 </ProvisionalSafemoonBox>
-              ) : null*/}
-
+              ) : null}
               <ContainerSwapButton>
                 <SwapButton
                   onClick={onSwap}

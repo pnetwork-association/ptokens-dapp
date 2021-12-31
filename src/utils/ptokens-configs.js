@@ -63,7 +63,8 @@ import {
   BIST_ON_BSC_MAINNET,
   PNT_ON_POLYGON_MAINNET,
   PVAI_ON_ETH_MAINNET,
-  WSB_ON_ETH_MAINNET
+  WSB_ON_ETH_MAINNET,
+  PNT_ON_ARBITRUM_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -821,6 +822,17 @@ const getConfigs = (_pTokenId, _configs) => {
         blockchain: blockchains.Ethereum,
         ethProvider,
         bscProvider
+      }
+    }
+  }
+  if (_pTokenId === PNT_ON_ARBITRUM_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.PNT,
+        network: networks.ArbitrumMainnet,
+        blockchain: blockchains.Arbitrum,
+        ethProvider,
+        arbitrumProvider
       }
     }
   }

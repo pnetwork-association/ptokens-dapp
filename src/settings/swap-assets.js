@@ -1327,6 +1327,28 @@ const swapAssets = [
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true
   },
+  {
+    address: '0x89Ed0738eC8BF59302dC34AdecE3508CF3B911E2',
+    id: 'PNT_ON_ARBITRUM_MAINNET',
+    name: 'PNT',
+    workingName: 'pnt',
+    nativeDecimals: 18,
+    network: 'mainnet',
+    isHidden: false,
+    blockchain: 'ARBITRUM',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'PNT',
+    isPtoken: true,
+    nativeSymbol: 'PNT',
+    nativeBlockchain: 'ETH',
+    image: 'PNT.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true,
+    isSpecial: true,
+    isPerc20: true,
+    onPnetworkV2: true
+  },
   /* #################   Native Tokens   #################*/
   {
     address: '0x0000000000000000000000000000000000000000',
