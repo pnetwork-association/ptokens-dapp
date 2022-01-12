@@ -14,10 +14,7 @@ const connectWithLibreWallet = _dispatch => {
     dappName: settings.dappName,
     theme: getWeb3ModalTheme(getTheme()),
     providerOptions: {
-      scatter: {
-        settings: settings.rpc.mainnet.libre
-      },
-      tokenPocket: {
+      libre: {
         settings: settings.rpc.mainnet.libre
       },
       anchor: {

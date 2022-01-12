@@ -4,6 +4,7 @@ import Modal from './components/Modal'
 import EventEmitter from 'eventemitter3'
 import ScatterProvider from './providers/scatter'
 import AnchorProvider from './providers/anchor'
+import LibreProvider from './providers/libre'
 import TokenPocketProvider from './providers/token-pocket'
 
 const INITIAL_STATE = { show: false }
@@ -30,7 +31,7 @@ class EosConnect extends EventEmitter {
     this.renderModal()
   }
 
-  setConfigs = ({ dappName, providerOptions: { scatter, tokenPocket, anchor } }) => {
+  setConfigs = ({ dappName, providerOptions: { scatter, tokenPocket, anchor, libre } }) => {
     this.userOptions = []
     if (scatter) {
       this.scatterProvider = new ScatterProvider({
@@ -58,6 +59,20 @@ class EosConnect extends EventEmitter {
         description: 'Anchor Wallet',
         themeColors: this.themeColors,
         onClick: () => this.handleClick(this.anchorProvider)
+      })
+    }
+    if (libre) {
+      this.libreProvider = new LibreProvider({
+        settings: libre.settings,
+        dappName
+      })
+
+      this.userOptions.push({
+        name: 'Libre',
+        logo: '../assets/svg/libre_wallet.svg',
+        description: 'Libre Wallet',
+        themeColors: this.themeColors,
+        onClick: () => this.handleClick(this.libreProvider)
       })
     }
     if (tokenPocket) {

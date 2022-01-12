@@ -10,6 +10,8 @@
     "@portis/web3": "^2.0.0-beta.43",
     "@randlabs/myalgo-connect": "^1.2.0",
     "@walletconnect/web3-provider": "^1.6.6",
+    "@libre-chain/libre-link": "^3.5.0",
+    "@libre-chain/libre-link-browser-transport": "^3.4.2",
     "algorand-walletconnect-qrcode-modal": "^1.6.1",
     "algosdk": "1.23.2",
     "anchor-link": "^3.5.0",
