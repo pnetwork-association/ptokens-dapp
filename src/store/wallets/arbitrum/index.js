@@ -1,6 +1,7 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
+import WalletLink from 'walletlink'
 import settings from '../../../settings'
 import {
   WALLET_ARBITRUM_CONNECTED,
@@ -31,6 +32,15 @@ const connectWithArbitrumWallet = async _dispatch => {
             rpc: {
               42161: settings.rpc.mainnet.arbitrum.endpoint
             }
+          }
+        },
+        walletlink: {
+          package: WalletLink,
+          options: {
+            appName: settings.dappName,
+            rpc: settings.rpc.mainnet.arbitrum.endpoint,
+            chainId: 42161,
+            darkMode: getTheme() === 'dark'
           }
         }
       }

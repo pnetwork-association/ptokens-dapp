@@ -245,12 +245,7 @@ const Swap = ({
               <ContainerSwapButton>
                 <SwapButton
                   onClick={onSwap}
-                  disabled={
-                    swapButton.disabled ||
-                    (address === '' && swapButton.text !== 'Connect Wallet') ||
-                    (to && to.id === 'PSAFEMOON_ON_ETH_MAINNET') ||
-                    (from && from.id === 'PSAFEMOON_ON_ETH_MAINNET')
-                  }
+                  disabled={swapButton.disabled || (address === '' && swapButton.text !== 'Connect Wallet')}
                 >
                   {swapButton.text}
                 </SwapButton>

@@ -3,6 +3,7 @@ import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import Portis from '@portis/web3'
 import Fortmatic from 'fortmatic'
+import WalletLink from 'walletlink'
 import settings from '../../../settings'
 import {
   WALLET_ETH_CONNECTED,
@@ -44,6 +45,15 @@ const connectWithEthWallet = async _dispatch => {
           package: Fortmatic,
           options: {
             key: settings.fortmaticKey
+          }
+        },
+        walletlink: {
+          package: WalletLink,
+          options: {
+            appName: settings.dappName,
+            rpc: settings.rpc.mainnet.eth.endpoint,
+            chainId: 1,
+            darkMode: getTheme() === 'dark'
           }
         }
       }

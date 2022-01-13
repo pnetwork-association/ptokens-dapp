@@ -1,6 +1,7 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
+import WalletLink from 'walletlink'
 import {
   WALLET_POLYGON_CONNECTED,
   WALLET_POLYGON_ACCOUNT_CHANGED,
@@ -30,6 +31,15 @@ const connectWithPolygonWallet = async _dispatch => {
             rpc: {
               137: settings.rpc.mainnet.polygon.endpoint
             }
+          }
+        },
+        walletlink: {
+          package: WalletLink,
+          options: {
+            appName: settings.dappName,
+            rpc: settings.rpc.mainnet.polygon.endpoint,
+            chainId: 137,
+            darkMode: getTheme() === 'dark'
           }
         }
       }

@@ -2,6 +2,7 @@ import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import { WALLET_BSC_CONNECTED, WALLET_BSC_DISCONNECTED, WALLET_BSC_ACCOUNT_CHANGED } from '../../../constants'
 import WalletConnectProvider from '@walletconnect/web3-provider'
+import WalletLink from 'walletlink'
 import settings from '../../../settings'
 import { setupNetwork } from '../../../utils/wallet'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
@@ -26,6 +27,15 @@ const connectWithBscWallet = async _dispatch => {
             rpc: {
               56: settings.rpc.mainnet.bsc.endpoint
             }
+          }
+        },
+        walletlink: {
+          package: WalletLink,
+          options: {
+            appName: settings.dappName,
+            rpc: settings.rpc.mainnet.bsc.endpoint,
+            chainId: 56,
+            darkMode: getTheme() === 'dark'
           }
         }
       }

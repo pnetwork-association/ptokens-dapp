@@ -1347,7 +1347,8 @@ const swapAssets = [
     withBalanceDecimalsConversion: true,
     isSpecial: true,
     isPerc20: true,
-    onPnetworkV2: true
+    onPnetworkV2: true,
+    gasLimitPegout: 90000 * 10
   },
   /* #################   Native Tokens   #################*/
   {
