@@ -233,7 +233,8 @@ const swap = (_from, _to, _amount, _address) => {
             xdaiProvider: wallets.xdai.provider || getReadOnlyProviderByBlockchain('XDAI'),
             bscProvider: wallets.bsc.provider || getReadOnlyProviderByBlockchain('BSC'),
             ultraSignatureProvider: wallets.ultra.provider || getReadOnlyProviderByBlockchain('ULTRA'),
-            arbitrumProvider: wallets.arbitrum.provider || getReadOnlyProviderByBlockchain('ARBITRUM')
+            arbitrumProvider: wallets.arbitrum.provider || getReadOnlyProviderByBlockchain('ARBITRUM'),
+            luxochainProvider: wallets.luxochain.provider || getReadOnlyProviderByBlockchain('LUXOCHAIN')
           })
         )
 
@@ -284,7 +285,8 @@ const swap = (_from, _to, _amount, _address) => {
             xdaiProvider: wallets.xdai.provider || getReadOnlyProviderByBlockchain('XDAI'),
             bscProvider: wallets.bsc.provider || getReadOnlyProviderByBlockchain('BSC'),
             ultraSignatureProvider: wallets.ultra.provider || getReadOnlyProviderByBlockchain('ULTRA'),
-            arbitrumProvider: wallets.arbitrum.provider || getReadOnlyProviderByBlockchain('ARBITRUM')
+            arbitrumProvider: wallets.arbitrum.provider || getReadOnlyProviderByBlockchain('ARBITRUM'),
+            luxochainProvider: wallets.luxochain.provider || getReadOnlyProviderByBlockchain('LUXOCHAIN')
           })
         )
 

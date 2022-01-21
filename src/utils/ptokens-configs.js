@@ -64,7 +64,8 @@ import {
   PNT_ON_POLYGON_MAINNET,
   PVAI_ON_ETH_MAINNET,
   WSB_ON_ETH_MAINNET,
-  PNT_ON_ARBITRUM_MAINNET
+  PNT_ON_ARBITRUM_MAINNET,
+  LUXO_ON_LUXOCHAIN_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -78,7 +79,8 @@ const getConfigs = (_pTokenId, _configs) => {
     xdaiProvider,
     bscProvider,
     ultraSignatureProvider,
-    arbitrumProvider
+    arbitrumProvider,
+    luxochainProvider
   } = _configs
   const { networks, blockchains, pTokens } = constants
 
@@ -833,6 +835,17 @@ const getConfigs = (_pTokenId, _configs) => {
         blockchain: blockchains.Arbitrum,
         ethProvider,
         arbitrumProvider
+      }
+    }
+  }
+  if (_pTokenId === LUXO_ON_LUXOCHAIN_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.LUXO,
+        network: networks.LuxochainMainnet,
+        blockchain: blockchains.Luxochain,
+        ethProvider,
+        luxochainProvider
       }
     }
   }

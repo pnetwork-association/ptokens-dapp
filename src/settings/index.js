@@ -85,6 +85,9 @@ const settings = {
       },
       arbitrum: {
         endpoint: 'https://arb1.arbitrum.io/rpc'
+      },
+      luxochain: {
+        endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=http://3.64.15.131:8545/'
       }
     }
   },
@@ -102,7 +105,8 @@ const settings = {
       rvn: 'https://ravencoin.network/',
       lbc: 'https://explorer.lbry.com/',
       ultra: 'https://explorer.mainnet.ultra.io/',
-      arbitrum: 'https://arbiscan.io/'
+      arbitrum: 'https://arbiscan.io/',
+      luxochain: 'https://explorer.luxochain.io/'
     }
   },
   supportedNfts: [

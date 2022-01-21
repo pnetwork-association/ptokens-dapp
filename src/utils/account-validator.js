@@ -66,7 +66,8 @@ import {
   PNT_ON_POLYGON_MAINNET,
   PVAI_ON_ETH_MAINNET,
   WSB_ON_ETH_MAINNET,
-  PNT_ON_ARBITRUM_MAINNET
+  PNT_ON_ARBITRUM_MAINNET,
+  LUXO_ON_LUXOCHAIN_MAINNET
 } from '../constants'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 
@@ -379,6 +380,9 @@ const isValidAccount = async (_pTokenId, _account, _type) => {
     case PNT_ON_ARBITRUM_MAINNET: {
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
+    case LUXO_ON_LUXOCHAIN_MAINNET: {
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
     default:
       break
   }
@@ -396,6 +400,8 @@ const isValidAccountByBlockchain = (_account, _blockchain) => {
     case 'BSC':
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     case 'ARBITRUM':
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    case 'LUXOCHAIN':
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     case 'TELOS':
       return pTokenUtils.eos.isValidAccountName(_account)

@@ -19,7 +19,10 @@ import {
   WALLET_XDAI_DISCONNECTED,
   WALLET_EOS_DISCONNECTED,
   WALLET_ULTRA_DISCONNECTED,
-  WALLET_TELOS_DISCONNECTED
+  WALLET_TELOS_DISCONNECTED,
+  WALLET_LUXOCHAIN_CONNECTED,
+  WALLET_LUXOCHAIN_DISCONNECTED,
+  WALLET_LUXOCHAIN_ACCOUNT_CHANGED
 } from '../../constants/index'
 
 const initialState = {
@@ -70,6 +73,12 @@ const initialState = {
     account: null,
     network: null,
     permission: null
+  },
+  luxochain: {
+    provider: null,
+    account: null,
+    chainId: null,
+    network: null
   }
 }
 
@@ -268,7 +277,7 @@ const walletsReducer = (_state = initialState, _action) => {
     const { account } = _action.payload
     return Object.assign({}, _state, {
       arbitrum: {
-        ..._state.eth,
+        ..._state.arbitrum,
         account
       }
     })
@@ -276,6 +285,35 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_ARBITRUM_DISCONNECTED) {
     return Object.assign({}, _state, {
       arbitrum: {
+        provider: null,
+        account: null,
+        network: null
+      }
+    })
+  }
+  if (_action.type === WALLET_LUXOCHAIN_CONNECTED) {
+    const { provider, account, network, chainId } = _action.payload
+    return Object.assign({}, _state, {
+      luxochain: {
+        provider,
+        account,
+        network,
+        chainId
+      }
+    })
+  }
+  if (_action.type === WALLET_LUXOCHAIN_ACCOUNT_CHANGED) {
+    const { account } = _action.payload
+    return Object.assign({}, _state, {
+      luxochain: {
+        ..._state.luxochain,
+        account
+      }
+    })
+  }
+  if (_action.type === WALLET_LUXOCHAIN_DISCONNECTED) {
+    return Object.assign({}, _state, {
+      luxochain: {
         provider: null,
         account: null,
         network: null

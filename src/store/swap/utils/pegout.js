@@ -29,6 +29,10 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
     actor: getWalletAccountByBlockchain(ptoken.blockchain)
   }
 
+  if (ptoken.gasPricePegout) {
+    params[params.length].gasPrice = ptoken.gasPricePegout
+  }
+
   if (ptoken.withAmountConversionPegout) {
     params[0] = BigNumber(params[0])
       .multipliedBy(10 ** ptoken.decimals)

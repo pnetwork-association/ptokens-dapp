@@ -13,7 +13,8 @@ const transactionBaseLink = {
   DOGE: `${settings.explorers.mainnet.doge}tx/`,
   LBC: `${settings.explorers.mainnet.lbc}tx/`,
   ULTRA: `${settings.explorers.mainnet.ultra}tx/`,
-  ARBITRUM: `${settings.explorers.mainnet.arbitrum}tx/`
+  ARBITRUM: `${settings.explorers.mainnet.arbitrum}tx/`,
+  LUXOCHAIN: `${settings.explorers.mainnet.luxochain}tx/`
 }
 
 const addressBaseLink = {
@@ -29,7 +30,8 @@ const addressBaseLink = {
   DOGE: `${settings.explorers.mainnet.doge}address/`,
   LBC: `${settings.explorers.mainnet.lbc}address/`,
   ULTRA: `${settings.explorers.mainnet.ultra}account/`,
-  ARBITRUM: `${settings.explorers.mainnet.arbitrum}address/`
+  ARBITRUM: `${settings.explorers.mainnet.arbitrum}address/`,
+  LUXOCHAIN: `${settings.explorers.mainnet.luxochain}address/`
 }
 
 const tokenBaseLink = {
@@ -45,7 +47,8 @@ const tokenBaseLink = {
   DOGE: `${settings.explorers.mainnet.doge}address/`,
   LBC: `${settings.explorers.mainnet.lbc}address/`,
   ULTRA: `${settings.explorers.mainnet.ultra}account/`,
-  ARBITRUM: `${settings.explorers.mainnet.arbitrum}token/`
+  ARBITRUM: `${settings.explorers.mainnet.arbitrum}token/`,
+  LUXOCHAIN: `${settings.explorers.mainnet.luxochain}token/`
 }
 
 const getCorrespondingBaseTxExplorerLinkByBlockchain = _blockchain => transactionBaseLink[_blockchain.toUpperCase()]

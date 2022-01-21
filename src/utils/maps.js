@@ -11,7 +11,8 @@ const blockchainSymbolToName = {
   RVN: 'Ravencoin',
   LBC: 'Lbry Credits',
   ULTRA: 'Ultra',
-  ARBITRUM: 'Arbitrum'
+  ARBITRUM: 'Arbitrum',
+  LUXOCHAIN: 'Luxochain'
 }
 
 const blockchainSymbolToCoin = {
@@ -27,7 +28,8 @@ const blockchainSymbolToCoin = {
   RVN: 'Ravencoin',
   LBC: 'Lbry Credits',
   ULTRA: 'Ultra Token',
-  ARBITRUM: 'Arbitrum'
+  ARBITRUM: 'Arbitrum',
+  LUXOCHAIN: 'Luxochain'
 }
 
 const getAssetFromNativeSymbol = (_assets, _symbol) => _assets.find(({ symbol }) => symbol === _symbol)

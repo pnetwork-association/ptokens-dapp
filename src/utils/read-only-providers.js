@@ -29,6 +29,9 @@ const getReadOnlyProviderByBlockchain = _blockchain => {
   if (_blockchain === 'ARBITRUM') {
     return new Web3.providers.HttpProvider(settings.rpc.mainnet.arbitrum.endpoint)
   }
+  if (_blockchain === 'LUXOCHAIN') {
+    return new Web3.providers.HttpProvider(settings.rpc.mainnet.luxochain.endpoint)
+  }
   return null
 }
 

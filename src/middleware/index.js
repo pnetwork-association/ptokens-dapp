@@ -12,6 +12,8 @@ import {
   WALLET_POLYGON_CONNECTED,
   WALLET_TELOS_CONNECTED,
   WALLET_ULTRA_CONNECTED,
+  WALLET_LUXOCHAIN_CONNECTED,
+  WALLET_LUXOCHAIN_ACCOUNT_CHANGED,
   NFTS_DATA_LOADED,
   NFT_DATA_LOADED
 } from '../constants'
@@ -68,6 +70,11 @@ const middleware = ({ dispatch }) => {
       if (type === WALLET_ARBITRUM_CONNECTED || type === WALLET_ARBITRUM_ACCOUNT_CHANGED) {
         dispatch(loadBalances(payload.account, 'ARBITRUM'))
         dispatch(loadNftsData(payload.account, 'ARBITRUM'))
+      }
+
+      if (type === WALLET_LUXOCHAIN_CONNECTED || type === WALLET_LUXOCHAIN_ACCOUNT_CHANGED) {
+        dispatch(loadBalances(payload.account, 'LUXOCHAIN'))
+        dispatch(loadNftsData(payload.account, 'LUXOCHAIN'))
       }
 
       if (type === NFTS_DATA_LOADED || type === NFT_DATA_LOADED) {

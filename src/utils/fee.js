@@ -51,7 +51,8 @@ import {
   OCP_ON_ETH_MAINNET,
   ANRX_ON_BSC_MAINNET,
   TFF_ON_POLYGON_MAINNET,*/
-  PSAFEMOON_ON_ETH_MAINNET
+  PSAFEMOON_ON_ETH_MAINNET,
+  PUOS_ON_ULTRA_MAINNET
   /*EFX_ON_BSC_MAINNET,
   PSEEDS_ON_ETH_MAINNET,
   PLBC_ON_BSC_MAINNET,
@@ -175,6 +176,9 @@ const getFee = (_ptokenId, _type) => {
   switch (_ptokenId) {
     case PSAFEMOON_ON_ETH_MAINNET: {
       return 0
+    }
+    case PUOS_ON_ULTRA_MAINNET: {
+      return _type === 'pegin' ? 0 : map[_type]
     }
     default: {
       return map[_type]
