@@ -1,8 +1,6 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
-import Portis from '@portis/web3'
-import Fortmatic from 'fortmatic'
 import WalletLink from 'walletlink'
 import settings from '../../../settings'
 import {
@@ -33,18 +31,6 @@ const connectWithLuxochainWallet = async _dispatch => {
             rpc: {
               110: settings.rpc.mainnet.luxochain.endpoint
             }
-          }
-        },
-        portis: {
-          package: Portis,
-          options: {
-            id: settings.portisDappId
-          }
-        },
-        fortmatic: {
-          package: Fortmatic,
-          options: {
-            key: settings.fortmaticKey
           }
         },
         walletlink: {

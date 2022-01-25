@@ -151,6 +151,15 @@ const loadBalances = (_account, _blockchain) => {
           })
           break
         }
+        case 'LUXOCHAIN': {
+          loadEvmCompatibleBalances({
+            assets: getAssetsByBlockchain('LUXOCHAIN'),
+            account: _account,
+            dispatch: _dispatch,
+            blockchain: 'LUXOCHAIN'
+          })
+          break
+        }
         default:
           break
       }
@@ -200,7 +209,11 @@ const loadBalanceByAssetId = _id => {
           break
         }
         case 'ARBITRUM': {
-          loadEvmCompatibleBalance({ asset, account, blockchain: 'BSC', dispatch: _dispatch })
+          loadEvmCompatibleBalance({ asset, account, blockchain: 'ARBITRUM', dispatch: _dispatch })
+          break
+        }
+        case 'LUXOCHAIN': {
+          loadEvmCompatibleBalance({ asset, account, blockchain: 'LUXOCHAIN', dispatch: _dispatch })
           break
         }
         default: {

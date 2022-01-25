@@ -6,6 +6,7 @@ import { connectWithPolygonWallet, disconnectFromPolygonWallet } from './polygon
 import { connectWithXdaiWallet, disconnectFromXdaiWallet } from './xdai'
 import { connectWithTelosWallet, disconnectFromTelosWallet } from './telos'
 import { connectWithUltraWallet, disconnectFromUltraWallet } from './ultra'
+import { connectWithLuxochainWallet, disconnectFromLuxochainWallet } from './luxochain'
 
 const connectWithWallet = _blockchain => {
   return async _dispatch => {
@@ -40,6 +41,10 @@ const connectWithWallet = _blockchain => {
       }
       case 'ARBITRUM': {
         connectWithArbitrumWallet(_dispatch)
+        break
+      }
+      case 'LUXOCHAIN': {
+        connectWithLuxochainWallet(_dispatch)
         break
       }
       default:
@@ -81,6 +86,10 @@ const disconnectFromWallet = _blockchain => {
       }
       case 'ARBITRUM': {
         disconnectFromArbitrumWallet(_dispatch)
+        break
+      }
+      case 'LUXOCHAIN': {
+        disconnectFromLuxochainWallet(_dispatch)
         break
       }
       default:
