@@ -67,7 +67,8 @@ import {
   PVAI_ON_ETH_MAINNET,
   WSB_ON_ETH_MAINNET,
   PNT_ON_ARBITRUM_MAINNET,
-  LUXO_ON_LUXOCHAIN_MAINNET
+  LUXO_ON_LUXOCHAIN_MAINNET,
+  LUXO_ON_BSC_MAINNET
 } from '../constants'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 
@@ -381,6 +382,9 @@ const isValidAccount = async (_pTokenId, _account, _type) => {
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case LUXO_ON_LUXOCHAIN_MAINNET: {
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case LUXO_ON_BSC_MAINNET: {
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     default:

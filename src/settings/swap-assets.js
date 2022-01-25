@@ -1373,6 +1373,28 @@ const swapAssets = [
     onPnetworkV2: true,
     gasPricePegout: 0
   },
+  {
+    address: '0xA26dE83Ea3A573B6bcafa489a364951C2A8D3A6E',
+    id: 'LUXO_ON_BSC_MAINNET',
+    name: 'LUXO',
+    workingName: 'luxo',
+    nativeDecimals: 18,
+    network: 'mainnet',
+    isHidden: false,
+    blockchain: 'BSC',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'LUXO',
+    isPtoken: true,
+    nativeSymbol: 'LUXO',
+    nativeBlockchain: 'ETH',
+    image: 'pLUXO.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true,
+    isSpecial: true,
+    isPerc20: true,
+    onPnetworkV2: true
+  },
   /* #################   Native Tokens   #################*/
   {
     address: '0x0000000000000000000000000000000000000000',

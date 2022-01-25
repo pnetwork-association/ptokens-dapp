@@ -65,7 +65,8 @@ import {
   PVAI_ON_ETH_MAINNET,
   WSB_ON_ETH_MAINNET,
   PNT_ON_ARBITRUM_MAINNET,
-  LUXO_ON_LUXOCHAIN_MAINNET
+  LUXO_ON_LUXOCHAIN_MAINNET,
+  LUXO_ON_BSC_MAINNET
 } from '../constants'
 
 const minimumPeggable = {
@@ -338,8 +339,12 @@ const minimumPeggable = {
     pegout: 100
   },
   [LUXO_ON_LUXOCHAIN_MAINNET]: {
-    pegin: 100,
-    pegout: 100
+    pegin: 20,
+    pegout: 20
+  },
+  [LUXO_ON_BSC_MAINNET]: {
+    pegin: 20,
+    pegout: 20
   }
 }
 

@@ -65,7 +65,8 @@ import {
   PVAI_ON_ETH_MAINNET,
   WSB_ON_ETH_MAINNET,
   PNT_ON_ARBITRUM_MAINNET,
-  LUXO_ON_LUXOCHAIN_MAINNET
+  LUXO_ON_LUXOCHAIN_MAINNET,
+  LUXO_ON_BSC_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -846,6 +847,17 @@ const getConfigs = (_pTokenId, _configs) => {
         blockchain: blockchains.Luxochain,
         ethProvider,
         luxochainProvider
+      }
+    }
+  }
+  if (_pTokenId === LUXO_ON_BSC_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.LUXO,
+        network: networks.BinanceSmartChainMainnet,
+        blockchain: blockchains.BinanceSmartChain,
+        ethProvider,
+        bscProvider
       }
     }
   }
