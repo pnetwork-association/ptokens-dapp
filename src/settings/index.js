@@ -87,7 +87,7 @@ const settings = {
         endpoint: 'https://arb1.arbitrum.io/rpc'
       },
       luxochain: {
-        endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://lugano.nodes.luxo.io'
+        endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://lugano.nodes.luxochain.io'
       }
     }
   },
