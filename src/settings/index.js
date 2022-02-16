@@ -51,7 +51,7 @@ const settings = {
     mainnet: {
       eth: {
         wsEndpoint: 'wss://dapp-eth-node-1.ptokens.io/',
-        endpoint: 'https://dapp-eth-node-1.ptokens.io/'
+        endpoint: 'https://eth-mainnet.alchemyapi.io/v2/EKy2BQvt7RzS36bSdpcwMCGzYz_TNL7n'
       },
       eos: {
         chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
@@ -68,13 +68,13 @@ const settings = {
         endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://telos.greymass.com'
       },
       bsc: {
-        endpoint: 'https://broken-falling-sun.bsc.quiknode.pro/cdba42b4cfeb02e1048100066283fbf3806c486a/'
+        endpoint: 'https://twilight-white-surf.bsc.quiknode.pro/fc906dd4db4c2dd8e60dbe922ed44bdcbec96d9f/'
       },
       xdai: {
         endpoint: 'https://rpc.xdaichain.com/'
       },
       polygon: {
-        endpoint: 'https://polygon-rpc.com'
+        endpoint: 'https://winter-black-glade.matic.quiknode.pro/fe20ff1b7e2de5d54fa983e34ccbd23c942401d0/'
       },
       ultra: {
         chainId: 'a9c481dfbc7d9506dc7e87e9a137c931b0a9303f64fd7a1d08b8230133920097',
