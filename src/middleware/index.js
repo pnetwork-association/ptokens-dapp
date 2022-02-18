@@ -14,6 +14,8 @@ import {
   WALLET_ULTRA_CONNECTED,
   WALLET_LUXOCHAIN_CONNECTED,
   WALLET_LUXOCHAIN_ACCOUNT_CHANGED,
+  WALLET_ALGORAND_CONNECTED,
+  WALLET_ALGORAND_ACCOUNT_CHANGED,
   NFTS_DATA_LOADED,
   NFT_DATA_LOADED
 } from '../constants'
@@ -44,37 +46,34 @@ const middleware = ({ dispatch }) => {
 
       if (type === WALLET_XDAI_CONNECTED || type === WALLET_XDAI_ACCOUNT_CHANGED) {
         dispatch(loadBalances(payload.account, 'XDAI'))
-        dispatch(loadNftsData(payload.account, 'XDAI'))
       }
 
       if (type === WALLET_POLYGON_CONNECTED || type === WALLET_POLYGON_ACCOUNT_CHANGED) {
         dispatch(loadBalances(payload.account, 'POLYGON'))
-        dispatch(loadNftsData(payload.account, 'POLYGON'))
       }
 
       if (type === WALLET_EOS_CONNECTED) {
         dispatch(loadBalances(payload.account, 'EOS'))
-        dispatch(loadNftsData(payload.account, 'EOS'))
       }
 
       if (type === WALLET_TELOS_CONNECTED) {
         dispatch(loadBalances(payload.account, 'TELOS'))
-        dispatch(loadNftsData(payload.account, 'TELOS'))
       }
 
       if (type === WALLET_ULTRA_CONNECTED) {
         dispatch(loadBalances(payload.account, 'ULTRA'))
-        dispatch(loadNftsData(payload.account, 'ULTRA'))
       }
 
       if (type === WALLET_ARBITRUM_CONNECTED || type === WALLET_ARBITRUM_ACCOUNT_CHANGED) {
         dispatch(loadBalances(payload.account, 'ARBITRUM'))
-        dispatch(loadNftsData(payload.account, 'ARBITRUM'))
       }
 
       if (type === WALLET_LUXOCHAIN_CONNECTED || type === WALLET_LUXOCHAIN_ACCOUNT_CHANGED) {
         dispatch(loadBalances(payload.account, 'LUXOCHAIN'))
-        dispatch(loadNftsData(payload.account, 'LUXOCHAIN'))
+      }
+
+      if (type === WALLET_ALGORAND_CONNECTED || type === WALLET_ALGORAND_ACCOUNT_CHANGED) {
+        dispatch(loadBalances(payload.account, 'ALGORAND'))
       }
 
       if (type === NFTS_DATA_LOADED || type === NFT_DATA_LOADED) {

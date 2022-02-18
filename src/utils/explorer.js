@@ -14,7 +14,8 @@ const transactionBaseLink = {
   LBC: `${settings.explorers.mainnet.lbc}tx/`,
   ULTRA: `${settings.explorers.mainnet.ultra}tx/`,
   ARBITRUM: `${settings.explorers.mainnet.arbitrum}tx/`,
-  LUXOCHAIN: `${settings.explorers.mainnet.luxochain}tx/`
+  LUXOCHAIN: `${settings.explorers.mainnet.luxochain}tx/`,
+  ALGORAND: `${settings.explorers.mainnet.algorand}tx/`
 }
 
 const addressBaseLink = {
@@ -31,7 +32,8 @@ const addressBaseLink = {
   LBC: `${settings.explorers.mainnet.lbc}address/`,
   ULTRA: `${settings.explorers.mainnet.ultra}account/`,
   ARBITRUM: `${settings.explorers.mainnet.arbitrum}address/`,
-  LUXOCHAIN: `${settings.explorers.mainnet.luxochain}address/`
+  LUXOCHAIN: `${settings.explorers.mainnet.luxochain}address/`,
+  ALGORAND: `${settings.explorers.mainnet.algorand}address/`
 }
 
 const tokenBaseLink = {
@@ -48,7 +50,8 @@ const tokenBaseLink = {
   LBC: `${settings.explorers.mainnet.lbc}address/`,
   ULTRA: `${settings.explorers.mainnet.ultra}account/`,
   ARBITRUM: `${settings.explorers.mainnet.arbitrum}token/`,
-  LUXOCHAIN: `${settings.explorers.mainnet.luxochain}token/`
+  LUXOCHAIN: `${settings.explorers.mainnet.luxochain}token/`,
+  ALGORAND: `${settings.explorers.mainnet.algorand}address/`
 }
 
 const getCorrespondingBaseTxExplorerLinkByBlockchain = _blockchain => transactionBaseLink[_blockchain.toUpperCase()]

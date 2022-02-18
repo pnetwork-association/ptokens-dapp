@@ -60,4 +60,57 @@ const loadEosioCompatibleBalance = async ({ asset, account, dispatch, blockchain
   }
 }
 
-export { loadEvmCompatibleBalances, loadEvmCompatibleBalance, loadEosioCompatibleBalances, loadEosioCompatibleBalance }
+const loadAlgorandBalances = async ({ assets, account, dispatch, blockchain = 'ALGORAND' }) => {
+  try {
+    const algodclient = getReadOnlyProviderByBlockchain(blockchain)
+    const accountInfo = await algodclient.accountInformation(account).do()
+
+    assets.forEach(_asset => {
+      console.log(accountInfo)
+      if (_asset.id === blockchain) {
+        dispatch({
+          type: SWAP_BALANCE_LOADED,
+          payload: {
+            id: _asset.id,
+            balance: BigNumber(accountInfo.amount).toFixed()
+          }
+        })
+        return
+      }
+
+      for (let idx = 0; idx < accountInfo['created-assets'].length; idx++) {
+        let scrutinizedAsset = accountInfo['created-assets'][idx]
+        if (scrutinizedAsset.index === _asset.id) {
+          console.log('AssetID = ' + scrutinizedAsset.index)
+          let myparms = JSON.stringify(scrutinizedAsset.params, undefined, 2)
+          console.log('parms = ' + myparms)
+          break
+        }
+      }
+    })
+
+    /*const balance = await provider.get_currency_balance(
+      asset.address,
+      account,
+      asset.symbolBalance ? asset.symbolBalance.toUpperCase() : asset.symbol.toUpperCase()
+    )*/
+
+    /*dispatch({
+      type: SWAP_BALANCE_LOADED,
+      payload: {
+        id: asset.id,
+        balance: BigNumber(balance[0] ? balance[0].split(' ')[0] : '0').toFixed()
+      }
+    })*/
+  } catch (_err) {
+    console.error(`Error during getting ALGORAND balances`, _err)
+  }
+}
+
+export {
+  loadEvmCompatibleBalances,
+  loadEvmCompatibleBalance,
+  loadEosioCompatibleBalances,
+  loadEosioCompatibleBalance,
+  loadAlgorandBalances
+}

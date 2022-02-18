@@ -7,6 +7,7 @@ import { connectWithXdaiWallet, disconnectFromXdaiWallet } from './xdai'
 import { connectWithTelosWallet, disconnectFromTelosWallet } from './telos'
 import { connectWithUltraWallet, disconnectFromUltraWallet } from './ultra'
 import { connectWithLuxochainWallet, disconnectFromLuxochainWallet } from './luxochain'
+import { connectWithAlgorandWallet, disconnectFromAlgorandWallet } from './algorand'
 
 const connectWithWallet = _blockchain => {
   return async _dispatch => {
@@ -45,6 +46,10 @@ const connectWithWallet = _blockchain => {
       }
       case 'LUXOCHAIN': {
         connectWithLuxochainWallet(_dispatch)
+        break
+      }
+      case 'ALGORAND': {
+        connectWithAlgorandWallet(_dispatch)
         break
       }
       default:
@@ -90,6 +95,10 @@ const disconnectFromWallet = _blockchain => {
       }
       case 'LUXOCHAIN': {
         disconnectFromLuxochainWallet(_dispatch)
+        break
+      }
+      case 'ALGORAND': {
+        disconnectFromAlgorandWallet(_dispatch)
         break
       }
       default:

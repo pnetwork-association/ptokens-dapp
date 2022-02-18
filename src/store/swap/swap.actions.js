@@ -19,7 +19,8 @@ import {
   loadEvmCompatibleBalances,
   loadEosioCompatibleBalances,
   loadEvmCompatibleBalance,
-  loadEosioCompatibleBalance
+  loadEosioCompatibleBalance,
+  loadAlgorandBalances
 } from './utils/balances'
 import { getReadOnlyProviderByBlockchain } from '../../utils/read-only-providers'
 import peginWithDepositAddress from './utils/pegin-with-deposit-address'
@@ -160,6 +161,15 @@ const loadBalances = (_account, _blockchain) => {
           })
           break
         }
+        case 'ALGORAND': {
+          loadAlgorandBalances({
+            assets: getAssetsByBlockchain('ALGORAND'),
+            account: _account,
+            dispatch: _dispatch,
+            blockchain: 'ALGORAND'
+          })
+          break
+        }
         default:
           break
       }
@@ -216,6 +226,10 @@ const loadBalanceByAssetId = _id => {
           loadEvmCompatibleBalance({ asset, account, blockchain: 'LUXOCHAIN', dispatch: _dispatch })
           break
         }
+        case 'ALGORAND': {
+          loadAlgorandBalances({ assets: [asset], account, blockchain: 'ALGORAND', dispatch: _dispatch })
+          break
+        }
         default: {
           break
         }
@@ -247,7 +261,8 @@ const swap = (_from, _to, _amount, _address) => {
             bscProvider: wallets.bsc.provider || getReadOnlyProviderByBlockchain('BSC'),
             ultraSignatureProvider: wallets.ultra.provider || getReadOnlyProviderByBlockchain('ULTRA'),
             arbitrumProvider: wallets.arbitrum.provider || getReadOnlyProviderByBlockchain('ARBITRUM'),
-            luxochainProvider: wallets.luxochain.provider || getReadOnlyProviderByBlockchain('LUXOCHAIN')
+            luxochainProvider: wallets.luxochain.provider || getReadOnlyProviderByBlockchain('LUXOCHAIN'),
+            algoSignatureProvider: wallets.algorand.provider || getReadOnlyProviderByBlockchain('ALGORAND')
           })
         )
 

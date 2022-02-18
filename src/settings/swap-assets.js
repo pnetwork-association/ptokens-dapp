@@ -1395,6 +1395,27 @@ const swapAssets = [
     isPerc20: true,
     onPnetworkV2: true
   },
+  {
+    address: 'todo',
+    id: 'PETH_ON_ALGORAND_MAINNET',
+    name: 'pETH',
+    workingName: 'peth',
+    nativeDecimals: 18,
+    network: 'mainnet',
+    isPerc20: true,
+    isHidden: false,
+    blockchain: 'ALGORAND',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'PETH',
+    isPtoken: true,
+    nativeSymbol: 'ETH',
+    nativeBlockchain: 'ETH',
+    image: 'pETH.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true,
+    onPnetworkV2: true
+  },
   /* #################   Native Tokens   #################*/
   {
     address: '0x0000000000000000000000000000000000000000',

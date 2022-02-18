@@ -14,7 +14,8 @@ const estimations = {
   lbc: 5,
   ultra: 4,
   arbitrum: 5,
-  luxochain: 5
+  luxochain: 5,
+  algorand: 5
 }
 
 const getPeginOrPegoutMinutesEstimationByBlockchainAndEta = (_blockchain, _eta) => {

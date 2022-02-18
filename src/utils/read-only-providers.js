@@ -2,6 +2,7 @@ import settings from '../settings'
 import Web3 from 'web3'
 import { JsonRpc } from 'eosjs'
 import fetch from 'node-fetch'
+import { Algodv2 } from 'algosdk'
 
 const getReadOnlyProviderByBlockchain = _blockchain => {
   // TODO: only mainnet at the moment
@@ -31,6 +32,13 @@ const getReadOnlyProviderByBlockchain = _blockchain => {
   }
   if (_blockchain === 'LUXOCHAIN') {
     return new Web3.providers.HttpProvider(settings.rpc.mainnet.luxochain.endpoint)
+  }
+  if (_blockchain === 'ALGORAND') {
+    return new Algodv2(
+      settings.rpc.mainnet.algorand.token,
+      settings.rpc.mainnet.algorand.endpoint,
+      settings.rpc.mainnet.algorand.port
+    )
   }
   return null
 }
