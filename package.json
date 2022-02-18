@@ -37,6 +37,7 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.1.1",
     "react-step-progress-bar": "^1.0.3",
+    "react-switch": "^6.0.0",
     "react-tooltip": "^3.11.2",
     "reactstrap": "7.0.2",
     "styled-components": "^5.2.0",

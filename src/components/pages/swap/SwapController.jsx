@@ -22,7 +22,7 @@ const mapDispatchToProps = _dispatch => {
   return {
     connectWithWallet: _blockchain => _dispatch(connectWithWallet(_blockchain)),
     hideDepositAddressModal: () => _dispatch(hideDepositAddressModal()),
-    swap: (_from, _to, _amount, _address) => _dispatch(swap(_from, _to, _amount, _address)),
+    swap: (_from, _to, _amount, _address, _options) => _dispatch(swap(_from, _to, _amount, _address, _options)),
     resetProgress: () => _dispatch(resetProgress()),
     updateSwapButton: (_text, _disabled) => _dispatch(updateSwapButton(_text, _disabled)),
     hideInfoModal: () => _dispatch(updateInfoModal({ show: false, message: null }))

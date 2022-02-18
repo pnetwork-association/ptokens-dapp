@@ -1,3 +1,4 @@
+import Web3 from 'web3'
 import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
 import BigNumber from 'bignumber.js'
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
@@ -13,12 +14,15 @@ const hostTransactionHash = {
 
 let promiEvent = null
 
-const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
+const web3 = new Web3()
+
+const pegout = async ({ ptokens, params, ptoken, dispatch, options = {} }) => {
   if (promiEvent) {
     promiEvent.removeAllListeners()
   }
 
   let link
+  let withMetadata = false
 
   // NOTE: avoids brave metamask gas estimation fails
   params[params.length] = {
@@ -39,6 +43,12 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
       .toFixed()
   }
 
+  if (options.pegoutToTelosEvmAddress) {
+    withMetadata = true
+    params.splice(1, 0, 'devm.ptokens')
+    params[2] = web3.utils.asciiToHex(params[2])
+  }
+
   dispatch(
     updateProgress({
       show: true,
@@ -50,7 +60,9 @@ const pegout = async ({ ptokens, params, ptoken, dispatch }) => {
   )
 
   // NOTE: hostTxBroadcasted is not triggered when blockchain is EOS
-  promiEvent = ptokens[ptoken.workingName].redeem(...params)
+  promiEvent = withMetadata
+    ? ptokens[ptoken.workingName].redeemWithMetadata(...params)
+    : ptokens[ptoken.workingName].redeem(...params)
   promiEvent
     .once('hostTxBroadcasted', _hash => {
       link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${_hash}`
