@@ -240,7 +240,7 @@ const loadBalanceByAssetId = _id => {
   }
 }
 
-const swap = (_from, _to, _amount, _address) => {
+const swap = (_from, _to, _amount, _address, _opts = {}) => {
   return async _dispatch => {
     try {
       _dispatch(resetProgress())
@@ -327,7 +327,7 @@ const swap = (_from, _to, _amount, _address) => {
             break
           }
           default: {
-            pegout({ ptokens, ptoken, dispatch: _dispatch, params: [_amount, _address] })
+            pegout({ ptokens, ptoken, dispatch: _dispatch, params: [_amount, _address], options: _opts })
             break
           }
         }

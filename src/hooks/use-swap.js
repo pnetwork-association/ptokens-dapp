@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { isValidAccount } from '../utils/account-validator'
+import { isValidAccount, isValidAccountByBlockchain } from '../utils/account-validator'
 import { getPeginOrPegoutMinutesEstimationByBlockchainAndEta } from '../utils/estimations'
 import { getFee } from '../utils/fee'
 import BigNumber from 'bignumber.js'
@@ -7,6 +7,7 @@ import { updateUrlForSwap } from '../utils/url'
 import { useWalletByBlockchain } from './use-wallets'
 import getMinimumPeggable from '../utils/minimum-peggables'
 import { numberWithCommas } from '../utils/amount-utils'
+import { TLOS_ON_BSC_MAINNET, TLOS_ON_ETH_MAINNET } from '../constants'
 
 const useSwap = ({
   wallets,
@@ -29,6 +30,7 @@ const useSwap = ({
   const [showModalTo, setShowModalTo] = useState(false)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
   const [selectionChanged, setSelectionChanged] = useState(false)
+  const [pegoutToTelosEvmAddress, setPegoutToTelosEvmAddress] = useState(false)
 
   const { fee, isPegin, isPegout, eta, minimumPeggable, onPnetworkV2 } = useSwapInfo({ from, to, bpm })
 
@@ -65,6 +67,7 @@ const useSwap = ({
     setFrom(to)
     setTo(currentFrom)
     setSelectionChanged(true)
+    setPegoutToTelosEvmAddress(false)
   }, [from, to])
 
   const onFromMax = useCallback(() => {
@@ -98,15 +101,29 @@ const useSwap = ({
 
     if (swapButton.text === 'Get Deposit Address' || swapButton.text === 'Swap') {
       updateSwapButton(swapButton.text === 'Swap' ? 'Swapping ...' : 'Generating ...', true)
-      swap(from, to, fromAmount, address)
+
+      swap(from, to, fromAmount, address, {
+        pegoutToTelosEvmAddress
+      })
     }
-  }, [from, swapButton.text, to, address, fromAmount, swap, connectWithWallet, updateSwapButton])
+  }, [
+    from,
+    swapButton.text,
+    to,
+    address,
+    fromAmount,
+    swap,
+    pegoutToTelosEvmAddress,
+    connectWithWallet,
+    updateSwapButton
+  ])
 
   const onSelectFrom = useCallback(_asset => {
     setShowModalFrom(false)
     setFrom(_asset)
     setFromAmount('')
     setToAmount('')
+    setPegoutToTelosEvmAddress(false)
   }, [])
 
   const onSelectTo = useCallback(_asset => {
@@ -114,6 +131,7 @@ const useSwap = ({
     setTo(_asset)
     setFromAmount('')
     setToAmount('')
+    setPegoutToTelosEvmAddress(false)
   }, [])
 
   const onCloseDepositAddressModal = useCallback(() => {
@@ -258,7 +276,18 @@ const useSwap = ({
         return
       }
 
-      if (swapType === 'pegout' && !(await isValidAccount(from.id, address, 'pegin'))) {
+      // handle enabling pegout to telos evm
+      if (
+        swapType === 'pegout' &&
+        pegoutToTelosEvmAddress &&
+        (from.id === TLOS_ON_ETH_MAINNET || from.id === TLOS_ON_BSC_MAINNET) &&
+        !isValidAccountByBlockchain(address, 'ETH')
+      ) {
+        updateSwapButton('Invalid Address', true)
+        return
+      }
+
+      if (swapType === 'pegout' && !pegoutToTelosEvmAddress && !(await isValidAccount(from.id, address, 'pegin'))) {
         updateSwapButton('Invalid Address', true)
         return
       }
@@ -266,7 +295,18 @@ const useSwap = ({
       updateSwapButton('Swap')
     }
     validate()
-  }, [wallets, from, fromAmount, to, address, isValidSwap, minimumPeggable, swapType, updateSwapButton])
+  }, [
+    wallets,
+    from,
+    fromAmount,
+    to,
+    address,
+    isValidSwap,
+    minimumPeggable,
+    swapType,
+    pegoutToTelosEvmAddress,
+    updateSwapButton
+  ])
 
   // NOTE: filters based on from selection
   const [filteredAssets] = useMemo(() => {
@@ -384,7 +424,9 @@ const useSwap = ({
     showModalTo,
     setShowModalFrom,
     setShowModalTo,
-    onCloseDepositAddressModal
+    onCloseDepositAddressModal,
+    pegoutToTelosEvmAddress,
+    setPegoutToTelosEvmAddress
   }
 }
 

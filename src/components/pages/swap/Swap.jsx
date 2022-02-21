@@ -12,6 +12,7 @@ import defaultAssets from '../../../settings/swap-assets'
 import { useAssets } from '../../../hooks/use-assets'
 import Icon from '../../atoms/icon/Icon'
 import InfoModal from '../../organisms/infoModal/InfoModal'
+import Switch from '../../atoms/switch/Switch'
 
 export const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -127,6 +128,20 @@ const PnetworkV2Badge = styled.span`
   padding: 5px 10px 5px 10px;
 `
 
+const EnableTelosEvmRow = styled(Row)`
+  margin-top: 40px;
+`
+
+const EnableTelosEvmText = styled.span`
+  text-align: left;
+  font-weight: 300;
+  color: ${({ theme }) => theme.text1};
+  font-size: 14px;
+  @media (max-width: 767.98px) {
+    font-size: 12px;
+  }
+`
+
 const Swap = ({
   assets: _assets,
   bpm,
@@ -167,7 +182,9 @@ const Swap = ({
     showModalTo,
     setShowModalFrom,
     setShowModalTo,
-    onCloseDepositAddressModal
+    onCloseDepositAddressModal,
+    pegoutToTelosEvmAddress,
+    setPegoutToTelosEvmAddress
   } = useSwap({
     progress,
     wallets,
@@ -218,6 +235,17 @@ const Swap = ({
                 onChangeAddress={setAddress}
                 onMax={onToMax}
               />
+
+              {(from && from.id === 'TLOS_ON_ETH_MAINNET') || (from && from.id === 'TLOS_ON_BSC_MAINNET') ? (
+                <EnableTelosEvmRow>
+                  <Col xs={10} className="pr-0">
+                    <EnableTelosEvmText>Receive on a tEVM (Telos EVM) compatible address</EnableTelosEvmText>
+                  </Col>
+                  <Col xs={2} className="text-right">
+                    <Switch checked={pegoutToTelosEvmAddress} onChange={setPegoutToTelosEvmAddress} />
+                  </Col>
+                </EnableTelosEvmRow>
+              ) : null}
               {progress.show ? (
                 <Progress percent={progress.percent} message={progress.message} steps={progress.steps} />
               ) : null}

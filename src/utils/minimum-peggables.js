@@ -216,8 +216,8 @@ const minimumPeggable = {
     pegout: 5500
   },
   [TLOS_ON_BSC_MAINNET]: {
-    pegin: 10,
-    pegout: 10
+    pegin: 1,
+    pegout: 1
   },
   [TLOS_ON_ETH_MAINNET]: {
     pegin: 100,
