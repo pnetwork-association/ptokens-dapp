@@ -5,6 +5,7 @@
   "author": "alle.manfredi@gmail.com @provable-things",
   "dependencies": {
     "@json-rpc-tools/utils": "^1.7.6",
+    "@msgpack/msgpack": "^2.7.2",
     "@portis/web3": "^2.0.0-beta.43",
     "@walletconnect/web3-provider": "^1.6.6",
     "algorand-walletconnect-qrcode-modal": "^1.6.1",

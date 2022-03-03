@@ -1,6 +1,6 @@
-import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
 import { eth } from 'ptokens-utils'
 import Web3 from 'web3'
+import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
 import ERC20Abi from '../../../utils/abi/ERC20.json'
 import BigNumber from 'bignumber.js'
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
@@ -12,6 +12,7 @@ import {
   getWalletByBlockchain
 } from '../../wallets/wallets.selectors'
 import { PUOS_ON_ULTRA_MAINNET } from '../../../constants'
+//import { maybeOptInAlgoAsset } from './opt-in-algo-asset'
 
 let promiEvent = null
 
@@ -21,6 +22,17 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
   }
 
   let link
+
+  /*if (ptoken.blockchain === 'ALGORAND') {
+    try {
+      await maybeOptInAlgoAsset(parseInt(ptoken.address, 10))
+    } catch (_err) {
+      dispatch(updateSwapButton('Swap'))
+      dispatch(resetProgress())
+      console.error(_err)
+      return
+    }
+  }*/
 
   // NOTE: avoids brave metamask gas estimation fails
   params[params.length] = {

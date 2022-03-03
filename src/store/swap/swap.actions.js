@@ -262,7 +262,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
             ultraSignatureProvider: wallets.ultra.provider || getReadOnlyProviderByBlockchain('ULTRA'),
             arbitrumProvider: wallets.arbitrum.provider || getReadOnlyProviderByBlockchain('ARBITRUM'),
             luxochainProvider: wallets.luxochain.provider || getReadOnlyProviderByBlockchain('LUXOCHAIN'),
-            algoSignatureProvider: wallets.algorand.provider || getReadOnlyProviderByBlockchain('ALGORAND')
+            algoProvider: wallets.algorand.provider || getReadOnlyProviderByBlockchain('ALGORAND')
           })
         )
 
@@ -314,7 +314,8 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
             bscProvider: wallets.bsc.provider || getReadOnlyProviderByBlockchain('BSC'),
             ultraSignatureProvider: wallets.ultra.provider || getReadOnlyProviderByBlockchain('ULTRA'),
             arbitrumProvider: wallets.arbitrum.provider || getReadOnlyProviderByBlockchain('ARBITRUM'),
-            luxochainProvider: wallets.luxochain.provider || getReadOnlyProviderByBlockchain('LUXOCHAIN')
+            luxochainProvider: wallets.luxochain.provider || getReadOnlyProviderByBlockchain('LUXOCHAIN'),
+            algoProvider: wallets.algorand.provider || getReadOnlyProviderByBlockchain('ALGORAND')
           })
         )
 

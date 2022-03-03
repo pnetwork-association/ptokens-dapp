@@ -68,7 +68,8 @@ import {
   PNT_ON_ARBITRUM_MAINNET,
   LUXO_ON_LUXOCHAIN_MAINNET,
   LUXO_ON_BSC_MAINNET,
-  PETH_ON_ALGORAND_MAINNET
+  PETH_ON_ALGORAND_MAINNET,
+  PTET_ON_ALGORAND_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_id, _role, _address) => {
@@ -413,6 +414,11 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
         ? `${settings.explorers.mainnet.eth}address/${_address}`
         : `${settings.explorers.mainnet.algorand}address/${_address}`
     }
+    case PTET_ON_ALGORAND_MAINNET: {
+      return _role === 'native'
+        ? `${settings.explorers.mainnet.bsc}address/${_address}`
+        : `${settings.explorers.mainnet.algorand}address/${_address}`
+    }
     default:
       break
   }
@@ -696,6 +702,9 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
     }
     case PETH_ON_ALGORAND_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.algorand}tx/`
+    }
+    case PTET_ON_ALGORAND_MAINNET: {
+      return _role === 'native' ? `${settings.explorers.mainnet.bsc}tx/` : `${settings.explorers.mainnet.algorand}tx/`
     }
     default:
       break

@@ -66,7 +66,6 @@ const loadAlgorandBalances = async ({ assets, account, dispatch, blockchain = 'A
     const accountInfo = await algodclient.accountInformation(account).do()
 
     assets.forEach(_asset => {
-      console.log(accountInfo)
       if (_asset.id === blockchain) {
         dispatch({
           type: SWAP_BALANCE_LOADED,
@@ -78,30 +77,30 @@ const loadAlgorandBalances = async ({ assets, account, dispatch, blockchain = 'A
         return
       }
 
-      for (let idx = 0; idx < accountInfo['created-assets'].length; idx++) {
-        let scrutinizedAsset = accountInfo['created-assets'][idx]
-        if (scrutinizedAsset.index === _asset.id) {
-          console.log('AssetID = ' + scrutinizedAsset.index)
-          let myparms = JSON.stringify(scrutinizedAsset.params, undefined, 2)
-          console.log('parms = ' + myparms)
-          break
+      const exist = Boolean(accountInfo.assets.find(_a => _a['asset-id'] === parseInt(_asset.address, 10)))
+      if (!exist) {
+        dispatch({
+          type: SWAP_BALANCE_LOADED,
+          payload: {
+            id: _asset.id,
+            balance: '0'
+          }
+        })
+      }
+
+      for (let idx = 0; idx < accountInfo.assets.length; idx++) {
+        const scrutinizedAsset = accountInfo.assets[idx]
+        if (scrutinizedAsset['asset-id'] === parseInt(_asset.address, 10)) {
+          dispatch({
+            type: SWAP_BALANCE_LOADED,
+            payload: {
+              id: _asset.id,
+              balance: BigNumber(scrutinizedAsset.amount).toFixed()
+            }
+          })
         }
       }
     })
-
-    /*const balance = await provider.get_currency_balance(
-      asset.address,
-      account,
-      asset.symbolBalance ? asset.symbolBalance.toUpperCase() : asset.symbol.toUpperCase()
-    )*/
-
-    /*dispatch({
-      type: SWAP_BALANCE_LOADED,
-      payload: {
-        id: asset.id,
-        balance: BigNumber(balance[0] ? balance[0].split(' ')[0] : '0').toFixed()
-      }
-    })*/
   } catch (_err) {
     console.error(`Error during getting ALGORAND balances`, _err)
   }

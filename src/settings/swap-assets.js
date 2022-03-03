@@ -1395,8 +1395,8 @@ const swapAssets = [
     isPerc20: true,
     onPnetworkV2: true
   },
-  {
-    address: 'todo',
+  /*{
+    address: '612850103',
     id: 'PETH_ON_ALGORAND_MAINNET',
     name: 'pETH',
     workingName: 'peth',
@@ -1412,6 +1412,27 @@ const swapAssets = [
     nativeSymbol: 'ETH',
     nativeBlockchain: 'ETH',
     image: 'pETH.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true,
+    onPnetworkV2: true
+  },*/
+  {
+    address: '612850103',
+    id: 'PTET_ON_ALGORAND_MAINNET',
+    name: 'pTET',
+    workingName: 'ptet',
+    nativeDecimals: 18,
+    network: 'mainnet',
+    isHidden: false,
+    blockchain: 'ALGORAND',
+    decimals: 10,
+    withMiniImage: true,
+    symbol: 'PTET',
+    isPtoken: true,
+    isBep20: true,
+    nativeSymbol: 'TET',
+    nativeBlockchain: 'BSC',
+    image: 'pTET.svg',
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true,
     onPnetworkV2: true
@@ -2142,6 +2163,21 @@ const swapAssets = [
     nativeSymbol: 'LUXO',
     nativeBlockchain: 'ETH',
     image: 'LUXO.svg',
+    withBalanceDecimalsConversion: true
+  },
+  {
+    address: '0x87B92Df541869Fcabb7e5D4E3BFc3025EB3E7577',
+    id: 'TET',
+    symbol: 'TET',
+    name: 'Testnet ERC777 Token (TET)',
+    network: 'mainnet',
+    blockchain: 'BSC',
+    decimals: 18,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'TET',
+    nativeBlockchain: 'BSC',
+    image: 'TET.svg',
     withBalanceDecimalsConversion: true
   }
 ]

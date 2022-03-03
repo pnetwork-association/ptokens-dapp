@@ -4,14 +4,19 @@ class Provider extends EventEmitter {
   constructor(_algoSigner) {
     super()
     this.algoSigner = _algoSigner
+    this.type = 'AlgoSigner'
   }
 
   close() {
-    throw new Error('TODO')
+    return
   }
 
-  sign(_txn) {
+  signTxn(_txn) {
     return this.algoSigner.signTxn(_txn)
+  }
+
+  sign(_tx) {
+    return this.algoSigner.sign(_tx)
   }
 
   async getAccounts() {

@@ -5,6 +5,7 @@ import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton }
 import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
 import { getWalletAccountByBlockchain, getWalletPermissionByBlockchain } from '../../wallets/wallets.selectors'
+// import { maybeOptInAlgoAsset } from './opt-in-algo-asset'
 
 const hostTransactionHash = {
   telos: 'transaction_id',
@@ -24,13 +25,25 @@ const pegout = async ({ ptokens, params, ptoken, dispatch, options = {} }) => {
   let link
   let withMetadata = false
 
+  /*if (ptoken.blockchain === 'ALGORAND') {
+    try {
+      await maybeOptInAlgoAsset(parseInt(ptoken.address, 10))
+    } catch (_err) {
+      dispatch(updateSwapButton('Swap'))
+      dispatch(resetProgress())
+      console.error(_err)
+      return
+    }
+  }*/
+
   // NOTE: avoids brave metamask gas estimation fails
   params[params.length] = {
     gas: ptoken.gasLimitPegout ? ptoken.gasLimitPegout : 80000,
     blocksBehind: 3,
     expireSeconds: 60,
     permission: getWalletPermissionByBlockchain(ptoken.blockchain) || 'active',
-    actor: getWalletAccountByBlockchain(ptoken.blockchain)
+    actor: getWalletAccountByBlockchain(ptoken.blockchain),
+    from: getWalletAccountByBlockchain(ptoken.blockchain) // used on algorand
   }
 
   if (ptoken.gasPricePegout) {

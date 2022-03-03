@@ -51,7 +51,7 @@ const tokenBaseLink = {
   ULTRA: `${settings.explorers.mainnet.ultra}account/`,
   ARBITRUM: `${settings.explorers.mainnet.arbitrum}token/`,
   LUXOCHAIN: `${settings.explorers.mainnet.luxochain}token/`,
-  ALGORAND: `${settings.explorers.mainnet.algorand}address/`
+  ALGORAND: `${settings.explorers.mainnet.algorand}asset/`
 }
 
 const getCorrespondingBaseTxExplorerLinkByBlockchain = _blockchain => transactionBaseLink[_blockchain.toUpperCase()]

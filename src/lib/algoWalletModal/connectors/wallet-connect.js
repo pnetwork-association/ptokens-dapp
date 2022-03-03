@@ -7,16 +7,15 @@ class Provider extends EventEmitter {
   constructor(_connector) {
     super()
     this.connector = _connector
+    this.type = 'WalletConnect'
   }
 
   close() {
-    this.connector.killSessions()
+    this.connector.killSession()
   }
 
-  async sign(_txns) {
-    const request = formatJsonRpcRequest('algo_signTxn', [_txns])
-    const result = await this.connector.sendCustomRequest(request)
-    return result.map(_element => (_element ? new Uint8Array(Buffer.from(_element, 'base64')) : null))
+  async signTxn(_txns) {
+    return this.connector.sendCustomRequest(formatJsonRpcRequest('algo_signTxn', [_txns]))
   }
 
   getAccounts() {
