@@ -49,11 +49,11 @@ const settings = {
     {
       name: 'Luxochain',
       symbol: 'LUXOCHAIN'
-    },
-    {
+    }
+    /*{
       name: 'Algorand',
       symbol: 'ALGORAND'
-    }
+    }*/
   ],
   rpc: {
     mainnet: {

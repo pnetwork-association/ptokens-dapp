@@ -67,7 +67,8 @@ import {
   PNT_ON_ARBITRUM_MAINNET,
   LUXO_ON_LUXOCHAIN_MAINNET,
   LUXO_ON_BSC_MAINNET,
-  PETH_ON_ALGORAND_MAINNET
+  PETH_ON_ALGORAND_MAINNET,
+  PKEYS_ON_BSC_MAINNET
 } from '../constants'
 
 const minimumPeggable = {
@@ -350,6 +351,10 @@ const minimumPeggable = {
   [PETH_ON_ALGORAND_MAINNET]: {
     pegin: 20,
     pegout: 20
+  },
+  [PKEYS_ON_BSC_MAINNET]: {
+    pegin: 100,
+    pegout: 100
   }
 }
 

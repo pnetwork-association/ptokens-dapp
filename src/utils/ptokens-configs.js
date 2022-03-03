@@ -67,7 +67,8 @@ import {
   PNT_ON_ARBITRUM_MAINNET,
   LUXO_ON_LUXOCHAIN_MAINNET,
   LUXO_ON_BSC_MAINNET,
-  PETH_ON_ALGORAND_MAINNET
+  PETH_ON_ALGORAND_MAINNET,
+  PKEYS_ON_BSC_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -873,6 +874,17 @@ const getConfigs = (_pTokenId, _configs) => {
         ethProvider,
         algoSignatureProvider,
         algoClient: getReadOnlyProviderByBlockchain('ALGORAND')
+      }
+    }
+  }
+  if (_pTokenId === PKEYS_ON_BSC_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pKEYS,
+        network: networks.BinanceSmartChainMainnet,
+        blockchain: blockchains.BinanceSmartChain,
+        ethProvider,
+        bscProvider
       }
     }
   }

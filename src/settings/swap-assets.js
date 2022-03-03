@@ -1396,24 +1396,24 @@ const swapAssets = [
     onPnetworkV2: true
   },
   {
-    address: 'todo',
-    id: 'PETH_ON_ALGORAND_MAINNET',
-    name: 'pETH',
-    workingName: 'peth',
-    nativeDecimals: 18,
+    address: '0x8783ed9b70d4c354c19dacd211f9d6258cc5ab89',
+    id: 'PKEYS_ON_BSC_MAINNET',
+    name: 'PKEYS',
+    workingName: 'pkeys',
+    nativeDecimals: 9,
     network: 'mainnet',
-    isPerc20: true,
     isHidden: false,
-    blockchain: 'ALGORAND',
+    blockchain: 'BSC',
     decimals: 18,
     withMiniImage: true,
-    symbol: 'PETH',
+    symbol: 'PKEYS',
     isPtoken: true,
-    nativeSymbol: 'ETH',
+    nativeSymbol: 'KEYS',
     nativeBlockchain: 'ETH',
-    image: 'pETH.svg',
+    image: 'pKEYS.svg',
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true,
+    isPerc20: true,
     onPnetworkV2: true
   },
   /* #################   Native Tokens   #################*/
@@ -2142,6 +2142,21 @@ const swapAssets = [
     nativeSymbol: 'LUXO',
     nativeBlockchain: 'ETH',
     image: 'LUXO.svg',
+    withBalanceDecimalsConversion: true
+  },
+  {
+    address: '0xe0a189c975e4928222978a74517442239a0b86ff',
+    id: 'KEYS',
+    symbol: 'KEYS',
+    name: 'Keys',
+    network: 'mainnet',
+    blockchain: 'ETH',
+    decimals: 9,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'KEYS',
+    nativeBlockchain: 'ETH',
+    image: 'KEYS.svg',
     withBalanceDecimalsConversion: true
   }
 ]

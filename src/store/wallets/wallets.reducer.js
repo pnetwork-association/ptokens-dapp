@@ -82,12 +82,12 @@ const initialState = {
     account: null,
     chainId: null,
     network: null
-  },
-  algorand: {
+  }
+  /*algorand: {
     provider: null,
     account: null,
     network: null
-  }
+  }*/
 }
 
 const walletsReducer = (_state = initialState, _action) => {

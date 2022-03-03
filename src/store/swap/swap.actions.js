@@ -261,8 +261,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
             bscProvider: wallets.bsc.provider || getReadOnlyProviderByBlockchain('BSC'),
             ultraSignatureProvider: wallets.ultra.provider || getReadOnlyProviderByBlockchain('ULTRA'),
             arbitrumProvider: wallets.arbitrum.provider || getReadOnlyProviderByBlockchain('ARBITRUM'),
-            luxochainProvider: wallets.luxochain.provider || getReadOnlyProviderByBlockchain('LUXOCHAIN'),
-            algoSignatureProvider: wallets.algorand.provider || getReadOnlyProviderByBlockchain('ALGORAND')
+            luxochainProvider: wallets.luxochain.provider || getReadOnlyProviderByBlockchain('LUXOCHAIN')
           })
         )
 

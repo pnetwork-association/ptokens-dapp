@@ -69,7 +69,8 @@ import {
   PNT_ON_ARBITRUM_MAINNET,
   LUXO_ON_LUXOCHAIN_MAINNET,
   LUXO_ON_BSC_MAINNET,
-  PETH_ON_ALGORAND_MAINNET
+  PETH_ON_ALGORAND_MAINNET,
+  PKEYS_ON_BSC_MAINNET
 } from '../constants'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 
@@ -392,6 +393,9 @@ const isValidAccount = async (_pTokenId, _account, _type) => {
       return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.algo.isValidAddress(_account)
+    }
+    case PKEYS_ON_BSC_MAINNET: {
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     default:
       break
