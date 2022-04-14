@@ -11,6 +11,9 @@ const slicerByBlockchain = (_address, _blockchain) => {
     case 'ULTRA': {
       return _address
     }
+    case 'ORE': {
+      return _address
+    }
     default: {
       return _address ? slicer(_address) : _address
     }

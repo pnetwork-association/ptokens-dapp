@@ -57,6 +57,10 @@ const settings = {
     {
       name: 'Fantom',
       symbol: 'FTM'
+    },
+    {
+      name: 'Ore',
+      symbol: 'ORE'
     }
   ],
   rpc: {
@@ -108,6 +112,13 @@ const settings = {
       },
       ftm: {
         endpoint: 'https://rpc.ftm.tools/'
+      },
+      ore: {
+        chainId: '7900eaca71d5b213d3e1e15d54d98ad235a7a5b8166361be78e672edeeb2b47a',
+        host: 'https://ore-node-1.ptokens.io',
+        port: 443,
+        protocol: 'https',
+        endpoint: 'https://ore-node-1.ptokens.io'
       }
     }
   },
@@ -128,7 +139,8 @@ const settings = {
       arbitrum: 'https://arbiscan.io/',
       luxochain: 'https://explorer.luxochain.io/',
       algorand: 'https://algoexplorer.io/',
-      ftm: 'https://ftmscan.com/'
+      ftm: 'https://ftmscan.com/',
+      ore: 'https://explorer.ore.network/'
     }
   },
   supportedNfts: [

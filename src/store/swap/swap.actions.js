@@ -155,6 +155,15 @@ const loadBalances = (_account, _blockchain) => {
           })
           break
         }
+        case 'ORE': {
+          loadEosioCompatibleBalances({
+            assets: getAssetsByBlockchain('ORE'),
+            account: _account,
+            dispatch: _dispatch,
+            blockchain: 'ORE'
+          })
+          break
+        }
         case 'BSC': {
           loadEvmCompatibleBalances({
             assets: getAssetsByBlockchain('BSC'),
@@ -246,6 +255,10 @@ const loadBalanceByAssetId = _id => {
           loadEosioCompatibleBalance({ asset, account, dispatch: _dispatch })
           break
         }
+        case 'ORE': {
+          loadEosioCompatibleBalance({ asset, account, dispatch: _dispatch })
+          break
+        }
         case 'BSC': {
           loadEvmCompatibleBalance({ asset, account, blockchain: 'BSC', dispatch: _dispatch })
           break
@@ -315,7 +328,8 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
             arbitrumProvider: wallets.arbitrum.provider || getReadOnlyProviderByBlockchain('ARBITRUM'),
             luxochainProvider: wallets.luxochain.provider || getReadOnlyProviderByBlockchain('LUXOCHAIN'),
             algoProvider: wallets.algorand.provider || getReadOnlyProviderByBlockchain('ALGORAND'),
-            ftmProvider: wallets.ftm.provider || getReadOnlyProviderByBlockchain('FTM')
+            ftmProvider: wallets.ftm.provider || getReadOnlyProviderByBlockchain('FTM'),
+            oreSignatureProvider: wallets.ore.provider || getReadOnlyProviderByBlockchain('ORE')
           })
         )
 
@@ -369,7 +383,8 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
             arbitrumProvider: wallets.arbitrum.provider || getReadOnlyProviderByBlockchain('ARBITRUM'),
             luxochainProvider: wallets.luxochain.provider || getReadOnlyProviderByBlockchain('LUXOCHAIN'),
             algoProvider: wallets.algorand.provider || getReadOnlyProviderByBlockchain('ALGORAND'),
-            ftmProvider: wallets.ftm.provider || getReadOnlyProviderByBlockchain('FTM')
+            ftmProvider: wallets.ftm.provider || getReadOnlyProviderByBlockchain('FTM'),
+            oreSignatureProvider: wallets.ore.provider || getReadOnlyProviderByBlockchain('ORE')
           })
         )
 

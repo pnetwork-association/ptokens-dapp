@@ -77,7 +77,8 @@ import {
   PUSDC_ON_ALGORAND_MAINNET,
   USDC_ON_ALGORAND_MAINNET,
   PUSDT_ON_ALGORAND_MAINNET,
-  USDT_ON_ALGORAND_MAINNET
+  USDT_ON_ALGORAND_MAINNET,
+  ORE_ON_ETH_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -95,7 +96,8 @@ const getConfigs = (_pTokenId, _configs) => {
     arbitrumProvider,
     luxochainProvider,
     algoProvider,
-    ftmProvider
+    ftmProvider,
+    oreSignatureProvider
   } = _configs
   const { networks, blockchains, pTokens } = constants
 
@@ -1004,6 +1006,18 @@ const getConfigs = (_pTokenId, _configs) => {
         ethProvider,
         telosRpc: settings.rpc.mainnet.telos.endpoint,
         telosSignatureProvider
+      }
+    }
+  }
+  if (_pTokenId === ORE_ON_ETH_MAINNET) {
+    return {
+      peosioToken: {
+        pToken: pTokens.ORE,
+        network: networks.Mainnet,
+        blockchain: blockchains.Ethereum,
+        ethProvider,
+        oreRpc: settings.rpc.mainnet.ore.endpoint,
+        oreSignatureProvider
       }
     }
   }

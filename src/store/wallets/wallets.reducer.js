@@ -28,7 +28,9 @@ import {
   WALLET_ALGORAND_DISCONNECTED,
   WALLET_FTM_CONNECTED,
   WALLET_FTM_ACCOUNT_CHANGED,
-  WALLET_FTM_DISCONNECTED
+  WALLET_FTM_DISCONNECTED,
+  WALLET_ORE_CONNECTED,
+  WALLET_ORE_DISCONNECTED
 } from '../../constants/index'
 
 const initialState = {
@@ -96,6 +98,12 @@ const initialState = {
     account: null,
     chainId: null,
     network: null
+  },
+  ore: {
+    provider: null,
+    account: null,
+    network: null,
+    permission: null
   }
 }
 
@@ -202,6 +210,17 @@ const walletsReducer = (_state = initialState, _action) => {
       }
     })
   }
+  if (_action.type === WALLET_ORE_CONNECTED) {
+    const { provider, account, network, permission } = _action.payload
+    return Object.assign({}, _state, {
+      ore: {
+        provider,
+        account,
+        network,
+        permission
+      }
+    })
+  }
   if (_action.type === WALLET_ULTRA_CONNECTED) {
     const { provider, account, network, permission } = _action.payload
     return Object.assign({}, _state, {
@@ -252,6 +271,16 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_EOS_DISCONNECTED) {
     return Object.assign({}, _state, {
       eos: {
+        provider: null,
+        account: null,
+        network: null,
+        permission: null
+      }
+    })
+  }
+  if (_action.type === WALLET_ORE_DISCONNECTED) {
+    return Object.assign({}, _state, {
+      ore: {
         provider: null,
         account: null,
         network: null,

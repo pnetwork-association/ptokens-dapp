@@ -79,7 +79,8 @@ import {
   PUSDC_ON_ALGORAND_MAINNET,
   USDC_ON_ALGORAND_MAINNET,
   PUSDT_ON_ALGORAND_MAINNET,
-  USDT_ON_ALGORAND_MAINNET
+  USDT_ON_ALGORAND_MAINNET,
+  ORE_ON_ETH_MAINNET
 } from '../constants'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 
@@ -445,6 +446,11 @@ const isValidAccount = async (_pTokenId, _account, _type) => {
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.algo.isValidAddress(_account)
     }
+    case ORE_ON_ETH_MAINNET: {
+      return _type === 'pegin'
+        ? pTokenUtils.eos.isValidAccountName(_account)
+        : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
     default:
       break
   }
@@ -475,6 +481,8 @@ const isValidAccountByBlockchain = (_account, _blockchain) => {
       return pTokenUtils.algo.isValidAddress(_account)
     case 'FTM':
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    case 'ORE':
+      return pTokenUtils.eos.isValidAccountName(_account)
     default:
       return false
   }

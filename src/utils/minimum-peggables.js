@@ -77,7 +77,8 @@ import {
   PUSDC_ON_ALGORAND_MAINNET,
   USDC_ON_ALGORAND_MAINNET,
   PUSDT_ON_ALGORAND_MAINNET,
-  USDT_ON_ALGORAND_MAINNET
+  USDT_ON_ALGORAND_MAINNET,
+  ORE_ON_ETH_MAINNET
 } from '../constants'
 
 const minimumPeggable = {
@@ -400,6 +401,10 @@ const minimumPeggable = {
   [USDT_ON_ALGORAND_MAINNET]: {
     pegin: 25,
     pegout: 25
+  },
+  [ORE_ON_ETH_MAINNET]: {
+    pegin: 100,
+    pegout: 100
   }
 }
 

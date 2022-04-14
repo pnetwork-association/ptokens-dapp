@@ -16,7 +16,8 @@ const transactionBaseLink = {
   ARBITRUM: `${settings.explorers.mainnet.arbitrum}tx/`,
   LUXOCHAIN: `${settings.explorers.mainnet.luxochain}tx/`,
   ALGORAND: `${settings.explorers.mainnet.algorand}tx/`,
-  FTM: `${settings.explorers.mainnet.ftm}tx/`
+  FTM: `${settings.explorers.mainnet.ftm}tx/`,
+  ORE: `${settings.explorers.mainnet.ore}tx/`
 }
 
 const addressBaseLink = {
@@ -35,7 +36,8 @@ const addressBaseLink = {
   ARBITRUM: `${settings.explorers.mainnet.arbitrum}address/`,
   LUXOCHAIN: `${settings.explorers.mainnet.luxochain}address/`,
   ALGORAND: `${settings.explorers.mainnet.algorand}address/`,
-  FTM: `${settings.explorers.mainnet.ftm}address/`
+  FTM: `${settings.explorers.mainnet.ftm}address/`,
+  ORE: `${settings.explorers.mainnet.ore}account/`
 }
 
 const tokenBaseLink = {
@@ -54,7 +56,8 @@ const tokenBaseLink = {
   ARBITRUM: `${settings.explorers.mainnet.arbitrum}token/`,
   LUXOCHAIN: `${settings.explorers.mainnet.luxochain}token/`,
   ALGORAND: `${settings.explorers.mainnet.algorand}asset/`,
-  FTM: `${settings.explorers.mainnet.ftm}token/`
+  FTM: `${settings.explorers.mainnet.ftm}token/`,
+  ORE: `${settings.explorers.mainnet.ore}account/`
 }
 
 const getCorrespondingBaseTxExplorerLinkByBlockchain = _blockchain => transactionBaseLink[_blockchain.toUpperCase()]

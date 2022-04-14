@@ -1614,6 +1614,26 @@ const swapAssets = [
     onPnetworkV2: true,
     isSpecial: true
   },
+  {
+    address: '0x4f640f2529ee0cf119a2881485845fa8e61a782a',
+    id: 'ORE_ON_ETH_MAINNET',
+    name: 'ORE',
+    workingName: 'ore',
+    nativeDecimals: 0,
+    network: 'mainnet',
+    isHidden: false,
+    blockchain: 'ETH',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'ORE',
+    isPtoken: true,
+    isSpecial: true,
+    nativeSymbol: 'ORE',
+    nativeBlockchain: 'ORE',
+    image: 'pORE.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true
+  },
   /* #################   Native Tokens   #################*/
   {
     address: '0x0000000000000000000000000000000000000000',
@@ -2417,6 +2437,22 @@ const swapAssets = [
     nativeBlockchain: 'ETH',
     image: 'NUCO.svg',
     withBalanceDecimalsConversion: true
+  },
+  {
+    address: 'eosio.token',
+    id: 'ORE',
+    symbol: 'ORE',
+    name: 'ORE',
+    network: 'mainnet',
+    blockchain: 'ORE',
+    decimals: 8,
+    withMiniImage: false,
+    isNative: true,
+    nativeSymbol: 'ORE',
+    nativeBlockchain: 'ORE',
+    image: 'ORE.svg',
+    withBalanceDecimalsConversion: false,
+    isBlockchainTokenNative: true
   }
 ]
 
