@@ -170,6 +170,15 @@ const loadBalances = (_account, _blockchain) => {
           })
           break
         }
+        case 'FTM': {
+          loadEvmCompatibleBalances({
+            assets: getAssetsByBlockchain('FTM'),
+            account: _account,
+            dispatch: _dispatch,
+            blockchain: 'FTM'
+          })
+          break
+        }
         default:
           break
       }
@@ -230,6 +239,10 @@ const loadBalanceByAssetId = _id => {
           loadAlgorandBalances({ assets: [asset], account, blockchain: 'ALGORAND', dispatch: _dispatch })
           break
         }
+        case 'FTM': {
+          loadEvmCompatibleBalance({ asset, account, blockchain: 'FTM', dispatch: _dispatch })
+          break
+        }
         default: {
           break
         }
@@ -261,7 +274,8 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
             bscProvider: wallets.bsc.provider || getReadOnlyProviderByBlockchain('BSC'),
             ultraSignatureProvider: wallets.ultra.provider || getReadOnlyProviderByBlockchain('ULTRA'),
             arbitrumProvider: wallets.arbitrum.provider || getReadOnlyProviderByBlockchain('ARBITRUM'),
-            luxochainProvider: wallets.luxochain.provider || getReadOnlyProviderByBlockchain('LUXOCHAIN')
+            luxochainProvider: wallets.luxochain.provider || getReadOnlyProviderByBlockchain('LUXOCHAIN'),
+            ftmProvider: wallets.ftm.provider || getReadOnlyProviderByBlockchain('FTM')
           })
         )
 
@@ -313,7 +327,8 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
             bscProvider: wallets.bsc.provider || getReadOnlyProviderByBlockchain('BSC'),
             ultraSignatureProvider: wallets.ultra.provider || getReadOnlyProviderByBlockchain('ULTRA'),
             arbitrumProvider: wallets.arbitrum.provider || getReadOnlyProviderByBlockchain('ARBITRUM'),
-            luxochainProvider: wallets.luxochain.provider || getReadOnlyProviderByBlockchain('LUXOCHAIN')
+            luxochainProvider: wallets.luxochain.provider || getReadOnlyProviderByBlockchain('LUXOCHAIN'),
+            ftmProvider: wallets.ftm.provider || getReadOnlyProviderByBlockchain('FTM')
           })
         )
 

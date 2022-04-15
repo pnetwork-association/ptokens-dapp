@@ -49,11 +49,14 @@ const settings = {
     {
       name: 'Luxochain',
       symbol: 'LUXOCHAIN'
-    }
+    },
     /*{
       name: 'Algorand',
       symbol: 'ALGORAND'
-    }*/
+    }*/ {
+      name: 'Fantom',
+      symbol: 'FTM'
+    }
   ],
   rpc: {
     mainnet: {
@@ -101,6 +104,9 @@ const settings = {
         token: '4950dcab89ddc2e7f4dd8e51deb2f0c44aa37aab18cbfd8242ac5fb697222342',
         port: 443,
         endpoint: 'https://algorand-node-1.ptokens.io'
+      },
+      ftm: {
+        endpoint: 'https://rpc.ftm.tools/'
       }
     }
   },
@@ -120,7 +126,8 @@ const settings = {
       ultra: 'https://explorer.mainnet.ultra.io/',
       arbitrum: 'https://arbiscan.io/',
       luxochain: 'https://explorer.luxochain.io/',
-      algorand: 'https://algoexplorer.io/'
+      algorand: 'https://algoexplorer.io/',
+      ftm: 'https://ftmscan.com/'
     }
   },
   supportedNfts: [

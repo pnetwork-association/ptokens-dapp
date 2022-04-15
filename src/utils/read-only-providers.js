@@ -40,6 +40,9 @@ const getReadOnlyProviderByBlockchain = _blockchain => {
       settings.rpc.mainnet.algorand.port
     )
   }
+  if (_blockchain === 'FTM') {
+    return new Web3.providers.HttpProvider(settings.rpc.mainnet.ftm.endpoint)
+  }
   return null
 }
 

@@ -1416,6 +1416,28 @@ const swapAssets = [
     isPerc20: true,
     onPnetworkV2: true
   },
+  {
+    address: '0x7c16f14afe5852cfbd66364982f27e103dec2795',
+    id: 'OATH_ON_ETH_MAINNET',
+    name: 'OATH',
+    workingName: 'oath',
+    nativeDecimals: 18,
+    network: 'mainnet',
+    isHidden: false,
+    blockchain: 'ETH',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'OATH',
+    isPtoken: true,
+    nativeSymbol: 'OATH',
+    nativeBlockchain: 'FTM',
+    image: 'pOATH.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true,
+    isPerc20: true,
+    onPnetworkV2: true,
+    isSpecial: true
+  },
   /* #################   Native Tokens   #################*/
   {
     address: '0x0000000000000000000000000000000000000000',
@@ -2157,6 +2179,21 @@ const swapAssets = [
     nativeSymbol: 'KEYS',
     nativeBlockchain: 'ETH',
     image: 'KEYS.svg',
+    withBalanceDecimalsConversion: true
+  },
+  {
+    address: '0x21ada0d2ac28c3a5fa3cd2ee30882da8812279b6',
+    id: 'OATH',
+    symbol: 'OATH',
+    name: 'Oath Token',
+    network: 'mainnet',
+    blockchain: 'FTM',
+    decimals: 18,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'OATH',
+    nativeBlockchain: 'FTM',
+    image: 'OATH.svg',
     withBalanceDecimalsConversion: true
   }
 ]
