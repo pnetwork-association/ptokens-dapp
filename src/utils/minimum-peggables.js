@@ -358,8 +358,8 @@ const minimumPeggable = {
     pegout: 100
   },
   [OATH_ON_ETH_MAINNET]: {
-    pegin: 1,
-    pegout: 0
+    pegin: 300,
+    pegout: 300
   }
 }
 
