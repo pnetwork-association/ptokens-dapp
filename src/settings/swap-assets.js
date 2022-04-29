@@ -1458,6 +1458,27 @@ const swapAssets = [
     withBalanceDecimalsConversion: true,
     withAmountConversionPegout: true
   },
+  {
+    address: 'nuco.ptokens',
+    id: 'NUCO_ON_TELOS_MAINNET',
+    name: 'NUCO',
+    workingName: 'nuco',
+    nativeDecimals: 18,
+    network: 'mainnet',
+    isHidden: false,
+    blockchain: 'TELOS',
+    decimals: 0,
+    withMiniImage: true,
+    symbol: 'NUCO',
+    isPtoken: true,
+    nativeSymbol: 'NCDT',
+    nativeBlockchain: 'ETH',
+    image: 'pNUCO.svg',
+    withBalanceDecimalsConversion: false,
+    isPerc20: true,
+    onPnetworkV2: true,
+    isSpecial: true
+  },
   /* #################   Native Tokens   #################*/
   {
     address: '0x0000000000000000000000000000000000000000',
@@ -2230,6 +2251,21 @@ const swapAssets = [
     nativeSymbol: 'OATH',
     nativeBlockchain: 'FTM',
     image: 'OATH.svg',
+    withBalanceDecimalsConversion: true
+  },
+  {
+    address: '0xE0C8b298db4cfFE05d1bEA0bb1BA414522B33C1B',
+    id: 'NCDT',
+    symbol: 'NCDT',
+    name: 'Nuco.Cloud',
+    network: 'mainnet',
+    blockchain: 'ETH',
+    decimals: 18,
+    withMiniImage: true,
+    isPtoken: false,
+    nativeSymbol: 'NCDT',
+    nativeBlockchain: 'ETH',
+    image: 'NUCO.svg',
     withBalanceDecimalsConversion: true
   }
 ]
