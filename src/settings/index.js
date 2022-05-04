@@ -156,6 +156,9 @@ const settings = {
       image: 'PNT_gray.svg',
       withBalanceDecimalsConversion: true
     }
+  },
+  migrationContractAddresses: {
+    pTokensPbtcV1ToV2: 'todo'
   }
 }
 

@@ -14,6 +14,7 @@ import {
   SortIcon
 } from '../swap/Swap'
 import Button from '../../atoms/button/Button'
+import Progress from '../../molecules/progress/Progress'
 
 const ArrowIcon = styled(SortIcon)`
   cursor: normal !important;
@@ -31,7 +32,6 @@ const Migration = ({
   assets: _assets,
   wallets,
   progress,
-  infoModal,
   connectWithWallet,
   migrateButton,
   updateMigrateButton,
@@ -101,6 +101,9 @@ const Migration = ({
                 withTitleLabel
                 hideMaxButton
               />
+              {progress.show ? (
+                <Progress percent={progress.percent} message={progress.message} steps={progress.steps} />
+              ) : null}
               <ContainerSwapButton>
                 <Button
                   onClick={onMigrate}

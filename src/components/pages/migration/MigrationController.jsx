@@ -18,7 +18,7 @@ const mapStateToProps = _state => {
 const mapDispatchToProps = _dispatch => {
   return {
     connectWithWallet: _blockchain => _dispatch(connectWithWallet(_blockchain)),
-    migrate: (_from, _to, _amount, _address, _options) => _dispatch(migrate(_from, _to, _amount, _address, _options)),
+    migrate: (_strategy, _amount, _from, _to, _options) => _dispatch(migrate(_strategy, _amount, _from, _to, _options)),
     resetProgress: () => _dispatch(resetProgress()),
     updateMigrateButton: (_text, _disabled) => _dispatch(updateMigrateButton(_text, _disabled)),
     selectPage: _page => _dispatch(selectPage(_page))

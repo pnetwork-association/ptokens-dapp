@@ -31,11 +31,11 @@ const AmountInput = styled.input`
   }
 `
 
-const ContainerImage = styled.div`
+export const ContainerImage = styled.div`
   border-radius: 50%;
 `
 
-const Image = styled.img`
+export const Image = styled.img`
   position: relative;
   width: 50px;
   height: 50px;
@@ -50,7 +50,7 @@ const Image = styled.img`
   }
 `
 
-const MiniImage = styled.img`
+export const MiniImage = styled.img`
   position: absolute;
   width: 20px;
   height: 20px;

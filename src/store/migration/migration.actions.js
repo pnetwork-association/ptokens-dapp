@@ -1,17 +1,16 @@
 import assets from '../../settings/migration-assets'
-//import settings from '../../settings'
 import {
   MIGRATION_ASSETS_LOADED,
-  MIGRATE_BALANCE_LOADED,
-  PROGRESS_UPDATED,
-  PROGRESS_RESET,
+  MIGRATION_BALANCE_LOADED,
+  MIGRATION_PROGRESS_UPDATED,
+  MIGRATION_PROGRESS_RESET,
   UPDATE_MIGRATE_BUTTON
 } from '../../constants/index'
 import { loadEvmCompatibleBalances, loadEvmCompatibleBalance } from '../swap/utils/balances'
-//import { getReadOnlyProviderByBlockchain } from '../../utils/read-only-providers'
 import { getAssetsByBlockchain, getAssetById } from './migration.selectors'
-import { /*getWallets,*/ getWalletByBlockchain } from '../wallets/wallets.selectors'
+import { getWalletByBlockchain } from '../wallets/wallets.selectors'
 import { getDefaultSelection } from './utils/default-selection'
+import migrateA from './migrations/a'
 
 const loadMigrationData = ({ strategy }) => {
   return async _dispatch => {
@@ -35,7 +34,7 @@ const loadBalances = _account => {
         assets: getAssetsByBlockchain('ETH'),
         account: _account,
         dispatch: _dispatch,
-        actionType: MIGRATE_BALANCE_LOADED
+        actionType: MIGRATION_BALANCE_LOADED
       })
     } catch (_err) {
       console.error(_err)
@@ -53,20 +52,36 @@ const loadBalanceByAssetId = _id => {
       }
       const account = wallet.account
 
-      loadEvmCompatibleBalance({ asset, account, dispatch: _dispatch })
+      loadEvmCompatibleBalance({ asset, account, dispatch: _dispatch, actionType: MIGRATION_BALANCE_LOADED })
     } catch (_err) {
       console.error(_err)
     }
   }
 }
 
-const migrate = (_from, _to, _amount, _address, _opts = {}) => {
+const migrate = (_strategy, _amount, _from, _to, _options = {}) => {
   return async _dispatch => {
     try {
       _dispatch(resetProgress())
-      //const wallets = getWallets()
 
-      console.log('stuck here')
+      switch (_strategy) {
+        // pbtc v1 -> pbtc v2
+        case 'a':
+          migrateA(_amount, _from, _to, {
+            dispatch: _dispatch
+          })
+          break
+        case 'b':
+          break
+        case 'c':
+          break
+        case 'd':
+          break
+        default:
+          break
+      }
+
+      console.log('migrating with strategy: ', _strategy)
     } catch (_err) {
       console.error(_err)
     }
@@ -75,7 +90,7 @@ const migrate = (_from, _to, _amount, _address, _opts = {}) => {
 
 const updateProgress = _progress => {
   return {
-    type: PROGRESS_UPDATED,
+    type: MIGRATION_PROGRESS_UPDATED,
     payload: {
       progress: _progress
     }
@@ -84,7 +99,7 @@ const updateProgress = _progress => {
 
 const resetProgress = () => {
   return {
-    type: PROGRESS_RESET
+    type: MIGRATION_PROGRESS_RESET
   }
 }
 

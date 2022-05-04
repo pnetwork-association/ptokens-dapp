@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import { useWalletByBlockchain } from './use-wallets'
+import history from '../utils/history'
 
 const useMigration = ({
   wallets,
@@ -41,7 +42,9 @@ const useMigration = ({
     if (migrateButton.text === 'Migrate') {
       updateMigrateButton('Migrating ...')
 
-      migrate(from, to, fromAmount)
+      const strategy = history.location.pathname.split('/')[2]
+
+      migrate(strategy, fromAmount, from, to)
     }
   }, [from, migrateButton.text, to, fromAmount, migrate, connectWithWallet, updateMigrateButton])
 
