@@ -12,10 +12,10 @@ import {
   ContainerSwap,
   SwapLabel,
   ContainerSwapButton,
-  SwapButton,
   ArrowContainer,
   SortIcon
 } from '../swap/Swap'
+import Button from '../../atoms/button/Button'
 
 const StyledArrowContainer = styled(ArrowContainer)`
   cursor: default;
@@ -107,12 +107,12 @@ const SwapOldPnt = ({
                 <Progress percent={progress.percent} message={progress.message} steps={progress.steps} />
               ) : null}
               <ContainerSwapButton>
-                <SwapButton
+                <Button
                   onClick={onSwap}
                   disabled={swapButton.disabled || (address === '' && swapButton.text !== 'Connect Wallet')}
                 >
                   {swapButton.text}
-                </SwapButton>
+                </Button>
               </ContainerSwapButton>
             </ContainerSwap>
           </OuterContainerSwap>

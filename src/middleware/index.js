@@ -22,6 +22,7 @@ import {
   WALLET_FTM_ACCOUNT_CHANGED
 } from '../constants'
 import { loadBalances } from '../store/swap/swap.actions'
+import * as migrationActions from '../store/migration/migration.actions'
 import { loadOldPntBalance } from '../store/swap-old-pnt/swap-old-pnt.actions'
 import { loadNftsData } from '../store/nfts/nfts.actions'
 import { setLoading } from '../store/pages/pages.actions'
@@ -38,6 +39,7 @@ const middleware = ({ dispatch }) => {
         // NOTE: avoid loading balances without having loaded the address from pNetwork node
         dispatch(loadBalances(payload.account, 'ETH'))
         dispatch(loadNftsData(payload.account, 'ETH'))
+        dispatch(migrationActions.loadBalances(payload.account, 'ETH'))
       }
 
       if (type === WALLET_BSC_CONNECTED || type === WALLET_BSC_ACCOUNT_CHANGED) {

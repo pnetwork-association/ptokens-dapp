@@ -5,16 +5,27 @@ import { SWAP_BALANCE_LOADED } from '../../../constants/index'
 import ERC20 from '../../../utils/abi/ERC20'
 import * as utils from 'ptokens-utils'
 
-const loadEvmCompatibleBalances = async ({ assets, account, blockchain = 'ETH', dispatch }) =>
-  Promise.all(assets.map(asset => loadEvmCompatibleBalance({ asset, account, blockchain, dispatch })))
+const loadEvmCompatibleBalances = async ({
+  assets,
+  account,
+  blockchain = 'ETH',
+  dispatch,
+  actionType = SWAP_BALANCE_LOADED
+}) => Promise.all(assets.map(asset => loadEvmCompatibleBalance({ asset, account, blockchain, dispatch, actionType })))
 
-const loadEvmCompatibleBalance = async ({ asset, account, dispatch, blockchain = 'ETH' }) => {
+const loadEvmCompatibleBalance = async ({
+  asset,
+  account,
+  dispatch,
+  blockchain = 'ETH',
+  actionType = SWAP_BALANCE_LOADED
+}) => {
   try {
     const web3 = new Web3(getReadOnlyProviderByBlockchain(blockchain))
     if (asset.id === blockchain) {
       const balance = await web3.eth.getBalance(account)
       dispatch({
-        type: SWAP_BALANCE_LOADED,
+        type: actionType,
         payload: {
           id: asset.id,
           balance: BigNumber(balance).toFixed()
@@ -24,7 +35,7 @@ const loadEvmCompatibleBalance = async ({ asset, account, dispatch, blockchain =
       const token = new web3.eth.Contract(ERC20, utils.eth.addHexPrefix(asset.address))
       const balance = await token.methods.balanceOf(account).call()
       dispatch({
-        type: SWAP_BALANCE_LOADED,
+        type: actionType,
         payload: {
           id: asset.id,
           balance: BigNumber(balance).toFixed()
@@ -37,10 +48,21 @@ const loadEvmCompatibleBalance = async ({ asset, account, dispatch, blockchain =
   }
 }
 
-const loadEosioCompatibleBalances = async ({ assets, account, blockchain = 'EOS', dispatch }) =>
-  Promise.all(assets.map(asset => loadEosioCompatibleBalance({ asset, account, blockchain, dispatch })))
+const loadEosioCompatibleBalances = async ({
+  assets,
+  account,
+  blockchain = 'EOS',
+  dispatch,
+  actionType = SWAP_BALANCE_LOADED
+}) => Promise.all(assets.map(asset => loadEosioCompatibleBalance({ asset, account, blockchain, dispatch, actionType })))
 
-const loadEosioCompatibleBalance = async ({ asset, account, dispatch, blockchain = 'EOS' }) => {
+const loadEosioCompatibleBalance = async ({
+  asset,
+  account,
+  dispatch,
+  blockchain = 'EOS',
+  actionType = SWAP_BALANCE_LOADED
+}) => {
   try {
     const provider = getReadOnlyProviderByBlockchain(blockchain)
     const balance = await provider.get_currency_balance(
@@ -49,7 +71,7 @@ const loadEosioCompatibleBalance = async ({ asset, account, dispatch, blockchain
       asset.symbolBalance ? asset.symbolBalance.toUpperCase() : asset.symbol.toUpperCase()
     )
     dispatch({
-      type: SWAP_BALANCE_LOADED,
+      type: actionType,
       payload: {
         id: asset.id,
         balance: BigNumber(balance[0] ? balance[0].split(' ')[0] : '0').toFixed()
@@ -60,7 +82,13 @@ const loadEosioCompatibleBalance = async ({ asset, account, dispatch, blockchain
   }
 }
 
-const loadAlgorandBalances = async ({ assets, account, dispatch, blockchain = 'ALGORAND' }) => {
+const loadAlgorandBalances = async ({
+  assets,
+  account,
+  dispatch,
+  blockchain = 'ALGORAND',
+  actionType = SWAP_BALANCE_LOADED
+}) => {
   try {
     const algodclient = getReadOnlyProviderByBlockchain(blockchain)
     const accountInfo = await algodclient.accountInformation(account).do()
@@ -69,7 +97,7 @@ const loadAlgorandBalances = async ({ assets, account, dispatch, blockchain = 'A
       console.log(accountInfo)
       if (_asset.id === blockchain) {
         dispatch({
-          type: SWAP_BALANCE_LOADED,
+          type: actionType,
           payload: {
             id: _asset.id,
             balance: BigNumber(accountInfo.amount).toFixed()
@@ -96,7 +124,7 @@ const loadAlgorandBalances = async ({ assets, account, dispatch, blockchain = 'A
     )*/
 
     /*dispatch({
-      type: SWAP_BALANCE_LOADED,
+      type: actionType,
       payload: {
         id: asset.id,
         balance: BigNumber(balance[0] ? balance[0].split(' ')[0] : '0').toFixed()

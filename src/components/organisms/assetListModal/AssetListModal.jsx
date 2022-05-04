@@ -2,10 +2,8 @@ import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import { Col, Row, Spinner } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { useGroupedAssetsByNativeSymbol } from '../../../hooks/use-grouped-assets'
-import { getAssetFromNativeSymbol } from '../../../utils/maps'
-import { useSearchAssets } from '../../../hooks/use-filters'
-import { useAssetsWithouDefault } from '../../../hooks/use-assets'
+import { getAssetFromSymbol } from '../../../utils/maps'
+import { useAssetsWithouDefault, useSearchAssets, useAssetsGroupedByGivenStrategy } from '../../../hooks/use-assets'
 import Icon from '../../atoms/icon/Icon'
 import Modal from '../../molecules/modal/Modal'
 
@@ -168,7 +166,7 @@ const StyledSpinner = styled(Spinner)`
 const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _assets, defaultAssets }) => {
   const [assetsWithoutDefault] = useAssetsWithouDefault(_assets)
   const [filteredAssets, setSearchWord] = useSearchAssets(assetsWithoutDefault)
-  const [assets] = useGroupedAssetsByNativeSymbol(filteredAssets)
+  const [assets] = useAssetsGroupedByGivenStrategy(filteredAssets)
   const [show, setShow] = useState([])
   const inputSearchRef = useRef(null)
 
@@ -248,7 +246,7 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
                           <AssetSymbol>{_nativeSymbol}</AssetSymbol>
                           <AssetName>
                             {_assets.length > 0
-                              ? getAssetFromNativeSymbol(
+                              ? getAssetFromSymbol(
                                   defaultAssets.filter(({ isPtoken }) => !isPtoken),
                                   _nativeSymbol
                                 ).name

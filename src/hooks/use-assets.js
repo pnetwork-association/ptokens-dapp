@@ -1,4 +1,6 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
+import _ from 'lodash'
+
 import { offChainFormat, strip } from '../utils/amount-utils'
 import { blockchainSymbolToName, blockchainSymbolToCoin } from '../utils/maps'
 import { getCorrespondingBaseTokenExplorerLinkByBlockchain } from '../utils/explorer'
@@ -29,6 +31,41 @@ const usePtoken = _asset => {
   }, [_asset])
 }
 
+const useAssetsGroupedByGivenStrategy = _assets => {
+  return useMemo(() => {
+    const assetsGroupedByKey = _.groupBy(
+      Object.values(_assets)
+        .map(_asset => ({
+          ..._asset,
+          formattedName: _asset.formattedName === _asset.nativeSymbol ? 'NATIVE' : _asset.formattedName
+        }))
+        .sort((_a, _b) => (_a.nativeSymbol > _b.nativeSymbol ? 1 : -1)),
+      'nativeSymbol'
+    )
+    return [assetsGroupedByKey]
+  }, [_assets])
+}
+
+const useSearchAssets = _assets => {
+  const [searchWord, setSearchWord] = useState('')
+
+  const [assets] = useMemo(() => {
+    return [
+      _assets.filter(
+        ({ name, nativeBlockchain, blockchain, address, symbol, coin }) =>
+          name.toLowerCase().includes(searchWord.toLowerCase()) ||
+          symbol.toLowerCase().includes(searchWord.toLowerCase()) ||
+          (coin && coin.toLowerCase().includes(searchWord.toLowerCase())) ||
+          nativeBlockchain.toLowerCase().includes(searchWord.toLowerCase()) ||
+          `${name} on ${blockchain}`.toLowerCase().includes(searchWord.toLowerCase()) ||
+          (address && address.toLowerCase() === searchWord.toLowerCase())
+      )
+    ]
+  }, [_assets, searchWord])
+
+  return [assets, setSearchWord]
+}
+
 const updateAsset = _asset => ({
   ..._asset,
   address:
@@ -49,13 +86,15 @@ const updateAsset = _asset => ({
       : _asset.balance
     : null,
   coin: blockchainSymbolToCoin[_asset.nativeSymbol],
-  formattedName: _asset.isBlockchainTokenNative
+  formattedName: _asset.formattedName
+    ? _asset.formattedName
+    : _asset.isBlockchainTokenNative
     ? _asset.symbol
     : _asset.isPtoken
     ? `on ${blockchainSymbolToName[_asset.blockchain].toUpperCase()}`
     : _asset.symbol,
   image: `../assets/svg/${_asset.image}`,
-  miniImage: `../assets/svg/${_asset.blockchain}.svg`
+  miniImage: `../assets/svg/${_asset.miniImage || _asset.blockchain}.svg`
 })
 
-export { useAssets, useAssetsWithouDefault, usePtoken }
+export { useAssets, useAssetsWithouDefault, usePtoken, useAssetsGroupedByGivenStrategy, useSearchAssets }

@@ -13,6 +13,7 @@ import { useAssets } from '../../../hooks/use-assets'
 import Icon from '../../atoms/icon/Icon'
 import InfoModal from '../../organisms/infoModal/InfoModal'
 import Switch from '../../atoms/switch/Switch'
+import Button from '../../atoms/button/Button'
 
 export const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -72,31 +73,6 @@ export const ContainerSwapButton = styled.div`
   }
 `
 
-export const SwapButton = styled.button`
-  width: 100%;
-  color: white;
-  background: ${({ theme }) => theme.primary1};
-  border: 0;
-  border-radius: 20px;
-  height: 70px;
-  font-size: 24px;
-  outline: none !important;
-  box-shadow: none;
-  &:disabled {
-    background: ${({ theme }) => theme.primary1Transparentized};
-    &:hover {
-      background: ${({ theme }) => theme.primary1Transparentized};
-    }
-  }
-  &:hover {
-    background: ${({ theme }) => theme.primary1Hovered};
-  }
-  @media (max-width: 767.98px) {
-    height: 60px;
-    font-size: 20px;
-  }
-`
-
 export const SwapLabel = styled.label`
   color: ${({ theme }) => theme.text1};
   margin-bottom: 20px;
@@ -150,7 +126,7 @@ const Swap = ({
   infoModal,
   connectWithWallet,
   depositAddressModal,
-  swapButton,
+  swapButton = {},
   updateSwapButton,
   hideDepositAddressModal,
   swap,
@@ -271,12 +247,12 @@ const Swap = ({
                 </ProvisionalSafemoonBox>
               ) : null}
               <ContainerSwapButton>
-                <SwapButton
+                <Button
                   onClick={onSwap}
                   disabled={swapButton.disabled || (address === '' && swapButton.text !== 'Connect Wallet')}
                 >
                   {swapButton.text}
-                </SwapButton>
+                </Button>
               </ContainerSwapButton>
             </ContainerSwap>
           </OuterContainerSwap>
