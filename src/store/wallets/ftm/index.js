@@ -23,7 +23,7 @@ const connectWithFtmWallet = async _dispatch => {
         walletconnect: {
           package: WalletConnectProvider,
           options: {
-            network: 'binance',
+            network: 'fantom',
             rpc: {
               250: settings.rpc.mainnet.ftm.endpoint
             }
@@ -88,8 +88,8 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
         chainId: 250,
         chainName: 'Fantom',
         nativeCurrency: {
-          name: 'BNB',
-          symbol: 'bnb',
+          name: 'FTM',
+          symbol: 'ftm',
           decimals: 18
         },
         nodes: [settings.rpc.mainnet.ftm.endpoint],
