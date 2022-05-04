@@ -5,6 +5,7 @@ import Portis from '@portis/web3'
 import Fortmatic from 'fortmatic'
 import WalletLink from 'walletlink'
 import settings from '../../../settings'
+import { changeNetwork } from '../../../utils/wallet'
 import {
   WALLET_ETH_CONNECTED,
   WALLET_ETH_DISCONNECTED,
@@ -103,7 +104,23 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
     const { accounts, chainId } = _provider
     const account = accounts ? accounts[0] : await _getAccount(_provider)
 
-    if (Number(chainId) === 1) {
+    if (Number(chainId) !== 1 && _provider.isMetaMask) {
+      await changeNetwork({
+        provider: _provider,
+        chainId: 1
+      })
+
+      _dispatch({
+        type: WALLET_ETH_CONNECTED,
+        payload: {
+          provider: _provider,
+          account,
+          network: 'mainnet',
+          chainId: 1
+        }
+      })
+      return
+    } else if (Number(chainId) === 1) {
       _dispatch({
         type: WALLET_ETH_CONNECTED,
         payload: {
