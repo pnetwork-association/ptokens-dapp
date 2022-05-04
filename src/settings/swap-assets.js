@@ -1448,14 +1448,15 @@ const swapAssets = [
     isPerc20: true,
     isHidden: false,
     blockchain: 'ETH',
-    decimals: 0,
+    decimals: 18,
     withMiniImage: true,
     symbol: 'PFTM',
     isPtoken: true,
     nativeSymbol: 'FTM',
     nativeBlockchain: 'FTM',
     image: 'pFTM.svg',
-    withBalanceDecimalsConversion: true
+    withBalanceDecimalsConversion: true,
+    withAmountConversionPegout: true
   },
   /* #################   Native Tokens   #################*/
   {
