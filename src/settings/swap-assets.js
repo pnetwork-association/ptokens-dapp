@@ -1438,6 +1438,25 @@ const swapAssets = [
     onPnetworkV2: true,
     isSpecial: true
   },
+  {
+    address: '0xC66F557134695523aD7D06Fc2cf1E7C6c7849bE4',
+    id: 'PFTM_ON_ETH_MAINNET',
+    name: 'pFTM',
+    workingName: 'pftm',
+    nativeDecimals: 18,
+    network: 'mainnet',
+    isPerc20: true,
+    isHidden: false,
+    blockchain: 'ETH',
+    decimals: 0,
+    withMiniImage: true,
+    symbol: 'PFTM',
+    isPtoken: true,
+    nativeSymbol: 'FTM',
+    nativeBlockchain: 'FTM',
+    image: 'pFTM.svg',
+    withBalanceDecimalsConversion: true
+  },
   /* #################   Native Tokens   #################*/
   {
     address: '0x0000000000000000000000000000000000000000',
@@ -1452,6 +1471,22 @@ const swapAssets = [
     nativeSymbol: 'ETH',
     nativeBlockchain: 'ETH',
     image: 'ETH.svg',
+    withBalanceDecimalsConversion: true,
+    isBlockchainTokenNative: true
+  },
+  {
+    address: '0x0000000000000000000000000000000000000000',
+    id: 'FTM',
+    symbol: 'FTM',
+    name: 'Fantom',
+    network: 'mainnet',
+    blockchain: 'FTM',
+    decimals: 18,
+    withMiniImage: false,
+    isPtoken: false,
+    nativeSymbol: 'FTM',
+    nativeBlockchain: 'FTM',
+    image: 'FTM.svg',
     withBalanceDecimalsConversion: true,
     isBlockchainTokenNative: true
   },

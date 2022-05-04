@@ -70,7 +70,8 @@ import {
   LUXO_ON_BSC_MAINNET,
   PETH_ON_ALGORAND_MAINNET,
   PKEYS_ON_BSC_MAINNET,
-  OATH_ON_ETH_MAINNET
+  OATH_ON_ETH_MAINNET,
+  PFTM_ON_ETH_MAINNET
 } from '../constants'
 
 const getCorrespondingExplorerLink = (_id, _role, _address) => {
@@ -425,6 +426,11 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
         ? `${settings.explorers.mainnet.ftm}address/${_address}`
         : `${settings.explorers.mainnet.eth}address/${_address}`
     }
+    case PFTM_ON_ETH_MAINNET: {
+      return _role === 'native'
+        ? `${settings.explorers.mainnet.ftm}address/${_address}`
+        : `${settings.explorers.mainnet.eth}address/${_address}`
+    }
     default:
       break
   }
@@ -713,6 +719,9 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
       return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.bsc}tx/`
     }
     case OATH_ON_ETH_MAINNET: {
+      return _role === 'native' ? `${settings.explorers.mainnet.ftm}tx/` : `${settings.explorers.mainnet.eth}tx/`
+    }
+    case PFTM_ON_ETH_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.ftm}tx/` : `${settings.explorers.mainnet.eth}tx/`
     }
     default:

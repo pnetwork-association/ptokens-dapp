@@ -71,7 +71,8 @@ import {
   LUXO_ON_BSC_MAINNET,
   PETH_ON_ALGORAND_MAINNET,
   PKEYS_ON_BSC_MAINNET,
-  OATH_ON_ETH_MAINNET
+  OATH_ON_ETH_MAINNET,
+  PFTM_ON_ETH_MAINNET
 } from '../constants'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 
@@ -399,6 +400,9 @@ const isValidAccount = async (_pTokenId, _account, _type) => {
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case OATH_ON_ETH_MAINNET: {
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case PFTM_ON_ETH_MAINNET: {
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     default:
