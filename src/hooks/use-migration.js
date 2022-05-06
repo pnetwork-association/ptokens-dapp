@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import BigNumber from 'bignumber.js'
 import { useWalletByBlockchain } from './use-wallets'
 import history from '../utils/history'
+import { PBTC_ON_ETH_MAINNET_V2_MIGRATION } from '../constants'
 
 const useMigration = ({
   wallets,
@@ -15,24 +15,46 @@ const useMigration = ({
   const [from, setFrom] = useState(null)
   const [to, setTo] = useState(null)
   const [fromAmount, setFromAmount] = useState('')
-  const [toAmount, setToAmount] = useState('')
+  const [toAmount, _setToAmount] = useState('')
   const [assetsLoaded, setAssetsLoaded] = useState(false)
 
-  const onChangeFromAmount = useCallback(_amount => {
-    setFromAmount(_amount)
-    setToAmount(_amount)
-  }, [])
+  const setToAmount = useCallback(
+    _amount => {
+      if (_amount === '' || parseInt(_amount) === 0) {
+        _setToAmount(_amount)
+        return
+      }
 
-  const onChangeToAmount = useCallback(_amount => {
-    setToAmount(_amount)
-    setFromAmount(_amount)
-  }, [])
+      if (to && to.id === PBTC_ON_ETH_MAINNET_V2_MIGRATION) {
+        _setToAmount(_amount)
+        return
+      }
+
+      _setToAmount(`~${_amount}`)
+    },
+    [to]
+  )
+
+  const onChangeFromAmount = useCallback(
+    _amount => {
+      setFromAmount(_amount)
+      setToAmount(_amount)
+    },
+    [setToAmount]
+  )
+
+  const onChangeToAmount = useCallback(
+    _amount => {
+      setToAmount(_amount)
+      setFromAmount(_amount)
+    },
+    [setToAmount]
+  )
 
   const onFromMax = useCallback(() => {
-    const amount = from.balance
-    setFromAmount(BigNumber(amount).toFixed())
-    setToAmount(BigNumber(amount).toFixed())
-  }, [from])
+    setFromAmount(from.balance)
+    setToAmount(from.balance)
+  }, [from, setToAmount])
 
   const onMigrate = useCallback(() => {
     if (migrateButton.text === 'Connect Wallet') {
@@ -68,7 +90,7 @@ const useMigration = ({
       setFromAmount('')
       setToAmount('')
     }
-  }, [progress])
+  }, [progress, setToAmount])
 
   // NOTE: calculates button text
   useEffect(() => {
@@ -125,6 +147,13 @@ const useMigration = ({
       //updateUrlForSwap(from, to)
     }
   }, [from, to])
+
+  useEffect(() => {
+    if (from && from.amountNotEditable && from.balance) {
+      setFromAmount(from.balance)
+      setToAmount(from.balance)
+    }
+  }, [from, setToAmount])
 
   // NOTE: wallet selection
   const fromWallet = useWalletByBlockchain(wallets, from ? from.blockchain : null)

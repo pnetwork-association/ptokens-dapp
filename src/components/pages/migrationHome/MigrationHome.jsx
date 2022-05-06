@@ -25,6 +25,8 @@ const Thead = styled.thead`
 
 const Tr = styled.tr`
   border: 0;
+  padding-left: 5px;
+  padding-right: 5px;
 `
 
 const Th = styled.th`
@@ -41,10 +43,10 @@ const Td = styled.td`
   padding: 20px !important;
   color: ${({ theme }) => theme.text1};
   border-top: 1px solid ${({ theme }) => theme.lightGray} !important;
-  font-size: 15px;
+  font-size: 14px;
   vertical-align: baseline !important;
   @media (max-width: 767.98px) {
-    font-size: 13px;
+    font-size: 12px;
     padding: 15px !important;
   }
 `
@@ -80,10 +82,10 @@ const StyledImage = styled(Image)`
 `
 
 const StyledMiniImage = styled(MiniImage)`
-  height: 17.5px;
-  width: 17.5px;
+  height: 15px;
+  width: 15px;
   margin-top: 23px;
-  margin-left: -13px;
+  margin-left: -12px;
   @media (max-width: 767.98px) {
     height: 12.5px;
     width: 12.5px;
@@ -115,8 +117,8 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
             <Th>#</Th>
             <Th>From</Th>
             <Th>To</Th>
-            <Th>APY% (old)</Th>
-            <Th>APY% (new)</Th>
+            <Th>Old APY</Th>
+            <Th>New APY</Th>
             <Th></Th>
           </Tr>
         </Thead>
@@ -147,7 +149,7 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
               <ContinueButton onClick={() => onMigrate('a')}>Migrate</ContinueButton>
             </Td>
           </Tr>
-          <Tr>
+          {/*<Tr>
             <Td>B</Td>
             <Td>
               <TdContent>
@@ -228,7 +230,7 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
             <Td>
               <ContinueButton onClick={() => onMigrate('d')}>Migrate</ContinueButton>
             </Td>
-          </Tr>
+  </Tr>*/}
         </Tbody>
       </StyledTable>
     </Container>

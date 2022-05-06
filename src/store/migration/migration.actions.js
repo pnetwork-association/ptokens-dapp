@@ -12,15 +12,21 @@ import { getWalletByBlockchain } from '../wallets/wallets.selectors'
 import { getDefaultSelection } from './utils/default-selection'
 import migrateA from './migrations/a'
 
-const loadMigrationData = ({ strategy }) => {
+const loadMigrationData = (_opts = {}) => {
+  const { strategy } = _opts
   return async _dispatch => {
     try {
       _dispatch({
         type: MIGRATION_ASSETS_LOADED,
         payload: {
-          assets: [...assets, ...getDefaultSelection(assets, { strategy })]
+          assets: strategy ? [...assets, ...getDefaultSelection(assets, { strategy })] : assets
         }
       })
+
+      const wallet = getWalletByBlockchain('ETH')
+      if (wallet && wallet.account) {
+        _dispatch(loadBalances(wallet.account))
+      }
     } catch (_err) {
       console.error(_err)
     }

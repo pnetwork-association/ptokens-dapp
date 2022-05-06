@@ -1,11 +1,13 @@
 import Web3 from 'web3'
+import BigNumber from 'bignumber.js'
 import ERC20Abi from '../../../utils/abi/ERC20.json'
 import { getCorrespondingBaseTxExplorerLinkByBlockchain } from '../../../utils/explorer'
 import settings from '../../../settings'
-import { updateProgress } from '../migration.actions'
+import { updateProgress, loadBalanceByAssetId } from '../migration.actions'
 import { getWalletByBlockchain } from '../../wallets/wallets.selectors'
 
 const migrateA = async (_amount, _from, _to, { dispatch }) => {
+  let hash
   const wallet = getWalletByBlockchain('ETH')
   const web3 = new Web3(wallet.provider)
   const token = new web3.eth.Contract(ERC20Abi, _from.address)
@@ -19,11 +21,15 @@ const migrateA = async (_amount, _from, _to, { dispatch }) => {
     })
   )
 
-  let hash
   const send = () =>
     new Promise(_resolve => {
       token.methods
-        .transfer(settings.migrationContractAddresses.pTokensPbtcV1ToV2, _amount)
+        .transfer(
+          settings.migration.contractAddresses.pTokensPbtcV1ToV2,
+          BigNumber(_amount)
+            .multipliedBy(10 ** 18)
+            .toFixed()
+        )
         .send({
           from: wallet.account
         })
@@ -40,6 +46,7 @@ const migrateA = async (_amount, _from, _to, { dispatch }) => {
             })
           )
         })
+        .once('receipt', _resolve)
     })
   await send()
 
@@ -54,6 +61,8 @@ const migrateA = async (_amount, _from, _to, { dispatch }) => {
       terminated: true
     })
   )
+
+  dispatch(loadBalanceByAssetId(_to.id))
 }
 
 export default migrateA

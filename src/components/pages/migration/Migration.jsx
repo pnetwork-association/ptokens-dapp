@@ -84,6 +84,7 @@ const Migration = ({
                 onChangeAmount={onChangeFromAmount}
                 onMax={onFromMax}
                 withTitleLabel
+                disableInput={from && from.amountNotEditable}
               />
               <ArrowContainer>
                 <ArrowIcon icon="arrow-down" />
@@ -96,10 +97,12 @@ const Migration = ({
                 amount={toAmount}
                 address={address}
                 wallet={toWallet}
+                inputType={'text'}
                 onChangeAmount={onChangeToAmount}
                 onChangeAddress={setAddress}
                 withTitleLabel
                 hideMaxButton
+                disableInput
               />
               {progress.show ? (
                 <Progress percent={progress.percent} message={progress.message} steps={progress.steps} />

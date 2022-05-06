@@ -157,8 +157,11 @@ const settings = {
       withBalanceDecimalsConversion: true
     }
   },
-  migrationContractAddresses: {
-    pTokensPbtcV1ToV2: 'todo'
+  migration: {
+    contractAddresses: {
+      pTokensPbtcV1ToV2: '0xc612b19fD761e5Ff780b3C38996ff816AFa26aae',
+      curvePbtcSbtcMetapool: 'todo'
+    }
   }
 }
 

@@ -5,10 +5,12 @@ import Swap from './Swap'
 import { connectWithWallet } from '../../../store/wallets/wallets.actions'
 import { hideDepositAddressModal, swap, resetProgress, updateSwapButton } from '../../../store/swap/swap.actions'
 import { updateInfoModal } from '../../../store/pages/pages.actions'
+import { selectPage } from '../../../store/pages/pages.actions'
 
 const mapStateToProps = _state => {
   return {
     assets: _state.swap.assets,
+    migrationAssets: _state.migration.assets,
     bpm: _state.swap.bpm,
     wallets: _state.wallets,
     depositAddressModal: _state.swap.depositAddressModal,
@@ -25,7 +27,8 @@ const mapDispatchToProps = _dispatch => {
     swap: (_from, _to, _amount, _address, _options) => _dispatch(swap(_from, _to, _amount, _address, _options)),
     resetProgress: () => _dispatch(resetProgress()),
     updateSwapButton: (_text, _disabled) => _dispatch(updateSwapButton(_text, _disabled)),
-    hideInfoModal: () => _dispatch(updateInfoModal({ show: false, message: null }))
+    hideInfoModal: () => _dispatch(updateInfoModal({ show: false, message: null })),
+    selectPage: _page => _dispatch(selectPage(_page))
   }
 }
 
@@ -33,6 +36,7 @@ const SwapController = _props => <Swap {..._props} />
 
 SwapController.propTypes = {
   assets: PropTypes.array.isRequired,
+  migrationAssets: PropTypes.array.isRequired,
   bpm: PropTypes.object.isRequired,
   wallets: PropTypes.object.isRequired,
   depositAddressModal: PropTypes.object,
@@ -44,7 +48,8 @@ SwapController.propTypes = {
   swap: PropTypes.func,
   resetProgress: PropTypes.func,
   hideInfoModal: PropTypes.func,
-  updateSwapButton: PropTypes.func
+  updateSwapButton: PropTypes.func,
+  selectPage: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SwapController)

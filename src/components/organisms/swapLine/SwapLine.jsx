@@ -204,6 +204,9 @@ const SwapLine = ({
   onChangeAddress,
   onMax,
   withTitleLabel,
+  disableInput = false,
+  inputType = 'number',
+  inputPlaceholder = '0.0',
   ..._props
 }) => {
   const [showInfo, setShowInfo] = useState(false)
@@ -258,8 +261,9 @@ const SwapLine = ({
         <Col xs={8} className="text-right my-auto pl-0">
           <ContainerAmountInput>
             <AmountInput
-              type="number"
-              placeholder="0.0"
+              type={inputType}
+              placeholder={inputPlaceholder}
+              disabled={disableInput}
               onChange={_e => onChangeAmount(_e.target.value.toString())}
               value={amount}
             />
@@ -309,7 +313,10 @@ SwapLine.propTypes = {
   onClickImage: PropTypes.func,
   onChangeAddress: PropTypes.func,
   onMax: PropTypes.func,
-  withTitleLabel: PropTypes.bool
+  withTitleLabel: PropTypes.bool,
+  disableInput: PropTypes.bool,
+  inputType: PropTypes.string,
+  inputPlaceholder: PropTypes.string
 }
 
 SwapLine.defaultProps = {
