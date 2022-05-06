@@ -86,8 +86,6 @@ const migrate = (_strategy, _amount, _from, _to, _options = {}) => {
         default:
           break
       }
-
-      console.log('migrating with strategy: ', _strategy)
     } catch (_err) {
       console.error(_err)
     }
