@@ -360,16 +360,16 @@ const minimumPeggable = {
     pegout: 100
   },
   [OATH_ON_ETH_MAINNET]: {
-    pegin: 1,
-    pegout: 1
+    pegin: 500,
+    pegout: 500
   },
   [PFTM_ON_ETH_MAINNET]: {
-    pegin: 1,
-    pegout: 1
+    pegin: 100,
+    pegout: 100
   },
   [NUCO_ON_TELOS_MAINNET]: {
-    pegin: 0.01,
-    pegout: 0.01
+    pegin: 1500,
+    pegout: 1500
   }
 }
 
