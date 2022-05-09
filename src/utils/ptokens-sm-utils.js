@@ -90,7 +90,7 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
     case PBTC_ON_TELOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.btc}address/${_address}`
-        : `${settings.explorers.mainnet.telos}accounts/${_address}`
+        : `${settings.explorers.mainnet.telos}account/${_address}`
     }
     case PBTC_ON_ARBITRUM_MAINNET: {
       return _role === 'native'
@@ -239,7 +239,7 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
     }
     case TLOS_ON_ETH_MAINNET: {
       return _role === 'native'
-        ? `${settings.explorers.mainnet.telos}accounts/${_address}`
+        ? `${settings.explorers.mainnet.telos}account/${_address}`
         : `${settings.explorers.mainnet.eth}address/${_address}`
     }
     case PNT_ON_BSC_MAINNET: {
@@ -275,27 +275,27 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
     case PETH_ON_TELOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.telos}accounts/${_address}`
+        : `${settings.explorers.mainnet.telos}account/${_address}`
     }
     case PLINK_ON_TELOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.telos}accounts/${_address}`
+        : `${settings.explorers.mainnet.telos}account/${_address}`
     }
     case PNT_ON_TELOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.telos}accounts/${_address}`
+        : `${settings.explorers.mainnet.telos}account/${_address}`
     }
     case PUSDT_ON_TELOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.telos}accounts/${_address}`
+        : `${settings.explorers.mainnet.telos}account/${_address}`
     }
     case PUSDC_ON_TELOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.telos}accounts/${_address}`
+        : `${settings.explorers.mainnet.telos}account/${_address}`
     }
     case PNT_ON_XDAI_MAINNET: {
       return _role === 'native'
@@ -309,7 +309,7 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
     }
     case TLOS_ON_BSC_MAINNET: {
       return _role === 'native'
-        ? `${settings.explorers.mainnet.telos}accounts/${_address}`
+        ? `${settings.explorers.mainnet.telos}account/${_address}`
         : `${settings.explorers.mainnet.bsc}address/${_address}`
     }
     case POPEN_ON_BSC_MAINNET: {
@@ -349,7 +349,7 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
     }
     case PSEEDS_ON_ETH_MAINNET: {
       return _role === 'native'
-        ? `${settings.explorers.mainnet.telos}accounts/${_address}`
+        ? `${settings.explorers.mainnet.telos}account/${_address}`
         : `${settings.explorers.mainnet.eth}address/${_address}`
     }
     case PLBC_ON_BSC_MAINNET: {
@@ -435,7 +435,7 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
     case NUCO_ON_TELOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.telos}accounts/${_address}`
+        : `${settings.explorers.mainnet.telos}account/${_address}`
     }
     default:
       break
@@ -591,9 +591,7 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
         : `${settings.explorers.mainnet.eth}tx/`
     }
     case TLOS_ON_ETH_MAINNET: {
-      return _role === 'native'
-        ? `${settings.explorers.mainnet.telos}transaction/`
-        : `${settings.explorers.mainnet.eth}tx/`
+      return _role === 'native' ? `${settings.explorers.mainnet.telos}tx/` : `${settings.explorers.mainnet.eth}tx/`
     }
     case PNT_ON_BSC_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.bsc}tx/`
@@ -614,29 +612,19 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
       return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.bsc}tx/`
     }
     case PETH_ON_TELOS_MAINNET: {
-      return _role === 'native'
-        ? `${settings.explorers.mainnet.eth}tx/`
-        : `${settings.explorers.mainnet.telos}transaction/`
+      return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.telos}tx/`
     }
     case PLINK_ON_TELOS_MAINNET: {
-      return _role === 'native'
-        ? `${settings.explorers.mainnet.eth}tx/`
-        : `${settings.explorers.mainnet.telos}transaction/`
+      return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.telos}tx/`
     }
     case PNT_ON_TELOS_MAINNET: {
-      return _role === 'native'
-        ? `${settings.explorers.mainnet.eth}tx/`
-        : `${settings.explorers.mainnet.telos}transaction/`
+      return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.telos}tx/`
     }
     case PUSDC_ON_TELOS_MAINNET: {
-      return _role === 'native'
-        ? `${settings.explorers.mainnet.eth}tx/`
-        : `${settings.explorers.mainnet.telos}transaction/`
+      return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.telos}tx/`
     }
     case PUSDT_ON_TELOS_MAINNET: {
-      return _role === 'native'
-        ? `${settings.explorers.mainnet.eth}tx/`
-        : `${settings.explorers.mainnet.telos}transaction/`
+      return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.telos}tx/`
     }
     case PNT_ON_XDAI_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.xdai}tx/`
@@ -645,9 +633,7 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
       return _role === 'native' ? `${settings.explorers.mainnet.rvn}tx/` : `${settings.explorers.mainnet.bsc}tx/`
     }
     case TLOS_ON_BSC_MAINNET: {
-      return _role === 'native'
-        ? `${settings.explorers.mainnet.telos}transaction/`
-        : `${settings.explorers.mainnet.bsc}tx/`
+      return _role === 'native' ? `${settings.explorers.mainnet.telos}tx/` : `${settings.explorers.mainnet.bsc}tx/`
     }
     case POPEN_ON_BSC_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.bsc}tx/`
@@ -673,9 +659,7 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
         : `${settings.explorers.mainnet.bsc}tx/`
     }
     case PSEEDS_ON_ETH_MAINNET: {
-      return _role === 'native'
-        ? `${settings.explorers.mainnet.telos}transaction/`
-        : `${settings.explorers.mainnet.eth}tx/`
+      return _role === 'native' ? `${settings.explorers.mainnet.telos}tx/` : `${settings.explorers.mainnet.eth}tx/`
     }
     case PLBC_ON_BSC_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.lbc}tx/` : `${settings.explorers.mainnet.bsc}tx/`
@@ -731,9 +715,7 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
       return _role === 'native' ? `${settings.explorers.mainnet.ftm}tx/` : `${settings.explorers.mainnet.eth}tx/`
     }
     case NUCO_ON_TELOS_MAINNET: {
-      return _role === 'native'
-        ? `${settings.explorers.mainnet.eth}tx/`
-        : `${settings.explorers.mainnet.telos}transaction/`
+      return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.telos}tx/`
     }
     default:
       break
