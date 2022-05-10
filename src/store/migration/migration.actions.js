@@ -11,6 +11,7 @@ import { getAssetsByBlockchain, getAssetById } from './migration.selectors'
 import { getWalletByBlockchain } from '../wallets/wallets.selectors'
 import { getDefaultSelection } from './utils/default-selection'
 import migrateA from './migrations/a'
+import migrateBCD from './migrations/b-c-d'
 
 const loadMigrationData = (_opts = {}) => {
   const { strategy } = _opts
@@ -78,10 +79,25 @@ const migrate = (_strategy, _amount, _from, _to, _options = {}) => {
           })
           break
         case 'b':
+          // old curve gauge -> new curve gauge
+          migrateBCD(_amount, _from, _to, {
+            dispatch: _dispatch,
+            method: 'migrateIntoNewCurveGaugeFromOldCurveGauge'
+          })
           break
         case 'c':
+          // old curve gauge -> idle senior tranche
+          migrateBCD(_amount, _from, _to, {
+            dispatch: _dispatch,
+            method: 'migrateIntoIdleAATrancheFromOldCurveGauge'
+          })
           break
         case 'd':
+          // old curve gauge -> idle junior tranche
+          migrateBCD(_amount, _from, _to, {
+            dispatch: _dispatch,
+            method: 'migrateIntoIdleBBTrancheFromOldCurveGauge'
+          })
           break
         default:
           break

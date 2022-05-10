@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useWalletByBlockchain } from './use-wallets'
 import history from '../utils/history'
 import { PBTC_ON_ETH_MAINNET_V2_MIGRATION } from '../constants'
+import BigNumber from 'bignumber.js'
 
 const useMigration = ({
   wallets,
@@ -20,7 +21,7 @@ const useMigration = ({
 
   const setToAmount = useCallback(
     _amount => {
-      if (_amount === '' || parseInt(_amount) === 0) {
+      if (_amount === '' || parseFloat(_amount) === 0) {
         _setToAmount(_amount)
         return
       }
@@ -52,8 +53,9 @@ const useMigration = ({
   )
 
   const onFromMax = useCallback(() => {
-    setFromAmount(from.balance)
-    setToAmount(from.balance)
+    const amount = BigNumber(from.balance).toFixed()
+    setFromAmount(amount)
+    setToAmount(amount)
   }, [from, setToAmount])
 
   const onMigrate = useCallback(() => {
@@ -115,7 +117,7 @@ const useMigration = ({
       return
     }
 
-    if (fromAmount === '' && !from.peginWithDepositAddress) {
+    if (fromAmount === '') {
       updateMigrateButton('Enter an amount', true)
       return
     }
@@ -147,13 +149,6 @@ const useMigration = ({
       //updateUrlForSwap(from, to)
     }
   }, [from, to])
-
-  useEffect(() => {
-    if (from && from.amountNotEditable && from.balance) {
-      setFromAmount(from.balance)
-      setToAmount(from.balance)
-    }
-  }, [from, setToAmount])
 
   // NOTE: wallet selection
   const fromWallet = useWalletByBlockchain(wallets, from ? from.blockchain : null)

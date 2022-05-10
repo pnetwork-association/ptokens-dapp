@@ -128,7 +128,7 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
             <Td>
               <TdContent>
                 <ContainerImage>
-                  <StyledImage src={'../assets/svg/PBTC.svg'} />
+                  <StyledImage src={'../assets/svg/pBTC_gray.svg'} />
                   <StyledMiniImage src={'../assets/svg/ETH.svg'} />
                 </ContainerImage>
                 <Text>pBTC V1</Text>
@@ -137,7 +137,7 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
             <Td>
               <TdContent>
                 <ContainerImage>
-                  <StyledImage src={'../assets/svg/PBTC.svg'} />
+                  <StyledImage src={'../assets/svg/pBTC.svg'} />
                   <StyledMiniImage src={'../assets/svg/ETH.svg'} />
                 </ContainerImage>
                 <Text>pBTC V2</Text>
@@ -149,12 +149,12 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
               <ContinueButton onClick={() => onMigrate('a')}>Migrate</ContinueButton>
             </Td>
           </Tr>
-          {/*<Tr>
+          <Tr>
             <Td>B</Td>
             <Td>
               <TdContent>
                 <ContainerImage>
-                  <StyledImage src={'../assets/svg/PBTC.svg'} />
+                  <StyledImage src={'../assets/svg/pBTC_gray.svg'} />
                   <StyledMiniImage src={'../assets/svg/ETH.svg'} />
                 </ContainerImage>
                 <Text>pBTC V1/sbtcCRV Gauge Deposit</Text>
@@ -163,7 +163,7 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
             <Td>
               <TdContent>
                 <ContainerImage>
-                  <StyledImage src={'../assets/svg/PBTC.svg'} />
+                  <StyledImage src={'../assets/svg/pBTC.svg'} />
                   <StyledMiniImage src={'../assets/svg/ETH.svg'} />
                 </ContainerImage>
                 <Text>pBTC V2/sbtcCRV Gauge Deposit</Text>
@@ -181,7 +181,7 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
               {' '}
               <TdContent>
                 <ContainerImage>
-                  <StyledImage src={'../assets/svg/PBTC.svg'} />
+                  <StyledImage src={'../assets/svg/pBTC_gray.svg'} />
                   <StyledMiniImage src={'../assets/svg/ETH.svg'} />
                 </ContainerImage>
                 <Text>pBTC V1/sbtcCRV Gauge Deposit</Text>
@@ -191,7 +191,7 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
               {' '}
               <TdContent>
                 <ContainerImage>
-                  <StyledImage src={'../assets/svg/PBTC.svg'} />
+                  <StyledImage src={'../assets/svg/pBTC.svg'} />
                   <StyledMiniImage src={'../assets/svg/ETH.svg'} />
                 </ContainerImage>
                 <Text>IdleCDO AA Tranche - idleCvxpbtc V2/sbtcCRV-f</Text>
@@ -209,7 +209,7 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
               {' '}
               <TdContent>
                 <ContainerImage>
-                  <StyledImage src={'../assets/svg/PBTC.svg'} />
+                  <StyledImage src={'../assets/svg/pBTC_gray.svg'} />
                   <StyledMiniImage src={'../assets/svg/ETH.svg'} />
                 </ContainerImage>
                 <Text>pBTC V1/sbtcCRV Gauge Deposit</Text>
@@ -219,7 +219,7 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
               {' '}
               <TdContent>
                 <ContainerImage>
-                  <StyledImage src={'../assets/svg/PBTC.svg'} />
+                  <StyledImage src={'../assets/svg/pBTC.svg'} />
                   <StyledMiniImage src={'../assets/svg/ETH.svg'} />
                 </ContainerImage>
                 <Text>IdleCDO BB Tranche - idleCvxpbtc V2/sbtcCRV-f</Text>
@@ -230,7 +230,7 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
             <Td>
               <ContinueButton onClick={() => onMigrate('d')}>Migrate</ContinueButton>
             </Td>
-  </Tr>*/}
+          </Tr>
         </Tbody>
       </StyledTable>
     </Container>

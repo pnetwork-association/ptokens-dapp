@@ -1,6 +1,7 @@
 import Web3 from 'web3'
 import BigNumber from 'bignumber.js'
 import ERC20Abi from '../../../utils/abi/ERC20.json'
+import PbtcV1StrategiesMigratorAbi from '../../../utils/abi/PbtcV1StrategiesMigrator.json'
 import { getCorrespondingBaseTxExplorerLinkByBlockchain } from '../../../utils/explorer'
 import settings from '../../../settings'
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateMigrateButton } from '../migration.actions'
@@ -8,12 +9,35 @@ import { getWalletByBlockchain } from '../../wallets/wallets.selectors'
 import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
 
-const migrateA = async (_amount, _from, _to, { dispatch }) => {
+const migrateBCD = async (_amount, _from, _to, { dispatch, method }) => {
   try {
     let hash
     const wallet = getWalletByBlockchain('ETH')
     const web3 = new Web3(wallet.provider)
     const token = new web3.eth.Contract(ERC20Abi, _from.address)
+    const pbtcV1StrategiesMigrator = new web3.eth.Contract(
+      PbtcV1StrategiesMigratorAbi,
+      settings.migration.contractAddresses.pbtcV1StrategiesMigrator
+    )
+
+    const allowance = await token.methods
+      .allowance(wallet.account, settings.migration.contractAddresses.pbtcV1StrategiesMigrator)
+      .call()
+
+    if (BigNumber(allowance).isLessThan(_amount)) {
+      const sendApprove = () =>
+        new Promise((_resolve, _reject) => {
+          token.methods
+            .approve(settings.migration.contractAddresses.pbtcV1StrategiesMigrator, _amount)
+            .send({
+              from: wallet.account
+            })
+            .once('receipt', _resolve)
+            .on('error', _reject)
+        })
+      await sendApprove()
+    }
+
     dispatch(
       updateProgress({
         show: true,
@@ -26,13 +50,7 @@ const migrateA = async (_amount, _from, _to, { dispatch }) => {
 
     const send = () =>
       new Promise((_resolve, _reject) => {
-        token.methods
-          .transfer(
-            settings.migration.contractAddresses.pbtcV1Migrator,
-            BigNumber(_amount)
-              .multipliedBy(10 ** 18)
-              .toFixed()
-          )
+        pbtcV1StrategiesMigrator.methods[method](_amount)
           .send({
             from: wallet.account
           })
@@ -50,7 +68,7 @@ const migrateA = async (_amount, _from, _to, { dispatch }) => {
             )
           })
           .once('receipt', _resolve)
-          .once('error', _reject)
+          .on('error', _reject)
       })
     await send()
 
@@ -58,9 +76,8 @@ const migrateA = async (_amount, _from, _to, { dispatch }) => {
       updateProgress({
         show: true,
         percent: 100,
-        message: `Transaction <a href="${`${getCorrespondingBaseTxExplorerLinkByBlockchain(
-          'ETH'
-        )}${hash}`}" target="_blank">transaction</a> Confirmed.`,
+        // prettier-ignore
+        message: `Transaction <a href="${`${getCorrespondingBaseTxExplorerLinkByBlockchain('ETH')}${hash}`}" target="_blank">transaction</a> Confirmed.`,
         steps: [0, 50, 100],
         terminated: true
       })
@@ -86,4 +103,4 @@ const migrateA = async (_amount, _from, _to, { dispatch }) => {
   }
 }
 
-export default migrateA
+export default migrateBCD

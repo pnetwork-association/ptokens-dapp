@@ -15,6 +15,7 @@ import {
 } from '../swap/Swap'
 import Button from '../../atoms/button/Button'
 import Progress from '../../molecules/progress/Progress'
+import InfoModal from '../../organisms/infoModal/InfoModal'
 
 const ArrowIcon = styled(SortIcon)`
   cursor: normal !important;
@@ -36,7 +37,9 @@ const Migration = ({
   migrateButton,
   updateMigrateButton,
   migrate,
-  selectPage
+  selectPage,
+  infoModal,
+  hideInfoModal
 }) => {
   const [assets] = useAssets(_assets)
 
@@ -84,7 +87,6 @@ const Migration = ({
                 onChangeAmount={onChangeFromAmount}
                 onMax={onFromMax}
                 withTitleLabel
-                disableInput={from && from.amountNotEditable}
               />
               <ArrowContainer>
                 <ArrowIcon icon="arrow-down" />
@@ -120,6 +122,7 @@ const Migration = ({
           </OuterContainerSwap>
         </Row>
       </Container>
+      <InfoModal onClose={hideInfoModal} {...infoModal} />
     </React.Fragment>
   )
 }
@@ -134,7 +137,8 @@ Migration.propTypes = {
   migrate: PropTypes.func,
   resetProgress: PropTypes.func,
   updateMigrateButton: PropTypes.func,
-  selectPage: PropTypes.func
+  selectPage: PropTypes.func,
+  hideInfoModal: PropTypes.func
 }
 
 export default Migration
