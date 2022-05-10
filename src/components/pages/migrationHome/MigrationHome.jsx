@@ -109,8 +109,6 @@ const MigrationHome = ({ apys, selectPage, loadMigrationData }) => {
     [selectPage, loadMigrationData]
   )
 
-  console.log(apys)
-
   return (
     <Container>
       <StyledTable size="sm">
@@ -179,8 +177,8 @@ const MigrationHome = ({ apys, selectPage, loadMigrationData }) => {
             <Td>
               {!apys
                 ? '-'
-                : apys['Curve.fi pBTC-v2/sbtcCRV Gauge Deposit']
-                ? apys['Curve.fi pBTC-v2/sbtcCRV Gauge Deposit']
+                : apys['Curve.fi pbtc-v2/sbtcCRV-f Gauge Deposit']
+                ? apys['Curve.fi pbtc-v2/sbtcCRV-f Gauge Deposit']
                 : 'N/A'}
             </Td>
             <Td>
