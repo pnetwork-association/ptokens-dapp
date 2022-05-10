@@ -3,7 +3,8 @@ import {
   MIGRATION_BALANCE_LOADED,
   UPDATE_MIGRATE_BUTTON,
   MIGRATION_PROGRESS_UPDATED,
-  MIGRATION_PROGRESS_RESET
+  MIGRATION_PROGRESS_RESET,
+  APYS_LOADED
 } from '../../constants/index'
 
 const initialState = {
@@ -18,7 +19,8 @@ const initialState = {
     message: null,
     steps: [],
     terminated: false
-  }
+  },
+  apys: null
 }
 
 const swapReducer = (_state = initialState, _action) => {
@@ -53,6 +55,11 @@ const swapReducer = (_state = initialState, _action) => {
   if (type === UPDATE_MIGRATE_BUTTON) {
     return Object.assign({}, _state, {
       migrateButton: payload.migrateButton
+    })
+  }
+  if (type === APYS_LOADED) {
+    return Object.assign({}, _state, {
+      apys: payload.apys
     })
   }
   return _state

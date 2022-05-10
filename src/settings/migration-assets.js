@@ -98,8 +98,8 @@ const migrationAssets = [
     isBase: false,
     image: 'pBTC.svg',
     version: 1,
-    titleLabel: 'IdleCDO BB AA Tranche - idleCvxpbtc-v2/sbtcCRV-f',
-    formattedName: 'IdleCDO BB AA Tranche - idleCvxpbtc-v2/sbtcCRV-f',
+    titleLabel: 'IdleCDO BB Tranche - idleCvxpbtc-v2/sbtcCRV-f',
+    formattedName: 'IdleCDO BB Tranche - idleCvxpbtc-v2/sbtcCRV-f',
     withBalanceDecimalsConversion: true
   }
 ]

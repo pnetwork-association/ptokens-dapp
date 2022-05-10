@@ -6,7 +6,9 @@ import { selectPage } from '../../../store/pages/pages.actions'
 import { loadMigrationData } from '../../../store/migration/migration.actions'
 
 const mapStateToProps = _state => {
-  return {}
+  return {
+    apys: _state.migration.apys
+  }
 }
 const mapDispatchToProps = _dispatch => {
   return {
@@ -21,7 +23,8 @@ const MigrationHomeController = _props => {
 
 MigrationHomeController.propTypes = {
   selectPage: PropTypes.func.isRequired,
-  loadMigrationData: PropTypes.func.isRequired
+  loadMigrationData: PropTypes.func.isRequired,
+  apys: PropTypes.object
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MigrationHomeController)
