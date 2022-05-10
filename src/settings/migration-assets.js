@@ -12,8 +12,8 @@ const migrationAssets = [
     isBase: true,
     image: 'pBTC_gray.svg',
     version: 1,
-    titleLabel: 'pBTC V1',
-    formattedName: 'pBTC V1',
+    titleLabel: 'pBTC v1',
+    formattedName: 'pBTC v1',
     withBalanceDecimalsConversion: true
   },
   {
@@ -47,8 +47,8 @@ const migrationAssets = [
     isBase: false,
     image: 'pBTC.svg',
     version: 2,
-    titleLabel: 'pBTC V2',
-    formattedName: 'pBTC V2',
+    titleLabel: 'pBTC v2',
+    formattedName: 'pBTC v2',
     withBalanceDecimalsConversion: true
   },
   {

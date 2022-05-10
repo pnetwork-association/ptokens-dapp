@@ -129,18 +129,16 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
               <TdContent>
                 <ContainerImage>
                   <StyledImage src={'../assets/svg/pBTC_gray.svg'} />
-                  <StyledMiniImage src={'../assets/svg/ETH.svg'} />
                 </ContainerImage>
-                <Text>pBTC V1</Text>
+                <Text>pBTC v1</Text>
               </TdContent>
             </Td>
             <Td>
               <TdContent>
                 <ContainerImage>
                   <StyledImage src={'../assets/svg/pBTC.svg'} />
-                  <StyledMiniImage src={'../assets/svg/ETH.svg'} />
                 </ContainerImage>
-                <Text>pBTC V2</Text>
+                <Text>pBTC v2</Text>
               </TdContent>
             </Td>
             <Td>-</Td>
@@ -155,18 +153,18 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
               <TdContent>
                 <ContainerImage>
                   <StyledImage src={'../assets/svg/pBTC_gray.svg'} />
-                  <StyledMiniImage src={'../assets/svg/ETH.svg'} />
+                  <StyledMiniImage src={'../assets/svg/CURVE_gray.svg'} />
                 </ContainerImage>
-                <Text>pBTC V1/sbtcCRV Gauge Deposit</Text>
+                <Text>pBTC-v1 Curve LP token (staked in the old gauge) [pBTC/sbtcCRV-gauge]</Text>
               </TdContent>
             </Td>
             <Td>
               <TdContent>
                 <ContainerImage>
                   <StyledImage src={'../assets/svg/pBTC.svg'} />
-                  <StyledMiniImage src={'../assets/svg/ETH.svg'} />
+                  <StyledMiniImage src={'../assets/svg/CURVE.svg'} />
                 </ContainerImage>
-                <Text>pBTC V2/sbtcCRV Gauge Deposit</Text>
+                <Text>pBTC-v2 Curve LP token (staked in the new gauge) [pbtc/sbtcCRV-f-gauge]</Text>
               </TdContent>
             </Td>
             <Td>3%</Td>
@@ -182,9 +180,9 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
               <TdContent>
                 <ContainerImage>
                   <StyledImage src={'../assets/svg/pBTC_gray.svg'} />
-                  <StyledMiniImage src={'../assets/svg/ETH.svg'} />
+                  <StyledMiniImage src={'../assets/svg/CURVE_gray.svg'} />
                 </ContainerImage>
-                <Text>pBTC V1/sbtcCRV Gauge Deposit</Text>
+                <Text>pBTC-v1 Curve LP token (staked in the old gauge) [pBTC/sbtcCRV-gauge]</Text>
               </TdContent>
             </Td>
             <Td>
@@ -192,9 +190,9 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
               <TdContent>
                 <ContainerImage>
                   <StyledImage src={'../assets/svg/pBTC.svg'} />
-                  <StyledMiniImage src={'../assets/svg/ETH.svg'} />
+                  <StyledMiniImage src={'../assets/svg/IDLE.svg'} />
                 </ContainerImage>
-                <Text>IdleCDO AA Tranche - idleCvxpbtc V2/sbtcCRV-f</Text>
+                <Text>Idle PBTCCRV Senior Tranche (staked)</Text>
               </TdContent>
             </Td>
             <Td>10%</Td>
@@ -210,9 +208,9 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
               <TdContent>
                 <ContainerImage>
                   <StyledImage src={'../assets/svg/pBTC_gray.svg'} />
-                  <StyledMiniImage src={'../assets/svg/ETH.svg'} />
+                  <StyledMiniImage src={'../assets/svg/CURVE_gray.svg'} />
                 </ContainerImage>
-                <Text>pBTC V1/sbtcCRV Gauge Deposit</Text>
+                <Text>pBTC-v1 Curve LP token (staked in the old gauge) [pBTC/sbtcCRV-gauge]</Text>
               </TdContent>
             </Td>
             <Td>
@@ -220,9 +218,9 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
               <TdContent>
                 <ContainerImage>
                   <StyledImage src={'../assets/svg/pBTC.svg'} />
-                  <StyledMiniImage src={'../assets/svg/ETH.svg'} />
+                  <StyledMiniImage src={'../assets/svg/IDLE.svg'} />
                 </ContainerImage>
-                <Text>IdleCDO BB Tranche - idleCvxpbtc V2/sbtcCRV-f</Text>
+                <Text>Idle PBTCCRV Junior Tranche</Text>
               </TdContent>
             </Td>
             <Td>10%</Td>

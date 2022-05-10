@@ -20,15 +20,19 @@ const migrateBCD = async (_amount, _from, _to, { dispatch, method }) => {
       settings.migration.contractAddresses.pbtcV1StrategiesMigrator
     )
 
+    const amountBN = BigNumber(_amount)
+      .multipliedBy(10 ** 18)
+      .toFixed()
+
     const allowance = await token.methods
       .allowance(wallet.account, settings.migration.contractAddresses.pbtcV1StrategiesMigrator)
       .call()
 
-    if (BigNumber(allowance).isLessThan(_amount)) {
+    if (BigNumber(allowance).isLessThan(amountBN)) {
       const sendApprove = () =>
         new Promise((_resolve, _reject) => {
           token.methods
-            .approve(settings.migration.contractAddresses.pbtcV1StrategiesMigrator, _amount)
+            .approve(settings.migration.contractAddresses.pbtcV1StrategiesMigrator, amountBN)
             .send({
               from: wallet.account
             })
@@ -42,7 +46,7 @@ const migrateBCD = async (_amount, _from, _to, { dispatch, method }) => {
       updateProgress({
         show: true,
         percent: 0,
-        message: 'Waiting for confirming the transaction ...',
+        message: 'Waiting for user’s approval ...',
         steps: [0, 50, 100],
         terminated: false
       })
@@ -50,7 +54,7 @@ const migrateBCD = async (_amount, _from, _to, { dispatch, method }) => {
 
     const send = () =>
       new Promise((_resolve, _reject) => {
-        pbtcV1StrategiesMigrator.methods[method](_amount)
+        pbtcV1StrategiesMigrator.methods[method](amountBN)
           .send({
             from: wallet.account
           })
@@ -61,7 +65,7 @@ const migrateBCD = async (_amount, _from, _to, { dispatch, method }) => {
                 show: true,
                 percent: 50,
                 // prettier-ignore
-                message: `Asset migration <a href="${`${getCorrespondingBaseTxExplorerLinkByBlockchain('ETH')}${_hash}`}" target="_blank">transaction</a> completed, waiting for confirmation ...`,
+                message: `Asset migration <a href="${`${getCorrespondingBaseTxExplorerLinkByBlockchain('ETH')}${_hash}`}" target="_blank">transaction</a> sent, waiting for confirmation ...`,
                 steps: [0, 50, 100],
                 terminated: false
               })
@@ -77,7 +81,7 @@ const migrateBCD = async (_amount, _from, _to, { dispatch, method }) => {
         show: true,
         percent: 100,
         // prettier-ignore
-        message: `Transaction <a href="${`${getCorrespondingBaseTxExplorerLinkByBlockchain('ETH')}${hash}`}" target="_blank">transaction</a> Confirmed.`,
+        message: `Migration <a href="${`${getCorrespondingBaseTxExplorerLinkByBlockchain('ETH')}${hash}`}" target="_blank">transaction</a> confirmed.`,
         steps: [0, 50, 100],
         terminated: true
       })

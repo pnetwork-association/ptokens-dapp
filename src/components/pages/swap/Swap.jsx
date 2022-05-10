@@ -229,8 +229,10 @@ const Swap = ({
               <MigrationNotification>
                 {notifyMigration === 'pbtc-v1-v2' && (
                   <React.Fragment>
-                    It looks like you are holding pBTC-v1 tokens on Ethereum. That token has been superseded by pBTC v2
-                    - please <Link onClick={onMigration}>proceed to the migration process</Link> to upgrade it.'
+                    It looks like you are holding pBTC-v1 tokens on Ethereum or a staked LP asset that includes it (i.e.
+                    Curve, Uniswap). That pBTC-v1 token has been superseded by pBTC-v2, to know more about the new
+                    version click <a href="WILLSHARELATER">here</a>.<br /> Please{' '}
+                    <Link onClick={onMigration}>proceed to the migration dashboard</Link> to easily upgrade it.
                   </React.Fragment>
                 )}
               </MigrationNotification>
