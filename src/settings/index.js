@@ -115,7 +115,7 @@ const settings = {
       eth: 'https://etherscan.io/',
       btc: 'https://blockstream.info/',
       eos: 'https://bloks.io/',
-      telos: 'https://telos.bloks.io/',
+      telos: 'https://telos.eosx.io/',
       ltc: 'https://live.blockcypher.com/ltc/',
       bsc: 'https://bscscan.com/',
       xdai: 'https://blockscout.com/poa/xdai/',

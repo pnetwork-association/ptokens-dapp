@@ -69,7 +69,9 @@ import {
   LUXO_ON_BSC_MAINNET,
   PETH_ON_ALGORAND_MAINNET,
   PKEYS_ON_BSC_MAINNET,
-  OATH_ON_ETH_MAINNET
+  OATH_ON_ETH_MAINNET,
+  PFTM_ON_ETH_MAINNET,
+  NUCO_ON_TELOS_MAINNET
 } from '../constants'
 
 const minimumPeggable = {
@@ -358,8 +360,16 @@ const minimumPeggable = {
     pegout: 100
   },
   [OATH_ON_ETH_MAINNET]: {
-    pegin: 300,
-    pegout: 300
+    pegin: 500,
+    pegout: 500
+  },
+  [PFTM_ON_ETH_MAINNET]: {
+    pegin: 100,
+    pegout: 100
+  },
+  [NUCO_ON_TELOS_MAINNET]: {
+    pegin: 1500,
+    pegout: 1500
   }
 }
 

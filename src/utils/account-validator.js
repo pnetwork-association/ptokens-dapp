@@ -71,7 +71,9 @@ import {
   LUXO_ON_BSC_MAINNET,
   PETH_ON_ALGORAND_MAINNET,
   PKEYS_ON_BSC_MAINNET,
-  OATH_ON_ETH_MAINNET
+  OATH_ON_ETH_MAINNET,
+  PFTM_ON_ETH_MAINNET,
+  NUCO_ON_TELOS_MAINNET
 } from '../constants'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 
@@ -400,6 +402,14 @@ const isValidAccount = async (_pTokenId, _account, _type) => {
     }
     case OATH_ON_ETH_MAINNET: {
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case PFTM_ON_ETH_MAINNET: {
+      return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case NUCO_ON_TELOS_MAINNET: {
+      return _type === 'pegin'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
     }
     default:
       break

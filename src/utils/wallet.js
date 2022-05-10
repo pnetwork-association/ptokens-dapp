@@ -1,3 +1,9 @@
+export const changeNetwork = ({ provider, chainId }) =>
+  provider.request({
+    method: 'wallet_switchEthereumChain',
+    params: [{ chainId: `0x${chainId.toString(16)}` }]
+  })
+
 export const setupNetwork = ({
   provider,
   chainId,
