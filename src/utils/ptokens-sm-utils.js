@@ -85,7 +85,7 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
     case PBTC_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.btc}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PBTC_ON_TELOS_MAINNET: {
       return _role === 'native'
@@ -100,7 +100,7 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
     case PLTC_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.ltc}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PLTC_ON_ETH_MAINNET: {
       return _role === 'native'
@@ -110,102 +110,102 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
     case PETH_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PMKR_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PNT_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PLINK_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PYFI_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PTERIA_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PUNI_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PBAND_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PBAL_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PCOMP_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PSNX_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case POMG_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PDAI_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PANT_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PLRC_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PUOS_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PBAT_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PREP_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PZRX_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PPNK_ON_EOS_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
-        : `${settings.explorers.mainnet.eos}accounts/${_address}`
+        : `${settings.explorers.mainnet.eos}account/${_address}`
     }
     case PDOGE_ON_ETH_MAINNET: {
       return _role === 'native'
@@ -214,7 +214,7 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
     }
     case PEOS_ON_ETH_MAINNET: {
       return _role === 'native'
-        ? `${settings.explorers.mainnet.eos}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eos}account/${_address}`
         : `${settings.explorers.mainnet.eth}address/${_address}`
     }
     case PBTC_ON_BSC_MAINNET: {
@@ -224,7 +224,7 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
     }
     case PEOS_ON_POLYGON_MAINNET: {
       return _role === 'native'
-        ? `${settings.explorers.mainnet.eos}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eos}account/${_address}`
         : `${settings.explorers.mainnet.polygon}address/${_address}`
     }
     case PBTC_ON_XDAI_MAINNET: {
@@ -234,7 +234,7 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
     }
     case IQ_ON_ETH_MAINNET: {
       return _role === 'native'
-        ? `${settings.explorers.mainnet.eos}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eos}account/${_address}`
         : `${settings.explorers.mainnet.eth}address/${_address}`
     }
     case TLOS_ON_ETH_MAINNET: {
@@ -344,7 +344,7 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
     }
     case EFX_ON_BSC_MAINNET: {
       return _role === 'native'
-        ? `${settings.explorers.mainnet.eos}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eos}account/${_address}`
         : `${settings.explorers.mainnet.bsc}address/${_address}`
     }
     case PSEEDS_ON_ETH_MAINNET: {
@@ -374,7 +374,7 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
     }
     case EFX_ON_ETH_MAINNET: {
       return _role === 'native'
-        ? `${settings.explorers.mainnet.eos}accounts/${_address}`
+        ? `${settings.explorers.mainnet.eos}account/${_address}`
         : `${settings.explorers.mainnet.eth}address/${_address}`
     }
     case ZMT_ON_BSC_MAINNET: {
