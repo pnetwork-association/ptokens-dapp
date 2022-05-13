@@ -38,9 +38,15 @@ const getDefaultSelectionV2 = (_assets, { asset, from, to }) => {
   const btc = _assets.find(({ symbol }) => symbol === 'BTC')
   const pbtc = _assets.find(({ symbol }) => symbol === 'PBTC')
 
-  const assetFrom = _assets.find(({ nativeSymbol }) => nativeSymbol.toLowerCase() === asset.toLowerCase())
+  const assetFrom = _assets.find(
+    ({ nativeSymbol, blockchain }) =>
+      nativeSymbol.toLowerCase() === asset.toLowerCase() && from.toLowerCase() === blockchain.toLowerCase()
+  )
 
-  const assetTo = _assets.find(({ nativeSymbol }) => nativeSymbol.toLowerCase() === asset.toLowerCase())
+  const assetTo = _assets.find(
+    ({ nativeSymbol, blockchain }) =>
+      nativeSymbol.toLowerCase() === asset.toLowerCase() && blockchain.toLowerCase() === to.toLowerCase()
+  )
 
   if ((assetFrom && !assetTo) || (!assetFrom && assetTo)) {
     toastr.error('Error', 'Invalid routing')
