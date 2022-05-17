@@ -17,7 +17,9 @@ import {
   WALLET_ALGORAND_CONNECTED,
   WALLET_ALGORAND_ACCOUNT_CHANGED,
   NFTS_DATA_LOADED,
-  NFT_DATA_LOADED
+  NFT_DATA_LOADED,
+  WALLET_FTM_CONNECTED,
+  WALLET_FTM_ACCOUNT_CHANGED
 } from '../constants'
 import { loadBalances } from '../store/swap/swap.actions'
 import { loadOldPntBalance } from '../store/swap-old-pnt/swap-old-pnt.actions'
@@ -74,6 +76,12 @@ const middleware = ({ dispatch }) => {
 
       if (type === WALLET_ALGORAND_CONNECTED || type === WALLET_ALGORAND_ACCOUNT_CHANGED) {
         dispatch(loadBalances(payload.account, 'ALGORAND'))
+      }
+
+      if (type === WALLET_FTM_CONNECTED || type === WALLET_FTM_ACCOUNT_CHANGED) {
+        dispatch(loadBalances(payload.account, 'FTM'))
+        dispatch(loadNftsData(payload.account, 'FTM'))
+        dispatch(loadOldPntBalance(payload.account))
       }
 
       if (type === NFTS_DATA_LOADED || type === NFT_DATA_LOADED) {

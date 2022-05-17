@@ -6,7 +6,7 @@ const transactionBaseLink = {
   POLYGON: `${settings.explorers.mainnet.polygon}tx/`,
   BSC: `${settings.explorers.mainnet.bsc}tx/`,
   EOS: `${settings.explorers.mainnet.eos}tx/`,
-  TELOS: `${settings.explorers.mainnet.telos}transaction/`,
+  TELOS: `${settings.explorers.mainnet.telos}tx/`,
   BTC: `${settings.explorers.mainnet.btc}tx/`,
   LTC: `${settings.explorers.mainnet.ltc}tx/`,
   RVN: `${settings.explorers.mainnet.rvn}tx/`,
@@ -15,7 +15,8 @@ const transactionBaseLink = {
   ULTRA: `${settings.explorers.mainnet.ultra}tx/`,
   ARBITRUM: `${settings.explorers.mainnet.arbitrum}tx/`,
   LUXOCHAIN: `${settings.explorers.mainnet.luxochain}tx/`,
-  ALGORAND: `${settings.explorers.mainnet.algorand}tx/`
+  ALGORAND: `${settings.explorers.mainnet.algorand}tx/`,
+  FTM: `${settings.explorers.mainnet.ftm}tx/`
 }
 
 const addressBaseLink = {
@@ -23,8 +24,8 @@ const addressBaseLink = {
   XDAI: `${settings.explorers.mainnet.xdai}address/`,
   POLYGON: `${settings.explorers.mainnet.polygon}address/`,
   BSC: `${settings.explorers.mainnet.bsc}address/`,
-  EOS: `${settings.explorers.mainnet.eos}address/`,
-  TELOS: `${settings.explorers.mainnet.telos}accounts/`,
+  EOS: `${settings.explorers.mainnet.eos}account/`,
+  TELOS: `${settings.explorers.mainnet.telos}account/`,
   BTC: `${settings.explorers.mainnet.btc}address/`,
   LTC: `${settings.explorers.mainnet.ltc}address/`,
   RVN: `${settings.explorers.mainnet.rvn}address/`,
@@ -33,7 +34,8 @@ const addressBaseLink = {
   ULTRA: `${settings.explorers.mainnet.ultra}account/`,
   ARBITRUM: `${settings.explorers.mainnet.arbitrum}address/`,
   LUXOCHAIN: `${settings.explorers.mainnet.luxochain}address/`,
-  ALGORAND: `${settings.explorers.mainnet.algorand}address/`
+  ALGORAND: `${settings.explorers.mainnet.algorand}address/`,
+  FTM: `${settings.explorers.mainnet.ftm}address/`
 }
 
 const tokenBaseLink = {
@@ -41,8 +43,8 @@ const tokenBaseLink = {
   XDAI: `${settings.explorers.mainnet.xdai}address/`,
   POLYGON: `${settings.explorers.mainnet.polygon}address/`,
   BSC: `${settings.explorers.mainnet.bsc}token/`,
-  EOS: `${settings.explorers.mainnet.eos}address/`,
-  TELOS: `${settings.explorers.mainnet.telos}accounts/`,
+  EOS: `${settings.explorers.mainnet.eos}account/`,
+  TELOS: `${settings.explorers.mainnet.telos}account/`,
   BTC: `${settings.explorers.mainnet.btc}address/`,
   LTC: `${settings.explorers.mainnet.ltc}address/`,
   RVN: `${settings.explorers.mainnet.rvn}address/`,
@@ -51,7 +53,8 @@ const tokenBaseLink = {
   ULTRA: `${settings.explorers.mainnet.ultra}account/`,
   ARBITRUM: `${settings.explorers.mainnet.arbitrum}token/`,
   LUXOCHAIN: `${settings.explorers.mainnet.luxochain}token/`,
-  ALGORAND: `${settings.explorers.mainnet.algorand}asset/`
+  ALGORAND: `${settings.explorers.mainnet.algorand}asset/`,
+  FTM: `${settings.explorers.mainnet.ftm}token/`
 }
 
 const getCorrespondingBaseTxExplorerLinkByBlockchain = _blockchain => transactionBaseLink[_blockchain.toUpperCase()]

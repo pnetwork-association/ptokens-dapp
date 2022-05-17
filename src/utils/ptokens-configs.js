@@ -69,7 +69,10 @@ import {
   LUXO_ON_BSC_MAINNET,
   PETH_ON_ALGORAND_MAINNET,
   PTET_ON_ALGORAND_MAINNET,
-  PKEYS_ON_BSC_MAINNET
+  PKEYS_ON_BSC_MAINNET,
+  OATH_ON_ETH_MAINNET,
+  PFTM_ON_ETH_MAINNET,
+  NUCO_ON_TELOS_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -86,7 +89,8 @@ const getConfigs = (_pTokenId, _configs) => {
     ultraSignatureProvider,
     arbitrumProvider,
     luxochainProvider,
-    algoProvider
+    algoProvider,
+    ftmProvider
   } = _configs
   const { networks, blockchains, pTokens } = constants
 
@@ -898,6 +902,44 @@ const getConfigs = (_pTokenId, _configs) => {
         blockchain: blockchains.BinanceSmartChain,
         ethProvider,
         bscProvider
+      }
+    }
+  }
+  if (_pTokenId === OATH_ON_ETH_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.OATH,
+        nativeNetwork: networks.FantomMainnet,
+        nativeBlockchain: blockchains.Fantom,
+        hostNetwork: networks.EthereumMainnet,
+        hostBlockchain: blockchains.Ethereum,
+        ethProvider,
+        ftmProvider
+      }
+    }
+  }
+  if (_pTokenId === PFTM_ON_ETH_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pFTM,
+        nativeNetwork: networks.FantomMainnet,
+        nativeBlockchain: blockchains.Fantom,
+        hostNetwork: networks.EthereumMainnet,
+        hostBlockchain: blockchains.Ethereum,
+        ethProvider,
+        ftmProvider
+      }
+    }
+  }
+  if (_pTokenId === NUCO_ON_TELOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.NUCO,
+        network: networks.TelosMainnet,
+        blockchain: blockchains.Telos,
+        ethProvider,
+        telosRpc: settings.rpc.mainnet.telos.endpoint,
+        telosSignatureProvider
       }
     }
   }

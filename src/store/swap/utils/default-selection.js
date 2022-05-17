@@ -39,15 +39,13 @@ const getDefaultSelectionV2 = (_assets, { asset, from, to }) => {
   const pbtc = _assets.find(({ symbol }) => symbol === 'PBTC')
 
   const assetFrom = _assets.find(
-    ({ symbol, blockchain }) =>
-      (asset.toLowerCase() === symbol.toLowerCase() || asset.toLowerCase() === symbol.toLowerCase().slice(1)) &&
-      from.toLowerCase() === blockchain.toLowerCase()
+    ({ nativeSymbol, blockchain }) =>
+      nativeSymbol.toLowerCase() === asset.toLowerCase() && from.toLowerCase() === blockchain.toLowerCase()
   )
 
   const assetTo = _assets.find(
-    ({ symbol, blockchain }) =>
-      (symbol.toLowerCase() === `p${asset.toLowerCase()}` || symbol.toLowerCase() === asset.toLowerCase()) &&
-      blockchain.toLowerCase() === to.toLowerCase()
+    ({ nativeSymbol, blockchain }) =>
+      nativeSymbol.toLowerCase() === asset.toLowerCase() && blockchain.toLowerCase() === to.toLowerCase()
   )
 
   if ((assetFrom && !assetTo) || (!assetFrom && assetTo)) {

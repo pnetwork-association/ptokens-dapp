@@ -8,6 +8,7 @@ import { connectWithTelosWallet, disconnectFromTelosWallet } from './telos'
 import { connectWithUltraWallet, disconnectFromUltraWallet } from './ultra'
 import { connectWithLuxochainWallet, disconnectFromLuxochainWallet } from './luxochain'
 import { connectWithAlgorandWallet, disconnectFromAlgorandWallet } from './algorand'
+import { connectWithFtmWallet, disconnectFromFtmWallet } from './ftm'
 
 const connectWithWallet = _blockchain => {
   return async _dispatch => {
@@ -50,6 +51,10 @@ const connectWithWallet = _blockchain => {
       }
       case 'ALGORAND': {
         connectWithAlgorandWallet(_dispatch)
+        break
+      }
+      case 'FTM': {
+        connectWithFtmWallet(_dispatch)
         break
       }
       default:
@@ -99,6 +104,10 @@ const disconnectFromWallet = _blockchain => {
       }
       case 'ALGORAND': {
         disconnectFromAlgorandWallet(_dispatch)
+        break
+      }
+      case 'FTM': {
+        disconnectFromFtmWallet(_dispatch)
         break
       }
       default:

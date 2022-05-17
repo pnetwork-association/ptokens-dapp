@@ -1,24 +1,17 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
+import { WALLET_FTM_CONNECTED, WALLET_FTM_DISCONNECTED, WALLET_FTM_ACCOUNT_CHANGED } from '../../../constants'
 import WalletConnectProvider from '@walletconnect/web3-provider'
-import Portis from '@portis/web3'
-import Fortmatic from 'fortmatic'
 import WalletLink from 'walletlink'
 import settings from '../../../settings'
-import { changeNetwork } from '../../../utils/wallet'
-import {
-  WALLET_ETH_CONNECTED,
-  WALLET_ETH_DISCONNECTED,
-  WALLET_ETH_NETWORK_CHANGED,
-  WALLET_ETH_ACCOUNT_CHANGED
-} from '../../../constants'
+import { setupNetwork } from '../../../utils/wallet'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
 
 let web3Modal
 
-const connectWithEthWallet = async _dispatch => {
+const connectWithFtmWallet = async _dispatch => {
   try {
     if (document.getElementById('WEB3_CONNECT_MODAL_ID')) {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
@@ -30,30 +23,18 @@ const connectWithEthWallet = async _dispatch => {
         walletconnect: {
           package: WalletConnectProvider,
           options: {
-            network: 'mainnet',
+            network: 'fantom',
             rpc: {
-              1: settings.rpc.mainnet.eth.endpoint
+              250: settings.rpc.mainnet.ftm.endpoint
             }
-          }
-        },
-        portis: {
-          package: Portis,
-          options: {
-            id: settings.portisDappId
-          }
-        },
-        fortmatic: {
-          package: Fortmatic,
-          options: {
-            key: settings.fortmaticKey
           }
         },
         walletlink: {
           package: WalletLink,
           options: {
             appName: settings.dappName,
-            rpc: settings.rpc.mainnet.eth.endpoint,
-            chainId: 1,
+            rpc: settings.rpc.mainnet.ftm.endpoint,
+            chainId: 250,
             darkMode: getTheme() === 'dark'
           }
         }
@@ -65,19 +46,16 @@ const connectWithEthWallet = async _dispatch => {
       type: 'multiWallet'
     })
 
-    provider.on('chainChanged', _chainId => {
-      _dispatch({
-        type: WALLET_ETH_NETWORK_CHANGED,
-        payload: {
-          network: Number(_chainId) === 1 ? 'mainnet' : 'testnet',
-          chainId: _chainId
-        }
-      })
-    })
+    /*provider.on('chainChanged', _chainId => {
+      if (Number(_chainId) !== 250) {
+        toastr.error('Invalid Fantom Network. Please use chainId = 250')
+        return
+      }
+    })*/
 
     provider.on('accountsChanged', _accounts => {
       _dispatch({
-        type: WALLET_ETH_ACCOUNT_CHANGED,
+        type: WALLET_FTM_ACCOUNT_CHANGED,
         payload: {
           account: _accounts[0]
         }
@@ -88,14 +66,14 @@ const connectWithEthWallet = async _dispatch => {
   }
 }
 
-const disconnectFromEthWallet = async _dispatch => {
-  const provider = getWalletProviderByBlockchain('ETH')
+const disconnectFromFtmWallet = async _dispatch => {
+  const provider = getWalletProviderByBlockchain('FTM')
   if (provider.close) {
     await provider.close()
   }
   await web3Modal.clearCachedProvider()
   _dispatch({
-    type: WALLET_ETH_DISCONNECTED
+    type: WALLET_FTM_DISCONNECTED
   })
 }
 
@@ -104,25 +82,33 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
     const { accounts, chainId } = _provider
     const account = accounts ? accounts[0] : await _getAccount(_provider)
 
-    if (Number(chainId) !== 1 && _provider.isMetaMask) {
-      await changeNetwork({
+    if (Number(chainId) !== 250 && _provider.isMetaMask) {
+      await setupNetwork({
         provider: _provider,
-        chainId: 1
+        chainId: 250,
+        chainName: 'Fantom',
+        nativeCurrency: {
+          name: 'FTM',
+          symbol: 'ftm',
+          decimals: 18
+        },
+        nodes: [settings.rpc.mainnet.ftm.endpoint],
+        blockExplorerUrls: [settings.explorers.mainnet.ftm]
       })
 
       _dispatch({
-        type: WALLET_ETH_CONNECTED,
+        type: WALLET_FTM_CONNECTED,
         payload: {
           provider: _provider,
           account,
           network: 'mainnet',
-          chainId: 1
+          chainId: 250
         }
       })
       return
-    } else if (Number(chainId) === 1) {
+    } else if (Number(chainId) === 250) {
       _dispatch({
-        type: WALLET_ETH_CONNECTED,
+        type: WALLET_FTM_CONNECTED,
         payload: {
           provider: _provider,
           account,
@@ -142,8 +128,8 @@ const _getAccount = async _provider => {
     const accounts = await web3.eth.getAccounts()
     return accounts[0]
   } catch (_err) {
-    console.error(`Error during getting Ethereum account ${_err.message}`)
+    console.error(`Error during getting Fantom account ${_err.message}`)
   }
 }
 
-export { connectWithEthWallet, disconnectFromEthWallet }
+export { connectWithFtmWallet, disconnectFromFtmWallet }

@@ -25,7 +25,10 @@ import {
   WALLET_LUXOCHAIN_ACCOUNT_CHANGED,
   WALLET_ALGORAND_ACCOUNT_CHANGED,
   WALLET_ALGORAND_CONNECTED,
-  WALLET_ALGORAND_DISCONNECTED
+  WALLET_ALGORAND_DISCONNECTED,
+  WALLET_FTM_CONNECTED,
+  WALLET_FTM_ACCOUNT_CHANGED,
+  WALLET_FTM_DISCONNECTED
 } from '../../constants/index'
 
 const initialState = {
@@ -86,6 +89,12 @@ const initialState = {
   algorand: {
     provider: null,
     account: null,
+    network: null
+  },
+  ftm: {
+    provider: null,
+    account: null,
+    chainId: null,
     network: null
   }
 }
@@ -359,6 +368,35 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_ALGORAND_DISCONNECTED) {
     return Object.assign({}, _state, {
       algorand: {
+        provider: null,
+        account: null,
+        network: null
+      }
+    })
+  }
+  if (_action.type === WALLET_FTM_CONNECTED) {
+    const { provider, account, network, chainId } = _action.payload
+    return Object.assign({}, _state, {
+      ftm: {
+        provider,
+        account,
+        network,
+        chainId
+      }
+    })
+  }
+  if (_action.type === WALLET_FTM_ACCOUNT_CHANGED) {
+    const { account } = _action.payload
+    return Object.assign({}, _state, {
+      ftm: {
+        ..._state.eth,
+        account
+      }
+    })
+  }
+  if (_action.type === WALLET_FTM_DISCONNECTED) {
+    return Object.assign({}, _state, {
+      ftm: {
         provider: null,
         account: null,
         network: null

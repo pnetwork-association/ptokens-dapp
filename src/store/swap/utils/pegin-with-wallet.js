@@ -47,7 +47,7 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
     .toFixed()
 
   // NOTE: peth uses ethers
-  if ((ptoken.isPerc20 && ptoken.name !== 'pETH') || ptoken.isBep20) {
+  if ((ptoken.isPerc20 && ptoken.name !== 'pETH' && ptoken.name !== 'pFTM') || ptoken.isBep20) {
     try {
       await ptokens[ptoken.workingName].select()
       const info = await ptokens[ptoken.workingName].selectedNode.getInfo()
