@@ -1439,6 +1439,27 @@ const swapAssets = [
     onPnetworkV2: true
   },
   {
+    address: '612850103',
+    id: 'PBTC_ON_ALGORAND_MAINNET',
+    name: 'pBTC',
+    workingName: 'pbtc',
+    nativeDecimals: 18,
+    network: 'mainnet',
+    isHidden: false,
+    blockchain: 'ALGORAND',
+    decimals: 10,
+    withMiniImage: true,
+    symbol: 'PBTC',
+    isPtoken: true,
+    isBep20: true,
+    nativeSymbol: 'BTC',
+    nativeBlockchain: 'BSC',
+    image: 'pBTC.svg',
+    withAmountConversionPegout: true,
+    withBalanceDecimalsConversion: true,
+    onPnetworkV2: true
+  },
+  {
     address: '0x7c16f14afe5852cfbd66364982f27e103dec2795',
     id: 'OATH_ON_ETH_MAINNET',
     name: 'OATH',

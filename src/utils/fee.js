@@ -53,6 +53,7 @@ import {
   TFF_ON_POLYGON_MAINNET,*/
   PSAFEMOON_ON_ETH_MAINNET,
   PTET_ON_ALGORAND_MAINNET,
+  PBTC_ON_ALGORAND_MAINNET,
   PUOS_ON_ULTRA_MAINNET
   /*EFX_ON_BSC_MAINNET,
   PSEEDS_ON_ETH_MAINNET,
@@ -176,6 +177,9 @@ const getFee = (_ptokenId, _type) => {
   if (_type !== 'pegin' && _type !== 'pegout') throw new Error('Invalid type. Please use (pegin or pegout)')
   switch (_ptokenId) {
     case PTET_ON_ALGORAND_MAINNET: {
+      return 0
+    }
+    case PBTC_ON_ALGORAND_MAINNET: {
       return 0
     }
     case PSAFEMOON_ON_ETH_MAINNET: {
