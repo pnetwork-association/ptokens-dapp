@@ -29,6 +29,19 @@ const BackButton = styled.div`
   text-align: center;
 `
 
+const Alert = styled.div`
+  margin-top: 30px;
+  padding: 20px;
+  margin-botton: 10px;
+  background: #66b8ff40;
+  border: 0.5px solid ${({ theme }) => theme.blue};
+  border-radius: 10px;
+  color: ${({ theme }) => theme.blue};
+  text-align: center;
+  width: 460px;
+  margin-bottom: 30px;
+`
+
 const Migration = ({
   assets: _assets,
   wallets,
@@ -69,6 +82,28 @@ const Migration = ({
   return (
     <React.Fragment>
       <Container>
+        <Row>
+          <Col className="d-flex justify-content-center">
+            {to &&
+            (to.id === 'IDLE_CDO_AA_TRANCHE_CVX_PBTC_V2_SBTC_CRV_MIGRATION' ||
+              to.id === 'IDLE_CDO_BB_TRANCHE_CVX_PBTC_V2_SBTC_CRV_MIGRATION') ? (
+              <Alert>
+                <React.Fragment>
+                  Please note that the Junior and Senior Idle tranches have different profile risks and dynamics. To
+                  know more please click{' '}
+                  <a
+                    href="https://docs.idle.finance/products/perpetual-yield-tranches/guide"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    here
+                  </a>
+                  .
+                </React.Fragment>
+              </Alert>
+            ) : null}
+          </Col>
+        </Row>
         <Row>
           <OuterContainerSwap className="mx-auto">
             <ContainerSwap>

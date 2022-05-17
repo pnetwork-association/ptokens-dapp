@@ -231,8 +231,12 @@ const Swap = ({
                   <React.Fragment>
                     It looks like you are holding pBTC-v1 tokens on Ethereum or a staked LP asset that includes it (i.e.
                     Curve, Uniswap). That pBTC-v1 token has been superseded by pBTC-v2, to know more about the new
-                    version click <a href="WILLSHARELATER">here</a>.<br /> Please{' '}
-                    <Link onClick={onMigration}>proceed to the migration dashboard</Link> to easily upgrade it.
+                    version click{' '}
+                    <a href="https://t.me/pNetworkDefi" target="_blank" rel="noopener noreferrer">
+                      here
+                    </a>
+                    .<br /> Please <Link onClick={onMigration}>proceed to the migration dashboard</Link> to easily
+                    upgrade it.
                   </React.Fragment>
                 )}
               </MigrationNotification>
