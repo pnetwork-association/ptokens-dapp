@@ -98,7 +98,7 @@ const Text = styled.span`
   margin-left: 10px;
 `
 
-const MigrationHome = ({ selectPage, loadMigrationData }) => {
+const MigrationHome = ({ apys, selectPage, loadMigrationData }) => {
   const onMigrate = useCallback(
     _strategy => {
       selectPage(`migration/${_strategy}`)
@@ -167,8 +167,20 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
                 <Text>pBTC-v2 Curve LP token (staked in the new gauge) [pbtc/sbtcCRV-f-gauge]</Text>
               </TdContent>
             </Td>
-            <Td>3%</Td>
-            <Td>10%</Td>
+            <Td>
+              {!apys
+                ? '-'
+                : apys['Curve.fi pBTC-v1/sbtcCRV Gauge Deposit']
+                ? apys['Curve.fi pBTC-v1/sbtcCRV Gauge Deposit']
+                : 'N/A'}
+            </Td>
+            <Td>
+              {!apys
+                ? '-'
+                : apys['Curve.fi pbtc-v2/sbtcCRV-f Gauge Deposit']
+                ? apys['Curve.fi pbtc-v2/sbtcCRV-f Gauge Deposit']
+                : 'N/A'}
+            </Td>
             <Td>
               <ContinueButton onClick={() => onMigrate('b')}>Migrate</ContinueButton>
             </Td>
@@ -195,8 +207,20 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
                 <Text>Idle PBTCCRV Senior Tranche (staked)</Text>
               </TdContent>
             </Td>
-            <Td>10%</Td>
-            <Td>20%</Td>
+            <Td>
+              {!apys
+                ? '-'
+                : apys['Curve.fi pBTC-v1/sbtcCRV Gauge Deposit']
+                ? apys['Curve.fi pBTC-v1/sbtcCRV Gauge Deposit']
+                : 'N/A'}
+            </Td>
+            <Td>
+              {!apys
+                ? '-'
+                : apys['IdleCDO AA Tranche - idleCvxpbtc-v2/sbtcCRV-f']
+                ? apys['IdleCDO AA Tranche - idleCvxpbtc-v2/sbtcCRV-f']
+                : 'N/A'}
+            </Td>
             <Td>
               <ContinueButton onClick={() => onMigrate('c')}>Migrate</ContinueButton>
             </Td>
@@ -223,8 +247,20 @@ const MigrationHome = ({ selectPage, loadMigrationData }) => {
                 <Text>Idle PBTCCRV Junior Tranche</Text>
               </TdContent>
             </Td>
-            <Td>10%</Td>
-            <Td>20%</Td>
+            <Td>
+              {!apys
+                ? '-'
+                : apys['Curve.fi pBTC-v1/sbtcCRV Gauge Deposit']
+                ? apys['Curve.fi pBTC-v1/sbtcCRV Gauge Deposit']
+                : 'N/A'}
+            </Td>
+            <Td>
+              {!apys
+                ? '-'
+                : apys['IdleCDO BB Tranche - idleCvxpbtc-v2/sbtcCRV-f']
+                ? apys['IdleCDO BB Tranche - idleCvxpbtc-v2/sbtcCRV-f']
+                : 'N/A'}
+            </Td>
             <Td>
               <ContinueButton onClick={() => onMigrate('d')}>Migrate</ContinueButton>
             </Td>

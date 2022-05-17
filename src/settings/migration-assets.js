@@ -54,7 +54,7 @@ const migrationAssets = [
   {
     address: '0xB5efA93d5D23642f970aF41a1ea9A26f19CbD2Eb',
     id: 'PBTC_SBTC_CURVE_ON_ETH_MAINNET_V2_MIGRATION',
-    name: 'pbtc-v2/sbtcCRV-f Gauge Deposit',
+    name: 'Curve.fi pbtc-v2/sbtcCRV-f Gauge Deposit',
     network: 'mainnet',
     isHidden: false,
     blockchain: 'ETH',
@@ -98,8 +98,8 @@ const migrationAssets = [
     isBase: false,
     image: 'pBTC.svg',
     version: 1,
-    titleLabel: 'IdleCDO BB AA Tranche - idleCvxpbtc-v2/sbtcCRV-f',
-    formattedName: 'IdleCDO BB AA Tranche - idleCvxpbtc-v2/sbtcCRV-f',
+    titleLabel: 'IdleCDO BB Tranche - idleCvxpbtc-v2/sbtcCRV-f',
+    formattedName: 'IdleCDO BB Tranche - idleCvxpbtc-v2/sbtcCRV-f',
     withBalanceDecimalsConversion: true
   }
 ]

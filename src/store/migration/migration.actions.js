@@ -4,7 +4,8 @@ import {
   MIGRATION_BALANCE_LOADED,
   MIGRATION_PROGRESS_UPDATED,
   MIGRATION_PROGRESS_RESET,
-  UPDATE_MIGRATE_BUTTON
+  UPDATE_MIGRATE_BUTTON,
+  APYS_LOADED
 } from '../../constants/index'
 import { loadEvmCompatibleBalances, loadEvmCompatibleBalance } from '../swap/utils/balances'
 import { getAssetsByBlockchain, getAssetById } from './migration.selectors'
@@ -12,6 +13,7 @@ import { getWalletByBlockchain } from '../wallets/wallets.selectors'
 import { getDefaultSelection } from './utils/default-selection'
 import migrateA from './migrations/a'
 import migrateBCD from './migrations/b-c-d'
+import axios from 'axios'
 
 const loadMigrationData = (_opts = {}) => {
   const { strategy } = _opts
@@ -28,8 +30,33 @@ const loadMigrationData = (_opts = {}) => {
       if (wallet && wallet.account) {
         _dispatch(loadBalances(wallet.account))
       }
+
+      _dispatch(loadApys())
     } catch (_err) {
       console.error(_err)
+    }
+  }
+}
+
+const loadApys = () => {
+  return async _dispatch => {
+    try {
+      const {
+        data: { result }
+      } = await axios.get('https://extra.ptokens.io/pbtc-v1-migration-apys')
+      _dispatch({
+        type: APYS_LOADED,
+        payload: {
+          apys: result
+        }
+      })
+    } catch (_err) {
+      _dispatch({
+        type: APYS_LOADED,
+        payload: {
+          apys: {}
+        }
+      })
     }
   }
 }
