@@ -4,14 +4,12 @@ import assets from '../../settings/swap-assets'
 import settings from '../../settings'
 import {
   ASSETS_LOADED,
-  ASSETS_LOADED_SWAP_OLD_PNT,
   SHOW_DEPOSIT_ADDRESS_MODAL,
   HIDE_DEPOSIT_ADDRESS_MODAL,
   PROGRESS_UPDATED,
   PROGRESS_RESET,
   UPDATE_SWAP_BUTTON,
   BPM_LOADED,
-  PNT_ON_BSC_MAINNET,
   PUOS_ON_ULTRA_MAINNET
 } from '../../constants/index'
 import { getConfigs } from '../../utils/ptokens-configs'
@@ -31,21 +29,14 @@ import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
 import { getDefaultSelection } from './utils/default-selection'
 import pegoutPuosOnUltra from './utils/pegout-puos-on-ultra'
 
-const loadSwapData = ({ defaultSelection: { pToken, asset, from, to } }) => {
+const loadSwapData = (_opts = {}) => {
+  const { defaultSelection: { pToken, asset, from, to } = {} } = _opts
   return async _dispatch => {
     try {
       _dispatch({
         type: ASSETS_LOADED,
         payload: {
           assets: [...assets, ...getDefaultSelection(assets, { pToken, asset, from, to })]
-        }
-      })
-
-      _dispatch({
-        type: ASSETS_LOADED_SWAP_OLD_PNT,
-        payload: {
-          from: settings.swapOldPntOnBsc.asset,
-          to: assets.find(({ id }) => id === PNT_ON_BSC_MAINNET)
         }
       })
 
@@ -70,6 +61,13 @@ const loadSwapData = ({ defaultSelection: { pToken, asset, from, to } }) => {
         })
       }
 
+      const wallets = getWallets()
+      Object.keys(wallets).forEach(_network => {
+        if (wallets[_network] && wallets[_network].account) {
+          _dispatch(loadBalances(wallets[_network].account, _network))
+        }
+      })
+
       loadBpm()
       setInterval(() => loadBpm(), 1000 * 60)
     } catch (_err) {
@@ -81,7 +79,7 @@ const loadSwapData = ({ defaultSelection: { pToken, asset, from, to } }) => {
 const loadBalances = (_account, _blockchain) => {
   return async _dispatch => {
     try {
-      switch (_blockchain) {
+      switch (_blockchain.toUpperCase()) {
         case 'ETH': {
           loadEvmCompatibleBalances({
             assets: getAssetsByBlockchain('ETH'),

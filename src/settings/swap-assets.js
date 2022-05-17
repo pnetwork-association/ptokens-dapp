@@ -1,7 +1,7 @@
 const swapAssets = [
   /* #################   pTokens   #################*/
   {
-    address: '5228a22e72ccc52d415ecfd199f99d0665e7733b',
+    address: '0x62199B909FB8B8cf870f97BEf2cE6783493c4908',
     id: 'PBTC_ON_ETH_MAINNET',
     name: 'pBTC',
     workingName: 'pbtc',
@@ -19,7 +19,8 @@ const swapAssets = [
     nativeBlockchain: 'BTC',
     image: 'pBTC.svg',
     withAmountConversionPegout: true,
-    withBalanceDecimalsConversion: true
+    withBalanceDecimalsConversion: true,
+    onPnetworkV2: true
   },
   {
     address: 'btc.ptokens',

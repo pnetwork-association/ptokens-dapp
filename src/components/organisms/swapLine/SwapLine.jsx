@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Row, Col } from 'react-bootstrap'
@@ -31,18 +31,18 @@ const AmountInput = styled.input`
   }
 `
 
-const ContainerImage = styled.div`
+export const ContainerImage = styled.div`
   border-radius: 50%;
 `
 
-const Image = styled.img`
+export const Image = styled.img`
   position: relative;
   width: 50px;
   height: 50px;
   background: ${({ theme }) => (theme.type === 'light' ? 'white' : 'transparent')};
   border-radius: 50%;
   border: 1px solid ${({ theme }) => (theme.type === 'light' ? theme.lightGray : 'transparent')};
-  cursor: pointer;
+  cursor: ${({ onClickImage }) => (onClickImage ? 'pointer' : 'normal')};
   box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
   @media (max-width: 767.98px) {
     width: 40px;
@@ -50,7 +50,7 @@ const Image = styled.img`
   }
 `
 
-const MiniImage = styled.img`
+export const MiniImage = styled.img`
   position: absolute;
   width: 20px;
   height: 20px;
@@ -202,7 +202,12 @@ const SwapLine = ({
   onChangeAmount,
   onClickImage,
   onChangeAddress,
-  onMax
+  onMax,
+  withTitleLabel,
+  disableInput = false,
+  inputType = 'number',
+  inputPlaceholder = '0.0',
+  ..._props
 }) => {
   const [showInfo, setShowInfo] = useState(false)
   const [id, setId] = useState(false)
@@ -215,12 +220,18 @@ const SwapLine = ({
     }
   }, [asset, id])
 
+  const formattedTitle = useMemo(() => {
+    if (!withTitleLabel || !asset || !asset.titleLabel) return title
+
+    return `${title}: ${asset.titleLabel}`
+  }, [title, asset, withTitleLabel])
+
   return (
-    <SwapLineContainer>
+    <SwapLineContainer {..._props}>
       <ContainerTypeAndBalance>
-        <ContainerTitle xs={4}>{title}</ContainerTitle>
+        <ContainerTitle xs={6}>{formattedTitle}</ContainerTitle>
         {asset && asset.formattedBalance !== '-' ? (
-          <Col xs={8} className="text-right my-auto">
+          <Col xs={6} className="text-right my-auto">
             <ContainerBalance>
               <BalanceLabel>{`Balance: ${asset.formattedBalance} ${
                 asset.symbolToDisplay
@@ -235,8 +246,8 @@ const SwapLine = ({
       </ContainerTypeAndBalance>
       <Row>
         <ContainerImageAndMaxButton xs={4} className="my-auto">
-          <ContainerImage onClick={() => onClickImage()}>
-            <Image src={asset ? asset.image : defaultImage} onClick={() => onClickImage()} />
+          <ContainerImage onClick={() => onClickImage && onClickImage()}>
+            <Image src={asset ? asset.image : defaultImage} onClick={() => onClickImage && onClickImage()} />
             {(asset && asset.withMiniImage) || (!asset && defaultMiniImage) ? (
               <MiniImage src={!asset ? defaultMiniImage : asset.miniImage} />
             ) : null}
@@ -250,8 +261,9 @@ const SwapLine = ({
         <Col xs={8} className="text-right my-auto pl-0">
           <ContainerAmountInput>
             <AmountInput
-              type="number"
-              placeholder="0.0"
+              type={inputType}
+              placeholder={inputPlaceholder}
+              disabled={disableInput}
               onChange={_e => onChangeAmount(_e.target.value.toString())}
               value={amount}
             />
@@ -300,7 +312,11 @@ SwapLine.propTypes = {
   onChangeAmount: PropTypes.func,
   onClickImage: PropTypes.func,
   onChangeAddress: PropTypes.func,
-  onMax: PropTypes.func
+  onMax: PropTypes.func,
+  withTitleLabel: PropTypes.bool,
+  disableInput: PropTypes.bool,
+  inputType: PropTypes.string,
+  inputPlaceholder: PropTypes.string
 }
 
 SwapLine.defaultProps = {

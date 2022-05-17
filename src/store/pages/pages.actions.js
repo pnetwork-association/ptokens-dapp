@@ -3,6 +3,10 @@ import history from '../../utils/history'
 
 const selectPage = (_page, _options = {}) => {
   const { pToken, asset, from, to } = _options
+  if (history.location.pathname.includes('migration')) {
+    history.replace('')
+  }
+
   history.push(_page)
 
   // NOTE: v2 dapp old style

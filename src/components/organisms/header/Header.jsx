@@ -126,7 +126,7 @@ const ContainerOptions = styled.div`
 `
 
 const Header = _props => {
-  const { selectedPage, theme, connectWithWallet, disconnectFromWallet, selectPage, setTheme } = _props
+  const { selectedPage, theme, connectWithWallet, disconnectFromWallet, selectPage, setTheme, loadSwapData } = _props
   const [showWalletInfo, setShowWalletInfo] = useState(false)
   const { isConnected, wallets } = useWallets(_props.wallets)
 
@@ -154,6 +154,15 @@ const Header = _props => {
     [disconnectFromWallet]
   )
 
+  const onSwap = useCallback(() => {
+    loadSwapData({
+      asset: 'pbtc',
+      from: 'btc',
+      to: 'eth'
+    })
+    selectPage('swap')
+  }, [loadSwapData, selectPage])
+
   return (
     <HeaderWrapper>
       <Navbar expand="lg">
@@ -162,8 +171,11 @@ const Header = _props => {
           <Logo src="../assets/svg/PNT.svg" />
         </Navbar.Brand>
         <StyledNav>
-          <StyledNavLink active={selectedPage === 'swap'} onClick={() => selectPage('swap')}>
+          <StyledNavLink active={selectedPage === 'swap'} onClick={onSwap}>
             Swap
+          </StyledNavLink>
+          <StyledNavLink active={selectedPage.includes('migration')} onClick={() => selectPage('migration')}>
+            Migration
           </StyledNavLink>
           <StyledNavLink active={selectedPage === 'nfts'} onClick={() => selectPage('nfts')}>
             NFTs

@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import BigNumber from 'bignumber.js'
 import { Row, Col, Container } from 'react-bootstrap'
 import AssetListModal from '../../organisms/assetListModal/AssetListModal'
 import Progress from '../../molecules/progress/Progress'
@@ -13,6 +14,8 @@ import { useAssets } from '../../../hooks/use-assets'
 import Icon from '../../atoms/icon/Icon'
 import InfoModal from '../../organisms/infoModal/InfoModal'
 import Switch from '../../atoms/switch/Switch'
+import Button from '../../atoms/button/Button'
+import { PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../../../constants'
 
 export const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -72,31 +75,6 @@ export const ContainerSwapButton = styled.div`
   }
 `
 
-export const SwapButton = styled.button`
-  width: 100%;
-  color: white;
-  background: ${({ theme }) => theme.primary1};
-  border: 0;
-  border-radius: 20px;
-  height: 70px;
-  font-size: 24px;
-  outline: none !important;
-  box-shadow: none;
-  &:disabled {
-    background: ${({ theme }) => theme.primary1Transparentized};
-    &:hover {
-      background: ${({ theme }) => theme.primary1Transparentized};
-    }
-  }
-  &:hover {
-    background: ${({ theme }) => theme.primary1Hovered};
-  }
-  @media (max-width: 767.98px) {
-    height: 60px;
-    font-size: 20px;
-  }
-`
-
 export const SwapLabel = styled.label`
   color: ${({ theme }) => theme.text1};
   margin-bottom: 20px;
@@ -120,6 +98,11 @@ const InfoEta = styled.div`
 
 const ProvisionalSafemoonBox = styled(InfoEta)``
 
+const MigrationNotification = styled(InfoEta)`
+  width: 460px;
+  margin-bottom: 30px;
+`
+
 const PnetworkV2Badge = styled.span`
   color: white;
   background: ${({ theme }) => theme.primary1};
@@ -142,21 +125,32 @@ const EnableTelosEvmText = styled.span`
   }
 `
 
+const Link = styled.span`
+  color: #007bff;
+  text-decoration: none;
+  background-color: transparent;
+  cursor: pointer;
+`
+
 const Swap = ({
   assets: _assets,
+  migrationAssets: _migrationAssets,
   bpm,
   wallets,
   progress,
   infoModal,
   connectWithWallet,
   depositAddressModal,
-  swapButton,
+  swapButton = {},
   updateSwapButton,
   hideDepositAddressModal,
   swap,
-  hideInfoModal
+  hideInfoModal,
+  selectPage
 }) => {
   const [assets] = useAssets(_assets)
+  const [migrationAssets] = useAssets(_migrationAssets)
+  const [notifyMigration, setNotifyMigration] = useState()
 
   const {
     from,
@@ -176,8 +170,8 @@ const Swap = ({
     onFromMax,
     onToMax,
     onSwap,
-    onSelectFrom,
-    onSelectTo,
+    onSelectFrom: _onSelectFrom,
+    onSelectTo: _onSelectTo,
     showModalFrom,
     showModalTo,
     setShowModalFrom,
@@ -197,9 +191,54 @@ const Swap = ({
     hideDepositAddressModal
   })
 
+  useEffect(() => {
+    const pbtcv1 = migrationAssets.find(({ id }) => id === PBTC_ON_ETH_MAINNET_V1_MIGRATION)
+    if (pbtcv1) {
+      if (BigNumber(pbtcv1.balance).isGreaterThan(0)) {
+        setNotifyMigration('pbtc-v1-v2')
+      }
+    }
+  }, [migrationAssets])
+
+  const onSelectFrom = useCallback(
+    _asset => {
+      setNotifyMigration(null)
+      _onSelectFrom(_asset)
+    },
+    [_onSelectFrom]
+  )
+
+  const onSelectTo = useCallback(
+    _asset => {
+      setNotifyMigration(null)
+      _onSelectTo(_asset)
+    },
+    [_onSelectTo]
+  )
+
+  const onMigration = useCallback(() => {
+    selectPage('migration')
+  }, [selectPage])
+
   return (
     <React.Fragment>
       <Container>
+        <Row>
+          <Col className="d-flex justify-content-center">
+            {notifyMigration ? (
+              <MigrationNotification>
+                {notifyMigration === 'pbtc-v1-v2' && (
+                  <React.Fragment>
+                    It looks like you are holding pBTC-v1 tokens on Ethereum or a staked LP asset that includes it (i.e.
+                    Curve, Uniswap). That pBTC-v1 token has been superseded by pBTC-v2, to know more about the new
+                    version click <a href="WILLSHARELATER">here</a>.<br /> Please{' '}
+                    <Link onClick={onMigration}>proceed to the migration dashboard</Link> to easily upgrade it.
+                  </React.Fragment>
+                )}
+              </MigrationNotification>
+            ) : null}
+          </Col>
+        </Row>
         <Row>
           <OuterContainerSwap className="mx-auto">
             <ContainerSwap>
@@ -235,7 +274,6 @@ const Swap = ({
                 onChangeAddress={setAddress}
                 onMax={onToMax}
               />
-
               {(from && from.id === 'TLOS_ON_ETH_MAINNET') || (from && from.id === 'TLOS_ON_BSC_MAINNET') ? (
                 <EnableTelosEvmRow>
                   <Col xs={10} className="pr-0">
@@ -271,12 +309,12 @@ const Swap = ({
                 </ProvisionalSafemoonBox>
               ) : null}
               <ContainerSwapButton>
-                <SwapButton
+                <Button
                   onClick={onSwap}
                   disabled={swapButton.disabled || (address === '' && swapButton.text !== 'Connect Wallet')}
                 >
                   {swapButton.text}
-                </SwapButton>
+                </Button>
               </ContainerSwapButton>
             </ContainerSwap>
           </OuterContainerSwap>
@@ -325,7 +363,8 @@ Swap.propTypes = {
   swap: PropTypes.func,
   resetProgress: PropTypes.func,
   hideInfoModal: PropTypes.func,
-  updateSwapButton: PropTypes.func
+  updateSwapButton: PropTypes.func,
+  selectPage: PropTypes.func
 }
 
 export default Swap

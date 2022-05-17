@@ -157,6 +157,12 @@ const settings = {
       image: 'PNT_gray.svg',
       withBalanceDecimalsConversion: true
     }
+  },
+  migration: {
+    contractAddresses: {
+      pbtcV1Migrator: '0xc612b19fD761e5Ff780b3C38996ff816AFa26aae',
+      pbtcV1StrategiesMigrator: '0xc25b475fCf0E970ECacD057D41787E0704ddc763'
+    }
   }
 }
 
