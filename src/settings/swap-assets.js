@@ -1439,7 +1439,7 @@ const swapAssets = [
     onPnetworkV2: true
   },
   {
-    address: '612850103',
+    address: '744665252',
     id: 'PBTC_ON_ALGORAND_MAINNET',
     name: 'pBTC',
     workingName: 'pbtc',
