@@ -8,6 +8,7 @@ import { useWalletByBlockchain } from './use-wallets'
 import getMinimumPeggable from '../utils/minimum-peggables'
 import { numberWithCommas } from '../utils/amount-utils'
 import { TLOS_ON_BSC_MAINNET, TLOS_ON_ETH_MAINNET } from '../constants'
+import { maybeOptInAlgoAsset } from '../store/swap/utils/opt-in-algo-asset'
 
 const useSwap = ({
   wallets,
@@ -251,6 +252,12 @@ const useSwap = ({
           updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
           return
         }
+
+        if (
+          to.blockchain === 'ALGORAND' &&
+          !(await maybeOptInAlgoAsset(address, parseInt(to.address, 10), updateSwapButton))
+        )
+          return
 
         updateSwapButton('Get Deposit Address')
         return
