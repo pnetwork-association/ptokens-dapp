@@ -1447,7 +1447,7 @@ const swapAssets = [
     network: 'mainnet',
     isHidden: false,
     blockchain: 'ALGORAND',
-    decimals: 10,
+    decimals: 8,
     withMiniImage: true,
     symbol: 'PBTC',
     isPtoken: true,
