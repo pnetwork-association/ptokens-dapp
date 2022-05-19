@@ -301,6 +301,15 @@ const Swap = ({
                   their underlying assets.
                 </InfoEta>
               ) : null}
+              {to && to.id === 'PBTC_ON_ALGORAND_MAINNET' ? (
+                <InfoEta>
+                  Please make sure that the receiving Algorand account has opted in for pBTC (Asset ID: 744665252).
+                  <br />
+                  <br />
+                  pBTC on Algorand is still experimental and the security audit is ongoing - please proceed with
+                  caution!
+                </InfoEta>
+              ) : null}
               {eta < 0 || eta > 15 ? (
                 <InfoEta>
                   {eta > 15
