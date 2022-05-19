@@ -378,8 +378,8 @@ const minimumPeggable = {
     pegout: 1500
   },
   [PBTC_ON_ALGORAND_MAINNET]: {
-    pegin: 0,
-    pegout: 0
+    pegin: 0.0015,
+    pegout: 0.0015
   }
 }
 
