@@ -1,6 +1,6 @@
 const migrationAssets = [
   {
-    address: '5228a22e72ccc52d415ecfd199f99d0665e7733b',
+    address: '0x5228a22e72ccc52d415ecfd199f99d0665e7733b',
     id: 'PBTC_ON_ETH_MAINNET_V1_MIGRATION',
     name: 'pNetwork BTC',
     network: 'mainnet',
