@@ -1453,7 +1453,7 @@ const swapAssets = [
     isPtoken: true,
     isBep20: true,
     nativeSymbol: 'BTC',
-    nativeBlockchain: 'BSC',
+    nativeBlockchain: 'BTC',
     image: 'pBTC.svg',
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true,
