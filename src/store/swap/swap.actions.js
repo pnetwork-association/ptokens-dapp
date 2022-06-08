@@ -30,13 +30,13 @@ import { getDefaultSelection } from './utils/default-selection'
 import pegoutPuosOnUltra from './utils/pegout-puos-on-ultra'
 
 const loadSwapData = (_opts = {}) => {
-  const { defaultSelection: { pToken, asset, from, to } = {} } = _opts
+  const { defaultSelection: { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid } = {} } = _opts
   return async _dispatch => {
     try {
       _dispatch({
         type: ASSETS_LOADED,
         payload: {
-          assets: [...assets, ...getDefaultSelection(assets, { pToken, asset, from, to })]
+          assets: [...assets, ...getDefaultSelection(assets, { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid })]
         }
       })
 

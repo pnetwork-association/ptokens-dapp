@@ -1,12 +1,12 @@
 import { toastr } from 'react-redux-toastr'
 
 const getDefaultSelection = (_assets, _options = {}) => {
-  const { pToken, asset, from, to } = _options
+  const { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid } = _options
   if (!asset && !from && !to) {
     return getDefaultSelectionV1(_assets, { pToken })
   }
 
-  return getDefaultSelectionV2(_assets, { asset, from, to })
+  return getDefaultSelectionV2(_assets, { asset, from, to, algorand_from_assetid, algorand_to_assetid })
 }
 
 const getDefaultSelectionV1 = (_assets, { pToken }) => {
@@ -34,18 +34,21 @@ const getDefaultSelectionV1 = (_assets, { pToken }) => {
   return [pTokenDefaultFrom, pTokenDefaultTo]
 }
 
-const getDefaultSelectionV2 = (_assets, { asset, from, to }) => {
+const getDefaultSelectionV2 = (_assets, { asset, from, to, algorand_from_assetid, algorand_to_assetid }) => {
   const btc = _assets.find(({ symbol }) => symbol === 'BTC')
   const pbtc = _assets.find(({ symbol }) => symbol === 'PBTC')
-
   const assetFrom = _assets.find(
-    ({ nativeSymbol, blockchain }) =>
-      nativeSymbol.toLowerCase() === asset.toLowerCase() && from.toLowerCase() === blockchain.toLowerCase()
+    ({ nativeSymbol, blockchain, address }) =>
+      nativeSymbol.toLowerCase() === asset.toLowerCase() &&
+      from.toLowerCase() === blockchain.toLowerCase() &&
+      (algorand_from_assetid && blockchain === 'ALGORAND' ? address === algorand_from_assetid : true)
   )
 
   const assetTo = _assets.find(
-    ({ nativeSymbol, blockchain }) =>
-      nativeSymbol.toLowerCase() === asset.toLowerCase() && blockchain.toLowerCase() === to.toLowerCase()
+    ({ nativeSymbol, blockchain, address }) =>
+      nativeSymbol.toLowerCase() === asset.toLowerCase() &&
+      blockchain.toLowerCase() === to.toLowerCase() &&
+      (algorand_to_assetid && blockchain === 'ALGORAND' ? address === algorand_to_assetid : true)
   )
 
   if ((assetFrom && !assetTo) || (!assetFrom && assetTo)) {

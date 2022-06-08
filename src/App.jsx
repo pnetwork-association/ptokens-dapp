@@ -55,7 +55,9 @@ const Migrations = () => {
 
 const App = ({ loading, setTheme, loadSwapData, loadSwapOldPntData, loadMigrationData, selectPage }) => {
   useEffect(() => {
-    const { pToken, asset, from, to } = queryString.parse(window.location.search)
+    const { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid } = queryString.parse(
+      window.location.search
+    )
     const theme = window.localStorage.getItem('THEME')
     if (theme) setTheme(theme)
     ReactGA.pageview(window.location.pathname)
@@ -69,8 +71,8 @@ const App = ({ loading, setTheme, loadSwapData, loadSwapOldPntData, loadMigratio
       return
     }
 
-    selectPage(page, { pToken, asset, from, to })
-    loadSwapData({ defaultSelection: { pToken, asset, from, to } })
+    selectPage(page, { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid })
+    loadSwapData({ defaultSelection: { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid } })
     loadSwapOldPntData()
     loadMigrationData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
