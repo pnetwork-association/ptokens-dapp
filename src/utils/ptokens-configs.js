@@ -73,7 +73,9 @@ import {
   OATH_ON_ETH_MAINNET,
   PFTM_ON_ETH_MAINNET,
   NUCO_ON_TELOS_MAINNET,
-  PBTC_ON_ALGORAND_MAINNET
+  PBTC_ON_ALGORAND_MAINNET,
+  PUSDC_ON_ALGORAND_MAINNET,
+  USDC_ON_ALGORAND_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -901,6 +903,30 @@ const getConfigs = (_pTokenId, _configs) => {
         pToken: pTokens.pBTC,
         network: networks.AlgorandMainnet,
         blockchain: blockchains.Algorand,
+        algoProvider,
+        algoClient: getReadOnlyProviderByBlockchain('ALGORAND')
+      }
+    }
+  }
+  if (_pTokenId === PUSDC_ON_ALGORAND_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pUSDC,
+        network: networks.AlgorandMainnet,
+        blockchain: blockchains.Algorand,
+        ethProvider,
+        algoProvider,
+        algoClient: getReadOnlyProviderByBlockchain('ALGORAND')
+      }
+    }
+  }
+  if (_pTokenId === USDC_ON_ALGORAND_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pUSDC,
+        network: networks.AlgorandMainnet,
+        blockchain: blockchains.Algorand,
+        ethProvider,
         algoProvider,
         algoClient: getReadOnlyProviderByBlockchain('ALGORAND')
       }

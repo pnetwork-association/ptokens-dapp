@@ -73,7 +73,9 @@ import {
   OATH_ON_ETH_MAINNET,
   PFTM_ON_ETH_MAINNET,
   NUCO_ON_TELOS_MAINNET,
-  PBTC_ON_ALGORAND_MAINNET
+  PBTC_ON_ALGORAND_MAINNET,
+  PUSDC_ON_ALGORAND_MAINNET,
+  USDC_ON_ALGORAND_MAINNET
 } from '../constants'
 
 const minimumPeggable = {
@@ -380,6 +382,14 @@ const minimumPeggable = {
   [PBTC_ON_ALGORAND_MAINNET]: {
     pegin: 0.0015,
     pegout: 0.0015
+  },
+  [PUSDC_ON_ALGORAND_MAINNET]: {
+    pegin: 0.5,
+    pegout: 0.5
+  },
+  [USDC_ON_ALGORAND_MAINNET]: {
+    pegin: 0.5,
+    pegout: 0.5
   }
 }
 

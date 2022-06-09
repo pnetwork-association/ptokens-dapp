@@ -6,7 +6,7 @@ export const maybeOptInAlgoAsset = async (_account, _assetIndex, updateButton = 
   try {
     const walletAccount = getWalletAccountByBlockchain('ALGORAND')
     const provider = getWalletProviderByBlockchain('ALGORAND')
-    const client = await getReadOnlyProviderByBlockchain('ALGORAND')
+    const client = getReadOnlyProviderByBlockchain('ALGORAND')
 
     // check if the user has already opted in this asset
     const accountInfo = await client.accountInformation(_account).do()
@@ -23,6 +23,53 @@ export const maybeOptInAlgoAsset = async (_account, _assetIndex, updateButton = 
         to: _account,
         assetIndex: _assetIndex,
         amount: 0,
+        suggestedParams
+      })
+
+      const signedTxs = await provider.signTxn([
+        {
+          txn: Buffer.from(algosdk.encodeUnsignedTransaction(optinTxn)).toString('base64')
+        }
+      ])
+
+      const signedTxBlob = signedTxs[0].blob ? signedTxs[0].blob : signedTxs[0]
+      const binarySignedTx = new Uint8Array(
+        Buffer.from(signedTxBlob, 'base64')
+          .toString('binary')
+          .split('')
+          .map(x => x.charCodeAt(0))
+      )
+      await client.sendRawTransaction(binarySignedTx).do()
+      await algosdk.waitForConfirmation(client, optinTxn.txID().toString(), 5)
+      return true
+    }
+    if (updateButton) updateButton('The recipient has not opted-in', true)
+    return false
+  } catch (err) {
+    console.info(err)
+    return false
+  }
+}
+
+export const maybeOptInAlgoApp = async (_appIndex, updateButton = undefined) => {
+  try {
+    const walletAccount = getWalletAccountByBlockchain('ALGORAND')
+    const provider = getWalletProviderByBlockchain('ALGORAND')
+    const client = getReadOnlyProviderByBlockchain('ALGORAND')
+
+    // check if the user has already opted in this asset
+    const accountInfo = await client.accountInformation(walletAccount).do()
+    const alreadyOptedIn = accountInfo['apps-local-state'].some(element => element.id === _appIndex)
+
+    if (alreadyOptedIn) return true
+    else if (!alreadyOptedIn) {
+      // generate and sign optin tx
+      if (updateButton) updateButton('Waiting for opt-in tx signature', true)
+      const suggestedParams = await client.getTransactionParams().do()
+
+      const optinTxn = algosdk.makeApplicationOptInTxnFromObject({
+        from: walletAccount,
+        appIndex: _appIndex,
         suggestedParams
       })
 

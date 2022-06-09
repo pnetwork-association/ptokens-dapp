@@ -62,6 +62,10 @@ const pegout = async ({ ptokens, params, ptoken, dispatch, options = {} }) => {
     params[2] = web3.utils.asciiToHex(params[2])
   }
 
+  if (ptoken.isPseudoNative && ptoken.blockchain === 'ALGORAND') {
+    params.at(-1).swapInfo = { appId: ptoken.swapperAddress, inputAssetId: ptoken.address }
+  }
+
   dispatch(
     updateProgress({
       show: true,

@@ -303,11 +303,16 @@ const Swap = ({
               ) : null}
               {to && to.id === 'PBTC_ON_ALGORAND_MAINNET' ? (
                 <InfoEta>
-                  Please make sure that the receiving Algorand account has opted in for pBTC (Asset ID: 744665252).
+                  Please make sure that the receiving Algorand account has opted in for pBTC (Asset ID: {to.address}).
                   <br />
                   <br />
                   pBTC on Algorand is still experimental and the security audit is ongoing - please proceed with
                   caution!
+                </InfoEta>
+              ) : null}
+              {to && (to.id === 'PUSDC_ON_ALGORAND_MAINNET' || to.id === 'USDC_ON_ALGORAND_MAINNET') ? (
+                <InfoEta>
+                  Please make sure that the receiving Algorand account has opted in for pUSDC (Asset ID: {to.address}).
                 </InfoEta>
               ) : null}
               {eta < 0 || eta > 15 ? (

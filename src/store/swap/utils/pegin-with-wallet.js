@@ -11,7 +11,8 @@ import {
   getWalletPermissionByBlockchain,
   getWalletByBlockchain
 } from '../../wallets/wallets.selectors'
-import { PUOS_ON_ULTRA_MAINNET } from '../../../constants'
+import { PUOS_ON_ULTRA_MAINNET, PUSDC_ON_ALGORAND_MAINNET, USDC_ON_ALGORAND_MAINNET } from '../../../constants'
+import { encodeUserData } from './algorand'
 //import { maybeOptInAlgoAsset } from './opt-in-algo-asset'
 
 let promiEvent = null
@@ -102,6 +103,20 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
     params[1] = 'ultra.swap'
     params.splice(2, 0, metadata)
     promiEvent = ptokens[ptoken.workingName.toLowerCase()].issueWithMetadata(...params)
+  } else if (ptoken.id === PUSDC_ON_ALGORAND_MAINNET || ptoken.id === USDC_ON_ALGORAND_MAINNET) {
+    const web3 = new Web3()
+    if (ptoken.isPseudoNative) {
+      const input_asset_id = ptoken.ptokenAddress
+      const output_asset_id = ptoken.address
+      const metadata = web3.utils.bytesToHex(
+        encodeUserData(params[1], parseInt(input_asset_id, 10), params[0], parseInt(output_asset_id, 10), 0)
+      )
+      params[1] = ptoken.swapperAddress
+      params.splice(2, 0, metadata)
+      promiEvent = ptokens[ptoken.workingName.toLowerCase()].issueWithMetadata(...params)
+    } else {
+      promiEvent = ptokens[ptoken.workingName.toLowerCase()].issue(...params)
+    }
   } else {
     // TODO: fix peth since now would be pweth
     promiEvent = ptokens[ptoken.workingName.toLowerCase()].issue(...params)

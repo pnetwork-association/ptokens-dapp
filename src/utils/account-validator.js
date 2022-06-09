@@ -75,7 +75,9 @@ import {
   OATH_ON_ETH_MAINNET,
   PFTM_ON_ETH_MAINNET,
   NUCO_ON_TELOS_MAINNET,
-  PBTC_ON_ALGORAND_MAINNET
+  PBTC_ON_ALGORAND_MAINNET,
+  PUSDC_ON_ALGORAND_MAINNET,
+  USDC_ON_ALGORAND_MAINNET
 } from '../constants'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 
@@ -420,6 +422,16 @@ const isValidAccount = async (_pTokenId, _account, _type) => {
     }
     case PBTC_ON_ALGORAND_MAINNET: {
       return _type === 'pegin' ? pTokenUtils.btc.isValidAddress(_account) : pTokenUtils.algo.isValidAddress(_account)
+    }
+    case PUSDC_ON_ALGORAND_MAINNET: {
+      return _type === 'pegin'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.algo.isValidAddress(_account)
+    }
+    case USDC_ON_ALGORAND_MAINNET: {
+      return _type === 'pegin'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.algo.isValidAddress(_account)
     }
     default:
       break
