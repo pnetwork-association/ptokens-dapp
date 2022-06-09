@@ -236,7 +236,7 @@ const SwapLine = ({
               <BalanceLabel>{`Balance: ${asset.formattedBalance} ${
                 asset.symbolToDisplay
                   ? asset.symbolToDisplay
-                  : asset.isPtoken && !asset.isSpecial
+                  : !asset.isNative && !asset.isSpecial
                   ? capitalizeAllLettersExceptFirst(asset.symbol)
                   : asset.symbol
               }`}</BalanceLabel>

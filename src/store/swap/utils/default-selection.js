@@ -14,9 +14,9 @@ const getDefaultSelectionV1 = (_assets, { pToken }) => {
   const btc = _assets.find(({ symbol }) => symbol === 'BTC')
   const pbtc = _assets.find(({ symbol }) => symbol === 'PBTC')
   const assetFrom = _assets.find(
-    ({ symbol, isPtoken }) =>
+    ({ symbol, isNative }) =>
       (nativeSymbolDefault === symbol.toLowerCase() || nativeSymbolDefault.slice(1) === symbol.toLowerCase()) &&
-      !isPtoken
+      isNative
   )
   const assetTo = _assets.find(({ workingName, blockchain }) =>
     pToken ? pToken.toLowerCase() === `${workingName}-on-${blockchain.toLowerCase()}` : null

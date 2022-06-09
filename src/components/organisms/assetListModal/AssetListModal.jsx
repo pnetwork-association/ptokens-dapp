@@ -247,7 +247,7 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
                           <AssetName>
                             {_assets.length > 0
                               ? getAssetFromSymbol(
-                                  defaultAssets.filter(({ isPtoken }) => !isPtoken),
+                                  defaultAssets.filter(({ isNative }) => isNative),
                                   _nativeSymbol
                                 ).name
                               : ''}

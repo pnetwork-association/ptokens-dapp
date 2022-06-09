@@ -64,7 +64,7 @@ const MetamaskIcon = styled(Icon)`
 `
 
 const AssetInfo = ({ asset, wallet }) => {
-  const { symbol, address, explorer, blockchain, decimals, isSpecial, isPtoken, image } = asset
+  const { symbol, address, explorer, blockchain, decimals, isSpecial, isNative, image } = asset
   const [isCopiedToClipboard, setIsCopiedToClipboard] = useState(false)
   const { isMetaMask } = useProvider(wallet.provider)
 
@@ -93,7 +93,7 @@ const AssetInfo = ({ asset, wallet }) => {
         <Row>
           <ContainerName xs={6}>
             <Token href={explorer} target="blank">
-              {!isPtoken ? symbol : isSpecial ? symbol : capitalizeAllLettersExceptFirst(symbol)}
+              {isNative ? symbol : isSpecial ? symbol : capitalizeAllLettersExceptFirst(symbol)}
             </Token>
           </ContainerName>
           <ContainerOptions xs={6}>

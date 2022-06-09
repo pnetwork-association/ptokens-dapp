@@ -36,7 +36,10 @@ const loadSwapData = (_opts = {}) => {
       _dispatch({
         type: ASSETS_LOADED,
         payload: {
-          assets: [...assets, ...getDefaultSelection(assets, { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid })]
+          assets: [
+            ...assets,
+            ...getDefaultSelection(assets, { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid })
+          ]
         }
       })
 
@@ -258,7 +261,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
       const wallets = getWallets()
 
       // NOTE: pegin
-      if (!_from.isPtoken && _to.isPtoken) {
+      if (_from.isNative && !_to.isNative) {
         const ptokenId = _to.id
         const ptoken = getAssetById(ptokenId)
 
@@ -312,7 +315,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
       }
 
       // NOTE: pegout
-      else if (_from.isPtoken && !_to.isPtoken) {
+      else if (!_from.isNative && _to.isNative) {
         const ptokenId = _from.id
         const ptoken = getAssetById(ptokenId)
 

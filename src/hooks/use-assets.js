@@ -27,7 +27,7 @@ const useAssetsWithouDefault = _assets => {
 
 const usePtoken = _asset => {
   return useMemo(() => {
-    return [_asset && _asset.isPtoken ? true : false]
+    return [_asset && !_asset.isNative ? true : false]
   }, [_asset])
 }
 
@@ -94,8 +94,8 @@ const updateAsset = _asset => ({
     ? _asset.formattedName
     : _asset.isBlockchainTokenNative
     ? _asset.symbol
-    : _asset.isPtoken
-    ? `on ${blockchainSymbolToName[_asset.blockchain].toUpperCase()}`
+    : !_asset.isNative
+    ? `on ${blockchainSymbolToName[_asset.blockchain].toUpperCase()}${_asset.isPseudoNative ? ' (NATIVE)' : ''}`
     : _asset.symbol,
   image: `../assets/svg/${_asset.image}`,
   miniImage: `../assets/svg/${_asset.miniImage || _asset.blockchain}.svg`

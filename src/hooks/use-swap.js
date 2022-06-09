@@ -145,7 +145,7 @@ const useSwap = ({
     if (!from || !to) return [false]
 
     // NOTE: pegin
-    if (!from.isPtoken && to.isPtoken) {
+    if (from.isNative && !to.isNative) {
       setSwapType('pegin')
       const ptokenId = to.id
 
@@ -165,7 +165,7 @@ const useSwap = ({
       return [true]
     }
     // NOTE: pegout
-    else if (from.isPtoken && !to.isPtoken) {
+    else if (!from.isNative && to.isNative) {
       setSwapType('pegout')
       return [true]
     }
@@ -317,9 +317,9 @@ const useSwap = ({
 
   // NOTE: filters based on from selection
   const [filteredAssets] = useMemo(() => {
-    if (from && !from.isPtoken) {
+    if (from && from.isNative) {
       const filtered = assets.filter(
-        ({ isPtoken, nativeSymbol }) => isPtoken && nativeSymbol.toLowerCase() === from.nativeSymbol.toLowerCase()
+        ({ isNative, nativeSymbol }) => !isNative && nativeSymbol.toLowerCase() === from.nativeSymbol.toLowerCase()
       )
       if (!isValidSwap) {
         setTo(filtered[0])
@@ -328,9 +328,9 @@ const useSwap = ({
       return [filtered]
     }
 
-    if (from && from.isPtoken) {
+    if (from && !from.ifNative) {
       const filtered = assets.filter(
-        ({ isPtoken, nativeSymbol }) => !isPtoken && from.nativeSymbol.toLowerCase() === nativeSymbol.toLowerCase()
+        ({ isNative, nativeSymbol }) => isNative && from.nativeSymbol.toLowerCase() === nativeSymbol.toLowerCase()
       )
 
       if (!isValidSwap) {
@@ -446,7 +446,7 @@ const useSwapInfo = ({ from, to, bpm }) => {
     const onPnetworkV2 = Boolean((from && from.onPnetworkV2) || (to && to.onPnetworkV2))
 
     // NOTE: fee hardcoded at the moment
-    if (!from.isPtoken && to.isPtoken) {
+    if (from.isNative && !to.isNative) {
       const minimumPeggable = getMinimumPeggable(to.id, 'pegin')
       const fee = getFee(to.id, 'pegin')
       const selectedBpm = bpm[`${to.symbol.toLowerCase()}-on-${to.blockchain.toLowerCase()}`]
@@ -466,7 +466,7 @@ const useSwapInfo = ({ from, to, bpm }) => {
         eta,
         onPnetworkV2
       }
-    } else if (from.isPtoken && !to.isPtoken) {
+    } else if (!from.isNative && to.isNative) {
       const minimumPeggable = getMinimumPeggable(from.id, 'pegout')
       const fee = getFee(from.id, 'pegout')
       const selectedBpm = bpm[`${from.symbol.toLowerCase()}-on-${from.blockchain.toLowerCase()}`]
