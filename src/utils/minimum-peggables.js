@@ -75,7 +75,9 @@ import {
   NUCO_ON_TELOS_MAINNET,
   PBTC_ON_ALGORAND_MAINNET,
   PUSDC_ON_ALGORAND_MAINNET,
-  USDC_ON_ALGORAND_MAINNET
+  USDC_ON_ALGORAND_MAINNET,
+  PUSDT_ON_ALGORAND_MAINNET,
+  USDT_ON_ALGORAND_MAINNET
 } from '../constants'
 
 const minimumPeggable = {
@@ -388,6 +390,14 @@ const minimumPeggable = {
     pegout: 0.5
   },
   [USDC_ON_ALGORAND_MAINNET]: {
+    pegin: 0.5,
+    pegout: 0.5
+  },
+  [PUSDT_ON_ALGORAND_MAINNET]: {
+    pegin: 0.5,
+    pegout: 0.5
+  },
+  [USDT_ON_ALGORAND_MAINNET]: {
     pegin: 0.5,
     pegout: 0.5
   }

@@ -56,6 +56,8 @@ import {
   PBTC_ON_ALGORAND_MAINNET,
   PUSDC_ON_ALGORAND_MAINNET,
   USDC_ON_ALGORAND_MAINNET,
+  PUSDT_ON_ALGORAND_MAINNET,
+  USDT_ON_ALGORAND_MAINNET,
   PUOS_ON_ULTRA_MAINNET
   /*EFX_ON_BSC_MAINNET,
   PSEEDS_ON_ETH_MAINNET,
@@ -188,6 +190,12 @@ const getFee = (_ptokenId, _type) => {
       return 0
     }
     case USDC_ON_ALGORAND_MAINNET: {
+      return 0
+    }
+    case PUSDT_ON_ALGORAND_MAINNET: {
+      return 0
+    }
+    case USDT_ON_ALGORAND_MAINNET: {
       return 0
     }
     case PSAFEMOON_ON_ETH_MAINNET: {

@@ -77,7 +77,9 @@ import {
   NUCO_ON_TELOS_MAINNET,
   PBTC_ON_ALGORAND_MAINNET,
   PUSDC_ON_ALGORAND_MAINNET,
-  USDC_ON_ALGORAND_MAINNET
+  USDC_ON_ALGORAND_MAINNET,
+  PUSDT_ON_ALGORAND_MAINNET,
+  USDT_ON_ALGORAND_MAINNET
 } from '../constants'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 
@@ -429,6 +431,16 @@ const isValidAccount = async (_pTokenId, _account, _type) => {
         : pTokenUtils.algo.isValidAddress(_account)
     }
     case USDC_ON_ALGORAND_MAINNET: {
+      return _type === 'pegin'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.algo.isValidAddress(_account)
+    }
+    case PUSDT_ON_ALGORAND_MAINNET: {
+      return _type === 'pegin'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.algo.isValidAddress(_account)
+    }
+    case USDT_ON_ALGORAND_MAINNET: {
       return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.algo.isValidAddress(_account)

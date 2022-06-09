@@ -11,7 +11,13 @@ import {
   getWalletPermissionByBlockchain,
   getWalletByBlockchain
 } from '../../wallets/wallets.selectors'
-import { PUOS_ON_ULTRA_MAINNET, PUSDC_ON_ALGORAND_MAINNET, USDC_ON_ALGORAND_MAINNET } from '../../../constants'
+import {
+  PUOS_ON_ULTRA_MAINNET,
+  PUSDC_ON_ALGORAND_MAINNET,
+  USDC_ON_ALGORAND_MAINNET,
+  PUSDT_ON_ALGORAND_MAINNET,
+  USDT_ON_ALGORAND_MAINNET
+} from '../../../constants'
 import { encodeUserData } from './algorand'
 //import { maybeOptInAlgoAsset } from './opt-in-algo-asset'
 
@@ -103,7 +109,12 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
     params[1] = 'ultra.swap'
     params.splice(2, 0, metadata)
     promiEvent = ptokens[ptoken.workingName.toLowerCase()].issueWithMetadata(...params)
-  } else if (ptoken.id === PUSDC_ON_ALGORAND_MAINNET || ptoken.id === USDC_ON_ALGORAND_MAINNET) {
+  } else if (
+    ptoken.id === PUSDC_ON_ALGORAND_MAINNET ||
+    ptoken.id === USDC_ON_ALGORAND_MAINNET ||
+    ptoken.id === PUSDT_ON_ALGORAND_MAINNET ||
+    ptoken.id === USDT_ON_ALGORAND_MAINNET
+  ) {
     const web3 = new Web3()
     if (ptoken.isPseudoNative) {
       const input_asset_id = ptoken.ptokenAddress
