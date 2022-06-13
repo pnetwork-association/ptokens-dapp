@@ -269,12 +269,6 @@ const useSwap = ({
         return
       }
 
-      // NOTE: missing from account for a non deposit address pegin
-      if (!wallets[from.blockchain.toLowerCase()].account) {
-        updateSwapButton('Connect Wallet')
-        return
-      }
-
       if (fromAmount === '' && !from.peginWithDepositAddress) {
         updateSwapButton('Enter an amount', true)
         return
@@ -282,6 +276,12 @@ const useSwap = ({
 
       if (swapType === 'pegout' && from.blockchain === 'ALGORAND' && from.isPseudoNative && poolAmount < fromAmount) {
         updateSwapButton('Insufficient liquidity', true)
+        return
+      }
+
+      // NOTE: missing from account for a non deposit address pegin
+      if (!wallets[from.blockchain.toLowerCase()].account) {
+        updateSwapButton('Connect Wallet')
         return
       }
 
