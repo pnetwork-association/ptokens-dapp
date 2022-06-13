@@ -6,12 +6,14 @@ import {
   PROGRESS_UPDATED,
   PROGRESS_RESET,
   UPDATE_SWAP_BUTTON,
-  BPM_LOADED
+  BPM_LOADED,
+  SWAPPERS_BALANCES_LOADED
 } from '../../constants/index'
 
 const initialState = {
   assets: [],
   bpm: {},
+  swappersBalances: {},
   depositAddressModal: {
     show: false,
     asset: null,
@@ -44,6 +46,11 @@ const swapReducer = (_state = initialState, _action) => {
   if (type === BPM_LOADED) {
     return Object.assign({}, _state, {
       bpm: payload.bpm
+    })
+  }
+  if (type === SWAPPERS_BALANCES_LOADED) {
+    return Object.assign({}, _state, {
+      swappersBalances: payload.swappersBalances
     })
   }
   if (type === SWAP_BALANCE_LOADED) {

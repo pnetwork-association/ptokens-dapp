@@ -10,6 +10,7 @@ import {
   PROGRESS_RESET,
   UPDATE_SWAP_BUTTON,
   BPM_LOADED,
+  SWAPPERS_BALANCES_LOADED,
   PUOS_ON_ULTRA_MAINNET
 } from '../../constants/index'
 import { getConfigs } from '../../utils/ptokens-configs'
@@ -28,6 +29,7 @@ import { getAssetsByBlockchain, getAssetById } from './swap.selectors'
 import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
 import { getDefaultSelection } from './utils/default-selection'
 import pegoutPuosOnUltra from './utils/pegout-puos-on-ultra'
+import { getAsaBalance } from './utils/algorand'
 
 const loadSwapData = (_opts = {}) => {
   const { defaultSelection: { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid } = {} } = _opts
@@ -42,6 +44,39 @@ const loadSwapData = (_opts = {}) => {
           ]
         }
       })
+
+      const loadSwapperAmount = async () => {
+        const ret = {}
+        const client = getReadOnlyProviderByBlockchain('ALGORAND')
+        const amounts = (
+          await Promise.all(
+            assets
+              .filter(asset => asset.swapperAddress)
+              .map(async asset => [
+                {
+                  swapperAddress: asset.swapperAddress,
+                  assetId: asset.address,
+                  amount: await getAsaBalance(client, parseInt(asset.swapperAddress), asset.address)
+                },
+                {
+                  swapperAddress: asset.swapperAddress,
+                  assetId: asset.ptokenAddress,
+                  amount: await getAsaBalance(client, parseInt(asset.swapperAddress), asset.ptokenAddress)
+                }
+              ])
+          )
+        ).flat()
+        amounts.forEach(_obj => {
+          if (ret[_obj.swapperAddress] === undefined) ret[_obj.swapperAddress] = {}
+          ret[_obj.swapperAddress][_obj.assetId] = _obj.amount
+        })
+        _dispatch({
+          type: SWAPPERS_BALANCES_LOADED,
+          payload: {
+            swappersBalances: ret
+          }
+        })
+      }
 
       const loadBpm = async () => {
         const {
@@ -73,6 +108,9 @@ const loadSwapData = (_opts = {}) => {
 
       loadBpm()
       setInterval(() => loadBpm(), 1000 * 60)
+
+      loadSwapperAmount()
+      setInterval(() => loadSwapperAmount(), 1000 * 10)
     } catch (_err) {
       console.error(_err)
     }

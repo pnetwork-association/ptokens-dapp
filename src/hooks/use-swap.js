@@ -13,6 +13,7 @@ import { maybeOptInAlgoApp, maybeOptInAlgoAsset } from '../store/swap/utils/opt-
 const useSwap = ({
   wallets,
   bpm,
+  swappersBalances,
   assets,
   connectWithWallet,
   swap,
@@ -33,7 +34,12 @@ const useSwap = ({
   const [selectionChanged, setSelectionChanged] = useState(false)
   const [pegoutToTelosEvmAddress, setPegoutToTelosEvmAddress] = useState(false)
 
-  const { fee, isPegin, isPegout, eta, minimumPeggable, onPnetworkV2 } = useSwapInfo({ from, to, bpm })
+  const { fee, isPegin, isPegout, eta, poolAmount, minimumPeggable, onPnetworkV2 } = useSwapInfo({
+    from,
+    to,
+    bpm,
+    swappersBalances
+  })
 
   const onChangeFromAmount = useCallback(
     _amount => {
@@ -274,6 +280,11 @@ const useSwap = ({
         return
       }
 
+      if (swapType === 'pegout' && from.blockchain === 'ALGORAND' && from.isPseudoNative && poolAmount < fromAmount) {
+        updateSwapButton('Insufficient liquidity', true)
+        return
+      }
+
       if (!address || address === '') {
         updateSwapButton('Enter an address', true)
       }
@@ -299,13 +310,14 @@ const useSwap = ({
         return
       }
 
-      if (
-        to.blockchain === 'ALGORAND' &&
-        !(await maybeOptInAlgoAsset(address, parseInt(to.address, 10), updateSwapButton))
-      )
-        return
+      if (swapType === 'pegin' && to.blockchain === 'ALGORAND') {
+        if (!(await maybeOptInAlgoAsset(address, parseInt(to.address, 10), updateSwapButton))) return
+        if (to.ptokenAddress && !(await maybeOptInAlgoAsset(address, parseInt(to.ptokenAddress, 10), updateSwapButton)))
+          return
+      }
 
       if (
+        swapType === 'pegout' &&
         from.blockchain === 'ALGORAND' &&
         from.isPseudoNative &&
         !(await maybeOptInAlgoApp(parseInt(from.swapperAddress, 10), updateSwapButton))
@@ -325,7 +337,8 @@ const useSwap = ({
     minimumPeggable,
     swapType,
     pegoutToTelosEvmAddress,
-    updateSwapButton
+    updateSwapButton,
+    poolAmount
   ])
 
   // NOTE: filters based on from selection
@@ -425,6 +438,7 @@ const useSwap = ({
     fromWallet,
     toWallet,
     eta,
+    poolAmount,
     onPnetworkV2,
     onChangeFromAmount,
     onChangeToAmount,
@@ -444,7 +458,7 @@ const useSwap = ({
   }
 }
 
-const useSwapInfo = ({ from, to, bpm }) => {
+const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
   return useMemo(() => {
     if (!from || !to || Object.keys(bpm).length === 0) {
       return {
@@ -464,7 +478,11 @@ const useSwapInfo = ({ from, to, bpm }) => {
       const fee = getFee(to.id, 'pegin')
       const selectedBpm = bpm[`${to.symbol.toLowerCase()}-on-${to.blockchain.toLowerCase()}`]
       const eta = selectedBpm && selectedBpm.native ? selectedBpm.native.eta : 0
-
+      const amounts = { ...swappersBalances }
+      const poolAmount =
+        to.isPseudoNative && amounts[to.swapperAddress]
+          ? amounts[to.swapperAddress][to.address] / 10 ** to.decimals
+          : undefined
       return {
         minimumPeggable: minimumPeggable ? BigNumber(minimumPeggable).toFixed() : 0,
         formattedMinimumPeggable: minimumPeggable
@@ -477,6 +495,7 @@ const useSwapInfo = ({ from, to, bpm }) => {
         isPegin: true,
         isPegout: false,
         eta,
+        poolAmount,
         onPnetworkV2
       }
     } else if (!from.isNative && to.isNative) {
@@ -484,7 +503,11 @@ const useSwapInfo = ({ from, to, bpm }) => {
       const fee = getFee(from.id, 'pegout')
       const selectedBpm = bpm[`${from.symbol.toLowerCase()}-on-${from.blockchain.toLowerCase()}`]
       const eta = selectedBpm && selectedBpm.host ? selectedBpm.host.eta : 0
-
+      const amounts = { ...swappersBalances }
+      const poolAmount =
+        from.isPseudoNative && amounts[from.swapperAddress]
+          ? amounts[from.swapperAddress][from.ptokenAddress] / 10 ** from.decimals
+          : undefined
       return {
         minimumPeggable: minimumPeggable ? BigNumber(minimumPeggable).toFixed() : 0,
         formattedMinimumPeggable: minimumPeggable
@@ -497,6 +520,7 @@ const useSwapInfo = ({ from, to, bpm }) => {
         isPegin: false,
         isPegout: true,
         eta,
+        poolAmount,
         onPnetworkV2
       }
     }
@@ -508,7 +532,7 @@ const useSwapInfo = ({ from, to, bpm }) => {
       estimatedSwapTime: `-`,
       show: false
     }
-  }, [bpm, from, to])
+  }, [from, to, bpm, swappersBalances])
 }
 
 export { useSwap, useSwapInfo }

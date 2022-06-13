@@ -45,8 +45,13 @@ const LabelCol = styled(Col)`
   }
 `
 
-const SwapInfo = ({ from, to, bpm }) => {
-  const { show, formattedFee, estimatedSwapTime, formattedMinimumPeggable } = useSwapInfo({ from, to, bpm })
+const SwapInfo = ({ from, to, bpm, swappersBalances }) => {
+  const { show, formattedFee, estimatedSwapTime, formattedMinimumPeggable } = useSwapInfo({
+    from,
+    to,
+    bpm,
+    swappersBalances
+  })
 
   return (
     <ContainerInfo show={Boolean(show).toString()}>
@@ -70,6 +75,7 @@ const SwapInfo = ({ from, to, bpm }) => {
 
 SwapInfo.propTypes = {
   bpm: PropTypes.object,
+  swappersBalances: PropTypes.object,
   from: PropTypes.object,
   to: PropTypes.object
 }

@@ -16,3 +16,18 @@ export function encodeUserData(destAccount, inAssetId, inAmount, outAssetId, min
   const a = encode([encodedDestAccount, encodedInAssetId, encodedInAmount, encodedOutAssetId, encodedMinOutAmount])
   return encode([a, [algosdk.decodeAddress(destAccount).publicKey], [], [inAssetId, outAssetId]])
 }
+
+export async function getAlgoBalance(_client, _account, _assetIndex) {
+  if (parseInt(_account)) _account = algosdk.getApplicationAddress(_account)
+  if (!algosdk.isValidAddress(_account)) return 0
+  const accountInfo = await _client.accountInformation(_account).do()
+  return accountInfo.amount
+}
+
+export async function getAsaBalance(_client, _account, _assetIndex) {
+  if (parseInt(_account)) _account = algosdk.getApplicationAddress(_account)
+  if (!algosdk.isValidAddress(_account)) return 0
+  const accountInfo = await _client.accountInformation(_account).do()
+  const balance = accountInfo.assets.find(obj => obj['asset-id'] === parseInt(_assetIndex))
+  return balance ? balance['amount'] : 0
+}

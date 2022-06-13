@@ -96,6 +96,17 @@ const InfoEta = styled.div`
   text-align: center;
 `
 
+const WarningEta = styled.div`
+  margin-top: 30px;
+  padding: 20px;
+  margin-botton: 10px;
+  background: #ffed8640;
+  border: 0.5px solid ${({ theme }) => theme.primary1};
+  border-radius: 10px;
+  color: ${({ theme }) => theme.primary1};
+  text-align: center;
+`
+
 const ProvisionalSafemoonBox = styled(InfoEta)``
 
 const MigrationNotification = styled(InfoEta)`
@@ -136,6 +147,7 @@ const Swap = ({
   assets: _assets,
   migrationAssets: _migrationAssets,
   bpm,
+  swappersBalances,
   wallets,
   progress,
   infoModal,
@@ -163,6 +175,7 @@ const Swap = ({
     fromWallet,
     toWallet,
     eta,
+    poolAmount,
     onPnetworkV2,
     onChangeFromAmount,
     onChangeToAmount,
@@ -183,6 +196,7 @@ const Swap = ({
     progress,
     wallets,
     bpm,
+    swappersBalances,
     assets,
     connectWithWallet,
     swap,
@@ -316,8 +330,29 @@ const Swap = ({
                 to.id === 'PUSDT_ON_ALGORAND_MAINNET' ||
                 to.id === 'USDT_ON_ALGORAND_MAINNET') ? (
                 <InfoEta>
-                  Please make sure that the receiving Algorand account has opted in for {to.symbol} (Asset ID:{' '}
-                  {to.address}).
+                  Please make sure that the receiving Algorand account has opted in for {to.name} (Asset ID:{' '}
+                  {to.address}) {to.ptokenAddress ? `and p${to.name} (Asset ID: ${to.ptokenAddress})` : null}.
+                  {to.swapperAddress && (
+                    <>
+                      <br />
+                      <br />
+                      Please note that under certain circumstances (i.e. low liquidity in the stableswap pool),
+                      especially for bigger swaps, you may receive p{to.name} rather than native {to.nativeSymbol}.
+                    </>
+                  )}
+                </InfoEta>
+              ) : null}
+              {to && to.swapperAddress && poolAmount < 1.2 * toAmount ? (
+                <WarningEta>
+                  Due to insufficient liquidity it may not be possible to process a swap of this size. Please try with a
+                  smaller amount or try again later. If you decide to proceed anyway, you may receive p{to.symbol}{' '}
+                  instead.
+                </WarningEta>
+              ) : null}
+              {from && from.swapperAddress && poolAmount < fromAmount ? (
+                <InfoEta>
+                  There is not enough liquidity in the stableswap pool to process this swap right now, please try again
+                  later
                 </InfoEta>
               ) : null}
               {eta < 0 || eta > 15 ? (
@@ -376,6 +411,7 @@ const Swap = ({
 Swap.propTypes = {
   assets: PropTypes.array.isRequired,
   bpm: PropTypes.object.isRequired,
+  swappersBalances: PropTypes.object.isRequired,
   wallets: PropTypes.object.isRequired,
   depositAddressModal: PropTypes.object,
   defaultSelection: PropTypes.object,
