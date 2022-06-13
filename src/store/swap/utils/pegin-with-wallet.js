@@ -64,18 +64,17 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
       const toApprove = new web3.eth.Contract(ERC20Abi, eth.addHexPrefix(info.native_smart_contract_address))
       const allowance = await toApprove.methods.allowance(account, eth.addHexPrefix(info.native_vault_address)).call()
       if (!BigNumber(allowance).isGreaterThanOrEqualTo(params[0])) {
-        const _approve = () =>
-          new Promise(_resolve =>
-            toApprove.methods
-              .approve(eth.addHexPrefix(info.native_vault_address), params[0])
-              .send({ from: account, gas: 75000 })
-              .once('hash', _hash => {
-                link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_hash}`
-              })
-              .then(_resolve)
-          )
-
-        await _approve()
+        const _approve = _amount =>
+          toApprove.methods
+            .approve(eth.addHexPrefix(info.native_vault_address), _amount)
+            .send({ from: account, gas: 75000 })
+            .once('hash', _hash => {
+              link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_hash}`
+            })
+        if (ptoken.nativeSymbol === 'USDT') {
+          await _approve(0)
+        }
+        await _approve(params[0])
       }
     } catch (_err) {
       dispatch(
@@ -87,6 +86,7 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
           icon: 'cancel'
         })
       )
+      dispatch(updateSwapButton('Swap'))
       console.error(_err)
       return
     }
