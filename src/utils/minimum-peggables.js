@@ -386,20 +386,20 @@ const minimumPeggable = {
     pegout: 0.0015
   },
   [PUSDC_ON_ALGORAND_MAINNET]: {
-    pegin: 0.5,
-    pegout: 0.5
+    pegin: 25,
+    pegout: 25
   },
   [USDC_ON_ALGORAND_MAINNET]: {
-    pegin: 0.5,
-    pegout: 0.5
+    pegin: 25,
+    pegout: 25
   },
   [PUSDT_ON_ALGORAND_MAINNET]: {
-    pegin: 0.5,
-    pegout: 0.5
+    pegin: 25,
+    pegout: 25
   },
   [USDT_ON_ALGORAND_MAINNET]: {
-    pegin: 0.5,
-    pegout: 0.5
+    pegin: 25,
+    pegout: 25
   }
 }
 
