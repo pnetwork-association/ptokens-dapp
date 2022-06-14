@@ -71,7 +71,7 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
             .once('hash', _hash => {
               link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_hash}`
             })
-        if (ptoken.nativeSymbol === 'USDT') {
+        if (ptoken.nativeSymbol === 'USDT' && !BigNumber(allowance).isZero()) {
           await _approve(0)
         }
         await _approve(params[0])
