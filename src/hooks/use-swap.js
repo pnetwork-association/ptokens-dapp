@@ -205,11 +205,8 @@ const useSwap = ({
 
   // NOTE: change to address with a connected account
   useEffect(() => {
-    setAddress(
-      to && wallets[to.blockchain.toLowerCase()] && wallets[to.blockchain.toLowerCase()].account
-        ? wallets[to.blockchain.toLowerCase()].account
-        : ''
-    )
+    if (to && wallets[to.blockchain.toLowerCase()] && wallets[to.blockchain.toLowerCase()].account)
+      setAddress(wallets[to.blockchain.toLowerCase()].account)
   }, [wallets, to])
 
   // NOTE: calculates button text
