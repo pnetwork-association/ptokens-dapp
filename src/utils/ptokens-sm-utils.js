@@ -757,19 +757,29 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
       return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.telos}tx/`
     }
     case PBTC_ON_ALGORAND_MAINNET: {
-      return _role === 'native' ? `${settings.explorers.mainnet.btc}tx/` : `${settings.explorers.mainnet.algorand}tx/`
+      return _role === 'native'
+        ? `${settings.explorers.mainnet.btc}tx/`
+        : `${settings.explorers.mainnet.algorand}tx/group/`
     }
     case PUSDC_ON_ALGORAND_MAINNET: {
-      return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.algorand}tx/`
+      return _role === 'native'
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.algorand}tx/group/`
     }
     case USDC_ON_ALGORAND_MAINNET: {
-      return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.algorand}tx/`
+      return _role === 'native'
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.algorand}tx/group/`
     }
     case PUSDT_ON_ALGORAND_MAINNET: {
-      return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.algorand}tx/`
+      return _role === 'native'
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.algorand}tx/group/`
     }
     case USDT_ON_ALGORAND_MAINNET: {
-      return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.algorand}tx/`
+      return _role === 'native'
+        ? `${settings.explorers.mainnet.eth}tx/`
+        : `${settings.explorers.mainnet.algorand}tx/group/`
     }
     default:
       break

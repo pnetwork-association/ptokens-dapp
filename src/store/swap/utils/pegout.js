@@ -82,7 +82,7 @@ const pegout = async ({ ptokens, params, ptoken, dispatch, options = {} }) => {
     : ptokens[ptoken.workingName].redeem(...params)
   promiEvent
     .once('hostTxBroadcasted', _hash => {
-      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${_hash}`
+      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${encodeURIComponent(_hash)}`
       dispatch(
         updateProgress({
           show: true,
@@ -96,7 +96,7 @@ const pegout = async ({ ptokens, params, ptoken, dispatch, options = {} }) => {
     .once('hostTxConfirmed', _tx => {
       if (ptoken.blockchain === 'EOS' || ptoken.blockchain === 'TELOS' || ptoken.blockchain === 'ULTRA') {
         // prettier-ignore
-        link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${_tx[hostTransactionHash[ptoken.blockchain.toLowerCase()]]}`
+        link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${encodeURIComponent(_tx[hostTransactionHash[ptoken.blockchain.toLowerCase()]])}`
         dispatch(
           updateProgress({
             show: true,
@@ -130,7 +130,9 @@ const pegout = async ({ ptokens, params, ptoken, dispatch, options = {} }) => {
       )
     })
     .once('nodeBroadcastedTx', _report => {
-      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_report.broadcast_tx_hash}`
+      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${encodeURIComponent(
+        _report.broadcast_tx_hash
+      )}`
       dispatch(
         updateProgress({
           show: true,

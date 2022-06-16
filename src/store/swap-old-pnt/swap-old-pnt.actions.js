@@ -82,7 +82,7 @@ const swap = (_amount, _address) => {
               .approve(settings.swapOldPntOnBsc.swapContractAddress, amount)
               .send({ from: account, gas: 75000 })
               .once('transactionHash', _hash => {
-                link = `${getCorrespondingBaseTxExplorerLinkByBlockchain('BSC')}${_hash}`
+                link = `${getCorrespondingBaseTxExplorerLinkByBlockchain('BSC')}${encodeURIComponent(_hash)}`
                 _dispatch(
                   updateProgress({
                     show: true,
@@ -119,7 +119,7 @@ const swap = (_amount, _address) => {
             .swap(amount, _address)
             .send({ from: account, gas: 120000 })
             .once('transactionHash', _hash => {
-              link = `${getCorrespondingBaseTxExplorerLinkByBlockchain('BSC')}${_hash}`
+              link = `${getCorrespondingBaseTxExplorerLinkByBlockchain('BSC')}${encodeURIComponent(_hash)}`
               _dispatch(
                 updateProgress({
                   show: true,

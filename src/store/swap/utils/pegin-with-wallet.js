@@ -69,7 +69,7 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
             .approve(eth.addHexPrefix(info.native_vault_address), _amount)
             .send({ from: account, gas: 75000 })
             .once('hash', _hash => {
-              link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_hash}`
+              link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${encodeURIComponent(_hash)}`
             })
         if (ptoken.nativeSymbol === 'USDT' && !BigNumber(allowance).isZero()) {
           await _approve(0)
@@ -135,7 +135,7 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
 
   promiEvent
     .once('nativeTxBroadcasted', _hash => {
-      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_hash}`
+      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${encodeURIComponent(_hash)}`
       dispatch(
         updateProgress({
           show: true,
@@ -152,7 +152,7 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
         ptoken.nativeBlockchain === 'TELOS' ||
         ptoken.nativeBlockchain === 'ULTRA'
       ) {
-        link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_e.transaction_id}`
+        link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${encodeURIComponent(_e.transaction_id)}`
         dispatch(
           updateProgress({
             show: true,
@@ -186,7 +186,7 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
       )
     })
     .once('nodeBroadcastedTx', _report => {
-      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${_report.broadcast_tx_hash}`
+      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${encodeURIComponent(_report.broadcast_tx_hash)}`
       dispatch(
         updateProgress({
           show: true,

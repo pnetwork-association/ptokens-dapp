@@ -62,7 +62,7 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
       dispatch(hideDepositAddressModal())
 
       // prettier-ignore
-      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${_tx[nativeTransactionField[ptoken.nativeBlockchain.toLowerCase()]]}`
+      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${encodeURIComponent(_tx[nativeTransactionField[ptoken.nativeBlockchain.toLowerCase()]])}`
       dispatch(
         updateProgress({
           show: true,
@@ -96,7 +96,7 @@ const peginWithDepositAddress = async ({ ptokens, address, ptoken, dispatch }) =
       )
     })
     .once('nodeBroadcastedTx', _report => {
-      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${_report.broadcast_tx_hash}`
+      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${encodeURIComponent(_report.broadcast_tx_hash)}`
       // prettier-ignore
       dispatch(
         updateProgress({

@@ -46,7 +46,7 @@ const pegoutPuosOnUltra = async ({ params, dispatch }) => {
     )
 
     // prettier-ignore
-    let link = `${getCorrespondingBaseTxExplorerLink(PUOS_ON_ULTRA_MAINNET, 'host')}${transaction_id}`
+    let link = `${getCorrespondingBaseTxExplorerLink(PUOS_ON_ULTRA_MAINNET, 'host')}${encodeURIComponent(transaction_id)}`
     dispatch(
       updateProgress({
         show: true,
@@ -93,7 +93,9 @@ const pegoutPuosOnUltra = async ({ params, dispatch }) => {
         })
         eventEmitter.on('nodeBroadcastedTx', _report => {
           broadcastTxHash = _report.broadcast_tx_hash
-          link = `${getCorrespondingBaseTxExplorerLink(PUOS_ON_ULTRA_MAINNET, 'native')}${broadcastTxHash}`
+          link = `${getCorrespondingBaseTxExplorerLink(PUOS_ON_ULTRA_MAINNET, 'native')}${encodeURIComponent(
+            broadcastTxHash
+          )}`
           dispatch(
             updateProgress({
               show: true,

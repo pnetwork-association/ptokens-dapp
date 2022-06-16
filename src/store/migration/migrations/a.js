@@ -43,7 +43,7 @@ const migrateA = async (_amount, _from, _to, { dispatch }) => {
                 show: true,
                 percent: 50,
                 // prettier-ignore
-                message: `Asset migration <a href="${`${getCorrespondingBaseTxExplorerLinkByBlockchain('ETH')}${_hash}`}" target="_blank">transaction</a> sent, waiting for confirmation ...`,
+                message: `Asset migration <a href="${`${getCorrespondingBaseTxExplorerLinkByBlockchain('ETH')}${encodeURIComponent(_hash)}`}" target="_blank">transaction</a> sent, waiting for confirmation ...`,
                 steps: [0, 50, 100],
                 terminated: false
               })
@@ -59,7 +59,7 @@ const migrateA = async (_amount, _from, _to, { dispatch }) => {
         show: true,
         percent: 100,
         // prettier-ignore
-        message: `Migration <a href="${`${getCorrespondingBaseTxExplorerLinkByBlockchain('ETH')}${hash}`}" target="_blank">transaction</a> confirmed.`,
+        message: `Migration <a href="${`${getCorrespondingBaseTxExplorerLinkByBlockchain('ETH')}${encodeURIComponent(hash)}`}" target="_blank">transaction</a> confirmed.`,
         steps: [0, 50, 100],
         terminated: true
       })

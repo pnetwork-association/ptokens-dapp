@@ -11,7 +11,10 @@ const executeEvmCompatibleTxWithToast = (_fx, { from, blockchain }) =>
         toastr.success('Transaction broadcasted!', 'Click here to see it', {
           timeOut: 0,
           onToastrClick: () =>
-            window.open(`${getCorrespondingBaseTxExplorerLinkByBlockchain(blockchain.toUpperCase())}${_hash}`, '_blank')
+            window.open(
+              `${getCorrespondingBaseTxExplorerLinkByBlockchain(blockchain.toUpperCase())}${encodeURIComponent(_hash)}`,
+              '_blank'
+            )
         })
       })
       .once('receipt', _resolve)
