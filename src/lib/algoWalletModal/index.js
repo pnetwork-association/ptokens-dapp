@@ -4,6 +4,7 @@ import Modal from '../eosConnect/components/Modal'
 import EventEmitter from 'eventemitter3'
 import connectToWalletConnect from './connectors/wallet-connect'
 import connectToAlgoSigner from './connectors/algo-signer'
+import connectToMyAlgoWallet from './connectors/my-algo-wallet'
 
 const INITIAL_STATE = { show: false }
 
@@ -40,7 +41,7 @@ class AlgoWalletModal extends EventEmitter {
     })
   }
 
-  setConfigs = ({ dappName, providerOptions: { algoSigner, walletConnect } }) => {
+  setConfigs = ({ dappName, providerOptions: { algoSigner, walletConnect, myAlgoWallet } }) => {
     this.userOptions = []
 
     this.userOptions.push({
@@ -66,6 +67,17 @@ class AlgoWalletModal extends EventEmitter {
         }
       })
     }
+
+    this.userOptions.push({
+      name: 'MyAlgoWallet',
+      logo: '../assets/png/myalgo-logo.png',
+      description: 'MyAlgoWallet',
+      themeColors: this.themeColors,
+      onClick: async () => {
+        this._call.resolve(await connectToMyAlgoWallet(walletConnect))
+        await this.toogleModal()
+      }
+    })
 
     this.renderModal()
   }

@@ -25,26 +25,30 @@ const connectWithAlgorandWallet = async _dispatch => {
     }
   })
 
-  const provider = await algoWalletModal.connect()
+  try {
+    const provider = await algoWalletModal.connect()
 
-  const accounts = await provider.getAccounts()
-  _dispatch({
-    type: WALLET_ALGORAND_CONNECTED,
-    payload: {
-      provider,
-      account: accounts[0],
-      network: 'mainnet'
-    }
-  })
-
-  provider.on('accountsChanged', _accounts => {
+    const accounts = await provider.getAccounts()
     _dispatch({
-      type: WALLET_ALGORAND_ACCOUNT_CHANGED,
+      type: WALLET_ALGORAND_CONNECTED,
       payload: {
-        account: _accounts[0]
+        provider,
+        account: accounts[0],
+        network: 'mainnet'
       }
     })
-  })
+
+    provider.on('accountsChanged', _accounts => {
+      _dispatch({
+        type: WALLET_ALGORAND_ACCOUNT_CHANGED,
+        payload: {
+          account: _accounts[0]
+        }
+      })
+    })
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 const disconnectFromAlgorandWallet = async _dispatch => {

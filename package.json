@@ -7,6 +7,7 @@
     "@json-rpc-tools/utils": "^1.7.6",
     "@msgpack/msgpack": "^2.7.2",
     "@portis/web3": "^2.0.0-beta.43",
+    "@randlabs/myalgo-connect": "^1.2.0",
     "@walletconnect/web3-provider": "^1.6.6",
     "algorand-walletconnect-qrcode-modal": "^1.6.1",
     "algosdk": "^1.13.1",

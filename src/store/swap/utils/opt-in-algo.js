@@ -1,6 +1,7 @@
 import algosdk from 'algosdk'
 import { getWalletAccountByBlockchain, getWalletProviderByBlockchain } from '../../wallets/wallets.selectors'
 import { getReadOnlyProviderByBlockchain } from '../../../utils/read-only-providers'
+import { toastr } from 'react-redux-toastr'
 
 export const maybeOptInAlgoAsset = async (_account, _assetIndex, updateButton = undefined) => {
   try {
@@ -26,11 +27,7 @@ export const maybeOptInAlgoAsset = async (_account, _assetIndex, updateButton = 
         suggestedParams
       })
 
-      const signedTxs = await provider.signTxn([
-        {
-          txn: Buffer.from(algosdk.encodeUnsignedTransaction(optinTxn)).toString('base64')
-        }
-      ])
+      const signedTxs = await provider.signTxn([optinTxn])
 
       const signedTxBlob = signedTxs[0].blob ? signedTxs[0].blob : signedTxs[0]
       const binarySignedTx = new Uint8Array(
@@ -46,7 +43,9 @@ export const maybeOptInAlgoAsset = async (_account, _assetIndex, updateButton = 
     if (updateButton) updateButton('The recipient has not opted-in', true)
     return false
   } catch (err) {
-    console.info(err)
+    console.error(err)
+    toastr.error(err.message)
+    if (updateButton) updateButton('The recipient has not opted-in', true)
     return false
   }
 }
@@ -73,11 +72,7 @@ export const maybeOptInAlgoApp = async (_appIndex, updateButton = undefined) => 
         suggestedParams
       })
 
-      const signedTxs = await provider.signTxn([
-        {
-          txn: Buffer.from(algosdk.encodeUnsignedTransaction(optinTxn)).toString('base64')
-        }
-      ])
+      const signedTxs = await provider.signTxn([optinTxn])
 
       const signedTxBlob = signedTxs[0].blob ? signedTxs[0].blob : signedTxs[0]
       const binarySignedTx = new Uint8Array(
@@ -93,7 +88,9 @@ export const maybeOptInAlgoApp = async (_appIndex, updateButton = undefined) => 
     if (updateButton) updateButton('The recipient has not opted-in', true)
     return false
   } catch (err) {
-    console.info(err)
+    console.error(err)
+    toastr.error(err.message)
+    if (updateButton) updateButton('The recipient has not opted-in', true)
     return false
   }
 }

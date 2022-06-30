@@ -1,4 +1,5 @@
 import { EventEmitter } from 'eventemitter3'
+import algosdk from 'algosdk'
 
 class Provider extends EventEmitter {
   constructor(_algoSigner) {
@@ -11,8 +12,10 @@ class Provider extends EventEmitter {
     return
   }
 
-  signTxn(_txn) {
-    return this.algoSigner.signTxn(_txn)
+  signTxn(_txns) {
+    return this.algoSigner.signTxn(
+      _txns.map(_tx => ({ txn: Buffer.from(algosdk.encodeUnsignedTransaction(_tx)).toString('base64') }))
+    )
   }
 
   sign(_tx) {

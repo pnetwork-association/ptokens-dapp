@@ -2,6 +2,7 @@ import WalletConnect from '@walletconnect/client'
 import QRCodeModal from 'algorand-walletconnect-qrcode-modal'
 import { EventEmitter } from 'eventemitter3'
 import { formatJsonRpcRequest } from '@json-rpc-tools/utils'
+import algosdk from 'algosdk'
 
 class Provider extends EventEmitter {
   constructor(_connector) {
@@ -15,7 +16,10 @@ class Provider extends EventEmitter {
   }
 
   async signTxn(_txns) {
-    return this.connector.sendCustomRequest(formatJsonRpcRequest('algo_signTxn', [_txns]))
+    const encodedTxns = _txns.map(_tx => ({
+      txn: Buffer.from(algosdk.encodeUnsignedTransaction(_tx)).toString('base64')
+    }))
+    return this.connector.sendCustomRequest(formatJsonRpcRequest('algo_signTxn', [encodedTxns]))
   }
 
   getAccounts() {
