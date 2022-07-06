@@ -46,6 +46,11 @@ const initialState = {
     chainId: null,
     network: null
   },
+  algorand: {
+    provider: null,
+    account: null,
+    network: null
+  },
   eos: {
     provider: null,
     account: null,
@@ -86,11 +91,6 @@ const initialState = {
     provider: null,
     account: null,
     chainId: null,
-    network: null
-  },
-  algorand: {
-    provider: null,
-    account: null,
     network: null
   },
   ftm: {
