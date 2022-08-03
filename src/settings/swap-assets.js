@@ -1634,6 +1634,25 @@ const swapAssets = [
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true
   },
+  {
+    address: 'wmbt.ptokens',
+    id: 'PWOMBAT_ON_EOS_MAINNET',
+    name: 'pWOMBAT',
+    workingName: 'pwombat',
+    nativeDecimals: 18,
+    network: 'mainnet',
+    isPerc20: true,
+    isHidden: false,
+    blockchain: 'EOS',
+    decimals: 6,
+    withMiniImage: true,
+    symbol: 'PWOMBAT',
+    isPtoken: true,
+    nativeSymbol: 'WOMBAT',
+    nativeBlockchain: 'ETH',
+    image: 'pWOMBAT.svg',
+    withBalanceDecimalsConversion: false
+  },
   /* #################   Native Tokens   #################*/
   {
     address: '0x0000000000000000000000000000000000000000',
@@ -2453,6 +2472,21 @@ const swapAssets = [
     image: 'ORE.svg',
     withBalanceDecimalsConversion: false,
     isBlockchainTokenNative: true
+  },
+  {
+    address: '0x0C9c7712C83B3C70e7c5E11100D33D9401BdF9dd',
+    id: 'WOMBAT',
+    symbol: 'WOMBAT',
+    name: 'Wombat',
+    network: 'mainnet',
+    blockchain: 'ETH',
+    decimals: 18,
+    withMiniImage: true,
+    isNative: true,
+    nativeSymbol: 'WOMBAT',
+    nativeBlockchain: 'ETH',
+    image: 'WOMBAT.svg',
+    withBalanceDecimalsConversion: true
   }
 ]
 

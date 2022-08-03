@@ -78,7 +78,8 @@ import {
   USDC_ON_ALGORAND_MAINNET,
   PUSDT_ON_ALGORAND_MAINNET,
   USDT_ON_ALGORAND_MAINNET,
-  ORE_ON_ETH_MAINNET
+  ORE_ON_ETH_MAINNET,
+  PWOMBAT_ON_EOS_MAINNET
 } from '../constants'
 import { constants } from 'ptokens-utils'
 import settings from '../settings'
@@ -1018,6 +1019,18 @@ const getConfigs = (_pTokenId, _configs) => {
         ethProvider,
         oreRpc: settings.rpc.mainnet.ore.endpoint,
         oreSignatureProvider
+      }
+    }
+  }
+  if (_pTokenId === PWOMBAT_ON_EOS_MAINNET) {
+    return {
+      perc20: {
+        pToken: pTokens.pWOMBAT,
+        network: networks.Mainnet,
+        blockchain: blockchains.Eosio,
+        ethProvider,
+        eosRpc: settings.rpc.mainnet.eos.endpoint,
+        eosSignatureProvider
       }
     }
   }

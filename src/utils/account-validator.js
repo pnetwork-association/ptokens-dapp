@@ -80,7 +80,8 @@ import {
   USDC_ON_ALGORAND_MAINNET,
   PUSDT_ON_ALGORAND_MAINNET,
   USDT_ON_ALGORAND_MAINNET,
-  ORE_ON_ETH_MAINNET
+  ORE_ON_ETH_MAINNET,
+  PWOMBAT_ON_EOS_MAINNET
 } from '../constants'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 
@@ -450,6 +451,11 @@ const isValidAccount = async (_pTokenId, _account, _type) => {
       return _type === 'pegin'
         ? pTokenUtils.eos.isValidAccountName(_account)
         : web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+    }
+    case PWOMBAT_ON_EOS_MAINNET: {
+      return _type === 'pegin'
+        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
+        : pTokenUtils.eos.isValidAccountName(_account)
     }
     default:
       break
