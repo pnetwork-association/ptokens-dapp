@@ -372,8 +372,8 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
     }
     case GALA_ON_BSC_MAINNET: {
       return _role === 'native'
-        ? `${settings.explorers.mainnet.bsc}address/${_address}`
-        : `${settings.explorers.mainnet.eth}address/${_address}`
+        ? `${settings.explorers.mainnet.eth}address/${_address}`
+        : `${settings.explorers.mainnet.bsc}address/${_address}`
     }
     case PUOS_ON_ULTRA_MAINNET: {
       return _role === 'native'
