@@ -1284,7 +1284,8 @@ const swapAssets = [
     withAmountConversionPegout: true,
     withBalanceDecimalsConversion: true,
     isSpecial: true,
-    isPerc20: true
+    isPerc20: true,
+    onPnetworkV2: true
   },
   {
     address: '0x917847de47b375C59ddC66AAfae113604b205039',
