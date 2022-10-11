@@ -68,7 +68,6 @@ import {
   LUXO_ON_LUXOCHAIN_MAINNET,
   LUXO_ON_BSC_MAINNET,
   PETH_ON_ALGORAND_MAINNET,
-  PTET_ON_ALGORAND_MAINNET,
   PKEYS_ON_BSC_MAINNET,
   OATH_ON_ETH_MAINNET,
   PFTM_ON_ETH_MAINNET,
@@ -885,18 +884,6 @@ const getConfigs = (_pTokenId, _configs) => {
         network: networks.AlgorandMainnet,
         blockchain: blockchains.Algorand,
         ethProvider,
-        algoProvider,
-        algoClient: getReadOnlyProviderByBlockchain('ALGORAND')
-      }
-    }
-  }
-  if (_pTokenId === PTET_ON_ALGORAND_MAINNET) {
-    return {
-      pbep20: {
-        pToken: pTokens.pTET,
-        network: networks.AlgorandMainnet,
-        blockchain: blockchains.Algorand,
-        bscProvider,
         algoProvider,
         algoClient: getReadOnlyProviderByBlockchain('ALGORAND')
       }

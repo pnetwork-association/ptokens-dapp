@@ -70,7 +70,6 @@ import {
   LUXO_ON_LUXOCHAIN_MAINNET,
   LUXO_ON_BSC_MAINNET,
   PETH_ON_ALGORAND_MAINNET,
-  PTET_ON_ALGORAND_MAINNET,
   PKEYS_ON_BSC_MAINNET,
   OATH_ON_ETH_MAINNET,
   PFTM_ON_ETH_MAINNET,
@@ -401,11 +400,6 @@ const isValidAccount = async (_pTokenId, _account, _type) => {
       return web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
     }
     case PETH_ON_ALGORAND_MAINNET: {
-      return _type === 'pegin'
-        ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
-        : pTokenUtils.algo.isValidAddress(_account)
-    }
-    case PTET_ON_ALGORAND_MAINNET: {
       return _type === 'pegin'
         ? web3.utils.isAddress(pTokenUtils.eth.addHexPrefix(_account))
         : pTokenUtils.algo.isValidAddress(_account)

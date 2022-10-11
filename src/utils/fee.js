@@ -52,7 +52,6 @@ import {
   ANRX_ON_BSC_MAINNET,
   TFF_ON_POLYGON_MAINNET,*/
   PSAFEMOON_ON_ETH_MAINNET,
-  PTET_ON_ALGORAND_MAINNET,
   PBTC_ON_ALGORAND_MAINNET,
   PUSDC_ON_ALGORAND_MAINNET,
   USDC_ON_ALGORAND_MAINNET,
@@ -180,9 +179,6 @@ const map = {
 const getFee = (_ptokenId, _type) => {
   if (_type !== 'pegin' && _type !== 'pegout') throw new Error('Invalid type. Please use (pegin or pegout)')
   switch (_ptokenId) {
-    case PTET_ON_ALGORAND_MAINNET: {
-      return 0
-    }
     case PBTC_ON_ALGORAND_MAINNET: {
       return 0
     }

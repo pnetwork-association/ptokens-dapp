@@ -68,7 +68,6 @@ import {
   LUXO_ON_LUXOCHAIN_MAINNET,
   LUXO_ON_BSC_MAINNET,
   PETH_ON_ALGORAND_MAINNET,
-  PTET_ON_ALGORAND_MAINNET,
   PKEYS_ON_BSC_MAINNET,
   OATH_ON_ETH_MAINNET,
   PFTM_ON_ETH_MAINNET,
@@ -362,10 +361,6 @@ const minimumPeggable = {
   [PETH_ON_ALGORAND_MAINNET]: {
     pegin: 0.025,
     pegout: 0.025
-  },
-  [PTET_ON_ALGORAND_MAINNET]: {
-    pegin: 0,
-    pegout: 0
   },
   [PKEYS_ON_BSC_MAINNET]: {
     pegin: 100,

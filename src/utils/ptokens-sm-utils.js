@@ -69,7 +69,6 @@ import {
   LUXO_ON_LUXOCHAIN_MAINNET,
   LUXO_ON_BSC_MAINNET,
   PETH_ON_ALGORAND_MAINNET,
-  PTET_ON_ALGORAND_MAINNET,
   PKEYS_ON_BSC_MAINNET,
   OATH_ON_ETH_MAINNET,
   PFTM_ON_ETH_MAINNET,
@@ -425,11 +424,6 @@ const getCorrespondingExplorerLink = (_id, _role, _address) => {
         ? `${settings.explorers.mainnet.eth}address/${_address}`
         : `${settings.explorers.mainnet.algorand}address/${_address}`
     }
-    case PTET_ON_ALGORAND_MAINNET: {
-      return _role === 'native'
-        ? `${settings.explorers.mainnet.bsc}address/${_address}`
-        : `${settings.explorers.mainnet.algorand}address/${_address}`
-    }
     case PKEYS_ON_BSC_MAINNET: {
       return _role === 'native'
         ? `${settings.explorers.mainnet.eth}address/${_address}`
@@ -752,9 +746,6 @@ const getCorrespondingBaseTxExplorerLink = (_id, _role) => {
     }
     case PETH_ON_ALGORAND_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.algorand}tx/`
-    }
-    case PTET_ON_ALGORAND_MAINNET: {
-      return _role === 'native' ? `${settings.explorers.mainnet.bsc}tx/` : `${settings.explorers.mainnet.algorand}tx/`
     }
     case PKEYS_ON_BSC_MAINNET: {
       return _role === 'native' ? `${settings.explorers.mainnet.eth}tx/` : `${settings.explorers.mainnet.bsc}tx/`

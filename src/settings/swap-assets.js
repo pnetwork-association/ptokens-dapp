@@ -1419,27 +1419,6 @@ const swapAssets = [
     onPnetworkV2: true
   },
   {
-    address: '612850103',
-    id: 'PTET_ON_ALGORAND_MAINNET',
-    name: 'pTET',
-    workingName: 'ptet',
-    nativeDecimals: 18,
-    network: 'mainnet',
-    isHidden: false,
-    blockchain: 'ALGORAND',
-    decimals: 10,
-    withMiniImage: true,
-    symbol: 'PTET',
-    isPtoken: true,
-    isBep20: true,
-    nativeSymbol: 'TET',
-    nativeBlockchain: 'BSC',
-    image: 'pTET.svg',
-    withAmountConversionPegout: true,
-    withBalanceDecimalsConversion: true,
-    onPnetworkV2: true
-  },
-  {
     address: '744665252',
     id: 'PBTC_ON_ALGORAND_MAINNET',
     name: 'pBTC',
