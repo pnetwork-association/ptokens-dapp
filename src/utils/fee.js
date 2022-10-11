@@ -52,11 +52,11 @@ import {
   ANRX_ON_BSC_MAINNET,
   TFF_ON_POLYGON_MAINNET,*/
   PSAFEMOON_ON_ETH_MAINNET,
-  PBTC_ON_ALGORAND_MAINNET,
-  PUSDC_ON_ALGORAND_MAINNET,
-  USDC_ON_ALGORAND_MAINNET,
-  PUSDT_ON_ALGORAND_MAINNET,
-  USDT_ON_ALGORAND_MAINNET,
+  // PBTC_ON_ALGORAND_MAINNET,
+  // PUSDC_ON_ALGORAND_MAINNET,
+  // USDC_ON_ALGORAND_MAINNET,
+  // PUSDT_ON_ALGORAND_MAINNET,
+  // USDT_ON_ALGORAND_MAINNET,
   PUOS_ON_ULTRA_MAINNET
   /*EFX_ON_BSC_MAINNET,
   PSEEDS_ON_ETH_MAINNET,
@@ -179,21 +179,6 @@ const map = {
 const getFee = (_ptokenId, _type) => {
   if (_type !== 'pegin' && _type !== 'pegout') throw new Error('Invalid type. Please use (pegin or pegout)')
   switch (_ptokenId) {
-    case PBTC_ON_ALGORAND_MAINNET: {
-      return 0
-    }
-    case PUSDC_ON_ALGORAND_MAINNET: {
-      return 0
-    }
-    case USDC_ON_ALGORAND_MAINNET: {
-      return 0
-    }
-    case PUSDT_ON_ALGORAND_MAINNET: {
-      return 0
-    }
-    case USDT_ON_ALGORAND_MAINNET: {
-      return 0
-    }
     case PSAFEMOON_ON_ETH_MAINNET: {
       return 0
     }
