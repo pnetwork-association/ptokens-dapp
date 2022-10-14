@@ -66,7 +66,6 @@ const settings = {
   rpc: {
     mainnet: {
       eth: {
-        wsEndpoint: 'wss://dapp-eth-node-1.ptokens.io/',
         endpoint: 'https://eth-mainnet.alchemyapi.io/v2/EKy2BQvt7RzS36bSdpcwMCGzYz_TNL7n'
       },
       eos: {
