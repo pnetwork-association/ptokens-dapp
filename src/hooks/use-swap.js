@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { isValidAccount, isValidAccountByBlockchain } from '../utils/account-validator'
+import { isValidAccountByBlockchain } from '../utils/account-validator'
 import { getPeginOrPegoutMinutesEstimationByBlockchainAndEta } from '../utils/estimations'
 import { getFee } from '../utils/fee'
 import BigNumber from 'bignumber.js'
-import { updateUrlForSwap } from '../utils/url'
+import { getLegacyUrl, updateUrlForSwap } from '../utils/url'
 import { useWalletByBlockchain } from './use-wallets'
 import getMinimumPeggable from '../utils/minimum-peggables'
 import { numberWithCommas } from '../utils/amount-utils'
@@ -155,11 +155,11 @@ const useSwap = ({
       setSwapType('pegin')
       const ptokenId = to.id
 
-      if (to.symbol.slice(1) !== from.symbol && !to.isSpecial) {
+      if (to.nativeSymbol !== from.nativeSymbol) {
         return [false]
       }
 
-      if (to.nativeSymbol !== from.nativeSymbol && to.isSpecial) {
+      if (from.onPnetworkV2 && !to.onPnetworkV2) {
         return [false]
       }
 
@@ -171,8 +171,20 @@ const useSwap = ({
       return [true]
     }
     // NOTE: pegout
-    else if (!from.isNative && to.isNative) {
+    else if (!from.isNative) {
       setSwapType('pegout')
+      if (to.nativeSymbol !== from.nativeSymbol) {
+        return [false]
+      }
+
+      if (from.onPnetworkV2 && !to.isNative && (!to.onPnetworkV2 || to.isPseudoNative)) {
+        return [false]
+      }
+
+      if (from.isPseudoNative && !to.isNative) {
+        return [false]
+      }
+
       return [true]
     }
 
@@ -223,6 +235,11 @@ const useSwap = ({
         return
       }
 
+      if (!onPnetworkV2) {
+        updateSwapButton('Go to Legacy dApp', false, getLegacyUrl(from, to))
+        return
+      }
+
       // NOTE: if wallet is connected but balance is still null it means that we are loading balances
       if (wallets[from.blockchain.toLowerCase()] && wallets[from.blockchain.toLowerCase()].account && !from.balance) {
         updateSwapButton('Loading balances ...', true)
@@ -241,18 +258,8 @@ const useSwap = ({
 
       // NOTE: pegin with deposit address
       if (!wallets[from.blockchain.toLowerCase()]) {
-        if (!address || address === '') {
-          updateSwapButton('Enter an address', true)
-          return
-        }
-
-        if (swapType === 'pegin' && !(await isValidAccount(to.id, address, 'pegout'))) {
-          updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
-          return
-        }
-
-        if (swapType === 'pegout' && !(await isValidAccount(from.id, address, 'pegin'))) {
-          updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
+        if (swapType === 'pegin' && !(await isValidAccountByBlockchain(address, to.blockchain))) {
+          updateSwapButton('Invalid Address', true)
           return
         }
 
@@ -284,10 +291,11 @@ const useSwap = ({
 
       if (!address || address === '') {
         updateSwapButton('Enter an address', true)
+        return
       }
 
-      if (swapType === 'pegin' && !(await isValidAccount(to.id, address, 'pegout'))) {
-        updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
+      if (swapType === 'pegin' && !(await isValidAccountByBlockchain(address, to.blockchain))) {
+        updateSwapButton('Invalid Address', true)
         return
       }
 
@@ -302,7 +310,11 @@ const useSwap = ({
         return
       }
 
-      if (swapType === 'pegout' && !pegoutToTelosEvmAddress && !(await isValidAccount(from.id, address, 'pegin'))) {
+      if (
+        swapType === 'pegout' &&
+        !pegoutToTelosEvmAddress &&
+        !(await isValidAccountByBlockchain(address, to.blockchain))
+      ) {
         updateSwapButton('Invalid Address', true)
         return
       }
@@ -335,7 +347,8 @@ const useSwap = ({
     swapType,
     pegoutToTelosEvmAddress,
     updateSwapButton,
-    poolAmount
+    poolAmount,
+    onPnetworkV2
   ])
 
   // NOTE: filters based on from selection
@@ -351,15 +364,17 @@ const useSwap = ({
       return [filtered]
     }
 
-    if (from && !from.ifNative) {
-      const filtered = assets.filter(
-        ({ isNative, nativeSymbol }) => isNative && from.nativeSymbol.toLowerCase() === nativeSymbol.toLowerCase()
+    if (from && !from.isNative) {
+      let filtered = assets.filter(
+        ({ nativeSymbol, id }) => from.id !== id && from.nativeSymbol.toLowerCase() === nativeSymbol.toLowerCase()
       )
-
+      filtered = filtered.filter(({ onPnetworkV2, isNative, isPseudoNative }) =>
+        from.onPnetworkV2 ? (onPnetworkV2 && !isPseudoNative) || isNative : isNative
+      )
+      filtered = filtered.filter(({ isNative }) => (from.isPseudoNative ? isNative : true))
       if (!isValidSwap) {
-        setTo(filtered[0])
+        setTo(filtered.filter(({ isNative }) => isNative)[0])
       }
-
       return [filtered]
     }
 
@@ -472,7 +487,7 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
     // NOTE: fee hardcoded at the moment
     if (from.isNative && !to.isNative) {
       const minimumPeggable = getMinimumPeggable(to.id, 'pegin')
-      const fee = getFee(to.id, 'pegin')
+      const fee = getFee(from, to)
       const selectedBpm = bpm[`${to.symbol.toLowerCase()}-on-${to.blockchain.toLowerCase()}`]
       const eta = selectedBpm && selectedBpm.native ? selectedBpm.native.eta : 0
       const amounts = { ...swappersBalances }
@@ -495,9 +510,9 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
         poolAmount,
         onPnetworkV2
       }
-    } else if (!from.isNative && to.isNative) {
+    } else if (!from.isNative) {
       const minimumPeggable = getMinimumPeggable(from.id, 'pegout')
-      const fee = getFee(from.id, 'pegout')
+      const fee = getFee(from, to)
       const selectedBpm = bpm[`${from.symbol.toLowerCase()}-on-${from.blockchain.toLowerCase()}`]
       const eta = selectedBpm && selectedBpm.host ? selectedBpm.host.eta : 0
       const amounts = { ...swappersBalances }

@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { offChainFormat, strip } from '../utils/amount-utils'
 import { blockchainSymbolToName, blockchainSymbolToCoin } from '../utils/maps'
 import { getCorrespondingBaseTokenExplorerLinkByBlockchain } from '../utils/explorer'
-import utils from 'ptokens-utils'
+import { stringUtils } from 'ptokens-helpers'
 
 const useAssets = _assets => {
   return useMemo(() => {
@@ -74,7 +74,7 @@ const updateAsset = _asset => ({
     _asset.blockchain !== 'TELOS' &&
     _asset.blockchain !== 'ULTRA' &&
     _asset.blockchain !== 'ALGORAND'
-      ? utils.eth.addHexPrefix(_asset.address)
+      ? stringUtils.addHexPrefix(_asset.address)
       : _asset.address,
   explorer: _asset.address
     ? `${getCorrespondingBaseTokenExplorerLinkByBlockchain(_asset.blockchain)}${_asset.address}`

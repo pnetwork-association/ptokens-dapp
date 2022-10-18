@@ -1,80 +1,43 @@
-import { eth } from 'ptokens-utils'
+import { stringUtils } from 'ptokens-helpers'
 import Web3 from 'web3'
-import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
+import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
 import ERC20Abi from '../../../utils/abi/ERC20.json'
 import BigNumber from 'bignumber.js'
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
 import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
-import {
-  getWalletAccountByBlockchain,
-  getWalletPermissionByBlockchain,
-  getWalletByBlockchain
-} from '../../wallets/wallets.selectors'
-import {
-  PUOS_ON_ULTRA_MAINNET,
-  PUSDC_ON_ALGORAND_MAINNET,
-  USDC_ON_ALGORAND_MAINNET,
-  PUSDT_ON_ALGORAND_MAINNET,
-  USDT_ON_ALGORAND_MAINNET
-} from '../../../constants'
-import { encodeUserData } from './algorand'
-//import { maybeOptInAlgoAsset } from './opt-in-algo-asset'
+import { getWalletByBlockchain } from '../../wallets/wallets.selectors'
 
-let promiEvent = null
-
-const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
-  if (promiEvent) {
-    promiEvent.removeAllListeners()
-  }
-
+const peginWithWallet = async ({ swap, ptoken, dispatch }) => {
   let link
 
-  /*if (ptoken.blockchain === 'ALGORAND') {
-    try {
-      await maybeOptInAlgoAsset(parseInt(ptoken.address, 10))
-    } catch (_err) {
-      dispatch(updateSwapButton('Swap'))
-      dispatch(resetProgress())
-      console.error(_err)
-      return
-    }
-  }*/
-
   // NOTE: avoids brave metamask gas estimation fails
-  params[params.length] = {
-    gas: ptoken.gasLimitPegin ? ptoken.gasLimitPegin : 200000,
-    blocksBehind: 3,
-    expireSeconds: 60,
-    permission: getWalletPermissionByBlockchain(ptoken.nativeBlockchain) || 'active',
-    actor: getWalletAccountByBlockchain(ptoken.nativeBlockchain)
-  }
-  params[0] = BigNumber(params[0])
+  const _amount = BigNumber(swap.amount)
     .multipliedBy(10 ** ptoken.nativeDecimals)
     .toFixed()
 
   // NOTE: peth uses ethers
   if ((ptoken.isPerc20 && ptoken.name !== 'pETH' && ptoken.name !== 'pFTM') || ptoken.isBep20) {
     try {
-      await ptokens[ptoken.workingName].select()
-      const info = await ptokens[ptoken.workingName].selectedNode.getInfo()
       const { account, provider } = getWalletByBlockchain(ptoken.nativeBlockchain)
       const web3 = new Web3(provider)
 
-      const toApprove = new web3.eth.Contract(ERC20Abi, eth.addHexPrefix(info.native_smart_contract_address))
-      const allowance = await toApprove.methods.allowance(account, eth.addHexPrefix(info.native_vault_address)).call()
-      if (!BigNumber(allowance).isGreaterThanOrEqualTo(params[0])) {
+      const toApprove = new web3.eth.Contract(ERC20Abi, stringUtils.addHexPrefix(swap.sourceAsset.tokenAddress))
+      const allowance = await toApprove.methods
+        .allowance(account, stringUtils.addHexPrefix(swap.sourceAsset.vaultAddress))
+        .call()
+      if (!BigNumber(allowance).isGreaterThanOrEqualTo(_amount)) {
         const _approve = _amount =>
           toApprove.methods
-            .approve(eth.addHexPrefix(info.native_vault_address), _amount)
+            .approve(stringUtils.addHexPrefix(swap.sourceAsset.vaultAddress), _amount)
             .send({ from: account, gas: 75000 })
             .once('hash', _hash => {
-              link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${encodeURIComponent(_hash)}`
+              link = getCorrespondingTxExplorerLinkByBlockchain(ptoken.nativeBlockchain, _hash)
             })
         if (ptoken.nativeSymbol === 'USDT' && !BigNumber(allowance).isZero()) {
           await _approve(0)
         }
-        await _approve(params[0])
+        await _approve(_amount)
       }
     } catch (_err) {
       dispatch(
@@ -102,40 +65,10 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
     })
   )
 
-  // NOTE: puos on ultra works different than the other ptokens
-  if (ptoken.id === PUOS_ON_ULTRA_MAINNET) {
-    const web3 = new Web3()
-    const metadata = web3.utils.utf8ToHex(params[1])
-    params[1] = 'ultra.swap'
-    params.splice(2, 0, metadata)
-    promiEvent = ptokens[ptoken.workingName.toLowerCase()].issueWithMetadata(...params)
-  } else if (
-    ptoken.id === PUSDC_ON_ALGORAND_MAINNET ||
-    ptoken.id === USDC_ON_ALGORAND_MAINNET ||
-    ptoken.id === PUSDT_ON_ALGORAND_MAINNET ||
-    ptoken.id === USDT_ON_ALGORAND_MAINNET
-  ) {
-    const web3 = new Web3()
-    if (ptoken.isPseudoNative) {
-      const input_asset_id = ptoken.ptokenAddress
-      const output_asset_id = ptoken.address
-      const metadata = web3.utils.bytesToHex(
-        encodeUserData(params[1], parseInt(input_asset_id, 10), params[0], parseInt(output_asset_id, 10), 0)
-      )
-      params[1] = ptoken.swapperAddress
-      params.splice(2, 0, metadata)
-      promiEvent = ptokens[ptoken.workingName.toLowerCase()].issueWithMetadata(...params)
-    } else {
-      promiEvent = ptokens[ptoken.workingName.toLowerCase()].issue(...params)
-    }
-  } else {
-    // TODO: fix peth since now would be pweth
-    promiEvent = ptokens[ptoken.workingName.toLowerCase()].issue(...params)
-  }
-
-  promiEvent
-    .once('nativeTxBroadcasted', _hash => {
-      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${encodeURIComponent(_hash)}`
+  await swap
+    .execute()
+    .once('inputTxBroadcasted', _hash => {
+      link = getCorrespondingTxExplorerLinkByBlockchain(ptoken.nativeBlockchain, _hash)
       dispatch(
         updateProgress({
           show: true,
@@ -146,24 +79,7 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
         })
       )
     })
-    .once('nativeTxConfirmed', _e => {
-      if (
-        ptoken.nativeBlockchain === 'EOS' ||
-        ptoken.nativeBlockchain === 'TELOS' ||
-        ptoken.nativeBlockchain === 'ULTRA'
-      ) {
-        link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${encodeURIComponent(_e.transaction_id)}`
-        dispatch(
-          updateProgress({
-            show: true,
-            percent: 20,
-            message: `<a href="${link}" target="_blank">Transaction</a> broadcasted! Waiting for confirmation ...`,
-            steps: [0, 20, 40, 60, 80, 100],
-            terminated: false
-          })
-        )
-      }
-
+    .once('inputTxConfirmed', () => {
       dispatch(
         updateProgress({
           show: true,
@@ -174,7 +90,7 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
         })
       )
     })
-    .once('nodeReceivedTx', () => {
+    .once('inputTxDetected', () => {
       dispatch(
         updateProgress({
           show: true,
@@ -185,8 +101,8 @@ const peginWithWallet = async ({ ptokens, ptoken, params, dispatch }) => {
         })
       )
     })
-    .once('nodeBroadcastedTx', _report => {
-      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${encodeURIComponent(_report.broadcast_tx_hash)}`
+    .once('outputTxDetected', _outputs => {
+      link = getCorrespondingTxExplorerLinkByBlockchain(ptoken.blockchain, _outputs[0].txHash)
       dispatch(
         updateProgress({
           show: true,

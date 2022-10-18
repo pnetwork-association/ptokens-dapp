@@ -1,5 +1,5 @@
 import { toastr } from 'react-redux-toastr'
-import { getCorrespondingBaseTxExplorerLinkByBlockchain } from './explorer'
+import { getCorrespondingTxExplorerLinkByBlockchain } from './explorer'
 
 const executeEvmCompatibleTxWithToast = (_fx, { from, blockchain }) =>
   new Promise((_resolve, _reject) =>
@@ -10,11 +10,7 @@ const executeEvmCompatibleTxWithToast = (_fx, { from, blockchain }) =>
       .once('transactionHash', _hash => {
         toastr.success('Transaction broadcasted!', 'Click here to see it', {
           timeOut: 0,
-          onToastrClick: () =>
-            window.open(
-              `${getCorrespondingBaseTxExplorerLinkByBlockchain(blockchain.toUpperCase())}${encodeURIComponent(_hash)}`,
-              '_blank'
-            )
+          onToastrClick: () => window.open(getCorrespondingTxExplorerLinkByBlockchain(blockchain, _hash), '_blank')
         })
       })
       .once('receipt', _resolve)

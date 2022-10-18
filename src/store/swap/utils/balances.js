@@ -3,7 +3,7 @@ import Web3 from 'web3'
 import BigNumber from 'bignumber.js'
 import { SWAP_BALANCE_LOADED } from '../../../constants/index'
 import ERC20 from '../../../utils/abi/ERC20'
-import * as utils from 'ptokens-utils'
+import { stringUtils } from 'ptokens-helpers'
 
 const loadEvmCompatibleBalances = async ({
   assets,
@@ -32,7 +32,7 @@ const loadEvmCompatibleBalance = async ({
         }
       })
     } else {
-      const token = new web3.eth.Contract(ERC20, utils.eth.addHexPrefix(asset.address))
+      const token = new web3.eth.Contract(ERC20, stringUtils.addHexPrefix(asset.address))
       const balance = await token.methods.balanceOf(account).call()
       dispatch({
         type: actionType,

@@ -1,5 +1,7 @@
 import history from './history'
 
+const LEGACY_DAPP_BASE_URL = 'http://dapp-legacy.ptokens.io/'
+
 const getUrlWithSearch = () => window.location.pathname + window.location.search
 
 const encodeForUrl = _str => encodeURIComponent(_str).toLowerCase()
@@ -13,4 +15,10 @@ const updateUrlForSwap = (_from, _to) =>
     }${_to.blockchain === 'ALGORAND' ? '&algorand_to_assetid=' + _to.address : ''}`
   )
 
-export { getUrlWithSearch, updateUrlForSwap }
+const getLegacyUrl = (_from, _to) =>
+  LEGACY_DAPP_BASE_URL +
+  `swap?asset=${encodeForUrl(_from.nativeSymbol)}&from=${encodeForUrl(_from.blockchain)}&to=${encodeForUrl(
+    _to.blockchain
+  )}`
+
+export { getLegacyUrl, getUrlWithSearch, updateUrlForSwap }

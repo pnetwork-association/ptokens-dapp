@@ -1,69 +1,24 @@
-import Web3 from 'web3'
-import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
-import BigNumber from 'bignumber.js'
+import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
 import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
 import { getWalletAccountByBlockchain, getWalletPermissionByBlockchain } from '../../wallets/wallets.selectors'
-// import { maybeOptInAlgoAsset } from './opt-in-algo-asset'
 
-const hostTransactionHash = {
-  telos: 'transaction_id',
-  eos: 'transaction_id',
-  eth: 'transactionHash'
-}
-
-let promiEvent = null
-
-const web3 = new Web3()
-
-const pegout = async ({ ptokens, params, ptoken, dispatch, options = {} }) => {
-  if (promiEvent) {
-    promiEvent.removeAllListeners()
-  }
-
+const pegout = async ({ swap, params, ptokenFrom, ptokenTo, dispatch, options = {} }) => {
   let link
-  let withMetadata = false
-
-  /*if (ptoken.blockchain === 'ALGORAND') {
-    try {
-      await maybeOptInAlgoAsset(parseInt(ptoken.address, 10))
-    } catch (_err) {
-      dispatch(updateSwapButton('Swap'))
-      dispatch(resetProgress())
-      console.error(_err)
-      return
-    }
-  }*/
 
   // NOTE: avoids brave metamask gas estimation fails
   params[params.length] = {
-    gas: ptoken.gasLimitPegout ? ptoken.gasLimitPegout : 80000,
+    gas: ptokenFrom.gasLimitPegout ? ptokenFrom.gasLimitPegout : 80000,
     blocksBehind: 3,
     expireSeconds: 60,
-    permission: getWalletPermissionByBlockchain(ptoken.blockchain) || 'active',
-    actor: getWalletAccountByBlockchain(ptoken.blockchain),
-    from: getWalletAccountByBlockchain(ptoken.blockchain) // used on algorand
+    permission: getWalletPermissionByBlockchain(ptokenFrom.blockchain) || 'active',
+    actor: getWalletAccountByBlockchain(ptokenFrom.blockchain),
+    from: getWalletAccountByBlockchain(ptokenFrom.blockchain) // used on algorand
   }
 
-  if (ptoken.gasPricePegout) {
-    params[params.length].gasPrice = ptoken.gasPricePegout
-  }
-
-  if (ptoken.withAmountConversionPegout) {
-    params[0] = BigNumber(params[0])
-      .multipliedBy(10 ** ptoken.decimals)
-      .toFixed()
-  }
-
-  if (options.pegoutToTelosEvmAddress) {
-    withMetadata = true
-    params.splice(1, 0, 'devm.ptokens')
-    params[2] = web3.utils.asciiToHex(params[2])
-  }
-
-  if (ptoken.isPseudoNative && ptoken.blockchain === 'ALGORAND') {
-    params.at(-1).swapInfo = { appId: ptoken.swapperAddress, inputAssetId: ptoken.address }
+  if (ptokenFrom.gasPricePegout) {
+    params[params.length].gasPrice = ptokenFrom.gasPricePegout
   }
 
   dispatch(
@@ -77,12 +32,10 @@ const pegout = async ({ ptokens, params, ptoken, dispatch, options = {} }) => {
   )
 
   // NOTE: hostTxBroadcasted is not triggered when blockchain is EOS
-  promiEvent = withMetadata
-    ? ptokens[ptoken.workingName].redeemWithMetadata(...params)
-    : ptokens[ptoken.workingName].redeem(...params)
-  promiEvent
-    .once('hostTxBroadcasted', _hash => {
-      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${encodeURIComponent(_hash)}`
+  await swap
+    .execute()
+    .once('inputTxBroadcasted', _hash => {
+      link = getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, _hash)
       dispatch(
         updateProgress({
           show: true,
@@ -93,21 +46,7 @@ const pegout = async ({ ptokens, params, ptoken, dispatch, options = {} }) => {
         })
       )
     })
-    .once('hostTxConfirmed', _tx => {
-      if (ptoken.blockchain === 'EOS' || ptoken.blockchain === 'TELOS' || ptoken.blockchain === 'ULTRA') {
-        // prettier-ignore
-        link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'host')}${encodeURIComponent(_tx[hostTransactionHash[ptoken.blockchain.toLowerCase()]])}`
-        dispatch(
-          updateProgress({
-            show: true,
-            percent: 20,
-            message: `<a href="${link}" target="_blank">Transaction</a> broadcasted! Waiting for confirmation ...`,
-            steps: [0, 20, 40, 60, 80, 100],
-            terminated: false
-          })
-        )
-      }
-
+    .once('inputTxConfirmed', _tx => {
       dispatch(
         updateProgress({
           show: true,
@@ -118,7 +57,7 @@ const pegout = async ({ ptokens, params, ptoken, dispatch, options = {} }) => {
         })
       )
     })
-    .once('nodeReceivedTx', () => {
+    .once('inputTxDetected', () => {
       dispatch(
         updateProgress({
           show: true,
@@ -129,10 +68,8 @@ const pegout = async ({ ptokens, params, ptoken, dispatch, options = {} }) => {
         })
       )
     })
-    .once('nodeBroadcastedTx', _report => {
-      link = `${getCorrespondingBaseTxExplorerLink(ptoken.id, 'native')}${encodeURIComponent(
-        _report.broadcast_tx_hash
-      )}`
+    .once('outputTxDetected', _outputs => {
+      link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _outputs[0].txHash)
       dispatch(
         updateProgress({
           show: true,
@@ -143,7 +80,7 @@ const pegout = async ({ ptokens, params, ptoken, dispatch, options = {} }) => {
         })
       )
     })
-    .once('nativeTxConfirmed', () => {
+    .once('outputTxProcessed', () => {
       dispatch(
         updateProgress({
           show: true,
@@ -155,8 +92,8 @@ const pegout = async ({ ptokens, params, ptoken, dispatch, options = {} }) => {
       )
 
       dispatch(updateSwapButton('Swap'))
-      // TODO: load balance also for native asset
-      setTimeout(() => dispatch(loadBalanceByAssetId(ptoken.id)), 2000)
+      setTimeout(() => dispatch(loadBalanceByAssetId(ptokenTo.id)), 2000)
+      setTimeout(() => dispatch(loadBalanceByAssetId(ptokenFrom.id)), 2000)
     })
     .catch(_err => {
       console.error(_err)

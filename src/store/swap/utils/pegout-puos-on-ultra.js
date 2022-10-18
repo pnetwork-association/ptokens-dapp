@@ -3,7 +3,7 @@ import { eos, eth, constants } from 'ptokens-utils'
 import { HttpProvider } from 'ptokens-providers'
 import EventEmitter from 'eventemitter3'
 import Web3 from 'web3'
-import { getCorrespondingBaseTxExplorerLink } from '../../../utils/ptokens-sm-utils'
+import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
 import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
@@ -46,7 +46,7 @@ const pegoutPuosOnUltra = async ({ params, dispatch }) => {
     )
 
     // prettier-ignore
-    let link = `${getCorrespondingBaseTxExplorerLink(PUOS_ON_ULTRA_MAINNET, 'host')}${encodeURIComponent(transaction_id)}`
+    let link = getCorrespondingTxExplorerLinkByBlockchain('ULTRA', transaction_id)
     dispatch(
       updateProgress({
         show: true,
@@ -93,9 +93,7 @@ const pegoutPuosOnUltra = async ({ params, dispatch }) => {
         })
         eventEmitter.on('nodeBroadcastedTx', _report => {
           broadcastTxHash = _report.broadcast_tx_hash
-          link = `${getCorrespondingBaseTxExplorerLink(PUOS_ON_ULTRA_MAINNET, 'native')}${encodeURIComponent(
-            broadcastTxHash
-          )}`
+          link = getCorrespondingTxExplorerLinkByBlockchain('ETH', broadcastTxHash)
           dispatch(
             updateProgress({
               show: true,

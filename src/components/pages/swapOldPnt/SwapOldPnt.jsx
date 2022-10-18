@@ -108,8 +108,12 @@ const SwapOldPnt = ({
               ) : null}
               <ContainerSwapButton>
                 <Button
-                  onClick={onSwap}
-                  disabled={swapButton.disabled || (address === '' && swapButton.text !== 'Connect Wallet')}
+                  onClick={swapButton.link ? window.open(swapButton.link, '_blank', 'noopener,noreferrer') : onSwap}
+                  disabled={
+                    swapButton.link
+                      ? false
+                      : swapButton.disabled || (address === '' && swapButton.text !== 'Connect Wallet')
+                  }
                 >
                   {swapButton.text}
                 </Button>

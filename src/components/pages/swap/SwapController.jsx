@@ -27,7 +27,7 @@ const mapDispatchToProps = _dispatch => {
     hideDepositAddressModal: () => _dispatch(hideDepositAddressModal()),
     swap: (_from, _to, _amount, _address, _options) => _dispatch(swap(_from, _to, _amount, _address, _options)),
     resetProgress: () => _dispatch(resetProgress()),
-    updateSwapButton: (_text, _disabled) => _dispatch(updateSwapButton(_text, _disabled)),
+    updateSwapButton: (_text, _disabled, _link) => _dispatch(updateSwapButton(_text, _disabled, _link)),
     hideInfoModal: () => _dispatch(updateInfoModal({ show: false, message: null })),
     selectPage: _page => _dispatch(selectPage(_page))
   }

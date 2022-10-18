@@ -367,10 +367,21 @@ const Swap = ({
                   Using this bridge requires a SFM transfer on BSC so a transfer fee may apply
                 </ProvisionalSafemoonBox>
               ) : null}
+              {!onPnetworkV2 ? (
+                <WarningEta>
+                  This swap is still not supported by pNetwork v2. Please visit dapp-legacy.ptokens.io.
+                </WarningEta>
+              ) : null}
               <ContainerSwapButton>
                 <Button
-                  onClick={onSwap}
-                  disabled={swapButton.disabled || (address === '' && swapButton.text !== 'Connect Wallet')}
+                  onClick={() =>
+                    swapButton.link ? window.open(swapButton.link, '_blank', 'noopener,noreferrer') : onSwap()
+                  }
+                  disabled={
+                    swapButton.link
+                      ? false
+                      : swapButton.disabled || (address === '' && swapButton.text !== 'Connect Wallet')
+                  }
                 >
                   {swapButton.text}
                 </Button>

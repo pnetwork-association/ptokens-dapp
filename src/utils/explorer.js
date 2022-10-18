@@ -15,7 +15,7 @@ const transactionBaseLink = {
   ULTRA: `${settings.explorers.mainnet.ultra}tx/`,
   ARBITRUM: `${settings.explorers.mainnet.arbitrum}tx/`,
   LUXOCHAIN: `${settings.explorers.mainnet.luxochain}tx/`,
-  ALGORAND: `${settings.explorers.mainnet.algorand}tx/`,
+  ALGORAND: `${settings.explorers.mainnet.algorand}tx/group/`,
   FTM: `${settings.explorers.mainnet.ftm}tx/`,
   ORE: `${settings.explorers.mainnet.ore}tx/`
 }
@@ -62,12 +62,16 @@ const tokenBaseLink = {
 
 const getCorrespondingBaseTxExplorerLinkByBlockchain = _blockchain => transactionBaseLink[_blockchain.toUpperCase()]
 
+const getCorrespondingTxExplorerLinkByBlockchain = (_blockchain, _hash) =>
+  `${transactionBaseLink[_blockchain.toUpperCase()]}${encodeURIComponent(_hash)}`
+
 const getCorrespondingBaseAccountExplorerLinkByBlockchain = _blockchain => addressBaseLink[_blockchain.toUpperCase()]
 
 const getCorrespondingBaseTokenExplorerLinkByBlockchain = _blockchain => tokenBaseLink[_blockchain.toUpperCase()]
 
 export {
   getCorrespondingBaseTxExplorerLinkByBlockchain,
+  getCorrespondingTxExplorerLinkByBlockchain,
   getCorrespondingBaseAccountExplorerLinkByBlockchain,
   getCorrespondingBaseTokenExplorerLinkByBlockchain
 }

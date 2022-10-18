@@ -9,7 +9,7 @@ import SwapOldPntAbi from '../../utils/abi/SWAP_OLD_PNT/Swap.json'
 import Web3 from 'web3'
 import { getOldPnt } from './swap-old-pnt-selector'
 import BigNumber from 'bignumber.js'
-import { getCorrespondingBaseTxExplorerLinkByBlockchain } from '../../utils/explorer'
+import { getCorrespondingTxExplorerLinkByBlockchain } from '../../utils/explorer'
 
 const loadSwapOldPntData = () => ({
   type: ASSETS_LOADED_SWAP_OLD_PNT,
@@ -82,7 +82,7 @@ const swap = (_amount, _address) => {
               .approve(settings.swapOldPntOnBsc.swapContractAddress, amount)
               .send({ from: account, gas: 75000 })
               .once('transactionHash', _hash => {
-                link = `${getCorrespondingBaseTxExplorerLinkByBlockchain('BSC')}${encodeURIComponent(_hash)}`
+                link = getCorrespondingTxExplorerLinkByBlockchain('BSC', _hash)
                 _dispatch(
                   updateProgress({
                     show: true,
@@ -119,7 +119,7 @@ const swap = (_amount, _address) => {
             .swap(amount, _address)
             .send({ from: account, gas: 120000 })
             .once('transactionHash', _hash => {
-              link = `${getCorrespondingBaseTxExplorerLinkByBlockchain('BSC')}${encodeURIComponent(_hash)}`
+              link = getCorrespondingTxExplorerLinkByBlockchain('BSC', _hash)
               _dispatch(
                 updateProgress({
                   show: true,

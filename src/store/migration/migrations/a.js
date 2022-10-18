@@ -1,7 +1,7 @@
 import Web3 from 'web3'
 import BigNumber from 'bignumber.js'
 import ERC20Abi from '../../../utils/abi/ERC20.json'
-import { getCorrespondingBaseTxExplorerLinkByBlockchain } from '../../../utils/explorer'
+import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
 import settings from '../../../settings'
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateMigrateButton } from '../migration.actions'
 import { getWalletByBlockchain } from '../../wallets/wallets.selectors'
@@ -43,7 +43,7 @@ const migrateA = async (_amount, _from, _to, { dispatch }) => {
                 show: true,
                 percent: 50,
                 // prettier-ignore
-                message: `Asset migration <a href="${`${getCorrespondingBaseTxExplorerLinkByBlockchain('ETH')}${encodeURIComponent(_hash)}`}" target="_blank">transaction</a> sent, waiting for confirmation ...`,
+                message: `Asset migration <a href="${getCorrespondingTxExplorerLinkByBlockchain('ETH', _hash)}" target="_blank">transaction</a> sent, waiting for confirmation ...`,
                 steps: [0, 50, 100],
                 terminated: false
               })
@@ -59,7 +59,7 @@ const migrateA = async (_amount, _from, _to, { dispatch }) => {
         show: true,
         percent: 100,
         // prettier-ignore
-        message: `Migration <a href="${`${getCorrespondingBaseTxExplorerLinkByBlockchain('ETH')}${encodeURIComponent(hash)}`}" target="_blank">transaction</a> confirmed.`,
+        message: `Migration <a href="${getCorrespondingTxExplorerLinkByBlockchain('ETH', hash)}" target="_blank">transaction</a> confirmed.`,
         steps: [0, 50, 100],
         terminated: true
       })

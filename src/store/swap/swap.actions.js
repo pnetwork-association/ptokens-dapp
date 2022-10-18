@@ -1,4 +1,3 @@
-import pTokens from 'ptokens'
 import axios from 'axios'
 import assets from '../../settings/swap-assets'
 import settings from '../../settings'
@@ -10,10 +9,8 @@ import {
   PROGRESS_RESET,
   UPDATE_SWAP_BUTTON,
   BPM_LOADED,
-  SWAPPERS_BALANCES_LOADED,
-  PUOS_ON_ULTRA_MAINNET
+  SWAPPERS_BALANCES_LOADED
 } from '../../constants/index'
-import { getConfigs } from '../../utils/ptokens-configs'
 import {
   loadEvmCompatibleBalances,
   loadEosioCompatibleBalances,
@@ -21,6 +18,8 @@ import {
   loadEosioCompatibleBalance,
   loadAlgorandBalances
 } from './utils/balances'
+import { parseError } from '../../utils/errors'
+import { updateInfoModal } from '../pages/pages.actions'
 import { getReadOnlyProviderByBlockchain } from '../../utils/read-only-providers'
 import peginWithDepositAddress from './utils/pegin-with-deposit-address'
 import peginWithWallet from './utils/pegin-with-wallet'
@@ -28,8 +27,16 @@ import pegout from './utils/pegout'
 import { getAssetsByBlockchain, getAssetById } from './swap.selectors'
 import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
 import { getDefaultSelection } from './utils/default-selection'
-import pegoutPuosOnUltra from './utils/pegout-puos-on-ultra'
-import { getAsaBalance } from './utils/algorand'
+// import pegoutPuosOnUltra from './utils/pegout-puos-on-ultra'
+import { getAsaBalance, encodeUserData, buildPoolSwapTransactions } from './utils/algorand'
+import { pTokensUtxoAssetBuilder, pTokensBlockstreamUtxoProvider } from 'ptokens-assets-utxo'
+import { pTokensEvmAssetBuilder, pTokensEvmProvider } from 'ptokens-assets-evm'
+import { pTokensEosioAssetBuilder, pTokensEosioProvider } from 'ptokens-assets-eosio'
+import { pTokensAlgorandAssetBuilder, pTokensAlgorandProvider } from 'ptokens-assets-algorand'
+import { pTokensSwapBuilder } from 'ptokens-swap'
+import { pTokensNode, pTokensNodeProvider } from 'ptokens-node'
+import Web3 from 'web3'
+import BigNumber from 'bignumber.js'
 
 const loadSwapData = (_opts = {}) => {
   const { defaultSelection: { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid } = {} } = _opts
@@ -305,105 +312,142 @@ const loadBalanceByAssetId = _id => {
   }
 }
 
+const utxoBlockchains = ['btc']
+const evmBlockchains = ['eth', 'bsc', 'ftm', 'polygon', 'luxochain', 'arbitrum']
+const eosioBlockchains = ['telos', 'eos']
+const algorandBlockchains = ['algorand']
+
+const getBuilder = (_node, _asset) => {
+  if (utxoBlockchains.includes(_asset.blockchain.toLowerCase())) return new pTokensUtxoAssetBuilder(_node)
+  if (evmBlockchains.includes(_asset.blockchain.toLowerCase())) return new pTokensEvmAssetBuilder(_node)
+  if (eosioBlockchains.includes(_asset.blockchain.toLowerCase())) return new pTokensEosioAssetBuilder(_node)
+  if (algorandBlockchains.includes(_asset.blockchain.toLowerCase())) return new pTokensAlgorandAssetBuilder(_node)
+}
+
+const getProvider = (_asset, _wallets) => {
+  if (utxoBlockchains.includes(_asset.blockchain.toLowerCase()))
+    return new pTokensBlockstreamUtxoProvider('https://blockstream.info/testnet/api/', {
+      'Content-Type': 'text/plain'
+    })
+  else if (evmBlockchains.includes(_asset.blockchain.toLowerCase()))
+    return new pTokensEvmProvider(_wallets[_asset.blockchain.toLowerCase()].provider)
+  else if (eosioBlockchains.includes(_asset.blockchain.toLowerCase())) {
+    const provider = new pTokensEosioProvider(
+      settings.rpc[_asset.network.toLowerCase()][_asset.blockchain.toLowerCase()].endpoint,
+      _wallets[_asset.blockchain.toLowerCase()].provider
+    )
+    provider.setActor(_wallets[_asset.blockchain.toLowerCase()].account)
+    provider.setPermission(_wallets[_asset.blockchain.toLowerCase()].permission)
+    return provider
+  } else if (algorandBlockchains.includes(_asset.blockchain.toLowerCase())) {
+    const provider = new pTokensAlgorandProvider(
+      getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase()),
+      _wallets[_asset.blockchain.toLowerCase()].provider
+    )
+    provider.setAccount(_wallets[_asset.blockchain.toLowerCase()].account)
+    return provider
+  }
+}
+
+const createAsset = async (_node, _asset, _wallets, _withProvider = false) => {
+  const builder = getBuilder(_node, _asset)
+  builder.setBlockchain(_asset.chainId)
+  builder.setSymbol(_asset.symbol)
+  builder.setDecimals(_asset.decimals)
+  if (_withProvider) {
+    const provider = getProvider(_asset, _wallets)
+    builder.setProvider(provider)
+  }
+  const asset = await builder.build()
+  return asset
+}
+
 const swap = (_from, _to, _amount, _address, _opts = {}) => {
   return async _dispatch => {
     try {
       _dispatch(resetProgress())
       const wallets = getWallets()
+      const provider = new pTokensNodeProvider('https://pnetwork-node-2a.eu.ngrok.io/v3')
+      const node = new pTokensNode(provider)
+      const sourceAsset = await createAsset(node, _from, wallets, true)
+      const destinationAsset = await createAsset(node, _to, wallets)
+      const swapBuilder = new pTokensSwapBuilder(node)
+      swapBuilder.setAmount(_amount)
+      swapBuilder.setSourceAsset(sourceAsset)
+      if (_from.isPseudoNative && _from.blockchain === 'ALGORAND') {
+        _amount = BigNumber(_amount)
+          .multipliedBy(10 ** _from.decimals)
+          .toFixed()
+        const swapInfo = { appId: _from.swapperAddress, inputAssetId: _from.address }
+        const txs = await buildPoolSwapTransactions({
+          amount: _amount,
+          to: sourceAsset.identity,
+          from: wallets[_from.blockchain.toLowerCase()].account,
+          assetIndex: _from.ptokenAddress,
+          destinationChainId: _to.chainId,
+          nativeAccount: _address,
+          swapInfo
+        })
+        sourceAsset.setCustomTransactions(txs)
+      }
+      // if (options.pegoutToTelosEvmAddress) {
+      //   params.splice(1, 0, 'devm.ptokens')
+      //   params[2] = web3.utils.asciiToHex(params[2])
+      // }
+      if (_to.isPseudoNative && _to.blockchain === 'ALGORAND') {
+        _amount = BigNumber(_amount)
+          .multipliedBy(10 ** _from.decimals)
+          .toFixed()
+        const web3 = new Web3()
+        const input_asset_id = _to.ptokenAddress
+        const output_asset_id = _to.address
+        const metadata = web3.utils.bytesToHex(
+          encodeUserData(_address, parseInt(input_asset_id, 10), _amount, parseInt(output_asset_id, 10), 0)
+        )
+        swapBuilder.addDestinationAsset(destinationAsset, _to.swapperAddress, metadata)
+      } else {
+        swapBuilder.addDestinationAsset(destinationAsset, _address)
+      }
+      const swap = swapBuilder.build()
 
-      // NOTE: pegin
-      if (_from.isNative && !_to.isNative) {
+      // // NOTE: pegin
+      if (_from.isNative) {
         const ptokenId = _to.id
         const ptoken = getAssetById(ptokenId)
-
-        const ptokens = new pTokens(
-          getConfigs(ptokenId, {
-            ethProvider: wallets.eth.provider || getReadOnlyProviderByBlockchain('ETH'),
-            eosSignatureProvider: wallets.eos.provider || getReadOnlyProviderByBlockchain('EOS'),
-            telosSignatureProvider: wallets.telos.provider || getReadOnlyProviderByBlockchain('TELOS'),
-            polygonProvider: wallets.polygon.provider || getReadOnlyProviderByBlockchain('POLYGON'),
-            xdaiProvider: wallets.xdai.provider || getReadOnlyProviderByBlockchain('XDAI'),
-            bscProvider: wallets.bsc.provider || getReadOnlyProviderByBlockchain('BSC'),
-            ultraSignatureProvider: wallets.ultra.provider || getReadOnlyProviderByBlockchain('ULTRA'),
-            arbitrumProvider: wallets.arbitrum.provider || getReadOnlyProviderByBlockchain('ARBITRUM'),
-            luxochainProvider: wallets.luxochain.provider || getReadOnlyProviderByBlockchain('LUXOCHAIN'),
-            algoProvider: wallets.algorand.provider || getReadOnlyProviderByBlockchain('ALGORAND'),
-            ftmProvider: wallets.ftm.provider || getReadOnlyProviderByBlockchain('FTM'),
-            oreSignatureProvider: wallets.ore.provider || getReadOnlyProviderByBlockchain('ORE')
+        if (['pBTC', 'pLTC', 'pDOGE', 'pRVN', 'pLBC'].includes(ptoken.name))
+          peginWithDepositAddress({ swap, ptoken, dispatch: _dispatch })
+        else {
+          peginWithWallet({
+            swap,
+            ptoken,
+            dispatch: _dispatch
           })
-        )
-
-        switch (ptoken.name) {
-          case 'pBTC': {
-            peginWithDepositAddress({ ptokens, address: _address, ptoken, dispatch: _dispatch })
-            break
-          }
-          case 'pLTC': {
-            peginWithDepositAddress({ ptokens, address: _address, ptoken, dispatch: _dispatch })
-            break
-          }
-          case 'pDOGE': {
-            peginWithDepositAddress({ ptokens, address: _address, ptoken, dispatch: _dispatch })
-            break
-          }
-          case 'pRVN': {
-            peginWithDepositAddress({ ptokens, address: _address, ptoken, dispatch: _dispatch })
-            break
-          }
-          case 'pLBC': {
-            peginWithDepositAddress({ ptokens, address: _address, ptoken, dispatch: _dispatch })
-            break
-          }
-          default: {
-            peginWithWallet({
-              ptokens,
-              ptoken,
-              dispatch: _dispatch,
-              params: [_amount, _address]
-            })
-            break
-          }
         }
       }
-
       // NOTE: pegout
-      else if (!_from.isNative && _to.isNative) {
-        const ptokenId = _from.id
-        const ptoken = getAssetById(ptokenId)
-
-        const ptokens = new pTokens(
-          getConfigs(ptokenId, {
-            ethProvider: wallets.eth.provider || getReadOnlyProviderByBlockchain('ETH'),
-            eosSignatureProvider: wallets.eos.provider || getReadOnlyProviderByBlockchain('EOS'),
-            telosSignatureProvider: wallets.telos.provider || getReadOnlyProviderByBlockchain('TELOS'),
-            polygonProvider: wallets.polygon.provider || getReadOnlyProviderByBlockchain('POLYGON'),
-            xdaiProvider: wallets.xdai.provider || getReadOnlyProviderByBlockchain('XDAI'),
-            bscProvider: wallets.bsc.provider || getReadOnlyProviderByBlockchain('BSC'),
-            ultraSignatureProvider: wallets.ultra.provider || getReadOnlyProviderByBlockchain('ULTRA'),
-            arbitrumProvider: wallets.arbitrum.provider || getReadOnlyProviderByBlockchain('ARBITRUM'),
-            luxochainProvider: wallets.luxochain.provider || getReadOnlyProviderByBlockchain('LUXOCHAIN'),
-            algoProvider: wallets.algorand.provider || getReadOnlyProviderByBlockchain('ALGORAND'),
-            ftmProvider: wallets.ftm.provider || getReadOnlyProviderByBlockchain('FTM'),
-            oreSignatureProvider: wallets.ore.provider || getReadOnlyProviderByBlockchain('ORE')
-          })
-        )
-
-        switch (ptokenId) {
-          case PUOS_ON_ULTRA_MAINNET: {
-            pegoutPuosOnUltra({
-              dispatch: _dispatch,
-              params: [_amount, _address]
-            })
-            break
-          }
-          default: {
-            pegout({ ptokens, ptoken, dispatch: _dispatch, params: [_amount, _address], options: _opts })
-            break
-          }
-        }
+      else if (!_from.isNative) {
+        const ptokenFromId = _from.id
+        const ptokenFrom = getAssetById(ptokenFromId)
+        const ptokenToId = _to.id
+        const ptokenTo = getAssetById(ptokenToId)
+        pegout({ swap, ptokenFrom, ptokenTo, dispatch: _dispatch, params: [_amount, _address], options: _opts })
       }
     } catch (_err) {
       console.error(_err)
+      const { showModal } = parseError(_err)
+      if (showModal) {
+        _dispatch(
+          updateInfoModal({
+            show: true,
+            text: 'Error during pegin, try again!',
+            showMoreText: _err.message ? _err.message : _err,
+            showMoreLabel: 'Show Details',
+            icon: 'cancel'
+          })
+        )
+      }
+      _dispatch(updateSwapButton('Swap'))
+      _dispatch(resetProgress())
     }
   }
 }
@@ -445,13 +489,14 @@ const resetProgress = () => {
   }
 }
 
-const updateSwapButton = (_text, _disabled = false) => {
+const updateSwapButton = (_text, _disabled = false, _link = '') => {
   return {
     type: UPDATE_SWAP_BUTTON,
     payload: {
       swapButton: {
         text: _text,
-        disabled: _disabled
+        disabled: _disabled,
+        link: _link
       }
     }
   }
