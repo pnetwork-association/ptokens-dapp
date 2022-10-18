@@ -104,14 +104,11 @@ const App = ({ loading, setTheme, loadSwapData, loadSwapOldPntData, loadMigratio
         <Popup
           content={
             <React.Fragment>
-              Want to know more about pNetwork? <br />
-              Join us on{' '}
-              <a href={settings.links.twitter} target="_blank" rel="noopener noreferrer">
-                Twitter
-              </a>{' '}
-              or{' '}
-              <a href={settings.links.telegram} target="_blank" rel="noopener noreferrer">
-                Telegram
+              Now the dApp supports host-to-host swaps!
+              <br />
+              Have a try{' '}
+              <a href="https://dapp.ptokens.io/swap?asset=btc&from=algorand&to=eth&algorand_from_assetid=744665252">
+                here.
               </a>
             </React.Fragment>
           }
