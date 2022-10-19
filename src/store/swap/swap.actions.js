@@ -326,7 +326,7 @@ const getBuilder = (_node, _asset) => {
 
 const getProvider = (_asset, _wallets) => {
   if (utxoBlockchains.includes(_asset.blockchain.toLowerCase()))
-    return new pTokensBlockstreamUtxoProvider('https://blockstream.info/testnet/api/', {
+    return new pTokensBlockstreamUtxoProvider('https://blockstream.info/api/', {
       'Content-Type': 'text/plain'
     })
   else if (evmBlockchains.includes(_asset.blockchain.toLowerCase()))
