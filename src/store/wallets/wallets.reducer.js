@@ -12,6 +12,7 @@ import {
   WALLET_XDAI_ACCOUNT_CHANGED,
   WALLET_XDAI_CONNECTED,
   WALLET_TELOS_CONNECTED,
+  WALLET_LIBRE_CONNECTED,
   WALLET_ULTRA_CONNECTED,
   WALLET_ETH_DISCONNECTED,
   WALLET_BSC_DISCONNECTED,
@@ -20,6 +21,7 @@ import {
   WALLET_EOS_DISCONNECTED,
   WALLET_ULTRA_DISCONNECTED,
   WALLET_TELOS_DISCONNECTED,
+  WALLET_LIBRE_DISCONNECTED,
   WALLET_LUXOCHAIN_CONNECTED,
   WALLET_LUXOCHAIN_DISCONNECTED,
   WALLET_LUXOCHAIN_ACCOUNT_CHANGED,
@@ -58,6 +60,12 @@ const initialState = {
     permission: null
   },
   telos: {
+    provider: null,
+    account: null,
+    network: null,
+    permission: null
+  },
+  libre: {
     provider: null,
     account: null,
     network: null,
@@ -210,6 +218,17 @@ const walletsReducer = (_state = initialState, _action) => {
       }
     })
   }
+  if (_action.type === WALLET_LIBRE_CONNECTED) {
+    const { provider, account, network, permission } = _action.payload
+    return Object.assign({}, _state, {
+      libre: {
+        provider,
+        account,
+        network,
+        permission
+      }
+    })
+  }
   if (_action.type === WALLET_ORE_CONNECTED) {
     const { provider, account, network, permission } = _action.payload
     return Object.assign({}, _state, {
@@ -291,6 +310,16 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_TELOS_DISCONNECTED) {
     return Object.assign({}, _state, {
       telos: {
+        provider: null,
+        account: null,
+        network: null,
+        permission: null
+      }
+    })
+  }
+  if (_action.type === WALLET_LIBRE_DISCONNECTED) {
+    return Object.assign({}, _state, {
+      libre: {
         provider: null,
         account: null,
         network: null,

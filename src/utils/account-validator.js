@@ -18,6 +18,8 @@ const isValidAccountByBlockchain = (_account, _blockchain) => {
       return validators.isValidAddressByChainId(stringUtils.addHexPrefix(_account), ChainId.LuxochainMainnet)
     case 'TELOS':
       return validators.isValidAddressByChainId(_account, ChainId.TelosMainnet)
+    case 'LIBRE':
+      return validators.isValidAddressByChainId(_account, ChainId.LibreMainnet)
     case 'EOS':
       return validators.isValidAddressByChainId(_account, ChainId.EosMainnet)
     case 'ULTRA':

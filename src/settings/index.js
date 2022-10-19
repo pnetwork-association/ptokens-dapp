@@ -35,6 +35,10 @@ const settings = {
       symbol: 'TELOS'
     },
     {
+      name: 'Libre',
+      symbol: 'LIBRE'
+    },
+    {
       name: 'xDai',
       symbol: 'XDAI'
     },
@@ -82,6 +86,13 @@ const settings = {
         protocol: 'https',
         endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://telos.greymass.com'
       },
+      libre: {
+        chainId: '38b1d7815474d0c60683ecbea321d723e83f5da6ae5f1c1f9fecc69d9ba96465',
+        host: 'libre-node-2.ptokens.io',
+        port: 443,
+        protocol: 'https',
+        endpoint: 'https://libre-node-2.ptokens.io:8889'
+      },
       bsc: {
         endpoint: 'https://twilight-white-surf.bsc.quiknode.pro/fc906dd4db4c2dd8e60dbe922ed44bdcbec96d9f/'
       },
@@ -127,6 +138,7 @@ const settings = {
       btc: 'https://blockstream.info/',
       eos: 'https://bloks.io/',
       telos: 'https://telos.eosx.io/',
+      libre: 'https://libre-explorer.edenia.cloud/',
       ltc: 'https://live.blockcypher.com/ltc/',
       bsc: 'https://bscscan.com/',
       xdai: 'https://blockscout.com/poa/xdai/',

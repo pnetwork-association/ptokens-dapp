@@ -1,6 +1,7 @@
 import {
   PBTC_ON_ETH_MAINNET,
   PBTC_ON_TELOS_MAINNET,
+  PBTC_ON_LIBRE_MAINNET,
   PBTC_ON_EOS_MAINNET,
   PBTC_ON_BSC_MAINNET,
   PBTC_ON_XDAI_MAINNET,
@@ -43,6 +44,7 @@ import {
   PLINK_ON_TELOS_MAINNET,
   PNT_ON_TELOS_MAINNET,
   PUSDT_ON_TELOS_MAINNET,
+  PUSDT_ON_LIBRE_MAINNET,
   PUSDC_ON_TELOS_MAINNET,
   PNT_ON_XDAI_MAINNET,
   PRVN_ON_BSC_MAINNET,
@@ -95,6 +97,10 @@ const minimumPeggable = {
     pegout: 0.0015
   },
   [PBTC_ON_TELOS_MAINNET]: {
+    pegin: 0.0015,
+    pegout: 0.0015
+  },
+  [PBTC_ON_LIBRE_MAINNET]: {
     pegin: 0.0015,
     pegout: 0.0015
   },
@@ -293,6 +299,10 @@ const minimumPeggable = {
   [PUSDT_ON_TELOS_MAINNET]: {
     pegin: 100,
     pegout: 100
+  },
+  [PUSDT_ON_LIBRE_MAINNET]: {
+    pegin: 25,
+    pegout: 25
   },
   [PSAFEMOON_ON_ETH_MAINNET]: {
     pegin: 30000000,

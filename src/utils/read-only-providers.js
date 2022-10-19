@@ -24,6 +24,9 @@ const getReadOnlyProviderByBlockchain = _blockchain => {
   if (_blockchain === 'TELOS') {
     return new JsonRpc(settings.rpc.mainnet.telos.endpoint, { fetch })
   }
+  if (_blockchain === 'LIBRE') {
+    return new JsonRpc(settings.rpc.mainnet.libre.endpoint, { fetch })
+  }
   if (_blockchain === 'ULTRA') {
     return new JsonRpc(settings.rpc.mainnet.ultra.endpoint, { fetch })
   }

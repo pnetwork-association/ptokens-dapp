@@ -5,6 +5,7 @@ import { connectWithBscWallet, disconnectFromBscWallet } from './bsc'
 import { connectWithPolygonWallet, disconnectFromPolygonWallet } from './polygon'
 import { connectWithXdaiWallet, disconnectFromXdaiWallet } from './xdai'
 import { connectWithTelosWallet, disconnectFromTelosWallet } from './telos'
+import { connectWithLibreWallet, disconnectFromLibreWallet } from './libre'
 import { connectWithUltraWallet, disconnectFromUltraWallet } from './ultra'
 import { connectWithLuxochainWallet, disconnectFromLuxochainWallet } from './luxochain'
 import { connectWithAlgorandWallet, disconnectFromAlgorandWallet } from './algorand'
@@ -24,6 +25,10 @@ const connectWithWallet = _blockchain => {
       }
       case 'TELOS': {
         connectWithTelosWallet(_dispatch)
+        break
+      }
+      case 'LIBRE': {
+        connectWithLibreWallet(_dispatch)
         break
       }
       case 'BSC': {
@@ -81,6 +86,10 @@ const disconnectFromWallet = _blockchain => {
       }
       case 'TELOS': {
         disconnectFromTelosWallet(_dispatch)
+        break
+      }
+      case 'LIBRE': {
+        disconnectFromLibreWallet(_dispatch)
         break
       }
       case 'BSC': {

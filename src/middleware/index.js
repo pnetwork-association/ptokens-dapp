@@ -11,6 +11,7 @@ import {
   WALLET_POLYGON_ACCOUNT_CHANGED,
   WALLET_POLYGON_CONNECTED,
   WALLET_TELOS_CONNECTED,
+  WALLET_LIBRE_CONNECTED,
   WALLET_ULTRA_CONNECTED,
   WALLET_LUXOCHAIN_CONNECTED,
   WALLET_LUXOCHAIN_ACCOUNT_CHANGED,
@@ -62,6 +63,10 @@ const middleware = ({ dispatch }) => {
 
       if (type === WALLET_TELOS_CONNECTED) {
         dispatch(loadBalances(payload.account, 'TELOS'))
+      }
+
+      if (type === WALLET_LIBRE_CONNECTED) {
+        dispatch(loadBalances(payload.account, 'LIBRE'))
       }
 
       if (type === WALLET_ULTRA_CONNECTED) {

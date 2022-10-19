@@ -5,6 +5,7 @@ const estimations = {
   btc: 10,
   eos: 4,
   telos: 4,
+  libre: 4,
   bsc: 5,
   xdai: 5,
   polygon: 5,

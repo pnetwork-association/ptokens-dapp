@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="124px" height="124px" viewBox="0 0 124 124" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Libre-mark-rgb-pos</title>
+    <defs>
+        <radialGradient cx="0%" cy="0%" fx="0%" fy="0%" r="141.421489%" id="radialGradient-1">
+            <stop stop-color="#FC8359" offset="0%"></stop>
+            <stop stop-color="#FCC167" offset="99.9511%"></stop>
+        </radialGradient>
+    </defs>
+    <g id="Libre-mark-rgb-pos" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icon" fill-rule="nonzero">
+            <rect id="Rectangle" fill="#FFFFFF" opacity="0" x="0" y="0" width="124" height="124"></rect>
+            <path d="M73.3333333,50.6666667 L97,50.6666667 L97,98 C83.9292609,98 73.3333333,87.4040724 73.3333333,74.3333333 L73.3333333,50.6666667 Z M49.6666667,50.6666667 L49.6666667,27 L97,27 L97,50.6666667 L49.6666667,50.6666667 Z M26,27 L49.6666667,27 L49.6666667,50.6666667 C36.5959276,50.6666667 26,40.0707391 26,27 L26,27 L26,27 Z M26,74.3333333 L49.6666667,74.3333333 L49.6666667,98 C36.5959276,98 26,87.4040724 26,74.3333333 L26,74.3333333 L26,74.3333333 Z" id="Combined-Shape" fill="url(#radialGradient-1)"></path>
+        </g>
+    </g>
+</svg>

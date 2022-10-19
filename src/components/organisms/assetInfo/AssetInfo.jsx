@@ -108,7 +108,7 @@ const AssetInfo = ({ asset, wallet }) => {
                 }, 1500)
               }}
             />
-            {blockchain !== 'EOS' && blockchain !== 'TELOS' && blockchain !== 'ALGORAND' ? (
+            {blockchain !== 'EOS' && blockchain !== 'TELOS' && blockchain !== 'LIBRE' && blockchain !== 'ALGORAND' ? (
               <MetamaskIcon
                 icon="metamask"
                 data-tip={!wallet.provider ? 'Connect MetaMask to add the token' : 'Add to MetaMask'}

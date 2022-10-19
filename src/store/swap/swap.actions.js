@@ -153,6 +153,15 @@ const loadBalances = (_account, _blockchain) => {
           })
           break
         }
+        case 'LIBRE': {
+          loadEosioCompatibleBalances({
+            assets: getAssetsByBlockchain('LIBRE'),
+            account: _account,
+            dispatch: _dispatch,
+            blockchain: 'LIBRE'
+          })
+          break
+        }
         case 'ULTRA': {
           loadEosioCompatibleBalances({
             assets: getAssetsByBlockchain('ULTRA'),
@@ -282,6 +291,10 @@ const loadBalanceByAssetId = _id => {
           loadEosioCompatibleBalance({ asset, account, blockchain: 'TELOS', dispatch: _dispatch })
           break
         }
+        case 'LIBRE': {
+          loadEosioCompatibleBalance({ asset, account, blockchain: 'LIBRE', dispatch: _dispatch })
+          break
+        }
         case 'ULTRA': {
           loadEosioCompatibleBalance({ asset, account, blockchain: 'ULTRA', dispatch: _dispatch })
           break
@@ -314,7 +327,7 @@ const loadBalanceByAssetId = _id => {
 
 const utxoBlockchains = ['btc']
 const evmBlockchains = ['eth', 'bsc', 'ftm', 'polygon', 'luxochain', 'arbitrum']
-const eosioBlockchains = ['telos', 'eos']
+const eosioBlockchains = ['telos', 'eos', 'libre']
 const algorandBlockchains = ['algorand']
 
 const getBuilder = (_node, _asset) => {
@@ -412,6 +425,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
 
       // // NOTE: pegin
       if (_from.isNative) {
+        console.info(_from)
         const ptokenId = _to.id
         const ptoken = getAssetById(ptokenId)
         if (['pBTC', 'pLTC', 'pDOGE', 'pRVN', 'pLBC'].includes(ptoken.name))
