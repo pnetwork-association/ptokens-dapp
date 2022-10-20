@@ -1,6 +1,6 @@
 const settings = {
   dappName: 'pTokens Dapp',
-  googleAnalyticsTrackId: 'UA-157173999-1',
+  googleAnalyticsTrackId: 'G-TD3L0WWTKD',
   portisDappId: '522ff2fb-0934-4252-912b-a549a388a574',
   fortmaticKey: 'pk_live_D0A703008A4B17B7',
   links: {

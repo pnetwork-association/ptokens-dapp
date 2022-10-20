@@ -16,6 +16,7 @@ import InfoModal from '../../organisms/infoModal/InfoModal'
 import Switch from '../../atoms/switch/Switch'
 import Button from '../../atoms/button/Button'
 import { PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../../../constants'
+import ReactGA from 'react-ga4'
 
 export const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -375,7 +376,11 @@ const Swap = ({
               <ContainerSwapButton>
                 <Button
                   onClick={() =>
-                    swapButton.link ? window.open(swapButton.link, '_blank', 'noopener,noreferrer') : onSwap()
+                    swapButton.link
+                      ? ReactGA.event('external_redirect', {
+                          link: swapButton.link
+                        }) || window.open(swapButton.link, '_blank', 'noopener,noreferrer')
+                      : onSwap()
                   }
                   disabled={
                     swapButton.link

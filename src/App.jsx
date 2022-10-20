@@ -6,7 +6,7 @@ import { loadSwapOldPntData } from './store/swap-old-pnt/swap-old-pnt.actions'
 import { selectPage, setTheme } from './store/pages/pages.actions'
 import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom'
 import history from './utils/history'
-import ReactGA from 'react-ga'
+import ReactGA from 'react-ga4'
 import queryString from 'query-string'
 import { connect } from 'react-redux'
 import MigrationController from './components/pages/migration/MigrationController'
@@ -23,7 +23,7 @@ import settings from './settings'
 
 history.listen(location => {
   ReactGA.set({ page: location.pathname })
-  ReactGA.pageview(location.pathname)
+  ReactGA.send('pageview')
 })
 
 const mapStateToProps = _state => {
@@ -60,7 +60,7 @@ const App = ({ loading, setTheme, loadSwapData, loadSwapOldPntData, loadMigratio
     )
     const theme = window.localStorage.getItem('THEME')
     if (theme) setTheme(theme)
-    ReactGA.pageview(window.location.pathname)
+    ReactGA.send('pageview')
     const urlParts = history.location.pathname.split('/')
     const page = urlParts[1]
 

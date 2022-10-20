@@ -9,6 +9,7 @@ import getMinimumPeggable from '../utils/minimum-peggables'
 import { numberWithCommas } from '../utils/amount-utils'
 import { TLOS_ON_BSC_MAINNET, TLOS_ON_ETH_MAINNET } from '../constants'
 import { maybeOptInAlgoApp, maybeOptInAlgoAsset } from '../store/swap/utils/opt-in-algo'
+import ReactGA from 'react-ga4'
 
 const useSwap = ({
   wallets,
@@ -108,7 +109,7 @@ const useSwap = ({
 
     if (swapButton.text === 'Get Deposit Address' || swapButton.text === 'Swap') {
       updateSwapButton(swapButton.text === 'Swap' ? 'Swapping ...' : 'Generating ...', true)
-
+      ReactGA.event('swap_click', { asset_from: from.id, asset_to: to.id, from_amount: fromAmount })
       swap(from, to, fromAmount, address, {
         pegoutToTelosEvmAddress
       })
