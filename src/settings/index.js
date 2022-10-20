@@ -129,6 +129,9 @@ const settings = {
         port: 443,
         protocol: 'https',
         endpoint: 'https://ore-node-1.ptokens.io'
+      },
+      btc: {
+        endpoint: 'https://blockstream.info/api/'
       }
     }
   },

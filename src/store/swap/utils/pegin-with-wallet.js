@@ -8,18 +8,18 @@ import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
 import { getWalletByBlockchain } from '../../wallets/wallets.selectors'
 
-const peginWithWallet = async ({ swap, ptoken, dispatch }) => {
+const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
   let link
 
   // NOTE: avoids brave metamask gas estimation fails
   const _amount = BigNumber(swap.amount)
-    .multipliedBy(10 ** ptoken.nativeDecimals)
+    .multipliedBy(10 ** ptokenTo.nativeDecimals)
     .toFixed()
 
   // NOTE: peth uses ethers
-  if ((ptoken.isPerc20 && ptoken.name !== 'pETH' && ptoken.name !== 'pFTM') || ptoken.isBep20) {
+  if ((ptokenTo.isPerc20 && ptokenTo.name !== 'pETH' && ptokenTo.name !== 'pFTM') || ptokenTo.isBep20) {
     try {
-      const { account, provider } = getWalletByBlockchain(ptoken.nativeBlockchain)
+      const { account, provider } = getWalletByBlockchain(ptokenFrom.blockchain)
       const web3 = new Web3(provider)
 
       const toApprove = new web3.eth.Contract(ERC20Abi, stringUtils.addHexPrefix(swap.sourceAsset.tokenAddress))
@@ -32,9 +32,9 @@ const peginWithWallet = async ({ swap, ptoken, dispatch }) => {
             .approve(stringUtils.addHexPrefix(swap.sourceAsset.vaultAddress), _amount)
             .send({ from: account, gas: 75000 })
             .once('hash', _hash => {
-              link = getCorrespondingTxExplorerLinkByBlockchain(ptoken.nativeBlockchain, _hash)
+              link = getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, _hash)
             })
-        if (ptoken.nativeSymbol === 'USDT' && !BigNumber(allowance).isZero()) {
+        if (ptokenTo.nativeSymbol === 'USDT' && !BigNumber(allowance).isZero()) {
           await _approve(0)
         }
         await _approve(_amount)
@@ -68,7 +68,7 @@ const peginWithWallet = async ({ swap, ptoken, dispatch }) => {
   await swap
     .execute()
     .once('inputTxBroadcasted', _hash => {
-      link = getCorrespondingTxExplorerLinkByBlockchain(ptoken.nativeBlockchain, _hash)
+      link = getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, _hash)
       dispatch(
         updateProgress({
           show: true,
@@ -101,8 +101,8 @@ const peginWithWallet = async ({ swap, ptoken, dispatch }) => {
         })
       )
     })
-    .once('outputTxDetected', _outputs => {
-      link = getCorrespondingTxExplorerLinkByBlockchain(ptoken.blockchain, _outputs[0].txHash)
+    .once('outputTxBroadcasted', _outputs => {
+      link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _outputs[0].txHash)
       dispatch(
         updateProgress({
           show: true,
@@ -113,7 +113,7 @@ const peginWithWallet = async ({ swap, ptoken, dispatch }) => {
         })
       )
     })
-    .then(_result => {
+    .then(_ => {
       dispatch(
         updateProgress({
           show: true,
@@ -125,8 +125,8 @@ const peginWithWallet = async ({ swap, ptoken, dispatch }) => {
       )
 
       dispatch(updateSwapButton('Swap'))
-      // TODO: load balance also for native asset
-      setTimeout(() => dispatch(loadBalanceByAssetId(ptoken.id)), 2000)
+      setTimeout(() => dispatch(loadBalanceByAssetId(ptokenFrom.id)), 2000)
+      setTimeout(() => dispatch(loadBalanceByAssetId(ptokenTo.id)), 2000)
     })
     .catch(_err => {
       console.error(_err)

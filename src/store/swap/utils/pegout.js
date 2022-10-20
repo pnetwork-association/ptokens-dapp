@@ -2,25 +2,9 @@ import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explo
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
 import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
-import { getWalletAccountByBlockchain, getWalletPermissionByBlockchain } from '../../wallets/wallets.selectors'
 
-const pegout = async ({ swap, params, ptokenFrom, ptokenTo, dispatch, options = {} }) => {
+const pegout = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
   let link
-
-  // NOTE: avoids brave metamask gas estimation fails
-  params[params.length] = {
-    gas: ptokenFrom.gasLimitPegout ? ptokenFrom.gasLimitPegout : 80000,
-    blocksBehind: 3,
-    expireSeconds: 60,
-    permission: getWalletPermissionByBlockchain(ptokenFrom.blockchain) || 'active',
-    actor: getWalletAccountByBlockchain(ptokenFrom.blockchain),
-    from: getWalletAccountByBlockchain(ptokenFrom.blockchain) // used on algorand
-  }
-
-  if (ptokenFrom.gasPricePegout) {
-    params[params.length].gasPrice = ptokenFrom.gasPricePegout
-  }
-
   dispatch(
     updateProgress({
       show: true,
@@ -68,7 +52,7 @@ const pegout = async ({ swap, params, ptokenFrom, ptokenTo, dispatch, options = 
         })
       )
     })
-    .once('outputTxDetected', _outputs => {
+    .once('outputTxBroadcasted', _outputs => {
       link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _outputs[0].txHash)
       dispatch(
         updateProgress({
@@ -80,7 +64,7 @@ const pegout = async ({ swap, params, ptokenFrom, ptokenTo, dispatch, options = 
         })
       )
     })
-    .once('outputTxProcessed', () => {
+    .then(_ => {
       dispatch(
         updateProgress({
           show: true,

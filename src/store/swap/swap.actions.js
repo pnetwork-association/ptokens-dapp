@@ -338,39 +338,41 @@ const getBuilder = (_node, _asset) => {
 }
 
 const getProvider = (_asset, _wallets) => {
+  const wallet = _wallets[_asset.blockchain.toLowerCase()]
   if (utxoBlockchains.includes(_asset.blockchain.toLowerCase()))
-    return new pTokensBlockstreamUtxoProvider('https://blockstream.info/api/', {
+    return new pTokensBlockstreamUtxoProvider(getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase()), {
       'Content-Type': 'text/plain'
     })
   else if (evmBlockchains.includes(_asset.blockchain.toLowerCase()))
-    return new pTokensEvmProvider(_wallets[_asset.blockchain.toLowerCase()].provider)
+    return new pTokensEvmProvider(
+      _wallets[_asset.blockchain.toLowerCase()].provider ||
+        getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase())
+    )
   else if (eosioBlockchains.includes(_asset.blockchain.toLowerCase())) {
     const provider = new pTokensEosioProvider(
-      settings.rpc[_asset.network.toLowerCase()][_asset.blockchain.toLowerCase()].endpoint,
-      _wallets[_asset.blockchain.toLowerCase()].provider
+      getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase()),
+      wallet.provider || undefined
     )
-    provider.setActor(_wallets[_asset.blockchain.toLowerCase()].account)
-    provider.setPermission(_wallets[_asset.blockchain.toLowerCase()].permission)
+    if (wallet.account) provider.setActor(wallet.account)
+    if (wallet.permission) provider.setPermission(wallet.permission)
     return provider
   } else if (algorandBlockchains.includes(_asset.blockchain.toLowerCase())) {
     const provider = new pTokensAlgorandProvider(
       getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase()),
-      _wallets[_asset.blockchain.toLowerCase()].provider
+      wallet.provider || undefined
     )
-    provider.setAccount(_wallets[_asset.blockchain.toLowerCase()].account)
+    if (wallet.account) provider.setAccount(wallet.account)
     return provider
   }
 }
 
-const createAsset = async (_node, _asset, _wallets, _withProvider = false) => {
+const createAsset = async (_node, _asset, _wallets) => {
   const builder = getBuilder(_node, _asset)
   builder.setBlockchain(_asset.chainId)
   builder.setSymbol(_asset.symbol)
   builder.setDecimals(_asset.decimals)
-  if (_withProvider) {
-    const provider = getProvider(_asset, _wallets)
-    builder.setProvider(provider)
-  }
+  const provider = getProvider(_asset, _wallets)
+  builder.setProvider(provider)
   const asset = await builder.build()
   return asset
 }
@@ -425,15 +427,17 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
 
       // // NOTE: pegin
       if (_from.isNative) {
-        console.info(_from)
-        const ptokenId = _to.id
-        const ptoken = getAssetById(ptokenId)
-        if (['pBTC', 'pLTC', 'pDOGE', 'pRVN', 'pLBC'].includes(ptoken.name))
-          peginWithDepositAddress({ swap, ptoken, dispatch: _dispatch })
+        const ptokenFromId = _from.id
+        const ptokenFrom = getAssetById(ptokenFromId)
+        const ptokenToId = _to.id
+        const ptokenTo = getAssetById(ptokenToId)
+        if (['pBTC', 'pLTC', 'pDOGE', 'pRVN', 'pLBC'].includes(ptokenTo.name))
+          peginWithDepositAddress({ swap, ptokenFrom, ptokenTo, dispatch: _dispatch })
         else {
           peginWithWallet({
             swap,
-            ptoken,
+            ptokenFrom,
+            ptokenTo,
             dispatch: _dispatch
           })
         }
@@ -444,7 +448,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
         const ptokenFrom = getAssetById(ptokenFromId)
         const ptokenToId = _to.id
         const ptokenTo = getAssetById(ptokenToId)
-        pegout({ swap, ptokenFrom, ptokenTo, dispatch: _dispatch, params: [_amount, _address], options: _opts })
+        pegout({ swap, ptokenFrom, ptokenTo, dispatch: _dispatch })
       }
     } catch (_err) {
       console.error(_err)

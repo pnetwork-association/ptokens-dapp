@@ -9,7 +9,7 @@ import {
 import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
 import { updateInfoModal } from '../../pages/pages.actions'
 
-const peginWithDepositAddress = async ({ swap, ptoken, dispatch }) => {
+const peginWithDepositAddress = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
   let link = null
   let depositAddress = null
   try {
@@ -30,13 +30,13 @@ const peginWithDepositAddress = async ({ swap, ptoken, dispatch }) => {
           })
         )
 
-        dispatch(showDepositAddressModal(ptoken, depositAddress.toString()))
+        dispatch(showDepositAddressModal(ptokenTo, depositAddress.toString()))
       })
       .once('inputTxBroadcasted', _tx => {
         dispatch(hideDepositAddressModal())
 
         // prettier-ignore
-        link = getCorrespondingTxExplorerLinkByBlockchain(ptoken.nativeBlockchain, _tx)
+        link = getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, _tx)
         dispatch(
           updateProgress({
             show: true,
@@ -69,8 +69,8 @@ const peginWithDepositAddress = async ({ swap, ptoken, dispatch }) => {
           })
         )
       })
-      .once('outputTxDetected', _outputs => {
-        link = getCorrespondingTxExplorerLinkByBlockchain(ptoken.blockchain, _outputs[0].txHash)
+      .once('outputTxBroadcasted', _outputs => {
+        link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _outputs[0].txHash)
         // prettier-ignore
         dispatch(
             updateProgress({
@@ -82,7 +82,7 @@ const peginWithDepositAddress = async ({ swap, ptoken, dispatch }) => {
             })
           )
       })
-      .then(_result => {
+      .then(_ => {
         dispatch(
           updateProgress({
             show: true,
@@ -94,7 +94,7 @@ const peginWithDepositAddress = async ({ swap, ptoken, dispatch }) => {
         )
 
         dispatch(updateSwapButton('Get Deposit Address'))
-        setTimeout(() => dispatch(loadBalanceByAssetId(ptoken.id)), 2000)
+        setTimeout(() => dispatch(loadBalanceByAssetId(ptokenTo.id)), 2000)
       })
   } catch (_err) {
     console.error(_err)

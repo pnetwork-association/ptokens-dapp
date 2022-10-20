@@ -49,6 +49,9 @@ const getReadOnlyProviderByBlockchain = _blockchain => {
   if (_blockchain === 'FTM') {
     return new Web3.providers.HttpProvider(settings.rpc.mainnet.ftm.endpoint)
   }
+  if (_blockchain === 'BTC') {
+    return settings.rpc.mainnet.btc.endpoint
+  }
   return null
 }
 
