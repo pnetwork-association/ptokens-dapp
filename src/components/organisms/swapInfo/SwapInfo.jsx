@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Row, Col, Container } from 'react-bootstrap'
 import { useSwapInfo } from '../../../hooks/use-swap'
+import Switch from '../../atoms/switch/Switch'
+import ReactTooltip from 'react-tooltip'
 
 const ContainerInfo = styled(Container)`
   background: ${({ theme }) => theme.secondary3Transparentized};
@@ -55,10 +57,22 @@ const SwapInfo = ({ from, to, bpm, swappersBalances }) => {
 
   return (
     <ContainerInfo show={Boolean(show).toString()}>
-      <Row>
+      <MarginedRow>
+        <LabelCol xs={10}>Gasless</LabelCol>
+        <ValueCol
+          data-tip={
+            'Transaction fees on the destination blockchain<br/> to deliver the asset are covered by the pNetwork protocol'
+          }
+          xs={2}
+        >
+          <Switch height={20} width={40} checked="true" disabled="true" />
+        </ValueCol>
+        <ReactTooltip multiline="true" place="left" />
+      </MarginedRow>
+      <MarginedRow>
         <LabelCol xs={8}>Fee</LabelCol>
         <ValueCol xs={4}>{formattedFee}</ValueCol>
-      </Row>
+      </MarginedRow>
       <MarginedRow>
         <LabelCol xs={7}>Estimated processing time</LabelCol>
         <ValueCol xs={5}>{estimatedSwapTime}</ValueCol>
