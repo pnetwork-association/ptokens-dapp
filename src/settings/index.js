@@ -8,7 +8,8 @@ const settings = {
     stats: 'https://pnetwork.watch/',
     coinmarketcap: 'https://coinmarketcap.com/currencies/pnetwork/',
     twitter: 'https://twitter.com/pNetworkDeFi',
-    telegram: 'https://t.me/pNetworkDefi'
+    telegram: 'https://t.me/pNetworkDefi',
+    'p.network': 'https://p.network/'
   },
   api: {
     bpm: 'https://chart.ptokens.io/index.php?a=bpm'

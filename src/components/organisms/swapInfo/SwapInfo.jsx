@@ -8,8 +8,8 @@ import ReactTooltip from 'react-tooltip'
 
 const ContainerInfo = styled(Container)`
   background: ${({ theme }) => theme.secondary3Transparentized};
-  padding-top: 50px;
-  padding-bottom: 20px;
+  padding-top: 35px;
+  padding-bottom: 15px;
   margin-top: -20px;
   max-width: 450px;
   border-bottom-left-radius: 20px;

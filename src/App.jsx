@@ -19,7 +19,7 @@ import Notifications from './components/molecules/notifications/Notifications'
 import NftsController from './components/pages/nfts/NftsController'
 import Loader from './components/atoms/loader/Loader'
 import Popup from './components/molecules/popup/Popup'
-import settings from './settings'
+import SocialLinks from './components/molecules/socials/Socials'
 
 history.listen(location => {
   ReactGA.set({ page: location.pathname })
@@ -101,19 +101,20 @@ const App = ({ loading, setTheme, loadSwapData, loadSwapOldPntData, loadMigratio
           <Route exact path={'/oldpnt-swap'} render={() => <SwapOldPntController />} />
           <Route render={() => <Redirect to="swap" />} />
         </Switch>
-        <Popup
-          content={
-            <React.Fragment>
-              Now the dApp supports host-to-host swaps!
-              <br />
-              Have a try{' '}
-              <a href="https://dapp.ptokens.io/swap?asset=btc&from=algorand&to=eth&algorand_from_assetid=744665252">
-                here.
-              </a>
-            </React.Fragment>
-          }
-        />
       </MainWrapper>
+      <Popup
+        content={
+          <React.Fragment>
+            Now the dApp supports host-to-host swaps!
+            <br />
+            Have a try{' '}
+            <a href="https://dapp.ptokens.io/swap?asset=btc&from=algorand&to=eth&algorand_from_assetid=744665252">
+              here.
+            </a>
+          </React.Fragment>
+        }
+      />
+      <SocialLinks />
     </React.Fragment>
   )
 }

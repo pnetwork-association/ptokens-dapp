@@ -47,8 +47,8 @@ export const ContainerSwap = styled.div`
 `
 
 export const ArrowContainer = styled.div`
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   text-align: center;
   cursor: pointer;
   @media (max-width: 767.98px) {
@@ -70,10 +70,7 @@ export const SortIcon = styled(Icon)`
 `
 
 export const ContainerSwapButton = styled.div`
-  margin-top: 30px;
-  @media (max-width: 767.98px) {
-    margin-top: 20px;
-  }
+  margin-top: 20px;
 `
 
 export const SwapLabel = styled.label`
