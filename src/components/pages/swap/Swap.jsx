@@ -379,7 +379,7 @@ const Swap = ({
                     swapButton.link
                       ? ReactGA.event('external_redirect', {
                           link: swapButton.link
-                        }) || window.open(swapButton.link, '_blank', 'noopener,noreferrer')
+                        }) || window.open(swapButton.link, '_self')
                       : onSwap()
                   }
                   disabled={

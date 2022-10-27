@@ -108,7 +108,7 @@ const SwapOldPnt = ({
               ) : null}
               <ContainerSwapButton>
                 <Button
-                  onClick={swapButton.link ? window.open(swapButton.link, '_blank', 'noopener,noreferrer') : onSwap}
+                  onClick={swapButton.link ? window.open(swapButton.link, '_self') : onSwap}
                   disabled={
                     swapButton.link
                       ? false
