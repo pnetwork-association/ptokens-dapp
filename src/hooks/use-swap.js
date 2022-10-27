@@ -160,10 +160,6 @@ const useSwap = ({
         return [false]
       }
 
-      if (from.onPnetworkV2 && !to.onPnetworkV2) {
-        return [false]
-      }
-
       const ptoken = assets.find(({ id }) => ptokenId === id)
       if (!ptoken) {
         return [false]
@@ -178,11 +174,19 @@ const useSwap = ({
         return [false]
       }
 
-      if (from.onPnetworkV2 && !to.isNative && (!to.onPnetworkV2 || to.isPseudoNative)) {
+      if (!from.onPnetworkV2 && !to.isNative) {
         return [false]
       }
 
       if (from.isPseudoNative && !to.isNative) {
+        return [false]
+      }
+
+      if (to.isPseudoNative) {
+        return [false]
+      }
+
+      if (!to.onPnetworkV2 && !to.isNative) {
         return [false]
       }
 
