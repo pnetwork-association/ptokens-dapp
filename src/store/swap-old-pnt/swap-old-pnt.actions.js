@@ -80,7 +80,7 @@ const swap = (_amount, _address) => {
           new Promise(_resolve =>
             oldPntContract.methods
               .approve(settings.swapOldPntOnBsc.swapContractAddress, amount)
-              .send({ from: account, gas: 75000 })
+              .send({ from: account })
               .once('transactionHash', _hash => {
                 link = getCorrespondingTxExplorerLinkByBlockchain('BSC', _hash)
                 _dispatch(

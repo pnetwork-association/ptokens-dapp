@@ -31,7 +31,7 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
         const _approve = _amount =>
           toApprove.methods
             .approve(stringUtils.addHexPrefix(swap.sourceAsset.vaultAddress), _amount)
-            .send({ from: account, gas: 75000 })
+            .send({ from: account })
             .once('hash', _hash => {
               link = getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, _hash)
             })
