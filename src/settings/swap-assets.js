@@ -748,7 +748,8 @@ const swapAssets = [
     nativeBlockchain: 'ETH',
     image: 'PTERIA.svg',
     withBalanceDecimalsConversion: true,
-    chainId: ChainId.BscMainnet
+    chainId: ChainId.BscMainnet,
+    onPnetworkV2: true
   },
   {
     address: '0x566cedd201f67e542a6851a2959c1a449a041945',
