@@ -1,6 +1,6 @@
-import axios from 'axios'
+// import axios from 'axios'
 import assets from '../../settings/swap-assets'
-import settings from '../../settings'
+// import settings from '../../settings'
 import {
   ASSETS_LOADED,
   SHOW_DEPOSIT_ADDRESS_MODAL,
@@ -8,7 +8,7 @@ import {
   PROGRESS_UPDATED,
   PROGRESS_RESET,
   UPDATE_SWAP_BUTTON,
-  BPM_LOADED,
+  // BPM_LOADED,
   SWAPPERS_BALANCES_LOADED
 } from '../../constants/index'
 import {
@@ -85,26 +85,26 @@ const loadSwapData = (_opts = {}) => {
         })
       }
 
-      const loadBpm = async () => {
-        const {
-          data: { sync_status: syncStatusByBridge }
-        } = await axios.get(settings.api.bpm)
+      // const loadBpm = async () => {
+      //   const {
+      //     data: { sync_status: syncStatusByBridge }
+      //   } = await axios.get(settings.api.bpm)
 
-        let bpm = {}
-        Object.values(syncStatusByBridge)
-          .map(_obj => Object.keys(_obj).map(_key => ({ [_key]: _obj[_key] })))
-          .flat()
-          .forEach(_val => {
-            bpm = { ...bpm, ..._val }
-          })
+      //   let bpm = {}
+      //   Object.values(syncStatusByBridge)
+      //     .map(_obj => Object.keys(_obj).map(_key => ({ [_key]: _obj[_key] })))
+      //     .flat()
+      //     .forEach(_val => {
+      //       bpm = { ...bpm, ..._val }
+      //     })
 
-        _dispatch({
-          type: BPM_LOADED,
-          payload: {
-            bpm
-          }
-        })
-      }
+      //   _dispatch({
+      //     type: BPM_LOADED,
+      //     payload: {
+      //       bpm
+      //     }
+      //   })
+      // }
 
       const wallets = getWallets()
       Object.keys(wallets).forEach(_network => {
@@ -113,8 +113,8 @@ const loadSwapData = (_opts = {}) => {
         }
       })
 
-      loadBpm()
-      setInterval(() => loadBpm(), 1000 * 60)
+      // loadBpm()
+      // setInterval(() => loadBpm(), 1000 * 60)
 
       loadSwapperAmount()
       setInterval(() => loadSwapperAmount(), 1000 * 10)

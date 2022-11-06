@@ -477,7 +477,7 @@ const useSwap = ({
 
 const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
   return useMemo(() => {
-    if (!from || !to || Object.keys(bpm).length === 0) {
+    if (!from || !to) {
       return {
         fee: 1,
         formattedFee: '-',
@@ -493,8 +493,8 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
     if (from.isNative && !to.isNative) {
       const minimumPeggable = getMinimumPeggable(to.id, 'pegin')
       const fee = getFee(from, to)
-      const selectedBpm = bpm[`${to.symbol.toLowerCase()}-on-${to.blockchain.toLowerCase()}`]
-      const eta = selectedBpm && selectedBpm.native ? selectedBpm.native.eta : 0
+      // const selectedBpm = bpm[`${to.symbol.toLowerCase()}-on-${to.blockchain.toLowerCase()}`]
+      // const eta = selectedBpm && selectedBpm.native ? selectedBpm.native.eta : 0
       const amounts = { ...swappersBalances }
       const poolAmount =
         to.isPseudoNative && amounts[to.swapperAddress]
@@ -507,19 +507,19 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
           : null,
         fee: 1 - fee / 100,
         formattedFee: `${fee}%`,
-        estimatedSwapTime: getPeginOrPegoutMinutesEstimationByBlockchainAndEta(to.blockchain, eta),
+        estimatedSwapTime: getPeginOrPegoutMinutesEstimationByBlockchainAndEta(to.blockchain, 0),
         show: true,
         isPegin: true,
         isPegout: false,
-        eta,
+        eta: 0,
         poolAmount,
         onPnetworkV2
       }
     } else if (!from.isNative) {
       const minimumPeggable = getMinimumPeggable(from.id, 'pegout')
       const fee = getFee(from, to)
-      const selectedBpm = bpm[`${from.symbol.toLowerCase()}-on-${from.blockchain.toLowerCase()}`]
-      const eta = selectedBpm && selectedBpm.host ? selectedBpm.host.eta : 0
+      // const selectedBpm = bpm[`${from.symbol.toLowerCase()}-on-${from.blockchain.toLowerCase()}`]
+      // const eta = selectedBpm && selectedBpm.host ? selectedBpm.host.eta : 0
       const amounts = { ...swappersBalances }
       const poolAmount =
         from.isPseudoNative && amounts[from.swapperAddress]
@@ -532,11 +532,11 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
           : null,
         fee: 1 - fee / 100,
         formattedFee: `${fee}%`,
-        estimatedSwapTime: getPeginOrPegoutMinutesEstimationByBlockchainAndEta(from.blockchain, eta),
+        estimatedSwapTime: getPeginOrPegoutMinutesEstimationByBlockchainAndEta(from.blockchain, 0),
         show: true,
         isPegin: false,
         isPegout: true,
-        eta,
+        eta: 0,
         poolAmount,
         onPnetworkV2
       }
@@ -549,7 +549,7 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
       estimatedSwapTime: `-`,
       show: false
     }
-  }, [from, to, bpm, swappersBalances])
+  }, [from, to, swappersBalances])
 }
 
 export { useSwap, useSwapInfo }
