@@ -1230,7 +1230,7 @@ const swapAssets = [
     chainId: ChainId.PolygonMainnet
   },
   {
-    address: '0x7ddee176f665cd201f93eede625770e2fd911990',
+    address: '0x419c44c48cd346c0b0933ba243be02af46607c9b',
     id: 'GALA_ON_BSC_MAINNET',
     name: 'GALA',
     workingName: 'gala',
