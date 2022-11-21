@@ -769,7 +769,8 @@ const swapAssets = [
     nativeBlockchain: 'ETH',
     image: 'pOPIUM.svg',
     withBalanceDecimalsConversion: true,
-    chainId: ChainId.BscMainnet
+    chainId: ChainId.BscMainnet,
+    onPnetworkV2: true
   },
   {
     address: '0xae22e27d1f727b585549c10e26192b2bc01082ca',

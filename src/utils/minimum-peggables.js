@@ -253,8 +253,8 @@ const minimumPeggable = {
     pegout: 100
   },
   [POPIUM_ON_BSC_MAINNET]: {
-    pegin: 50,
-    pegout: 50
+    pegin: 250,
+    pegout: 250
   },
   [POPEN_ON_BSC_MAINNET]: {
     pegin: 500,
