@@ -602,7 +602,7 @@ const swapAssets = [
     chainId: ChainId.EthereumMainnet
   },
   {
-    address: '0x8cb2458A667cd89e04699E055cA5015Cd6DC4837',
+    address: '0x1003d3574ac79303a5fa0951ecb04cc7acba9747',
     id: 'PBTC_ON_BSC_MAINNET',
     name: 'pBTC',
     workingName: 'pbtc',
