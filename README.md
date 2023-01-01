@@ -13,7 +13,7 @@ The pTokens dapp
 Clone the __`ptokens-dapp`__ repo
 
 ```
-git clone https://github.com/provable-things/ptokens-dapp.git
+git clone https://github.com/pnetwork-association/ptokens-dapp.git
 ```
 
 Switch into the __`ptokens-dapp`__:
