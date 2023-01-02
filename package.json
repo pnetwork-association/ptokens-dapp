@@ -27,6 +27,7 @@
     "lodash": "^4.17.21",
     "node-ssh": "^11.1.1",
     "prop-types": "^15.7.2",
+    "ptokens": "^1.0.4",
     "qrcode.react": "^1.0.0",
     "query-string": "^6.11.1",
     "raw-loader": "^4.0.2",
