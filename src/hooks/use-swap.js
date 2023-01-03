@@ -170,6 +170,10 @@ const useSwap = ({
     // NOTE: pegout
     else if (!from.isNative) {
       setSwapType('pegout')
+      if (to.id === from.id) {
+        return [false]
+      }
+
       if (to.nativeSymbol !== from.nativeSymbol) {
         return [false]
       }
