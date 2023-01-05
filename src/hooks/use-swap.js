@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { isValidAccountByBlockchain } from '../utils/account-validator'
+import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 import { getPeginOrPegoutMinutesEstimationByBlockchainAndEta } from '../utils/estimations'
 import { getFee } from '../utils/fee'
 import BigNumber from 'bignumber.js'
@@ -8,10 +9,12 @@ import { useWalletByBlockchain } from './use-wallets'
 import getMinimumPeggable from '../utils/minimum-peggables'
 import { numberWithCommas } from '../utils/amount-utils'
 import { TLOS_ON_BSC_MAINNET, TLOS_ON_ETH_MAINNET } from '../constants'
+import { PBTC_ON_ETH_POOL, CURVE_MIN_AMOUNT, CURVE_MAX_AMOUNT } from '../constants'
 import { maybeOptInAlgoApp, maybeOptInAlgoAsset } from '../store/swap/utils/opt-in-algo'
 import ReactGA from 'react-ga4'
 import { useRef } from 'react'
 import { chainIdToTypeMap, BlockchainType } from 'ptokens-constants'
+import curve from '@curvefi/api'
 
 const useSwap = ({
   wallets,
@@ -39,7 +42,27 @@ const useSwap = ({
   const [selectionChanged, setSelectionChanged] = useState(false)
   const [pegoutToTelosEvmAddress, setPegoutToTelosEvmAddress] = useState(false)
   const ToSRef = useRef({ isAccepted: false, isRefused: false })
+  const curveRef = useRef(null)
+  const [curveState, setCurveState] = useState(false)
   const AddressWarningRef = useRef({ proceed: false, doNotProceed: false })
+
+  useEffect(() => {
+    if (from && from.requiresCurve) {
+      if (!curveRef.current) {
+        curveInit()
+      }
+    } else if (curveRef.current) {
+      curveRef.current = null
+      setCurveState(false)
+    }
+    async function curveInit() {
+      const provider = getReadOnlyProviderByBlockchain(from.blockchain.toUpperCase())
+      await curve.init('Web3', { externalProvider: provider }, { chainId: from.curveChainId })
+      await curve.fetchFactoryPools()
+      curveRef.current = [curve, from.address, from.swapToAddress]
+      setCurveState(true)
+    }
+  }, [fromAmount, to, from, curveRef])
 
   const { fee, isPegin, isPegout, eta, poolAmount, minimumPeggable, onPnetworkV2 } = useSwapInfo({
     from,
@@ -51,15 +74,43 @@ const useSwap = ({
   const onChangeFromAmount = useCallback(
     _amount => {
       setFromAmount(_amount)
-      setToAmount(
-        _amount !== ''
-          ? BigNumber(_amount)
-              .multipliedBy(fee)
-              .toFixed()
-          : _amount.toString()
-      )
+      let curveExpected = 0
+      async function calcWithNewAmount() {
+        if (_amount && _amount > CURVE_MIN_AMOUNT) {
+          try {
+            if (_amount > CURVE_MAX_AMOUNT) _amount = CURVE_MAX_AMOUNT
+            curveExpected = await curveRef.current[0]
+              .getPool(PBTC_ON_ETH_POOL)
+              .swapExpected(curveRef.current[1], curveRef.current[2], _amount)
+          } catch (_err) {
+            console.log(_err)
+            curveExpected = 0
+          }
+        } else {
+          curveExpected = 0
+        }
+        setToAmount(
+          curveExpected !== ''
+            ? BigNumber(curveExpected)
+                .multipliedBy(fee)
+                .toFixed()
+            : curveExpected.toString()
+        )
+      }
+
+      if (curveRef.current) {
+        calcWithNewAmount()
+      } else {
+        setToAmount(
+          _amount !== ''
+            ? BigNumber(_amount)
+                .multipliedBy(fee)
+                .toFixed()
+            : _amount.toString()
+        )
+      }
     },
-    [fee]
+    [fee, curveRef]
   )
 
   const onChangeToAmount = useCallback(
@@ -432,7 +483,8 @@ const useSwap = ({
     pegoutToTelosEvmAddress,
     updateSwapButton,
     poolAmount,
-    onPnetworkV2
+    onPnetworkV2,
+    curveState
   ])
 
   // NOTE: filters based on from selection
