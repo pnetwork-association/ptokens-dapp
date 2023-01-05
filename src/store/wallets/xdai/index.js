@@ -3,7 +3,7 @@ import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import WalletLink from 'walletlink'
 import { WALLET_XDAI_CONNECTED, WALLET_XDAI_ACCOUNT_CHANGED, WALLET_XDAI_DISCONNECTED } from '../../../constants'
-import { setupNetwork } from '../../../utils/wallet'
+import { changeNetwork, setupNetwork } from '../../../utils/wallet'
 import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
@@ -76,18 +76,27 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
     const account = accounts ? accounts[0] : await _getAccount(_provider)
 
     if (Number(chainId) !== 100 && _provider.isMetaMask) {
-      await setupNetwork({
-        provider: _provider,
-        chainId: 100,
-        chainName: 'XDAI',
-        nativeCurrency: {
-          name: 'MATIC',
-          symbol: 'matic',
-          decimals: 18
-        },
-        nodes: [settings.rpc.mainnet.xdai.endpoint],
-        blockExplorerUrls: [settings.explorers.mainnet.xdai]
-      })
+      try {
+        await changeNetwork({
+          provider: _provider,
+          chainId: 100
+        })
+      } catch (err) {
+        if (err.code === 4902) {
+          await setupNetwork({
+            provider: _provider,
+            chainId: 100,
+            chainName: 'XDAI',
+            nativeCurrency: {
+              name: 'MATIC',
+              symbol: 'matic',
+              decimals: 18
+            },
+            nodes: [settings.rpc.mainnet.xdai.endpoint],
+            blockExplorerUrls: [settings.explorers.mainnet.xdai]
+          })
+        }
+      }
 
       _dispatch({
         type: WALLET_XDAI_CONNECTED,

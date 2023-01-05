@@ -4,7 +4,7 @@ import { WALLET_FTM_CONNECTED, WALLET_FTM_DISCONNECTED, WALLET_FTM_ACCOUNT_CHANG
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import WalletLink from 'walletlink'
 import settings from '../../../settings'
-import { setupNetwork } from '../../../utils/wallet'
+import { changeNetwork, setupNetwork } from '../../../utils/wallet'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
@@ -83,18 +83,27 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
     const account = accounts ? accounts[0] : await _getAccount(_provider)
 
     if (Number(chainId) !== 250 && _provider.isMetaMask) {
-      await setupNetwork({
-        provider: _provider,
-        chainId: 250,
-        chainName: 'Fantom',
-        nativeCurrency: {
-          name: 'FTM',
-          symbol: 'ftm',
-          decimals: 18
-        },
-        nodes: [settings.rpc.mainnet.ftm.endpoint],
-        blockExplorerUrls: [settings.explorers.mainnet.ftm]
-      })
+      try {
+        await changeNetwork({
+          provider: _provider,
+          chainId: 250
+        })
+      } catch (err) {
+        if (err.code === 4902) {
+          await setupNetwork({
+            provider: _provider,
+            chainId: 250,
+            chainName: 'Fantom',
+            nativeCurrency: {
+              name: 'FTM',
+              symbol: 'ftm',
+              decimals: 18
+            },
+            nodes: [settings.rpc.mainnet.ftm.endpoint],
+            blockExplorerUrls: [settings.explorers.mainnet.ftm]
+          })
+        }
+      }
 
       _dispatch({
         type: WALLET_FTM_CONNECTED,

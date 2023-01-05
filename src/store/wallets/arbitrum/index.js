@@ -12,7 +12,7 @@ import {
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
-import { setupNetwork } from '../../../utils/wallet'
+import { changeNetwork, setupNetwork } from '../../../utils/wallet'
 
 let web3Modal
 
@@ -91,18 +91,27 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
     const account = accounts ? accounts[0] : await _getAccount(_provider)
 
     if (Number(chainId) !== 42161 && _provider.isMetaMask) {
-      await setupNetwork({
-        provider: _provider,
-        chainId: 42161,
-        chainName: 'Arbitrum',
-        nativeCurrency: {
-          name: 'AETH',
-          symbol: 'AETH',
-          decimals: 18
-        },
-        nodes: [settings.rpc.mainnet.arbitrum.endpoint],
-        blockExplorerUrls: [settings.explorers.mainnet.arbitrum]
-      })
+      try {
+        await changeNetwork({
+          provider: _provider,
+          chainId: 42161
+        })
+      } catch (err) {
+        if (err.code === 4902) {
+          await setupNetwork({
+            provider: _provider,
+            chainId: 42161,
+            chainName: 'Arbitrum',
+            nativeCurrency: {
+              name: 'AETH',
+              symbol: 'AETH',
+              decimals: 18
+            },
+            nodes: [settings.rpc.mainnet.arbitrum.endpoint],
+            blockExplorerUrls: [settings.explorers.mainnet.arbitrum]
+          })
+        }
+      }
 
       _dispatch({
         type: WALLET_ARBITRUM_CONNECTED,
