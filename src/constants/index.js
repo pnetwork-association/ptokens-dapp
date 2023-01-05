@@ -173,3 +173,4 @@ export const PBTC_ON_ETH_POOL = 'factory-v2-242'
 export const TRANSFER_EVENT_TOPIC = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
 export const CURVE_MIN_AMOUNT = 0.000000001
 export const CURVE_MAX_AMOUNT = 1000000
+export const MAX_IMPACT = 0.1

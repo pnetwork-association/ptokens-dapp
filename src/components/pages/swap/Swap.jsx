@@ -18,7 +18,7 @@ import AddressWarning from '../../molecules/popup/AddressWarning'
 import WarningPopup from '../../molecules/popup/Warning'
 import Switch from '../../atoms/switch/Switch'
 import Button from '../../atoms/button/Button'
-import { PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../../../constants'
+import { MAX_IMPACT, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../../../constants'
 import ReactGA from 'react-ga4'
 
 export const OuterContainerSwap = styled.div`
@@ -116,6 +116,8 @@ const WarningEta = styled.div`
 
 const ProvisionalSafemoonBox = styled(InfoEta)``
 
+const CurveInfo = styled(InfoEta)``
+
 const MigrationNotification = styled(InfoEta)`
   width: 460px;
   margin-bottom: 30px;
@@ -196,6 +198,8 @@ const Swap = ({
     onChangeToAmount,
     disableToInput,
     disableFromInput,
+    curvePoolName,
+    curveImpact,
     onChangeOrder,
     onFromMax,
     onToMax,
@@ -411,6 +415,25 @@ const Swap = ({
                   Using this bridge requires a SFM transfer on BSC so a transfer fee may apply
                 </ProvisionalSafemoonBox>
               ) : null}
+              {from && from.requiresCurve ? (
+                <CurveInfo>
+                  This swap works using Curve.fi.<br></br>
+                  <a href="https://classic.curve.fi/rootfaq" target="_blank" rel="noopener noreferrer">
+                    More info about Curve.fi
+                  </a>
+                  <br></br>
+                  <a
+                    href="https://curve.fi/#/ethereum/pools/factory-v2-242/swap"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    More info about the used liquidity pool
+                  </a>
+                </CurveInfo>
+              ) : null}
+              {from && from.requiresCurve && +curveImpact > MAX_IMPACT ? (
+                <WarningEta>High price impact!</WarningEta>
+              ) : null}
               {!onPnetworkV2 ? (
                 <WarningEta>
                   This swap is still not supported by pNetwork v2. Please visit dapp-legacy.ptokens.io.
@@ -460,7 +483,7 @@ const Swap = ({
           </OuterContainerSwap>
         </Row>
       </Container>
-      <SwapInfo from={from} to={to} bpm={bpm} />
+      <SwapInfo from={from} to={to} bpm={bpm} curvePoolName={curvePoolName} curveImpact={curveImpact} />
       <AssetListModal
         title="Swap from ..."
         defaultAssets={assets.length === 0 ? defaultAssets : assets}

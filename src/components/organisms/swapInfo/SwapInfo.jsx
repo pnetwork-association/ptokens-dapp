@@ -5,6 +5,7 @@ import { Row, Col, Container } from 'react-bootstrap'
 import { useSwapInfo } from '../../../hooks/use-swap'
 import Switch from '../../atoms/switch/Switch'
 import ReactTooltip from 'react-tooltip'
+import { MAX_IMPACT } from '../../../constants'
 
 const ContainerInfo = styled(Container)`
   background: ${({ theme }) => theme.secondary3Transparentized};
@@ -47,8 +48,8 @@ const LabelCol = styled(Col)`
   }
 `
 
-const SwapInfo = ({ from, to, bpm, swappersBalances }) => {
-  const { show, formattedFee, estimatedSwapTime, formattedMinimumPeggable } = useSwapInfo({
+const SwapInfo = ({ from, to, bpm, swappersBalances, curvePoolName, curveImpact }) => {
+  const { show, formattedFee, estimatedSwapTime, formattedMinimumPeggable, requiresCurve } = useSwapInfo({
     from,
     to,
     bpm,
@@ -81,6 +82,18 @@ const SwapInfo = ({ from, to, bpm, swappersBalances }) => {
         <MarginedRow>
           <LabelCol xs={6}>Minimum swap amount</LabelCol>
           <ValueCol xs={6}>{formattedMinimumPeggable}</ValueCol>
+        </MarginedRow>
+      ) : null}
+      {requiresCurve && +curveImpact > MAX_IMPACT ? (
+        <MarginedRow>
+          <LabelCol xs={6}>High price impact</LabelCol>
+          <ValueCol xs={6}>{curveImpact}%</ValueCol>
+        </MarginedRow>
+      ) : null}
+      {requiresCurve && +curveImpact <= MAX_IMPACT ? (
+        <MarginedRow>
+          <LabelCol xs={6}>Price impact</LabelCol>
+          <ValueCol xs={6}>{curveImpact}%</ValueCol>
         </MarginedRow>
       ) : null}
     </ContainerInfo>
