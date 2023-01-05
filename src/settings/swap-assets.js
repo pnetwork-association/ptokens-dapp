@@ -623,6 +623,27 @@ const swapAssets = [
     chainId: ChainId.BscMainnet
   },
   {
+    address: '0xed28a457a5a76596ac48d87c0f577020f6ea1c4c',
+    id: 'OLD_PBTC_ON_BSC_MAINNET',
+    name: 'pBTC',
+    workingName: 'pbtc',
+    nativeDecimals: 8,
+    network: 'mainnet',
+    minimumIssuable: '0',
+    minimumRedeamable: '0.00005',
+    isHidden: true,
+    blockchain: 'BSC',
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'PBTC',
+    isPtoken: true,
+    nativeSymbol: 'BTC',
+    nativeBlockchain: 'BTC',
+    image: 'pBTC.svg',
+    withBalanceDecimalsConversion: true,
+    chainId: ChainId.BscMainnet
+  },
+  {
     address: '2d9eef197371ff2309000a8fc2a1aeeaba401089',
     id: 'PEOS_ON_POLYGON_MAINNET',
     name: 'pEOS',

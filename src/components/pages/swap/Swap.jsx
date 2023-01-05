@@ -112,6 +112,11 @@ const MigrationNotification = styled(InfoEta)`
   margin-bottom: 30px;
 `
 
+const WarningNotification = styled(WarningEta)`
+  width: 460px;
+  margin-bottom: 30px;
+`
+
 const PnetworkV2Badge = styled.span`
   color: white;
   background: ${({ theme }) => theme.primary1};
@@ -237,6 +242,29 @@ const Swap = ({
       <Container>
         <Row>
           <Col className="d-flex justify-content-center">
+            {assets.find(({ id }) => id === 'OLD_PBTC_ON_BSC_MAINNET') &&
+              parseFloat(assets.find(({ id }) => id === 'OLD_PBTC_ON_BSC_MAINNET').balance) > 0 &&
+              (from.id === 'PBTC_ON_BSC_MAINNET' || to.id === 'PBTC_ON_BSC_MAINNET') && (
+                <WarningNotification>
+                  The old pBTC-on-BSC pToken (token address 0xed28a457a5a76596ac48d87c0f577020f6ea1c4c) is currently
+                  off-peg due to a hack - a compensation plan to recoup value in various crypto assets (not strictly
+                  BTC) is being discussed by the community. More details{' '}
+                  <a href="https://twitter.com/pNetworkDeFi/status/1439690593211490324">here</a>. A new fully
+                  collateralized pBTC-on-BSC token has been launched on pNetwork v2 in late 2022 (token address
+                  0x1003d3574ac79303a5fa0951ecb04cc7acba9747).
+                </WarningNotification>
+              )}
+            {assets.find(({ id }) => id === 'GALA_ON_BSC_MAINNET') &&
+              parseFloat(assets.find(({ id }) => id === 'GALA_ON_BSC_MAINNET').balance) > 0 &&
+              (from.id === 'GALA_ON_BSC_MAINNET' || to.id === 'GALA_ON_BSC_MAINNET') && (
+                <WarningNotification>
+                  The old pGALA-on-BSC pToken (token address 0x7ddee176f665cd201f93eede625770e2fd911990) has been
+                  affected by an in ident in late 2022 and is currently worthless - a recovery plan has been executed.
+                  More details <a href="https://t.me/pGALA_incident_updates">here</a>. After the incident, a new fully
+                  collateralized pGALA-on-BSC token has been launched on pNetwork v2 (token address
+                  0x419c44c48cd346c0b0933ba243be02af46607c9b).
+                </WarningNotification>
+              )}
             {notifyMigration ? (
               <MigrationNotification>
                 {notifyMigration === 'pbtc-v1-v2' && (
@@ -306,11 +334,8 @@ const Swap = ({
               ) : null}
               {(to && to.id === 'PBTC_ON_BSC_MAINNET') || (from && from.id === 'PBTC_ON_BSC_MAINNET') ? (
                 <InfoEta>
-                  The pBTC-on-BSC pToken is currently off-peg due to a hack - a compensation plan to recoup value in
-                  various crypto assets (not strictly BTC) is being discussed by the community. More details{' '}
-                  <a href="https://twitter.com/pNetworkDeFi/status/1439690593211490324">here</a>. Updates on the launch
-                  of a new pBTC-on-BSC bridge to follow. All other pTokens are working as usual and pegged 1:1 with
-                  their underlying assets.
+                  pBTC on BSC has been relaunched on pNetwork v2 in late 2022 (token address
+                  0x1003d3574ac79303a5fa0951ecb04cc7acba9747) and it is the only official pBTC representation on BSC.
                 </InfoEta>
               ) : null}
               {to && to.id === 'PBTC_ON_ALGORAND_MAINNET' ? (

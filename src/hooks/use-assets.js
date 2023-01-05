@@ -8,7 +8,7 @@ import { stringUtils } from 'ptokens-helpers'
 
 const useAssets = _assets => {
   return useMemo(() => {
-    const modifiedAssets = _assets.map(_asset => updateAsset(_asset))
+    const modifiedAssets = _assets.filter(({ isHidden }) => !isHidden).map(_asset => updateAsset(_asset))
 
     const assetsWithBalance = modifiedAssets
       .filter(({ formattedBalance }) => formattedBalance !== '-')

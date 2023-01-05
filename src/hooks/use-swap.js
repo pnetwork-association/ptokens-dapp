@@ -364,7 +364,8 @@ const useSwap = ({
   const [filteredAssets] = useMemo(() => {
     if (from && from.isNative) {
       const filtered = assets.filter(
-        ({ isNative, nativeSymbol }) => !isNative && nativeSymbol.toLowerCase() === from.nativeSymbol.toLowerCase()
+        ({ isNative, nativeSymbol, isHidden }) =>
+          !isNative && !isHidden && nativeSymbol.toLowerCase() === from.nativeSymbol.toLowerCase()
       )
       if (!isValidSwap) {
         setTo(filtered[0])
@@ -375,7 +376,8 @@ const useSwap = ({
 
     if (from && !from.isNative) {
       let filtered = assets.filter(
-        ({ nativeSymbol, id }) => from.id !== id && from.nativeSymbol.toLowerCase() === nativeSymbol.toLowerCase()
+        ({ nativeSymbol, id, isHidden }) =>
+          from.id !== id && !isHidden && from.nativeSymbol.toLowerCase() === nativeSymbol.toLowerCase()
       )
       filtered = filtered.filter(({ onPnetworkV2, isNative, isPseudoNative }) =>
         from.onPnetworkV2 ? (onPnetworkV2 && !isPseudoNative) || isNative : isNative
