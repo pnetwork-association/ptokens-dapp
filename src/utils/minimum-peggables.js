@@ -1,5 +1,6 @@
 import {
   PBTC_ON_ETH_MAINNET,
+  WBTC_ON_ETH_MAINNET,
   PBTC_ON_TELOS_MAINNET,
   PBTC_ON_LIBRE_MAINNET,
   PBTC_ON_EOS_MAINNET,
@@ -109,6 +110,10 @@ const minimumPeggable = {
     pegout: 0.0015
   },
   [PBTC_ON_ETH_MAINNET]: {
+    pegin: 0.0015,
+    pegout: 0.0015
+  },
+  [WBTC_ON_ETH_MAINNET]: {
     pegin: 0.0015,
     pegout: 0.0015
   },

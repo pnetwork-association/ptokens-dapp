@@ -276,7 +276,7 @@ const Swap = ({
               (from.id === 'GALA_ON_BSC_MAINNET' || to.id === 'GALA_ON_BSC_MAINNET') && (
                 <WarningNotification>
                   The old pGALA-on-BSC pToken (token address 0x7ddee176f665cd201f93eede625770e2fd911990) has been
-                  affected by an in ident in late 2022 and is currently worthless - a recovery plan has been executed.
+                  affected by an incident in late 2022 and is currently worthless - a recovery plan has been executed.
                   More details <a href="https://t.me/pGALA_incident_updates">here</a>. After the incident, a new fully
                   collateralized pGALA-on-BSC token has been launched on pNetwork v2 (token address
                   0x419c44c48cd346c0b0933ba243be02af46607c9b).
