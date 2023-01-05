@@ -40,7 +40,9 @@ import Web3 from 'web3'
 import BigNumber from 'bignumber.js'
 
 const loadSwapData = (_opts = {}) => {
-  const { defaultSelection: { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid } = {} } = _opts
+  const {
+    defaultSelection: { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol } = {}
+  } = _opts
   return async _dispatch => {
     try {
       _dispatch({
@@ -48,7 +50,15 @@ const loadSwapData = (_opts = {}) => {
         payload: {
           assets: [
             ...assets,
-            ...getDefaultSelection(assets, { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid })
+            ...getDefaultSelection(assets, {
+              pToken,
+              asset,
+              from,
+              to,
+              algorand_from_assetid,
+              algorand_to_assetid,
+              host_symbol
+            })
           ]
         }
       })

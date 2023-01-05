@@ -2,7 +2,7 @@ import { PAGE_SELECTED, SET_LOADING, SET_THEME, UPDATE_INFO_MODAL } from '../../
 import history from '../../utils/history'
 
 const selectPage = (_page, _options = {}) => {
-  const { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid } = _options
+  const { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol } = _options
   if (history.location.pathname.includes('migration')) {
     history.replace('')
   }
@@ -19,7 +19,9 @@ const selectPage = (_page, _options = {}) => {
     history.replace(
       `swap?asset=${asset}&from=${from}&to=${to}${
         algorand_from_assetid ? `&algorand_from_assetid=${algorand_from_assetid}` : ''
-      }${algorand_to_assetid ? `&algorand_to_assetid=${algorand_to_assetid}` : ''}`
+      }${algorand_to_assetid ? `&algorand_to_assetid=${algorand_to_assetid}` : ''}${
+        host_symbol ? `&host_symbol=${host_symbol}` : ''
+      }`
     )
   }
 
