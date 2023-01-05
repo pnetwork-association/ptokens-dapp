@@ -194,6 +194,8 @@ const Swap = ({
     onPnetworkV2,
     onChangeFromAmount,
     onChangeToAmount,
+    disableToInput,
+    disableFromInput,
     onChangeOrder,
     onFromMax,
     onToMax,
@@ -315,6 +317,7 @@ const Swap = ({
                 asset={from}
                 amount={fromAmount}
                 wallet={fromWallet}
+                disableInput={disableFromInput}
                 onChangeAmount={onChangeFromAmount}
                 onClickImage={() => setShowModalFrom(true)}
                 onMax={onFromMax}
@@ -330,6 +333,7 @@ const Swap = ({
                 amount={toAmount}
                 address={address}
                 wallet={toWallet}
+                disableInput={disableToInput}
                 onChangeAmount={onChangeToAmount}
                 onClickImage={() => setShowModalTo(true)}
                 onChangeAddress={setAddress}

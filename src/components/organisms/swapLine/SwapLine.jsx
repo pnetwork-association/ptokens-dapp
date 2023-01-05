@@ -204,7 +204,7 @@ const SwapLine = ({
   onChangeAddress,
   onMax,
   withTitleLabel,
-  disableInput = false,
+  disableInput,
   inputType = 'number',
   inputPlaceholder = '0.0',
   ..._props

@@ -43,15 +43,20 @@ const useSwap = ({
   const [pegoutToTelosEvmAddress, setPegoutToTelosEvmAddress] = useState(false)
   const ToSRef = useRef({ isAccepted: false, isRefused: false })
   const curveRef = useRef(null)
+  const [disableToInput, setDisableToInput] = useState(false)
+  const [disableFromInput, setDisableFromInput] = useState(false)
   const [curveState, setCurveState] = useState(false)
   const AddressWarningRef = useRef({ proceed: false, doNotProceed: false })
 
   useEffect(() => {
     if (from && from.requiresCurve) {
+      setDisableToInput(true)
       if (!curveRef.current) {
         curveInit()
       }
     } else if (curveRef.current) {
+      setDisableToInput(false)
+      setDisableFromInput(false)
       curveRef.current = null
       setCurveState(false)
     }
@@ -60,6 +65,7 @@ const useSwap = ({
       await curve.init('Web3', { externalProvider: provider }, { chainId: from.curveChainId })
       await curve.fetchFactoryPools()
       curveRef.current = [curve, from.address, from.swapToAddress]
+      setDisableFromInput(false)
       setCurveState(true)
     }
   }, [fromAmount, to, from, curveRef])
@@ -250,6 +256,7 @@ const useSwap = ({
   const onSelectFrom = useCallback(_asset => {
     setShowModalFrom(false)
     setFrom(_asset)
+    if (_asset.requiresCurve) setDisableFromInput(true)
     setFromAmount('')
     setToAmount('')
     setPegoutToTelosEvmAddress(false)
@@ -364,6 +371,12 @@ const useSwap = ({
   // NOTE: calculates button text
   useEffect(() => {
     const validate = async () => {
+      if (from && from.requiresCurve && !curveState) {
+        updateSwapButton('Loading wBTC Curve pool ...', true)
+        setDisableFromInput(true)
+        return
+      }
+
       if (!from || !to) {
         updateSwapButton('Loading ...', true)
         return
@@ -605,6 +618,8 @@ const useSwap = ({
     onPnetworkV2,
     onChangeFromAmount,
     onChangeToAmount,
+    disableToInput,
+    disableFromInput,
     onChangeOrder,
     onFromMax,
     onToMax,
