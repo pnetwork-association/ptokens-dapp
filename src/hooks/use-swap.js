@@ -281,6 +281,10 @@ const useSwap = ({
         return [false]
       }
 
+      if (to.requiresCurve) {
+        return [false]
+      }
+
       const ptoken = assets.find(({ id }) => ptokenId === id)
       if (!ptoken) {
         return [false]
@@ -312,6 +316,12 @@ const useSwap = ({
       }
 
       if (!to.onPnetworkV2 && !to.isNative) {
+        return [false]
+      }
+      if (to.requiresCurve) {
+        return [false]
+      }
+      if (from.requiresCurve && from.blockchain === to.blockchain) {
         return [false]
       }
 
@@ -490,10 +500,11 @@ const useSwap = ({
   // NOTE: filters based on from selection
   const [filteredAssets] = useMemo(() => {
     if (from && from.isNative) {
-      const filtered = assets.filter(
+      let filtered = assets.filter(
         ({ isNative, nativeSymbol, isHidden }) =>
           !isNative && !isHidden && nativeSymbol.toLowerCase() === from.nativeSymbol.toLowerCase()
       )
+      filtered = filtered.filter(({ requiresCurve }) => !requiresCurve)
       if (!isValidSwap) {
         setTo(filtered[0])
       }
@@ -510,6 +521,8 @@ const useSwap = ({
         from.onPnetworkV2 ? (onPnetworkV2 && !isPseudoNative) || isNative : isNative
       )
       filtered = filtered.filter(({ isNative }) => (from.isPseudoNative ? isNative : true))
+      filtered = filtered.filter(({ requiresCurve }) => !requiresCurve)
+      filtered = filtered.filter(({ blockchain }) => from.blockchain !== blockchain)
       if (!isValidSwap) {
         setTo(filtered.filter(({ isNative }) => isNative)[0])
       }
