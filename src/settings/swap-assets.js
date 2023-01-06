@@ -620,7 +620,8 @@ const swapAssets = [
     nativeBlockchain: 'BTC',
     image: 'pBTC.svg',
     withBalanceDecimalsConversion: true,
-    chainId: ChainId.BscMainnet
+    chainId: ChainId.BscMainnet,
+    onPnetworkV2: true
   },
   {
     address: '0xed28a457a5a76596ac48d87c0f577020f6ea1c4c',
