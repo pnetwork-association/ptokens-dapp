@@ -18,6 +18,7 @@
     "axios": "^0.19.2",
     "bignumber.js": "^9.0.1",
     "bootstrap": "^4.3.1",
+    "core-js": "^3.27.1",
     "eos-transit": "^4.0.7",
     "eos-transit-scatter-provider": "^4.0.7",
     "eos-transit-tokenpocket-provider": "^4.0.7",

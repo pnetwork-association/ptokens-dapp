@@ -14,6 +14,10 @@ import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 import 'react-step-progress-bar/styles.css'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import './theme/font.css'
+import CJSA from 'core-js/stable/array'
+
+// eslint-disable-next-line no-unused-expressions
+CJSA
 
 ReactGA.initialize(settings.googleAnalyticsTrackId)
 
