@@ -95,6 +95,15 @@ input[type=number] {
   line-height: 0.9;
 }
 
+.navbar-nav .dropdown-menu {
+  position: absolute;
+  float: none;
+}
+
+.dropdown-toggle.nav-link {
+  color: ${({ active, theme }) => (active ? theme.text1 : theme.text3)} !important;
+}
+
 body {
   min-height: 100vh;
   background-color: ${({ theme }) => theme.bg1} !important;

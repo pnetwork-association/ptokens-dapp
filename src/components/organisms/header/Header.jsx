@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Navbar, Nav, Container, Row, Col } from 'react-bootstrap'
+import { Navbar, Nav, NavDropdown, Container, Row, Col } from 'react-bootstrap'
 import Walletinfo from '../walletInfoModal/WalletInfoModal'
 import { useWallets } from '../../../hooks/use-wallets'
 import Icon from '../../atoms/icon/Icon'
@@ -62,6 +62,12 @@ const ThemeIcon = styled(Icon)`
 
 const ConnectedIcon = styled(ThemeIcon)``
 
+const NavOptimized = styled(Navbar)`
+  @media (max-width: 516.98px) {
+    display: inline-flex;
+  }
+`
+
 const Logo = styled.img`
   width: 36px;
   height: 36px;
@@ -98,6 +104,32 @@ const StyledNav = styled(Nav)`
     margin-right: 0 !important;
     flex-direction: row !important;
   }
+  @media (max-width: 516.98px) {
+    display: none;
+  }
+`
+
+const StyledNavMobile = styled(Nav)`
+  flex-direction: row !important;
+  @media (min-width: 516.98px) {
+    display: none;
+  }
+`
+
+const DropdownMobile = styled(NavDropdown)`
+  font-size: 17px;
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-left: 10px;
+  color: ${({ active, theme }) => (active ? theme.text1 : theme.text3)} !important;
+  z-index: 3 @media (max-width: 516.98px) {
+    display: block;
+  }
+`
+
+const StyledNavDown = styled(Nav.Link)`
+  font-size: 17px;
+  color: ${({ active, theme }) => (active ? theme.text1 : theme.text3)} !important;
 `
 
 const ContainerBottomMobile = styled(Container)`
@@ -165,7 +197,7 @@ const Header = _props => {
 
   return (
     <HeaderWrapper>
-      <Navbar expand="lg">
+      <NavOptimized expand="lg">
         <Navbar.Brand>
           {' '}
           <Logo src="../assets/svg/PNT.svg" />
@@ -193,6 +225,41 @@ const Header = _props => {
             $PNT <GoToIcon icon="arrow-diagonal" />
           </StyledNavLink>
         </StyledNav>
+        <StyledNavMobile>
+          <StyledNavLink active={selectedPage === 'swap'} onClick={onSwap}>
+            Swap
+          </StyledNavLink>
+          <StyledNavLink active={selectedPage === 'risks'} onClick={() => selectPage('risks')}>
+            Risks
+          </StyledNavLink>
+          <DropdownMobile title="More">
+            <NavDropdown.Item>
+              <StyledNavDown active={selectedPage.includes('migration')} onClick={() => selectPage('migration')}>
+                Migration
+              </StyledNavDown>
+            </NavDropdown.Item>
+            <NavDropdown.Item>
+              <StyledNavDown active={selectedPage === 'nfts'} onClick={() => selectPage('nfts')}>
+                NFTs
+              </StyledNavDown>
+            </NavDropdown.Item>
+            <NavDropdown.Item>
+              <StyledNavDown onClick={() => window.open(settings.links.stats, '_blank')}>
+                Stats <GoToIcon icon="arrow-diagonal" />
+              </StyledNavDown>
+            </NavDropdown.Item>
+            <NavDropdown.Item>
+              <StyledNavDown onClick={() => window.open(settings.links.audit, '_blank')}>
+                Audits <GoToIcon icon="arrow-diagonal" />
+              </StyledNavDown>
+            </NavDropdown.Item>
+            <NavDropdown.Item>
+              <StyledNavDown onClick={() => window.open(settings.links.coinmarketcap, '_blank')}>
+                $PNT <GoToIcon icon="arrow-diagonal" />
+              </StyledNavDown>
+            </NavDropdown.Item>
+          </DropdownMobile>
+        </StyledNavMobile>
         <ContainerOptions>
           {isConnected ? (
             <ConnectedIcon icon="wallet" onClick={() => setShowWalletInfo(true)} />
@@ -204,7 +271,7 @@ const Header = _props => {
             onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
           ></ThemeIcon>
         </ContainerOptions>
-      </Navbar>
+      </NavOptimized>
       <Walletinfo
         show={showWalletInfo}
         wallets={wallets}
