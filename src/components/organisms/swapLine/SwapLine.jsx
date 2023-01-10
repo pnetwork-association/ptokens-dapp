@@ -288,7 +288,7 @@ const SwapLine = ({
           <OuterContainerAddressInput>
             <InnerContainerAddressInput>
               <AddressInput
-                placeholder="to address"
+                placeholder="destination address"
                 value={address}
                 onChange={_e => onChangeAddress(_e.target.value)}
               />

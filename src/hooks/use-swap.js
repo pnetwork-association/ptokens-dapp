@@ -10,6 +10,7 @@ import { numberWithCommas } from '../utils/amount-utils'
 import { TLOS_ON_BSC_MAINNET, TLOS_ON_ETH_MAINNET } from '../constants'
 import { maybeOptInAlgoApp, maybeOptInAlgoAsset } from '../store/swap/utils/opt-in-algo'
 import ReactGA from 'react-ga4'
+import { useRef } from 'react'
 
 const useSwap = ({
   wallets,
@@ -21,7 +22,8 @@ const useSwap = ({
   progress,
   swapButton,
   updateSwapButton,
-  hideDepositAddressModal
+  hideDepositAddressModal,
+  setModalShow
 }) => {
   const [from, setFrom] = useState(null)
   const [to, setTo] = useState(null)
@@ -34,6 +36,7 @@ const useSwap = ({
   const [assetsLoaded, setAssetsLoaded] = useState(false)
   const [selectionChanged, setSelectionChanged] = useState(false)
   const [pegoutToTelosEvmAddress, setPegoutToTelosEvmAddress] = useState(false)
+  const ToSRef = useRef({ isAccepted: false, isRefused: false })
 
   const { fee, isPegin, isPegout, eta, poolAmount, minimumPeggable, onPnetworkV2 } = useSwapInfo({
     from,
@@ -103,16 +106,60 @@ const useSwap = ({
   }, [fee, to])
 
   const onSwap = useCallback(() => {
+    function connectToWalletToS() {
+      return new Promise(waitForToS)
+
+      function waitForToS(resolve, reject) {
+        if (ToSRef.current.isAccepted) resolve('Terms have beed accepted')
+        if (ToSRef.current.isRefused) reject('Terms have been refused')
+        else {
+          setTimeout(waitForToS.bind(this, resolve, reject), 30)
+        }
+      }
+    }
+
     if (swapButton.text === 'Connect Wallet') {
-      connectWithWallet(from.blockchain)
+      if (ToSRef.current.isAccepted) {
+        connectWithWallet(from.blockchain)
+      } else {
+        setModalShow(true)
+        connectToWalletToS().then(
+          value => {
+            console.log(value)
+            connectWithWallet(from.blockchain)
+          },
+          err => {
+            ToSRef.current.isRefused = false
+            console.log(err)
+          }
+        )
+      }
     }
 
     if (swapButton.text === 'Get Deposit Address' || swapButton.text === 'Swap') {
-      updateSwapButton(swapButton.text === 'Swap' ? 'Swapping ...' : 'Generating ...', true)
-      ReactGA.event('swap_click', { asset_from: from.id, asset_to: to.id, from_amount: fromAmount })
-      swap(from, to, fromAmount, address, {
-        pegoutToTelosEvmAddress
-      })
+      if (ToSRef.current.isAccepted) {
+        updateSwapButton(swapButton.text === 'Swap' ? 'Swapping ...' : 'Generating ...', true)
+        ReactGA.event('swap_click', { asset_from: from.id, asset_to: to.id, from_amount: fromAmount })
+        swap(from, to, fromAmount, address, {
+          pegoutToTelosEvmAddress
+        })
+      } else {
+        setModalShow(true)
+        connectToWalletToS().then(
+          value => {
+            console.log(value)
+            updateSwapButton(swapButton.text === 'Swap' ? 'Swapping ...' : 'Generating ...', true)
+            ReactGA.event('swap_click', { asset_from: from.id, asset_to: to.id, from_amount: fromAmount })
+            swap(from, to, fromAmount, address, {
+              pegoutToTelosEvmAddress
+            })
+          },
+          err => {
+            ToSRef.current.isRefused = false
+            console.log(err)
+          }
+        )
+      }
     }
   }, [
     from,
@@ -123,6 +170,7 @@ const useSwap = ({
     swap,
     pegoutToTelosEvmAddress,
     connectWithWallet,
+    setModalShow,
     updateSwapButton
   ])
 
@@ -477,7 +525,8 @@ const useSwap = ({
     setShowModalTo,
     onCloseDepositAddressModal,
     pegoutToTelosEvmAddress,
-    setPegoutToTelosEvmAddress
+    setPegoutToTelosEvmAddress,
+    ToSRef
   }
 }
 

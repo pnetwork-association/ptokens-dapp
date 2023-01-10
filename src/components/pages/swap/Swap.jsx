@@ -13,6 +13,7 @@ import defaultAssets from '../../../settings/swap-assets'
 import { useAssets } from '../../../hooks/use-assets'
 import Icon from '../../atoms/icon/Icon'
 import InfoModal from '../../organisms/infoModal/InfoModal'
+import TermsOfService from '../../../components/molecules/popup/TermsOfService'
 import WarningPopup from '../../molecules/popup/Warning'
 import Switch from '../../atoms/switch/Switch'
 import Button from '../../atoms/button/Button'
@@ -72,6 +73,12 @@ export const SortIcon = styled(Icon)`
 
 export const ContainerSwapButton = styled.div`
   margin-top: 20px;
+`
+
+export const ContainerTermOfService = styled.div`
+  margin-top: 10px;
+  text-align: center;
+  align-items: center;
 `
 
 export const SwapLabel = styled.label`
@@ -167,6 +174,7 @@ const Swap = ({
   const [assets] = useAssets(_assets)
   const [migrationAssets] = useAssets(_migrationAssets)
   const [notifyMigration, setNotifyMigration] = useState()
+  const [modalShow, setModalShow] = useState(false)
   const [showWarningPopup, setShowWarningPopup] = useState(true)
 
   const {
@@ -196,7 +204,8 @@ const Swap = ({
     setShowModalTo,
     onCloseDepositAddressModal,
     pegoutToTelosEvmAddress,
-    setPegoutToTelosEvmAddress
+    setPegoutToTelosEvmAddress,
+    ToSRef
   } = useSwap({
     progress,
     wallets,
@@ -207,7 +216,8 @@ const Swap = ({
     swap,
     swapButton,
     updateSwapButton,
-    hideDepositAddressModal
+    hideDepositAddressModal,
+    setModalShow
   })
 
   useEffect(() => {
@@ -416,6 +426,17 @@ const Swap = ({
                   {swapButton.text}
                 </Button>
               </ContainerSwapButton>
+              <TermsOfService
+                show={modalShow}
+                onHide={() => {
+                  ToSRef.current = { isAccepted: false, isRefused: true }
+                  setModalShow(false)
+                }}
+                onClose={() => {
+                  ToSRef.current = { isAccepted: true, isRefused: false }
+                  setModalShow(false)
+                }}
+              />
             </ContainerSwap>
           </OuterContainerSwap>
         </Row>

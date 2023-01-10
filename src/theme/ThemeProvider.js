@@ -74,6 +74,10 @@ input[type=number] {
   margin: 1.75rem auto;
 }
 
+.modal-tos {
+  margin: 1.75rem auto;
+}
+
 .alert-dismissible {
   padding-right: 2.6rem;
 }
