@@ -5,7 +5,7 @@ import './styles.css'
 
 export default function SocialLinks() {
   return (
-    <div>
+    <div className="social-div">
       <p className="social-container">
         <a href={settings.links['p.network']} className="social pnetwork">
           <img src="../assets/svg/PNT.svg" alt="" />
