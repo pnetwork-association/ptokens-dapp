@@ -74,6 +74,23 @@ input[type=number] {
   margin: 1.75rem auto;
 }
 
+.alert-dismissible {
+  padding-right: 2.6rem;
+}
+
+.alert-dismissible .close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  padding-top: 0rem;
+  padding-right: 0.75rem;
+  padding-bottom: 0rem;
+  padding-left: 0.5rem;
+  color: inherit;
+  line-height: 0.9;
+}
+
 body {
   min-height: 100vh;
   background-color: ${({ theme }) => theme.bg1} !important;

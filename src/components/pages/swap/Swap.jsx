@@ -13,6 +13,7 @@ import defaultAssets from '../../../settings/swap-assets'
 import { useAssets } from '../../../hooks/use-assets'
 import Icon from '../../atoms/icon/Icon'
 import InfoModal from '../../organisms/infoModal/InfoModal'
+import WarningPopup from '../../molecules/popup/Warning'
 import Switch from '../../atoms/switch/Switch'
 import Button from '../../atoms/button/Button'
 import { PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../../../constants'
@@ -166,6 +167,7 @@ const Swap = ({
   const [assets] = useAssets(_assets)
   const [migrationAssets] = useAssets(_migrationAssets)
   const [notifyMigration, setNotifyMigration] = useState()
+  const [showWarningPopup, setShowWarningPopup] = useState(true)
 
   const {
     from,
@@ -242,6 +244,7 @@ const Swap = ({
       <Container>
         <Row>
           <Col className="d-flex justify-content-center">
+            <WarningPopup show={showWarningPopup} onClose={() => setShowWarningPopup(false)} />
             {assets.find(({ id }) => id === 'OLD_PBTC_ON_BSC_MAINNET') &&
               parseFloat(assets.find(({ id }) => id === 'OLD_PBTC_ON_BSC_MAINNET').balance) > 0 &&
               (from.id === 'PBTC_ON_BSC_MAINNET' || to.id === 'PBTC_ON_BSC_MAINNET') && (
