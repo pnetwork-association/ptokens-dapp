@@ -69,7 +69,7 @@ input[type=number] {
   }
 }
 
-.modal-dialog {
+.modal-wallet {
   max-width: 450px !important;
   margin: 1.75rem auto;
 }
