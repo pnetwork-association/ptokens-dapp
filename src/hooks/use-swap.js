@@ -315,6 +315,11 @@ const useSwap = ({
 
       // NOTE: pegin with deposit address
       if (!wallets[from.blockchain.toLowerCase()]) {
+        if (!address || address === '') {
+          updateSwapButton('Enter an address', true)
+          return
+        }
+
         if (swapType === 'pegin' && !(await isValidAccountByBlockchain(address, to.blockchain))) {
           updateSwapButton('Invalid Address', true)
           return
