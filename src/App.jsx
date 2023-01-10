@@ -17,6 +17,7 @@ import HeaderController from './components/organisms/header/HeaderController'
 import MainWrapper from './components/atoms/mainWrapper/MainWrapper'
 import Notifications from './components/molecules/notifications/Notifications'
 import NftsController from './components/pages/nfts/NftsController'
+import Risks from './components/pages/risks/Risks'
 import Loader from './components/atoms/loader/Loader'
 import Popup from './components/molecules/popup/Popup'
 import SocialLinks from './components/molecules/socials/Socials'
@@ -49,6 +50,17 @@ const Migrations = () => {
     <Switch>
       <Route exact path={path} render={() => <MigrationHomeController />} />
       <Route exact path={`${path}/:strategyId`} render={() => <MigrationController />} />
+    </Switch>
+  )
+}
+
+const RisksPage = () => {
+  const { path } = useRouteMatch()
+
+  return (
+    <Switch>
+      <Route exact path={path} render={() => <Risks />} />
+      <Route exact path={`${path}/:strategyId`} render={() => <Risks />} />
     </Switch>
   )
 }
@@ -97,6 +109,9 @@ const App = ({ loading, setTheme, loadSwapData, loadSwapOldPntData, loadMigratio
           />
           <Route path="/migration">
             <Migrations />
+          </Route>
+          <Route path="/risks">
+            <RisksPage />
           </Route>
           <Route exact path={'/oldpnt-swap'} render={() => <SwapOldPntController />} />
           <Route render={() => <Redirect to="swap" />} />

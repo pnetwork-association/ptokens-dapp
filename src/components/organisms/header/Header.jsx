@@ -180,6 +180,9 @@ const Header = _props => {
           <StyledNavLink active={selectedPage === 'nfts'} onClick={() => selectPage('nfts')}>
             NFTs
           </StyledNavLink>
+          <StyledNavLink active={selectedPage === 'risks'} onClick={() => selectPage('risks')}>
+            Risks
+          </StyledNavLink>
           <StyledNavLink onClick={() => window.open(settings.links.stats, '_blank')}>
             Stats <GoToIcon icon="arrow-diagonal" />
           </StyledNavLink>
