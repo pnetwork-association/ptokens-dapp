@@ -22,7 +22,7 @@
     "eos-transit": "^4.0.7",
     "eos-transit-scatter-provider": "^4.0.7",
     "eos-transit-tokenpocket-provider": "^4.0.7",
-    "eosjs": "^20.0.0",
+    "eosjs": "^22.1.0",
     "eventemitter3": "^4.0.7",
     "fortmatic": "^2.0.5",
     "is-mobile": "^3.0.0",
