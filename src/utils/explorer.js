@@ -49,7 +49,7 @@ const tokenBaseLink = {
   BSC: `${settings.explorers.mainnet.bsc}token/`,
   EOS: `${settings.explorers.mainnet.eos}account/`,
   TELOS: `${settings.explorers.mainnet.telos}account/`,
-  LIBRE: `${settings.explorers.mainnet.libre}contract/`,
+  LIBRE: `${settings.explorers.mainnet.libre}account/`,
   BTC: `${settings.explorers.mainnet.btc}address/`,
   LTC: `${settings.explorers.mainnet.ltc}address/`,
   RVN: `${settings.explorers.mainnet.rvn}address/`,

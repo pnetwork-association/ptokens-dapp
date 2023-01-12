@@ -142,7 +142,7 @@ const settings = {
       btc: 'https://blockstream.info/',
       eos: 'https://bloks.io/',
       telos: 'https://telos.eosx.io/',
-      libre: 'https://libre-explorer.edenia.cloud/',
+      libre: 'https://lb.libre.org/v2/explore/',
       ltc: 'https://live.blockcypher.com/ltc/',
       bsc: 'https://bscscan.com/',
       xdai: 'https://blockscout.com/poa/xdai/',
