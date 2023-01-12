@@ -6,7 +6,12 @@ export default class AnchorProvider {
     this.transport = new AnchorLinkBrowserTransport()
     this.link = new AnchorLink({
       transport: this.transport,
-      chainId: settings.chainId,
+      chains: [
+        {
+          chainId: settings.chainId,
+          nodeUrl: settings.endpoint
+        }
+      ],
       rpc: settings.endpoint
     })
     this.dappName = dappName
@@ -14,16 +19,25 @@ export default class AnchorProvider {
 
   connect = async () => {
     try {
-      const res = await this.link.login(this.dappName)
-      if (res) {
-        const { signerKey, signer } = res
+      const identity = await this.link.login(this.dappName)
+      if (identity) {
+        const provider = this.link.makeSignatureProvider([identity.session.publicKey.toString()])
+        provider._sign = provider.sign
+        provider.sign = async args => {
+          const ret = await provider._sign(args)
+          return {
+            serializedTransaction: ret.serializedTransaction.array,
+            signatures: ret.signatures,
+            compression: false
+          }
+        }
         return {
           account: {
-            actor: signer.actor,
-            permission: signer.permission
+            actor: identity.session.auth.actor.toString(),
+            permission: identity.session.auth.permission.toString()
           },
           success: true,
-          provider: this.link.makeSignatureProvider([signerKey])
+          provider: provider
         }
       } else {
         return {
