@@ -2,6 +2,7 @@
   "name": "ptokens-dapp",
   "version": "2.0.0",
   "private": true,
+  "homepage": ".",
   "author": "alle.manfredi@gmail.com @provable-things",
   "dependencies": {
     "@json-rpc-tools/utils": "^1.7.6",

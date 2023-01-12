@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import store from './store'
 import history from './utils/history'
 import * as serviceWorker from './serviceWorker'
@@ -31,9 +31,9 @@ ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider>
       <ThemedGlobalStyle />
-      <Router history={history}>
+      <HashRouter history={history}>
         <App />
-      </Router>
+      </HashRouter>
     </ThemeProvider>
   </Provider>,
   document.getElementById('root')
