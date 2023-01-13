@@ -252,9 +252,9 @@ const Swap = ({
   return (
     <React.Fragment>
       <Container>
+        <WarningPopup show={showWarningPopup} onClose={() => setShowWarningPopup(false)} />
         <Row>
           <Col className="d-flex justify-content-center">
-            <WarningPopup show={showWarningPopup} onClose={() => setShowWarningPopup(false)} />
             {assets.find(({ id }) => id === 'OLD_PBTC_ON_BSC_MAINNET') &&
               parseFloat(assets.find(({ id }) => id === 'OLD_PBTC_ON_BSC_MAINNET').balance) > 0 &&
               (from.id === 'PBTC_ON_BSC_MAINNET' || to.id === 'PBTC_ON_BSC_MAINNET') && (
