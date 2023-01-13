@@ -23,7 +23,8 @@ const useSwap = ({
   swapButton,
   updateSwapButton,
   hideDepositAddressModal,
-  setTosShow
+  setTosShow,
+  setAddressWarningShow
 }) => {
   const [from, setFrom] = useState(null)
   const [to, setTo] = useState(null)
@@ -37,6 +38,7 @@ const useSwap = ({
   const [selectionChanged, setSelectionChanged] = useState(false)
   const [pegoutToTelosEvmAddress, setPegoutToTelosEvmAddress] = useState(false)
   const ToSRef = useRef({ isAccepted: false, isRefused: false })
+  const AddressWarningRef = useRef({ proceed: false, doNotProceed: false })
 
   const { fee, isPegin, isPegout, eta, poolAmount, minimumPeggable, onPnetworkV2 } = useSwapInfo({
     from,
@@ -107,6 +109,7 @@ const useSwap = ({
 
   const onSwap = useCallback(() => {
     function waitForToS() {
+      setTosShow(!ToSRef.current.isAccepted)
       function _waitForToS(resolve, reject) {
         if (ToSRef.current.isAccepted) resolve('Terms have beed accepted')
         if (ToSRef.current.isRefused) reject('Terms have been refused')
@@ -117,48 +120,66 @@ const useSwap = ({
       return new Promise(_waitForToS)
     }
 
-    if (swapButton.text === 'Connect Wallet') {
-      if (ToSRef.current.isAccepted) {
-        connectWithWallet(from.blockchain)
-      } else {
-        setTosShow(true)
-        waitForToS().then(
-          value => {
-            console.log(value)
-            connectWithWallet(from.blockchain)
-          },
-          err => {
-            ToSRef.current.isRefused = false
-            console.log(err)
-          }
-        )
+    function waitForAddressWarning() {
+      setAddressWarningShow(true)
+      function _waitForAddressWarning(resolve, reject) {
+        if (AddressWarningRef.current.proceed) resolve('Proceeding to selected address')
+        if (AddressWarningRef.current.doNotProceed) reject('Insert new address')
+        else {
+          setTimeout(_waitForAddressWarning.bind(this, resolve, reject), 30)
+        }
       }
+      return new Promise(_waitForAddressWarning)
+    }
+
+    function isReasonableAddress() {
+      if (
+        (from.address && address.toLowerCase() === from.address.toLowerCase()) ||
+        (to.address && address.toLowerCase() === to.address.toLowerCase())
+      ) {
+        return false
+      }
+      return true
+    }
+
+    function doSwap() {
+      updateSwapButton(swapButton.text === 'Swap' ? 'Swapping ...' : 'Generating ...', true)
+      ReactGA.event('swap_click', { asset_from: from.id, asset_to: to.id, from_amount: fromAmount })
+      swap(from, to, fromAmount, address, {
+        pegoutToTelosEvmAddress
+      })
+    }
+
+    if (swapButton.text === 'Connect Wallet') {
+      const connectToWallet = async () => {
+        try {
+          await waitForToS()
+          connectWithWallet(from.blockchain)
+        } catch (err) {
+          ToSRef.current.isRefused = false
+        }
+      }
+      connectToWallet()
     }
 
     if (swapButton.text === 'Get Deposit Address' || swapButton.text === 'Swap') {
-      if (ToSRef.current.isAccepted) {
-        updateSwapButton(swapButton.text === 'Swap' ? 'Swapping ...' : 'Generating ...', true)
-        ReactGA.event('swap_click', { asset_from: from.id, asset_to: to.id, from_amount: fromAmount })
-        swap(from, to, fromAmount, address, {
-          pegoutToTelosEvmAddress
-        })
-      } else {
-        setTosShow(true)
-        waitForToS().then(
-          value => {
-            console.log(value)
-            updateSwapButton(swapButton.text === 'Swap' ? 'Swapping ...' : 'Generating ...', true)
-            ReactGA.event('swap_click', { asset_from: from.id, asset_to: to.id, from_amount: fromAmount })
-            swap(from, to, fromAmount, address, {
-              pegoutToTelosEvmAddress
-            })
-          },
-          err => {
+      const swapAction = async () => {
+        try {
+          await waitForToS()
+          if (!isReasonableAddress()) await waitForAddressWarning()
+          AddressWarningRef.current.proceed = false
+          doSwap()
+        } catch (err) {
+          if (err === 'Terms have been refused') {
             ToSRef.current.isRefused = false
-            console.log(err)
           }
-        )
+          if (err === 'Insert new address') {
+            setAddress('')
+            AddressWarningRef.current.doNotProceed = false
+          }
+        }
       }
+      swapAction()
     }
   }, [
     from,
@@ -170,7 +191,8 @@ const useSwap = ({
     pegoutToTelosEvmAddress,
     connectWithWallet,
     setTosShow,
-    updateSwapButton
+    updateSwapButton,
+    setAddressWarningShow
   ])
 
   const onSelectFrom = useCallback(_asset => {
@@ -530,7 +552,8 @@ const useSwap = ({
     onCloseDepositAddressModal,
     pegoutToTelosEvmAddress,
     setPegoutToTelosEvmAddress,
-    ToSRef
+    ToSRef,
+    AddressWarningRef
   }
 }
 

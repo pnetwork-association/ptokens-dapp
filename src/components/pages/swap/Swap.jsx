@@ -14,6 +14,7 @@ import { useAssets } from '../../../hooks/use-assets'
 import Icon from '../../atoms/icon/Icon'
 import InfoModal from '../../organisms/infoModal/InfoModal'
 import TermsOfService from '../../../components/molecules/popup/TermsOfService'
+import AddressWarning from '../../molecules/popup/AddressWarning'
 import WarningPopup from '../../molecules/popup/Warning'
 import Switch from '../../atoms/switch/Switch'
 import Button from '../../atoms/button/Button'
@@ -175,6 +176,7 @@ const Swap = ({
   const [migrationAssets] = useAssets(_migrationAssets)
   const [notifyMigration, setNotifyMigration] = useState()
   const [TosShow, setTosShow] = useState(false)
+  const [AddressWarningShow, setAddressWarningShow] = useState(false)
   const [showWarningPopup, setShowWarningPopup] = useState(true)
 
   const {
@@ -205,7 +207,8 @@ const Swap = ({
     onCloseDepositAddressModal,
     pegoutToTelosEvmAddress,
     setPegoutToTelosEvmAddress,
-    ToSRef
+    ToSRef,
+    AddressWarningRef
   } = useSwap({
     progress,
     wallets,
@@ -217,7 +220,8 @@ const Swap = ({
     swapButton,
     updateSwapButton,
     hideDepositAddressModal,
-    setTosShow
+    setTosShow,
+    setAddressWarningShow
   })
 
   useEffect(() => {
@@ -435,6 +439,17 @@ const Swap = ({
                 onClose={() => {
                   ToSRef.current = { isAccepted: true, isRefused: false }
                   setTosShow(false)
+                }}
+              />
+              <AddressWarning
+                show={AddressWarningShow}
+                onHide={() => {
+                  AddressWarningRef.current.doNotProceed = true
+                  setAddressWarningShow(false)
+                }}
+                onClose={() => {
+                  AddressWarningRef.current.proceed = true
+                  setAddressWarningShow(false)
                 }}
               />
             </ContainerSwap>
