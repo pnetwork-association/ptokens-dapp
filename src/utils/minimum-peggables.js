@@ -101,8 +101,8 @@ const minimumPeggable = {
     pegout: 0.0015
   },
   [PBTC_ON_LIBRE_MAINNET]: {
-    pegin: 0.0,
-    pegout: 0.0
+    pegin: 0.0015,
+    pegout: 0.0015
   },
   [PBTC_ON_XDAI_MAINNET]: {
     pegin: 0.0015,
@@ -301,8 +301,8 @@ const minimumPeggable = {
     pegout: 100
   },
   [PUSDT_ON_LIBRE_MAINNET]: {
-    pegin: 0,
-    pegout: 0
+    pegin: 25,
+    pegout: 25
   },
   [PSAFEMOON_ON_ETH_MAINNET]: {
     pegin: 30000000,
