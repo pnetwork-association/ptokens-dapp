@@ -306,7 +306,7 @@ const Swap = ({
                 <Col className="text-right">{onPnetworkV2 ? <PnetworkV2Badge>pNetwork v2</PnetworkV2Badge> : null}</Col>
               </Row>
               <SwapLine
-                defaultImage="../assets/svg/BTC.svg"
+                defaultImage="./assets/svg/BTC.svg"
                 title="From"
                 asset={from}
                 amount={fromAmount}
@@ -319,8 +319,8 @@ const Swap = ({
                 <SortIcon icon="sort" onClick={onChangeOrder} />
               </ArrowContainer>
               <SwapLine
-                defaultImage="../assets/svg/pBTC.svg"
-                defaultMiniImage="../assets/svg/ETH.svg"
+                defaultImage="./assets/svg/pBTC.svg"
+                defaultMiniImage="./assets/svg/ETH.svg"
                 title="To"
                 asset={to}
                 amount={toAmount}

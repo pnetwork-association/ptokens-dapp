@@ -40,7 +40,7 @@ class EosConnect extends EventEmitter {
 
       this.userOptions.push({
         name: 'Scatter',
-        logo: '../assets/svg/scatter.svg',
+        logo: './assets/svg/scatter.svg',
         description: 'Scatter Wallet',
         themeColors: this.themeColors,
         onClick: () => this.handleClick(this.scatterProvider)
@@ -54,7 +54,7 @@ class EosConnect extends EventEmitter {
 
       this.userOptions.push({
         name: 'Anchor',
-        logo: '../assets/svg/anchor.svg',
+        logo: './assets/svg/anchor.svg',
         description: 'Anchor Wallet',
         themeColors: this.themeColors,
         onClick: () => this.handleClick(this.anchorProvider)
@@ -70,7 +70,7 @@ class EosConnect extends EventEmitter {
 
       this.userOptions.push({
         name: 'Token Pocket',
-        logo: '../assets/png/token-pocket.png',
+        logo: './assets/png/token-pocket.png',
         description: 'Token Pocket Wallet',
         themeColors: this.themeColors,
         onClick: () => this.handleClick(this.tokenPocketProvider)

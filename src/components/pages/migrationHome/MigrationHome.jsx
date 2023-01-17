@@ -128,7 +128,7 @@ const MigrationHome = ({ apys, selectPage, loadMigrationData }) => {
             <Td>
               <TdContent>
                 <ContainerImage>
-                  <StyledImage src={'../assets/svg/pBTC_gray.svg'} />
+                  <StyledImage src={'./assets/svg/pBTC_gray.svg'} />
                 </ContainerImage>
                 <Text>pBTC v1</Text>
               </TdContent>
@@ -136,7 +136,7 @@ const MigrationHome = ({ apys, selectPage, loadMigrationData }) => {
             <Td>
               <TdContent>
                 <ContainerImage>
-                  <StyledImage src={'../assets/svg/pBTC.svg'} />
+                  <StyledImage src={'./assets/svg/pBTC.svg'} />
                 </ContainerImage>
                 <Text>pBTC v2</Text>
               </TdContent>
@@ -152,8 +152,8 @@ const MigrationHome = ({ apys, selectPage, loadMigrationData }) => {
             <Td>
               <TdContent>
                 <ContainerImage>
-                  <StyledImage src={'../assets/svg/pBTC_gray.svg'} />
-                  <StyledMiniImage src={'../assets/svg/CURVE_gray.svg'} />
+                  <StyledImage src={'./assets/svg/pBTC_gray.svg'} />
+                  <StyledMiniImage src={'./assets/svg/CURVE_gray.svg'} />
                 </ContainerImage>
                 <Text>pBTC-v1 Curve LP token (staked in the old gauge) [pBTC/sbtcCRV-gauge]</Text>
               </TdContent>
@@ -161,8 +161,8 @@ const MigrationHome = ({ apys, selectPage, loadMigrationData }) => {
             <Td>
               <TdContent>
                 <ContainerImage>
-                  <StyledImage src={'../assets/svg/pBTC.svg'} />
-                  <StyledMiniImage src={'../assets/svg/CURVE.svg'} />
+                  <StyledImage src={'./assets/svg/pBTC.svg'} />
+                  <StyledMiniImage src={'./assets/svg/CURVE.svg'} />
                 </ContainerImage>
                 <Text>pBTC-v2 Curve LP token (staked in the new gauge) [pbtc/sbtcCRV-f-gauge]</Text>
               </TdContent>
@@ -191,8 +191,8 @@ const MigrationHome = ({ apys, selectPage, loadMigrationData }) => {
               {' '}
               <TdContent>
                 <ContainerImage>
-                  <StyledImage src={'../assets/svg/pBTC_gray.svg'} />
-                  <StyledMiniImage src={'../assets/svg/CURVE_gray.svg'} />
+                  <StyledImage src={'./assets/svg/pBTC_gray.svg'} />
+                  <StyledMiniImage src={'./assets/svg/CURVE_gray.svg'} />
                 </ContainerImage>
                 <Text>pBTC-v1 Curve LP token (staked in the old gauge) [pBTC/sbtcCRV-gauge]</Text>
               </TdContent>
@@ -201,8 +201,8 @@ const MigrationHome = ({ apys, selectPage, loadMigrationData }) => {
               {' '}
               <TdContent>
                 <ContainerImage>
-                  <StyledImage src={'../assets/svg/pBTC.svg'} />
-                  <StyledMiniImage src={'../assets/svg/IDLE.svg'} />
+                  <StyledImage src={'./assets/svg/pBTC.svg'} />
+                  <StyledMiniImage src={'./assets/svg/IDLE.svg'} />
                 </ContainerImage>
                 <Text>Idle PBTCCRV Senior Tranche (staked)</Text>
               </TdContent>
@@ -231,8 +231,8 @@ const MigrationHome = ({ apys, selectPage, loadMigrationData }) => {
               {' '}
               <TdContent>
                 <ContainerImage>
-                  <StyledImage src={'../assets/svg/pBTC_gray.svg'} />
-                  <StyledMiniImage src={'../assets/svg/CURVE_gray.svg'} />
+                  <StyledImage src={'./assets/svg/pBTC_gray.svg'} />
+                  <StyledMiniImage src={'./assets/svg/CURVE_gray.svg'} />
                 </ContainerImage>
                 <Text>pBTC-v1 Curve LP token (staked in the old gauge) [pBTC/sbtcCRV-gauge]</Text>
               </TdContent>
@@ -241,8 +241,8 @@ const MigrationHome = ({ apys, selectPage, loadMigrationData }) => {
               {' '}
               <TdContent>
                 <ContainerImage>
-                  <StyledImage src={'../assets/svg/pBTC.svg'} />
-                  <StyledMiniImage src={'../assets/svg/IDLE.svg'} />
+                  <StyledImage src={'./assets/svg/pBTC.svg'} />
+                  <StyledMiniImage src={'./assets/svg/IDLE.svg'} />
                 </ContainerImage>
                 <Text>Idle PBTCCRV Junior Tranche</Text>
               </TdContent>

@@ -101,7 +101,7 @@ const NftCard = ({ nft, move }) => {
               <MoveButton onClick={() => setShowBlockchainSelectionModal(true)}>MOVE</MoveButton>
             </Col>
             <ContainerBlockchain xs={8}>
-              <Blockchain src={`../assets/svg/${blockchain}.svg`} />
+              <Blockchain src={`./assets/svg/${blockchain}.svg`} />
             </ContainerBlockchain>
           </ContainerButtonAndBlockchain>
         </StyledCardBody>

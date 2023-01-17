@@ -8,7 +8,7 @@ export default function SocialLinks() {
     <div className="social-div">
       <p className="social-container">
         <a href={settings.links['p.network']} className="social pnetwork">
-          <img src="../assets/svg/PNT.svg" alt="" />
+          <img src="./assets/svg/PNT.svg" alt="" />
         </a>
         <a href={settings.links.telegram} className="telegram social">
           <FaTelegram size={30} />

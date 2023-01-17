@@ -14,7 +14,7 @@ const SupportedNfstCarousel = () => {
     <Carousel showIndicators={false} showThumbs={false} autoPlay={true} centerMode={true} centerSlidePercentage={50}>
       {settings.supportedNfts.map(({ symbol, name }) => (
         <ContainerNft key={`carousel_card_${symbol}`}>
-          <img src={`../assets/png/${symbol}_carousel.png`} alt={`${symbol}_carousel.png`} />
+          <img src={`./assets/png/${symbol}_carousel.png`} alt={`${symbol}_carousel.png`} />
           <Name className="legend">{name}</Name>
         </ContainerNft>
       ))}

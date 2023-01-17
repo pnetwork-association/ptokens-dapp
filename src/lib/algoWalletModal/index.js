@@ -47,7 +47,7 @@ class AlgoWalletModal extends EventEmitter {
 
     this.userOptions.push({
       name: 'AlgoSigner',
-      logo: '../assets/jpeg/algosigner.jpeg',
+      logo: './assets/jpeg/algosigner.jpeg',
       description: 'Connect to AlgoSigner',
       themeColors: this.themeColors,
       onClick: async () => {
@@ -58,7 +58,7 @@ class AlgoWalletModal extends EventEmitter {
 
     this.userOptions.push({
       name: 'MyAlgoWallet',
-      logo: '../assets/png/myalgo-logo.png',
+      logo: './assets/png/myalgo-logo.png',
       description: 'Connect to MyAlgoWallet',
       themeColors: this.themeColors,
       onClick: async () => {
@@ -69,7 +69,7 @@ class AlgoWalletModal extends EventEmitter {
 
     this.userOptions.push({
       name: 'Pera Wallet',
-      logo: '../assets/png/pera-wallet-logo.png',
+      logo: './assets/png/pera-wallet-logo.png',
       description: 'Connect to Pera Wallet',
       themeColors: this.themeColors,
       onClick: async () => {
@@ -81,7 +81,7 @@ class AlgoWalletModal extends EventEmitter {
     if (walletConnect) {
       this.userOptions.push({
         name: 'WalletConnect',
-        logo: '../assets/svg/wallet-connect.svg',
+        logo: './assets/svg/wallet-connect.svg',
         description: 'Scan with WalletConnect to connect',
         themeColors: this.themeColors,
         onClick: async () => {

@@ -98,8 +98,8 @@ const updateAsset = _asset => ({
     : !_asset.isNative
     ? `on ${blockchainSymbolToName[_asset.blockchain].toUpperCase()}${_asset.isPseudoNative ? ' (NATIVE)' : ''}`
     : _asset.symbol,
-  image: `../assets/svg/${_asset.image}`,
-  miniImage: `../assets/svg/${_asset.miniImage || _asset.blockchain}.svg`
+  image: `./assets/svg/${_asset.image}`,
+  miniImage: `./assets/svg/${_asset.miniImage || _asset.blockchain}.svg`
 })
 
 export { useAssets, useAssetsWithouDefault, usePtoken, useAssetsGroupedByGivenStrategy, useSearchAssets }

@@ -200,7 +200,7 @@ const Header = _props => {
       <NavOptimized expand="lg">
         <Navbar.Brand>
           {' '}
-          <Logo src="../assets/svg/PNT.svg" />
+          <Logo src="./assets/svg/PNT.svg" />
         </Navbar.Brand>
         <StyledNav>
           <StyledNavLink active={selectedPage === 'swap'} onClick={onSwap}>
