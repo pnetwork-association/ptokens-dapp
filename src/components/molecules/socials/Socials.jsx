@@ -7,6 +7,9 @@ export default function SocialLinks() {
   return (
     <div className="social-div">
       <p className="social-container">
+        <a href={settings.links.github} className="github social">
+          <img src="./assets/svg/github.svg" alt="" />
+        </a>
         <a href={settings.links['p.network']} className="social pnetwork">
           <img src="./assets/svg/PNT.svg" alt="" />
         </a>

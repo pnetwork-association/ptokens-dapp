@@ -9,7 +9,8 @@ const settings = {
     coinmarketcap: 'https://coinmarketcap.com/currencies/pnetwork/',
     twitter: 'https://twitter.com/pNetworkDeFi',
     telegram: 'https://t.me/pNetworkDefi',
-    'p.network': 'https://p.network/'
+    'p.network': 'https://p.network/',
+    github: 'https://github.com/pnetwork-association'
   },
   api: {
     bpm: 'https://chart.ptokens.io/index.php?a=bpm'
