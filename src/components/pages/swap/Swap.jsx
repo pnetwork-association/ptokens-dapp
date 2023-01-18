@@ -174,7 +174,7 @@ const Swap = ({
   const [assets] = useAssets(_assets)
   const [migrationAssets] = useAssets(_migrationAssets)
   const [notifyMigration, setNotifyMigration] = useState()
-  const [modalShow, setModalShow] = useState(false)
+  const [TosShow, setTosShow] = useState(false)
   const [showWarningPopup, setShowWarningPopup] = useState(true)
 
   const {
@@ -217,7 +217,7 @@ const Swap = ({
     swapButton,
     updateSwapButton,
     hideDepositAddressModal,
-    setModalShow
+    setTosShow
   })
 
   useEffect(() => {
@@ -427,14 +427,14 @@ const Swap = ({
                 </Button>
               </ContainerSwapButton>
               <TermsOfService
-                show={modalShow}
+                show={TosShow}
                 onHide={() => {
                   ToSRef.current = { isAccepted: false, isRefused: true }
-                  setModalShow(false)
+                  setTosShow(false)
                 }}
                 onClose={() => {
                   ToSRef.current = { isAccepted: true, isRefused: false }
-                  setModalShow(false)
+                  setTosShow(false)
                 }}
               />
             </ContainerSwap>

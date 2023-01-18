@@ -23,7 +23,7 @@ const useSwap = ({
   swapButton,
   updateSwapButton,
   hideDepositAddressModal,
-  setModalShow
+  setTosShow
 }) => {
   const [from, setFrom] = useState(null)
   const [to, setTo] = useState(null)
@@ -106,24 +106,23 @@ const useSwap = ({
   }, [fee, to])
 
   const onSwap = useCallback(() => {
-    function connectToWalletToS() {
-      return new Promise(waitForToS)
-
-      function waitForToS(resolve, reject) {
+    function waitForToS() {
+      function _waitForToS(resolve, reject) {
         if (ToSRef.current.isAccepted) resolve('Terms have beed accepted')
         if (ToSRef.current.isRefused) reject('Terms have been refused')
         else {
-          setTimeout(waitForToS.bind(this, resolve, reject), 30)
+          setTimeout(_waitForToS.bind(this, resolve, reject), 30)
         }
       }
+      return new Promise(_waitForToS)
     }
 
     if (swapButton.text === 'Connect Wallet') {
       if (ToSRef.current.isAccepted) {
         connectWithWallet(from.blockchain)
       } else {
-        setModalShow(true)
-        connectToWalletToS().then(
+        setTosShow(true)
+        waitForToS().then(
           value => {
             console.log(value)
             connectWithWallet(from.blockchain)
@@ -144,8 +143,8 @@ const useSwap = ({
           pegoutToTelosEvmAddress
         })
       } else {
-        setModalShow(true)
-        connectToWalletToS().then(
+        setTosShow(true)
+        waitForToS().then(
           value => {
             console.log(value)
             updateSwapButton(swapButton.text === 'Swap' ? 'Swapping ...' : 'Generating ...', true)
@@ -170,7 +169,7 @@ const useSwap = ({
     swap,
     pegoutToTelosEvmAddress,
     connectWithWallet,
-    setModalShow,
+    setTosShow,
     updateSwapButton
   ])
 
