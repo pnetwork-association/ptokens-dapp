@@ -11,6 +11,7 @@ import { TLOS_ON_BSC_MAINNET, TLOS_ON_ETH_MAINNET } from '../constants'
 import { maybeOptInAlgoApp, maybeOptInAlgoAsset } from '../store/swap/utils/opt-in-algo'
 import ReactGA from 'react-ga4'
 import { useRef } from 'react'
+import { chainIdToTypeMap, BlockchainType } from 'ptokens-constants'
 
 const useSwap = ({
   wallets,
@@ -559,6 +560,38 @@ const useSwap = ({
 
 const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
   return useMemo(() => {
+    function getEta(from, to) {
+      // ATM, the API returns untrustworthy estimates for EOS-like chains.
+      // For those chains, assume the sync ETA is 0 if the BPM is > 0
+      // as EOS-like chains are usually very fast.
+      const eosLikeChainIds = [...chainIdToTypeMap]
+        .filter(([_k, _v]) => _v === BlockchainType.EOSIO)
+        .map(([_id]) => _id)
+      if (!from.isNative) {
+        const selectedBpm = Object.values(bpm).filter(
+          _el => _el.bridgeName.includes(`${from.symbol.toLowerCase()}-on-`) && _el.hostChainId === from.chainId
+        )[0]
+        return selectedBpm
+          ? eosLikeChainIds.includes(from.chainId)
+            ? selectedBpm.bpmMedianHost > 0
+              ? 0
+              : -1
+            : selectedBpm.estimatedHostSyncTime
+          : -1
+      } else {
+        const selectedBpm = Object.values(bpm).filter(
+          _el => _el.bridgeName.includes(`${from.symbol.toLowerCase()}-on-`) && _el.nativeChainId === from.chainId
+        )[0]
+        return selectedBpm
+          ? eosLikeChainIds.includes(from.chainId)
+            ? selectedBpm.bpmMedianNative > 0
+              ? 0
+              : -1
+            : selectedBpm.estimatedNativeSyncTime
+          : -1
+      }
+    }
+
     if (!from || !to) {
       return {
         fee: 1,
@@ -571,12 +604,13 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
 
     const onPnetworkV2 = Boolean((from && from.onPnetworkV2) || (to && to.onPnetworkV2))
 
+    const eta = getEta(from, to)
+    const estimatedSwapTime = getPeginOrPegoutMinutesEstimationByBlockchainAndEta(from.blockchain, eta)
+
     // NOTE: fee hardcoded at the moment
     if (from.isNative && !to.isNative) {
       const minimumPeggable = getMinimumPeggable(to.id, 'pegin')
       const fee = getFee(from, to)
-      // const selectedBpm = bpm[`${to.symbol.toLowerCase()}-on-${to.blockchain.toLowerCase()}`]
-      // const eta = selectedBpm && selectedBpm.native ? selectedBpm.native.eta : 0
       const amounts = { ...swappersBalances }
       const poolAmount =
         to.isPseudoNative && amounts[to.swapperAddress]
@@ -589,19 +623,17 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
           : null,
         fee: 1 - fee / 100,
         formattedFee: `${fee}%`,
-        estimatedSwapTime: getPeginOrPegoutMinutesEstimationByBlockchainAndEta(to.blockchain, 0),
+        estimatedSwapTime,
         show: true,
         isPegin: true,
         isPegout: false,
-        eta: 0,
+        eta,
         poolAmount,
         onPnetworkV2
       }
     } else if (!from.isNative) {
       const minimumPeggable = getMinimumPeggable(from.id, 'pegout')
       const fee = getFee(from, to)
-      // const selectedBpm = bpm[`${from.symbol.toLowerCase()}-on-${from.blockchain.toLowerCase()}`]
-      // const eta = selectedBpm && selectedBpm.host ? selectedBpm.host.eta : 0
       const amounts = { ...swappersBalances }
       const poolAmount =
         from.isPseudoNative && amounts[from.swapperAddress]
@@ -614,11 +646,11 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
           : null,
         fee: 1 - fee / 100,
         formattedFee: `${fee}%`,
-        estimatedSwapTime: getPeginOrPegoutMinutesEstimationByBlockchainAndEta(from.blockchain, 0),
+        estimatedSwapTime,
         show: true,
         isPegin: false,
         isPegout: true,
-        eta: 0,
+        eta,
         poolAmount,
         onPnetworkV2
       }
@@ -631,7 +663,7 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
       estimatedSwapTime: `-`,
       show: false
     }
-  }, [from, to, swappersBalances])
+  }, [from, to, bpm, swappersBalances])
 }
 
 export { useSwap, useSwapInfo }
