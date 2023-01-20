@@ -241,7 +241,7 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
                   <ContainerRow>
                     <StyledRow onClick={() => onShowLine(_nativeSymbol, _index)}>
                       <ContainerTokenInfo xs={8}>
-                        <OuterTokenIcon src={`../assets/svg/${_nativeSymbol}.svg`} />
+                        <OuterTokenIcon src={`./assets/svg/${_nativeSymbol}.svg`} />
                         <ContainerTokenNameAndSymbol>
                           <AssetSymbol>{_nativeSymbol}</AssetSymbol>
                           <AssetName>
