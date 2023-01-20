@@ -1,3 +1,5 @@
+import { ChainId } from 'ptokens-constants'
+
 const migrationAssets = [
   {
     address: '0x5228a22e72ccc52d415ecfd199f99d0665e7733b',
@@ -101,6 +103,42 @@ const migrationAssets = [
     titleLabel: 'IdleCDO BB Tranche - idleCvxpbtc-v2/sbtcCRV-f',
     formattedName: 'IdleCDO BB Tranche - idleCvxpbtc-v2/sbtcCRV-f',
     withBalanceDecimalsConversion: true
+  },
+  {
+    address: '0x89ab32156e46f46d02ade3fecbe5fc4243b9aaed',
+    id: 'PNT_ON_ETH_MAINNET',
+    symbol: 'PNT',
+    name: 'pNetwork',
+    network: 'mainnet',
+    blockchain: 'ETH',
+    decimals: 18,
+    nativeDecimals: 18,
+    withMiniImage: true,
+    isNative: true,
+    nativeSymbol: 'PNT',
+    nativeBlockchain: 'ETH',
+    image: 'PNT.svg',
+    withBalanceDecimalsConversion: true,
+    titleLabel: 'PNT',
+    chainId: ChainId.EthereumMainnet
+  },
+  {
+    address: '0xf4eA6B892853413bD9d9f1a5D3a620A0ba39c5b2',
+    id: 'ETHPNT_ON_ETH_MAINNET',
+    symbol: 'ethPNT',
+    name: 'pNetwork',
+    network: 'mainnet',
+    blockchain: 'ETH',
+    decimals: 18,
+    nativeDecimals: 18,
+    withMiniImage: true,
+    isNative: true,
+    nativeSymbol: 'ethPNT',
+    nativeBlockchain: 'ETH',
+    image: 'PNT_gray.svg',
+    withBalanceDecimalsConversion: true,
+    titleLabel: 'ethPNT',
+    chainId: ChainId.EthereumMainnet
   }
 ]
 

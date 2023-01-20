@@ -8,7 +8,7 @@ import { getWalletByBlockchain } from '../../wallets/wallets.selectors'
 import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
 
-const migrateA = async (_amount, _from, _to, { dispatch }) => {
+const migratePBTC = async (_amount, _from, _to, { dispatch }) => {
   try {
     let hash
     const wallet = getWalletByBlockchain('ETH')
@@ -85,4 +85,4 @@ const migrateA = async (_amount, _from, _to, { dispatch }) => {
   }
 }
 
-export default migrateA
+export default migratePBTC

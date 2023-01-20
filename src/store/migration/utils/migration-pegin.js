@@ -1,51 +1,54 @@
 import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
-import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
+import { updateProgress, loadBalanceByAssetId, resetProgress, updateMigrateButton } from '../migration.actions'
 import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
 import { approveTransaction, getBigNumber } from '../../evm-approve'
 import ReactGA from 'react-ga4'
-import Web3 from 'web3'
-import { getWalletByBlockchain } from '../../wallets/wallets.selectors'
 
-const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
+const migrationPegin = async ({ swap, ptokenFrom, ptokenTo, web3, dispatch }) => {
   let link
-
-  // NOTE: peth uses ethers
-  if ((ptokenTo.isPerc20 && ptokenTo.name !== 'pETH' && ptokenTo.name !== 'pFTM') || ptokenTo.isBep20) {
-    try {
-      const wallet = getWalletByBlockchain(ptokenFrom.blockchain)
-      const web3 = new Web3(wallet.provider)
-      const _amount = getBigNumber(swap.amount, ptokenTo.nativeDecimals)
-      const approve_hash = await approveTransaction(
-        swap.sourceAsset.vaultAddress,
-        swap.sourceAsset.tokenAddress,
-        _amount,
-        web3,
-        ptokenTo.nativeSymbol === 'USDT'
-      )
-      link = getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, approve_hash)
-    } catch (_err) {
-      dispatch(
-        updateInfoModal({
-          show: true,
-          text: 'Error during pegin, try again!',
-          showMoreText: _err.message ? _err.message : _err,
-          showMoreLabel: 'Show Details',
-          icon: 'cancel'
-        })
-      )
-      dispatch(updateSwapButton('Swap'))
-      console.error(_err)
-      return
-    }
-  }
 
   dispatch(
     updateProgress({
       show: true,
       percent: 0,
+      message: 'Waiting for the approve ...',
+      steps: [0, 17, 34, 50, 67, 84, 100],
+      terminated: false
+    })
+  )
+
+  try {
+    const _amount = getBigNumber(swap.amount, ptokenTo.nativeDecimals)
+    const approve_hash = await approveTransaction(
+      swap.sourceAsset.vaultAddress,
+      swap.sourceAsset.tokenAddress,
+      _amount,
+      web3
+    )
+    link = getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, approve_hash)
+  } catch (_err) {
+    dispatch(
+      updateInfoModal({
+        show: true,
+        text: 'Error during pegin, try again!',
+        showMoreText: _err.message ? _err.message : _err,
+        showMoreLabel: 'Show Details',
+        icon: 'cancel'
+      })
+    )
+    dispatch(updateMigrateButton('Migrate'))
+    dispatch(resetProgress())
+    console.error(_err)
+    return
+  }
+
+  dispatch(
+    updateProgress({
+      show: true,
+      percent: 17,
       message: 'Waiting for the transaction to be signed ...',
-      steps: [0, 20, 40, 60, 80, 100],
+      steps: [0, 17, 34, 50, 67, 84, 100],
       terminated: false
     })
   )
@@ -62,9 +65,9 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
       dispatch(
         updateProgress({
           show: true,
-          percent: 20,
+          percent: 34,
           message: `<a href="${link}" target="_blank">Transaction</a> broadcasted! Waiting for confirmation ...`,
-          steps: [0, 20, 40, 60, 80, 100],
+          steps: [0, 17, 34, 50, 67, 84, 100],
           terminated: false
         })
       )
@@ -73,9 +76,9 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
       dispatch(
         updateProgress({
           show: true,
-          percent: 40,
+          percent: 50,
           message: `Waiting for the pNetwork to detect your <a href="${link}" target="_blank">transaction</a> ...`,
-          steps: [0, 20, 40, 60, 80, 100],
+          steps: [0, 17, 34, 50, 67, 84, 100],
           terminated: false
         })
       )
@@ -84,9 +87,9 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
       dispatch(
         updateProgress({
           show: true,
-          percent: 60,
+          percent: 67,
           message: `Enclave received the <a href="${link}" target="_blank">transaction</a>, broadcasting ...`,
-          steps: [0, 20, 40, 60, 80, 100],
+          steps: [0, 17, 34, 50, 67, 84, 100],
           terminated: false
         })
       )
@@ -101,9 +104,9 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
       dispatch(
         updateProgress({
           show: true,
-          percent: 80,
+          percent: 84,
           message: `Asset swap <a href="${link}" target="_blank">transaction</a> completed, waiting for confirmation ...`,
-          steps: [0, 20, 40, 60, 80, 100],
+          steps: [0, 17, 34, 50, 67, 84, 100],
           terminated: false
         })
       )
@@ -119,12 +122,12 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
           show: true,
           percent: 100,
           message: `<a href="${link}" target="_blank">Transaction</a> Confirmed.`,
-          steps: [0, 20, 40, 60, 80, 100],
+          steps: [0, 17, 34, 50, 67, 84, 100],
           terminated: true
         })
       )
 
-      dispatch(updateSwapButton('Swap'))
+      dispatch(updateMigrateButton('Migrate'))
       setTimeout(() => dispatch(loadBalanceByAssetId(ptokenFrom.id)), 2000)
       setTimeout(() => dispatch(loadBalanceByAssetId(ptokenTo.id)), 2000)
     })
@@ -142,9 +145,9 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
           })
         )
       }
-      dispatch(updateSwapButton('Swap'))
+      dispatch(updateMigrateButton('Migrate'))
       dispatch(resetProgress())
     })
 }
 
-export default peginWithWallet
+export default migrationPegin
