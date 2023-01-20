@@ -21,6 +21,7 @@ import Risks from './components/pages/risks/Risks'
 import Loader from './components/atoms/loader/Loader'
 import Popup from './components/molecules/popup/Popup'
 import SocialLinks from './components/molecules/socials/Socials'
+import Version from './components/molecules/version/Version'
 
 history.listen(location => {
   ReactGA.set({ page: location.pathname })
@@ -130,6 +131,7 @@ const App = ({ loading, setTheme, loadSwapData, loadSwapOldPntData, loadMigratio
         }
       />
       <SocialLinks />
+      <Version />
     </React.Fragment>
   )
 }

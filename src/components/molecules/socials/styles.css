@@ -8,7 +8,7 @@ a.social {
     margin: 0 1rem;
     transition: transform 250ms;
     display: inline-block;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 
 a.social:hover {
@@ -16,6 +16,10 @@ a.social:hover {
 }
 
 a.pnetwork {
+    width: 30px;
+}
+
+a.github {
     width: 30px;
 }
 

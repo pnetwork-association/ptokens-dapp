@@ -8,7 +8,7 @@ import Icon from '../../atoms/icon/Icon'
 const StyledCard = styled(Card)`
   position: fixed;
   right: 30px;
-  bottom: 30px;
+  bottom: 50px;
   border: 0;
   border: 1px solid ${({ theme }) => (theme.type === 'ligth' ? '#f1f2f3' : theme.lightGray)};
   box-shadow: 0 0 15px rgb(0 0 0 / 5%);
