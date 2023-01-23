@@ -68,8 +68,18 @@ const RisksPage = () => {
 
 const App = ({ loading, setTheme, loadSwapData, loadSwapOldPntData, loadMigrationData, selectPage }) => {
   useEffect(() => {
+    /* window.location.search -> window.location.hash
+     * window.location.search not available in HashRouter
+     *
+     * Example:
+     * window.location.search = '?asset=btc&from=btc&to=eth'
+     * window.location.hash = '#/swap?asset=btc&from=btc&to=eth'
+     * window.location.hash.split('?').pop() -> 'asset=btc&from=btc&to=eth'
+     *
+     * '?' is not retained with the new solution but if present gets removed by the parser anyways.
+     */
     const { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid } = queryString.parse(
-      window.location.search
+      window.location.hash.split('?').pop()
     )
     const theme = window.localStorage.getItem('THEME')
     if (theme) setTheme(theme)
