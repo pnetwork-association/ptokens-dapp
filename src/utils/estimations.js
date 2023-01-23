@@ -22,15 +22,15 @@ const estimations = {
 }
 
 const getPeginOrPegoutMinutesEstimationByBlockchainAndEta = (_blockchain, _eta) => {
-  if (_eta >= 0 && _eta <= 15) {
-    return `~${BigNumber(estimations[_blockchain.toLowerCase()]).toFixed(0)} minutes`
-  }
-
   if (_eta === -1) {
     return `Unknown`
   }
 
-  return `~${_eta} minutes`
+  if (_eta < 2 * estimations[_blockchain.toLowerCase()]) {
+    return `~${BigNumber(estimations[_blockchain.toLowerCase()]).toFixed(0)} minutes`
+  }
+
+  return `~${BigNumber(_eta).toFixed(0)} minutes`
 }
 
 export { getPeginOrPegoutMinutesEstimationByBlockchainAndEta }
