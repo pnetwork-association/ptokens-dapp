@@ -24,6 +24,7 @@ import { getReadOnlyProviderByBlockchain } from '../../utils/read-only-providers
 import peginWithDepositAddress from './utils/pegin-with-deposit-address'
 import peginWithWallet from './utils/pegin-with-wallet'
 import pegout from './utils/pegout'
+import pegoutFromCurve from './utils/pegout-curve'
 import { getAssetsByBlockchain, getAssetById } from './swap.selectors'
 import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
 import { getDefaultSelection } from './utils/default-selection'
@@ -39,7 +40,9 @@ import Web3 from 'web3'
 import BigNumber from 'bignumber.js'
 
 const loadSwapData = (_opts = {}) => {
-  const { defaultSelection: { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid } = {} } = _opts
+  const {
+    defaultSelection: { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol } = {}
+  } = _opts
   return async _dispatch => {
     try {
       _dispatch({
@@ -47,7 +50,15 @@ const loadSwapData = (_opts = {}) => {
         payload: {
           assets: [
             ...assets,
-            ...getDefaultSelection(assets, { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid })
+            ...getDefaultSelection(assets, {
+              pToken,
+              asset,
+              from,
+              to,
+              algorand_from_assetid,
+              algorand_to_assetid,
+              host_symbol
+            })
           ]
         }
       })
@@ -380,6 +391,12 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
     try {
       _dispatch(resetProgress())
       const wallets = getWallets()
+
+      const _fromNative = _from
+      if (_from.requiresCurve) {
+        _from = getAssetById(_fromNative.pTokenId)
+      }
+
       const provider = new pTokensNodeProvider('https://pnetwork-node-2a.eu.ngrok.io/v3')
       const node = new pTokensNode(provider)
       const sourceAsset = await createAsset(node, _from, wallets, true)
@@ -441,12 +458,18 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
         }
       }
       // NOTE: pegout
-      else if (!_from.isNative) {
-        const ptokenFromId = _from.id
-        const ptokenFrom = getAssetById(ptokenFromId)
-        const ptokenToId = _to.id
-        const ptokenTo = getAssetById(ptokenToId)
-        pegout({ swap, ptokenFrom, ptokenTo, dispatch: _dispatch })
+      else if (!_from.isNative && !_fromNative.requiresCurve) {
+        pegout({ swap: swap, ptokenFrom: _from, ptokenTo: _to, dispatch: _dispatch })
+      } else if (!_from.isNative && _fromNative.requiresCurve) {
+        const curveProvider = getProvider(getAssetById(_fromNative.id), wallets)._web3._provider
+        pegoutFromCurve({
+          swap: swap,
+          provider: curveProvider,
+          tokenFrom: _fromNative,
+          ptokenFrom: _from,
+          ptokenTo: _to,
+          dispatch: _dispatch
+        })
       }
     } catch (_err) {
       console.error(_err)

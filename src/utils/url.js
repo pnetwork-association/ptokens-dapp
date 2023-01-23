@@ -10,7 +10,10 @@ const updateUrlForSwap = (_from, _to) =>
       _from.blockchain
     )}&to=${encodeForUrl(_to.blockchain)}${
       _from.blockchain === 'ALGORAND' ? '&algorand_from_assetid=' + _from.address : ''
-    }${_to.blockchain === 'ALGORAND' ? '&algorand_to_assetid=' + _to.address : ''}`
+    }${_to.blockchain === 'ALGORAND' ? '&algorand_to_assetid=' + _to.address : ''}${
+      _from.requiresCurve ? '&host_symbol=' + _from.symbol.toLowerCase() : ''
+    }
+    `
   )
 
 const getLegacyUrl = (_from, _to) =>

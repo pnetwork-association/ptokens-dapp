@@ -78,7 +78,7 @@ const App = ({ loading, setTheme, loadSwapData, loadSwapOldPntData, loadMigratio
      *
      * '?' is not retained with the new solution but if present gets removed by the parser anyways.
      */
-    const { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid } = queryString.parse(
+    const { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol } = queryString.parse(
       window.location.hash.split('?').pop()
     )
     const theme = window.localStorage.getItem('THEME')
@@ -94,8 +94,10 @@ const App = ({ loading, setTheme, loadSwapData, loadSwapOldPntData, loadMigratio
       return
     }
 
-    selectPage(page, { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid })
-    loadSwapData({ defaultSelection: { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid } })
+    selectPage(page, { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol })
+    loadSwapData({
+      defaultSelection: { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol }
+    })
     loadSwapOldPntData()
     loadMigrationData()
     // eslint-disable-next-line react-hooks/exhaustive-deps

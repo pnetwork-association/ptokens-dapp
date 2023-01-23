@@ -18,7 +18,7 @@ import AddressWarning from '../../molecules/popup/AddressWarning'
 import WarningPopup from '../../molecules/popup/Warning'
 import Switch from '../../atoms/switch/Switch'
 import Button from '../../atoms/button/Button'
-import { PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../../../constants'
+import { MAX_IMPACT, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../../../constants'
 import ReactGA from 'react-ga4'
 
 export const OuterContainerSwap = styled.div`
@@ -116,6 +116,8 @@ const WarningEta = styled.div`
 
 const ProvisionalSafemoonBox = styled(InfoEta)``
 
+const CurveInfo = styled(InfoEta)``
+
 const MigrationNotification = styled(InfoEta)`
   width: 460px;
   margin-bottom: 30px;
@@ -194,6 +196,10 @@ const Swap = ({
     onPnetworkV2,
     onChangeFromAmount,
     onChangeToAmount,
+    disableToInput,
+    disableFromInput,
+    curvePoolName,
+    curveImpact,
     onChangeOrder,
     onFromMax,
     onToMax,
@@ -276,7 +282,7 @@ const Swap = ({
               (from.id === 'GALA_ON_BSC_MAINNET' || to.id === 'GALA_ON_BSC_MAINNET') && (
                 <WarningNotification>
                   The old pGALA-on-BSC pToken (token address 0x7ddee176f665cd201f93eede625770e2fd911990) has been
-                  affected by an in ident in late 2022 and is currently worthless - a recovery plan has been executed.
+                  affected by an incident in late 2022 and is currently worthless - a recovery plan has been executed.
                   More details <a href="https://t.me/pGALA_incident_updates">here</a>. After the incident, a new fully
                   collateralized pGALA-on-BSC token has been launched on pNetwork v2 (token address
                   0x419c44c48cd346c0b0933ba243be02af46607c9b).
@@ -315,6 +321,7 @@ const Swap = ({
                 asset={from}
                 amount={fromAmount}
                 wallet={fromWallet}
+                disableInput={disableFromInput}
                 onChangeAmount={onChangeFromAmount}
                 onClickImage={() => setShowModalFrom(true)}
                 onMax={onFromMax}
@@ -330,6 +337,7 @@ const Swap = ({
                 amount={toAmount}
                 address={address}
                 wallet={toWallet}
+                disableInput={disableToInput}
                 onChangeAmount={onChangeToAmount}
                 onClickImage={() => setShowModalTo(true)}
                 onChangeAddress={setAddress}
@@ -407,6 +415,25 @@ const Swap = ({
                   Using this bridge requires a SFM transfer on BSC so a transfer fee may apply
                 </ProvisionalSafemoonBox>
               ) : null}
+              {from && from.requiresCurve ? (
+                <CurveInfo>
+                  This swap works using Curve.fi.<br></br>
+                  <a href="https://classic.curve.fi/rootfaq" target="_blank" rel="noopener noreferrer">
+                    More info about Curve.fi
+                  </a>
+                  <br></br>
+                  <a
+                    href="https://curve.fi/#/ethereum/pools/factory-v2-242/swap"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    More info about the used liquidity pool
+                  </a>
+                </CurveInfo>
+              ) : null}
+              {from && from.requiresCurve && +curveImpact > MAX_IMPACT ? (
+                <WarningEta>High price impact!</WarningEta>
+              ) : null}
               {!onPnetworkV2 ? (
                 <WarningEta>
                   This swap is still not supported by pNetwork v2. Please visit dapp-legacy.ptokens.io.
@@ -456,7 +483,7 @@ const Swap = ({
           </OuterContainerSwap>
         </Row>
       </Container>
-      <SwapInfo from={from} to={to} bpm={bpm} />
+      <SwapInfo from={from} to={to} bpm={bpm} curvePoolName={curvePoolName} curveImpact={curveImpact} />
       <AssetListModal
         title="Swap from ..."
         defaultAssets={assets.length === 0 ? defaultAssets : assets}
