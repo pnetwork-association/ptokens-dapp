@@ -2,8 +2,6 @@ import history from './history'
 
 const LEGACY_DAPP_BASE_URL = 'http://dapp-legacy.ptokens.io/'
 
-const getUrlWithSearch = () => window.location.pathname + window.location.search
-
 const encodeForUrl = _str => encodeURIComponent(_str).toLowerCase()
 
 const updateUrlForSwap = (_from, _to) =>
@@ -21,4 +19,4 @@ const getLegacyUrl = (_from, _to) =>
     _to.blockchain
   )}`
 
-export { getLegacyUrl, getUrlWithSearch, updateUrlForSwap }
+export { getLegacyUrl, updateUrlForSwap }
