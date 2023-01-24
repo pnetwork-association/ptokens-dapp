@@ -22,7 +22,7 @@ const estimations = {
 }
 
 const getPeginOrPegoutMinutesEstimationByBlockchainAndEta = (_blockchain, _eta) => {
-  if (_eta === -1) {
+  if (_eta === -1 || _eta >= 45) {
     return `Unknown`
   }
 
