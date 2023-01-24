@@ -10,6 +10,7 @@ import getMinimumPeggable from '../utils/minimum-peggables'
 import { numberWithCommas } from '../utils/amount-utils'
 import { TLOS_ON_BSC_MAINNET, TLOS_ON_ETH_MAINNET } from '../constants'
 import { PBTC_ON_ETH_POOL, CURVE_MIN_AMOUNT, CURVE_MAX_AMOUNT } from '../constants'
+import { getAssetById } from '../store/swap/swap.selectors'
 import { maybeOptInAlgoApp, maybeOptInAlgoAsset } from '../store/swap/utils/opt-in-algo'
 import ReactGA from 'react-ga4'
 import { useRef } from 'react'
@@ -655,19 +656,24 @@ const useSwap = ({
 
 const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
   return useMemo(() => {
-    function getEta(from, to) {
+    function getEta() {
+      let fromAsset = from
+      if (from.requiresCurve) {
+        fromAsset = getAssetById(from.pTokenId)
+      }
       // ATM, the API returns untrustworthy estimates for EOS-like chains.
       // For those chains, assume the sync ETA is 0 if the BPM is > 0
       // as EOS-like chains are usually very fast.
       const eosLikeChainIds = [...chainIdToTypeMap]
         .filter(([_k, _v]) => _v === BlockchainType.EOSIO)
         .map(([_id]) => _id)
-      if (!from.isNative) {
+      if (!fromAsset.isNative) {
         const selectedBpm = Object.values(bpm).filter(
-          _el => _el.bridgeName.includes(`${from.symbol.toLowerCase()}-on-`) && _el.hostChainId === from.chainId
+          _el =>
+            _el.bridgeName.includes(`${fromAsset.symbol.toLowerCase()}-on-`) && _el.hostChainId === fromAsset.chainId
         )[0]
         return selectedBpm
-          ? eosLikeChainIds.includes(from.chainId)
+          ? eosLikeChainIds.includes(fromAsset.chainId)
             ? selectedBpm.bpmMedianHost > 0
               ? 0
               : -1
@@ -675,10 +681,11 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
           : -1
       } else {
         const selectedBpm = Object.values(bpm).filter(
-          _el => _el.bridgeName.includes(`${from.symbol.toLowerCase()}-on-`) && _el.nativeChainId === from.chainId
+          _el =>
+            _el.bridgeName.includes(`${fromAsset.symbol.toLowerCase()}-on-`) && _el.nativeChainId === fromAsset.chainId
         )[0]
         return selectedBpm
-          ? eosLikeChainIds.includes(from.chainId)
+          ? eosLikeChainIds.includes(fromAsset.chainId)
             ? selectedBpm.bpmMedianNative > 0
               ? 0
               : -1
@@ -699,7 +706,7 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
 
     const onPnetworkV2 = Boolean((from && from.onPnetworkV2) || (to && to.onPnetworkV2))
 
-    const eta = getEta(from, to)
+    const eta = getEta()
     const estimatedSwapTime = getPeginOrPegoutMinutesEstimationByBlockchainAndEta(from.blockchain, eta)
 
     // NOTE: fee hardcoded at the moment
