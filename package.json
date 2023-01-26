@@ -61,7 +61,7 @@
   "scripts": {
     "start": "npm run create-version-file && HTTPS=true && react-scripts start",
     "format": "prettier --config ./.prettierrc --write  \"./src/**/*.+(js|json|jsx)\" \"./scripts/*\"",
-    "build": "npm run create-version-file && GENERATE_SOURCEMAP=false react-scripts build",
+    "build": "npm run create-version-file && GENERATE_SOURCEMAP=false react-scripts build && npm run redirect-old-links",
     "test-dev": "react-scripts test",
     "test": "react-scripts test --env=jsdom --verbose a",
     "analyze:bundle": "node ./scripts/bundle-analyzer.js",
@@ -69,7 +69,8 @@
     "fetch-addresses-assets": "node ./scripts/fetch-addresses-assets.js",
     "deploy": "node ./scripts/deploy.js",
     "postinstall": "./scripts/postinstall.sh",
-    "create-version-file": "node ./scripts/generate-buildno.js"
+    "create-version-file": "node ./scripts/generate-buildno.js",
+    "redirect-old-links": "node ./scripts/redirect-old-links.js"
   },
   "eslintConfig": {
     "extends": [
