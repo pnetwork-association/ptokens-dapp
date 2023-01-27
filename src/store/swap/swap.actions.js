@@ -123,7 +123,7 @@ const loadSwapData = (_opts = {}) => {
       })
 
       loadBpm()
-      setInterval(() => loadBpm(), 1000 * 60)
+      setInterval(() => loadBpm(), 1000 * 20)
 
       loadSwapperAmount()
       setInterval(() => loadSwapperAmount(), 1000 * 10)
