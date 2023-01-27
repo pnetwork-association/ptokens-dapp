@@ -403,7 +403,7 @@ const Swap = ({
                   later
                 </InfoEta>
               ) : null}
-              {eta < 0 || eta > 15 ? (
+              {eta === -1 || eta > 15 ? (
                 <InfoEta>
                   {eta > 15 && eta < 45
                     ? 'Please note that this operation may take longer than usual to get processed as the bridge is experiencing some delays.'
