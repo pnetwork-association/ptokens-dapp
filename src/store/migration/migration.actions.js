@@ -112,20 +112,6 @@ const migrate = (_strategy, _amount, _from, _to, _options = {}) => {
             method: 'migrateIntoNewCurveGaugeFromOldCurveGauge'
           })
           break
-        case 'c':
-          // old curve gauge -> idle senior tranche
-          migrateBCD(_amount, _from, _to, {
-            dispatch: _dispatch,
-            method: 'migrateIntoIdleAATrancheFromOldCurveGauge'
-          })
-          break
-        case 'd':
-          // old curve gauge -> idle junior tranche
-          migrateBCD(_amount, _from, _to, {
-            dispatch: _dispatch,
-            method: 'migrateIntoIdleBBTrancheFromOldCurveGauge'
-          })
-          break
         default:
           break
       }
