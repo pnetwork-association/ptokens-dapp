@@ -147,44 +147,6 @@ const MigrationHome = ({ apys, selectPage, loadMigrationData }) => {
               <ContinueButton onClick={() => onMigrate('a')}>Migrate</ContinueButton>
             </Td>
           </Tr>
-          <Tr>
-            <Td>B</Td>
-            <Td>
-              <TdContent>
-                <ContainerImage>
-                  <StyledImage src={'./assets/svg/pBTC_gray.svg'} />
-                  <StyledMiniImage src={'./assets/svg/CURVE_gray.svg'} />
-                </ContainerImage>
-                <Text>pBTC-v1 Curve LP token (staked in the old gauge) [pBTC/sbtcCRV-gauge]</Text>
-              </TdContent>
-            </Td>
-            <Td>
-              <TdContent>
-                <ContainerImage>
-                  <StyledImage src={'./assets/svg/pBTC.svg'} />
-                  <StyledMiniImage src={'./assets/svg/CURVE.svg'} />
-                </ContainerImage>
-                <Text>pBTC-v2 Curve LP token (staked in the new gauge) [pbtc/sbtcCRV-f-gauge]</Text>
-              </TdContent>
-            </Td>
-            <Td>
-              {!apys
-                ? '-'
-                : apys['Curve.fi pBTC-v1/sbtcCRV Gauge Deposit']
-                ? apys['Curve.fi pBTC-v1/sbtcCRV Gauge Deposit']
-                : 'N/A'}
-            </Td>
-            <Td>
-              {!apys
-                ? '-'
-                : apys['Curve.fi pbtc-v2/sbtcCRV-f Gauge Deposit']
-                ? apys['Curve.fi pbtc-v2/sbtcCRV-f Gauge Deposit']
-                : 'N/A'}
-            </Td>
-            <Td>
-              <ContinueButton onClick={() => onMigrate('b')}>Migrate</ContinueButton>
-            </Td>
-          </Tr>
         </Tbody>
       </StyledTable>
     </Container>
