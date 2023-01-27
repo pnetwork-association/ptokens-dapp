@@ -678,7 +678,7 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
               ? 0
               : -1
             : selectedBpm.estimatedHostSyncTime
-          : -1
+          : -2
       } else {
         const selectedBpm = Object.values(bpm).filter(
           _el =>
@@ -690,7 +690,7 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
               ? 0
               : -1
             : selectedBpm.estimatedNativeSyncTime
-          : -1
+          : -2
       }
     }
 
