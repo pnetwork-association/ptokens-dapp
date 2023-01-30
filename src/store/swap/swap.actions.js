@@ -9,7 +9,8 @@ import {
   PROGRESS_RESET,
   UPDATE_SWAP_BUTTON,
   BPM_LOADED,
-  SWAPPERS_BALANCES_LOADED
+  SWAPPERS_BALANCES_LOADED,
+  PNETWORK_NODE_V3
 } from '../../constants/index'
 import {
   loadEvmCompatibleBalances,
@@ -397,7 +398,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
         _from = getAssetById(_fromNative.pTokenId)
       }
 
-      const provider = new pTokensNodeProvider('https://pnetwork-node-2a.eu.ngrok.io/v3')
+      const provider = new pTokensNodeProvider(PNETWORK_NODE_V3)
       const node = new pTokensNode(provider)
       const sourceAsset = await createAsset(node, _from, wallets, true)
       const destinationAsset = await createAsset(node, _to, wallets)

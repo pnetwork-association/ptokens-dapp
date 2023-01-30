@@ -1,7 +1,6 @@
 import Web3 from 'web3'
 import BigNumber from 'bignumber.js'
 import ERC20Abi from '../../../utils/abi/ERC20.json'
-import PbtcV1StrategiesMigratorAbi from '../../../utils/abi/PbtcV1StrategiesMigrator.json'
 import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
 import settings from '../../../settings'
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateMigrateButton } from '../migration.actions'
@@ -9,39 +8,12 @@ import { getWalletByBlockchain } from '../../wallets/wallets.selectors'
 import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
 
-const migrateBCD = async (_amount, _from, _to, { dispatch, method }) => {
+const migratePBTC = async (_amount, _from, _to, { dispatch }) => {
   try {
     let hash
     const wallet = getWalletByBlockchain('ETH')
     const web3 = new Web3(wallet.provider)
     const token = new web3.eth.Contract(ERC20Abi, _from.address)
-    const pbtcV1StrategiesMigrator = new web3.eth.Contract(
-      PbtcV1StrategiesMigratorAbi,
-      settings.migration.contractAddresses.pbtcV1StrategiesMigrator
-    )
-
-    const amountBN = BigNumber(_amount)
-      .multipliedBy(10 ** 18)
-      .toFixed()
-
-    const allowance = await token.methods
-      .allowance(wallet.account, settings.migration.contractAddresses.pbtcV1StrategiesMigrator)
-      .call()
-
-    if (BigNumber(allowance).isLessThan(amountBN)) {
-      const sendApprove = () =>
-        new Promise((_resolve, _reject) => {
-          token.methods
-            .approve(settings.migration.contractAddresses.pbtcV1StrategiesMigrator, amountBN)
-            .send({
-              from: wallet.account
-            })
-            .once('receipt', _resolve)
-            .on('error', _reject)
-        })
-      await sendApprove()
-    }
-
     dispatch(
       updateProgress({
         show: true,
@@ -54,7 +26,13 @@ const migrateBCD = async (_amount, _from, _to, { dispatch, method }) => {
 
     const send = () =>
       new Promise((_resolve, _reject) => {
-        pbtcV1StrategiesMigrator.methods[method](amountBN)
+        token.methods
+          .transfer(
+            settings.migration.contractAddresses.pbtcV1Migrator,
+            BigNumber(_amount)
+              .multipliedBy(10 ** 18)
+              .toFixed()
+          )
           .send({
             from: wallet.account
           })
@@ -65,14 +43,14 @@ const migrateBCD = async (_amount, _from, _to, { dispatch, method }) => {
                 show: true,
                 percent: 50,
                 // prettier-ignore
-                message: `Asset migration <a href="${getCorrespondingTxExplorerLinkByBlockchain('ETH', _hash)}}" target="_blank">transaction</a> sent, waiting for confirmation ...`,
+                message: `Asset migration <a href="${getCorrespondingTxExplorerLinkByBlockchain('ETH', _hash)}" target="_blank">transaction</a> sent, waiting for confirmation ...`,
                 steps: [0, 50, 100],
                 terminated: false
               })
             )
           })
           .once('receipt', _resolve)
-          .on('error', _reject)
+          .once('error', _reject)
       })
     await send()
 
@@ -107,4 +85,4 @@ const migrateBCD = async (_amount, _from, _to, { dispatch, method }) => {
   }
 }
 
-export default migrateBCD
+export default migratePBTC

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Container, Table } from 'react-bootstrap'
 import Button from '../../atoms/button/Button'
-import { ContainerImage, Image, MiniImage } from '../../organisms/swapLine/SwapLine'
+import { ContainerImage, Image } from '../../organisms/swapLine/SwapLine'
 
 export const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -81,19 +81,6 @@ const StyledImage = styled(Image)`
   }
 `
 
-const StyledMiniImage = styled(MiniImage)`
-  height: 15px;
-  width: 15px;
-  margin-top: 23px;
-  margin-left: -12px;
-  @media (max-width: 767.98px) {
-    height: 12.5px;
-    width: 12.5px;
-    margin-top: 20px;
-    margin-left: -9px;
-  }
-`
-
 const Text = styled.span`
   margin-left: 10px;
 `
@@ -117,9 +104,7 @@ const MigrationHome = ({ apys, selectPage, loadMigrationData }) => {
             <Th>#</Th>
             <Th>From</Th>
             <Th>To</Th>
-            <Th>Old APY</Th>
-            <Th>New APY</Th>
-            <Th></Th>
+            <Th>Action</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -141,128 +126,32 @@ const MigrationHome = ({ apys, selectPage, loadMigrationData }) => {
                 <Text>pBTC v2</Text>
               </TdContent>
             </Td>
-            <Td>-</Td>
-            <Td>-</Td>
             <Td>
-              <ContinueButton onClick={() => onMigrate('a')}>Migrate</ContinueButton>
+              <ContinueButton onClick={() => onMigrate('pBTC-v1-to-v2')}>Migrate</ContinueButton>
             </Td>
           </Tr>
           <Tr>
             <Td>B</Td>
             <Td>
-              <TdContent>
-                <ContainerImage>
-                  <StyledImage src={'./assets/svg/pBTC_gray.svg'} />
-                  <StyledMiniImage src={'./assets/svg/CURVE_gray.svg'} />
-                </ContainerImage>
-                <Text>pBTC-v1 Curve LP token (staked in the old gauge) [pBTC/sbtcCRV-gauge]</Text>
-              </TdContent>
-            </Td>
-            <Td>
-              <TdContent>
-                <ContainerImage>
-                  <StyledImage src={'./assets/svg/pBTC.svg'} />
-                  <StyledMiniImage src={'./assets/svg/CURVE.svg'} />
-                </ContainerImage>
-                <Text>pBTC-v2 Curve LP token (staked in the new gauge) [pbtc/sbtcCRV-f-gauge]</Text>
-              </TdContent>
-            </Td>
-            <Td>
-              {!apys
-                ? '-'
-                : apys['Curve.fi pBTC-v1/sbtcCRV Gauge Deposit']
-                ? apys['Curve.fi pBTC-v1/sbtcCRV Gauge Deposit']
-                : 'N/A'}
-            </Td>
-            <Td>
-              {!apys
-                ? '-'
-                : apys['Curve.fi pbtc-v2/sbtcCRV-f Gauge Deposit']
-                ? apys['Curve.fi pbtc-v2/sbtcCRV-f Gauge Deposit']
-                : 'N/A'}
-            </Td>
-            <Td>
-              <ContinueButton onClick={() => onMigrate('b')}>Migrate</ContinueButton>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>C</Td>
-            <Td>
               {' '}
               <TdContent>
                 <ContainerImage>
-                  <StyledImage src={'./assets/svg/pBTC_gray.svg'} />
-                  <StyledMiniImage src={'./assets/svg/CURVE_gray.svg'} />
+                  <StyledImage src={'./assets/svg/PNT_gray.svg'} />
                 </ContainerImage>
-                <Text>pBTC-v1 Curve LP token (staked in the old gauge) [pBTC/sbtcCRV-gauge]</Text>
+                <Text>ethPNT</Text>
               </TdContent>
             </Td>
             <Td>
               {' '}
               <TdContent>
                 <ContainerImage>
-                  <StyledImage src={'./assets/svg/pBTC.svg'} />
-                  <StyledMiniImage src={'./assets/svg/IDLE.svg'} />
+                  <StyledImage src={'./assets/svg/PNT.svg'} />
                 </ContainerImage>
-                <Text>Idle PBTCCRV Senior Tranche (staked)</Text>
+                <Text>PNT</Text>
               </TdContent>
             </Td>
             <Td>
-              {!apys
-                ? '-'
-                : apys['Curve.fi pBTC-v1/sbtcCRV Gauge Deposit']
-                ? apys['Curve.fi pBTC-v1/sbtcCRV Gauge Deposit']
-                : 'N/A'}
-            </Td>
-            <Td>
-              {!apys
-                ? '-'
-                : apys['IdleCDO AA Tranche - idleCvxpbtc-v2/sbtcCRV-f']
-                ? apys['IdleCDO AA Tranche - idleCvxpbtc-v2/sbtcCRV-f']
-                : 'N/A'}
-            </Td>
-            <Td>
-              <ContinueButton onClick={() => onMigrate('c')}>Migrate</ContinueButton>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>D</Td>
-            <Td>
-              {' '}
-              <TdContent>
-                <ContainerImage>
-                  <StyledImage src={'./assets/svg/pBTC_gray.svg'} />
-                  <StyledMiniImage src={'./assets/svg/CURVE_gray.svg'} />
-                </ContainerImage>
-                <Text>pBTC-v1 Curve LP token (staked in the old gauge) [pBTC/sbtcCRV-gauge]</Text>
-              </TdContent>
-            </Td>
-            <Td>
-              {' '}
-              <TdContent>
-                <ContainerImage>
-                  <StyledImage src={'./assets/svg/pBTC.svg'} />
-                  <StyledMiniImage src={'./assets/svg/IDLE.svg'} />
-                </ContainerImage>
-                <Text>Idle PBTCCRV Junior Tranche</Text>
-              </TdContent>
-            </Td>
-            <Td>
-              {!apys
-                ? '-'
-                : apys['Curve.fi pBTC-v1/sbtcCRV Gauge Deposit']
-                ? apys['Curve.fi pBTC-v1/sbtcCRV Gauge Deposit']
-                : 'N/A'}
-            </Td>
-            <Td>
-              {!apys
-                ? '-'
-                : apys['IdleCDO BB Tranche - idleCvxpbtc-v2/sbtcCRV-f']
-                ? apys['IdleCDO BB Tranche - idleCvxpbtc-v2/sbtcCRV-f']
-                : 'N/A'}
-            </Td>
-            <Td>
-              <ContinueButton onClick={() => onMigrate('d')}>Migrate</ContinueButton>
+              <ContinueButton onClick={() => onMigrate('ethPNT-to-PNT')}>Migrate</ContinueButton>
             </Td>
           </Tr>
         </Tbody>

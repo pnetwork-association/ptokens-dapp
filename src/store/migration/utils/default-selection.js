@@ -1,30 +1,20 @@
 import {
   PBTC_ON_ETH_MAINNET_V1_MIGRATION,
   PBTC_ON_ETH_MAINNET_V2_MIGRATION,
-  PBTC_SBTC_CRV_GAUGE_DEPOSIT_MIGRATION,
-  PBTC_SBTC_CURVE_ON_ETH_MAINNET_V2_MIGRATION,
-  IDLE_CDO_AA_TRANCHE_CVX_PBTC_V2_SBTC_CRV_MIGRATION,
-  IDLE_CDO_BB_TRANCHE_CVX_PBTC_V2_SBTC_CRV_MIGRATION
+  PNT_ON_ETH_MAINNET,
+  ETHPNT_ON_ETH_MAINNET
 } from '../../../constants'
 
-const getDefaultSelection = (_assets, { strategy = 'a' }) => {
+const getDefaultSelection = (_assets, { strategy = 'pBTC-v1-to-v2' }) => {
   let from, to
   switch (strategy) {
-    case 'a':
+    case 'pBTC-v1-to-v2':
       from = _assets.find(({ id }) => id === PBTC_ON_ETH_MAINNET_V1_MIGRATION)
       to = _assets.find(({ id }) => id === PBTC_ON_ETH_MAINNET_V2_MIGRATION)
       break
-    case 'b':
-      from = _assets.find(({ id }) => id === PBTC_SBTC_CRV_GAUGE_DEPOSIT_MIGRATION)
-      to = _assets.find(({ id }) => id === PBTC_SBTC_CURVE_ON_ETH_MAINNET_V2_MIGRATION)
-      break
-    case 'c':
-      from = _assets.find(({ id }) => id === PBTC_SBTC_CRV_GAUGE_DEPOSIT_MIGRATION)
-      to = _assets.find(({ id }) => id === IDLE_CDO_AA_TRANCHE_CVX_PBTC_V2_SBTC_CRV_MIGRATION)
-      break
-    case 'd':
-      from = _assets.find(({ id }) => id === PBTC_SBTC_CRV_GAUGE_DEPOSIT_MIGRATION)
-      to = _assets.find(({ id }) => id === IDLE_CDO_BB_TRANCHE_CVX_PBTC_V2_SBTC_CRV_MIGRATION)
+    case 'ethPNT-to-PNT':
+      from = _assets.find(({ id }) => id === ETHPNT_ON_ETH_MAINNET)
+      to = _assets.find(({ id }) => id === PNT_ON_ETH_MAINNET)
       break
     default:
       break
