@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useWalletByBlockchain } from './use-wallets'
 import history from '../utils/history'
-import { PBTC_ON_ETH_MAINNET_V2_MIGRATION } from '../constants'
+import { PNT_ON_ETH_MAINNET, ETHPNT_TO_PNT_FEE } from '../constants'
 import BigNumber from 'bignumber.js'
 
 const useMigration = ({
@@ -19,6 +19,10 @@ const useMigration = ({
   const [toAmount, _setToAmount] = useState('')
   const [assetsLoaded, setAssetsLoaded] = useState(false)
 
+  const getFee = fee => {
+    return 1 - fee / 100
+  }
+
   const setToAmount = useCallback(
     _amount => {
       if (_amount === '' || parseFloat(_amount) === 0) {
@@ -26,7 +30,7 @@ const useMigration = ({
         return
       }
 
-      if (to && to.id === PBTC_ON_ETH_MAINNET_V2_MIGRATION) {
+      if (to && to.id === PNT_ON_ETH_MAINNET) {
         _setToAmount(_amount)
         return
       }
@@ -39,17 +43,33 @@ const useMigration = ({
   const onChangeFromAmount = useCallback(
     _amount => {
       setFromAmount(_amount)
-      setToAmount(_amount)
+      if (from.id === 'ETHPNT_ON_ETH_MAINNET')
+        setToAmount(
+          _amount !== ''
+            ? BigNumber(_amount)
+                .multipliedBy(getFee(ETHPNT_TO_PNT_FEE))
+                .toFixed()
+            : _amount.toString()
+        )
+      else setToAmount(_amount)
     },
-    [setToAmount]
+    [setToAmount, from]
   )
 
   const onChangeToAmount = useCallback(
     _amount => {
       setToAmount(_amount)
-      setFromAmount(_amount)
+      if (from.id === 'ETHPNT_ON_ETH_MAINNET')
+        setFromAmount(
+          _amount !== ''
+            ? BigNumber(_amount)
+                .dividedBy(getFee(ETHPNT_TO_PNT_FEE))
+                .toFixed()
+            : _amount.toString()
+        )
+      else setFromAmount(_amount)
     },
-    [setToAmount]
+    [setToAmount, from]
   )
 
   const onFromMax = useCallback(() => {
