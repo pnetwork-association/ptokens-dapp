@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useWalletByBlockchain } from './use-wallets'
 import history from '../utils/history'
-import { PNT_ON_ETH_MAINNET, ETHPNT_TO_PNT_FEE } from '../constants'
+import { PNT_ON_ETH_MAINNET, ETHPNT_ON_ETH_MAINNET } from '../constants'
 import BigNumber from 'bignumber.js'
+import { getFee } from '../utils/fee'
 
 const useMigration = ({
   wallets,
@@ -19,9 +20,20 @@ const useMigration = ({
   const [toAmount, _setToAmount] = useState('')
   const [assetsLoaded, setAssetsLoaded] = useState(false)
 
-  const getFee = fee => {
-    return 1 - fee / 100
-  }
+  const computeAmount = useCallback(
+    (amount, direction) => {
+      if (from.id === ETHPNT_ON_ETH_MAINNET) {
+        const feeCoeff = 1 - getFee(from, to) / 100
+        return amount !== ''
+          ? BigNumber(amount)
+              .multipliedBy(direction === 'to' ? feeCoeff : 1 / feeCoeff)
+              .toFixed()
+          : amount
+      }
+      return amount
+    },
+    [from, to]
+  )
 
   const setToAmount = useCallback(
     _amount => {
@@ -43,33 +55,17 @@ const useMigration = ({
   const onChangeFromAmount = useCallback(
     _amount => {
       setFromAmount(_amount)
-      if (from.id === 'ETHPNT_ON_ETH_MAINNET')
-        setToAmount(
-          _amount !== ''
-            ? BigNumber(_amount)
-                .multipliedBy(getFee(ETHPNT_TO_PNT_FEE))
-                .toFixed()
-            : _amount.toString()
-        )
-      else setToAmount(_amount)
+      setToAmount(computeAmount(_amount, 'to'))
     },
-    [setToAmount, from]
+    [setToAmount, computeAmount]
   )
 
   const onChangeToAmount = useCallback(
     _amount => {
       setToAmount(_amount)
-      if (from.id === 'ETHPNT_ON_ETH_MAINNET')
-        setFromAmount(
-          _amount !== ''
-            ? BigNumber(_amount)
-                .dividedBy(getFee(ETHPNT_TO_PNT_FEE))
-                .toFixed()
-            : _amount.toString()
-        )
-      else setFromAmount(_amount)
+      setFromAmount(computeAmount(_amount, 'from'))
     },
-    [setToAmount, from]
+    [setToAmount, computeAmount]
   )
 
   const onFromMax = useCallback(() => {

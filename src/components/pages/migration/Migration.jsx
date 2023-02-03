@@ -157,7 +157,7 @@ const Migration = ({
           </OuterContainerSwap>
         </Row>
       </Container>
-      {from && from.id === 'ETHPNT_ON_ETH_MAINNET' ? <MigrationInfo from={from} /> : null}
+      {from && from.id === 'ETHPNT_ON_ETH_MAINNET' ? <MigrationInfo from={from} to={to} /> : null}
       <BackButton onClick={() => selectPage('/migration')}>Back</BackButton>
       <InfoModal onClose={hideInfoModal} {...infoModal} />
     </React.Fragment>

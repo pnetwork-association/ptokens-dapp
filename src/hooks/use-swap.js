@@ -83,6 +83,14 @@ const useSwap = ({
     fromAmount
   })
 
+  const computeAmount = (amount, fee, isFrom) => {
+    return amount !== ''
+      ? BigNumber(amount)
+          .multipliedBy(isFrom ? fee : 1 / fee)
+          .toFixed()
+      : amount
+  }
+
   const onChangeFromAmount = useCallback(
     _amount => {
       setFromAmount(_amount)
@@ -109,25 +117,13 @@ const useSwap = ({
           curveExpected = 0
           setCurveImpact(0)
         }
-        setToAmount(
-          curveExpected !== ''
-            ? BigNumber(curveExpected)
-                .multipliedBy(fee)
-                .toFixed()
-            : curveExpected.toString()
-        )
+        setToAmount(computeAmount(curveExpected, fee, true))
       }
 
       if (curveRef.current) {
         calcWithNewAmount()
       } else {
-        setToAmount(
-          _amount !== ''
-            ? BigNumber(_amount)
-                .multipliedBy(fee)
-                .toFixed()
-            : _amount.toString()
-        )
+        setToAmount(computeAmount(_amount, fee, true))
       }
     },
     [fee, curveRef]
@@ -136,13 +132,7 @@ const useSwap = ({
   const onChangeToAmount = useCallback(
     _amount => {
       setToAmount(_amount)
-      setFromAmount(
-        _amount !== ''
-          ? BigNumber(_amount)
-              .dividedBy(fee)
-              .toFixed()
-          : _amount.toString()
-      )
+      setFromAmount(computeAmount(_amount, fee, false))
     },
     [fee]
   )
