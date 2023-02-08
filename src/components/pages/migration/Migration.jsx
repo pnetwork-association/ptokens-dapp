@@ -17,6 +17,7 @@ import Button from '../../atoms/button/Button'
 import Progress from '../../molecules/progress/Progress'
 import InfoModal from '../../organisms/infoModal/InfoModal'
 import MigrationInfo from '../../organisms/migrationInfo/MigrationInfo'
+import { PBTC_ON_ETH_MAINNET_V2_MIGRATION, PNT_ON_ETH_MAINNET } from '../../../constants'
 
 const ArrowIcon = styled(SortIcon)`
   cursor: normal !important;
@@ -80,6 +81,11 @@ const Migration = ({
     updateMigrateButton
   })
 
+  const getPrefix = _to => {
+    if (to) return _to.id === PBTC_ON_ETH_MAINNET_V2_MIGRATION || _to.id === PNT_ON_ETH_MAINNET ? '' : '~'
+    return ''
+  }
+
   return (
     <React.Fragment>
       <Container>
@@ -141,6 +147,7 @@ const Migration = ({
                 withTitleLabel
                 hideMaxButton
                 disableInput
+                prefix={getPrefix(to)}
               />
               {progress.show ? (
                 <Progress percent={progress.percent} message={progress.message} steps={progress.steps} />
