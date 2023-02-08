@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useWalletByBlockchain } from './use-wallets'
 import history from '../utils/history'
-import { PBTC_ON_ETH_MAINNET_V2_MIGRATION } from '../constants'
+import { PNT_ON_ETH_MAINNET } from '../constants'
+import { computeAmount } from '../utils/fee'
 import BigNumber from 'bignumber.js'
 
 const useMigration = ({
@@ -26,7 +27,7 @@ const useMigration = ({
         return
       }
 
-      if (to && to.id === PBTC_ON_ETH_MAINNET_V2_MIGRATION) {
+      if (to && to.id === PNT_ON_ETH_MAINNET) {
         _setToAmount(_amount)
         return
       }
@@ -39,17 +40,17 @@ const useMigration = ({
   const onChangeFromAmount = useCallback(
     _amount => {
       setFromAmount(_amount)
-      setToAmount(_amount)
+      setToAmount(computeAmount(from, to, _amount, 'to'))
     },
-    [setToAmount]
+    [setToAmount, from, to]
   )
 
   const onChangeToAmount = useCallback(
     _amount => {
       setToAmount(_amount)
-      setFromAmount(_amount)
+      setFromAmount(computeAmount(from, to, _amount, 'from'))
     },
-    [setToAmount]
+    [setToAmount, from, to]
   )
 
   const onFromMax = useCallback(() => {

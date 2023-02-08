@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import { isValidAccountByBlockchain } from '../utils/account-validator'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 import { getPeginOrPegoutMinutesEstimationByBlockchainAndEta } from '../utils/estimations'
-import { getFee } from '../utils/fee'
+import { getFee, getFeeFactor, computeAmount } from '../utils/fee'
 import BigNumber from 'bignumber.js'
 import { getLegacyUrl, updateUrlForSwap } from '../utils/url'
 import { useWalletByBlockchain } from './use-wallets'
@@ -109,42 +109,24 @@ const useSwap = ({
           curveExpected = 0
           setCurveImpact(0)
         }
-        setToAmount(
-          curveExpected !== ''
-            ? BigNumber(curveExpected)
-                .multipliedBy(fee)
-                .toFixed()
-            : curveExpected.toString()
-        )
+        setToAmount(computeAmount(from, to, curveExpected, 'to'))
       }
 
       if (curveRef.current) {
         calcWithNewAmount()
       } else {
-        setToAmount(
-          _amount !== ''
-            ? BigNumber(_amount)
-                .multipliedBy(fee)
-                .toFixed()
-            : _amount.toString()
-        )
+        setToAmount(computeAmount(from, to, _amount, 'to'))
       }
     },
-    [fee, curveRef]
+    [curveRef, from, to]
   )
 
   const onChangeToAmount = useCallback(
     _amount => {
       setToAmount(_amount)
-      setFromAmount(
-        _amount !== ''
-          ? BigNumber(_amount)
-              .dividedBy(fee)
-              .toFixed()
-          : _amount.toString()
-      )
+      setFromAmount(computeAmount(from, to, _amount, 'from'))
     },
-    [fee]
+    [from, to]
   )
 
   const onChangeOrder = useCallback(() => {
@@ -723,7 +705,7 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
         formattedMinimumPeggable: minimumPeggable
           ? `${numberWithCommas(minimumPeggable.toString())} ${from.symbol}`
           : null,
-        fee: 1 - fee / 100,
+        fee: getFeeFactor(fee),
         formattedFee: `${fee}%`,
         estimatedSwapTime,
         show: true,

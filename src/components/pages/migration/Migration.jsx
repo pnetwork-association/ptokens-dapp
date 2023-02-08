@@ -16,6 +16,7 @@ import {
 import Button from '../../atoms/button/Button'
 import Progress from '../../molecules/progress/Progress'
 import InfoModal from '../../organisms/infoModal/InfoModal'
+import MigrationInfo from '../../organisms/migrationInfo/MigrationInfo'
 
 const ArrowIcon = styled(SortIcon)`
   cursor: normal !important;
@@ -153,10 +154,11 @@ const Migration = ({
                 </Button>
               </ContainerSwapButton>
             </ContainerSwap>
-            <BackButton onClick={() => selectPage('/migration')}>Back</BackButton>
           </OuterContainerSwap>
         </Row>
       </Container>
+      {from && from.id === 'ETHPNT_ON_ETH_MAINNET' ? <MigrationInfo from={from} to={to} /> : null}
+      <BackButton onClick={() => selectPage('/migration')}>Back</BackButton>
       <InfoModal onClose={hideInfoModal} {...infoModal} />
     </React.Fragment>
   )
