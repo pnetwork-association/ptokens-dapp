@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import { isValidAccountByBlockchain } from '../utils/account-validator'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 import { getPeginOrPegoutMinutesEstimationByBlockchainAndEta } from '../utils/estimations'
-import { getFee, getFeeFactor, computeAmount } from '../utils/fee'
+import { getFee, getFeeFactor, computeAmount, getFormattedFee } from '../utils/fee'
 import BigNumber from 'bignumber.js'
 import { getLegacyUrl, updateUrlForSwap } from '../utils/url'
 import { useWalletByBlockchain } from './use-wallets'
@@ -703,10 +703,12 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
       return {
         minimumPeggable: minimumPeggable ? BigNumber(minimumPeggable).toFixed() : 0,
         formattedMinimumPeggable: minimumPeggable
-          ? `${numberWithCommas(minimumPeggable.toString())} ${from.symbol}`
+          ? `${numberWithCommas(minimumPeggable)
+              .toString()
+              .replace('.', ',')} ${from.symbol}`
           : null,
         fee: getFeeFactor(fee),
-        formattedFee: `${fee}%`,
+        formattedFee: getFormattedFee(fee),
         estimatedSwapTime,
         show: true,
         isPegin: true,
@@ -727,7 +729,9 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
       return {
         minimumPeggable: minimumPeggable ? BigNumber(minimumPeggable).toFixed() : 0,
         formattedMinimumPeggable: minimumPeggable
-          ? `${numberWithCommas(minimumPeggable.toString())} ${from.symbol}`
+          ? `${numberWithCommas(minimumPeggable)
+              .toString()
+              .replace('.', ',')} ${from.symbol}`
           : null,
         fee: 1 - fee / 100,
         formattedFee: `${fee}%`,

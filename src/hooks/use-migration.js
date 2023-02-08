@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useWalletByBlockchain } from './use-wallets'
 import history from '../utils/history'
-import { PNT_ON_ETH_MAINNET } from '../constants'
 import { computeAmount } from '../utils/fee'
 import BigNumber from 'bignumber.js'
 
@@ -17,25 +16,8 @@ const useMigration = ({
   const [from, setFrom] = useState(null)
   const [to, setTo] = useState(null)
   const [fromAmount, setFromAmount] = useState('')
-  const [toAmount, _setToAmount] = useState('')
+  const [toAmount, setToAmount] = useState('')
   const [assetsLoaded, setAssetsLoaded] = useState(false)
-
-  const setToAmount = useCallback(
-    _amount => {
-      if (_amount === '' || parseFloat(_amount) === 0) {
-        _setToAmount(_amount)
-        return
-      }
-
-      if (to && to.id === PNT_ON_ETH_MAINNET) {
-        _setToAmount(_amount)
-        return
-      }
-
-      _setToAmount(`~${_amount}`)
-    },
-    [to]
-  )
 
   const onChangeFromAmount = useCallback(
     _amount => {

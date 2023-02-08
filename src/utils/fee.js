@@ -27,4 +27,8 @@ const computeAmount = (from, to, amount, direction) => {
     : amount
 }
 
-export { getFee, getFeeFactor, computeAmount }
+const getFormattedFee = fee => {
+  return `${fee.toString().replace('.', ',')}%`
+}
+
+export { getFee, getFeeFactor, computeAmount, getFormattedFee }

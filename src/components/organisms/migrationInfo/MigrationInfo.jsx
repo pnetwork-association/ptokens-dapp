@@ -4,8 +4,7 @@ import PropTypes from 'prop-types'
 import { Row, Col, Container } from 'react-bootstrap'
 import Switch from '../../atoms/switch/Switch'
 import ReactTooltip from 'react-tooltip'
-import { ETHPNT_ON_ETH_MAINNET } from '../../../constants'
-import { getFee } from '../../../utils/fee'
+import { getFee, getFormattedFee } from '../../../utils/fee'
 
 const ContainerInfo = styled(Container)`
   background: ${({ theme }) => theme.secondary3Transparentized};
@@ -48,13 +47,6 @@ const LabelCol = styled(Col)`
   }
 `
 
-const formatFee = (from, to) => {
-  if (from.id === ETHPNT_ON_ETH_MAINNET) {
-    return `${getFee(from, to)}%`
-  }
-  return '-'
-}
-
 const MigrationInfo = ({ from, to }) => {
   return (
     <ContainerInfo show={true}>
@@ -72,7 +64,7 @@ const MigrationInfo = ({ from, to }) => {
       </MarginedRow>
       <MarginedRow>
         <LabelCol xs={8}>Fee</LabelCol>
-        <ValueCol xs={4}>{formatFee(from, to)}</ValueCol>
+        <ValueCol xs={4}>{getFormattedFee(getFee(from, to))}</ValueCol>
       </MarginedRow>
     </ContainerInfo>
   )

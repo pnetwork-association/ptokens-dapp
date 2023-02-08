@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Row, Col } from 'react-bootstrap'
 import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
+import { NumericFormat } from 'react-number-format'
 import AssetInfo from '../assetInfo/AssetInfo'
 import Icon from '../../atoms/icon/Icon'
 
@@ -206,7 +207,8 @@ const SwapLine = ({
   withTitleLabel,
   disableInput,
   inputType = 'number',
-  inputPlaceholder = '0.0',
+  inputPlaceholder = '0,0',
+  prefix = '',
   ..._props
 }) => {
   const [showInfo, setShowInfo] = useState(false)
@@ -260,12 +262,14 @@ const SwapLine = ({
         </ContainerImageAndMaxButton>
         <Col xs={8} className="text-right my-auto pl-0">
           <ContainerAmountInput>
-            <AmountInput
-              type={inputType}
+            <NumericFormat
+              customInput={AmountInput}
               placeholder={inputPlaceholder}
               disabled={disableInput}
-              onChange={_e => onChangeAmount(_e.target.value.toString())}
-              value={amount}
+              onChange={_e => onChangeAmount(_e.target.value.toString().replace(',', '.'))}
+              prefix={prefix}
+              value={amount !== '' ? +amount : amount}
+              decimalSeparator=","
             />
           </ContainerAmountInput>
         </Col>
