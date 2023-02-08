@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import { isValidAccountByBlockchain } from '../utils/account-validator'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 import { getPeginOrPegoutMinutesEstimationByBlockchainAndEta } from '../utils/estimations'
-import { getFee } from '../utils/fee'
+import { getFee, getFeeFactor, computeAmount } from '../utils/fee'
 import BigNumber from 'bignumber.js'
 import { getLegacyUrl, updateUrlForSwap } from '../utils/url'
 import { useWalletByBlockchain } from './use-wallets'
@@ -83,14 +83,6 @@ const useSwap = ({
     fromAmount
   })
 
-  const computeAmount = (amount, fee, isFrom) => {
-    return amount !== ''
-      ? BigNumber(amount)
-          .multipliedBy(isFrom ? fee : 1 / fee)
-          .toFixed()
-      : amount
-  }
-
   const onChangeFromAmount = useCallback(
     _amount => {
       setFromAmount(_amount)
@@ -117,24 +109,24 @@ const useSwap = ({
           curveExpected = 0
           setCurveImpact(0)
         }
-        setToAmount(computeAmount(curveExpected, fee, true))
+        setToAmount(computeAmount(from, to, curveExpected, 'to'))
       }
 
       if (curveRef.current) {
         calcWithNewAmount()
       } else {
-        setToAmount(computeAmount(_amount, fee, true))
+        setToAmount(computeAmount(from, to, _amount, 'to'))
       }
     },
-    [fee, curveRef]
+    [curveRef, from, to]
   )
 
   const onChangeToAmount = useCallback(
     _amount => {
       setToAmount(_amount)
-      setFromAmount(computeAmount(_amount, fee, false))
+      setFromAmount(computeAmount(from, to, _amount, 'from'))
     },
-    [fee]
+    [from, to]
   )
 
   const onChangeOrder = useCallback(() => {
@@ -713,7 +705,7 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
         formattedMinimumPeggable: minimumPeggable
           ? `${numberWithCommas(minimumPeggable.toString())} ${from.symbol}`
           : null,
-        fee: 1 - fee / 100,
+        fee: getFeeFactor(fee),
         formattedFee: `${fee}%`,
         estimatedSwapTime,
         show: true,
