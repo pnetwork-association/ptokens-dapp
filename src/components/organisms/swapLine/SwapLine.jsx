@@ -207,7 +207,7 @@ const SwapLine = ({
   withTitleLabel,
   disableInput,
   inputType = 'number',
-  inputPlaceholder = '0,0',
+  inputPlaceholder = '0',
   prefix = '',
   ..._props
 }) => {
