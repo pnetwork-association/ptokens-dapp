@@ -7,7 +7,7 @@ import BigNumber from 'bignumber.js'
 import { getLegacyUrl, updateUrlForSwap } from '../utils/url'
 import { useWalletByBlockchain } from './use-wallets'
 import getMinimumPeggable from '../utils/minimum-peggables'
-import { numberWithCommas } from '../utils/amount-utils'
+import { numberWithCommas, formatDecimalSeparator } from '../utils/amount-utils'
 import { TLOS_ON_BSC_MAINNET, TLOS_ON_ETH_MAINNET } from '../constants'
 import { PBTC_ON_ETH_POOL, CURVE_MIN_AMOUNT, CURVE_MAX_AMOUNT } from '../constants'
 import { getAssetById } from '../store/swap/swap.selectors'
@@ -703,9 +703,7 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
       return {
         minimumPeggable: minimumPeggable ? BigNumber(minimumPeggable).toFixed() : 0,
         formattedMinimumPeggable: minimumPeggable
-          ? `${numberWithCommas(minimumPeggable)
-              .toString()
-              .replace('.', ',')} ${from.symbol}`
+          ? `${formatDecimalSeparator(numberWithCommas(minimumPeggable))} ${from.symbol}`
           : null,
         fee: getFeeFactor(fee),
         formattedFee: getFormattedFee(fee),
@@ -729,9 +727,7 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
       return {
         minimumPeggable: minimumPeggable ? BigNumber(minimumPeggable).toFixed() : 0,
         formattedMinimumPeggable: minimumPeggable
-          ? `${numberWithCommas(minimumPeggable)
-              .toString()
-              .replace('.', ',')} ${from.symbol}`
+          ? `${formatDecimalSeparator(numberWithCommas(minimumPeggable))} ${from.symbol}`
           : null,
         fee: 1 - fee / 100,
         formattedFee: `${fee}%`,
