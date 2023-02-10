@@ -6,6 +6,7 @@ import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
 import { NumericFormat } from 'react-number-format'
 import AssetInfo from '../assetInfo/AssetInfo'
 import Icon from '../../atoms/icon/Icon'
+import { getDecimalSeparator, getThousandSeparator } from '../../../utils/amount-utils'
 
 const SwapLineContainer = styled.div`
   border-radius: 20px;
@@ -207,7 +208,7 @@ const SwapLine = ({
   withTitleLabel,
   disableInput,
   inputType = 'number',
-  inputPlaceholder = '0,0',
+  inputPlaceholder = '0',
   prefix = '',
   ..._props
 }) => {
@@ -266,10 +267,12 @@ const SwapLine = ({
               customInput={AmountInput}
               placeholder={inputPlaceholder}
               disabled={disableInput}
-              onChange={_e => onChangeAmount(_e.target.value.toString().replace(',', '.'))}
+              onValueChange={_e => onChangeAmount(_e.value.toString().replace(',', '.'))}
               prefix={prefix}
               value={amount !== '' ? +amount : amount}
-              decimalSeparator=","
+              allowedDecimalSeparators={[',', '.']}
+              decimalSeparator={getDecimalSeparator()}
+              thousandSeparator={getThousandSeparator()}
             />
           </ContainerAmountInput>
         </Col>

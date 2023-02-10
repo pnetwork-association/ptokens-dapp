@@ -91,4 +91,35 @@ const parse = (string, separator) => {
   return strings
 }
 
-export { onChainFormat, offChainFormat, parseAmount, strip, formattedFixedStrip, numberWithCommas }
+const getSeparator = () => {
+  const _thousandSeparator = Intl.NumberFormat()
+    .format(1111)
+    .replace(/\p{Number}/gu, '')
+  const _decimalSeparator = Intl.NumberFormat()
+    .format(1.1)
+    .replace(/\p{Number}/gu, '')
+  if (
+    (_decimalSeparator === ',' || _decimalSeparator === '.') &&
+    (_thousandSeparator === ',' || _thousandSeparator === '.')
+  )
+    return { thousandSeparator: _thousandSeparator, decimalSeparator: _decimalSeparator }
+  else return { thousandSeparator: ',', decimalSeparator: '.' }
+}
+
+const getThousandSeparator = () => getSeparator().thousandSeparator
+
+const getDecimalSeparator = () => getSeparator().decimalSeparator
+
+const formatDecimalSeparator = num => num.toString().replace('.', getDecimalSeparator())
+
+export {
+  onChainFormat,
+  offChainFormat,
+  parseAmount,
+  strip,
+  formattedFixedStrip,
+  numberWithCommas,
+  getThousandSeparator,
+  getDecimalSeparator,
+  formatDecimalSeparator
+}

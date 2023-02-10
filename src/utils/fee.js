@@ -1,5 +1,6 @@
 import { PNT_ON_ETH_MAINNET, ETHPNT_ON_ETH_MAINNET, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../constants'
 import BigNumber from 'bignumber.js'
+import { formatDecimalSeparator } from './amount-utils'
 
 const map = {
   pegin: 0.1,
@@ -27,8 +28,6 @@ const computeAmount = (from, to, amount, direction) => {
     : amount
 }
 
-const getFormattedFee = fee => {
-  return `${fee.toString().replace('.', ',')}%`
-}
+const getFormattedFee = fee => `${formatDecimalSeparator(fee)}%`
 
 export { getFee, getFeeFactor, computeAmount, getFormattedFee }
