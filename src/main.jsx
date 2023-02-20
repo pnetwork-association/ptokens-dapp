@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import App from './App'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
@@ -27,7 +27,8 @@ if (window.ethereum) window.ethereum.autoRefreshOnNetworkChange = false
 const loader = document.getElementsByClassName('loader')
 loader[0].parentNode.removeChild(loader[0])
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
   <Provider store={store}>
     <ThemeProvider>
       <ThemedGlobalStyle />
@@ -35,8 +36,7 @@ ReactDOM.render(
         <App />
       </HashRouter>
     </ThemeProvider>
-  </Provider>,
-  document.getElementById('root')
+  </Provider>
 )
 
 serviceWorker.unregister()
