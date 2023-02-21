@@ -13,8 +13,10 @@ export default defineConfig(() => ({
     }),
     svgLoader(),
   ],
-  define: {
-    "global": {},
+  build: {
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    },
   },
   esbuild: {
     loader: 'jsx',
