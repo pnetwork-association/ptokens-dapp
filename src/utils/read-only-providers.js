@@ -1,7 +1,7 @@
 import settings from '../settings'
 import Web3 from 'web3'
 import { JsonRpc } from 'eosjs'
-import fetch from 'node-fetch'
+import fetch from 'cross-fetch'
 import { Algodv2 } from 'algosdk'
 
 const getReadOnlyProviderByBlockchain = _blockchain => {
