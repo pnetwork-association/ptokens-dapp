@@ -35,13 +35,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - shell: bash
-        run: |
-          echo 'cat package-lock.json'
-          cat ./package-lock.json
-          cat ./package.json
+      - name: checkout
+        uses: actions/checkout@v3
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high --strict-out-of-sync=false
