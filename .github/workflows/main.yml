@@ -25,12 +25,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
           cache-dependency-path: ./package-lock.json
-      - run: npm ci --legacy-peer-deps
+      - run: npm ci
 
       - name: Run tests
-        run: |
-          echo "SKIP_PREFLIGHT_CHECK=true" > .env
-          CI=true npm test
+        run: | CI=true npm test
   security:
     runs-on: ubuntu-latest
     steps:
@@ -39,3 +37,5 @@ jobs:
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
