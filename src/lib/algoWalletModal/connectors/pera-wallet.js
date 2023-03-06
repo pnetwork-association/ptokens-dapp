@@ -1,5 +1,5 @@
 import { EventEmitter } from 'eventemitter3'
-import { PeraWalletConnect } from '@perawallet/connect'
+// import { PeraWalletConnect } from '@perawallet/connect'
 
 class Provider extends EventEmitter {
   constructor(_peraWallet, _accounts) {
@@ -25,14 +25,14 @@ class Provider extends EventEmitter {
 }
 
 const connectToPeraWallet = async () => {
-  const peraWallet = new PeraWalletConnect()
+  // const peraWallet = new PeraWalletConnect()
   let accounts = []
   try {
-    accounts = await peraWallet.connect()
+    // accounts = await peraWallet.connect()
   } catch (err) {
-    accounts = await peraWallet.reconnectSession()
+    // accounts = await peraWallet.reconnectSession()
   }
-  const provider = new Provider(peraWallet, accounts)
+  // const provider = new Provider(peraWallet, accounts)
   return provider
 }
 

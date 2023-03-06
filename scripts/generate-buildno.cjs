@@ -13,6 +13,6 @@ function setEnvValue(key, value) {
 
 (() => {
   childProcess.exec("git rev-parse --short HEAD", (err, stdout) => {
-    setEnvValue("REACT_APP_GIT_SHA", stdout)
+    setEnvValue("VITE_REACT_APP_GIT_SHA", stdout)
   });
 })();

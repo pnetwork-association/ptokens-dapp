@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
+import getIconSource from './icon-importer'
 
 const commonCss = css`
   color: ${({ color }) => color};
@@ -28,7 +29,7 @@ const Icon = ({ icon, ...props }) => {
     return <StyledImg alt="" src={asset || icon} {...props} />
   }
 
-  const svg = require(`!!raw-loader!./icons/${icon}.svg`).default
+  const svg = getIconSource(icon)
   return <StyledSpan {...props} dangerouslySetInnerHTML={{ __html: svg }} />
 }
 

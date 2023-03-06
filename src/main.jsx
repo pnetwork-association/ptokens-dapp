@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import App from './App'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
@@ -9,11 +9,11 @@ import * as serviceWorker from './serviceWorker'
 import ReactGA from 'react-ga4'
 import settings from './settings'
 import ThemeProvider, { ThemedGlobalStyle } from './theme/ThemeProvider'
-import 'bootstrap/dist/css/bootstrap.css'
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 import 'react-step-progress-bar/styles.css'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import './theme/font.css'
+import './theme/bootstrap.css'
 import CJSA from 'core-js/stable/array'
 
 // eslint-disable-next-line no-unused-expressions
@@ -27,7 +27,8 @@ if (window.ethereum) window.ethereum.autoRefreshOnNetworkChange = false
 const loader = document.getElementsByClassName('loader')
 loader[0].parentNode.removeChild(loader[0])
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
   <Provider store={store}>
     <ThemeProvider>
       <ThemedGlobalStyle />
@@ -35,8 +36,7 @@ ReactDOM.render(
         <App />
       </HashRouter>
     </ThemeProvider>
-  </Provider>,
-  document.getElementById('root')
+  </Provider>
 )
 
 serviceWorker.unregister()
