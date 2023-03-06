@@ -1,3 +1,4 @@
+[![Node.js CI](https://github.com/pnetwork-association/ptokens-dapp/actions/workflows/test.yml/badge.svg)](https://github.com/pnetwork-association/ptokens-dapp/actions/workflows/test.yml)
 # :computer: pTokens dapp
 
 The pTokens dapp
