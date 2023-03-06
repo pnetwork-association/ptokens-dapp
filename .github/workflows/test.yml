@@ -40,6 +40,7 @@ jobs:
         run: |
           echo 'cat package-lock.json'
           cat ./package-lock.json
+          cat ./package.json
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
         env:
