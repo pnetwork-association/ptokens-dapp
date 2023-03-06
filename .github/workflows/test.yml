@@ -36,6 +36,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name: cat ./package-lock.json
+        run: |
+          cat ./package-lock.json
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
         env:
