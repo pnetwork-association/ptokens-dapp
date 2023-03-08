@@ -1,0 +1,45 @@
+.social-container {
+    background: transparent;
+    position: fixed;
+    bottom: 0;
+}
+
+a.social {
+    margin: 0 1rem;
+    transition: transform 250ms;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+a.social:hover {
+    transform: translateY(-2px);
+}
+
+a.pnetwork {
+    width: 30px;
+}
+
+a.github {
+    width: 30px;
+}
+
+a.twitter {
+    color: #49a1eb;
+}
+
+a.telegram {
+    color: #2AABEE;
+}
+
+@media (max-width: 1488.98px) {
+    .social-container {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .social-div {
+        display: none;
+    }
+}
