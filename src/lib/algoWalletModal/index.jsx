@@ -5,6 +5,7 @@ import EventEmitter from 'eventemitter3'
 import connectToWalletConnect from './connectors/wallet-connect'
 import connectToAlgoSigner from './connectors/algo-signer'
 import connectToMyAlgoWallet from './connectors/my-algo-wallet'
+import connectToPeraWallet from './connectors/pera-wallet'
 
 const INITIAL_STATE = { show: false }
 
@@ -66,6 +67,17 @@ class AlgoWalletModal extends EventEmitter {
       }
     })
 
+    this.userOptions.push({
+      name: 'Pera Wallet',
+      logo: './assets/png/pera-wallet-logo.png',
+      description: 'Connect to Pera Wallet',
+      themeColors: this.themeColors,
+      onClick: async () => {
+        this._call.resolve(await connectToPeraWallet())
+        await this.toogleModal()
+      }
+    })
+    
     if (walletConnect) {
       this.userOptions.push({
         name: 'WalletConnect',
