@@ -14,9 +14,6 @@ const connectWithUltraWallet = _dispatch => {
     dappName: settings.dappName,
     theme: getWeb3ModalTheme(getTheme()),
     providerOptions: {
-      scatter: {
-        settings: settings.rpc.mainnet.ultra
-      },
       tokenPocket: {
         settings: settings.rpc.mainnet.ultra
       },

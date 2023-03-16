@@ -2,7 +2,6 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import Modal from './components/Modal'
 import EventEmitter from 'eventemitter3'
-import ScatterProvider from './providers/scatter'
 import AnchorProvider from './providers/anchor'
 import LibreProvider from './providers/libre'
 import TokenPocketProvider from './providers/token-pocket'
@@ -31,22 +30,8 @@ class EosConnect extends EventEmitter {
     this.renderModal()
   }
 
-  setConfigs = ({ dappName, providerOptions: { scatter, tokenPocket, anchor, libre } }) => {
+  setConfigs = ({ dappName, providerOptions: { tokenPocket, anchor, libre } }) => {
     this.userOptions = []
-    if (scatter) {
-      this.scatterProvider = new ScatterProvider({
-        dappName,
-        settings: scatter.settings
-      })
-
-      this.userOptions.push({
-        name: 'Scatter',
-        logo: './assets/svg/scatter.svg',
-        description: 'Scatter Wallet',
-        themeColors: this.themeColors,
-        onClick: () => this.handleClick(this.scatterProvider)
-      })
-    }
     if (anchor) {
       this.anchorProvider = new AnchorProvider({
         settings: anchor.settings,
