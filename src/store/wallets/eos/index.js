@@ -13,9 +13,6 @@ const connectWithEosWallet = _dispatch => {
     dappName: settings.dappName,
     theme: getWeb3ModalTheme(getTheme()),
     providerOptions: {
-      scatter: {
-        settings: settings.rpc.mainnet.eos
-      },
       tokenPocket: {
         settings: settings.rpc.mainnet.eos
       },
