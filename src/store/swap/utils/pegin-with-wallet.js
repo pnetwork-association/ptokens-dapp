@@ -3,7 +3,6 @@ import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton }
 import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
 import { approveTransaction, getBigNumber } from '../../evm-approve'
-import ReactGA from 'react-ga4'
 import Web3 from 'web3'
 import { getWalletByBlockchain } from '../../wallets/wallets.selectors'
 
@@ -53,11 +52,6 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
   await swap
     .execute()
     .once('inputTxBroadcasted', _hash => {
-      ReactGA.event('swap_confirmed_by_user', {
-        operation: 'pegin-with-wallet',
-        asset_from: ptokenFrom.id,
-        asset_to: ptokenTo.id
-      })
       link = getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, _hash)
       dispatch(
         updateProgress({
@@ -92,11 +86,6 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
       )
     })
     .once('outputTxBroadcasted', _outputs => {
-      ReactGA.event('swap_processed', {
-        operation: 'pegin-with-wallet',
-        asset_from: ptokenFrom.id,
-        asset_to: ptokenTo.id
-      })
       link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _outputs[0].txHash)
       dispatch(
         updateProgress({
@@ -109,11 +98,6 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
       )
     })
     .then(_ => {
-      ReactGA.event('assets_delivered_tx_confirmed', {
-        operation: 'pegin-with-wallet',
-        asset_from: ptokenFrom.id,
-        asset_to: ptokenTo.id
-      })
       dispatch(
         updateProgress({
           show: true,

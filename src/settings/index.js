@@ -1,6 +1,5 @@
 const settings = {
   dappName: 'pTokens Dapp',
-  googleAnalyticsTrackId: 'G-TD3L0WWTKD',
   links: {
     audit: 'https://github.com/cryptonicsconsulting/audits/tree/master/pToken',
     stats: 'https://pnetwork.watch/',
