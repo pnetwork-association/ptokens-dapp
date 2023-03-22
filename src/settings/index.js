@@ -1,6 +1,5 @@
 const settings = {
   dappName: 'pTokens Dapp',
-  googleAnalyticsTrackId: import.meta.env.VITE_GOOGLE_ANALYTICS_TRACKING_ID,
   links: {
     audit: 'https://skynet.certik.com/projects/pnt',
     stats: 'https://pnetwork.watch/',

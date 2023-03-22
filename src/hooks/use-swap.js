@@ -15,6 +15,7 @@ import { maybeOptInAlgoApp, maybeOptInAlgoAsset } from '../store/swap/utils/opt-
 import { useRef } from 'react'
 import { chainIdToTypeMap, BlockchainType } from 'ptokens-constants'
 import curve from '@curvefi/api'
+import { sendEvent } from '../ga4'
 
 const useSwap = ({
   wallets,
@@ -185,6 +186,7 @@ const useSwap = ({
 
     function doSwap() {
       updateSwapButton(swapButton.text === 'Swap' ? 'Swapping ...' : 'Generating ...', true)
+      sendEvent('swap_click', { asset_from: from.id, asset_to: to.id, from_amount: fromAmount })
       swap(from, to, fromAmount, address, {
         pegoutToTelosEvmAddress,
       })
