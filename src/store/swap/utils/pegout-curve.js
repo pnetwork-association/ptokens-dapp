@@ -2,6 +2,7 @@ import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explo
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
 import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
+import ReactGA from 'react-ga4'
 import curve from '@curvefi/api'
 import polling from 'light-async-polling'
 import Web3 from 'web3'
@@ -91,6 +92,11 @@ const curvePhase = async (swap, provider, tokenFrom, ptokenFrom, dispatch) => {
   if (!curveisapproved) {
     await pool.swapApprove(tokenFrom.name, swap._amount)
     await monitorCurveApproval(pool, tokenFrom.name, swap._amount)
+    ReactGA.event('curve pool approval received', {
+      operation: 'pegout',
+      asset_from: tokenFrom.id,
+      asset_to: ptokenFrom.id
+    })
     dispatch(
       updateProgress({
         show: true,
@@ -101,6 +107,11 @@ const curvePhase = async (swap, provider, tokenFrom, ptokenFrom, dispatch) => {
       })
     )
   } else {
+    ReactGA.event('curve pool approval received', {
+      operation: 'pegout',
+      asset_from: tokenFrom.id,
+      asset_to: ptokenFrom.id
+    })
     dispatch(
       updateProgress({
         show: true,
@@ -172,6 +183,11 @@ const pegoutFromCurve = async ({ swap, provider, tokenFrom, ptokenFrom, ptokenTo
     await swap
       .execute()
       .once('inputTxBroadcasted', _hash => {
+        ReactGA.event('swap_confirmed_by_user', {
+          operation: 'pegout',
+          asset_from: ptokenFrom.id,
+          asset_to: ptokenTo.id
+        })
         link = getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, _hash)
         dispatch(
           updateProgress({
@@ -206,6 +222,11 @@ const pegoutFromCurve = async ({ swap, provider, tokenFrom, ptokenFrom, ptokenTo
         )
       })
       .once('outputTxBroadcasted', _outputs => {
+        ReactGA.event('swap_processed', {
+          operation: 'pegout',
+          asset_from: ptokenFrom.id,
+          asset_to: ptokenTo.id
+        })
         link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _outputs[0].txHash)
         dispatch(
           updateProgress({
@@ -218,6 +239,11 @@ const pegoutFromCurve = async ({ swap, provider, tokenFrom, ptokenFrom, ptokenTo
         )
       })
       .then(_ => {
+        ReactGA.event('assets_delivered_tx_confirmed', {
+          operation: 'pegout',
+          asset_from: ptokenFrom.id,
+          asset_to: ptokenTo.id
+        })
         dispatch(
           updateProgress({
             show: true,
