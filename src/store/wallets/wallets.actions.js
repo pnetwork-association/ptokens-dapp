@@ -11,6 +11,7 @@ import { connectWithLuxochainWallet, disconnectFromLuxochainWallet } from './lux
 import { connectWithAlgorandWallet, disconnectFromAlgorandWallet } from './algorand'
 import { connectWithFtmWallet, disconnectFromFtmWallet } from './ftm'
 import { connectWithOreWallet, disconnectFromOreWallet } from './ore'
+import ReactGA from 'react-ga4'
 
 const connectWithWallet = (_blockchain) => {
   return async (_dispatch) => {
@@ -70,6 +71,7 @@ const connectWithWallet = (_blockchain) => {
       default:
         break
     }
+    ReactGA.event('wallet_connection', { blockchain: _blockchain })
   }
 }
 
@@ -131,6 +133,7 @@ const disconnectFromWallet = (_blockchain) => {
       default:
         break
     }
+    ReactGA.event('wallet_disconnection', { blockchain: _blockchain })
   }
 }
 
