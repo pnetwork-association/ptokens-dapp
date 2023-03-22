@@ -8,7 +8,7 @@ import {
 } from '../swap.actions'
 import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
 import { updateInfoModal } from '../../pages/pages.actions'
-// import ReactGA from 'react-ga4'
+import ReactGA from 'react-ga4'
 
 const peginWithDepositAddress = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
   let link = null
@@ -33,12 +33,12 @@ const peginWithDepositAddress = async ({ swap, ptokenFrom, ptokenTo, dispatch })
 
         dispatch(showDepositAddressModal(ptokenTo, depositAddress.toString()))
       })
-      .once('inputTxBroadcasted', (_tx) => {
-        // ReactGA.event('swap_confirmed_by_user', {
-        //   operation: 'pegin-with-deposit',
-        //   asset_from: ptokenFrom.id,
-        //   asset_to: ptokenTo.id
-        // })
+      .once('inputTxBroadcasted', _tx => {
+        ReactGA.event('swap_confirmed_by_user', {
+          operation: 'pegin-with-deposit',
+          asset_from: ptokenFrom.id,
+          asset_to: ptokenTo.id
+        })
 
         dispatch(hideDepositAddressModal())
 
@@ -76,12 +76,12 @@ const peginWithDepositAddress = async ({ swap, ptokenFrom, ptokenTo, dispatch })
           })
         )
       })
-      .once('outputTxBroadcasted', (_outputs) => {
-        // ReactGA.event('swap_processed', {
-        //   operation: 'pegin-with-deposit',
-        //   asset_from: ptokenFrom.id,
-        //   asset_to: ptokenTo.id
-        // })
+      .once('outputTxBroadcasted', _outputs => {
+        ReactGA.event('swap_processed', {
+          operation: 'pegin-with-deposit',
+          asset_from: ptokenFrom.id,
+          asset_to: ptokenTo.id
+        })
         link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _outputs[0].txHash)
         // prettier-ignore
         dispatch(
@@ -94,12 +94,12 @@ const peginWithDepositAddress = async ({ swap, ptokenFrom, ptokenTo, dispatch })
             })
           )
       })
-      .then((_) => {
-        // ReactGA.event('assets_delivered_tx_confirmed', {
-        //   operation: 'pegin-with-deposit',
-        //   asset_from: ptokenFrom.id,
-        //   asset_to: ptokenTo.id
-        // })
+      .then(_ => {
+        ReactGA.event('assets_delivered_tx_confirmed', {
+          operation: 'pegin-with-deposit',
+          asset_from: ptokenFrom.id,
+          asset_to: ptokenTo.id
+        })
         dispatch(
           updateProgress({
             show: true,
