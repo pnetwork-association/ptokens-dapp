@@ -19,6 +19,7 @@ import WarningPopup from '../../molecules/popup/Warning'
 import Switch from '../../atoms/switch/Switch'
 import Button from '../../atoms/button/Button'
 import { MAX_IMPACT, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../../../constants'
+import ReactGA from 'react-ga4'
 
 export const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -442,7 +443,9 @@ const Swap = ({
                 <Button
                   onClick={() =>
                     swapButton.link
-                      ? window.open(swapButton.link, '_self')
+                      ? ReactGA.event('external_redirect', {
+                          link: swapButton.link
+                        }) || window.open(swapButton.link, '_self')
                       : onSwap()
                   }
                   disabled={

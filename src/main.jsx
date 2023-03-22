@@ -6,6 +6,7 @@ import { HashRouter } from 'react-router-dom'
 import store from './store'
 import history from './utils/history'
 import * as serviceWorker from './serviceWorker'
+import ReactGA from 'react-ga4'
 import settings from './settings'
 import ThemeProvider, { ThemedGlobalStyle } from './theme/ThemeProvider'
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
@@ -17,6 +18,8 @@ import CJSA from 'core-js/stable/array'
 
 // eslint-disable-next-line no-unused-expressions
 CJSA
+
+ReactGA.initialize(settings.googleAnalyticsTrackId)
 
 if (window.ethereum) window.ethereum.autoRefreshOnNetworkChange = false
 

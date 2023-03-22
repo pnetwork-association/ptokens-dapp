@@ -12,6 +12,7 @@ import { TLOS_ON_BSC_MAINNET, TLOS_ON_ETH_MAINNET } from '../constants'
 import { PBTC_ON_ETH_POOL, CURVE_MIN_AMOUNT, CURVE_MAX_AMOUNT } from '../constants'
 import { getAssetById } from '../store/swap/swap.selectors'
 import { maybeOptInAlgoApp, maybeOptInAlgoAsset } from '../store/swap/utils/opt-in-algo'
+import ReactGA from 'react-ga4'
 import { useRef } from 'react'
 import { chainIdToTypeMap, BlockchainType } from 'ptokens-constants'
 import curve from '@curvefi/api'
@@ -197,6 +198,7 @@ const useSwap = ({
 
     function doSwap() {
       updateSwapButton(swapButton.text === 'Swap' ? 'Swapping ...' : 'Generating ...', true)
+      ReactGA.event('swap_click', { asset_from: from.id, asset_to: to.id, from_amount: fromAmount })
       swap(from, to, fromAmount, address, {
         pegoutToTelosEvmAddress
       })
