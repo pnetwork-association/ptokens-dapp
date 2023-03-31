@@ -96,17 +96,29 @@ const Risks = () => {
       </Paragraph>
       <Section>Audits and other security measures</Section>
       <Paragraph>
-        The pNetwork codebase is periodically audited; the last public auditing was performed by{' '}
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://github.com/cryptonicsconsulting/audits/tree/master/pToken"
-        >
-          Cryptonics consulting
-        </a>
-        .
-        <br />A new audit has been performed by a leading security auditing firm and it includes the entire pNetwork
-        protocol as well as the latest cross-chain connections (the final report is being finalised).
+        The pNetwork codebase is periodically audited; starting with the latest available:
+        <ul>
+          <li>
+            {' '}
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://skynet.certik.com/projects/pnt"
+            >
+              Certik
+            </a>
+          </li>
+          <li>
+            {' '}
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://github.com/cryptonicsconsulting/audits/tree/master/pToken"
+            >
+              Cryptonics consulting
+            </a>
+          </li>
+        </ul>
       </Paragraph>
       <Paragraph>
         It's important to know that security audits don't eliminate risks completely. Please don't bridge large amounts

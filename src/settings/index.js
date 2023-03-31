@@ -9,7 +9,7 @@ const settings = {
   dappName: 'pTokens Dapp',
   // googleAnalyticsTrackId: loadGAnalyticsID(),
   links: {
-    audit: 'https://github.com/cryptonicsconsulting/audits/tree/master/pToken',
+    audit: 'https://skynet.certik.com/projects/pnt',
     stats: 'https://pnetwork.watch/',
     coinmarketcap: 'https://coinmarketcap.com/currencies/pnetwork/',
     twitter: 'https://twitter.com/pNetworkDeFi',
