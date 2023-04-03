@@ -50,7 +50,7 @@ npm run dev
 
 &nbsp;
 
-### :rocket: Build and preview:
+### :gear: Build and preview:
 
 ```
 npm run build && npm run preview
@@ -67,3 +67,13 @@ export NODE_OPTIONS=--max-old-space-size=4096
 #### Swap setup
 
 The build processes could be stopped with a `killed` message with no error. In this case it is possible swap memory is not configured correctly. Please increase the swap for the operating system used.
+
+&nbsp;
+
+### :rocket: Deploy:
+
+```
+npm run deploy
+```
+
+The build is deployed and pinned to IPFS and the CID is returned.
