@@ -1,7 +1,7 @@
 {
   "name": "plain-dapp-update",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "dev": "npm run create-version-file && vite",
@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "coverage": "vitest run --coverage",
+    "deploy": "npx thirdweb@latest upload dist",
     "create-version-file": "node ./scripts/generate-buildno.cjs"
   },
   "dependencies": {
