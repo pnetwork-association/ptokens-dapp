@@ -315,7 +315,7 @@ const minimumPeggable = {
   },
   [GALA_ON_BSC_MAINNET]: {
     pegin: 200,
-    pegout: 2500
+    pegout: 1000
   },
   [PUOS_ON_ULTRA_MAINNET]: {
     pegin: 50,
