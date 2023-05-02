@@ -215,13 +215,13 @@ const Header = _props => {
           <StyledNavLink active={selectedPage === 'risks'} onClick={() => selectPage('risks')}>
             Risks
           </StyledNavLink>
-          <StyledNavLink onClick={() => window.open(settings.links.stats, '_blank')}>
+          <StyledNavLink onClick={() => window.open(settings.links.stats, '_blank', 'noopener,noreferrer')}>
             Stats <GoToIcon icon="arrow-diagonal" />
           </StyledNavLink>
-          <StyledNavLink onClick={() => window.open(settings.links.audit, '_blank')}>
+          <StyledNavLink onClick={() => window.open(settings.links.audit, '_blank', 'noopener,noreferrer')}>
             Audits <GoToIcon icon="arrow-diagonal" />
           </StyledNavLink>
-          <StyledNavLink onClick={() => window.open(settings.links.coinmarketcap, '_blank')}>
+          <StyledNavLink onClick={() => window.open(settings.links.coinmarketcap, '_blank', 'noopener,noreferrer')}>
             $PNT <GoToIcon icon="arrow-diagonal" />
           </StyledNavLink>
         </StyledNav>
@@ -244,17 +244,17 @@ const Header = _props => {
               </StyledNavDown>
             </NavDropdown.Item>
             <NavDropdown.Item>
-              <StyledNavDown onClick={() => window.open(settings.links.stats, '_blank')}>
+              <StyledNavDown onClick={() => window.open(settings.links.stats, '_blank', 'noopener,noreferrer')}>
                 Stats <GoToIcon icon="arrow-diagonal" />
               </StyledNavDown>
             </NavDropdown.Item>
             <NavDropdown.Item>
-              <StyledNavDown onClick={() => window.open(settings.links.audit, '_blank')}>
+              <StyledNavDown onClick={() => window.open(settings.links.audit, '_blank', 'noopener,noreferrer')}>
                 Audits <GoToIcon icon="arrow-diagonal" />
               </StyledNavDown>
             </NavDropdown.Item>
             <NavDropdown.Item>
-              <StyledNavDown onClick={() => window.open(settings.links.coinmarketcap, '_blank')}>
+              <StyledNavDown onClick={() => window.open(settings.links.coinmarketcap, '_blank', 'noopener,noreferrer')}>
                 $PNT <GoToIcon icon="arrow-diagonal" />
               </StyledNavDown>
             </NavDropdown.Item>
