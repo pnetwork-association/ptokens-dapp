@@ -67,11 +67,30 @@
     "web3modal": "^1.9.9"
   },
   "devDependencies": {
+    "@commitlint/config-conventional": "^17.6.3",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react": "^3.1.0",
+    "commitlint": "^17.6.3",
+    "eslint": "^8.39.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.2.2",
+    "prettier": "^2.8.8",
     "vite": "^4.1.0",
     "vite-plugin-node-polyfills": "^0.7.0",
     "vitest": "^0.29.2"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "eslint:recommended"
+    ]
+  },
+  "lint-staged": {
+    "*.+(js|jsx)": "eslint --cache --fix",
+    "*.+(js|jsx|ts|json)": "prettier --config ./.prettierrc --write"
   }
 }
