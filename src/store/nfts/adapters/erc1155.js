@@ -5,17 +5,17 @@ import { nftsDataLoaded } from '../nfts.actions'
 
 const loadERC155Data = async ({ nfts, account, web3, dispatch }) => {
   try {
-    const erc1155s = nfts.map(_nft => new web3.eth.Contract(ERC1155Abi, _nft.contractAddress))
+    const erc1155s = nfts.map((_nft) => new web3.eth.Contract(ERC1155Abi, _nft.contractAddress))
 
     // NOTE: get all received nfts
     const events = await Promise.all(
       erc1155s.map((_erc1155, _index) =>
         _erc1155.getPastEvents('TransferSingle', {
           filter: {
-            _to: [account]
+            _to: [account],
           },
           fromBlock: nfts[_index].fromBlock,
-          toBlock: 'latest'
+          toBlock: 'latest',
         })
       )
     )
@@ -23,7 +23,7 @@ const loadERC155Data = async ({ nfts, account, web3, dispatch }) => {
     // NOTE: remove double ids
     const erc1155WithIds = nfts.map((_nft, _index) => ({
       ..._nft,
-      ids: events[_index] ? Array.from(new Set(events[_index].map(({ returnValues: { _id } }) => _id))) : []
+      ids: events[_index] ? Array.from(new Set(events[_index].map(({ returnValues: { _id } }) => _id))) : [],
     }))
 
     for (const erc1155 of erc1155WithIds) {
@@ -35,7 +35,7 @@ const loadERC155Data = async ({ nfts, account, web3, dispatch }) => {
               erc1155s[_index].methods
                 .uri(_id)
                 .call()
-                .then(_uri =>
+                .then((_uri) =>
                   _resolve(_uri.includes('ipfs') ? _uri.replace('ipfs://', 'https://gateway.ipfs.io/') : _uri)
                 )
                 .catch(_reject)
@@ -47,7 +47,7 @@ const loadERC155Data = async ({ nfts, account, web3, dispatch }) => {
         Promise.all(ids.map((_id, _index) => erc1155s[_index].methods.balanceOf(account, _id).call())),
         Promise.all(
           uris.map(
-            _uri =>
+            (_uri) =>
               new Promise((_resolve, _reject) =>
                 axios
                   .get(_uri)
@@ -55,7 +55,7 @@ const loadERC155Data = async ({ nfts, account, web3, dispatch }) => {
                   .catch(_reject)
               )
           )
-        )
+        ),
       ])
 
       dispatch(
@@ -66,7 +66,7 @@ const loadERC155Data = async ({ nfts, account, web3, dispatch }) => {
               ...erc1155,
               ...adapt(symbol, _data),
               id: ids[_index],
-              balance: new BigNumber(balances[_index])
+              balance: new BigNumber(balances[_index]),
             }))
         )
       )
@@ -83,7 +83,7 @@ const adapt = (_symbol, _data) => {
       return {
         image: image.replace('ipfs://', 'https://gateway.ipfs.io/'),
         attributes,
-        name
+        name,
       }
     }
     default: {

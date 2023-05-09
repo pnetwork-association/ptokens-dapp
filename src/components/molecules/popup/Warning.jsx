@@ -38,7 +38,7 @@ const WarningPopup = ({ show, onClose }) => {
 }
 
 WarningPopup.propTypes = {
-  content: PropTypes.node
+  content: PropTypes.node,
 }
 
 export default WarningPopup

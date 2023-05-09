@@ -16,8 +16,8 @@ class Provider extends EventEmitter {
   }
 
   async signTxn(_txns) {
-    const encodedTxns = _txns.map(_tx => ({
-      txn: Buffer.from(algosdk.encodeUnsignedTransaction(_tx)).toString('base64')
+    const encodedTxns = _txns.map((_tx) => ({
+      txn: Buffer.from(algosdk.encodeUnsignedTransaction(_tx)).toString('base64'),
     }))
     return this.connector.sendCustomRequest(formatJsonRpcRequest('algo_signTxn', [encodedTxns]))
   }
@@ -32,7 +32,7 @@ const connectToWalletConnect = ({ bridge }) =>
     try {
       const connector = new WalletConnect({
         bridge: bridge,
-        qrcodeModal: QRCodeModal
+        qrcodeModal: QRCodeModal,
       })
 
       const provider = new Provider(connector)

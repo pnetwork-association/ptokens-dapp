@@ -22,7 +22,9 @@ export default function Version() {
   dotenv.config()
   return (
     <VersionDiv className="version-div">
-      <VersionContainer className="version-container">Version: {import.meta.env.VITE_REACT_APP_GIT_SHA}</VersionContainer>
+      <VersionContainer className="version-container">
+        Version: {import.meta.env.VITE_REACT_APP_GIT_SHA}
+      </VersionContainer>
     </VersionDiv>
   )
 }

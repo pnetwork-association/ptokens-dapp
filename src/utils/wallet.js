@@ -1,7 +1,7 @@
 export const changeNetwork = ({ provider, chainId }) =>
   provider.request({
     method: 'wallet_switchEthereumChain',
-    params: [{ chainId: `0x${chainId.toString(16)}` }]
+    params: [{ chainId: `0x${chainId.toString(16)}` }],
   })
 
 export const setupNetwork = ({
@@ -10,7 +10,7 @@ export const setupNetwork = ({
   chainName,
   nativeCurrency: { name, symbol, decimals },
   nodes,
-  blockExplorerUrls
+  blockExplorerUrls,
 }) =>
   provider.request({
     method: 'wallet_addEthereumChain',
@@ -21,12 +21,12 @@ export const setupNetwork = ({
         nativeCurrency: {
           name,
           symbol,
-          decimals
+          decimals,
         },
         rpcUrls: nodes,
-        blockExplorerUrls
-      }
-    ]
+        blockExplorerUrls,
+      },
+    ],
   })
 
 export const registerToken = ({ provider, tokenAddress, tokenSymbol, tokenDecimals, tokenImage }) =>
@@ -38,7 +38,7 @@ export const registerToken = ({ provider, tokenAddress, tokenSymbol, tokenDecima
         address: tokenAddress,
         symbol: tokenSymbol,
         decimals: tokenDecimals,
-        image: tokenImage
-      }
-    }
+        image: tokenImage,
+      },
+    },
   })

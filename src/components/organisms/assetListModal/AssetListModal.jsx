@@ -172,7 +172,7 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
 
   const [stillLoading] = useMemo(() => {
     const nativeSymbols = Object.keys(assets)
-    const loadedAssets = nativeSymbols.filter(_nativeSymbol =>
+    const loadedAssets = nativeSymbols.filter((_nativeSymbol) =>
       assets[_nativeSymbol].find(({ miniImage, image }) => miniImage && image)
     )
     return [loadedAssets.length === nativeSymbols.length ? false : true]
@@ -187,7 +187,7 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
   }, [assets, stillLoading])
 
   const onShow = useCallback(
-    _index => {
+    (_index) => {
       const currentShow = show
       currentShow[_index] = currentShow[_index] ? !currentShow[_index] : true
       setShow(currentShow.slice())
@@ -202,7 +202,7 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
   }, [show, onClose, setSearchWord])
 
   const onSelectAsset = useCallback(
-    _asset => {
+    (_asset) => {
       setSearchWord('')
       setShow(show.map(() => false))
       onSelect(_asset)
@@ -231,7 +231,7 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
             <Search
               placeholder="Search or paste an address ..."
               ref={inputSearchRef}
-              onChange={_e => setSearchWord(_e.target.value)}
+              onChange={(_e) => setSearchWord(_e.target.value)}
             />
           </ContainerSearch>
           <ContainerAssets>
@@ -267,7 +267,7 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
                     <React.Fragment>
                       {assets[_nativeSymbol]
                         .sort((_a, _b) => (_a.formattedName > _b.formattedName ? 1 : -1))
-                        .map(_asset => {
+                        .map((_asset) => {
                           const {
                             name,
                             blockchain,
@@ -276,7 +276,7 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
                             formattedName,
                             withMiniImage,
                             image,
-                            miniImage
+                            miniImage,
                           } = _asset
                           return (
                             <ContainerInnerRow key={`${name}-on-${blockchain}-${network}`}>
@@ -312,7 +312,7 @@ AssetListModal.propTypes = {
   show: PropTypes.bool,
   assets: PropTypes.array,
   onClose: PropTypes.func,
-  onSelect: PropTypes.func
+  onSelect: PropTypes.func,
 }
 
 export default AssetListModal

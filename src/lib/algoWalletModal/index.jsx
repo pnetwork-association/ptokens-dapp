@@ -14,7 +14,7 @@ const THEME_COLORS = {
   main: 'rgb(12, 12, 13)',
   secondary: 'rgb(169, 169, 188)',
   border: 'rgba(195, 195, 195, 0.14)',
-  hover: 'rgba(195, 195, 195, 0.14)'
+  hover: 'rgba(195, 195, 195, 0.14)',
 }
 
 // TODO
@@ -37,7 +37,7 @@ class AlgoWalletModal extends EventEmitter {
     return new Promise((resolve, reject) => {
       this._call = {
         resolve,
-        reject
+        reject,
       }
     })
   }
@@ -53,7 +53,7 @@ class AlgoWalletModal extends EventEmitter {
       onClick: async () => {
         this._call.resolve(await connectToAlgoSigner())
         await this.toogleModal()
-      }
+      },
     })
 
     this.userOptions.push({
@@ -64,7 +64,7 @@ class AlgoWalletModal extends EventEmitter {
       onClick: async () => {
         this._call.resolve(await connectToMyAlgoWallet(walletConnect))
         await this.toogleModal()
-      }
+      },
     })
 
     this.userOptions.push({
@@ -75,9 +75,9 @@ class AlgoWalletModal extends EventEmitter {
       onClick: async () => {
         this._call.resolve(await connectToPeraWallet())
         await this.toogleModal()
-      }
+      },
     })
-    
+
     if (walletConnect) {
       this.userOptions.push({
         name: 'WalletConnect',
@@ -87,7 +87,7 @@ class AlgoWalletModal extends EventEmitter {
         onClick: async () => {
           this._call.resolve(await connectToWalletConnect(walletConnect))
           await this.toogleModal()
-        }
+        },
       })
     }
 
@@ -133,8 +133,8 @@ class AlgoWalletModal extends EventEmitter {
     }
   }
 
-  updateState = async _state => {
-    Object.keys(_state).forEach(key => {
+  updateState = async (_state) => {
+    Object.keys(_state).forEach((key) => {
       this[key] = _state[key]
     })
     await window.updateEosConnect(_state)
@@ -142,7 +142,7 @@ class AlgoWalletModal extends EventEmitter {
 
   resetState = () => this.updateState({ ...INITIAL_STATE })
 
-  handleClick = async _provider => {
+  handleClick = async (_provider) => {
     this._call.resolve(await this.walletConnectProvider.connect())
   }
 }

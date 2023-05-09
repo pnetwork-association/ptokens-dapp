@@ -11,7 +11,7 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, swapButto
   const [toAmount, setToAmount] = useState('')
   const [assetsLoaded, setAssetsLoaded] = useState(false)
 
-  const onChangeAmount = useCallback(_amount => {
+  const onChangeAmount = useCallback((_amount) => {
     setFromAmount(_amount)
     setToAmount(_amount !== '' ? BigNumber(_amount).toFixed() : _amount.toString())
   }, [])
@@ -134,7 +134,7 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, swapButto
     toWallet,
     onChangeAmount,
     onMax,
-    onSwap
+    onSwap,
   }
 }
 

@@ -47,7 +47,7 @@ MyModal.propTypes = {
   title: PropTypes.string,
   show: PropTypes.bool,
   body: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 }
 
 export default MyModal

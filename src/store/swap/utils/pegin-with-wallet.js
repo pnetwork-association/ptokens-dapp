@@ -30,7 +30,7 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
           text: 'Error during pegin, try again!',
           showMoreText: _err.message ? _err.message : _err,
           showMoreLabel: 'Show Details',
-          icon: 'cancel'
+          icon: 'cancel',
         })
       )
       dispatch(updateSwapButton('Swap'))
@@ -45,13 +45,13 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
       percent: 0,
       message: 'Waiting for the transaction to be signed ...',
       steps: [0, 20, 40, 60, 80, 100],
-      terminated: false
+      terminated: false,
     })
   )
 
   await swap
     .execute()
-    .once('inputTxBroadcasted', _hash => {
+    .once('inputTxBroadcasted', (_hash) => {
       link = getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, _hash)
       dispatch(
         updateProgress({
@@ -59,7 +59,7 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
           percent: 20,
           message: `<a href="${link}" target="_blank">Transaction</a> broadcasted! Waiting for confirmation ...`,
           steps: [0, 20, 40, 60, 80, 100],
-          terminated: false
+          terminated: false,
         })
       )
     })
@@ -70,7 +70,7 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
           percent: 40,
           message: `Waiting for the pNetwork to detect your <a href="${link}" target="_blank">transaction</a> ...`,
           steps: [0, 20, 40, 60, 80, 100],
-          terminated: false
+          terminated: false,
         })
       )
     })
@@ -81,11 +81,11 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
           percent: 60,
           message: `Enclave received the <a href="${link}" target="_blank">transaction</a>, broadcasting ...`,
           steps: [0, 20, 40, 60, 80, 100],
-          terminated: false
+          terminated: false,
         })
       )
     })
-    .once('outputTxBroadcasted', _outputs => {
+    .once('outputTxBroadcasted', (_outputs) => {
       link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _outputs[0].txHash)
       dispatch(
         updateProgress({
@@ -93,18 +93,18 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
           percent: 80,
           message: `Asset swap <a href="${link}" target="_blank">transaction</a> completed, waiting for confirmation ...`,
           steps: [0, 20, 40, 60, 80, 100],
-          terminated: false
+          terminated: false,
         })
       )
     })
-    .then(_ => {
+    .then((_) => {
       dispatch(
         updateProgress({
           show: true,
           percent: 100,
           message: `<a href="${link}" target="_blank">Transaction</a> Confirmed.`,
           steps: [0, 20, 40, 60, 80, 100],
-          terminated: true
+          terminated: true,
         })
       )
 
@@ -112,7 +112,7 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
       setTimeout(() => dispatch(loadBalanceByAssetId(ptokenFrom.id)), 2000)
       setTimeout(() => dispatch(loadBalanceByAssetId(ptokenTo.id)), 2000)
     })
-    .catch(_err => {
+    .catch((_err) => {
       console.error(_err)
       const { showModal } = parseError(_err)
       if (showModal) {
@@ -122,7 +122,7 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
             text: 'Error during pegin, try again!',
             showMoreText: _err.message ? _err.message : _err,
             showMoreLabel: 'Show Details',
-            icon: 'cancel'
+            icon: 'cancel',
           })
         )
       }

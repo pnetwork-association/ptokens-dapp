@@ -49,7 +49,7 @@ const Nfts = ({ nfts, wallets, move, loading: { isLoading } }) => {
       {isConnected ? (
         nfts.length > 0 ? (
           <Row>
-            {nfts.map(_nft => (
+            {nfts.map((_nft) => (
               <ContainerNftCard key={_nft.id} xs={12} md={6} lg={4} xl={3}>
                 <NftCard nft={_nft} move={move} />
               </ContainerNftCard>
@@ -73,7 +73,7 @@ Nfts.propTypes = {
   nfts: PropTypes.array.isRequired,
   wallets: PropTypes.object.isRequired,
   move: PropTypes.func.isRequired,
-  loading: PropTypes.object.isRequired
+  loading: PropTypes.object.isRequired,
 }
 
 export default Nfts

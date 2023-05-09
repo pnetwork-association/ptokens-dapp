@@ -122,7 +122,7 @@ const AddressWarning = ({ show, onClose, onHide }) => {
 }
 
 AddressWarning.propTypes = {
-  content: PropTypes.node
+  content: PropTypes.node,
 }
 
 export default AddressWarning

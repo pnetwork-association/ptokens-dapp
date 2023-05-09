@@ -5,7 +5,7 @@ import EosConnect from '../../../lib/eosConnect/'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 
-const connectWithLibreWallet = _dispatch => {
+const connectWithLibreWallet = (_dispatch) => {
   if (document.getElementById('EOS_CONNECT')) {
     document.getElementById('EOS_CONNECT').remove()
   }
@@ -15,12 +15,12 @@ const connectWithLibreWallet = _dispatch => {
     theme: getWeb3ModalTheme(getTheme()),
     providerOptions: {
       libre: {
-        settings: settings.rpc.mainnet.libre
+        settings: settings.rpc.mainnet.libre,
       },
       anchor: {
-        settings: settings.rpc.mainnet.libre
-      }
-    }
+        settings: settings.rpc.mainnet.libre,
+      },
+    },
   })
 
   eosConnect.on('connect', ({ provider, account }) => {
@@ -30,20 +30,20 @@ const connectWithLibreWallet = _dispatch => {
         provider,
         account: account.actor,
         permission: account.permission,
-        network: 'mainnet'
-      }
+        network: 'mainnet',
+      },
     })
   })
-  eosConnect.on('error', message => {
+  eosConnect.on('error', (message) => {
     toastr.error(message)
   })
 
   eosConnect.toggleModal()
 }
 
-const disconnectFromLibreWallet = _dispatch => {
+const disconnectFromLibreWallet = (_dispatch) => {
   _dispatch({
-    type: WALLET_LIBRE_DISCONNECTED
+    type: WALLET_LIBRE_DISCONNECTED,
   })
 }
 

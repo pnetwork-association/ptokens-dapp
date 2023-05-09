@@ -5,7 +5,7 @@ import EosConnect from '../../../lib/eosConnect/'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 
-const connectWithTelosWallet = _dispatch => {
+const connectWithTelosWallet = (_dispatch) => {
   if (document.getElementById('EOS_CONNECT')) {
     document.getElementById('EOS_CONNECT').remove()
   }
@@ -15,12 +15,12 @@ const connectWithTelosWallet = _dispatch => {
     theme: getWeb3ModalTheme(getTheme()),
     providerOptions: {
       tokenPocket: {
-        settings: settings.rpc.mainnet.telos
+        settings: settings.rpc.mainnet.telos,
       },
       anchor: {
-        settings: settings.rpc.mainnet.telos
-      }
-    }
+        settings: settings.rpc.mainnet.telos,
+      },
+    },
   })
 
   eosConnect.on('connect', ({ provider, account }) => {
@@ -30,20 +30,20 @@ const connectWithTelosWallet = _dispatch => {
         provider,
         account: account.actor,
         permission: account.permission,
-        network: 'mainnet'
-      }
+        network: 'mainnet',
+      },
     })
   })
-  eosConnect.on('error', message => {
+  eosConnect.on('error', (message) => {
     toastr.error(message)
   })
 
   eosConnect.toggleModal()
 }
 
-const disconnectFromTelosWallet = _dispatch => {
+const disconnectFromTelosWallet = (_dispatch) => {
   _dispatch({
-    type: WALLET_TELOS_CONNECTED
+    type: WALLET_TELOS_CONNECTED,
   })
 }
 

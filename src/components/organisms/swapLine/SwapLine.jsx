@@ -267,7 +267,7 @@ const SwapLine = ({
               customInput={AmountInput}
               placeholder={inputPlaceholder}
               disabled={disableInput}
-              onValueChange={_e => onChangeAmount(_e.value.toString().replace(',', '.'))}
+              onValueChange={(_e) => onChangeAmount(_e.value.toString().replace(',', '.'))}
               prefix={prefix}
               value={amount !== '' ? +amount : amount}
               allowedDecimalSeparators={[',', '.']}
@@ -297,7 +297,7 @@ const SwapLine = ({
               <AddressInput
                 placeholder="destination address"
                 value={address}
-                onChange={_e => onChangeAddress(_e.target.value)}
+                onChange={(_e) => onChangeAddress(_e.target.value)}
               />
             </InnerContainerAddressInput>
           </OuterContainerAddressInput>
@@ -323,11 +323,11 @@ SwapLine.propTypes = {
   withTitleLabel: PropTypes.bool,
   disableInput: PropTypes.bool,
   inputType: PropTypes.string,
-  inputPlaceholder: PropTypes.string
+  inputPlaceholder: PropTypes.string,
 }
 
 SwapLine.defaultProps = {
-  hideMaxButton: false
+  hideMaxButton: false,
 }
 
 export default SwapLine

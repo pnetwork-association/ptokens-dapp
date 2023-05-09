@@ -9,11 +9,11 @@ export default class LibreProvider {
       chains: [
         {
           chainId: settings.chainId,
-          nodeUrl: settings.endpoint
-        }
+          nodeUrl: settings.endpoint,
+        },
       ],
       scheme: 'libre',
-      rpc: settings.endpoint
+      rpc: settings.endpoint,
     })
     this.dappName = dappName
   }
@@ -24,32 +24,32 @@ export default class LibreProvider {
       if (identity) {
         const provider = this.link.makeSignatureProvider([identity.session.publicKey.toString()])
         provider._sign = provider.sign
-        provider.sign = async args => {
+        provider.sign = async (args) => {
           const ret = await provider._sign(args)
           return {
             serializedTransaction: ret.serializedTransaction.array,
             signatures: ret.signatures,
-            compression: false
+            compression: false,
           }
         }
         return {
           account: {
             actor: identity.session.auth.actor.toString(),
-            permission: identity.session.auth.permission.toString()
+            permission: identity.session.auth.permission.toString(),
           },
           success: true,
-          provider: provider
+          provider: provider,
         }
       } else {
         return {
           success: false,
-          message: 'Anchor Not Found'
+          message: 'Anchor Not Found',
         }
       }
     } catch (_err) {
       return {
         success: false,
-        message: 'User Canceled the request'
+        message: 'User Canceled the request',
       }
     }
   }

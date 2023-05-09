@@ -13,7 +13,7 @@ const THEME_COLORS = {
   main: 'rgb(12, 12, 13)',
   secondary: 'rgb(169, 169, 188)',
   border: 'rgba(195, 195, 195, 0.14)',
-  hover: 'rgba(195, 195, 195, 0.14)'
+  hover: 'rgba(195, 195, 195, 0.14)',
 }
 
 // TODO
@@ -35,7 +35,7 @@ class EosConnect extends EventEmitter {
     if (anchor) {
       this.anchorProvider = new AnchorProvider({
         settings: anchor.settings,
-        dappName
+        dappName,
       })
 
       this.userOptions.push({
@@ -43,13 +43,13 @@ class EosConnect extends EventEmitter {
         logo: './assets/svg/anchor.svg',
         description: 'Anchor Wallet',
         themeColors: this.themeColors,
-        onClick: () => this.handleClick(this.anchorProvider)
+        onClick: () => this.handleClick(this.anchorProvider),
       })
     }
     if (libre) {
       this.libreProvider = new LibreProvider({
         settings: libre.settings,
-        dappName
+        dappName,
       })
 
       this.userOptions.push({
@@ -57,15 +57,15 @@ class EosConnect extends EventEmitter {
         logo: '../assets/svg/libre_wallet.svg',
         description: 'Libre Wallet',
         themeColors: this.themeColors,
-        onClick: () => this.handleClick(this.libreProvider)
+        onClick: () => this.handleClick(this.libreProvider),
       })
     }
     if (tokenPocket) {
       this.tokenPocketProvider = new TokenPocketProvider({
         settings: {
-          ...tokenPocket.settings
+          ...tokenPocket.settings,
         },
-        dappName
+        dappName,
       })
 
       this.userOptions.push({
@@ -73,7 +73,7 @@ class EosConnect extends EventEmitter {
         logo: './assets/png/token-pocket.png',
         description: 'Token Pocket Wallet',
         themeColors: this.themeColors,
-        onClick: () => this.handleClick(this.tokenPocketProvider)
+        onClick: () => this.handleClick(this.tokenPocketProvider),
       })
     }
     this.renderModal()
@@ -118,8 +118,8 @@ class EosConnect extends EventEmitter {
     }
   }
 
-  updateState = async _state => {
-    Object.keys(_state).forEach(key => {
+  updateState = async (_state) => {
+    Object.keys(_state).forEach((key) => {
       this[key] = _state[key]
     })
     await window.updateEosConnect(_state)
@@ -127,7 +127,7 @@ class EosConnect extends EventEmitter {
 
   resetState = () => this.updateState({ ...INITIAL_STATE })
 
-  handleClick = async _provider => {
+  handleClick = async (_provider) => {
     const { success, provider, account, message } = await _provider.connect()
     await this.onClose()
 

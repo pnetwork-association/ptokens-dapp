@@ -8,7 +8,7 @@ const Notifications = () => {
       newestOnTop={false}
       preventDuplicates
       position="bottom-right"
-      getState={state => state.toastr}
+      getState={(state) => state.toastr}
       transitionIn="fadeIn"
       transitionOut="fadeOut"
       progressBar

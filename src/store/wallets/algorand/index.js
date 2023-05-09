@@ -1,7 +1,7 @@
 import {
   WALLET_ALGORAND_CONNECTED,
   WALLET_ALGORAND_DISCONNECTED,
-  WALLET_ALGORAND_ACCOUNT_CHANGED
+  WALLET_ALGORAND_ACCOUNT_CHANGED,
 } from '../../../constants'
 
 import settings from '../../../settings'
@@ -10,7 +10,7 @@ import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
 
-const connectWithAlgorandWallet = async _dispatch => {
+const connectWithAlgorandWallet = async (_dispatch) => {
   if (document.getElementById('ALGO_WALLET_MODAL')) {
     document.getElementById('ALGO_WALLET_MODAL').remove()
   }
@@ -20,9 +20,9 @@ const connectWithAlgorandWallet = async _dispatch => {
     theme: getWeb3ModalTheme(getTheme()),
     providerOptions: {
       walletConnect: {
-        bridge: 'https://bridge.walletconnect.org'
-      }
-    }
+        bridge: 'https://bridge.walletconnect.org',
+      },
+    },
   })
 
   try {
@@ -34,16 +34,16 @@ const connectWithAlgorandWallet = async _dispatch => {
       payload: {
         provider,
         account: accounts[0],
-        network: 'mainnet'
-      }
+        network: 'mainnet',
+      },
     })
 
-    provider.on('accountsChanged', _accounts => {
+    provider.on('accountsChanged', (_accounts) => {
       _dispatch({
         type: WALLET_ALGORAND_ACCOUNT_CHANGED,
         payload: {
-          account: _accounts[0]
-        }
+          account: _accounts[0],
+        },
       })
     })
   } catch (err) {
@@ -51,11 +51,11 @@ const connectWithAlgorandWallet = async _dispatch => {
   }
 }
 
-const disconnectFromAlgorandWallet = async _dispatch => {
+const disconnectFromAlgorandWallet = async (_dispatch) => {
   const provider = getWalletProviderByBlockchain('ALGORAND')
   provider.close()
   _dispatch({
-    type: WALLET_ALGORAND_DISCONNECTED
+    type: WALLET_ALGORAND_DISCONNECTED,
   })
 }
 

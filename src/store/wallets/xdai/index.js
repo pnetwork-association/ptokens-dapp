@@ -11,7 +11,7 @@ import { getWalletProviderByBlockchain } from '../wallets.selectors'
 
 let web3Modal
 
-const connectWithXdaiWallet = async _dispatch => {
+const connectWithXdaiWallet = async (_dispatch) => {
   try {
     if (document.getElementById('WEB3_CONNECT_MODAL_ID')) {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
@@ -25,9 +25,9 @@ const connectWithXdaiWallet = async _dispatch => {
           options: {
             network: 'xdai',
             rpc: {
-              100: settings.rpc.mainnet.xdai.endpoint
-            }
-          }
+              100: settings.rpc.mainnet.xdai.endpoint,
+            },
+          },
         },
         walletlink: {
           package: WalletLink,
@@ -35,23 +35,23 @@ const connectWithXdaiWallet = async _dispatch => {
             appName: settings.dappName,
             rpc: settings.rpc.mainnet.xdai.endpoint,
             chainId: 100,
-            darkMode: getTheme() === 'dark'
-          }
-        }
-      }
+            darkMode: getTheme() === 'dark',
+          },
+        },
+      },
     })
 
     const provider = await web3Modal.connect()
     _connectionSuccesfull(provider, _dispatch, {
-      type: 'multiWallet'
+      type: 'multiWallet',
     })
 
-    provider.on('accountsChanged', _accounts => {
+    provider.on('accountsChanged', (_accounts) => {
       _dispatch({
         type: WALLET_XDAI_ACCOUNT_CHANGED,
         payload: {
-          account: _accounts[0]
-        }
+          account: _accounts[0],
+        },
       })
     })
   } catch (_err) {
@@ -59,14 +59,14 @@ const connectWithXdaiWallet = async _dispatch => {
   }
 }
 
-const disconnectFromXdaiWallet = async _dispatch => {
+const disconnectFromXdaiWallet = async (_dispatch) => {
   const provider = getWalletProviderByBlockchain('XDAI')
   if (provider.close) {
     await provider.close()
   }
   await web3Modal.clearCachedProvider()
   _dispatch({
-    type: WALLET_XDAI_DISCONNECTED
+    type: WALLET_XDAI_DISCONNECTED,
   })
 }
 
@@ -79,7 +79,7 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
       try {
         await changeNetwork({
           provider: _provider,
-          chainId: 100
+          chainId: 100,
         })
       } catch (err) {
         if (err.code === 4902) {
@@ -90,10 +90,10 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
             nativeCurrency: {
               name: 'MATIC',
               symbol: 'matic',
-              decimals: 18
+              decimals: 18,
             },
             nodes: [settings.rpc.mainnet.xdai.endpoint],
-            blockExplorerUrls: [settings.explorers.mainnet.xdai]
+            blockExplorerUrls: [settings.explorers.mainnet.xdai],
           })
         }
       }
@@ -104,8 +104,8 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
           provider: _provider,
           account,
           network: 'mainnet',
-          chainId: 100
-        }
+          chainId: 100,
+        },
       })
       return
     } else if (Number(chainId) === 100) {
@@ -115,8 +115,8 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
           provider: _provider,
           account,
           network: 'mainnet',
-          chainId
-        }
+          chainId,
+        },
       })
     }
   } catch (_err) {
@@ -124,7 +124,7 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
   }
 }
 
-const _getAccount = async _provider => {
+const _getAccount = async (_provider) => {
   try {
     const web3 = new Web3(_provider)
     const accounts = await web3.eth.getAccounts()

@@ -100,11 +100,7 @@ const Risks = () => {
         <ul>
           <li>
             {' '}
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://skynet.certik.com/projects/pnt"
-            >
+            <a target="_blank" rel="noopener noreferrer" href="https://skynet.certik.com/projects/pnt">
               Certik
             </a>
           </li>

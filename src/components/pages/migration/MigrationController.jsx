@@ -7,28 +7,28 @@ import { migrate, resetProgress, updateMigrateButton } from '../../../store/migr
 import { selectPage } from '../../../store/pages/pages.actions'
 import { updateInfoModal } from '../../../store/pages/pages.actions'
 
-const mapStateToProps = _state => {
+const mapStateToProps = (_state) => {
   return {
     assets: _state.migration.assets,
     wallets: _state.wallets,
     progress: _state.migration.progress,
     migrateButton: _state.migration.migrateButton,
-    infoModal: _state.pages.infoModal
+    infoModal: _state.pages.infoModal,
   }
 }
 
-const mapDispatchToProps = _dispatch => {
+const mapDispatchToProps = (_dispatch) => {
   return {
-    connectWithWallet: _blockchain => _dispatch(connectWithWallet(_blockchain)),
+    connectWithWallet: (_blockchain) => _dispatch(connectWithWallet(_blockchain)),
     migrate: (_strategy, _amount, _from, _to, _options) => _dispatch(migrate(_strategy, _amount, _from, _to, _options)),
     resetProgress: () => _dispatch(resetProgress()),
     updateMigrateButton: (_text, _disabled) => _dispatch(updateMigrateButton(_text, _disabled)),
-    selectPage: _page => _dispatch(selectPage(_page)),
-    hideInfoModal: () => _dispatch(updateInfoModal({ show: false, message: null }))
+    selectPage: (_page) => _dispatch(selectPage(_page)),
+    hideInfoModal: () => _dispatch(updateInfoModal({ show: false, message: null })),
   }
 }
 
-const MigrationController = _props => <Migration {..._props} />
+const MigrationController = (_props) => <Migration {..._props} />
 
 MigrationController.propTypes = {
   assets: PropTypes.array.isRequired,
@@ -41,7 +41,7 @@ MigrationController.propTypes = {
   resetProgress: PropTypes.func,
   updateMigrateButton: PropTypes.func,
   selectPage: PropTypes.func,
-  hideInfoModal: PropTypes.func
+  hideInfoModal: PropTypes.func,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MigrationController)

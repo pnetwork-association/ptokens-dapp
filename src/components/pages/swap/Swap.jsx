@@ -171,7 +171,7 @@ const Swap = ({
   hideDepositAddressModal,
   swap,
   hideInfoModal,
-  selectPage
+  selectPage,
 }) => {
   const [assets] = useAssets(_assets)
   const [migrationAssets] = useAssets(_migrationAssets)
@@ -213,7 +213,7 @@ const Swap = ({
     pegoutToTelosEvmAddress,
     setPegoutToTelosEvmAddress,
     ToSRef,
-    AddressWarningRef
+    AddressWarningRef,
   } = useSwap({
     progress,
     wallets,
@@ -226,7 +226,7 @@ const Swap = ({
     updateSwapButton,
     hideDepositAddressModal,
     setTosShow,
-    setAddressWarningShow
+    setAddressWarningShow,
   })
 
   useEffect(() => {
@@ -239,7 +239,7 @@ const Swap = ({
   }, [migrationAssets])
 
   const onSelectFrom = useCallback(
-    _asset => {
+    (_asset) => {
       setNotifyMigration(null)
       _onSelectFrom(_asset)
     },
@@ -247,7 +247,7 @@ const Swap = ({
   )
 
   const onSelectTo = useCallback(
-    _asset => {
+    (_asset) => {
       setNotifyMigration(null)
       _onSelectTo(_asset)
     },
@@ -440,11 +440,7 @@ const Swap = ({
               ) : null}
               <ContainerSwapButton>
                 <Button
-                  onClick={() =>
-                    swapButton.link
-                      ? window.open(swapButton.link, '_self')
-                      : onSwap()
-                  }
+                  onClick={() => (swapButton.link ? window.open(swapButton.link, '_self') : onSwap())}
                   disabled={
                     swapButton.link
                       ? false
@@ -525,7 +521,7 @@ Swap.propTypes = {
   resetProgress: PropTypes.func,
   hideInfoModal: PropTypes.func,
   updateSwapButton: PropTypes.func,
-  selectPage: PropTypes.func
+  selectPage: PropTypes.func,
 }
 
 export default Swap

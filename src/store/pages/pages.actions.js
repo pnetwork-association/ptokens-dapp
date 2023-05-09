@@ -28,8 +28,8 @@ const selectPage = (_page, _options = {}) => {
   return {
     type: PAGE_SELECTED,
     payload: {
-      page: _page
-    }
+      page: _page,
+    },
   }
 }
 
@@ -38,9 +38,9 @@ const setLoading = ({ isLoading, text }) => ({
   payload: {
     loading: {
       isLoading,
-      text
-    }
-  }
+      text,
+    },
+  },
 })
 
 const updateInfoModal = ({ show, text, showMoreText, showMoreLabel, icon }) => ({
@@ -51,18 +51,18 @@ const updateInfoModal = ({ show, text, showMoreText, showMoreLabel, icon }) => (
       text,
       icon,
       showMoreText,
-      showMoreLabel
-    }
-  }
+      showMoreLabel,
+    },
+  },
 })
 
-const setTheme = _theme => {
+const setTheme = (_theme) => {
   window.localStorage.setItem('THEME', _theme)
   return {
     type: SET_THEME,
     payload: {
-      theme: _theme
-    }
+      theme: _theme,
+    },
   }
 }
 

@@ -104,7 +104,7 @@ DepositAddressModal.propTypes = {
   asset: PropTypes.object,
   value: PropTypes.string,
   assets: PropTypes.array,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 }
 
 export default DepositAddressModal

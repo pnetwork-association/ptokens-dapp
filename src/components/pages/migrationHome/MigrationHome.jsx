@@ -87,10 +87,10 @@ const Text = styled.span`
 
 const MigrationHome = ({ apys, selectPage, loadMigrationData }) => {
   const onMigrate = useCallback(
-    _strategy => {
+    (_strategy) => {
       selectPage(`migration/${_strategy}`)
       loadMigrationData({
-        strategy: _strategy
+        strategy: _strategy,
       })
     },
     [selectPage, loadMigrationData]
@@ -162,7 +162,7 @@ const MigrationHome = ({ apys, selectPage, loadMigrationData }) => {
 
 MigrationHome.propTypes = {
   selectPage: PropTypes.func.isRequired,
-  loadMigrationData: PropTypes.func.isRequired
+  loadMigrationData: PropTypes.func.isRequired,
 }
 
 export default MigrationHome

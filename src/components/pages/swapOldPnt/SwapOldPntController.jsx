@@ -7,27 +7,27 @@ import { resetProgress, updateSwapButton } from '../../../store/swap/swap.action
 import { swap } from '../../../store/swap-old-pnt/swap-old-pnt.actions'
 import { updateInfoModal } from '../../../store/pages/pages.actions'
 
-const mapStateToProps = _state => {
+const mapStateToProps = (_state) => {
   return {
     assets: _state.swapOldPnt.assets,
     wallets: _state.wallets,
     progress: _state.swap.progress,
     swapButton: _state.swap.swapButton,
-    infoModal: _state.pages.infoModal
+    infoModal: _state.pages.infoModal,
   }
 }
 
-const mapDispatchToProps = _dispatch => {
+const mapDispatchToProps = (_dispatch) => {
   return {
-    connectWithWallet: _blockchain => _dispatch(connectWithWallet(_blockchain)),
+    connectWithWallet: (_blockchain) => _dispatch(connectWithWallet(_blockchain)),
     swap: (_amount, _address) => _dispatch(swap(_amount, _address)),
     resetProgress: () => _dispatch(resetProgress()),
     updateSwapButton: (_text, _disabled) => _dispatch(updateSwapButton(_text, _disabled)),
-    hideInfoModal: () => _dispatch(updateInfoModal({ show: false, message: null }))
+    hideInfoModal: () => _dispatch(updateInfoModal({ show: false, message: null })),
   }
 }
 
-const SwapOldPntController = _props => <SwapOldPnt {..._props} />
+const SwapOldPntController = (_props) => <SwapOldPnt {..._props} />
 
 SwapOldPntController.propTypes = {
   assets: PropTypes.array.isRequired,
@@ -39,7 +39,7 @@ SwapOldPntController.propTypes = {
   swap: PropTypes.func,
   resetProgress: PropTypes.func,
   hideInfoModal: PropTypes.func,
-  updateSwapButton: PropTypes.func
+  updateSwapButton: PropTypes.func,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SwapOldPntController)

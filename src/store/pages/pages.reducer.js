@@ -4,39 +4,39 @@ const initialState = {
   selectedPage: 'swap',
   loading: {
     isLoading: false,
-    text: null
+    text: null,
   },
   theme: 'light',
   infoModal: {
     show: false,
     text: null,
     showMoreText: null,
-    showMoreLabel: null
-  }
+    showMoreLabel: null,
+  },
 }
 
 const pagesReducer = (_state = initialState, _action) => {
   const { type, payload } = _action
   if (type === PAGE_SELECTED) {
     return Object.assign({}, _state, {
-      selectedPage: payload.page
+      selectedPage: payload.page,
     })
   }
   if (type === SET_THEME) {
     return Object.assign({}, _state, {
-      theme: payload.theme
+      theme: payload.theme,
     })
   }
   if (type === UPDATE_INFO_MODAL) {
     const { infoModal } = payload
     return Object.assign({}, _state, {
-      infoModal
+      infoModal,
     })
   }
   if (type === SET_LOADING) {
     const { loading } = payload
     return Object.assign({}, _state, {
-      loading
+      loading,
     })
   }
   return _state

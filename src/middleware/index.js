@@ -20,7 +20,7 @@ import {
   NFTS_DATA_LOADED,
   NFT_DATA_LOADED,
   WALLET_FTM_CONNECTED,
-  WALLET_FTM_ACCOUNT_CHANGED
+  WALLET_FTM_ACCOUNT_CHANGED,
 } from '../constants'
 import { loadBalances } from '../store/swap/swap.actions'
 import * as migrationActions from '../store/migration/migration.actions'
@@ -32,8 +32,8 @@ import settings from '../settings'
 
 let countNftsLoading = 0
 const middleware = ({ dispatch }) => {
-  return _next => {
-    return async _action => {
+  return (_next) => {
+    return async (_action) => {
       const { type, payload } = _action
 
       if (type === WALLET_ETH_CONNECTED || type === WALLET_ETH_ACCOUNT_CHANGED) {
@@ -97,7 +97,7 @@ const middleware = ({ dispatch }) => {
           countNftsLoading = 0
           dispatch(
             setLoading({
-              isLoading: false
+              isLoading: false,
             })
           )
         }

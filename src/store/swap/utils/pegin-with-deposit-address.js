@@ -4,7 +4,7 @@ import {
   updateProgress,
   loadBalanceByAssetId,
   resetProgress,
-  updateSwapButton
+  updateSwapButton,
 } from '../swap.actions'
 import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
 import { updateInfoModal } from '../../pages/pages.actions'
@@ -16,7 +16,7 @@ const peginWithDepositAddress = async ({ swap, ptokenFrom, ptokenTo, dispatch })
   try {
     await swap
       .execute()
-      .on('depositAddress', _address => {
+      .on('depositAddress', (_address) => {
         depositAddress = _address
 
         dispatch(updateSwapButton('Swapping ...', true))
@@ -27,13 +27,13 @@ const peginWithDepositAddress = async ({ swap, ptokenFrom, ptokenTo, dispatch })
             percent: 0,
             message: 'Waiting for a deposit ...',
             steps: [0, 20, 40, 60, 80, 100],
-            terminated: false
+            terminated: false,
           })
         )
 
         dispatch(showDepositAddressModal(ptokenTo, depositAddress.toString()))
       })
-      .once('inputTxBroadcasted', _tx => {
+      .once('inputTxBroadcasted', (_tx) => {
         // ReactGA.event('swap_confirmed_by_user', {
         //   operation: 'pegin-with-deposit',
         //   asset_from: ptokenFrom.id,
@@ -50,7 +50,7 @@ const peginWithDepositAddress = async ({ swap, ptokenFrom, ptokenTo, dispatch })
             percent: 20,
             message: `<a href="${link}" target="_blank">Deposit</a> detected! Waiting for confirmation ...`,
             steps: [0, 20, 40, 60, 80, 100],
-            terminated: false
+            terminated: false,
           })
         )
       })
@@ -61,7 +61,7 @@ const peginWithDepositAddress = async ({ swap, ptokenFrom, ptokenTo, dispatch })
             percent: 40,
             message: `Waiting for the pNetwork to detect your <a href="${link}" target="_blank">transaction</a> ...`,
             steps: [0, 20, 40, 60, 80, 100],
-            terminated: false
+            terminated: false,
           })
         )
       })
@@ -72,11 +72,11 @@ const peginWithDepositAddress = async ({ swap, ptokenFrom, ptokenTo, dispatch })
             percent: 60,
             message: `Enclave received the <a href="${link}" target="_blank">transaction</a>, broadcasting ...`,
             steps: [0, 20, 40, 60, 80, 100],
-            terminated: false
+            terminated: false,
           })
         )
       })
-      .once('outputTxBroadcasted', _outputs => {
+      .once('outputTxBroadcasted', (_outputs) => {
         // ReactGA.event('swap_processed', {
         //   operation: 'pegin-with-deposit',
         //   asset_from: ptokenFrom.id,
@@ -94,7 +94,7 @@ const peginWithDepositAddress = async ({ swap, ptokenFrom, ptokenTo, dispatch })
             })
           )
       })
-      .then(_ => {
+      .then((_) => {
         // ReactGA.event('assets_delivered_tx_confirmed', {
         //   operation: 'pegin-with-deposit',
         //   asset_from: ptokenFrom.id,
@@ -106,7 +106,7 @@ const peginWithDepositAddress = async ({ swap, ptokenFrom, ptokenTo, dispatch })
             percent: 100,
             message: `<a href="${link}" target="_blank">Transaction</a> Confirmed.`,
             steps: [0, 20, 40, 60, 80, 100],
-            terminated: true
+            terminated: true,
           })
         )
 
@@ -123,7 +123,7 @@ const peginWithDepositAddress = async ({ swap, ptokenFrom, ptokenTo, dispatch })
         text: 'Error during pegin, try again!',
         showMoreText: _err.message ? _err.message : _err,
         showMoreLabel: 'Show Details',
-        icon: 'cancel'
+        icon: 'cancel',
       })
     )
     dispatch(resetProgress())

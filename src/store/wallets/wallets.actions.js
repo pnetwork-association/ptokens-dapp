@@ -12,8 +12,8 @@ import { connectWithAlgorandWallet, disconnectFromAlgorandWallet } from './algor
 import { connectWithFtmWallet, disconnectFromFtmWallet } from './ftm'
 import { connectWithOreWallet, disconnectFromOreWallet } from './ore'
 
-const connectWithWallet = _blockchain => {
-  return async _dispatch => {
+const connectWithWallet = (_blockchain) => {
+  return async (_dispatch) => {
     switch (_blockchain) {
       case 'ETH': {
         connectWithEthWallet(_dispatch)
@@ -73,8 +73,8 @@ const connectWithWallet = _blockchain => {
   }
 }
 
-const disconnectFromWallet = _blockchain => {
-  return async _dispatch => {
+const disconnectFromWallet = (_blockchain) => {
+  return async (_dispatch) => {
     switch (_blockchain) {
       case 'ETH': {
         disconnectFromEthWallet(_dispatch)

@@ -21,19 +21,19 @@ const moveChainGuardians = async ({ nft, destinationAccount, dispatch }) => {
       if (approvedAccount.toLowerCase() !== nft.portalsAddress.toLowerCase()) {
         await executeEvmCompatibleTxWithToast(nftContract.methods.approve(nft.portalsAddress, nft.id), {
           from: account,
-          blockchain: 'ETH'
+          blockchain: 'ETH',
         })
       }
 
       await executeEvmCompatibleTxWithToast(portals.methods.wrap(nft.id, destinationAccount), {
         from: account,
-        blockchain: 'ETH'
+        blockchain: 'ETH',
       })
     } else {
       const portals = new web3.eth.Contract(HostAbi, nft.portalsAddress)
       await executeEvmCompatibleTxWithToast(portals.methods.unwrap(nft.id, destinationAccount), {
         from: account,
-        blockchain: 'BSC'
+        blockchain: 'BSC',
       })
     }
 

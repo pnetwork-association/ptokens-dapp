@@ -11,7 +11,7 @@ import {
   ContainerSwapButton,
   SwapLabel,
   ArrowContainer,
-  SortIcon
+  SortIcon,
 } from '../swap/Swap'
 import Button from '../../atoms/button/Button'
 import Progress from '../../molecules/progress/Progress'
@@ -54,7 +54,7 @@ const Migration = ({
   migrate,
   selectPage,
   infoModal,
-  hideInfoModal
+  hideInfoModal,
 }) => {
   const [assets] = useAssets(_assets)
 
@@ -70,7 +70,7 @@ const Migration = ({
     onChangeFromAmount,
     onChangeToAmount,
     onFromMax,
-    onMigrate
+    onMigrate,
   } = useMigration({
     progress,
     wallets,
@@ -78,10 +78,10 @@ const Migration = ({
     connectWithWallet,
     migrate,
     migrateButton,
-    updateMigrateButton
+    updateMigrateButton,
   })
 
-  const getPrefix = _to => {
+  const getPrefix = (_to) => {
     if (to) return _to.id === PBTC_ON_ETH_MAINNET_V2_MIGRATION || _to.id === PNT_ON_ETH_MAINNET ? '' : '~'
     return ''
   }
@@ -182,7 +182,7 @@ Migration.propTypes = {
   resetProgress: PropTypes.func,
   updateMigrateButton: PropTypes.func,
   selectPage: PropTypes.func,
-  hideInfoModal: PropTypes.func
+  hideInfoModal: PropTypes.func,
 }
 
 export default Migration

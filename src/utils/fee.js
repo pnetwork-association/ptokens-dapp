@@ -4,10 +4,10 @@ import { formatDecimalSeparator } from './amount-utils'
 
 const map = {
   pegin: 0.1,
-  pegout: 0.25
+  pegout: 0.25,
 }
 
-const getFeeFactor = fee => {
+const getFeeFactor = (fee) => {
   return 1 - fee / 100
 }
 
@@ -28,6 +28,6 @@ const computeAmount = (from, to, amount, direction) => {
     : amount
 }
 
-const getFormattedFee = fee => `${formatDecimalSeparator(fee)}%`
+const getFormattedFee = (fee) => `${formatDecimalSeparator(fee)}%`
 
 export { getFee, getFeeFactor, computeAmount, getFormattedFee }

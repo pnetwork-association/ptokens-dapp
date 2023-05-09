@@ -1,11 +1,11 @@
-const parseError = _err => {
+const parseError = (_err) => {
   // NOTE: metamask
   if (_err.code && _err.message) {
     const { code } = _err
     if (code === 4001) {
       return {
         showModal: false,
-        message: _err.message
+        message: _err.message,
       }
     }
   }
@@ -14,13 +14,13 @@ const parseError = _err => {
   if (_err.toString().includes('User canceled request')) {
     return {
       showModal: false,
-      message: _err
+      message: _err,
     }
   }
 
   return {
     showModal: true,
-    message: _err.message ? _err.message : _err
+    message: _err.message ? _err.message : _err,
   }
 }
 

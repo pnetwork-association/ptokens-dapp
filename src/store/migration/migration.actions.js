@@ -5,7 +5,7 @@ import {
   MIGRATION_PROGRESS_UPDATED,
   MIGRATION_PROGRESS_RESET,
   UPDATE_MIGRATE_BUTTON,
-  APYS_LOADED
+  APYS_LOADED,
 } from '../../constants/index'
 import { loadEvmCompatibleBalances, loadEvmCompatibleBalance } from '../swap/utils/balances'
 import { getAssetsByBlockchain, getAssetById } from './migration.selectors'
@@ -17,13 +17,13 @@ import axios from 'axios'
 
 const loadMigrationData = (_opts = {}) => {
   const { strategy } = _opts
-  return async _dispatch => {
+  return async (_dispatch) => {
     try {
       _dispatch({
         type: MIGRATION_ASSETS_LOADED,
         payload: {
-          assets: strategy ? [...assets, ...getDefaultSelection(assets, { strategy })] : assets
-        }
+          assets: strategy ? [...assets, ...getDefaultSelection(assets, { strategy })] : assets,
+        },
       })
 
       const wallet = getWalletByBlockchain('ETH')
@@ -39,36 +39,36 @@ const loadMigrationData = (_opts = {}) => {
 }
 
 const loadApys = () => {
-  return async _dispatch => {
+  return async (_dispatch) => {
     try {
       const {
-        data: { result }
+        data: { result },
       } = await axios.get('https://extra.ptokens.io/pbtc-v1-migration-apys')
       _dispatch({
         type: APYS_LOADED,
         payload: {
-          apys: result
-        }
+          apys: result,
+        },
       })
     } catch (_err) {
       _dispatch({
         type: APYS_LOADED,
         payload: {
-          apys: {}
-        }
+          apys: {},
+        },
       })
     }
   }
 }
 
-const loadBalances = _account => {
-  return async _dispatch => {
+const loadBalances = (_account) => {
+  return async (_dispatch) => {
     try {
       loadEvmCompatibleBalances({
         assets: getAssetsByBlockchain('ETH'),
         account: _account,
         dispatch: _dispatch,
-        actionType: MIGRATION_BALANCE_LOADED
+        actionType: MIGRATION_BALANCE_LOADED,
       })
     } catch (_err) {
       console.error(_err)
@@ -76,8 +76,8 @@ const loadBalances = _account => {
   }
 }
 
-const loadBalanceByAssetId = _id => {
-  return async _dispatch => {
+const loadBalanceByAssetId = (_id) => {
+  return async (_dispatch) => {
     try {
       const asset = getAssetById(_id)
       const wallet = getWalletByBlockchain(asset.blockchain)
@@ -94,7 +94,7 @@ const loadBalanceByAssetId = _id => {
 }
 
 const migrate = (_strategy, _amount, _from, _to, _options = {}) => {
-  return async _dispatch => {
+  return async (_dispatch) => {
     try {
       _dispatch(resetProgress())
 
@@ -102,13 +102,13 @@ const migrate = (_strategy, _amount, _from, _to, _options = {}) => {
         // pbtc v1 -> pbtc v2
         case 'pBTC-v1-to-v2':
           migratePBTC(_amount, _from, _to, {
-            dispatch: _dispatch
+            dispatch: _dispatch,
           })
           break
         case 'ethPNT-to-PNT':
           // ethPNT -> PNT
           migratePNT(_amount, _from, _to, {
-            dispatch: _dispatch
+            dispatch: _dispatch,
           })
           break
         default:
@@ -120,18 +120,18 @@ const migrate = (_strategy, _amount, _from, _to, _options = {}) => {
   }
 }
 
-const updateProgress = _progress => {
+const updateProgress = (_progress) => {
   return {
     type: MIGRATION_PROGRESS_UPDATED,
     payload: {
-      progress: _progress
-    }
+      progress: _progress,
+    },
   }
 }
 
 const resetProgress = () => {
   return {
-    type: MIGRATION_PROGRESS_RESET
+    type: MIGRATION_PROGRESS_RESET,
   }
 }
 
@@ -141,9 +141,9 @@ const updateMigrateButton = (_text, _disabled = false) => {
     payload: {
       migrateButton: {
         text: _text,
-        disabled: _disabled
-      }
-    }
+        disabled: _disabled,
+      },
+    },
   }
 }
 
@@ -154,5 +154,5 @@ export {
   migrate,
   updateProgress,
   resetProgress,
-  updateMigrateButton
+  updateMigrateButton,
 }

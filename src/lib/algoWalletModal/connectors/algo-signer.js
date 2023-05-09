@@ -14,7 +14,7 @@ class Provider extends EventEmitter {
 
   signTxn(_txns) {
     return this.algoSigner.signTxn(
-      _txns.map(_tx => ({ txn: Buffer.from(algosdk.encodeUnsignedTransaction(_tx)).toString('base64') }))
+      _txns.map((_tx) => ({ txn: Buffer.from(algosdk.encodeUnsignedTransaction(_tx)).toString('base64') }))
     )
   }
 
@@ -25,7 +25,7 @@ class Provider extends EventEmitter {
   async getAccounts() {
     return Object.values(
       await this.algoSigner.accounts({
-        ledger: 'MainNet'
+        ledger: 'MainNet',
       })
     ).map(({ address }) => address)
   }

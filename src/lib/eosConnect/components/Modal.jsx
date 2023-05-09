@@ -6,7 +6,7 @@ import {
   MODAL_LIGHTBOX_CLASSNAME,
   MODAL_CONTAINER_CLASSNAME,
   MODAL_HITBOX_CLASSNAME,
-  MODAL_CARD_CLASSNAME
+  MODAL_CARD_CLASSNAME,
 } from '../constants'
 
 const SLightbox = styled.div`
@@ -83,13 +83,13 @@ const SModalCard = styled.div`
 
 const INITIAL_STATE = {
   show: false,
-  lightboxOffset: 0
+  lightboxOffset: 0,
 }
 
 export default class Modal extends React.Component {
   constructor(_props) {
     super(_props)
-    window.updateEosConnect = async _state => {
+    window.updateEosConnect = async (_state) => {
       this.setState(_state)
     }
   }
@@ -97,14 +97,14 @@ export default class Modal extends React.Component {
     userOptions: PropTypes.array.isRequired,
     onClose: PropTypes.func.isRequired,
     resetState: PropTypes.func.isRequired,
-    lightboxOpacity: PropTypes.number.isRequired
+    lightboxOpacity: PropTypes.number.isRequired,
   }
 
   lightboxRef
   mainModalCard
 
   state = {
-    ...INITIAL_STATE
+    ...INITIAL_STATE,
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -130,7 +130,7 @@ export default class Modal extends React.Component {
         className={MODAL_LIGHTBOX_CLASSNAME}
         offset={lightboxOffset}
         opacity={lightboxOpacity}
-        ref={c => (this.lightboxRef = c)}
+        ref={(c) => (this.lightboxRef = c)}
         show={show}
       >
         <SModalContainer className={MODAL_CONTAINER_CLASSNAME} show={show}>
@@ -141,9 +141,9 @@ export default class Modal extends React.Component {
               show={show}
               themeColors={themeColors}
               maxWidth={userOptions.length < 3 ? 500 : 800}
-              ref={c => (this.mainModalCard = c)}
+              ref={(c) => (this.mainModalCard = c)}
             >
-              {userOptions.map(provider =>
+              {userOptions.map((provider) =>
                 !!provider ? (
                   <Provider
                     key={provider.name}

@@ -72,7 +72,7 @@ const MigrationInfo = ({ from, to }) => {
 
 MigrationInfo.propTypes = {
   from: PropTypes.object,
-  to: PropTypes.object
+  to: PropTypes.object,
 }
 
 export default MigrationInfo

@@ -80,7 +80,7 @@ const AssetInfo = ({ asset, wallet }) => {
         tokenAddress: address,
         tokenSymbol: symbol,
         tokenDecimals: decimals,
-        tokenImage: await getBase64Image(image)
+        tokenImage: await getBase64Image(image),
       })
     } catch (_err) {
       console.error(_err)
@@ -121,7 +121,7 @@ const AssetInfo = ({ asset, wallet }) => {
           </ContainerOptions>
         </Row>
         <ReactTooltip
-          getContent={_dataTip =>
+          getContent={(_dataTip) =>
             _dataTip === 'Add to MetaMask' || _dataTip === 'Connect MetaMask to add the token'
               ? _dataTip
               : isCopiedToClipboard
@@ -136,11 +136,11 @@ const AssetInfo = ({ asset, wallet }) => {
 
 AssetInfo.propTypes = {
   asset: PropTypes.object,
-  wallet: PropTypes.object
+  wallet: PropTypes.object,
 }
 
 AssetInfo.defaultProps = {
-  asset: {}
+  asset: {},
 }
 
 export default AssetInfo

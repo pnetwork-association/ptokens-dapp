@@ -10,7 +10,7 @@ const nfts = [
     blockchain: 'ETH',
     fromBlock: 11701037,
     loadDataKey: 'erc1155',
-    supportedBlockchains: ['BSC']
+    supportedBlockchains: ['BSC'],
   },
   {
     internalId: 'RAREBITBUNNIES_ON_BSC',
@@ -23,7 +23,7 @@ const nfts = [
     blockchain: 'BSC',
     fromBlock: 6170510,
     loadDataKey: 'erc1155',
-    supportedBlockchains: ['ETH']
+    supportedBlockchains: ['ETH'],
   },
   {
     internalId: 'CHAINGUARDIANS_ON_ETH',
@@ -36,7 +36,7 @@ const nfts = [
     blockchain: 'ETH',
     loadDataKey: 'cgt',
     supportedBlockchains: ['BSC'],
-    baseUri: 'https://api.chainguardians.io/api/opensea'
+    baseUri: 'https://api.chainguardians.io/api/opensea',
   },
   {
     internalId: 'CHAINGUARDIANS_ON_BSC',
@@ -49,8 +49,8 @@ const nfts = [
     blockchain: 'BSC',
     loadDataKey: 'cgt',
     supportedBlockchains: ['ETH'],
-    baseUri: 'https://api.chainguardians.io/api/opensea'
-  }
+    baseUri: 'https://api.chainguardians.io/api/opensea',
+  },
 ]
 
 export default nfts

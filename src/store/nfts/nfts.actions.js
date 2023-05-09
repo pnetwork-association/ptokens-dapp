@@ -11,11 +11,11 @@ import { loadChainGuardiansData } from './adapters/cgt'
 import { getWalletAccountByBlockchain } from '../wallets/wallets.selectors'
 
 const loadNftsData = (_account, _blockchain) => {
-  return async _dispatch => {
+  return async (_dispatch) => {
     _dispatch(
       setLoading({
         text: 'Retrieving your NFTs ...',
-        isLoading: true
+        isLoading: true,
       })
     )
 
@@ -26,31 +26,31 @@ const loadNftsData = (_account, _blockchain) => {
       dispatch: _dispatch,
       nfts: nftsGrouped['cgt'].filter(({ blockchain }) => blockchain === _blockchain),
       account: _account,
-      web3
+      web3,
     })
     loadERC155Data({
       dispatch: _dispatch,
       nfts: nftsGrouped['erc1155'].filter(({ blockchain }) => blockchain === _blockchain),
       account: _account,
-      web3
+      web3,
     })
   }
 }
 
-const loadNftData = _nft => {
-  return async _dispatch => {
+const loadNftData = (_nft) => {
+  return async (_dispatch) => {
     try {
       // TODO: rarebit bunnies
       const loads = {
         CHAINGUARDIANS_ON_ETH: (...params) => loadChainGuardiansData(...params),
-        CHAINGUARDIANS_ON_BSC: (...params) => loadChainGuardiansData(...params)
+        CHAINGUARDIANS_ON_BSC: (...params) => loadChainGuardiansData(...params),
       }
 
       await loads[_nft.id]({
         nfts: [_nft],
         account: getWalletAccountByBlockchain(_nft.blockchain),
         web3: new Web3(getReadOnlyProviderByBlockchain(_nft.blockchain)),
-        dispatch: _dispatch
+        dispatch: _dispatch,
       })
     } catch (_err) {
       console.error(_err)
@@ -59,20 +59,20 @@ const loadNftData = _nft => {
 }
 
 const move = (_nft, _blockchain, _destinationAccount, _amount) => {
-  return async _dispatch => {
+  return async (_dispatch) => {
     try {
       const moves = {
         RAREBITBUNNIES_ON_ETH: (...params) => moveRarebitBunnies(...params),
         RAREBITBUNNIES_ON_BSC: (...params) => moveRarebitBunnies(...params),
         CHAINGUARDIANS_ON_ETH: (...params) => moveChainGuardians(...params),
-        CHAINGUARDIANS_ON_BSC: (...params) => moveChainGuardians(...params)
+        CHAINGUARDIANS_ON_BSC: (...params) => moveChainGuardians(...params),
       }
       await moves[_nft.id]({
         nft: _nft,
         blockchain: _blockchain,
         destinationAccount: _destinationAccount,
         amount: _amount,
-        dispatch: _dispatch
+        dispatch: _dispatch,
       })
     } catch (_err) {
       console.error(_err)
@@ -80,11 +80,11 @@ const move = (_nft, _blockchain, _destinationAccount, _amount) => {
   }
 }
 
-const nftsDataLoaded = _data => ({
+const nftsDataLoaded = (_data) => ({
   type: NFTS_DATA_LOADED,
   payload: {
-    nfts: _data
-  }
+    nfts: _data,
+  },
 })
 
 export { loadNftsData, move, nftsDataLoaded, loadNftData }

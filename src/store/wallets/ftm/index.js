@@ -11,7 +11,7 @@ import { getWalletProviderByBlockchain } from '../wallets.selectors'
 
 let web3Modal
 
-const connectWithFtmWallet = async _dispatch => {
+const connectWithFtmWallet = async (_dispatch) => {
   try {
     if (document.getElementById('WEB3_CONNECT_MODAL_ID')) {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
@@ -25,9 +25,9 @@ const connectWithFtmWallet = async _dispatch => {
           options: {
             network: 'fantom',
             rpc: {
-              250: settings.rpc.mainnet.ftm.endpoint
-            }
-          }
+              250: settings.rpc.mainnet.ftm.endpoint,
+            },
+          },
         },
         walletlink: {
           package: WalletLink,
@@ -35,15 +35,15 @@ const connectWithFtmWallet = async _dispatch => {
             appName: settings.dappName,
             rpc: settings.rpc.mainnet.ftm.endpoint,
             chainId: 250,
-            darkMode: getTheme() === 'dark'
-          }
-        }
-      }
+            darkMode: getTheme() === 'dark',
+          },
+        },
+      },
     })
 
     const provider = await web3Modal.connect()
     _connectionSuccesfull(provider, _dispatch, {
-      type: 'multiWallet'
+      type: 'multiWallet',
     })
 
     /*provider.on('chainChanged', _chainId => {
@@ -53,12 +53,12 @@ const connectWithFtmWallet = async _dispatch => {
       }
     })*/
 
-    provider.on('accountsChanged', _accounts => {
+    provider.on('accountsChanged', (_accounts) => {
       _dispatch({
         type: WALLET_FTM_ACCOUNT_CHANGED,
         payload: {
-          account: _accounts[0]
-        }
+          account: _accounts[0],
+        },
       })
     })
   } catch (_err) {
@@ -66,14 +66,14 @@ const connectWithFtmWallet = async _dispatch => {
   }
 }
 
-const disconnectFromFtmWallet = async _dispatch => {
+const disconnectFromFtmWallet = async (_dispatch) => {
   const provider = getWalletProviderByBlockchain('FTM')
   if (provider.close) {
     await provider.close()
   }
   await web3Modal.clearCachedProvider()
   _dispatch({
-    type: WALLET_FTM_DISCONNECTED
+    type: WALLET_FTM_DISCONNECTED,
   })
 }
 
@@ -86,7 +86,7 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
       try {
         await changeNetwork({
           provider: _provider,
-          chainId: 250
+          chainId: 250,
         })
       } catch (err) {
         if (err.code === 4902) {
@@ -97,10 +97,10 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
             nativeCurrency: {
               name: 'FTM',
               symbol: 'ftm',
-              decimals: 18
+              decimals: 18,
             },
             nodes: [settings.rpc.mainnet.ftm.endpoint],
-            blockExplorerUrls: [settings.explorers.mainnet.ftm]
+            blockExplorerUrls: [settings.explorers.mainnet.ftm],
           })
         }
       }
@@ -111,8 +111,8 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
           provider: _provider,
           account,
           network: 'mainnet',
-          chainId: 250
-        }
+          chainId: 250,
+        },
       })
       return
     } else if (Number(chainId) === 250) {
@@ -122,8 +122,8 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
           provider: _provider,
           account,
           network: 'mainnet',
-          chainId
-        }
+          chainId,
+        },
       })
     }
   } catch (_err) {
@@ -131,7 +131,7 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
   }
 }
 
-const _getAccount = async _provider => {
+const _getAccount = async (_provider) => {
   try {
     const web3 = new Web3(_provider)
     const accounts = await web3.eth.getAccounts()

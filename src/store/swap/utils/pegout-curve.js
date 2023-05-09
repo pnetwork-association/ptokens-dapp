@@ -28,7 +28,7 @@ function getInputAmount(web3, txReceipt, poolAddress, returnAddress, trLink) {
 }
 
 function monitorCurveTransaction(_txHash, web3) {
-  let promi = new Promise(resolve =>
+  let promi = new Promise((resolve) =>
     (async () => {
       let resp = ''
       await polling(async () => {
@@ -48,7 +48,7 @@ function monitorCurveTransaction(_txHash, web3) {
 }
 
 function monitorCurveApproval(pool, name, amount) {
-  let promi = new Promise(resolve =>
+  let promi = new Promise((resolve) =>
     (async () => {
       let resp = ''
       await polling(async () => {
@@ -83,7 +83,7 @@ const curvePhase = async (swap, provider, tokenFrom, ptokenFrom, dispatch) => {
       percent: 10,
       message: 'Waiting for the Curve approval to be signed ...',
       steps: [0, 10, 20, 30, 40, 60, 70, 80, 90, 100],
-      terminated: false
+      terminated: false,
     })
   )
 
@@ -97,7 +97,7 @@ const curvePhase = async (swap, provider, tokenFrom, ptokenFrom, dispatch) => {
         percent: 20,
         message: 'Curve approval signed, waiting for Curve pool transaction ...',
         steps: [0, 10, 20, 30, 40, 60, 70, 80, 90, 100],
-        terminated: false
+        terminated: false,
       })
     )
   } else {
@@ -107,7 +107,7 @@ const curvePhase = async (swap, provider, tokenFrom, ptokenFrom, dispatch) => {
         percent: 20,
         message: 'Curve approval already signed, waiting for Curve pool transaction ...',
         steps: [0, 10, 20, 30, 40, 60, 70, 80, 90, 100],
-        terminated: false
+        terminated: false,
       })
     )
   }
@@ -120,7 +120,7 @@ const curvePhase = async (swap, provider, tokenFrom, ptokenFrom, dispatch) => {
       percent: 30,
       message: `<a href="${link}" target="_blank">Curve transaction</a> broadcasted! Waiting for confirmation ...`,
       steps: [0, 10, 20, 30, 40, 60, 70, 80, 90, 100],
-      terminated: false
+      terminated: false,
     })
   )
 
@@ -131,7 +131,7 @@ const curvePhase = async (swap, provider, tokenFrom, ptokenFrom, dispatch) => {
       percent: 40,
       message: `<a href="${link}" target="_blank">Curve transaction</a> confirmed! Starting pNetwork phase ...`,
       steps: [0, 10, 20, 30, 40, 60, 70, 80, 90, 100],
-      terminated: false
+      terminated: false,
     })
   )
 
@@ -147,7 +147,7 @@ const curvePhase = async (swap, provider, tokenFrom, ptokenFrom, dispatch) => {
         text: 'Error during pegout, try again!',
         showMoreText: _err.message ? _err.message : _err,
         showMoreLabel: 'Show Details',
-        icon: 'cancel'
+        icon: 'cancel',
       })
     )
   }
@@ -162,7 +162,7 @@ const pegoutFromCurve = async ({ swap, provider, tokenFrom, ptokenFrom, ptokenTo
         percent: 0,
         message: 'Waiting for Curve initialization ...',
         steps: [0, 10, 20, 30, 40, 60, 70, 80, 90, 100],
-        terminated: false
+        terminated: false,
       })
     )
 
@@ -171,7 +171,7 @@ const pegoutFromCurve = async ({ swap, provider, tokenFrom, ptokenFrom, ptokenTo
     // NOTE: hostTxBroadcasted is not triggered when blockchain is EOS
     await swap
       .execute()
-      .once('inputTxBroadcasted', _hash => {
+      .once('inputTxBroadcasted', (_hash) => {
         link = getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, _hash)
         dispatch(
           updateProgress({
@@ -179,18 +179,18 @@ const pegoutFromCurve = async ({ swap, provider, tokenFrom, ptokenFrom, ptokenTo
             percent: 60,
             message: `<a href="${link}" target="_blank">Transaction</a> broadcasted! Waiting for confirmation ...`,
             steps: [0, 10, 20, 30, 40, 60, 70, 80, 90, 100],
-            terminated: false
+            terminated: false,
           })
         )
       })
-      .once('inputTxConfirmed', _tx => {
+      .once('inputTxConfirmed', (_tx) => {
         dispatch(
           updateProgress({
             show: true,
             percent: 70,
             message: `Waiting for the pNetwork to detect your <a href="${link}" target="_blank">transaction</a> ...`,
             steps: [0, 10, 20, 30, 40, 60, 70, 80, 90, 100],
-            terminated: false
+            terminated: false,
           })
         )
       })
@@ -201,11 +201,11 @@ const pegoutFromCurve = async ({ swap, provider, tokenFrom, ptokenFrom, ptokenTo
             percent: 80,
             message: `Enclave received the <a href="${link}" target="_blank">transaction</a>, broadcasting ...`,
             steps: [0, 10, 20, 30, 40, 60, 70, 80, 90, 100],
-            terminated: false
+            terminated: false,
           })
         )
       })
-      .once('outputTxBroadcasted', _outputs => {
+      .once('outputTxBroadcasted', (_outputs) => {
         link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _outputs[0].txHash)
         dispatch(
           updateProgress({
@@ -213,18 +213,18 @@ const pegoutFromCurve = async ({ swap, provider, tokenFrom, ptokenFrom, ptokenTo
             percent: 90,
             message: `Asset swap <a href="${link}" target="_blank">transaction</a> completed, waiting for confirmation ...`,
             steps: [0, 10, 20, 30, 40, 60, 70, 80, 90, 100],
-            terminated: false
+            terminated: false,
           })
         )
       })
-      .then(_ => {
+      .then((_) => {
         dispatch(
           updateProgress({
             show: true,
             percent: 100,
             message: `<a href="${link}" target="_blank">Transaction</a> Confirmed.`,
             steps: [0, 10, 20, 30, 40, 60, 70, 80, 90, 100],
-            terminated: true
+            terminated: true,
           })
         )
 
@@ -242,7 +242,7 @@ const pegoutFromCurve = async ({ swap, provider, tokenFrom, ptokenFrom, ptokenTo
           text: 'Error during pegout, try again!',
           showMoreText: _err.message ? _err.message : _err,
           showMoreLabel: 'Show Details',
-          icon: 'cancel'
+          icon: 'cancel',
         })
       )
     }

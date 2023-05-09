@@ -59,7 +59,7 @@ const Popup = ({ content }) => {
 }
 
 Popup.propTypes = {
-  content: PropTypes.node
+  content: PropTypes.node,
 }
 
 export default Popup

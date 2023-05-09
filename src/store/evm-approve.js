@@ -16,11 +16,11 @@ async function approveTransaction(spender, tokenAddress, amount, web3, requiresR
   const allowance = await toApprove.methods.allowance(account[0], stringUtils.addHexPrefix(spender)).call()
   let hash = ''
   if (!BigNumber(allowance).isGreaterThanOrEqualTo(amount)) {
-    const _approve = amount =>
+    const _approve = (amount) =>
       toApprove.methods
         .approve(stringUtils.addHexPrefix(spender), amount)
         .send({ from: account[0] })
-        .once('hash', _hash => {
+        .once('hash', (_hash) => {
           hash = _hash
         })
     if (requiresReset && !BigNumber(allowance).isZero()) {

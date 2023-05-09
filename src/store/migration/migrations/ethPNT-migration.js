@@ -42,7 +42,7 @@ const migratePNT = async (_amount, _from, _to, { dispatch }) => {
       assetInfo: assetInfo,
       symbol: _from.symbol,
       chainId: _from.chainId,
-      provider: providerInfo
+      provider: providerInfo,
     }
     const sourceAsset = new pTokensEvmAsset(config)
     const destinationAsset = await createAsset(node, _to, wallet)
@@ -57,7 +57,7 @@ const migratePNT = async (_amount, _from, _to, { dispatch }) => {
       ptokenFrom: _from,
       ptokenTo: _to,
       web3: web3,
-      dispatch: dispatch
+      dispatch: dispatch,
     })
   } catch (_err) {
     const { showModal } = parseError(_err)
@@ -68,7 +68,7 @@ const migratePNT = async (_amount, _from, _to, { dispatch }) => {
           text: 'Error during migration, try again!',
           showMoreText: _err.message ? _err.message : _err,
           showMoreLabel: 'Show Details',
-          icon: 'cancel'
+          icon: 'cancel',
         })
       )
     }

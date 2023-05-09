@@ -2,7 +2,7 @@ import history from './history'
 
 const LEGACY_DAPP_BASE_URL = 'http://dapp-legacy.ptokens.io/'
 
-const encodeForUrl = _str => encodeURIComponent(_str).toLowerCase()
+const encodeForUrl = (_str) => encodeURIComponent(_str).toLowerCase()
 
 const updateUrlForSwap = (_from, _to) =>
   history.replace(

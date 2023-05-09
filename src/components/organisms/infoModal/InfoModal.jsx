@@ -70,7 +70,7 @@ InfoModal.propTypes = {
   showMoreText: PropTypes.string,
   icon: PropTypes.string,
   show: PropTypes.bool,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 }
 
 export default InfoModal
