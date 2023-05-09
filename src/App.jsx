@@ -18,7 +18,6 @@ import MainWrapper from './components/atoms/mainWrapper/MainWrapper'
 import Notifications from './components/molecules/notifications/Notifications'
 import NftsController from './components/pages/nfts/NftsController'
 import Risks from './components/pages/risks/Risks'
-import Loader from './components/atoms/loader/Loader'
 import Popup from './components/molecules/popup/Popup'
 import SocialLinks from './components/molecules/socials/Socials'
 import Version from './components/molecules/version/Version'
@@ -28,19 +27,19 @@ import Version from './components/molecules/version/Version'
 //   ReactGA.send('pageview')
 // })
 
-const mapStateToProps = _state => {
+const mapStateToProps = (_state) => {
   return {
-    loading: _state.pages.loading
+    loading: _state.pages.loading,
   }
 }
 
-const mapDispatchToProps = _dispatch => {
+const mapDispatchToProps = (_dispatch) => {
   return {
-    loadSwapData: _options => _dispatch(loadSwapData(_options)),
+    loadSwapData: (_options) => _dispatch(loadSwapData(_options)),
     loadSwapOldPntData: () => _dispatch(loadSwapOldPntData()),
-    loadMigrationData: _opts => _dispatch(loadMigrationData(_opts)),
+    loadMigrationData: (_opts) => _dispatch(loadMigrationData(_opts)),
     selectPage: (_page, _options) => _dispatch(selectPage(_page, _options)),
-    setTheme: _theme => _dispatch(setTheme(_theme))
+    setTheme: (_theme) => _dispatch(setTheme(_theme)),
   }
 }
 
@@ -96,7 +95,7 @@ const App = ({ loading, setTheme, loadSwapData, loadSwapOldPntData, loadMigratio
 
     selectPage(page, { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol })
     loadSwapData({
-      defaultSelection: { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol }
+      defaultSelection: { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol },
     })
     loadSwapOldPntData()
     loadMigrationData()
@@ -153,7 +152,7 @@ App.propTypes = {
   loadSwapData: PropTypes.func,
   selectPage: PropTypes.func,
   setTheme: PropTypes.func,
-  loadNftsData: PropTypes.func
+  loadNftsData: PropTypes.func,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
