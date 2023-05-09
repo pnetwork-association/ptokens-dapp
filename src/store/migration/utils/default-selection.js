@@ -2,7 +2,7 @@ import {
   PBTC_ON_ETH_MAINNET_V1_MIGRATION,
   PBTC_ON_ETH_MAINNET_V2_MIGRATION,
   PNT_ON_ETH_MAINNET,
-  ETHPNT_ON_ETH_MAINNET
+  ETHPNT_ON_ETH_MAINNET,
 } from '../../../constants'
 
 const getDefaultSelection = (_assets, { strategy = 'pBTC-v1-to-v2' }) => {
@@ -23,12 +23,12 @@ const getDefaultSelection = (_assets, { strategy = 'pBTC-v1-to-v2' }) => {
   return [
     {
       ...from,
-      defaultFrom: true
+      defaultFrom: true,
     },
     {
       ...to,
-      defaultTo: true
-    }
+      defaultTo: true,
+    },
   ]
 }
 

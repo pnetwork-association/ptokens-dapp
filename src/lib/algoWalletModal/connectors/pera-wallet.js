@@ -15,8 +15,8 @@ class Provider extends EventEmitter {
   }
 
   async signTxn(_txns) {
-    const a = await this.peraWallet.signTransaction([_txns.map(_tx => ({ txn: _tx }))])
-    return a.map(_a => Buffer.from(_a).toString('base64'))
+    const a = await this.peraWallet.signTransaction([_txns.map((_tx) => ({ txn: _tx }))])
+    return a.map((_a) => Buffer.from(_a).toString('base64'))
   }
 
   async getAccounts() {

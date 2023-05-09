@@ -27,21 +27,21 @@ const pegoutPuosOnUltra = async ({ params, dispatch }) => {
             authorization: [
               {
                 actor,
-                permission
-              }
+                permission,
+              },
             ],
             data: {
               from: actor,
               to: 'ultra.swap',
               quantity: eos.getAmountInEosFormat(params[0], 8, 'UOS'),
-              memo: params[1]
-            }
-          }
-        ]
+              memo: params[1],
+            },
+          },
+        ],
       },
       {
         blocksBehind: 3,
-        expireSeconds: 60
+        expireSeconds: 60,
       }
     )
 
@@ -53,7 +53,7 @@ const pegoutPuosOnUltra = async ({ params, dispatch }) => {
         percent: 20,
         message: `<a href="${link}" target="_blank">Transaction</a> broadcasted! Waiting for confirmation ...`,
         steps: [0, 20, 40, 60, 80, 100],
-        terminated: false
+        terminated: false,
       })
     )
 
@@ -63,7 +63,7 @@ const pegoutPuosOnUltra = async ({ params, dispatch }) => {
         percent: 40,
         message: `Waiting for the pNetwork to detect your <a href="${link}" target="_blank">transaction</a> ...`,
         steps: [0, 20, 40, 60, 80, 100],
-        terminated: false
+        terminated: false,
       })
     )
 
@@ -72,26 +72,26 @@ const pegoutPuosOnUltra = async ({ params, dispatch }) => {
       pToken: constants.pTokens.pUOS,
       blockchain: constants.blockchains.Ultra,
       provider: new HttpProvider('https://perc20onultra-node-1a.ngrok.io/', {
-        'Access-Control-Allow-Origin': '*'
-      })
+        'Access-Control-Allow-Origin': '*',
+      }),
     })
 
     let broadcastTxHash = null
     const monitorTransaction = () =>
-      new Promise(_resolve => {
+      new Promise((_resolve) => {
         const eventEmitter = new EventEmitter()
-        eventEmitter.on('nodeReceivedTx', _report => {
+        eventEmitter.on('nodeReceivedTx', (_report) => {
           dispatch(
             updateProgress({
               show: true,
               percent: 60,
               message: `Enclave received the <a href="${link}" target="_blank">transaction</a>, broadcasting ...`,
               steps: [0, 20, 40, 60, 80, 100],
-              terminated: false
+              terminated: false,
             })
           )
         })
-        eventEmitter.on('nodeBroadcastedTx', _report => {
+        eventEmitter.on('nodeBroadcastedTx', (_report) => {
           broadcastTxHash = _report.broadcast_tx_hash
           link = getCorrespondingTxExplorerLinkByBlockchain('ETH', broadcastTxHash)
           dispatch(
@@ -100,7 +100,7 @@ const pegoutPuosOnUltra = async ({ params, dispatch }) => {
               percent: 80,
               message: `Asset swap <a href="${link}" target="_blank">transaction</a> completed, waiting for confirmation ...`,
               steps: [0, 20, 40, 60, 80, 100],
-              terminated: false
+              terminated: false,
             })
           )
           _resolve()
@@ -117,7 +117,7 @@ const pegoutPuosOnUltra = async ({ params, dispatch }) => {
         percent: 100,
         message: `<a href="${link}" target="_blank">Transaction</a> Confirmed.`,
         steps: [0, 20, 40, 60, 80, 100],
-        terminated: true
+        terminated: true,
       })
     )
 
@@ -134,7 +134,7 @@ const pegoutPuosOnUltra = async ({ params, dispatch }) => {
           text: 'Error during pegout, try again!',
           showMoreText: _err.message ? _err.message : _err,
           showMoreLabel: 'Show Details',
-          icon: 'cancel'
+          icon: 'cancel',
         })
       )
     }

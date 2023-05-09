@@ -5,26 +5,26 @@ import PropTypes from 'prop-types'
 import { selectPage } from '../../../store/pages/pages.actions'
 import { loadMigrationData } from '../../../store/migration/migration.actions'
 
-const mapStateToProps = _state => {
+const mapStateToProps = (_state) => {
   return {
-    apys: _state.migration.apys
+    apys: _state.migration.apys,
   }
 }
-const mapDispatchToProps = _dispatch => {
+const mapDispatchToProps = (_dispatch) => {
   return {
-    loadMigrationData: _options => _dispatch(loadMigrationData(_options)),
-    selectPage: (_page, _options) => _dispatch(selectPage(_page, _options))
+    loadMigrationData: (_options) => _dispatch(loadMigrationData(_options)),
+    selectPage: (_page, _options) => _dispatch(selectPage(_page, _options)),
   }
 }
 
-const MigrationHomeController = _props => {
+const MigrationHomeController = (_props) => {
   return <MigrationHome {..._props} />
 }
 
 MigrationHomeController.propTypes = {
   selectPage: PropTypes.func.isRequired,
   loadMigrationData: PropTypes.func.isRequired,
-  apys: PropTypes.object
+  apys: PropTypes.object,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MigrationHomeController)

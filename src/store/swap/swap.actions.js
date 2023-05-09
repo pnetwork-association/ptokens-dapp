@@ -10,14 +10,14 @@ import {
   UPDATE_SWAP_BUTTON,
   BPM_LOADED,
   SWAPPERS_BALANCES_LOADED,
-  PNETWORK_NODE_V3
+  PNETWORK_NODE_V3,
 } from '../../constants/index'
 import {
   loadEvmCompatibleBalances,
   loadEosioCompatibleBalances,
   loadEvmCompatibleBalance,
   loadEosioCompatibleBalance,
-  loadAlgorandBalances
+  loadAlgorandBalances,
 } from './utils/balances'
 import { parseError } from '../../utils/errors'
 import { updateInfoModal } from '../pages/pages.actions'
@@ -42,9 +42,9 @@ import BigNumber from 'bignumber.js'
 
 const loadSwapData = (_opts = {}) => {
   const {
-    defaultSelection: { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol } = {}
+    defaultSelection: { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol } = {},
   } = _opts
-  return async _dispatch => {
+  return async (_dispatch) => {
     try {
       _dispatch({
         type: ASSETS_LOADED,
@@ -58,10 +58,10 @@ const loadSwapData = (_opts = {}) => {
               to,
               algorand_from_assetid,
               algorand_to_assetid,
-              host_symbol
-            })
-          ]
-        }
+              host_symbol,
+            }),
+          ],
+        },
       })
 
       const loadSwapperAmount = async () => {
@@ -70,30 +70,30 @@ const loadSwapData = (_opts = {}) => {
         const amounts = (
           await Promise.all(
             assets
-              .filter(asset => asset.swapperAddress)
-              .map(async asset => [
+              .filter((asset) => asset.swapperAddress)
+              .map(async (asset) => [
                 {
                   swapperAddress: asset.swapperAddress,
                   assetId: asset.address,
-                  amount: await getAsaBalance(client, parseInt(asset.swapperAddress), asset.address)
+                  amount: await getAsaBalance(client, parseInt(asset.swapperAddress), asset.address),
                 },
                 {
                   swapperAddress: asset.swapperAddress,
                   assetId: asset.ptokenAddress,
-                  amount: await getAsaBalance(client, parseInt(asset.swapperAddress), asset.ptokenAddress)
-                }
+                  amount: await getAsaBalance(client, parseInt(asset.swapperAddress), asset.ptokenAddress),
+                },
               ])
           )
         ).flat()
-        amounts.forEach(_obj => {
+        amounts.forEach((_obj) => {
           if (ret[_obj.swapperAddress] === undefined) ret[_obj.swapperAddress] = {}
           ret[_obj.swapperAddress][_obj.assetId] = _obj.amount
         })
         _dispatch({
           type: SWAPPERS_BALANCES_LOADED,
           payload: {
-            swappersBalances: ret
-          }
+            swappersBalances: ret,
+          },
         })
       }
 
@@ -101,15 +101,15 @@ const loadSwapData = (_opts = {}) => {
         try {
           const resp = await axios.get(settings.api.bpm, {
             headers: {
-              'Content-Type': 'application/json'
-            }
+              'Content-Type': 'application/json',
+            },
           })
-          const bpm = Object.fromEntries(resp.data.map(_el => [_el.bridgeName, _el]))
+          const bpm = Object.fromEntries(resp.data.map((_el) => [_el.bridgeName, _el]))
           _dispatch({
             type: BPM_LOADED,
             payload: {
-              bpm
-            }
+              bpm,
+            },
           })
         } catch (err) {
           console.error('BPM API error:', err.message)
@@ -117,7 +117,7 @@ const loadSwapData = (_opts = {}) => {
       }
 
       const wallets = getWallets()
-      Object.keys(wallets).forEach(_network => {
+      Object.keys(wallets).forEach((_network) => {
         if (wallets[_network] && wallets[_network].account) {
           _dispatch(loadBalances(wallets[_network].account, _network))
         }
@@ -135,14 +135,14 @@ const loadSwapData = (_opts = {}) => {
 }
 
 const loadBalances = (_account, _blockchain) => {
-  return async _dispatch => {
+  return async (_dispatch) => {
     try {
       switch (_blockchain.toUpperCase()) {
         case 'ETH': {
           loadEvmCompatibleBalances({
             assets: getAssetsByBlockchain('ETH'),
             account: _account,
-            dispatch: _dispatch
+            dispatch: _dispatch,
           })
           break
         }
@@ -150,7 +150,7 @@ const loadBalances = (_account, _blockchain) => {
           loadEosioCompatibleBalances({
             assets: getAssetsByBlockchain('EOS'),
             account: _account,
-            dispatch: _dispatch
+            dispatch: _dispatch,
           })
           break
         }
@@ -159,7 +159,7 @@ const loadBalances = (_account, _blockchain) => {
             assets: getAssetsByBlockchain('TELOS'),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'TELOS'
+            blockchain: 'TELOS',
           })
           break
         }
@@ -168,7 +168,7 @@ const loadBalances = (_account, _blockchain) => {
             assets: getAssetsByBlockchain('LIBRE'),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'LIBRE'
+            blockchain: 'LIBRE',
           })
           break
         }
@@ -177,7 +177,7 @@ const loadBalances = (_account, _blockchain) => {
             assets: getAssetsByBlockchain('ULTRA'),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'ULTRA'
+            blockchain: 'ULTRA',
           })
           break
         }
@@ -186,7 +186,7 @@ const loadBalances = (_account, _blockchain) => {
             assets: getAssetsByBlockchain('ORE'),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'ORE'
+            blockchain: 'ORE',
           })
           break
         }
@@ -195,7 +195,7 @@ const loadBalances = (_account, _blockchain) => {
             assets: getAssetsByBlockchain('BSC'),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'BSC'
+            blockchain: 'BSC',
           })
           break
         }
@@ -204,7 +204,7 @@ const loadBalances = (_account, _blockchain) => {
             assets: getAssetsByBlockchain('XDAI'),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'XDAI'
+            blockchain: 'XDAI',
           })
           break
         }
@@ -213,7 +213,7 @@ const loadBalances = (_account, _blockchain) => {
             assets: getAssetsByBlockchain('POLYGON'),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'POLYGON'
+            blockchain: 'POLYGON',
           })
           break
         }
@@ -222,7 +222,7 @@ const loadBalances = (_account, _blockchain) => {
             assets: getAssetsByBlockchain('ARBITRUM'),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'ARBITRUM'
+            blockchain: 'ARBITRUM',
           })
           break
         }
@@ -231,7 +231,7 @@ const loadBalances = (_account, _blockchain) => {
             assets: getAssetsByBlockchain('LUXOCHAIN'),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'LUXOCHAIN'
+            blockchain: 'LUXOCHAIN',
           })
           break
         }
@@ -240,7 +240,7 @@ const loadBalances = (_account, _blockchain) => {
             assets: getAssetsByBlockchain('ALGORAND'),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'ALGORAND'
+            blockchain: 'ALGORAND',
           })
           break
         }
@@ -249,7 +249,7 @@ const loadBalances = (_account, _blockchain) => {
             assets: getAssetsByBlockchain('FTM'),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'FTM'
+            blockchain: 'FTM',
           })
           break
         }
@@ -262,8 +262,8 @@ const loadBalances = (_account, _blockchain) => {
   }
 }
 
-const loadBalanceByAssetId = _id => {
-  return async _dispatch => {
+const loadBalanceByAssetId = (_id) => {
+  return async (_dispatch) => {
     try {
       const asset = getAssetById(_id)
       const wallet = getWalletByBlockchain(asset.blockchain)
@@ -351,7 +351,7 @@ const getProvider = (_asset, _wallets) => {
   const wallet = _wallets[_asset.blockchain.toLowerCase()]
   if (utxoBlockchains.includes(_asset.blockchain.toLowerCase()))
     return new pTokensBlockstreamUtxoProvider(getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase()), {
-      'Content-Type': 'text/plain'
+      'Content-Type': 'text/plain',
     })
   else if (evmBlockchains.includes(_asset.blockchain.toLowerCase()))
     return new pTokensEvmProvider(
@@ -388,7 +388,7 @@ const createAsset = async (_node, _asset, _wallets) => {
 }
 
 const swap = (_from, _to, _amount, _address, _opts = {}) => {
-  return async _dispatch => {
+  return async (_dispatch) => {
     try {
       _dispatch(resetProgress())
       const wallets = getWallets()
@@ -417,7 +417,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
           assetIndex: _from.ptokenAddress,
           destinationChainId: _to.chainId,
           nativeAccount: _address,
-          swapInfo
+          swapInfo,
         })
         sourceAsset.setCustomTransactions(txs)
       }
@@ -454,7 +454,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
             swap,
             ptokenFrom,
             ptokenTo,
-            dispatch: _dispatch
+            dispatch: _dispatch,
           })
         }
       }
@@ -469,7 +469,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
           tokenFrom: _fromNative,
           ptokenFrom: _from,
           ptokenTo: _to,
-          dispatch: _dispatch
+          dispatch: _dispatch,
         })
       }
     } catch (_err) {
@@ -482,7 +482,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
             text: 'Error during pegin, try again!',
             showMoreText: _err.message ? _err.message : _err,
             showMoreLabel: 'Show Details',
-            icon: 'cancel'
+            icon: 'cancel',
           })
         )
       }
@@ -499,33 +499,33 @@ const showDepositAddressModal = (_asset, _depositAddress) => {
       depositAddressModal: {
         asset: _asset,
         show: true,
-        value: _depositAddress
-      }
-    }
+        value: _depositAddress,
+      },
+    },
   }
 }
 
 const hideDepositAddressModal = () => {
-  return _dispatch => {
+  return (_dispatch) => {
     _dispatch(resetProgress())
     _dispatch({
-      type: HIDE_DEPOSIT_ADDRESS_MODAL
+      type: HIDE_DEPOSIT_ADDRESS_MODAL,
     })
   }
 }
 
-const updateProgress = _progress => {
+const updateProgress = (_progress) => {
   return {
     type: PROGRESS_UPDATED,
     payload: {
-      progress: _progress
-    }
+      progress: _progress,
+    },
   }
 }
 
 const resetProgress = () => {
   return {
-    type: PROGRESS_RESET
+    type: PROGRESS_RESET,
   }
 }
 
@@ -536,9 +536,9 @@ const updateSwapButton = (_text, _disabled = false, _link = '') => {
       swapButton: {
         text: _text,
         disabled: _disabled,
-        link: _link
-      }
-    }
+        link: _link,
+      },
+    },
   }
 }
 
@@ -551,5 +551,5 @@ export {
   swap,
   updateProgress,
   resetProgress,
-  updateSwapButton
+  updateSwapButton,
 }

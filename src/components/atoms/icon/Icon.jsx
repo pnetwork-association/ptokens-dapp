@@ -37,13 +37,13 @@ Icon.propTypes = {
   icon: PropTypes.string.isRequired,
   isGreyScale: PropTypes.bool,
   fontSize: PropTypes.string,
-  color: PropTypes.string
+  color: PropTypes.string,
 }
 
 Icon.defaultProps = {
   isGreyScale: false,
   fontSize: 'sizeIconBase',
-  color: 'white'
+  color: 'white',
 }
 
 export default Icon

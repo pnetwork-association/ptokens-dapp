@@ -16,7 +16,7 @@ const blockchainSymbolToName = {
   LUXOCHAIN: 'Luxochain',
   ALGORAND: 'Algorand',
   FTM: 'Fantom',
-  ORE: 'ORE'
+  ORE: 'ORE',
 }
 
 const blockchainSymbolToCoin = {
@@ -37,12 +37,12 @@ const blockchainSymbolToCoin = {
   LUXOCHAIN: 'Luxochain',
   ALGORAND: 'Algorand',
   FTM: 'Fantom',
-  ORE: 'ORE'
+  ORE: 'ORE',
 }
 
 const getAssetFromSymbol = (_assets, _symbol) => _assets.find(({ symbol }) => symbol === _symbol)
 
-const getWorkingNameForNodeSelection = _workingName =>
+const getWorkingNameForNodeSelection = (_workingName) =>
   _workingName.toLowerCase() === 'peth' ? 'pweth' : _workingName.toLowerCase()
 
 export { blockchainSymbolToName, getAssetFromSymbol, blockchainSymbolToCoin, getWorkingNameForNodeSelection }

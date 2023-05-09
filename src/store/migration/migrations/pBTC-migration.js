@@ -20,7 +20,7 @@ const migratePBTC = async (_amount, _from, _to, { dispatch }) => {
         percent: 0,
         message: 'Waiting for user’s approval ...',
         steps: [0, 50, 100],
-        terminated: false
+        terminated: false,
       })
     )
 
@@ -34,9 +34,9 @@ const migratePBTC = async (_amount, _from, _to, { dispatch }) => {
               .toFixed()
           )
           .send({
-            from: wallet.account
+            from: wallet.account,
           })
-          .once('transactionHash', _hash => {
+          .once('transactionHash', (_hash) => {
             hash = _hash
             dispatch(
               updateProgress({
@@ -45,7 +45,7 @@ const migratePBTC = async (_amount, _from, _to, { dispatch }) => {
                 // prettier-ignore
                 message: `Asset migration <a href="${getCorrespondingTxExplorerLinkByBlockchain('ETH', _hash)}" target="_blank">transaction</a> sent, waiting for confirmation ...`,
                 steps: [0, 50, 100],
-                terminated: false
+                terminated: false,
               })
             )
           })
@@ -61,7 +61,7 @@ const migratePBTC = async (_amount, _from, _to, { dispatch }) => {
         // prettier-ignore
         message: `Migration <a href="${getCorrespondingTxExplorerLinkByBlockchain('ETH', hash)}" target="_blank">transaction</a> confirmed.`,
         steps: [0, 50, 100],
-        terminated: true
+        terminated: true,
       })
     )
 
@@ -76,7 +76,7 @@ const migratePBTC = async (_amount, _from, _to, { dispatch }) => {
           text: 'Error during migration, try again!',
           showMoreText: _err.message ? _err.message : _err,
           showMoreLabel: 'Show Details',
-          icon: 'cancel'
+          icon: 'cancel',
         })
       )
     }

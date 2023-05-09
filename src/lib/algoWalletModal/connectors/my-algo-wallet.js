@@ -14,7 +14,7 @@ class Provider extends EventEmitter {
   }
 
   signTxn(_txns) {
-    return this.myAlgoConnect.signTransaction(_txns.map(_tx => _tx.toByte()))
+    return this.myAlgoConnect.signTransaction(_txns.map((_tx) => _tx.toByte()))
   }
 
   sign(_tx) {
@@ -22,7 +22,7 @@ class Provider extends EventEmitter {
   }
 
   async getAccounts() {
-    return this.accountsSharedByUser.map(_el => _el.address)
+    return this.accountsSharedByUser.map((_el) => _el.address)
   }
 }
 

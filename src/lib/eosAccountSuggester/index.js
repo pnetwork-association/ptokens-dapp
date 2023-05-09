@@ -23,14 +23,14 @@ class EosAccountSuggester {
         table: 'userres',
         lower_bound: _currentTypedAccount,
         upper_bound: _currentTypedAccount.padEnd(12, 'z'),
-        limit: 10
+        limit: 10,
       })
 
       release()
 
       if (!res.rows) return _currentAccounts
 
-      return res.rows.map(row => row.scope)
+      return res.rows.map((row) => row.scope)
     } catch (_err) {
       release()
       return _currentAccounts

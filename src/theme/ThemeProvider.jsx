@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { ThemeProvider as StyledComponentsThemeProvider, createGlobalStyle } from 'styled-components'
 import { useSelector } from 'react-redux'
 
-export const colors = _darkMode => ({
+export const colors = (_darkMode) => ({
   white: '#FFFFFF',
   black: '#000000',
 
@@ -30,16 +30,16 @@ export const colors = _darkMode => ({
   secondary4Hovered: _darkMode ? '#6f768a' : '#c1bfbf',
 
   lightGray: '#4759654d',
-  blue: '#66b8ff'
+  blue: '#66b8ff',
 })
 
-export const theme = _darkMode => ({
+export const theme = (_darkMode) => ({
   ...colors(_darkMode),
-  type: _darkMode ? 'dark' : 'light'
+  type: _darkMode ? 'dark' : 'light',
 })
 
 export default function ThemeProvider({ children }) {
-  const currentTheme = useSelector(_state => _state.pages.theme)
+  const currentTheme = useSelector((_state) => _state.pages.theme)
   const darkMode = currentTheme === 'dark'
   const themeObject = useMemo(() => theme(darkMode), [darkMode])
   return <StyledComponentsThemeProvider theme={themeObject}>{children}</StyledComponentsThemeProvider>

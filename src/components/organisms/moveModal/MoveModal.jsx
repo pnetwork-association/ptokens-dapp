@@ -113,7 +113,7 @@ const MoveModal = ({ supportedBlockchains, show, type, onClose, onMove }) => {
   const [amount, setAmount] = useState('')
 
   const onNext = useCallback(
-    _value => {
+    (_value) => {
       setBlockchain(_value)
       setStep(1)
     },
@@ -144,7 +144,7 @@ const MoveModal = ({ supportedBlockchains, show, type, onClose, onMove }) => {
       title={step === 0 ? 'Select the blockchain ...' : 'Finalize ...'}
       body={
         step === 0 ? (
-          supportedBlockchains.map(_symbol => (
+          supportedBlockchains.map((_symbol) => (
             <ContainerRow key={_symbol} onClick={() => onNext(_symbol)}>
               <StyledRow>
                 <Col xs={2}>
@@ -159,11 +159,11 @@ const MoveModal = ({ supportedBlockchains, show, type, onClose, onMove }) => {
           ))
         ) : (
           <ContainerAddressInputAndButton>
-            <AddressInput value={address} onChange={e => setAddress(e.target.value)} placeholder="address" />
+            <AddressInput value={address} onChange={(e) => setAddress(e.target.value)} placeholder="address" />
             {type === 'ERC1155' ? (
               <AmountInput
                 value={amount}
-                onChange={e => setAmount(e.target.value)}
+                onChange={(e) => setAmount(e.target.value)}
                 placeholder="amount"
                 type="number"
               />
@@ -184,7 +184,7 @@ MoveModal.propTypes = {
   currentBlockchain: PropTypes.string,
   show: PropTypes.bool,
   onClose: PropTypes.func,
-  onMove: PropTypes.func
+  onMove: PropTypes.func,
 }
 
 export default MoveModal

@@ -18,7 +18,7 @@ const estimations = {
   luxochain: 5,
   algorand: 5,
   ftm: 5,
-  ore: 4
+  ore: 4,
 }
 
 const getPeginOrPegoutMinutesEstimationByBlockchainAndEta = (_blockchain, _eta) => {

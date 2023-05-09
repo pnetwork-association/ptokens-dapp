@@ -4,7 +4,7 @@ import { JsonRpc } from 'eosjs'
 import fetch from 'cross-fetch'
 import { Algodv2 } from 'algosdk'
 
-const getReadOnlyProviderByBlockchain = _blockchain => {
+const getReadOnlyProviderByBlockchain = (_blockchain) => {
   // TODO: only mainnet at the moment
   if (_blockchain === 'ETH') {
     return new Web3.providers.HttpProvider(settings.rpc.mainnet.eth.endpoint)

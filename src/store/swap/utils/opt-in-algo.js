@@ -11,7 +11,7 @@ export const maybeOptInAlgoAsset = async (_account, _assetIndex, updateButton = 
 
     // check if the user has already opted in this asset
     const accountInfo = await client.accountInformation(_account).do()
-    const alreadyOptedIn = accountInfo.assets.some(element => element['asset-id'] === _assetIndex)
+    const alreadyOptedIn = accountInfo.assets.some((element) => element['asset-id'] === _assetIndex)
 
     if (alreadyOptedIn) return true
     else if (!alreadyOptedIn && walletAccount === _account) {
@@ -24,7 +24,7 @@ export const maybeOptInAlgoAsset = async (_account, _assetIndex, updateButton = 
         to: _account,
         assetIndex: _assetIndex,
         amount: 0,
-        suggestedParams
+        suggestedParams,
       })
 
       const signedTxs = await provider.signTxn([optinTxn])
@@ -34,7 +34,7 @@ export const maybeOptInAlgoAsset = async (_account, _assetIndex, updateButton = 
         Buffer.from(signedTxBlob, 'base64')
           .toString('binary')
           .split('')
-          .map(x => x.charCodeAt(0))
+          .map((x) => x.charCodeAt(0))
       )
       await client.sendRawTransaction(binarySignedTx).do()
       await algosdk.waitForConfirmation(client, optinTxn.txID().toString(), 5)
@@ -58,7 +58,7 @@ export const maybeOptInAlgoApp = async (_appIndex, updateButton = undefined) => 
 
     // check if the user has already opted in this asset
     const accountInfo = await client.accountInformation(walletAccount).do()
-    const alreadyOptedIn = accountInfo['apps-local-state'].some(element => element.id === _appIndex)
+    const alreadyOptedIn = accountInfo['apps-local-state'].some((element) => element.id === _appIndex)
 
     if (alreadyOptedIn) return true
     else if (!alreadyOptedIn) {
@@ -69,7 +69,7 @@ export const maybeOptInAlgoApp = async (_appIndex, updateButton = undefined) => 
       const optinTxn = algosdk.makeApplicationOptInTxnFromObject({
         from: walletAccount,
         appIndex: _appIndex,
-        suggestedParams
+        suggestedParams,
       })
 
       const signedTxs = await provider.signTxn([optinTxn])
@@ -79,7 +79,7 @@ export const maybeOptInAlgoApp = async (_appIndex, updateButton = undefined) => 
         Buffer.from(signedTxBlob, 'base64')
           .toString('binary')
           .split('')
-          .map(x => x.charCodeAt(0))
+          .map((x) => x.charCodeAt(0))
       )
       await client.sendRawTransaction(binarySignedTx).do()
       await algosdk.waitForConfirmation(client, optinTxn.txID().toString(), 5)

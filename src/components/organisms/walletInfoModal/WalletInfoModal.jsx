@@ -107,7 +107,7 @@ WalletInfoModal.propTypes = {
   onClose: PropTypes.func,
   onChange: PropTypes.func,
   onDisconnect: PropTypes.func,
-  onConnect: PropTypes.func
+  onConnect: PropTypes.func,
 }
 
 export default WalletInfoModal

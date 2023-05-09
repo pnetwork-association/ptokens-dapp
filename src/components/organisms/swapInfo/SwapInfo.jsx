@@ -53,7 +53,7 @@ const SwapInfo = ({ from, to, bpm, swappersBalances, curvePoolName, curveImpact 
     from,
     to,
     bpm,
-    swappersBalances
+    swappersBalances,
   })
 
   return (
@@ -104,7 +104,7 @@ SwapInfo.propTypes = {
   bpm: PropTypes.object,
   swappersBalances: PropTypes.object,
   from: PropTypes.object,
-  to: PropTypes.object
+  to: PropTypes.object,
 }
 
 export default SwapInfo

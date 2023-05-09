@@ -32,7 +32,7 @@ import {
   WALLET_FTM_ACCOUNT_CHANGED,
   WALLET_FTM_DISCONNECTED,
   WALLET_ORE_CONNECTED,
-  WALLET_ORE_DISCONNECTED
+  WALLET_ORE_DISCONNECTED,
 } from '../../constants/index'
 
 const initialState = {
@@ -40,79 +40,79 @@ const initialState = {
     provider: null,
     account: null,
     chainId: null,
-    network: null
+    network: null,
   },
   eth: {
     provider: null,
     account: null,
     chainId: null,
-    network: null
+    network: null,
   },
   algorand: {
     provider: null,
     account: null,
-    network: null
+    network: null,
   },
   eos: {
     provider: null,
     account: null,
     network: null,
-    permission: null
+    permission: null,
   },
   telos: {
     provider: null,
     account: null,
     network: null,
-    permission: null
+    permission: null,
   },
   libre: {
     provider: null,
     account: null,
     network: null,
-    permission: null
+    permission: null,
   },
   bsc: {
     provider: null,
     account: null,
     chainId: null,
-    network: null
+    network: null,
   },
   xdai: {
     provider: null,
     account: null,
     chainId: null,
-    network: null
+    network: null,
   },
   polygon: {
     provider: null,
     account: null,
     chainId: null,
-    network: null
+    network: null,
   },
   ultra: {
     provider: null,
     account: null,
     network: null,
-    permission: null
+    permission: null,
   },
   luxochain: {
     provider: null,
     account: null,
     chainId: null,
-    network: null
+    network: null,
   },
   ftm: {
     provider: null,
     account: null,
     chainId: null,
-    network: null
+    network: null,
   },
   ore: {
     provider: null,
     account: null,
     network: null,
-    permission: null
-  }
+    permission: null,
+  },
 }
 
 const walletsReducer = (_state = initialState, _action) => {
@@ -123,8 +123,8 @@ const walletsReducer = (_state = initialState, _action) => {
         provider,
         account,
         network,
-        chainId
-      }
+        chainId,
+      },
     })
   }
   if (_action.type === WALLET_ETH_ACCOUNT_CHANGED) {
@@ -132,8 +132,8 @@ const walletsReducer = (_state = initialState, _action) => {
     return Object.assign({}, _state, {
       eth: {
         ..._state.eth,
-        account
-      }
+        account,
+      },
     })
   }
   if (_action.type === WALLET_EOS_CONNECTED) {
@@ -143,8 +143,8 @@ const walletsReducer = (_state = initialState, _action) => {
         provider,
         account,
         network,
-        permission
-      }
+        permission,
+      },
     })
   }
   if (_action.type === WALLET_BSC_CONNECTED) {
@@ -154,8 +154,8 @@ const walletsReducer = (_state = initialState, _action) => {
         provider,
         account,
         network,
-        chainId
-      }
+        chainId,
+      },
     })
   }
   if (_action.type === WALLET_BSC_ACCOUNT_CHANGED) {
@@ -163,8 +163,8 @@ const walletsReducer = (_state = initialState, _action) => {
     return Object.assign({}, _state, {
       bsc: {
         ..._state.bsc,
-        account
-      }
+        account,
+      },
     })
   }
   if (_action.type === WALLET_XDAI_CONNECTED) {
@@ -174,8 +174,8 @@ const walletsReducer = (_state = initialState, _action) => {
         provider,
         account,
         network,
-        chainId
-      }
+        chainId,
+      },
     })
   }
   if (_action.type === WALLET_XDAI_ACCOUNT_CHANGED) {
@@ -183,8 +183,8 @@ const walletsReducer = (_state = initialState, _action) => {
     return Object.assign({}, _state, {
       xdai: {
         ..._state.xdai,
-        account
-      }
+        account,
+      },
     })
   }
   if (_action.type === WALLET_POLYGON_CONNECTED) {
@@ -194,8 +194,8 @@ const walletsReducer = (_state = initialState, _action) => {
         provider,
         account,
         network,
-        chainId
-      }
+        chainId,
+      },
     })
   }
   if (_action.type === WALLET_POLYGON_ACCOUNT_CHANGED) {
@@ -203,8 +203,8 @@ const walletsReducer = (_state = initialState, _action) => {
     return Object.assign({}, _state, {
       polygon: {
         ..._state.polygon,
-        account
-      }
+        account,
+      },
     })
   }
   if (_action.type === WALLET_TELOS_CONNECTED) {
@@ -214,8 +214,8 @@ const walletsReducer = (_state = initialState, _action) => {
         provider,
         account,
         network,
-        permission
-      }
+        permission,
+      },
     })
   }
   if (_action.type === WALLET_LIBRE_CONNECTED) {
@@ -225,8 +225,8 @@ const walletsReducer = (_state = initialState, _action) => {
         provider,
         account,
         network,
-        permission
-      }
+        permission,
+      },
     })
   }
   if (_action.type === WALLET_ORE_CONNECTED) {
@@ -236,8 +236,8 @@ const walletsReducer = (_state = initialState, _action) => {
         provider,
         account,
         network,
-        permission
-      }
+        permission,
+      },
     })
   }
   if (_action.type === WALLET_ULTRA_CONNECTED) {
@@ -247,8 +247,8 @@ const walletsReducer = (_state = initialState, _action) => {
         provider,
         account,
         network,
-        permission
-      }
+        permission,
+      },
     })
   }
   if (_action.type === WALLET_ETH_DISCONNECTED) {
@@ -256,8 +256,8 @@ const walletsReducer = (_state = initialState, _action) => {
       eth: {
         provider: null,
         account: null,
-        network: null
-      }
+        network: null,
+      },
     })
   }
   if (_action.type === WALLET_BSC_DISCONNECTED) {
@@ -265,8 +265,8 @@ const walletsReducer = (_state = initialState, _action) => {
       bsc: {
         provider: null,
         account: null,
-        network: null
-      }
+        network: null,
+      },
     })
   }
   if (_action.type === WALLET_POLYGON_DISCONNECTED) {
@@ -274,8 +274,8 @@ const walletsReducer = (_state = initialState, _action) => {
       polygon: {
         provider: null,
         account: null,
-        network: null
-      }
+        network: null,
+      },
     })
   }
   if (_action.type === WALLET_XDAI_DISCONNECTED) {
@@ -283,8 +283,8 @@ const walletsReducer = (_state = initialState, _action) => {
       xdai: {
         provider: null,
         account: null,
-        network: null
-      }
+        network: null,
+      },
     })
   }
   if (_action.type === WALLET_EOS_DISCONNECTED) {
@@ -293,8 +293,8 @@ const walletsReducer = (_state = initialState, _action) => {
         provider: null,
         account: null,
         network: null,
-        permission: null
-      }
+        permission: null,
+      },
     })
   }
   if (_action.type === WALLET_ORE_DISCONNECTED) {
@@ -303,8 +303,8 @@ const walletsReducer = (_state = initialState, _action) => {
         provider: null,
         account: null,
         network: null,
-        permission: null
-      }
+        permission: null,
+      },
     })
   }
   if (_action.type === WALLET_TELOS_DISCONNECTED) {
@@ -313,8 +313,8 @@ const walletsReducer = (_state = initialState, _action) => {
         provider: null,
         account: null,
         network: null,
-        permission: null
-      }
+        permission: null,
+      },
     })
   }
   if (_action.type === WALLET_LIBRE_DISCONNECTED) {
@@ -323,8 +323,8 @@ const walletsReducer = (_state = initialState, _action) => {
         provider: null,
         account: null,
         network: null,
-        permission: null
-      }
+        permission: null,
+      },
     })
   }
   if (_action.type === WALLET_ULTRA_DISCONNECTED) {
@@ -333,8 +333,8 @@ const walletsReducer = (_state = initialState, _action) => {
         provider: null,
         account: null,
         network: null,
-        permission: null
-      }
+        permission: null,
+      },
     })
   }
   if (_action.type === WALLET_ARBITRUM_CONNECTED) {
@@ -344,8 +344,8 @@ const walletsReducer = (_state = initialState, _action) => {
         provider,
         account,
         network,
-        chainId
-      }
+        chainId,
+      },
     })
   }
   if (_action.type === WALLET_ARBITRUM_ACCOUNT_CHANGED) {
@@ -353,8 +353,8 @@ const walletsReducer = (_state = initialState, _action) => {
     return Object.assign({}, _state, {
       arbitrum: {
         ..._state.arbitrum,
-        account
-      }
+        account,
+      },
     })
   }
   if (_action.type === WALLET_ARBITRUM_DISCONNECTED) {
@@ -362,8 +362,8 @@ const walletsReducer = (_state = initialState, _action) => {
       arbitrum: {
         provider: null,
         account: null,
-        network: null
-      }
+        network: null,
+      },
     })
   }
   if (_action.type === WALLET_LUXOCHAIN_CONNECTED) {
@@ -373,8 +373,8 @@ const walletsReducer = (_state = initialState, _action) => {
         provider,
         account,
         network,
-        chainId
-      }
+        chainId,
+      },
     })
   }
   if (_action.type === WALLET_LUXOCHAIN_ACCOUNT_CHANGED) {
@@ -382,8 +382,8 @@ const walletsReducer = (_state = initialState, _action) => {
     return Object.assign({}, _state, {
       luxochain: {
         ..._state.luxochain,
-        account
-      }
+        account,
+      },
     })
   }
   if (_action.type === WALLET_LUXOCHAIN_DISCONNECTED) {
@@ -391,8 +391,8 @@ const walletsReducer = (_state = initialState, _action) => {
       luxochain: {
         provider: null,
         account: null,
-        network: null
-      }
+        network: null,
+      },
     })
   }
   if (_action.type === WALLET_ALGORAND_DISCONNECTED) {
@@ -400,8 +400,8 @@ const walletsReducer = (_state = initialState, _action) => {
       algorand: {
         provider: null,
         account: null,
-        network: null
-      }
+        network: null,
+      },
     })
   }
   if (_action.type === WALLET_ALGORAND_CONNECTED) {
@@ -410,8 +410,8 @@ const walletsReducer = (_state = initialState, _action) => {
       algorand: {
         provider,
         account,
-        network
-      }
+        network,
+      },
     })
   }
   if (_action.type === WALLET_ALGORAND_ACCOUNT_CHANGED) {
@@ -419,8 +419,8 @@ const walletsReducer = (_state = initialState, _action) => {
     return Object.assign({}, _state, {
       algorand: {
         ..._state.algorand,
-        account
-      }
+        account,
+      },
     })
   }
   if (_action.type === WALLET_ALGORAND_DISCONNECTED) {
@@ -428,8 +428,8 @@ const walletsReducer = (_state = initialState, _action) => {
       algorand: {
         provider: null,
         account: null,
-        network: null
-      }
+        network: null,
+      },
     })
   }
   if (_action.type === WALLET_FTM_CONNECTED) {
@@ -439,8 +439,8 @@ const walletsReducer = (_state = initialState, _action) => {
         provider,
         account,
         network,
-        chainId
-      }
+        chainId,
+      },
     })
   }
   if (_action.type === WALLET_FTM_ACCOUNT_CHANGED) {
@@ -448,8 +448,8 @@ const walletsReducer = (_state = initialState, _action) => {
     return Object.assign({}, _state, {
       ftm: {
         ..._state.eth,
-        account
-      }
+        account,
+      },
     })
   }
   if (_action.type === WALLET_FTM_DISCONNECTED) {
@@ -457,8 +457,8 @@ const walletsReducer = (_state = initialState, _action) => {
       ftm: {
         provider: null,
         account: null,
-        network: null
-      }
+        network: null,
+      },
     })
   }
   return _state

@@ -10,15 +10,15 @@ const loadEvmCompatibleBalances = async ({
   account,
   blockchain = 'ETH',
   dispatch,
-  actionType = SWAP_BALANCE_LOADED
-}) => Promise.all(assets.map(asset => loadEvmCompatibleBalance({ asset, account, blockchain, dispatch, actionType })))
+  actionType = SWAP_BALANCE_LOADED,
+}) => Promise.all(assets.map((asset) => loadEvmCompatibleBalance({ asset, account, blockchain, dispatch, actionType })))
 
 const loadEvmCompatibleBalance = async ({
   asset,
   account,
   dispatch,
   blockchain = 'ETH',
-  actionType = SWAP_BALANCE_LOADED
+  actionType = SWAP_BALANCE_LOADED,
 }) => {
   try {
     const web3 = new Web3(getReadOnlyProviderByBlockchain(blockchain))
@@ -28,8 +28,8 @@ const loadEvmCompatibleBalance = async ({
         type: actionType,
         payload: {
           id: asset.id,
-          balance: BigNumber(balance).toFixed()
-        }
+          balance: BigNumber(balance).toFixed(),
+        },
       })
     } else {
       const token = new web3.eth.Contract(ERC20, stringUtils.addHexPrefix(asset.address))
@@ -38,8 +38,8 @@ const loadEvmCompatibleBalance = async ({
         type: actionType,
         payload: {
           id: asset.id,
-          balance: BigNumber(balance).toFixed()
-        }
+          balance: BigNumber(balance).toFixed(),
+        },
       })
     }
     return
@@ -53,15 +53,16 @@ const loadEosioCompatibleBalances = async ({
   account,
   blockchain = 'EOS',
   dispatch,
-  actionType = SWAP_BALANCE_LOADED
-}) => Promise.all(assets.map(asset => loadEosioCompatibleBalance({ asset, account, blockchain, dispatch, actionType })))
+  actionType = SWAP_BALANCE_LOADED,
+}) =>
+  Promise.all(assets.map((asset) => loadEosioCompatibleBalance({ asset, account, blockchain, dispatch, actionType })))
 
 const loadEosioCompatibleBalance = async ({
   asset,
   account,
   dispatch,
   blockchain = 'EOS',
-  actionType = SWAP_BALANCE_LOADED
+  actionType = SWAP_BALANCE_LOADED,
 }) => {
   try {
     const provider = getReadOnlyProviderByBlockchain(blockchain)
@@ -74,8 +75,8 @@ const loadEosioCompatibleBalance = async ({
       type: actionType,
       payload: {
         id: asset.id,
-        balance: BigNumber(balance[0] ? balance[0].split(' ')[0] : '0').toFixed()
-      }
+        balance: BigNumber(balance[0] ? balance[0].split(' ')[0] : '0').toFixed(),
+      },
     })
   } catch (_err) {
     console.error(`Error during getting ${asset.name} on ${blockchain} balance`, _err)
@@ -87,32 +88,32 @@ const loadAlgorandBalances = async ({
   account,
   dispatch,
   blockchain = 'ALGORAND',
-  actionType = SWAP_BALANCE_LOADED
+  actionType = SWAP_BALANCE_LOADED,
 }) => {
   try {
     const algodclient = getReadOnlyProviderByBlockchain(blockchain)
     const accountInfo = await algodclient.accountInformation(account).do()
 
-    assets.forEach(_asset => {
+    assets.forEach((_asset) => {
       if (_asset.id === blockchain) {
         dispatch({
           type: actionType,
           payload: {
             id: _asset.id,
-            balance: BigNumber(accountInfo.amount).toFixed()
-          }
+            balance: BigNumber(accountInfo.amount).toFixed(),
+          },
         })
         return
       }
 
-      const exist = Boolean(accountInfo.assets.find(_a => _a['asset-id'] === parseInt(_asset.address, 10)))
+      const exist = Boolean(accountInfo.assets.find((_a) => _a['asset-id'] === parseInt(_asset.address, 10)))
       if (!exist) {
         dispatch({
           type: SWAP_BALANCE_LOADED,
           payload: {
             id: _asset.id,
-            balance: '0'
-          }
+            balance: '0',
+          },
         })
       }
 
@@ -123,8 +124,8 @@ const loadAlgorandBalances = async ({
             type: SWAP_BALANCE_LOADED,
             payload: {
               id: _asset.id,
-              balance: BigNumber(scrutinizedAsset.amount).toFixed()
-            }
+              balance: BigNumber(scrutinizedAsset.amount).toFixed(),
+            },
           })
         }
       }
@@ -139,5 +140,5 @@ export {
   loadEvmCompatibleBalance,
   loadEosioCompatibleBalances,
   loadEosioCompatibleBalance,
-  loadAlgorandBalances
+  loadAlgorandBalances,
 }

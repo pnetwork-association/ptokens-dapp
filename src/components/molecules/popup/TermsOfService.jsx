@@ -94,7 +94,7 @@ const TermsOfService = ({ show, onClose, onHide }) => {
 }
 
 TermsOfService.propTypes = {
-  content: PropTypes.node
+  content: PropTypes.node,
 }
 
 export default TermsOfService

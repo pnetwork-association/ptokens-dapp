@@ -157,13 +157,13 @@ const ContainerOptions = styled.div`
   }
 `
 
-const Header = _props => {
+const Header = (_props) => {
   const { selectedPage, theme, connectWithWallet, disconnectFromWallet, selectPage, setTheme, loadSwapData } = _props
   const [showWalletInfo, setShowWalletInfo] = useState(false)
   const { isConnected, wallets } = useWallets(_props.wallets)
 
   const onConnectWallet = useCallback(
-    _blockchain => {
+    (_blockchain) => {
       setShowWalletInfo(false)
       connectWithWallet(_blockchain)
     },
@@ -171,7 +171,7 @@ const Header = _props => {
   )
 
   const onChangeWallet = useCallback(
-    _blockchain => {
+    (_blockchain) => {
       setShowWalletInfo(false)
       connectWithWallet(_blockchain)
     },
@@ -179,7 +179,7 @@ const Header = _props => {
   )
 
   const onDisconnectWallet = useCallback(
-    _blockchain => {
+    (_blockchain) => {
       setShowWalletInfo(false)
       disconnectFromWallet(_blockchain)
     },
@@ -190,7 +190,7 @@ const Header = _props => {
     loadSwapData({
       asset: 'pbtc',
       from: 'btc',
-      to: 'eth'
+      to: 'eth',
     })
     selectPage('swap')
   }, [loadSwapData, selectPage])
@@ -308,7 +308,7 @@ Header.propTypes = {
   disconnectFromWallet: PropTypes.func.isRequired,
   selectPage: PropTypes.func.isRequired,
   setTheme: PropTypes.func.isRequired,
-  theme: PropTypes.string.isRequired
+  theme: PropTypes.string.isRequired,
 }
 
 export default Header

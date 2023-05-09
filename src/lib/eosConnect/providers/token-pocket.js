@@ -13,7 +13,7 @@ export default class TokenPocketProvider {
     } catch (_err) {
       return {
         success: false,
-        message: _err.message ? _err.message : _err
+        message: _err.message ? _err.message : _err,
       }
     }
   }
@@ -23,7 +23,7 @@ export default class TokenPocketProvider {
       if (!this.provider.login) {
         return {
           success: false,
-          message: 'Tocken Pocket Not Opened'
+          message: 'Tocken Pocket Not Opened',
         }
       }
 
@@ -33,21 +33,21 @@ export default class TokenPocketProvider {
         return {
           account: {
             actor: account.accountName,
-            permission: account.permission
+            permission: account.permission,
           },
           success: true,
-          provider: this.provider.signatureProvider
+          provider: this.provider.signatureProvider,
         }
       } else {
         return {
           success: false,
-          message: 'Error while detecting your Token Pocket account'
+          message: 'Error while detecting your Token Pocket account',
         }
       }
     } catch (_err) {
       return {
         success: false,
-        message: _err.message ? _err.message : _err
+        message: _err.message ? _err.message : _err,
       }
     }
   }

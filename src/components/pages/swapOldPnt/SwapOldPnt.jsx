@@ -13,7 +13,7 @@ import {
   SwapLabel,
   ContainerSwapButton,
   ArrowContainer,
-  SortIcon
+  SortIcon,
 } from '../swap/Swap'
 import Button from '../../atoms/button/Button'
 
@@ -43,32 +43,21 @@ const SwapOldPnt = ({
   updateSwapButton,
   hideDepositAddressModal,
   swap,
-  hideInfoModal
+  hideInfoModal,
 }) => {
   const [assets] = useAssets(_assets)
 
-  const {
-    from,
-    to,
-    address,
-    setAddress,
-    fromAmount,
-    toAmount,
-    fromWallet,
-    toWallet,
-    onChangeAmount,
-    onMax,
-    onSwap
-  } = useSwap({
-    progress,
-    wallets,
-    assets,
-    connectWithWallet,
-    swap,
-    swapButton,
-    updateSwapButton,
-    hideDepositAddressModal
-  })
+  const { from, to, address, setAddress, fromAmount, toAmount, fromWallet, toWallet, onChangeAmount, onMax, onSwap } =
+    useSwap({
+      progress,
+      wallets,
+      assets,
+      connectWithWallet,
+      swap,
+      swapButton,
+      updateSwapButton,
+      hideDepositAddressModal,
+    })
 
   return (
     <React.Fragment>
@@ -137,7 +126,7 @@ SwapOldPnt.propTypes = {
   swap: PropTypes.func,
   resetProgress: PropTypes.func,
   hideInfoModal: PropTypes.func,
-  updateSwapButton: PropTypes.func
+  updateSwapButton: PropTypes.func,
 }
 
 export default SwapOldPnt

@@ -7,7 +7,7 @@ import { hideDepositAddressModal, swap, resetProgress, updateSwapButton } from '
 import { updateInfoModal } from '../../../store/pages/pages.actions'
 import { selectPage } from '../../../store/pages/pages.actions'
 
-const mapStateToProps = _state => {
+const mapStateToProps = (_state) => {
   return {
     assets: _state.swap.assets,
     migrationAssets: _state.migration.assets,
@@ -17,23 +17,23 @@ const mapStateToProps = _state => {
     depositAddressModal: _state.swap.depositAddressModal,
     progress: _state.swap.progress,
     swapButton: _state.swap.swapButton,
-    infoModal: _state.pages.infoModal
+    infoModal: _state.pages.infoModal,
   }
 }
 
-const mapDispatchToProps = _dispatch => {
+const mapDispatchToProps = (_dispatch) => {
   return {
-    connectWithWallet: _blockchain => _dispatch(connectWithWallet(_blockchain)),
+    connectWithWallet: (_blockchain) => _dispatch(connectWithWallet(_blockchain)),
     hideDepositAddressModal: () => _dispatch(hideDepositAddressModal()),
     swap: (_from, _to, _amount, _address, _options) => _dispatch(swap(_from, _to, _amount, _address, _options)),
     resetProgress: () => _dispatch(resetProgress()),
     updateSwapButton: (_text, _disabled, _link) => _dispatch(updateSwapButton(_text, _disabled, _link)),
     hideInfoModal: () => _dispatch(updateInfoModal({ show: false, message: null })),
-    selectPage: _page => _dispatch(selectPage(_page))
+    selectPage: (_page) => _dispatch(selectPage(_page)),
   }
 }
 
-const SwapController = _props => <Swap {..._props} />
+const SwapController = (_props) => <Swap {..._props} />
 
 SwapController.propTypes = {
   assets: PropTypes.array.isRequired,
@@ -51,7 +51,7 @@ SwapController.propTypes = {
   resetProgress: PropTypes.func,
   hideInfoModal: PropTypes.func,
   updateSwapButton: PropTypes.func,
-  selectPage: PropTypes.func
+  selectPage: PropTypes.func,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SwapController)

@@ -10,7 +10,7 @@ const parseAmount = (_decimals, _amount) => {
   return num.dividedBy(den)
 }
 
-const strip = _number =>
+const strip = (_number) =>
   BigNumber(_number)
     .toFixed()
     .match(/^-?\d*\.?0*\d{0,4}/)[0]
@@ -22,7 +22,7 @@ const formattedFixedStrip = (_number, _decimals = 3) =>
         .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     : '0'
 
-const numberWithCommas = _stringNumber => {
+const numberWithCommas = (_stringNumber) => {
   const decimalChar = '.'
   let stringNumber
 
@@ -110,7 +110,7 @@ const getThousandSeparator = () => getSeparator().thousandSeparator
 
 const getDecimalSeparator = () => getSeparator().decimalSeparator
 
-const formatDecimalSeparator = num => num.toString().replace('.', getDecimalSeparator())
+const formatDecimalSeparator = (num) => num.toString().replace('.', getDecimalSeparator())
 
 export {
   onChainFormat,
@@ -121,5 +121,5 @@ export {
   numberWithCommas,
   getThousandSeparator,
   getDecimalSeparator,
-  formatDecimalSeparator
+  formatDecimalSeparator,
 }

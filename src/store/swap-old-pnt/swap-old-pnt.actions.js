@@ -16,25 +16,25 @@ const loadSwapOldPntData = () => ({
   payload: {
     assets: [
       { defaultFrom: true, ...settings.swapOldPntOnBsc.asset },
-      { defaultTo: true, ...assets.find(({ id }) => id === PNT_ON_BSC_MAINNET) }
-    ]
-  }
+      { defaultTo: true, ...assets.find(({ id }) => id === PNT_ON_BSC_MAINNET) },
+    ],
+  },
 })
 
-const loadOldPntBalance = _account => {
-  return _dispatch => {
+const loadOldPntBalance = (_account) => {
+  return (_dispatch) => {
     // NOTE: used by swap old pnt
     loadEvmCompatibleBalance({
       asset: settings.swapOldPntOnBsc.asset,
       account: _account,
       dispatch: _dispatch,
-      blockchain: 'BSC'
+      blockchain: 'BSC',
     })
   }
 }
 
 const swap = (_amount, _address) => {
-  return async _dispatch => {
+  return async (_dispatch) => {
     try {
       let withApprove = false
       let link
@@ -51,7 +51,7 @@ const swap = (_amount, _address) => {
           percent: 0,
           message: `Swap starts ...`,
           steps: [0, 25, 50, 75, 100],
-          terminated: false
+          terminated: false,
         })
       )
 
@@ -72,16 +72,16 @@ const swap = (_amount, _address) => {
             percent: 25,
             message: `Approving ...`,
             steps: [0, 25, 50, 75, 100],
-            terminated: false
+            terminated: false,
           })
         )
 
         const _approve = () =>
-          new Promise(_resolve =>
+          new Promise((_resolve) =>
             oldPntContract.methods
               .approve(settings.swapOldPntOnBsc.swapContractAddress, amount)
               .send({ from: account })
-              .once('transactionHash', _hash => {
+              .once('transactionHash', (_hash) => {
                 link = getCorrespondingTxExplorerLinkByBlockchain('BSC', _hash)
                 _dispatch(
                   updateProgress({
@@ -89,7 +89,7 @@ const swap = (_amount, _address) => {
                     percent: 50,
                     message: `<a href="${link}" target="_blank">Transaction</a> broadcasted! Waiting for confirmation ...`,
                     steps: [0, 25, 50, 75, 100],
-                    terminated: false
+                    terminated: false,
                   })
                 )
               })
@@ -109,16 +109,16 @@ const swap = (_amount, _address) => {
           percent: 50,
           message: `Amount ${!withApprove ? 'already' : ''} approved, swapping ...`,
           steps: [0, 25, 50, 75, 100],
-          terminated: false
+          terminated: false,
         })
       )
 
       const _swap = () =>
-        new Promise(_resolve =>
+        new Promise((_resolve) =>
           swapContract.methods
             .swap(amount, _address)
             .send({ from: account, gas: 120000 })
-            .once('transactionHash', _hash => {
+            .once('transactionHash', (_hash) => {
               link = getCorrespondingTxExplorerLinkByBlockchain('BSC', _hash)
               _dispatch(
                 updateProgress({
@@ -126,7 +126,7 @@ const swap = (_amount, _address) => {
                   percent: 75,
                   message: `<a href="${link}" target="_blank">Transaction</a> broadcasted! Waiting for confirmation ...`,
                   steps: [0, 25, 50, 75, 100],
-                  terminated: false
+                  terminated: false,
                 })
               )
             })
@@ -148,7 +148,7 @@ const swap = (_amount, _address) => {
           percent: 100,
           message: `<a href="${link}" target="_blank">Swap</a> completed.`,
           steps: [0, 25, 50, 75, 100],
-          terminated: true
+          terminated: true,
         })
       )
     } catch (_err) {

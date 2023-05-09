@@ -29,7 +29,7 @@ export async function getAsaBalance(_client, _account, _assetIndex) {
   if (parseInt(_account)) _account = algosdk.getApplicationAddress(_account)
   if (!algosdk.isValidAddress(_account)) return 0
   const accountInfo = await _client.accountInformation(_account).do()
-  const balance = accountInfo.assets.find(obj => obj['asset-id'] === parseInt(_assetIndex))
+  const balance = accountInfo.assets.find((obj) => obj['asset-id'] === parseInt(_assetIndex))
   return balance ? balance['amount'] : 0
 }
 
@@ -54,7 +54,7 @@ export const buildPoolSwapTransactions = async ({
   assetIndex,
   destinationChainId,
   nativeAccount,
-  swapInfo
+  swapInfo,
 }) => {
   const client = getReadOnlyProviderByBlockchain('ALGORAND')
   const suggestedParams = await client.getTransactionParams().do()
@@ -65,7 +65,7 @@ export const buildPoolSwapTransactions = async ({
     assetIndex: parseInt(swapInfo.inputAssetId),
     amount: parseInt(amount, 10),
     suggestedParams,
-    note: encode([0, encodedDestinationChainId, nativeAccount, []])
+    note: encode([0, encodedDestinationChainId, nativeAccount, []]),
   })
 
   const appCallTx = algosdk.makeApplicationCallTxnFromObject({
@@ -75,10 +75,10 @@ export const buildPoolSwapTransactions = async ({
     appArgs: [
       encodeStringForArgs('swap'),
       algosdk.encodeUint64(parseInt(assetIndex, 10)),
-      algosdk.decodeAddress(to).publicKey
+      algosdk.decodeAddress(to).publicKey,
     ],
     foreignAssets: [parseInt(assetIndex), parseInt(swapInfo.inputAssetId)],
-    accounts: [to]
+    accounts: [to],
   })
-  return [asaTransferTx, appCallTx].map(_tx => _tx.get_obj_for_encoding())
+  return [asaTransferTx, appCallTx].map((_tx) => _tx.get_obj_for_encoding())
 }

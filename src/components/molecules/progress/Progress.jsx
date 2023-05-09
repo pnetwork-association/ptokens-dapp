@@ -47,7 +47,7 @@ const Progress = ({ percent, message, steps }) => {
 Progress.propTypes = {
   percent: PropTypes.number,
   message: PropTypes.string,
-  steps: PropTypes.array
+  steps: PropTypes.array,
 }
 
 export default Progress

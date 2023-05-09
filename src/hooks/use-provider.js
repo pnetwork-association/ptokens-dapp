@@ -1,16 +1,16 @@
 import { useMemo } from 'react'
 
-const useProvider = _provider => {
+const useProvider = (_provider) => {
   return useMemo(() => {
     if (!_provider) {
       return {
         isMetaMask: false,
-        chainId: null
+        chainId: null,
       }
     }
     return {
       isMetaMask: _provider.isMetaMask,
-      chainId: _provider.chainId
+      chainId: _provider.chainId,
     }
   }, [_provider])
 }

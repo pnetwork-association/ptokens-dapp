@@ -6,9 +6,9 @@ import { blockchainSymbolToName, blockchainSymbolToCoin } from '../utils/maps'
 import { getCorrespondingBaseTokenExplorerLinkByBlockchain } from '../utils/explorer'
 import { stringUtils } from 'ptokens-helpers'
 
-const useAssets = _assets => {
+const useAssets = (_assets) => {
   return useMemo(() => {
-    const modifiedAssets = _assets.filter(({ isHidden }) => !isHidden).map(_asset => updateAsset(_asset))
+    const modifiedAssets = _assets.filter(({ isHidden }) => !isHidden).map((_asset) => updateAsset(_asset))
 
     const assetsWithBalance = modifiedAssets
       .filter(({ formattedBalance }) => formattedBalance !== '-')
@@ -19,25 +19,25 @@ const useAssets = _assets => {
   }, [_assets])
 }
 
-const useAssetsWithouDefault = _assets => {
+const useAssetsWithouDefault = (_assets) => {
   return useMemo(() => {
     return [_assets.filter(({ defaultFrom, defaultTo }) => !defaultFrom && !defaultTo)]
   }, [_assets])
 }
 
-const usePtoken = _asset => {
+const usePtoken = (_asset) => {
   return useMemo(() => {
     return [_asset && !_asset.isNative ? true : false]
   }, [_asset])
 }
 
-const useAssetsGroupedByGivenStrategy = _assets => {
+const useAssetsGroupedByGivenStrategy = (_assets) => {
   return useMemo(() => {
     const assetsGroupedByKey = _.groupBy(
       Object.values(_assets)
-        .map(_asset => ({
+        .map((_asset) => ({
           ..._asset,
-          formattedName: _asset.formattedName === _asset.nativeSymbol ? 'NATIVE' : _asset.formattedName
+          formattedName: _asset.formattedName === _asset.nativeSymbol ? 'NATIVE' : _asset.formattedName,
         }))
         .sort((_a, _b) => (_a.nativeSymbol > _b.nativeSymbol ? 1 : -1)),
       'nativeSymbol'
@@ -46,7 +46,7 @@ const useAssetsGroupedByGivenStrategy = _assets => {
   }, [_assets])
 }
 
-const useSearchAssets = _assets => {
+const useSearchAssets = (_assets) => {
   const [searchWord, setSearchWord] = useState('')
 
   const [assets] = useMemo(() => {
@@ -59,14 +59,14 @@ const useSearchAssets = _assets => {
           nativeBlockchain.toLowerCase().includes(searchWord.toLowerCase()) ||
           `${name} on ${blockchain}`.toLowerCase().includes(searchWord.toLowerCase()) ||
           (address && address.toLowerCase() === searchWord.toLowerCase())
-      )
+      ),
     ]
   }, [_assets, searchWord])
 
   return [assets, setSearchWord]
 }
 
-const updateAsset = _asset => ({
+const updateAsset = (_asset) => ({
   ..._asset,
   address:
     _asset.address &&
@@ -99,7 +99,7 @@ const updateAsset = _asset => ({
     ? `on ${blockchainSymbolToName[_asset.blockchain].toUpperCase()}${_asset.isPseudoNative ? ' (NATIVE)' : ''}`
     : _asset.symbol,
   image: `./assets/svg/${_asset.image}`,
-  miniImage: `./assets/svg/${_asset.miniImage || _asset.blockchain}.svg`
+  miniImage: `./assets/svg/${_asset.miniImage || _asset.blockchain}.svg`,
 })
 
 export { useAssets, useAssetsWithouDefault, usePtoken, useAssetsGroupedByGivenStrategy, useSearchAssets }

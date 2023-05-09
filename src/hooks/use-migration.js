@@ -11,7 +11,7 @@ const useMigration = ({
   migrate,
   progress,
   migrateButton,
-  updateMigrateButton
+  updateMigrateButton,
 }) => {
   const [from, setFrom] = useState(null)
   const [to, setTo] = useState(null)
@@ -20,7 +20,7 @@ const useMigration = ({
   const [assetsLoaded, setAssetsLoaded] = useState(false)
 
   const onChangeFromAmount = useCallback(
-    _amount => {
+    (_amount) => {
       setFromAmount(_amount)
       setToAmount(computeAmount(from, to, _amount, 'to'))
     },
@@ -28,7 +28,7 @@ const useMigration = ({
   )
 
   const onChangeToAmount = useCallback(
-    _amount => {
+    (_amount) => {
       setToAmount(_amount)
       setFromAmount(computeAmount(from, to, _amount, 'from'))
     },
@@ -149,7 +149,7 @@ const useMigration = ({
     onChangeFromAmount,
     onChangeToAmount,
     onFromMax,
-    onMigrate
+    onMigrate,
   }
 }
 

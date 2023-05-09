@@ -28,7 +28,7 @@ const useSwap = ({
   updateSwapButton,
   hideDepositAddressModal,
   setTosShow,
-  setAddressWarningShow
+  setAddressWarningShow,
 }) => {
   const [from, setFrom] = useState(null)
   const [to, setTo] = useState(null)
@@ -79,11 +79,11 @@ const useSwap = ({
     to,
     bpm,
     swappersBalances,
-    fromAmount
+    fromAmount,
   })
 
   const onChangeFromAmount = useCallback(
-    _amount => {
+    (_amount) => {
       setFromAmount(_amount)
       let curveExpected = 0
       let curveImpact = 0
@@ -121,7 +121,7 @@ const useSwap = ({
   )
 
   const onChangeToAmount = useCallback(
-    _amount => {
+    (_amount) => {
       setToAmount(_amount)
       setFromAmount(computeAmount(from, to, _amount, 'from'))
     },
@@ -139,25 +139,13 @@ const useSwap = ({
   const onFromMax = useCallback(() => {
     const amount = from.balance
     setFromAmount(BigNumber(amount).toFixed())
-    setToAmount(
-      amount !== ''
-        ? BigNumber(amount)
-            .multipliedBy(fee)
-            .toFixed()
-        : amount.toString()
-    )
+    setToAmount(amount !== '' ? BigNumber(amount).multipliedBy(fee).toFixed() : amount.toString())
   }, [fee, from])
 
   const onToMax = useCallback(() => {
     const amount = to.balance
     setFromAmount(BigNumber(amount).toFixed())
-    setToAmount(
-      amount !== ''
-        ? BigNumber(amount)
-            .dividedBy(fee)
-            .toFixed()
-        : amount.toString()
-    )
+    setToAmount(amount !== '' ? BigNumber(amount).dividedBy(fee).toFixed() : amount.toString())
   }, [fee, to])
 
   const onSwap = useCallback(() => {
@@ -198,7 +186,7 @@ const useSwap = ({
     function doSwap() {
       updateSwapButton(swapButton.text === 'Swap' ? 'Swapping ...' : 'Generating ...', true)
       swap(from, to, fromAmount, address, {
-        pegoutToTelosEvmAddress
+        pegoutToTelosEvmAddress,
       })
     }
 
@@ -244,10 +232,10 @@ const useSwap = ({
     connectWithWallet,
     setTosShow,
     updateSwapButton,
-    setAddressWarningShow
+    setAddressWarningShow,
   ])
 
-  const onSelectFrom = useCallback(_asset => {
+  const onSelectFrom = useCallback((_asset) => {
     setShowModalFrom(false)
     setFrom(_asset)
     if (_asset.requiresCurve) setDisableFromInput(true)
@@ -256,7 +244,7 @@ const useSwap = ({
     setPegoutToTelosEvmAddress(false)
   }, [])
 
-  const onSelectTo = useCallback(_asset => {
+  const onSelectTo = useCallback((_asset) => {
     setShowModalTo(false)
     setTo(_asset)
     setFromAmount('')
@@ -501,7 +489,7 @@ const useSwap = ({
     updateSwapButton,
     poolAmount,
     onPnetworkV2,
-    curveState
+    curveState,
   ])
 
   // NOTE: filters based on from selection
@@ -543,23 +531,11 @@ const useSwap = ({
   useEffect(() => {
     if (selectionChanged) {
       if (isPegin) {
-        setFromAmount(
-          toAmount !== ''
-            ? BigNumber(toAmount)
-                .multipliedBy(fee)
-                .toFixed()
-            : toAmount.toString()
-        )
+        setFromAmount(toAmount !== '' ? BigNumber(toAmount).multipliedBy(fee).toFixed() : toAmount.toString())
       }
 
       if (isPegout) {
-        setToAmount(
-          fromAmount !== ''
-            ? BigNumber(fromAmount)
-                .multipliedBy(fee)
-                .toFixed()
-            : fromAmount.toString()
-        )
+        setToAmount(fromAmount !== '' ? BigNumber(fromAmount).multipliedBy(fee).toFixed() : fromAmount.toString())
       }
       setSelectionChanged(false)
     }
@@ -630,7 +606,7 @@ const useSwap = ({
     pegoutToTelosEvmAddress,
     setPegoutToTelosEvmAddress,
     ToSRef,
-    AddressWarningRef
+    AddressWarningRef,
   }
 }
 
@@ -649,7 +625,7 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
         .map(([_id]) => _id)
       if (!fromAsset.isNative) {
         const selectedBpm = Object.values(bpm).filter(
-          _el =>
+          (_el) =>
             _el.bridgeName.includes(`${fromAsset.symbol.toLowerCase()}-on-`) && _el.hostChainId === fromAsset.chainId
         )[0]
         return selectedBpm
@@ -661,7 +637,7 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
           : -2
       } else {
         const selectedBpm = Object.values(bpm).filter(
-          _el =>
+          (_el) =>
             _el.bridgeName.includes(`${fromAsset.symbol.toLowerCase()}-on-`) && _el.nativeChainId === fromAsset.chainId
         )[0]
         return selectedBpm
@@ -680,7 +656,7 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
         formattedFee: '-',
         estimatedSwapTime: `-`,
         show: false,
-        eta: null
+        eta: null,
       }
     }
 
@@ -711,7 +687,7 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
         isPegout: false,
         eta,
         poolAmount,
-        onPnetworkV2
+        onPnetworkV2,
       }
     } else if (!from.isNative) {
       const minimumPeggable = getMinimumPeggable(from.id, 'pegout')
@@ -736,7 +712,7 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
         eta,
         poolAmount,
         onPnetworkV2,
-        requiresCurve
+        requiresCurve,
       }
     }
 
@@ -745,7 +721,7 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
       fee: 1,
       formattedFee: '-',
       estimatedSwapTime: `-`,
-      show: false
+      show: false,
     }
   }, [from, to, bpm, swappersBalances])
 }

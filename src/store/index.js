@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   swapOldPnt: swapOldPntReducer,
   pages: pagesReducer,
   nfts: nftsReducer,
-  toastr: toastrReducer
+  toastr: toastrReducer,
 })
 
 const storeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

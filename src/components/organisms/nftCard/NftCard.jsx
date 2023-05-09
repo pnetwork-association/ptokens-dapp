@@ -119,7 +119,7 @@ const NftCard = ({ nft, move }) => {
 
 NftCard.propTypes = {
   nft: PropTypes.object.isRequired,
-  move: PropTypes.func.isRequired
+  move: PropTypes.func.isRequired,
 }
 
 export default NftCard

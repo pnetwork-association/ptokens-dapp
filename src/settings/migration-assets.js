@@ -16,7 +16,7 @@ const migrationAssets = [
     version: 1,
     titleLabel: 'pBTC v1',
     formattedName: 'pBTC v1',
-    withBalanceDecimalsConversion: true
+    withBalanceDecimalsConversion: true,
   },
   {
     address: '0xd7d147c6Bb90A718c3De8C0568F9B560C79fa416',
@@ -34,7 +34,7 @@ const migrationAssets = [
     version: 1,
     titleLabel: 'Curve.fi pBTC-v1/sbtcCRV Gauge Deposit',
     formattedName: 'Curve.fi pBTC-v1/sbtcCRV Gauge Deposit',
-    withBalanceDecimalsConversion: true
+    withBalanceDecimalsConversion: true,
   },
   {
     address: '0x62199B909FB8B8cf870f97BEf2cE6783493c4908', // TODO: change
@@ -51,7 +51,7 @@ const migrationAssets = [
     version: 2,
     titleLabel: 'pBTC v2',
     formattedName: 'pBTC v2',
-    withBalanceDecimalsConversion: true
+    withBalanceDecimalsConversion: true,
   },
   {
     address: '0xB5efA93d5D23642f970aF41a1ea9A26f19CbD2Eb',
@@ -68,7 +68,7 @@ const migrationAssets = [
     version: 1,
     titleLabel: 'Curve.fi pbtc-v2/sbtcCRV-f Gauge Deposit',
     formattedName: 'Curve.fi pbtc-v2/sbtcCRV-f Gauge Deposit',
-    withBalanceDecimalsConversion: true
+    withBalanceDecimalsConversion: true,
   },
   {
     address: '0x4657B96D587c4d46666C244B40216BEeEA437D0d',
@@ -85,7 +85,7 @@ const migrationAssets = [
     version: 1,
     titleLabel: 'IdleCDO AA Tranche - idleCvxpbtc-v2/sbtcCRV-f',
     formattedName: 'IdleCDO AA Tranche - idleCvxpbtc-v2/sbtcCRV-f',
-    withBalanceDecimalsConversion: true
+    withBalanceDecimalsConversion: true,
   },
   {
     address: '0x3872418402d1e967889aC609731fc9E11f438De5',
@@ -102,7 +102,7 @@ const migrationAssets = [
     version: 1,
     titleLabel: 'IdleCDO BB Tranche - idleCvxpbtc-v2/sbtcCRV-f',
     formattedName: 'IdleCDO BB Tranche - idleCvxpbtc-v2/sbtcCRV-f',
-    withBalanceDecimalsConversion: true
+    withBalanceDecimalsConversion: true,
   },
   {
     address: '0x89ab32156e46f46d02ade3fecbe5fc4243b9aaed',
@@ -120,7 +120,7 @@ const migrationAssets = [
     image: 'PNT.svg',
     withBalanceDecimalsConversion: true,
     titleLabel: 'PNT',
-    chainId: ChainId.EthereumMainnet
+    chainId: ChainId.EthereumMainnet,
   },
   {
     address: '0xf4eA6B892853413bD9d9f1a5D3a620A0ba39c5b2',
@@ -138,8 +138,8 @@ const migrationAssets = [
     image: 'PNT_gray.svg',
     withBalanceDecimalsConversion: true,
     titleLabel: 'ethPNT',
-    chainId: ChainId.EthereumMainnet
-  }
+    chainId: ChainId.EthereumMainnet,
+  },
 ]
 
 export default migrationAssets
