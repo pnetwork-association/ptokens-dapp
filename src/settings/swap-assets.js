@@ -1251,7 +1251,7 @@ const swapAssets = [
     network: 'mainnet',
     isHidden: false,
     blockchain: 'ULTRA',
-    decimals: 0,
+    decimals: 8,
     withMiniImage: true,
     symbol: 'PUOS',
     symbolToDisplay: 'UOS',
@@ -1263,6 +1263,7 @@ const swapAssets = [
     withBalanceDecimalsConversion: false,
     isPerc20: true,
     chainId: ChainId.UltraMainnet,
+    onPnetworkV2: true,
   },
   {
     address: '0x9b917D94Fb0138eDF520332f3d45494f1a74Bec8',
