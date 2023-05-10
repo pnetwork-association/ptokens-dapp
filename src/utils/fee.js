@@ -1,4 +1,9 @@
-import { PNT_ON_ETH_MAINNET, ETHPNT_ON_ETH_MAINNET, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../constants'
+import {
+  PNT_ON_ETH_MAINNET,
+  ETHPNT_ON_ETH_MAINNET,
+  PBTC_ON_ETH_MAINNET_V1_MIGRATION,
+  PUOS_ON_ULTRA_MAINNET,
+} from '../constants'
 import BigNumber from 'bignumber.js'
 import { formatDecimalSeparator } from './amount-utils'
 
@@ -13,6 +18,7 @@ const getFeeFactor = (fee) => {
 
 const getFee = (_from, _to) => {
   if (_from.id === ETHPNT_ON_ETH_MAINNET && _to.id === PNT_ON_ETH_MAINNET) return map.pegout
+  if (_from.id === 'UOS' && _to.id === PUOS_ON_ULTRA_MAINNET) return 0
   else if (_from.id === PBTC_ON_ETH_MAINNET_V1_MIGRATION) return 0
   else if (_from.isNative) return map.pegin
   else if (!_from.isNative && !_to.isNative) return map.pegin

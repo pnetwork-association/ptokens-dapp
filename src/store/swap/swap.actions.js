@@ -33,12 +33,13 @@ import { getDefaultSelection } from './utils/default-selection'
 import { getAsaBalance, encodeUserData, buildPoolSwapTransactions } from './utils/algorand'
 import { pTokensUtxoAssetBuilder, pTokensBlockstreamUtxoProvider } from 'ptokens-assets-utxo'
 import { pTokensEvmAssetBuilder, pTokensEvmProvider } from 'ptokens-assets-evm'
-import { pTokensEosioAssetBuilder, pTokensEosioProvider } from 'ptokens-assets-eosio'
+import { pTokensEosioAssetBuilder, pTokensEosioProvider, getAmountInEosFormat } from 'ptokens-assets-eosio'
 import { pTokensAlgorandAssetBuilder, pTokensAlgorandProvider } from 'ptokens-assets-algorand'
 import { pTokensSwapBuilder } from 'ptokens-swap'
 import { pTokensNode, pTokensNodeProvider } from 'ptokens-node'
 import Web3 from 'web3'
 import BigNumber from 'bignumber.js'
+import eosioTokenAbi from '../../utils/abi/eosio.token'
 
 const loadSwapData = (_opts = {}) => {
   const {
@@ -337,7 +338,7 @@ const loadBalanceByAssetId = (_id) => {
 
 const utxoBlockchains = ['btc']
 const evmBlockchains = ['eth', 'bsc', 'ftm', 'polygon', 'luxochain', 'arbitrum']
-const eosioBlockchains = ['telos', 'eos', 'libre']
+const eosioBlockchains = ['telos', 'eos', 'libre', 'ultra']
 const algorandBlockchains = ['algorand']
 
 const getBuilder = (_node, _asset) => {
@@ -420,6 +421,22 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
           swapInfo,
         })
         sourceAsset.setCustomTransactions(txs)
+      } else if (_from.id === 'PUOS_ON_ULTRA_MAINNET') {
+        const actions = [
+          {
+            contractAddress: 'eosio.token',
+            method: 'transfer',
+            abi: eosioTokenAbi,
+            arguments: {
+              from: wallets[_from.blockchain.toLowerCase()].account,
+              to: 'ultra.swap',
+              // it is UOS we need to transfer to ultra.swap, not PUOS
+              quantity: getAmountInEosFormat(_amount, _from.decimals, 'UOS'),
+              memo: _address,
+            },
+          },
+        ]
+        sourceAsset.setCustomActions(actions)
       }
       // if (options.pegoutToTelosEvmAddress) {
       //   params.splice(1, 0, 'devm.ptokens')
@@ -436,6 +453,9 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
           encodeUserData(_address, parseInt(input_asset_id, 10), _amount, parseInt(output_asset_id, 10), 0)
         )
         swapBuilder.addDestinationAsset(destinationAsset, _to.swapperAddress, metadata)
+      } else if (_to.id === 'PUOS_ON_ULTRA_MAINNET') {
+        const web3 = new Web3()
+        swapBuilder.addDestinationAsset(destinationAsset, 'ultra.swap', web3.utils.utf8ToHex(_address))
       } else {
         swapBuilder.addDestinationAsset(destinationAsset, _address)
       }
