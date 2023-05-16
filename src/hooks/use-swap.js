@@ -366,6 +366,11 @@ const useSwap = ({
         return
       }
 
+      if (from.id === 'GALA' && to.id === 'GALA_ON_BSC_MAINNET') {
+        updateSwapButton('Disabled Swap', true)
+        return
+      }
+
       if (!isValidSwap) {
         setAddress('')
         updateSwapButton('Invalid Swap', true)
