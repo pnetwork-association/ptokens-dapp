@@ -1,13 +1,6 @@
-// import * as dotenv from 'dotenv'
-
-// const loadGAnalyticsID = () => {
-//   dotenv.config()
-//   return import.meta.env.VITE_GOOGLE_ANALITYCS_TRACK_ID
-// }
-
 const settings = {
   dappName: 'pTokens Dapp',
-  // googleAnalyticsTrackId: loadGAnalyticsID(),
+  googleAnalyticsTrackId: import.meta.env.VITE_GOOGLE_ANALYTICS_TRACKING_ID,
   links: {
     audit: 'https://skynet.certik.com/projects/pnt',
     stats: 'https://pnetwork.watch/',

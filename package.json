@@ -30,7 +30,6 @@
     "bignumber.js": "^9.0.1",
     "core-js": "^3.28.0",
     "cross-fetch": "^3.1.5",
-    "dotenv": "16.0.3",
     "eos-transit": "^4.0.7",
     "eos-transit-tokenpocket-provider": "^4.0.7",
     "eosjs": "^22.1.0",
