@@ -10,7 +10,8 @@
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "deploy": "npx thirdweb@latest upload dist",
-    "create-version-file": "node ./scripts/generate-buildno.cjs"
+    "create-version-file": "node ./scripts/generate-buildno.cjs",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@curvefi/api": "^2.28.0",
