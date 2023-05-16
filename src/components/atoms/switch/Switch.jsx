@@ -14,7 +14,7 @@ const CustomSwitch = ({ checked, onChange, ..._props }) => {
       checkedIcon={false}
       uncheckedIcon={false}
       checked={checked}
-      onChange={onChange}
+      onChange={onChange ? onChange : () => {}}
       {..._props}
     />
   )
