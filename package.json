@@ -28,7 +28,6 @@
     "async-mutex": "^0.1.4",
     "axios": "^0.21.4",
     "bignumber.js": "^9.0.1",
-    "core-js": "^3.28.0",
     "cross-fetch": "^3.1.5",
     "eos-transit": "^4.0.7",
     "eos-transit-tokenpocket-provider": "^4.0.7",
