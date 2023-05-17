@@ -1,5 +1,4 @@
 import React from 'react'
-import * as dotenv from 'dotenv'
 import styled from 'styled-components'
 
 const VersionDiv = styled.div`
@@ -19,7 +18,6 @@ const VersionContainer = styled.p`
 `
 
 export default function Version() {
-  dotenv.config()
   return (
     <VersionDiv className="version-div">
       <VersionContainer className="version-container">

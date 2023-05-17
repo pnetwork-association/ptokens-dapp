@@ -12,10 +12,9 @@ import 'react-step-progress-bar/styles.css'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import './theme/font.css'
 import './theme/bootstrap.css'
-import CJSA from 'core-js/stable/array'
+import { initialize } from './ga4'
 
-// eslint-disable-next-line no-unused-expressions
-CJSA
+initialize()
 
 if (window.ethereum) window.ethereum.autoRefreshOnNetworkChange = false
 

@@ -19,6 +19,7 @@ import WarningPopup from '../../molecules/popup/Warning'
 import Switch from '../../atoms/switch/Switch'
 import Button from '../../atoms/button/Button'
 import { MAX_IMPACT, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../../../constants'
+import { sendEvent } from '../../../ga4'
 
 export const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -271,9 +272,11 @@ const Swap = ({
                   The old pBTC-on-BSC pToken (token address 0xed28a457a5a76596ac48d87c0f577020f6ea1c4c) is currently
                   off-peg due to a hack - a compensation plan to recoup value in various crypto assets (not strictly
                   BTC) is being discussed by the community. More details{' '}
-                  <a href="https://twitter.com/pNetworkDeFi/status/1439690593211490324">here</a>. A new fully
-                  collateralized pBTC-on-BSC token has been launched on pNetwork v2 in late 2022 (token address
-                  0x1003d3574ac79303a5fa0951ecb04cc7acba9747).
+                  <a href="https://twitter.com/pNetworkDeFi/status/1439690593211490324" rel="noopener noreferrer">
+                    here
+                  </a>
+                  . A new fully collateralized pBTC-on-BSC token has been launched on pNetwork v2 in late 2022 (token
+                  address 0x1003d3574ac79303a5fa0951ecb04cc7acba9747).
                 </WarningNotification>
               )}
             {assets.find(({ id }) => id === 'GALA_ON_BSC_MAINNET') &&
@@ -282,9 +285,12 @@ const Swap = ({
                 <WarningNotification>
                   The old pGALA-on-BSC pToken (token address 0x7ddee176f665cd201f93eede625770e2fd911990) has been
                   affected by an incident in late 2022 and is currently worthless - a recovery plan has been executed.
-                  More details <a href="https://t.me/pGALA_incident_updates">here</a>. After the incident, a new fully
-                  collateralized pGALA-on-BSC token has been launched on pNetwork v2 (token address
-                  0x419c44c48cd346c0b0933ba243be02af46607c9b).
+                  More details{' '}
+                  <a href="https://t.me/pGALA_incident_updates" rel="noopener noreferrer">
+                    here
+                  </a>
+                  . After the incident, a new fully collateralized pGALA-on-BSC token has been launched on pNetwork v2
+                  (token address 0x419c44c48cd346c0b0933ba243be02af46607c9b).
                 </WarningNotification>
               )}
             {notifyMigration ? (
@@ -371,6 +377,43 @@ const Swap = ({
                   caution!
                 </InfoEta>
               ) : null}
+              {from && from.id === 'GALA_ON_BSC_MAINNET' && to && to.id === 'GALA' ? (
+                <InfoEta>
+                  You are about to pegout (redeem){' '}
+                  <a
+                    href="https://bscscan.com/token/0x419c44c48cd346c0b0933ba243be02af46607c9b"
+                    rel="noopener noreferrer"
+                  >
+                    pGALA on BSC
+                  </a>{' '}
+                  for GALA ERC-20. You will receive both{' '}
+                  <a
+                    href="https://etherscan.io/token/0x15D4c048F83bd7e37d49eA4C83a07267Ec4203dA"
+                    rel="noopener noreferrer"
+                  >
+                    GALA v1
+                  </a>{' '}
+                  and{' '}
+                  <a
+                    href="https://etherscan.io/token/0xd1d2eb1b1e90b638588728b4130137d262c87cae"
+                    rel="noopener noreferrer"
+                  >
+                    GALA v2
+                  </a>{' '}
+                  tokens at the same time (Check the official{' '}
+                  <a
+                    href="https://blog.gala.games/gala-v2-contract-audits-and-details-6a0767352e79"
+                    rel="noopener noreferrer"
+                  >
+                    GalaGames channels
+                  </a>{' '}
+                  for more information on GALA v2). Make sure that the destination address you provide is under your
+                  direct control (i.e. not a CEX deposit address).
+                </InfoEta>
+              ) : null}
+              {from && from.id === 'GALA' && to && to.id === 'GALA_ON_BSC_MAINNET' ? (
+                <InfoEta>GALA pegin are disabled.</InfoEta>
+              ) : null}
               {to &&
               (to.id === 'PUSDC_ON_ALGORAND_MAINNET' ||
                 to.id === 'USDC_ON_ALGORAND_MAINNET' ||
@@ -440,7 +483,13 @@ const Swap = ({
               ) : null}
               <ContainerSwapButton>
                 <Button
-                  onClick={() => (swapButton.link ? window.open(swapButton.link, '_self') : onSwap())}
+                  onClick={() =>
+                    swapButton.link
+                      ? sendEvent('external_redirect', {
+                          link: swapButton.link,
+                        }) || window.open(swapButton.link, '_self')
+                      : onSwap()
+                  }
                   disabled={
                     swapButton.link
                       ? false

@@ -15,7 +15,7 @@ const StyledCard = styled(Card)`
   z-index: 1010;
   animation: 1s ${keyframes`${bounceInUp}`};
   background: ${({ theme }) => theme.secondary3};
-  display: ${({ show }) => (show ? 'block' : 'none')};
+  display: ${({ display }) => display};
   @media (max-width: 767.98px) {
     width: 50%;
     right: 5px;
@@ -46,12 +46,11 @@ const CloseIcon = styled(Icon)`
 `
 
 const Popup = ({ content }) => {
-  const [show, setShow] = useState(true)
-
+  const [display, setDisplay] = useState('block')
   return (
-    <StyledCard show={show}>
+    <StyledCard display={display}>
       <StyledHeader>
-        <CloseIcon icon="close" onClick={() => setShow(false)} />
+        <CloseIcon icon="close" onClick={() => setDisplay('none')} />
       </StyledHeader>
       <StyledBody>{content}</StyledBody>
     </StyledCard>

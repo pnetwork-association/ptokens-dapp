@@ -66,9 +66,9 @@ const SwapInfo = ({ from, to, bpm, swappersBalances, curvePoolName, curveImpact 
           }
           xs={2}
         >
-          <Switch height={20} width={40} checked="true" disabled="true" />
+          <Switch height={20} width={40} checked={true} disabled={true} />
         </ValueCol>
-        <ReactTooltip multiline="true" place="left" />
+        <ReactTooltip multiline={true} place="left" />
       </MarginedRow>
       <MarginedRow>
         <LabelCol xs={8}>Fee</LabelCol>
