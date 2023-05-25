@@ -36,7 +36,6 @@ const useSwap = ({
   const [address, setAddress] = useState('')
   const [fromAmount, setFromAmount] = useState('')
   const [toAmount, setToAmount] = useState('')
-  const [swapType, setSwapType] = useState(null)
   const [showModalFrom, setShowModalFrom] = useState(false)
   const [showModalTo, setShowModalTo] = useState(false)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
@@ -264,7 +263,6 @@ const useSwap = ({
 
     // NOTE: pegin
     if (from.isNative && !to.isNative) {
-      setSwapType('pegin')
       const ptokenId = to.id
 
       if (to.nativeSymbol !== from.nativeSymbol) {
@@ -284,7 +282,6 @@ const useSwap = ({
     }
     // NOTE: pegout
     else if (!from.isNative) {
-      setSwapType('pegout')
       if (to.id === from.id) {
         return [false]
       }
@@ -317,8 +314,6 @@ const useSwap = ({
 
       return [true]
     }
-
-    setSwapType(null)
     return [false]
   }, [from, to, assets])
 
@@ -404,7 +399,7 @@ const useSwap = ({
           return
         }
 
-        if (swapType === 'pegin' && !(await isValidAccountByBlockchain(address, to.blockchain))) {
+        if (from.isNative && !(await isValidAccountByBlockchain(address, to.blockchain))) {
           updateSwapButton('Invalid Address', true)
           return
         }
@@ -424,7 +419,7 @@ const useSwap = ({
         return
       }
 
-      if (swapType === 'pegout' && from.blockchain === 'ALGORAND' && from.isPseudoNative && poolAmount < fromAmount) {
+      if (!from.isNative && from.blockchain === 'ALGORAND' && from.isPseudoNative && poolAmount < fromAmount) {
         updateSwapButton('Insufficient liquidity', true)
         return
       }
@@ -440,14 +435,14 @@ const useSwap = ({
         return
       }
 
-      if (swapType === 'pegin' && !(await isValidAccountByBlockchain(address, to.blockchain))) {
+      if (from.isNative && !(await isValidAccountByBlockchain(address, to.blockchain))) {
         updateSwapButton('Invalid Address', true)
         return
       }
 
       // handle enabling pegout to telos evm
       if (
-        swapType === 'pegout' &&
+        !from.isNative &&
         pegoutToTelosEvmAddress &&
         (from.id === TLOS_ON_ETH_MAINNET || from.id === TLOS_ON_BSC_MAINNET) &&
         !isValidAccountByBlockchain(address, 'ETH')
@@ -456,23 +451,19 @@ const useSwap = ({
         return
       }
 
-      if (
-        swapType === 'pegout' &&
-        !pegoutToTelosEvmAddress &&
-        !(await isValidAccountByBlockchain(address, to.blockchain))
-      ) {
+      if (!from.isNative && !pegoutToTelosEvmAddress && !(await isValidAccountByBlockchain(address, to.blockchain))) {
         updateSwapButton('Invalid Address', true)
         return
       }
 
-      if (swapType === 'pegin' && to.blockchain === 'ALGORAND') {
+      if (from.isNative && to.blockchain === 'ALGORAND') {
         if (!(await maybeOptInAlgoAsset(address, parseInt(to.address, 10), updateSwapButton))) return
         if (to.ptokenAddress && !(await maybeOptInAlgoAsset(address, parseInt(to.ptokenAddress, 10), updateSwapButton)))
           return
       }
 
       if (
-        swapType === 'pegout' &&
+        !from.isNative &&
         from.blockchain === 'ALGORAND' &&
         from.isPseudoNative &&
         !(await maybeOptInAlgoApp(parseInt(from.swapperAddress, 10), updateSwapButton))
@@ -490,7 +481,6 @@ const useSwap = ({
     address,
     isValidSwap,
     minimumPeggable,
-    swapType,
     pegoutToTelosEvmAddress,
     updateSwapButton,
     poolAmount,
