@@ -102,7 +102,6 @@ const useSwap = ({
             curveImpact = curveImpact.toString().slice(0, 6)
             setCurveImpact(curveImpact)
           } catch (_err) {
-            console.log(_err)
             curveExpected = 0
           }
         } else {
