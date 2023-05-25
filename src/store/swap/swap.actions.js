@@ -482,7 +482,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
       else if (!_from.isNative && !_fromNative.requiresCurve) {
         pegout({ swap: swap, ptokenFrom: _from, ptokenTo: _to, dispatch: _dispatch })
       } else if (!_from.isNative && _fromNative.requiresCurve) {
-        const curveProvider = getProvider(getAssetById(_fromNative.id), wallets)._web3._provider
+        const curveProvider = getReadOnlyProviderByBlockchain(_fromNative.blockchain.toUpperCase())
         pegoutFromCurve({
           swap: swap,
           provider: curveProvider,
