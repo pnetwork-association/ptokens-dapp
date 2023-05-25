@@ -14,6 +14,10 @@ export default defineConfig(() => ({
     }),
     svgLoader(),
   ],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+  },
   build: {
     commonjsOptions: {
       transformMixedEsModules: true,
@@ -29,5 +33,4 @@ export default defineConfig(() => ({
       },
     },
   },
-})
-)
+}))
