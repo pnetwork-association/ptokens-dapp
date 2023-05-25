@@ -1,21 +1,17 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { isValidAccountByBlockchain } from '../utils/account-validator'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
-import { getPeginOrPegoutMinutesEstimationByBlockchainAndEta } from '../utils/estimations'
-import { getFee, getFeeFactor, computeAmount, getFormattedFee } from '../utils/fee'
+import { getSwapFees, computeSwapAmount } from '../utils/fee'
 import BigNumber from 'bignumber.js'
 import { getLegacyUrl, updateUrlForSwap } from '../utils/url'
 import { useWalletByBlockchain } from './use-wallets'
-import getMinimumPeggable from '../utils/minimum-peggables'
-import { numberWithCommas, formatDecimalSeparator } from '../utils/amount-utils'
 import { TLOS_ON_BSC_MAINNET, TLOS_ON_ETH_MAINNET } from '../constants'
 import { PBTC_ON_ETH_POOL, CURVE_MIN_AMOUNT, CURVE_MAX_AMOUNT } from '../constants'
-import { getAssetById } from '../store/swap/swap.selectors'
 import { maybeOptInAlgoApp, maybeOptInAlgoAsset } from '../store/swap/utils/opt-in-algo'
 import { useRef } from 'react'
-import { chainIdToTypeMap, BlockchainType } from 'ptokens-constants'
 import curve from '@curvefi/api'
 import { sendEvent } from '../ga4'
+import { useSwapInfo } from './use-swap-info'
 
 const useSwap = ({
   wallets,
@@ -34,12 +30,12 @@ const useSwap = ({
   const [from, setFrom] = useState(null)
   const [to, setTo] = useState(null)
   const [address, setAddress] = useState('')
+  const [fees, setFees] = useState(null)
   const [fromAmount, setFromAmount] = useState('')
-  const [toAmount, setToAmount] = useState('')
+  const [toAmount, setToAmount] = useState(null)
   const [showModalFrom, setShowModalFrom] = useState(false)
   const [showModalTo, setShowModalTo] = useState(false)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
-  const [selectionChanged, setSelectionChanged] = useState(false)
   const [pegoutToTelosEvmAddress, setPegoutToTelosEvmAddress] = useState(false)
   const ToSRef = useRef({ isAccepted: false, isRefused: false })
   const curveRef = useRef(null)
@@ -48,9 +44,65 @@ const useSwap = ({
   const [curveState, setCurveState] = useState(false)
   const [curveImpact, setCurveImpact] = useState(0)
   const [curvePoolName, setCurvePoolName] = useState('')
+  const [toAmountNeedsUpdate, setToAmountNeedsUpdate] = useState(true)
   const AddressWarningRef = useRef({ proceed: false, doNotProceed: false })
 
   useEffect(() => {
+    async function _getFees() {
+      const fees = await getSwapFees(from, to)
+      setFees(fees)
+    }
+    if (from && to) {
+      _getFees()
+    }
+  }, [from, to])
+
+  useEffect(() => {
+    let curveExpected = 0
+    let curveImpact = 0
+
+    async function calcWithNewAmount(_amount) {
+      if (_amount && _amount > CURVE_MIN_AMOUNT) {
+        try {
+          if (_amount > CURVE_MAX_AMOUNT) _amount = CURVE_MAX_AMOUNT
+          curveExpected = await curveRef.current[0]
+            .getPool(PBTC_ON_ETH_POOL)
+            .swapExpected(curveRef.current[1], curveRef.current[2], _amount)
+          curveImpact = await curveRef.current[0]
+            .getPool(PBTC_ON_ETH_POOL)
+            .swapPriceImpact(curveRef.current[1], curveRef.current[2], _amount)
+          curveImpact = curveImpact.toString().slice(0, 6)
+          setCurveImpact(curveImpact)
+        } catch (_err) {
+          curveExpected = 0
+        }
+      } else {
+        curveExpected = 0
+        setCurveImpact(0)
+      }
+      setToAmount(computeSwapAmount(fees, curveExpected, 'to'))
+    }
+
+    if (curveRef.current) {
+      calcWithNewAmount(fromAmount)
+    } else {
+      if (toAmountNeedsUpdate) {
+        setToAmount(computeSwapAmount(fees, fromAmount, 'to'))
+      }
+    }
+  }, [fees, fromAmount, toAmountNeedsUpdate])
+
+  useEffect(() => {
+    async function curveInit() {
+      const provider = getReadOnlyProviderByBlockchain(from.blockchain.toUpperCase())
+      await curve.init('Web3', { externalProvider: provider }, { chainId: from.curveChainId })
+      await curve.fetchFactoryPools()
+      curveRef.current = [curve, from.address, from.swapToAddress]
+      setCurvePoolName(curveRef.current[0].getPool(PBTC_ON_ETH_POOL).fullName)
+      setDisableFromInput(false)
+      setCurveState(true)
+    }
+
     if (from && from.requiresCurve) {
       setDisableToInput(true)
       if (!curveRef.current) {
@@ -63,89 +115,51 @@ const useSwap = ({
       setCurveState(false)
       setCurvePoolName('')
     }
-    async function curveInit() {
-      const provider = getReadOnlyProviderByBlockchain(from.blockchain.toUpperCase())
-      await curve.init('Web3', { externalProvider: provider }, { chainId: from.curveChainId })
-      await curve.fetchFactoryPools()
-      curveRef.current = [curve, from.address, from.swapToAddress]
-      setCurvePoolName(curveRef.current[0].getPool(PBTC_ON_ETH_POOL).fullName)
-      setDisableFromInput(false)
-      setCurveState(true)
-    }
   }, [fromAmount, to, from, curveRef])
 
-  const { fee, isPegin, isPegout, eta, poolAmount, minimumPeggable, onPnetworkV2 } = useSwapInfo({
+  const { eta, poolAmount, onPnetworkV2 } = useSwapInfo({
     from,
     to,
+    fees,
     bpm,
     swappersBalances,
     fromAmount,
   })
 
-  const onChangeFromAmount = useCallback(
-    (_amount) => {
-      setFromAmount(_amount)
-      let curveExpected = 0
-      let curveImpact = 0
-
-      async function calcWithNewAmount() {
-        if (_amount && _amount > CURVE_MIN_AMOUNT) {
-          try {
-            if (_amount > CURVE_MAX_AMOUNT) _amount = CURVE_MAX_AMOUNT
-            curveExpected = await curveRef.current[0]
-              .getPool(PBTC_ON_ETH_POOL)
-              .swapExpected(curveRef.current[1], curveRef.current[2], _amount)
-            curveImpact = await curveRef.current[0]
-              .getPool(PBTC_ON_ETH_POOL)
-              .swapPriceImpact(curveRef.current[1], curveRef.current[2], _amount)
-            curveImpact = curveImpact.toString().slice(0, 6)
-            setCurveImpact(curveImpact)
-          } catch (_err) {
-            curveExpected = 0
-          }
-        } else {
-          curveExpected = 0
-          setCurveImpact(0)
-        }
-        setToAmount(computeAmount(from, to, curveExpected, 'to'))
-      }
-
-      if (curveRef.current) {
-        calcWithNewAmount()
-      } else {
-        setToAmount(computeAmount(from, to, _amount, 'to'))
-      }
-    },
-    [curveRef, from, to]
-  )
+  const onChangeFromAmount = (_amount) => {
+    setFromAmount(_amount)
+    setToAmountNeedsUpdate(true)
+  }
 
   const onChangeToAmount = useCallback(
     (_amount) => {
       setToAmount(_amount)
-      setFromAmount(computeAmount(from, to, _amount, 'from'))
+      setToAmountNeedsUpdate(false)
+      setFromAmount(computeSwapAmount(fees, _amount, 'from'))
     },
-    [from, to]
+    [fees]
   )
 
   const onChangeOrder = useCallback(() => {
     const currentFrom = from
+    setFees(null)
     setFrom(to)
     setTo(currentFrom)
-    setSelectionChanged(true)
     setPegoutToTelosEvmAddress(false)
   }, [from, to])
 
   const onFromMax = useCallback(() => {
     const amount = from.balance
     setFromAmount(BigNumber(amount).toFixed())
-    setToAmount(amount !== '' ? BigNumber(amount).multipliedBy(fee).toFixed() : amount.toString())
-  }, [fee, from])
+    setToAmountNeedsUpdate(true)
+  }, [from])
 
   const onToMax = useCallback(() => {
     const amount = to.balance
-    setFromAmount(BigNumber(amount).toFixed())
-    setToAmount(amount !== '' ? BigNumber(amount).dividedBy(fee).toFixed() : amount.toString())
-  }, [fee, to])
+    setToAmount(BigNumber(amount).toFixed())
+    setToAmountNeedsUpdate(false)
+    setFromAmount(computeSwapAmount(fees, amount, 'from'))
+  }, [to, fees])
 
   const onSwap = useCallback(() => {
     function waitForToS() {
@@ -376,6 +390,16 @@ const useSwap = ({
         return
       }
 
+      if (toAmount === null) {
+        updateSwapButton('Calculating...', true)
+        return
+      }
+
+      if (BigNumber(toAmount).isLessThan(0)) {
+        updateSwapButton('Amount too low', true)
+        return
+      }
+
       // NOTE: if wallet is connected but balance is still null it means that we are loading balances
       if (wallets[from.blockchain.toLowerCase()] && wallets[from.blockchain.toLowerCase()].account && !from.balance) {
         updateSwapButton('Loading balances ...', true)
@@ -384,11 +408,6 @@ const useSwap = ({
 
       if (wallets[to.blockchain.toLowerCase()] && wallets[to.blockchain.toLowerCase()].account && !to.balance) {
         updateSwapButton('Loading balances ...', true)
-        return
-      }
-
-      if (minimumPeggable && BigNumber(fromAmount).isLessThan(minimumPeggable)) {
-        updateSwapButton('Amount too low', true)
         return
       }
 
@@ -477,10 +496,10 @@ const useSwap = ({
     wallets,
     from,
     fromAmount,
+    toAmount,
     to,
     address,
     isValidSwap,
-    minimumPeggable,
     pegoutToTelosEvmAddress,
     updateSwapButton,
     poolAmount,
@@ -523,20 +542,6 @@ const useSwap = ({
     return [assets]
   }, [assets, isValidSwap, from])
 
-  // NOTE: update amounts when the selection changes
-  useEffect(() => {
-    if (selectionChanged) {
-      if (isPegin) {
-        setFromAmount(toAmount !== '' ? BigNumber(toAmount).multipliedBy(fee).toFixed() : toAmount.toString())
-      }
-
-      if (isPegout) {
-        setToAmount(fromAmount !== '' ? BigNumber(fromAmount).multipliedBy(fee).toFixed() : fromAmount.toString())
-      }
-      setSelectionChanged(false)
-    }
-  }, [selectionChanged, fee, isPegin, isPegout, fromAmount, toAmount])
-
   // NOTE: from balance is null but it has been loaded
   useEffect(() => {
     if (!from) return
@@ -569,6 +574,7 @@ const useSwap = ({
   return {
     from,
     to,
+    fees,
     setFrom,
     setTo,
     address,
@@ -606,120 +612,4 @@ const useSwap = ({
   }
 }
 
-const useSwapInfo = ({ from, to, bpm, swappersBalances }) => {
-  return useMemo(() => {
-    function getEta() {
-      let fromAsset = from
-      if (from.requiresCurve) {
-        fromAsset = getAssetById(from.pTokenId)
-      }
-      // ATM, the API returns untrustworthy estimates for EOS-like chains.
-      // For those chains, assume the sync ETA is 0 if the BPM is > 0
-      // as EOS-like chains are usually very fast.
-      const eosLikeChainIds = [...chainIdToTypeMap]
-        .filter(([_k, _v]) => _v === BlockchainType.EOSIO)
-        .map(([_id]) => _id)
-      if (!fromAsset.isNative) {
-        const selectedBpm = Object.values(bpm).filter(
-          (_el) =>
-            _el.bridgeName.includes(`${fromAsset.symbol.toLowerCase()}-on-`) && _el.hostChainId === fromAsset.chainId
-        )[0]
-        return selectedBpm
-          ? eosLikeChainIds.includes(fromAsset.chainId)
-            ? selectedBpm.bpmMedianHost > 0
-              ? 0
-              : -1
-            : selectedBpm.estimatedHostSyncTime
-          : -2
-      } else {
-        const selectedBpm = Object.values(bpm).filter(
-          (_el) =>
-            _el.bridgeName.includes(`${fromAsset.symbol.toLowerCase()}-on-`) && _el.nativeChainId === fromAsset.chainId
-        )[0]
-        return selectedBpm
-          ? eosLikeChainIds.includes(fromAsset.chainId)
-            ? selectedBpm.bpmMedianNative > 0
-              ? 0
-              : -1
-            : selectedBpm.estimatedNativeSyncTime
-          : -2
-      }
-    }
-
-    if (!from || !to) {
-      return {
-        fee: 1,
-        formattedFee: '-',
-        estimatedSwapTime: `-`,
-        show: false,
-        eta: null,
-      }
-    }
-
-    const onPnetworkV2 = Boolean((from && from.onPnetworkV2) || (to && to.onPnetworkV2))
-
-    const eta = getEta()
-    const estimatedSwapTime = getPeginOrPegoutMinutesEstimationByBlockchainAndEta(from.blockchain, eta)
-
-    // NOTE: fee hardcoded at the moment
-    if (from.isNative && !to.isNative) {
-      const minimumPeggable = getMinimumPeggable(to.id, 'pegin')
-      const fee = getFee(from, to)
-      const amounts = { ...swappersBalances }
-      const poolAmount =
-        to.isPseudoNative && amounts[to.swapperAddress]
-          ? amounts[to.swapperAddress][to.address] / 10 ** to.decimals
-          : undefined
-      return {
-        minimumPeggable: minimumPeggable ? BigNumber(minimumPeggable).toFixed() : 0,
-        formattedMinimumPeggable: minimumPeggable
-          ? `${formatDecimalSeparator(numberWithCommas(minimumPeggable))} ${from.symbol}`
-          : null,
-        fee: getFeeFactor(fee),
-        formattedFee: getFormattedFee(fee),
-        estimatedSwapTime,
-        show: true,
-        isPegin: true,
-        isPegout: false,
-        eta,
-        poolAmount,
-        onPnetworkV2,
-      }
-    } else if (!from.isNative) {
-      const minimumPeggable = getMinimumPeggable(from.id, 'pegout')
-      const fee = getFee(from, to)
-      const amounts = { ...swappersBalances }
-      const requiresCurve = from.requiresCurve
-      const poolAmount =
-        from.isPseudoNative && amounts[from.swapperAddress]
-          ? amounts[from.swapperAddress][from.ptokenAddress] / 10 ** from.decimals
-          : undefined
-      return {
-        minimumPeggable: minimumPeggable ? BigNumber(minimumPeggable).toFixed() : 0,
-        formattedMinimumPeggable: minimumPeggable
-          ? `${formatDecimalSeparator(numberWithCommas(minimumPeggable))} ${from.symbol}`
-          : null,
-        fee: 1 - fee / 100,
-        formattedFee: `${fee}%`,
-        estimatedSwapTime,
-        show: true,
-        isPegin: false,
-        isPegout: true,
-        eta,
-        poolAmount,
-        onPnetworkV2,
-        requiresCurve,
-      }
-    }
-
-    // NOTE: it should never happen
-    return {
-      fee: 1,
-      formattedFee: '-',
-      estimatedSwapTime: `-`,
-      show: false,
-    }
-  }, [from, to, bpm, swappersBalances])
-}
-
-export { useSwap, useSwapInfo }
+export { useSwap }

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useWalletByBlockchain } from './use-wallets'
 import history from '../utils/history'
-import { computeAmount } from '../utils/fee'
+import { computeMigrationAmount } from '../utils/fee'
 import BigNumber from 'bignumber.js'
 
 const useMigration = ({
@@ -22,24 +22,24 @@ const useMigration = ({
   const onChangeFromAmount = useCallback(
     (_amount) => {
       setFromAmount(_amount)
-      setToAmount(computeAmount(from, to, _amount, 'to'))
+      setToAmount(computeMigrationAmount(from, to, _amount, 'to'))
     },
-    [setToAmount, from, to]
+    [from, to]
   )
 
   const onChangeToAmount = useCallback(
     (_amount) => {
       setToAmount(_amount)
-      setFromAmount(computeAmount(from, to, _amount, 'from'))
+      setFromAmount(computeMigrationAmount(from, to, _amount, 'from'))
     },
-    [setToAmount, from, to]
+    [from, to]
   )
 
   const onFromMax = useCallback(() => {
     const amount = BigNumber(from.balance).toFixed()
     setFromAmount(amount)
     setToAmount(amount)
-  }, [from, setToAmount])
+  }, [from])
 
   const onMigrate = useCallback(() => {
     if (migrateButton.text === 'Connect Wallet') {

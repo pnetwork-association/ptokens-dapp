@@ -184,6 +184,7 @@ const Swap = ({
   const {
     from,
     to,
+    fees,
     address,
     setAddress,
     fromAmount,
@@ -525,7 +526,7 @@ const Swap = ({
           </OuterContainerSwap>
         </Row>
       </Container>
-      <SwapInfo from={from} to={to} bpm={bpm} curvePoolName={curvePoolName} curveImpact={curveImpact} />
+      <SwapInfo from={from} to={to} bpm={bpm} curvePoolName={curvePoolName} curveImpact={curveImpact} fees={fees} />
       <AssetListModal
         title="Swap from ..."
         defaultAssets={assets.length === 0 ? defaultAssets : assets}

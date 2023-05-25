@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Row, Col, Container } from 'react-bootstrap'
 import Switch from '../../atoms/switch/Switch'
 import ReactTooltip from 'react-tooltip'
-import { getFee, getFormattedFee } from '../../../utils/fee'
+import { getMigrationFees } from '../../../utils/fee'
 
 const ContainerInfo = styled(Container)`
   background: ${({ theme }) => theme.secondary3Transparentized};
@@ -48,6 +48,7 @@ const LabelCol = styled(Col)`
 `
 
 const MigrationInfo = ({ from, to }) => {
+  const fees = getMigrationFees(from, to)
   return (
     <ContainerInfo show={true}>
       <MarginedRow>
@@ -64,7 +65,7 @@ const MigrationInfo = ({ from, to }) => {
       </MarginedRow>
       <MarginedRow>
         <LabelCol xs={8}>Fee</LabelCol>
-        <ValueCol xs={4}>{getFormattedFee(getFee(from, to))}</ValueCol>
+        <ValueCol xs={4}>{`${fees}%`}</ValueCol>
       </MarginedRow>
     </ContainerInfo>
   )
