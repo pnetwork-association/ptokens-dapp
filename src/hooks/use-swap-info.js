@@ -18,10 +18,10 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances, fees }) => {
         .filter(([_k, _v]) => _v === BlockchainType.EOSIO)
         .map(([_id]) => _id)
       if (!fromAsset.isNative) {
-        const selectedBpm = Object.values(bpm).filter(
+        const selectedBpm = Object.values(bpm).find(
           (_el) =>
             _el.bridgeName.includes(`${fromAsset.symbol.toLowerCase()}-on-`) && _el.hostChainId === fromAsset.chainId
-        )[0]
+        )
         return selectedBpm
           ? eosLikeChainIds.includes(fromAsset.chainId)
             ? selectedBpm.bpmMedianHost > 0
@@ -30,10 +30,10 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances, fees }) => {
             : selectedBpm.estimatedHostSyncTime
           : -2
       } else {
-        const selectedBpm = Object.values(bpm).filter(
+        const selectedBpm = Object.values(bpm).find(
           (_el) =>
             _el.bridgeName.includes(`${fromAsset.symbol.toLowerCase()}-on-`) && _el.nativeChainId === fromAsset.chainId
-        )[0]
+        )
         return selectedBpm
           ? eosLikeChainIds.includes(fromAsset.chainId)
             ? selectedBpm.bpmMedianNative > 0
