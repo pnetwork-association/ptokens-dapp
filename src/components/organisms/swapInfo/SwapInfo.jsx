@@ -2,10 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Row, Col, Container } from 'react-bootstrap'
-import { useSwapInfo } from '../../../hooks/use-swap'
+import { useSwapInfo } from '../../../hooks/use-swap-info'
 import Switch from '../../atoms/switch/Switch'
 import ReactTooltip from 'react-tooltip'
 import { MAX_IMPACT } from '../../../constants'
+import BigNumber from 'bignumber.js'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const ContainerInfo = styled(Container)`
   background: ${({ theme }) => theme.secondary3Transparentized};
@@ -48,42 +51,42 @@ const LabelCol = styled(Col)`
   }
 `
 
-const SwapInfo = ({ from, to, bpm, swappersBalances, curvePoolName, curveImpact }) => {
-  const { show, formattedFee, estimatedSwapTime, formattedMinimumPeggable, requiresCurve } = useSwapInfo({
+const SwapInfo = ({ from, to, bpm, swappersBalances, curveImpact, fees }) => {
+  const { show, formattedFee, feeDescription, estimatedSwapTime, requiresCurve } = useSwapInfo({
     from,
     to,
     bpm,
     swappersBalances,
+    fees,
   })
-
   return (
     <ContainerInfo show={Boolean(show).toString()}>
+      {fees && BigNumber(fees.networkFee).isEqualTo(0) ? (
+        <MarginedRow>
+          <LabelCol xs={10}>Gasless</LabelCol>
+          <ValueCol
+            data-tip={
+              'Transaction fees on the destination blockchain<br/> to deliver the asset are covered by the pNetwork protocol'
+            }
+            xs={2}
+          >
+            <Switch height={20} width={40} checked={true} disabled={true} />
+          </ValueCol>
+          <ReactTooltip multiline={true} place="left" />
+        </MarginedRow>
+      ) : null}
       <MarginedRow>
-        <LabelCol xs={10}>Gasless</LabelCol>
-        <ValueCol
-          data-tip={
-            'Transaction fees on the destination blockchain<br/> to deliver the asset are covered by the pNetwork protocol'
-          }
-          xs={2}
-        >
-          <Switch height={20} width={40} checked={true} disabled={true} />
+        <LabelCol xs={6}>Fee</LabelCol>
+        <ValueCol data-tip={feeDescription} xs={6}>
+          {' '}
+          {formattedFee ? formattedFee : <Skeleton />}{' '}
         </ValueCol>
-        <ReactTooltip multiline={true} place="left" />
-      </MarginedRow>
-      <MarginedRow>
-        <LabelCol xs={8}>Fee</LabelCol>
-        <ValueCol xs={4}>{formattedFee}</ValueCol>
+        {feeDescription ? <ReactTooltip multiline={true} place="left" /> : null}
       </MarginedRow>
       <MarginedRow>
         <LabelCol xs={7}>Estimated processing time</LabelCol>
         <ValueCol xs={5}>{estimatedSwapTime}</ValueCol>
       </MarginedRow>
-      {formattedMinimumPeggable ? (
-        <MarginedRow>
-          <LabelCol xs={6}>Minimum swap amount</LabelCol>
-          <ValueCol xs={6}>{formattedMinimumPeggable}</ValueCol>
-        </MarginedRow>
-      ) : null}
       {requiresCurve && +curveImpact > MAX_IMPACT ? (
         <MarginedRow>
           <LabelCol xs={6}>High price impact</LabelCol>
@@ -105,6 +108,7 @@ SwapInfo.propTypes = {
   swappersBalances: PropTypes.object,
   from: PropTypes.object,
   to: PropTypes.object,
+  fees: PropTypes.object,
 }
 
 export default SwapInfo

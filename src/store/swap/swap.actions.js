@@ -10,7 +10,6 @@ import {
   UPDATE_SWAP_BUTTON,
   BPM_LOADED,
   SWAPPERS_BALANCES_LOADED,
-  PNETWORK_NODE_V3,
 } from '../../constants/index'
 import {
   loadEvmCompatibleBalances,
@@ -31,15 +30,11 @@ import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
 import { getDefaultSelection } from './utils/default-selection'
 // import pegoutPuosOnUltra from './utils/pegout-puos-on-ultra'
 import { getAsaBalance, encodeUserData, buildPoolSwapTransactions } from './utils/algorand'
-import { pTokensUtxoAssetBuilder, pTokensBlockstreamUtxoProvider } from 'ptokens-assets-utxo'
-import { pTokensEvmAssetBuilder, pTokensEvmProvider } from 'ptokens-assets-evm'
-import { pTokensEosioAssetBuilder, pTokensEosioProvider, getAmountInEosFormat } from 'ptokens-assets-eosio'
-import { pTokensAlgorandAssetBuilder, pTokensAlgorandProvider } from 'ptokens-assets-algorand'
-import { pTokensSwapBuilder } from 'ptokens-swap'
-import { pTokensNode, pTokensNodeProvider } from 'ptokens-node'
+import { getAmountInEosFormat } from 'ptokens-assets-eosio'
 import Web3 from 'web3'
 import BigNumber from 'bignumber.js'
 import eosioTokenAbi from '../../utils/abi/eosio.token'
+import { createAsset, getSwapBuilder } from '../../utils/ptokens'
 
 const loadSwapData = (_opts = {}) => {
   const {
@@ -336,58 +331,6 @@ const loadBalanceByAssetId = (_id) => {
   }
 }
 
-const utxoBlockchains = ['btc']
-const evmBlockchains = ['eth', 'bsc', 'ftm', 'polygon', 'luxochain', 'arbitrum']
-const eosioBlockchains = ['telos', 'eos', 'libre', 'ultra']
-const algorandBlockchains = ['algorand']
-
-const getBuilder = (_node, _asset) => {
-  if (utxoBlockchains.includes(_asset.blockchain.toLowerCase())) return new pTokensUtxoAssetBuilder(_node)
-  if (evmBlockchains.includes(_asset.blockchain.toLowerCase())) return new pTokensEvmAssetBuilder(_node)
-  if (eosioBlockchains.includes(_asset.blockchain.toLowerCase())) return new pTokensEosioAssetBuilder(_node)
-  if (algorandBlockchains.includes(_asset.blockchain.toLowerCase())) return new pTokensAlgorandAssetBuilder(_node)
-}
-
-const getProvider = (_asset, _wallets) => {
-  const wallet = _wallets[_asset.blockchain.toLowerCase()]
-  if (utxoBlockchains.includes(_asset.blockchain.toLowerCase()))
-    return new pTokensBlockstreamUtxoProvider(getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase()), {
-      'Content-Type': 'text/plain',
-    })
-  else if (evmBlockchains.includes(_asset.blockchain.toLowerCase()))
-    return new pTokensEvmProvider(
-      _wallets[_asset.blockchain.toLowerCase()].provider ||
-        getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase())
-    )
-  else if (eosioBlockchains.includes(_asset.blockchain.toLowerCase())) {
-    const provider = new pTokensEosioProvider(
-      getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase()),
-      wallet.provider || undefined
-    )
-    if (wallet.account) provider.setActor(wallet.account)
-    if (wallet.permission) provider.setPermission(wallet.permission)
-    return provider
-  } else if (algorandBlockchains.includes(_asset.blockchain.toLowerCase())) {
-    const provider = new pTokensAlgorandProvider(
-      getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase()),
-      wallet.provider || undefined
-    )
-    if (wallet.account) provider.setAccount(wallet.account)
-    return provider
-  }
-}
-
-const createAsset = async (_node, _asset, _wallets) => {
-  const builder = getBuilder(_node, _asset)
-  builder.setBlockchain(_asset.chainId)
-  builder.setSymbol(_asset.symbol)
-  builder.setDecimals(_asset.decimals)
-  const provider = getProvider(_asset, _wallets)
-  builder.setProvider(provider)
-  const asset = await builder.build()
-  return asset
-}
-
 const swap = (_from, _to, _amount, _address, _opts = {}) => {
   return async (_dispatch) => {
     try {
@@ -399,11 +342,9 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
         _from = getAssetById(_fromNative.pTokenId)
       }
 
-      const provider = new pTokensNodeProvider(PNETWORK_NODE_V3)
-      const node = new pTokensNode(provider)
-      const sourceAsset = await createAsset(node, _from, wallets, true)
-      const destinationAsset = await createAsset(node, _to, wallets)
-      const swapBuilder = new pTokensSwapBuilder(node)
+      const sourceAsset = await createAsset(_from, wallets, true)
+      const destinationAsset = await createAsset(_to, wallets)
+      const swapBuilder = getSwapBuilder()
       swapBuilder.setAmount(_amount)
       swapBuilder.setSourceAsset(sourceAsset)
       if (_from.isPseudoNative && _from.blockchain === 'ALGORAND') {
@@ -482,7 +423,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
       else if (!_from.isNative && !_fromNative.requiresCurve) {
         pegout({ swap: swap, ptokenFrom: _from, ptokenTo: _to, dispatch: _dispatch })
       } else if (!_from.isNative && _fromNative.requiresCurve) {
-        const curveProvider = getProvider(getAssetById(_fromNative.id), wallets)._web3._provider
+        const curveProvider = getReadOnlyProviderByBlockchain(_fromNative.blockchain.toUpperCase())
         pegoutFromCurve({
           swap: swap,
           provider: curveProvider,

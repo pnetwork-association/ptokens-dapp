@@ -7,6 +7,8 @@ import { NumericFormat } from 'react-number-format'
 import AssetInfo from '../assetInfo/AssetInfo'
 import Icon from '../../atoms/icon/Icon'
 import { getDecimalSeparator, getThousandSeparator } from '../../../utils/amount-utils'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const SwapLineContainer = styled.div`
   border-radius: 20px;
@@ -262,19 +264,23 @@ const SwapLine = ({
           ) : null}
         </ContainerImageAndMaxButton>
         <Col xs={8} className="text-right my-auto pl-0">
-          <ContainerAmountInput>
-            <NumericFormat
-              customInput={AmountInput}
-              placeholder={inputPlaceholder}
-              disabled={disableInput}
-              onValueChange={(_e) => onChangeAmount(_e.value.toString().replace(',', '.'))}
-              prefix={prefix}
-              value={amount !== '' ? +amount : amount}
-              allowedDecimalSeparators={[',', '.']}
-              decimalSeparator={getDecimalSeparator()}
-              thousandSeparator={getThousandSeparator()}
-            />
-          </ContainerAmountInput>
+          {amount === null ? (
+            <Skeleton height={'3rem'} />
+          ) : (
+            <ContainerAmountInput>
+              <NumericFormat
+                customInput={AmountInput}
+                placeholder={inputPlaceholder}
+                disabled={disableInput}
+                onValueChange={(_e) => onChangeAmount(_e.value.toString().replace(',', '.'))}
+                prefix={prefix}
+                value={amount !== '' ? +amount : amount}
+                allowedDecimalSeparators={[',', '.']}
+                decimalSeparator={getDecimalSeparator()}
+                thousandSeparator={getThousandSeparator()}
+              />
+            </ContainerAmountInput>
+          )}
         </Col>
       </Row>
       <Row>
