@@ -1,5 +1,7 @@
 import { afterEach, test, vi, describe, expect } from 'vitest'
 import {
+  getMigrationFees,
+  computeMigrationAmount,
   computeSwapAmount,
   computeFeesAmount,
   getFormattedFeesDescription,
@@ -7,6 +9,7 @@ import {
   getNetworkFeeDescription,
   getProtocolFeeDescription,
 } from '../fee'
+import { PBTC_ON_ETH_MAINNET_V1_MIGRATION, ETHPNT_ON_ETH_MAINNET, PNT_ON_ETH_MAINNET } from '../../constants'
 
 describe('getFormattedFeesDescription', () => {
   afterEach(() => {
@@ -77,6 +80,30 @@ describe('getFormattedFeesDescription', () => {
     const ret = getFormattedFeesDescription({ basisPoints, minProtocolFee, networkFee }, symbol)
     expect(ret).toEqual(_expectedResult)
     vi.resetAllMocks()
+  })
+})
+
+describe('getMigrationFees', () => {
+  test.each([
+    [{ id: PBTC_ON_ETH_MAINNET_V1_MIGRATION }, { id: 2 }, 0],
+    [{ id: ETHPNT_ON_ETH_MAINNET }, { id: PNT_ON_ETH_MAINNET }, 0.25],
+    [{ id: PNT_ON_ETH_MAINNET }, { id: ETHPNT_ON_ETH_MAINNET }, null],
+  ])('Should compute migration fees amount %s %s', (from, to, expected) => {
+    const ret = getMigrationFees(from, to)
+    expect(ret).toStrictEqual(expected)
+  })
+})
+
+describe('computeMigrationAmount', () => {
+  test.each([
+    [{ id: PBTC_ON_ETH_MAINNET_V1_MIGRATION }, { id: 2 }, '10', 'from', '10'],
+    [{ id: ETHPNT_ON_ETH_MAINNET }, { id: PNT_ON_ETH_MAINNET }, '10', 'from', '10.025062656641603'],
+    [{ id: ETHPNT_ON_ETH_MAINNET }, { id: PNT_ON_ETH_MAINNET }, '10', 'to', '9.975'],
+    [{ id: PNT_ON_ETH_MAINNET }, { id: ETHPNT_ON_ETH_MAINNET }, '10', 'to', null],
+    [{ id: ETHPNT_ON_ETH_MAINNET }, { id: PNT_ON_ETH_MAINNET }, '', 'to', ''],
+  ])('Should compute migration fees amount', (from, to, amount, direction, expected) => {
+    const ret = computeMigrationAmount(from, to, amount, direction)
+    expect(ret).toStrictEqual(expected)
   })
 })
 
