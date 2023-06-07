@@ -20,6 +20,7 @@ import Switch from '../../atoms/switch/Switch'
 import Button from '../../atoms/button/Button'
 import { MAX_IMPACT, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../../../constants'
 import { sendEvent } from '../../../ga4'
+import ReactTooltip from 'react-tooltip'
 
 export const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -526,7 +527,17 @@ const Swap = ({
           </OuterContainerSwap>
         </Row>
       </Container>
-      <SwapInfo from={from} to={to} bpm={bpm} curvePoolName={curvePoolName} curveImpact={curveImpact} fees={fees} />
+      <SwapInfo
+        from={from}
+        to={to}
+        amount={fromAmount}
+        bpm={bpm}
+        curvePoolName={curvePoolName}
+        curveImpact={curveImpact}
+        fees={fees}
+      />
+      <ReactTooltip id="tooltip-gasless" multiline={true} style={{ zIndex: 2 }} />
+      <ReactTooltip id="tooltip-fees" multiline={true} style={{ zIndex: 2 }} />
       <AssetListModal
         title="Swap from ..."
         defaultAssets={assets.length === 0 ? defaultAssets : assets}

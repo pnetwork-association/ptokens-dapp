@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import { formatDecimalSeparator } from './amount-utils'
 import { createAsset } from './ptokens'
 import { PNT_ON_ETH_MAINNET, ETHPNT_ON_ETH_MAINNET, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../constants'
+import _ from 'lodash'
 
 const getFeeFactor = (fee) => {
   return 1 - fee / 100
@@ -36,86 +37,122 @@ const getSwapFees = async (_from, _to) => {
   }
 }
 
-const computeToAmount = (basisPoints, networkFee, minProtocolFee, amount) => {
-  const protocolFees = BigNumber.maximum(
-    BigNumber(minProtocolFee).dividedBy(1e18),
-    BigNumber(amount).multipliedBy(basisPoints).dividedBy(10000)
-  )
-  return BigNumber(amount).minus(protocolFees).minus(BigNumber(networkFee).dividedBy(1e18)).toFixed()
+const computeNetworkFee = (fees) => {
+  if (!fees || _.isNil(fees.networkFee)) return null
+  return BigNumber(fees.networkFee).dividedBy(1e18)
 }
+const computeProtocolFee = (fees, amount) =>
+  BigNumber.maximum(
+    BigNumber(fees.minProtocolFee).dividedBy(1e18),
+    BigNumber(amount).multipliedBy(fees.basisPoints).dividedBy(10000)
+  )
 
-const computeFromAmount = (basisPoints, networkFee, minProtocolFee, amount) => {
+const computeFeesAmount = (fees, amount) => {
+  if (
+    !fees ||
+    _.isNil(fees.basisPoints) ||
+    _.isNil(fees.minProtocolFee) ||
+    _.isNil(fees.networkFee) ||
+    _.isNil(amount) ||
+    amount === ''
+  )
+    return null
+  return computeProtocolFee(fees, amount).plus(computeNetworkFee(fees))
+}
+const computeToAmount = (fees, amount) => BigNumber(amount).minus(computeFeesAmount(fees, amount)).toFixed()
+
+const computeFromAmount = (fees, amount) => {
   const maybeAmount = BigNumber(amount)
-    .plus(BigNumber(networkFee).dividedBy(1e18))
-    .dividedBy(BigNumber(1).minus(BigNumber(basisPoints).dividedBy(10000)))
-  return maybeAmount.multipliedBy(basisPoints).dividedBy(10000).isGreaterThan(BigNumber(minProtocolFee).dividedBy(1e18))
+    .plus(BigNumber(fees.networkFee).dividedBy(1e18))
+    .dividedBy(BigNumber(1).minus(BigNumber(fees.basisPoints).dividedBy(10000)))
+  return maybeAmount
+    .multipliedBy(fees.basisPoints)
+    .dividedBy(10000)
+    .isGreaterThan(BigNumber(fees.minProtocolFee).dividedBy(1e18))
     ? maybeAmount.toFixed()
     : BigNumber(amount)
-        .plus(BigNumber(networkFee).dividedBy(1e18))
-        .plus(BigNumber(minProtocolFee).dividedBy(1e18))
+        .plus(BigNumber(fees.networkFee).dividedBy(1e18))
+        .plus(BigNumber(fees.minProtocolFee).dividedBy(1e18))
         .toFixed()
 }
 
 const computeMigrationAmount = (from, to, amount, direction) => {
   const feeCoeff = getFeeFactor(getMigrationFees(from, to))
-  return amount !== ''
-    ? BigNumber(amount)
+  return _.isNil(amount) || amount === ''
+    ? amount
+    : BigNumber(amount)
         .multipliedBy(direction === 'to' ? feeCoeff : 1 / feeCoeff)
         .toFixed()
-    : amount
 }
 
 const computeSwapAmount = (fees, amount, direction) => {
-  if (!fees || fees.basisPoints === undefined || fees.networkFee === undefined || fees.minProtocolFee === undefined)
-    return null
-  return amount !== ''
-    ? direction === 'to'
-      ? computeToAmount(fees.basisPoints, fees.networkFee, fees.minProtocolFee, amount)
-      : computeFromAmount(fees.basisPoints, fees.networkFee, fees.minProtocolFee, amount)
-    : amount
+  if (!fees || _.isNil(fees.basisPoints) || _.isNil(fees.minProtocolFee) || _.isNil(fees.networkFee)) return null
+  return amount !== '' ? (direction === 'to' ? computeToAmount(fees, amount) : computeFromAmount(fees, amount)) : amount
 }
 
-const getFormattedFees = (fees, symbol) => {
-  if (
-    !fees ||
-    fees.basisPoints === undefined ||
-    fees.minProtocolFee === undefined ||
-    fees.networkFee === undefined ||
-    symbol === undefined
-  ) {
-    return ''
-  }
+const getFormattedNetworkFees = (fees, symbol) => {
+  if (!fees) return ''
+  return `${formatDecimalSeparator(BigNumber(fees.networkFee).dividedBy(1e18).toPrecision(3))} ${symbol}`
+}
+
+const getFormattedProtocolFees = (fees, symbol) => {
+  if (!fees) return ''
   return (
     `${formatDecimalSeparator(fees.basisPoints / 100)} %` +
     (fees.minProtocolFee > 0
       ? ` (min ${formatDecimalSeparator(BigNumber(fees.minProtocolFee).dividedBy(1e18).toPrecision(3))} ${symbol})`
-      : '') +
-    (fees.networkFee > 0
-      ? ` + ${formatDecimalSeparator(BigNumber(fees.networkFee).dividedBy(1e18).toPrecision(3))} ${symbol}`
       : '')
   )
 }
 
-const getFeesDescription = (fees, symbol) => {
+const getFormattedFeesDescription = (fees, symbol) => {
   if (
     !fees ||
-    fees.basisPoints === undefined ||
-    fees.minProtocolFee === undefined ||
-    fees.networkFee === undefined ||
-    symbol === undefined
-  )
+    _.isNil(fees.basisPoints) ||
+    _.isNil(fees.minProtocolFee) ||
+    _.isNil(fees.networkFee) ||
+    _.isNil(symbol)
+  ) {
     return ''
-  const protocolFeeDesc =
-    `Protocol fee: ${formatDecimalSeparator(BigNumber(fees.basisPoints).dividedBy(100))} %` +
-    (fees.minProtocolFee > 0
-      ? ` (min ${formatDecimalSeparator(BigNumber(fees.minProtocolFee).dividedBy(1e18).toPrecision(3))} ${symbol})`
-      : '')
+  }
+  return (
+    getFormattedProtocolFees(fees, symbol) + (fees.networkFee > 0 ? ` + ${getFormattedNetworkFees(fees, symbol)}` : '')
+  )
+}
 
-  const networkFeeDesc =
-    fees.networkFee > 0
-      ? `Network fee: ${formatDecimalSeparator(BigNumber(fees.networkFee).dividedBy(1e18).toPrecision(3))} ${symbol}`
-      : null
-  return [protocolFeeDesc, networkFeeDesc].filter((_) => _).join('<br/>')
+const getFormattedFeesDescriptionAmount = (fees, amount, symbol) => {
+  if (
+    !fees ||
+    _.isNil(fees.basisPoints) ||
+    _.isNil(fees.minProtocolFee) ||
+    _.isNil(fees.networkFee) ||
+    _.isNil(symbol)
+  ) {
+    return ''
+  }
+  if (_.isNil(amount) || amount === '') return getFormattedFeesDescription(fees, symbol)
+  const feesAmount = computeFeesAmount(fees, amount)
+  const requiresTilde = !feesAmount.eq(BigNumber(feesAmount.toPrecision(3)))
+  return `${requiresTilde ? '~' : ''}${formatDecimalSeparator(
+    computeFeesAmount(fees, amount).toPrecision(3)
+  )} ${symbol}`
+}
+
+const getNetworkFeeDescription = (fees, symbol) => {
+  if (!fees || _.isNil(fees.networkFee) || _.isNil(symbol)) return ''
+  return `${formatDecimalSeparator(getFormattedNetworkFees(fees, symbol))}`
+}
+
+const getProtocolFeeDescription = (fees, amount, symbol) => {
+  if (!fees || _.isNil(fees.basisPoints) || _.isNil(fees.minProtocolFee) || _.isNil(fees.networkFee) || _.isNil(symbol))
+    return ''
+  if (_.isNil(amount) || amount === '') return getFormattedProtocolFees(fees, symbol)
+  const protocolFee = computeProtocolFee(fees, amount)
+  return protocolFee.isGreaterThan(BigNumber(fees.minProtocolFee).dividedBy(1e18))
+    ? `${formatDecimalSeparator(protocolFee.toPrecision(3))} ${symbol} (=${BigNumber(fees.basisPoints).dividedBy(
+        100
+      )}%)`
+    : `${formatDecimalSeparator(protocolFee.toPrecision(3))} ${symbol}`
 }
 
 export {
@@ -123,6 +160,9 @@ export {
   getSwapFees,
   computeMigrationAmount,
   computeSwapAmount,
-  getFormattedFees,
-  getFeesDescription,
+  computeFeesAmount,
+  getFormattedFeesDescription,
+  getFormattedFeesDescriptionAmount,
+  getNetworkFeeDescription,
+  getProtocolFeeDescription,
 }

@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
 import { getPeginOrPegoutMinutesEstimationByBlockchainAndEta } from '../utils/estimations'
-import { getFormattedFees, getFeesDescription } from '../utils/fee'
+import { getFormattedFeesDescriptionAmount } from '../utils/fee'
 import { getAssetById } from '../store/swap/swap.selectors'
 import { chainIdToTypeMap, BlockchainType } from 'ptokens-constants'
 
-const useSwapInfo = ({ from, to, bpm, swappersBalances, fees }) => {
+const useSwapInfo = ({ from, to, amount, bpm, swappersBalances, fees }) => {
   return useMemo(() => {
     function getEta() {
       let fromAsset = from
@@ -54,8 +54,6 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances, fees }) => {
       }
     }
 
-    const onPnetworkV2 = Boolean((from && from.onPnetworkV2) || (to && to.onPnetworkV2))
-
     const eta = getEta()
     const estimatedSwapTime = getPeginOrPegoutMinutesEstimationByBlockchainAndEta(from.blockchain, eta)
 
@@ -66,13 +64,11 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances, fees }) => {
           ? amounts[to.swapperAddress][to.address] / 10 ** to.decimals
           : undefined
       return {
-        formattedFee: fees ? getFormattedFees(fees, to.symbol) : null,
-        feeDescription: from ? (fees ? getFeesDescription(fees, from.symbol) : null) : null,
+        formattedFee: getFormattedFeesDescriptionAmount(fees, amount, to.symbol),
         estimatedSwapTime,
         show: true,
         eta,
         poolAmount,
-        onPnetworkV2,
       }
     } else if (!from.isNative) {
       const amounts = { ...swappersBalances }
@@ -82,13 +78,11 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances, fees }) => {
           ? amounts[from.swapperAddress][from.ptokenAddress] / 10 ** from.decimals
           : undefined
       return {
-        formattedFee: fees ? getFormattedFees(fees, to.symbol) : null,
-        feeDescription: from ? (fees ? getFeesDescription(fees, from.symbol) : null) : null,
+        formattedFee: getFormattedFeesDescriptionAmount(fees, amount, to.symbol),
         estimatedSwapTime,
         show: true,
         eta,
         poolAmount,
-        onPnetworkV2,
         requiresCurve,
       }
     }
@@ -100,7 +94,7 @@ const useSwapInfo = ({ from, to, bpm, swappersBalances, fees }) => {
       estimatedSwapTime: `-`,
       show: false,
     }
-  }, [from, to, bpm, swappersBalances, fees])
+  }, [from, to, amount, bpm, swappersBalances, fees])
 }
 
 export { useSwapInfo }

@@ -57,6 +57,7 @@ const MigrationInfo = ({ from, to }) => {
           data-tip={
             'Transaction fees on the destination blockchain<br/> to deliver the asset are covered by the pNetwork protocol'
           }
+          data-for="tooltip-gasless"
           xs={2}
         >
           <Switch height={20} width={40} checked={true} disabled="true" />

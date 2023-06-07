@@ -117,7 +117,9 @@ const useSwap = ({
     }
   }, [fromAmount, to, from, curveRef])
 
-  const { eta, poolAmount, onPnetworkV2 } = useSwapInfo({
+  const onPnetworkV2 = Boolean((from && from.onPnetworkV2) || (to && to.onPnetworkV2))
+
+  const { eta, poolAmount } = useSwapInfo({
     from,
     to,
     fees,
