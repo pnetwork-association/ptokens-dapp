@@ -53,6 +53,7 @@ const useSwap = ({
       setFees(fees)
     }
     if (from && to) {
+      setFees(null)
       _getFees()
     }
   }, [from, to])
@@ -144,7 +145,6 @@ const useSwap = ({
 
   const onChangeOrder = useCallback(() => {
     const currentFrom = from
-    setFees(null)
     setFrom(to)
     setTo(currentFrom)
     setPegoutToTelosEvmAddress(false)
