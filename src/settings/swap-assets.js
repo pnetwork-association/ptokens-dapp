@@ -1009,6 +1009,7 @@ const swapAssets = [
     image: 'pTLOS.svg',
     withBalanceDecimalsConversion: true,
     chainId: ChainId.BscMainnet,
+    onPnetworkV2: true,
   },
   {
     address: '0xabae871b7e3b67aeec6b46ae9fe1a91660aadac5',
