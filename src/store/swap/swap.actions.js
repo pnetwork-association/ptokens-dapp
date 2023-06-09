@@ -379,11 +379,10 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
         ]
         sourceAsset.setCustomActions(actions)
       }
-      // if (options.pegoutToTelosEvmAddress) {
-      //   params.splice(1, 0, 'devm.ptokens')
-      //   params[2] = web3.utils.asciiToHex(params[2])
-      // }
-      if (_to.isPseudoNative && _to.blockchain === 'ALGORAND') {
+      if (_opts.pegoutToTelosEvmAddress) {
+        const web3 = new Web3()
+        swapBuilder.addDestinationAsset(destinationAsset, 'devm.ptokens', web3.utils.asciiToHex(_address))
+      } else if (_to.isPseudoNative && _to.blockchain === 'ALGORAND') {
         _amount = BigNumber(_amount)
           .multipliedBy(10 ** _from.decimals)
           .toFixed()

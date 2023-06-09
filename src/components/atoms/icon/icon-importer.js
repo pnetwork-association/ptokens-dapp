@@ -14,6 +14,7 @@ import sun from './icons/sun.svg?raw'
 import wallet from './icons/wallet.svg?raw'
 import world from './icons/world.svg?raw'
 import warning from './icons/warning.svg?raw'
+import info from './icons/info.svg?raw'
 
 const getIconSource = (icon) => {
   switch (icon) {
@@ -49,6 +50,8 @@ const getIconSource = (icon) => {
       return warning
     case 'world':
       return world
+    case 'info':
+      return info
     default:
       return arrowDiagonal
   }

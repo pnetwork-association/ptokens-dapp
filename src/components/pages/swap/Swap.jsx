@@ -20,6 +20,7 @@ import Switch from '../../atoms/switch/Switch'
 import Button from '../../atoms/button/Button'
 import { MAX_IMPACT, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../../../constants'
 import { sendEvent } from '../../../ga4'
+import ReactTooltip from 'react-tooltip'
 
 export const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -136,11 +137,14 @@ const PnetworkV2Badge = styled.span`
   padding: 5px 10px 5px 10px;
 `
 
-const EnableTelosEvmRow = styled(Row)`
-  margin-top: 40px;
+const EnableTelosEvmRow = styled.div`
+  display: flex;
+  padding: 0px 6px 0px 6px;
+  align-items: center;
 `
 
 const EnableTelosEvmText = styled.span`
+  padding-left: 0px;
   text-align: left;
   font-weight: 300;
   color: ${({ theme }) => theme.text1};
@@ -336,6 +340,7 @@ const Swap = ({
                 <SortIcon icon="sort" onClick={onChangeOrder} />
               </ArrowContainer>
               <SwapLine
+                style={{ marginBottom: '20px' }}
                 defaultImage="./assets/svg/pBTC.svg"
                 defaultMiniImage="./assets/svg/ETH.svg"
                 title="To"
@@ -352,10 +357,10 @@ const Swap = ({
 
               {from && from.id === 'TLOS_ON_BSC_MAINNET' ? (
                 <EnableTelosEvmRow>
-                  <Col xs={10} className="pr-0">
+                  <Col style={{ paddingLeft: 0 }} className="pr-0">
                     <EnableTelosEvmText>Receive on a tEVM (Telos EVM) compatible address</EnableTelosEvmText>
                   </Col>
-                  <Col xs={2} className="text-right">
+                  <Col className="text-right" style={{ paddingRight: 0, paddingLeft: 0 }}>
                     <Switch checked={pegoutToTelosEvmAddress} onChange={setPegoutToTelosEvmAddress} />
                   </Col>
                 </EnableTelosEvmRow>
@@ -526,7 +531,17 @@ const Swap = ({
           </OuterContainerSwap>
         </Row>
       </Container>
-      <SwapInfo from={from} to={to} bpm={bpm} curvePoolName={curvePoolName} curveImpact={curveImpact} fees={fees} />
+      <SwapInfo
+        from={from}
+        to={to}
+        amount={fromAmount}
+        bpm={bpm}
+        curvePoolName={curvePoolName}
+        curveImpact={curveImpact}
+        fees={fees}
+      />
+      <ReactTooltip id="tooltip-gasless" multiline={true} style={{ zIndex: 2 }} />
+      <ReactTooltip id="tooltip-fees" multiline={true} style={{ zIndex: 2 }} />
       <AssetListModal
         title="Swap from ..."
         defaultAssets={assets.length === 0 ? defaultAssets : assets}

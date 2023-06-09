@@ -53,6 +53,7 @@ const useSwap = ({
       setFees(fees)
     }
     if (from && to) {
+      setFees(null)
       _getFees()
     }
   }, [from, to])
@@ -117,7 +118,9 @@ const useSwap = ({
     }
   }, [fromAmount, to, from, curveRef])
 
-  const { eta, poolAmount, onPnetworkV2 } = useSwapInfo({
+  const onPnetworkV2 = Boolean((from && from.onPnetworkV2) || (to && to.onPnetworkV2))
+
+  const { eta, poolAmount } = useSwapInfo({
     from,
     to,
     fees,
@@ -142,7 +145,6 @@ const useSwap = ({
 
   const onChangeOrder = useCallback(() => {
     const currentFrom = from
-    setFees(null)
     setFrom(to)
     setTo(currentFrom)
     setPegoutToTelosEvmAddress(false)

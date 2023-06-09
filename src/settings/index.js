@@ -139,7 +139,7 @@ const settings = {
       eth: 'https://etherscan.io/',
       btc: 'https://blockstream.info/',
       eos: 'https://bloks.io/',
-      telos: 'https://telos.eosx.io/',
+      telos: 'https://explorer.telos.net/',
       libre: 'https://lb.libre.org/v2/explore/',
       ltc: 'https://live.blockcypher.com/ltc/',
       bsc: 'https://bscscan.com/',
