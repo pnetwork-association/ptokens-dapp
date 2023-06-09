@@ -3,7 +3,7 @@ import _ from 'lodash'
 
 import { offChainFormat, strip } from '../utils/amount-utils'
 import { blockchainSymbolToName, blockchainSymbolToCoin } from '../utils/maps'
-import { getCorrespondingBaseTokenExplorerLinkByBlockchain } from '../utils/explorer'
+import { getCorrespondingTokenExplorerLinkByBlockchain } from '../utils/explorer'
 import { stringUtils } from 'ptokens-helpers'
 
 const useAssets = (_assets) => {
@@ -77,9 +77,7 @@ const updateAsset = (_asset) => ({
     _asset.blockchain !== 'ALGORAND'
       ? stringUtils.addHexPrefix(_asset.address)
       : _asset.address,
-  explorer: _asset.address
-    ? `${getCorrespondingBaseTokenExplorerLinkByBlockchain(_asset.blockchain)}${_asset.address}`
-    : null,
+  explorer: _asset.address ? getCorrespondingTokenExplorerLinkByBlockchain(_asset.blockchain, _asset.address) : null,
   formattedBalance: _asset.balance
     ? _asset.withBalanceDecimalsConversion
       ? strip(offChainFormat(_asset.balance, _asset.decimals))

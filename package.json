@@ -61,6 +61,7 @@
     "reactstrap": "^9.1.6",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
+    "sprintf-js": "^1.1.2",
     "styled-components": "^5.2.0",
     "vite-svg-loader": "4.0.0",
     "walletlink": "^2.4.2",
