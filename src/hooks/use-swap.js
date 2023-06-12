@@ -535,8 +535,9 @@ const useSwap = ({
       filtered = filtered.filter(({ isNative }) => (from.isPseudoNative ? isNative : true))
       filtered = filtered.filter(({ requiresCurve }) => !requiresCurve)
       filtered = filtered.filter(({ blockchain }) => from.blockchain !== blockchain)
+      if (from.id === 'TLOS_ON_ETH_MAINNET') filtered = filtered.filter(({ id }) => id !== 'TLOS_ON_BSC_MAINNET')
       if (!isValidSwap) {
-        setTo(filtered.filter(({ isNative }) => isNative)[0])
+        setTo(filtered.find(({ isNative }) => isNative))
       }
       return [filtered]
     }
