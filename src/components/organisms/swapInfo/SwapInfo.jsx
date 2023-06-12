@@ -56,6 +56,7 @@ const FeeValueCol = styled(ValueCol)`
 const FeesDescriptionCol = styled(Col)`
   text-align: right;
   padding-right: 0px;
+  padding-left: 0px;
   font-weight: 500;
   color: ${({ theme }) => theme.text1};
   @media (max-width: 767.98px) {
@@ -161,7 +162,7 @@ const SwapInfo = ({ from, to, amount, bpm, swappersBalances, curveImpact, fees }
         </MarginedRow>
       ) : null}
       <MarginedRow style={{ alignItems: 'center' }}>
-        <LabelCol xs={1}>Fees</LabelCol>
+        <LabelCol style={{ maxWidth: '15%' }}>Fees</LabelCol>
         <FeesDescriptionCol>{formattedFee ? formattedFee : <Skeleton />}</FeesDescriptionCol>
         <ArrowCol onClick={() => setShowInfo(!showInfo)}>
           <Arrow icon={showInfo ? 'arrow-up' : 'arrow-down'} />
