@@ -1351,6 +1351,7 @@ const swapAssets = [
     image: 'pWSB.svg',
     withBalanceDecimalsConversion: true,
     chainId: ChainId.EthereumMainnet,
+    onPnetworkV2: true,
   },
   {
     address: '0x89Ed0738eC8BF59302dC34AdecE3508CF3B911E2',
