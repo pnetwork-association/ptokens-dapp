@@ -27,6 +27,7 @@ const getAssetBuilder = (_asset) => {
   if (evmBlockchains.includes(_asset.blockchain.toLowerCase())) return new pTokensEvmAssetBuilder(node)
   if (eosioBlockchains.includes(_asset.blockchain.toLowerCase())) return new pTokensEosioAssetBuilder(node)
   if (algorandBlockchains.includes(_asset.blockchain.toLowerCase())) return new pTokensAlgorandAssetBuilder(node)
+  throw new Error('Unable to determine builder')
 }
 
 const getProvider = (_asset, _wallets) => {
@@ -74,4 +75,15 @@ export const createAsset = async (_asset, _wallets) => {
 export const getSwapBuilder = () => {
   const node = getNode()
   return new pTokensSwapBuilder(node)
+}
+
+export const getAssetInfo = async (_tokenObj) => {
+  try {
+    const fromAsset = await createAsset(_tokenObj)
+    return fromAsset.assetInfo
+  } catch (_err) {
+    if (_err.message.includes('Unsupported token for chain ID') || _err.message.includes('Unable to determine builder'))
+      return null
+    throw _err
+  }
 }

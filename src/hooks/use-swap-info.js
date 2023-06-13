@@ -4,7 +4,7 @@ import { getFormattedFeesDescriptionAmount } from '../utils/fee'
 import { getAssetById } from '../store/swap/swap.selectors'
 import { chainIdToTypeMap, BlockchainType } from 'ptokens-constants'
 
-const useSwapInfo = ({ from, to, amount, bpm, swappersBalances, fees }) => {
+const useSwapInfo = ({ from, to, amount, bpm, swappersBalances, fees, onPnetworkV2 }) => {
   return useMemo(() => {
     function getEta() {
       let fromAsset = from
@@ -66,7 +66,7 @@ const useSwapInfo = ({ from, to, amount, bpm, swappersBalances, fees }) => {
       return {
         formattedFee: getFormattedFeesDescriptionAmount(fees, amount, to.symbol),
         estimatedSwapTime,
-        show: true,
+        show: onPnetworkV2,
         eta,
         poolAmount,
       }
@@ -80,7 +80,7 @@ const useSwapInfo = ({ from, to, amount, bpm, swappersBalances, fees }) => {
       return {
         formattedFee: getFormattedFeesDescriptionAmount(fees, amount, to.symbol),
         estimatedSwapTime,
-        show: true,
+        show: onPnetworkV2,
         eta,
         poolAmount,
         requiresCurve,
@@ -94,7 +94,7 @@ const useSwapInfo = ({ from, to, amount, bpm, swappersBalances, fees }) => {
       estimatedSwapTime: `-`,
       show: false,
     }
-  }, [from, to, amount, bpm, swappersBalances, fees])
+  }, [from, to, amount, bpm, swappersBalances, fees, onPnetworkV2])
 }
 
 export { useSwapInfo }

@@ -1,20 +1,15 @@
 import BigNumber from 'bignumber.js'
 import { formatDecimalSeparator } from './amount-utils'
-import { createAsset } from './ptokens'
 import { PNT_ON_ETH_MAINNET, ETHPNT_ON_ETH_MAINNET, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../constants'
 import _ from 'lodash'
 
 const getFeeFactor = (fee) => (_.isNil(fee) ? null : 1 - fee / 100)
 
-const getBasisPoints = (_fromAsset, _toAsset) => {
-  if (_fromAsset.assetInfo.isNative && _toAsset.assetInfo.isNative)
-    return _fromAsset.assetInfo.fees.basisPoints.nativeToNative
-  else if (_fromAsset.assetInfo.isNative && !_toAsset.assetInfo.isNative)
-    return _fromAsset.assetInfo.fees.basisPoints.nativeToHost
-  else if (!_fromAsset.assetInfo.isNative && _toAsset.assetInfo.isNative)
-    return _fromAsset.assetInfo.fees.basisPoints.hostToNative
-  else if (!_fromAsset.assetInfo.isNative && !_toAsset.assetInfo.isNative)
-    return _fromAsset.assetInfo.fees.basisPoints.hostToHost
+const getBasisPoints = (_assetInfoFrom, _assetInfoTo) => {
+  if (_assetInfoFrom.isNative && _assetInfoTo.isNative) return _assetInfoFrom.fees.basisPoints.nativeToNative
+  else if (_assetInfoFrom.isNative && !_assetInfoTo.isNative) return _assetInfoFrom.fees.basisPoints.nativeToHost
+  else if (!_assetInfoFrom.isNative && _assetInfoTo.isNative) return _assetInfoFrom.fees.basisPoints.hostToNative
+  else if (!_assetInfoFrom.isNative && !_assetInfoTo.isNative) return _assetInfoFrom.fees.basisPoints.hostToHost
 }
 
 const getMigrationFees = (_from, _to) => {
@@ -23,13 +18,11 @@ const getMigrationFees = (_from, _to) => {
   else return null
 }
 
-const getSwapFees = async (_from, _to) => {
+const getSwapFees = async (_assetInfoFrom, _assetInfoTo) => {
   try {
-    const fromAsset = await createAsset(_from)
-    const toAsset = await createAsset(_to)
-    const basisPoints = getBasisPoints(fromAsset, toAsset)
-    const networkFee = toAsset.assetInfo.fees.networkFee
-    const minProtocolFee = fromAsset.assetInfo.fees.minNodeOperatorFee
+    const basisPoints = getBasisPoints(_assetInfoFrom, _assetInfoTo)
+    const networkFee = _assetInfoTo.fees.networkFee
+    const minProtocolFee = _assetInfoFrom.fees.minNodeOperatorFee
     return { basisPoints, networkFee, minProtocolFee }
   } catch (_err) {
     return { basisPoints: undefined, networkFee: undefined, minProtocolFee: undefined }

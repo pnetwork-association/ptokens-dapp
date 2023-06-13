@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import BigNumber from 'bignumber.js'
 import { Row, Col, Container } from 'react-bootstrap'
+import _ from 'lodash'
 import AssetListModal from '../../organisms/assetListModal/AssetListModal'
 import Progress from '../../molecules/progress/Progress'
 import { useSwap } from '../../../hooks/use-swap'
@@ -21,6 +22,7 @@ import Button from '../../atoms/button/Button'
 import { MAX_IMPACT, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../../../constants'
 import { sendEvent } from '../../../ga4'
 import ReactTooltip from 'react-tooltip'
+import Skeleton from 'react-loading-skeleton'
 
 export const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -323,7 +325,13 @@ const Swap = ({
                 <Col xs={6}>
                   <SwapLabel>Swap</SwapLabel>
                 </Col>
-                <Col className="text-right">{onPnetworkV2 ? <PnetworkV2Badge>pNetwork v2</PnetworkV2Badge> : null}</Col>
+                <Col className="text-right">
+                  {_.isNil(onPnetworkV2) ? (
+                    <Skeleton />
+                  ) : onPnetworkV2 === true ? (
+                    <PnetworkV2Badge>pNetwork v2</PnetworkV2Badge>
+                  ) : null}
+                </Col>
               </Row>
               <SwapLine
                 defaultImage="./assets/svg/BTC.svg"
@@ -345,7 +353,7 @@ const Swap = ({
                 defaultMiniImage="./assets/svg/ETH.svg"
                 title="To"
                 asset={to}
-                amount={toAmount}
+                amount={_.isNil(onPnetworkV2) ? fromAmount : toAmount}
                 address={address}
                 wallet={toWallet}
                 disableInput={disableToInput}
@@ -539,7 +547,9 @@ const Swap = ({
         curvePoolName={curvePoolName}
         curveImpact={curveImpact}
         fees={fees}
+        onPnetworkV2={onPnetworkV2}
       />
+      <Container style={{ height: '20px' }}></Container>
       <ReactTooltip id="tooltip-gasless" multiline={true} style={{ zIndex: 2 }} />
       <ReactTooltip id="tooltip-fees" multiline={true} style={{ zIndex: 2 }} />
       <AssetListModal

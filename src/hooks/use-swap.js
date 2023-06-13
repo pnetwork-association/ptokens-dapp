@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
+import _ from 'lodash'
 import { isValidAccountByBlockchain } from '../utils/account-validator'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 import { getSwapFees, computeSwapAmount } from '../utils/fee'
+import { getAssetInfo } from '../utils/ptokens'
 import BigNumber from 'bignumber.js'
 import { getLegacyUrl, updateUrlForSwap } from '../utils/url'
 import { useWalletByBlockchain } from './use-wallets'
@@ -33,6 +35,7 @@ const useSwap = ({
   const [fees, setFees] = useState(null)
   const [fromAmount, setFromAmount] = useState('')
   const [toAmount, setToAmount] = useState(null)
+  const [onPnetworkV2, setOnPnetworkV2] = useState(undefined)
   const [showModalFrom, setShowModalFrom] = useState(false)
   const [showModalTo, setShowModalTo] = useState(false)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
@@ -48,13 +51,18 @@ const useSwap = ({
   const AddressWarningRef = useRef({ proceed: false, doNotProceed: false })
 
   useEffect(() => {
-    async function _getFees() {
-      const fees = await getSwapFees(from, to)
+    async function _getAssetInfo() {
+      const fromAssetInfo = await getAssetInfo(from)
+      const toAssetInfo = await getAssetInfo(to)
+      const fees = await getSwapFees(fromAssetInfo, toAssetInfo)
+      const onPnetworkV2 = !_.isNil(fromAssetInfo) && !_.isNil(toAssetInfo)
+      setOnPnetworkV2(onPnetworkV2)
       setFees(fees)
     }
     if (from && to) {
       setFees(null)
-      _getFees()
+      setOnPnetworkV2(undefined)
+      _getAssetInfo()
     }
   }, [from, to])
 
@@ -117,8 +125,6 @@ const useSwap = ({
       setCurvePoolName('')
     }
   }, [fromAmount, to, from, curveRef])
-
-  const onPnetworkV2 = Boolean((from && from.onPnetworkV2) || (to && to.onPnetworkV2))
 
   const { eta, poolAmount } = useSwapInfo({
     from,
@@ -371,7 +377,7 @@ const useSwap = ({
         return
       }
 
-      if (!from || !to) {
+      if (!from || !to || onPnetworkV2 === undefined) {
         updateSwapButton('Loading ...', true)
         return
       }
@@ -387,7 +393,7 @@ const useSwap = ({
         return
       }
 
-      if (!onPnetworkV2) {
+      if (onPnetworkV2 === false) {
         updateSwapButton('Go to Legacy dApp', false, getLegacyUrl(from, to))
         return
       }
@@ -510,7 +516,7 @@ const useSwap = ({
   ])
 
   // NOTE: filters based on from selection
-  const [filteredAssets] = useMemo(() => {
+  const filteredAssets = useMemo(() => {
     if (from && from.isNative) {
       let filtered = assets.filter(
         ({ isNative, nativeSymbol, isHidden }) =>
@@ -521,7 +527,7 @@ const useSwap = ({
         setTo(filtered[0])
       }
 
-      return [filtered]
+      return filtered
     }
 
     if (from && !from.isNative) {
@@ -539,10 +545,10 @@ const useSwap = ({
       if (!isValidSwap) {
         setTo(filtered.find(({ isNative }) => isNative))
       }
-      return [filtered]
+      return filtered
     }
 
-    return [assets]
+    return assets
   }, [assets, isValidSwap, from])
 
   // NOTE: from balance is null but it has been loaded

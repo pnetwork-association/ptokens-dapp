@@ -19,7 +19,6 @@ const swapAssets = [
     nativeBlockchain: 'BTC',
     image: 'pBTC.svg',
     withBalanceDecimalsConversion: true,
-    onPnetworkV2: true,
     chainId: ChainId.EthereumMainnet,
   },
   {
@@ -43,7 +42,6 @@ const swapAssets = [
     nativeBlockchain: 'BTC',
     image: 'wBTC.svg',
     withBalanceDecimalsConversion: true,
-    onPnetworkV2: true,
     chainId: ChainId.EthereumMainnet,
   },
   {
@@ -1307,7 +1305,6 @@ const swapAssets = [
     withBalanceDecimalsConversion: true,
     isSpecial: true,
     isPerc20: true,
-    onPnetworkV2: true,
     chainId: ChainId.PolygonMainnet,
   },
   {
@@ -1371,7 +1368,6 @@ const swapAssets = [
     withBalanceDecimalsConversion: true,
     isSpecial: true,
     isPerc20: true,
-    onPnetworkV2: true,
     gasLimitPegout: 90000 * 10,
     chainId: ChainId.ArbitrumMainnet,
   },
@@ -1394,7 +1390,6 @@ const swapAssets = [
     withBalanceDecimalsConversion: true,
     isSpecial: true,
     isPerc20: true,
-    onPnetworkV2: true,
     gasPricePegout: 0,
     chainId: ChainId.LuxochainMainnet,
   },
@@ -1417,7 +1412,6 @@ const swapAssets = [
     withBalanceDecimalsConversion: true,
     isSpecial: true,
     isPerc20: true,
-    onPnetworkV2: true,
     chainId: ChainId.BscMainnet,
   },
   {
@@ -1438,7 +1432,6 @@ const swapAssets = [
     image: 'pKEYS.svg',
     withBalanceDecimalsConversion: true,
     isPerc20: true,
-    onPnetworkV2: true,
     chainId: ChainId.BscMainnet,
   },
   {
@@ -1459,7 +1452,6 @@ const swapAssets = [
     nativeBlockchain: 'BTC',
     image: 'pBTC.svg',
     withBalanceDecimalsConversion: true,
-    onPnetworkV2: true,
     chainId: ChainId.AlgorandMainnet,
   },
   {
@@ -1480,7 +1472,6 @@ const swapAssets = [
     image: 'pOATH.svg',
     withBalanceDecimalsConversion: true,
     isPerc20: true,
-    onPnetworkV2: true,
     isSpecial: true,
     chainId: ChainId.EthereumMainnet,
   },
@@ -1502,7 +1493,6 @@ const swapAssets = [
     nativeBlockchain: 'FTM',
     image: 'pFTM.svg',
     withBalanceDecimalsConversion: true,
-    onPnetworkV2: true,
     chainId: ChainId.EthereumMainnet,
   },
   {
@@ -1523,7 +1513,6 @@ const swapAssets = [
     image: 'pNUCO.svg',
     withBalanceDecimalsConversion: false,
     isPerc20: true,
-    onPnetworkV2: true,
     isSpecial: true,
     chainId: ChainId.TelosMainnet,
   },
@@ -1545,7 +1534,6 @@ const swapAssets = [
     image: 'pUSDC.svg',
     withBalanceDecimalsConversion: true,
     isPerc20: true,
-    onPnetworkV2: true,
     chainId: ChainId.AlgorandMainnet,
   },
   {
@@ -1569,7 +1557,6 @@ const swapAssets = [
     withBalanceDecimalsConversion: true,
     isPerc20: true,
     symbolToDisplay: 'USDC',
-    onPnetworkV2: true,
     isSpecial: true,
     chainId: ChainId.AlgorandMainnet,
   },
@@ -1591,7 +1578,6 @@ const swapAssets = [
     image: 'pUSDT.svg',
     withBalanceDecimalsConversion: true,
     isPerc20: true,
-    onPnetworkV2: true,
     chainId: ChainId.AlgorandMainnet,
   },
   {
@@ -1615,7 +1601,6 @@ const swapAssets = [
     withBalanceDecimalsConversion: true,
     isPerc20: true,
     symbolToDisplay: 'USDT',
-    onPnetworkV2: true,
     isSpecial: true,
     chainId: ChainId.AlgorandMainnet,
   },
@@ -1657,7 +1642,6 @@ const swapAssets = [
     nativeBlockchain: 'ETH',
     image: 'pWOMBAT.svg',
     withBalanceDecimalsConversion: false,
-    onPnetworkV2: true,
     chainId: ChainId.EosMainnet,
   },
   /* #################   Native Tokens   #################*/

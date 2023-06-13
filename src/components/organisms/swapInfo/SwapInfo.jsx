@@ -129,7 +129,7 @@ const FeeRow = ({ label, value, datatip }) => (
   </MarginedRow>
 )
 
-const SwapInfo = ({ from, to, amount, bpm, swappersBalances, curveImpact, fees }) => {
+const SwapInfo = ({ from, to, amount, bpm, swappersBalances, curveImpact, fees, onPnetworkV2 }) => {
   const [showInfo, setShowInfo] = useState(false)
   const { show, formattedFee, estimatedSwapTime, requiresCurve } = useSwapInfo({
     from,
@@ -138,13 +138,14 @@ const SwapInfo = ({ from, to, amount, bpm, swappersBalances, curveImpact, fees }
     bpm,
     swappersBalances,
     fees,
+    onPnetworkV2,
   })
 
   useEffect(() => {
     ReactTooltip.rebuild()
   })
 
-  return (
+  return show ? (
     <ContainerInfo show={Boolean(show).toString()}>
       {fees && BigNumber(fees.networkFee).isEqualTo(0) ? (
         <MarginedRow>
@@ -202,7 +203,7 @@ const SwapInfo = ({ from, to, amount, bpm, swappersBalances, curveImpact, fees }
         </MarginedRow>
       ) : null}
     </ContainerInfo>
-  )
+  ) : null
 }
 
 SwapInfo.propTypes = {
@@ -212,6 +213,7 @@ SwapInfo.propTypes = {
   to: PropTypes.object,
   amount: PropTypes.string,
   fees: PropTypes.object,
+  onPnetworkV2: PropTypes.bool,
 }
 
 export default SwapInfo
