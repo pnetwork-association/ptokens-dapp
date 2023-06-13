@@ -38,8 +38,8 @@ const useMigration = ({
   const onFromMax = useCallback(() => {
     const amount = BigNumber(from.balance).toFixed()
     setFromAmount(amount)
-    setToAmount(amount)
-  }, [from])
+    setToAmount(computeMigrationAmount(from, to, amount, 'to'))
+  }, [from, to])
 
   const onMigrate = useCallback(() => {
     if (migrateButton.text === 'Connect Wallet') {
