@@ -216,6 +216,46 @@ const supported = {
       },
     },
   ],
+  usdc: [
+    {
+      chainId: '0x03c38e67',
+      isNative: false,
+      vaultAddress: null,
+      identity: 'XXMOLMZYB5SMKNZP4PN4FRR5EX64BJURDZDYSQULMXS5SB354SDLBZX6HI',
+      tokenReference: '0xc8bb450f6c03e38ff83e01bc46fc2d24cb270f16',
+      tokenAddress: '748211185',
+      tokenDecimals: 6,
+      fees: {
+        networkFee: 0,
+        networkFeeUsd: 0,
+        basisPoints: {
+          hostToHost: 10,
+          hostToNative: 25,
+        },
+        minNodeOperatorFee: 1e19,
+        minNodeOperatorFeeUsd: 10,
+      },
+    },
+    {
+      chainId: '0x005fe7f9',
+      isNative: true,
+      vaultAddress: 'e396757ec7e6ac7c8e5abe7285dde47b98f22db8',
+      identity: '341aa660fd5c280f5a9501e3822bb4a98e816d1b',
+      tokenReference: '0xc8bb450f6c03e38ff83e01bc46fc2d24cb270f16',
+      tokenAddress: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+      tokenDecimals: 6,
+      fees: {
+        networkFee: 1e19,
+        networkFeeUsd: 10,
+        basisPoints: {
+          nativeToHost: 10,
+          nativeToNative: 25,
+        },
+        minNodeOperatorFee: 1e19,
+        minNodeOperatorFeeUsd: 10,
+      },
+    },
+  ],
 }
 
 export { pTokensNode } from 'ptokens-node'
@@ -231,6 +271,8 @@ export class pTokensNodeProvider {
         return Promise.resolve(supported.uos)
       } else if (_params[0].toLowerCase().endsWith('zmt')) {
         return Promise.resolve(supported.zmt)
+      } else if (_params[0].toLowerCase().endsWith('usdc')) {
+        return Promise.resolve(supported.usdc)
       }
     }
   }
