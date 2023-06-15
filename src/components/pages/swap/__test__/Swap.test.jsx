@@ -151,4 +151,16 @@ describe('Swap', async () => {
     expect(getByText(assetListModals[1], /title="Swap to \.\.\."/)).toBeInTheDocument()
     expect(getByText(assetListModals[1], /assets=["TLOS_ON_ETH_MAINNET","TLOS","TLOS"]/)).toBeInTheDocument()
   })
+
+  it('Should show deposit address warning when pegging-in pLTC on Ethereum', async () => {
+    vi.spyOn(SwapInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)
+    vi.spyOn(feeUtils, 'getSwapFees').mockResolvedValue({ basisPoints: 15, networkFee: 1e18, minProtocolFee: 2e18 })
+    render(<Wrapper asset="ltc" originBlockchain="ltc" destBlockchain="eth" />)
+    await waitFor(() => expect(screen.getByText(/Enter an address/)).toBeInTheDocument())
+    expect(
+      screen.getByText(
+        'Please refrain from using previously generated deposit addresses, as doing so may result in a loss of funds.'
+      )
+    ).toBeInTheDocument()
+  })
 })

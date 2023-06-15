@@ -105,9 +105,7 @@ const InfoEta = styled.div`
 `
 
 const WarningEta = styled.div`
-  margin-top: 30px;
   padding: 20px;
-  margin-botton: 10px;
   background: #ffed8640;
   border: 0.5px solid ${({ theme }) => theme.primary1};
   border-radius: 10px;
@@ -383,6 +381,12 @@ const Swap = ({
                   caution!
                 </InfoEta>
               ) : null}
+              {from && from.isNative && to.notifyDepositAddressWarning && (
+                <WarningEta>
+                  Please refrain from using previously generated deposit addresses, as doing so may result in a loss of
+                  funds.
+                </WarningEta>
+              )}
               {from && from.id === 'GALA_ON_BSC_MAINNET' && to && to.id === 'GALA' ? (
                 <InfoEta>
                   You are about to pegout (redeem){' '}
