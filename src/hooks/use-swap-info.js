@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { getPeginOrPegoutMinutesEstimationByBlockchainAndEta } from '../utils/estimations'
-import { getFormattedFeesDescriptionAmount } from '../utils/fee'
+import { getFormattedFees } from '../utils/fee'
 import { getAssetById } from '../store/swap/swap.selectors'
 import { chainIdToTypeMap, BlockchainType } from 'ptokens-constants'
 
@@ -64,7 +64,7 @@ const useSwapInfo = ({ from, to, amount, bpm, swappersBalances, fees }) => {
           ? amounts[to.swapperAddress][to.address] / 10 ** to.decimals
           : undefined
       return {
-        formattedFee: getFormattedFeesDescriptionAmount(fees, amount, to.symbol),
+        formattedFee: getFormattedFees(fees, amount, to.symbol),
         estimatedSwapTime,
         show: true,
         eta,
@@ -78,7 +78,7 @@ const useSwapInfo = ({ from, to, amount, bpm, swappersBalances, fees }) => {
           ? amounts[from.swapperAddress][from.ptokenAddress] / 10 ** from.decimals
           : undefined
       return {
-        formattedFee: getFormattedFeesDescriptionAmount(fees, amount, to.symbol),
+        formattedFee: getFormattedFees(fees, amount, to.symbol),
         estimatedSwapTime,
         show: true,
         eta,

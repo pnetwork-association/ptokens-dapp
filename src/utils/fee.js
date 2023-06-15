@@ -90,69 +90,58 @@ const computeSwapAmount = (fees, amount, direction) => {
   return amount !== '' ? (direction === 'to' ? computeToAmount(fees, amount) : computeFromAmount(fees, amount)) : amount
 }
 
-const getFormattedNetworkFees = (fees, symbol) => {
-  if (!fees) return ''
-  return `${formatDecimalSeparator(BigNumber(fees.networkFee).dividedBy(1e18).toPrecision(3))} ${symbol}`
-}
+const getFixedOrPrecision = (_n) => (BigNumber(_n).e >= 3 ? _n.toFixed(1) : _n.toPrecision(3))
 
-const getFormattedProtocolFees = (fees, symbol) => {
-  if (!fees) return ''
-  return (
-    `${formatDecimalSeparator(fees.basisPoints / 100)} %` +
-    (fees.minProtocolFee > 0
-      ? ` (min ${formatDecimalSeparator(BigNumber(fees.minProtocolFee).dividedBy(1e18).toPrecision(3))} ${symbol})`
-      : '')
-  )
-}
-
-const getFormattedFeesDescription = (fees, symbol) => {
-  if (
-    !fees ||
-    _.isNil(fees.basisPoints) ||
-    _.isNil(fees.minProtocolFee) ||
-    _.isNil(fees.networkFee) ||
-    _.isNil(symbol)
-  ) {
-    return ''
-  }
-  return (
-    getFormattedProtocolFees(fees, symbol) + (fees.networkFee > 0 ? ` + ${getFormattedNetworkFees(fees, symbol)}` : '')
-  )
-}
-
-const getFormattedFeesDescriptionAmount = (fees, amount, symbol) => {
-  if (
-    !fees ||
-    _.isNil(fees.basisPoints) ||
-    _.isNil(fees.minProtocolFee) ||
-    _.isNil(fees.networkFee) ||
-    _.isNil(symbol)
-  ) {
-    return ''
-  }
-  if (_.isNil(amount) || amount === '') return getFormattedFeesDescription(fees, symbol)
-  const feesAmount = computeFeesAmount(fees, amount)
-  const requiresTilde = !feesAmount.eq(BigNumber(feesAmount.toPrecision(3)))
-  return `${requiresTilde ? '~' : ''}${formatDecimalSeparator(
-    computeFeesAmount(fees, amount).toPrecision(3)
-  )} ${symbol}`
+const getFormattedAmount = (_amount, _tilde = false) => {
+  const requiresTilde = _tilde && !_amount.eq(getFixedOrPrecision(_amount))
+  return `${requiresTilde ? '~' : ''}${formatDecimalSeparator(getFixedOrPrecision(_amount))}`
 }
 
 const getNetworkFeeDescription = (fees, symbol) => {
   if (!fees || _.isNil(fees.networkFee) || _.isNil(symbol)) return ''
-  return `${formatDecimalSeparator(getFormattedNetworkFees(fees, symbol))}`
+  return `${getFormattedAmount(BigNumber(fees.networkFee).dividedBy(1e18))} ${symbol}`
 }
 
-const getProtocolFeeDescription = (fees, amount, symbol) => {
+const getFormattedNetworkFee = getNetworkFeeDescription
+
+const getProtocolFeeDescription = (fees, symbol) => {
+  if (!fees) return ''
+  return (
+    `${formatDecimalSeparator(fees.basisPoints / 100)} %` +
+    (fees.minProtocolFee > 0
+      ? ` (min ${formatDecimalSeparator(
+          getFixedOrPrecision(BigNumber(fees.minProtocolFee).dividedBy(1e18))
+        )} ${symbol})`
+      : '')
+  )
+}
+
+const getFormattedProtocolFee = (fees, amount, symbol) => {
   if (!fees || _.isNil(fees.basisPoints) || _.isNil(fees.minProtocolFee) || _.isNil(fees.networkFee) || _.isNil(symbol))
     return ''
-  if (_.isNil(amount) || amount === '') return getFormattedProtocolFees(fees, symbol)
+  if (_.isNil(amount) || amount === '') return getProtocolFeeDescription(fees, symbol)
   const protocolFee = computeProtocolFee(fees, amount)
   return protocolFee.isGreaterThan(BigNumber(fees.minProtocolFee).dividedBy(1e18))
-    ? `${formatDecimalSeparator(protocolFee.toPrecision(3))} ${symbol} (=${BigNumber(fees.basisPoints).dividedBy(
-        100
-      )}%)`
-    : `${formatDecimalSeparator(protocolFee.toPrecision(3))} ${symbol}`
+    ? `${getFormattedAmount(protocolFee, true)} ${symbol} (=${BigNumber(fees.basisPoints).dividedBy(100)}%)`
+    : `${getFormattedAmount(protocolFee, false)} ${symbol}`
+}
+
+const getFeesDescription = (fees, symbol) =>
+  getProtocolFeeDescription(fees, symbol) + (fees.networkFee > 0 ? ` + ${getNetworkFeeDescription(fees, symbol)}` : '')
+
+const getFormattedFees = (fees, amount, symbol) => {
+  if (
+    !fees ||
+    _.isNil(fees.basisPoints) ||
+    _.isNil(fees.minProtocolFee) ||
+    _.isNil(fees.networkFee) ||
+    _.isNil(symbol)
+  ) {
+    return ''
+  }
+  if (_.isNil(amount) || amount === '') return getFeesDescription(fees, symbol)
+  const feesAmount = computeFeesAmount(fees, amount)
+  return `${getFormattedAmount(feesAmount, true)} ${symbol}`
 }
 
 export {
@@ -161,8 +150,7 @@ export {
   computeMigrationAmount,
   computeSwapAmount,
   computeFeesAmount,
-  getFormattedFeesDescription,
-  getFormattedFeesDescriptionAmount,
-  getNetworkFeeDescription,
-  getProtocolFeeDescription,
+  getFormattedFees,
+  getFormattedNetworkFee,
+  getFormattedProtocolFee,
 }
