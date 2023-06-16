@@ -32,6 +32,8 @@ const isValidAccountByBlockchain = (_account, _blockchain) => {
       return validators.isValidAddressByChainId(_account, ChainId.EosMainnet)
     case 'BTC':
       return validators.isValidAddressByChainId(_account, ChainId.BitcoinMainnet)
+    case 'LTC':
+      return validators.isValidAddressByChainId(_account, ChainId.LitecoinMainnet)
     default:
       return false
   }

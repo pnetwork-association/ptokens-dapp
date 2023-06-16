@@ -4,14 +4,15 @@ import {
   computeMigrationAmount,
   computeSwapAmount,
   computeFeesAmount,
-  getFormattedFeesDescription,
-  getFormattedFeesDescriptionAmount,
-  getNetworkFeeDescription,
-  getProtocolFeeDescription,
+  getFormattedFees,
+  getFormattedNetworkFee,
+  getFormattedProtocolFee,
+  getSwapFees,
 } from '../fee'
 import { PBTC_ON_ETH_MAINNET_V1_MIGRATION, ETHPNT_ON_ETH_MAINNET, PNT_ON_ETH_MAINNET } from '../../constants'
+import assets from '../../settings/swap-assets'
 
-describe('getFormattedFeesDescription', () => {
+describe('getFormattedFees with no amount', () => {
   afterEach(() => {
     vi.restoreAllMocks()
   })
@@ -27,7 +28,7 @@ describe('getFormattedFeesDescription', () => {
     const basisPoints = 1
     const minProtocolFee = 0
     const networkFee = 0
-    const ret = getFormattedFeesDescription({ basisPoints, minProtocolFee, networkFee }, 'SYM')
+    const ret = getFormattedFees({ basisPoints, minProtocolFee, networkFee }, '', 'SYM')
     expect(ret).toEqual(_expectedResult)
     vi.resetAllMocks()
   })
@@ -43,7 +44,7 @@ describe('getFormattedFeesDescription', () => {
     const basisPoints = 1
     const minProtocolFee = 1e18
     const networkFee = 0
-    const ret = getFormattedFeesDescription({ basisPoints, minProtocolFee, networkFee }, 'SYM')
+    const ret = getFormattedFees({ basisPoints, minProtocolFee, networkFee }, '', 'SYM')
     expect(ret).toEqual(_expectedResult)
     vi.resetAllMocks()
   })
@@ -60,7 +61,7 @@ describe('getFormattedFeesDescription', () => {
     const minProtocolFee = 1e18
     const networkFee = 1e15
     const symbol = 'SYM'
-    const ret = getFormattedFeesDescription({ basisPoints, minProtocolFee, networkFee }, symbol)
+    const ret = getFormattedFees({ basisPoints, minProtocolFee, networkFee }, '', symbol)
     expect(ret).toEqual(_expectedResult)
     vi.resetAllMocks()
   })
@@ -77,7 +78,7 @@ describe('getFormattedFeesDescription', () => {
     const minProtocolFee = 0
     const networkFee = 1e15
     const symbol = 'SYM'
-    const ret = getFormattedFeesDescription({ basisPoints, minProtocolFee, networkFee }, symbol)
+    const ret = getFormattedFees({ basisPoints, minProtocolFee, networkFee }, '', symbol)
     expect(ret).toEqual(_expectedResult)
     vi.resetAllMocks()
   })
@@ -127,25 +128,29 @@ describe('computeSwapAmount', () => {
   })
 })
 
-describe('getProtocolFeeDescription', () => {
-  test.each([
-    [10, 0, 1e18, '1.00 SYM'],
-    [10, 1e18, 1e18, '1.00 SYM'],
-    [25, 0, 1e18, '2.50 SYM (=0.25%)'],
-    [25, 2e18, 1e18, '2.50 SYM (=0.25%)'],
-    [10, 0, 1e18, '1.00 SYM'],
-    [10, 1e18, 1e18, '1.00 SYM'],
-    [25, 0, 1e18, '2.50 SYM (=0.25%)'],
-    [25, 2e18, 1e18, '2.50 SYM (=0.25%)'],
-  ])('Should get protocol fee description', (basisPoints, networkFee, minProtocolFee, expected) => {
-    const amount = 1000
+describe('getFormattedProtocolFee', () => {
+  test.each`
+    basisPoints | networkFee | minProtocolFee | amount     | expected
+    ${10}       | ${0}       | ${1e18}        | ${1000}    | ${'1.00 SYM'}
+    ${10}       | ${1e18}    | ${1e18}        | ${1000}    | ${'1.00 SYM'}
+    ${25}       | ${0}       | ${1e18}        | ${1000}    | ${'2.50 SYM (=0.25%)'}
+    ${25}       | ${2e18}    | ${1e18}        | ${1000}    | ${'2.50 SYM (=0.25%)'}
+    ${10}       | ${0}       | ${1e18}        | ${1000}    | ${'1.00 SYM'}
+    ${10}       | ${1e18}    | ${1e18}        | ${1000}    | ${'1.00 SYM'}
+    ${25}       | ${0}       | ${1e18}        | ${1000}    | ${'2.50 SYM (=0.25%)'}
+    ${25}       | ${2e18}    | ${1e18}        | ${1000}    | ${'2.50 SYM (=0.25%)'}
+    ${25}       | ${2e18}    | ${1e18}        | ${1000000} | ${'2500.0 SYM (=0.25%)'}
+    ${25}       | ${2e18}    | ${1e18}        | ${1}       | ${'1.00 SYM'}
+    ${25}       | ${2e18}    | ${1.332144e18} | ${1}       | ${'1.33 SYM'}
+    ${10}       | ${2e18}    | ${1e18}        | ${1333114} | ${'~1333.1 SYM (=0.1%)'}
+  `('Should get protocol fee description', ({ basisPoints, networkFee, minProtocolFee, amount, expected }) => {
     const symbol = 'SYM'
-    const ret = getProtocolFeeDescription({ basisPoints, networkFee, minProtocolFee }, amount, symbol)
+    const ret = getFormattedProtocolFee({ basisPoints, networkFee, minProtocolFee }, amount, symbol)
     expect(ret).toStrictEqual(expected)
   })
 })
 
-describe('getNetworkFeeDescription', () => {
+describe('getFormattedNetworkFee', () => {
   test.each`
     basisPoints | networkFee   | minProtocolFee | expected
     ${10}       | ${0}         | ${1e18}        | ${'0.00 SYM'}
@@ -157,13 +162,13 @@ describe('getNetworkFeeDescription', () => {
     'Should get network fee description if network fee is $networkFee',
     ({ basisPoints, networkFee, minProtocolFee, expected }) => {
       const symbol = 'SYM'
-      const ret = getNetworkFeeDescription({ basisPoints, networkFee, minProtocolFee }, symbol)
+      const ret = getFormattedNetworkFee({ basisPoints, networkFee, minProtocolFee }, symbol)
       expect(ret).toStrictEqual(expected)
     }
   )
 })
 
-describe('getFormattedFeesDescription', () => {
+describe('getFormattedFees', () => {
   test.each`
     basisPoints | networkFee   | minProtocolFee | expected
     ${10}       | ${0}         | ${0}           | ${'0.1 %'}
@@ -174,32 +179,33 @@ describe('getFormattedFeesDescription', () => {
     ${25}       | ${null}      | ${1e18}        | ${''}
     ${25}       | ${undefined} | ${1e18}        | ${''}
   `(
-    'Should get formatted fee with fees {$basisPoints, $networkFee, $minProtocolFee}',
-    ({ basisPoints, networkFee, minProtocolFee, amount, expected }) => {
+    'Should get fees description with fees {$basisPoints, $networkFee, $minProtocolFee}',
+    ({ basisPoints, networkFee, minProtocolFee, expected }) => {
       const symbol = 'SYM'
-      const ret = getFormattedFeesDescription({ basisPoints, networkFee, minProtocolFee }, symbol)
+      const ret = getFormattedFees({ basisPoints, networkFee, minProtocolFee }, '', symbol)
       expect(ret).toStrictEqual(expected)
     }
   )
-})
 
-describe('getFormattedFeesDescriptionAmount', () => {
   test.each`
-    basisPoints | networkFee   | minProtocolFee | amount       | expected
-    ${10}       | ${0}         | ${1e18}        | ${null}      | ${'0.1 % (min 1.00 SYM)'}
-    ${10}       | ${0}         | ${1e18}        | ${undefined} | ${'0.1 % (min 1.00 SYM)'}
-    ${10}       | ${0}         | ${1e18}        | ${0}         | ${'1.00 SYM'}
-    ${10}       | ${0}         | ${1e18}        | ${10}        | ${'1.00 SYM'}
-    ${10}       | ${1e18}      | ${1e18}        | ${10}        | ${'2.00 SYM'}
-    ${25}       | ${2e18}      | ${1e18}        | ${10}        | ${'3.00 SYM'}
-    ${15}       | ${1e18}      | ${0}           | ${10}        | ${'~1.02 SYM'}
-    ${25}       | ${null}      | ${1e18}        | ${10}        | ${''}
-    ${25}       | ${undefined} | ${10}          | ${1e18}      | ${''}
+    basisPoints | networkFee   | minProtocolFee | amount         | expected
+    ${10}       | ${0}         | ${1e18}        | ${null}        | ${'0.1 % (min 1.00 SYM)'}
+    ${10}       | ${0}         | ${1e18}        | ${undefined}   | ${'0.1 % (min 1.00 SYM)'}
+    ${10}       | ${0}         | ${1e18}        | ${0}           | ${'1.00 SYM'}
+    ${10}       | ${0}         | ${1e18}        | ${10}          | ${'1.00 SYM'}
+    ${10}       | ${1e18}      | ${1e18}        | ${10}          | ${'2.00 SYM'}
+    ${25}       | ${2e18}      | ${1e18}        | ${10}          | ${'3.00 SYM'}
+    ${15}       | ${1e18}      | ${0}           | ${10}          | ${'~1.02 SYM'}
+    ${25}       | ${null}      | ${1e18}        | ${10}          | ${''}
+    ${25}       | ${undefined} | ${10}          | ${1e18}        | ${''}
+    ${10}       | ${4210e18}   | ${4210e18}     | ${300000}      | ${'8420.0 SYM'}
+    ${10}       | ${4210e18}   | ${4210e18}     | ${32333100}    | ${'36543.1 SYM'}
+    ${10}       | ${4210e18}   | ${4210e18}     | ${32333100.12} | ${'~36543.1 SYM'}
   `(
     'Should get formatted fees amount with fees {$basisPoints, $networkFee, $minProtocolFee} and amount $amount',
     ({ basisPoints, networkFee, minProtocolFee, amount, expected }) => {
       const symbol = 'SYM'
-      const ret = getFormattedFeesDescriptionAmount({ basisPoints, networkFee, minProtocolFee }, amount, symbol)
+      const ret = getFormattedFees({ basisPoints, networkFee, minProtocolFee }, amount, symbol)
       expect(ret).toStrictEqual(expected)
     }
   )
@@ -226,4 +232,53 @@ describe('computeFeesAmount', () => {
       expect(ret && ret.toFixed()).toStrictEqual(expected)
     }
   )
+})
+
+describe('getSwapFees', () => {
+  beforeAll(() => {
+    vi.mock('ptokens-node')
+  })
+  test('Should get fees for a native to host swap', async () => {
+    const from = assets.find((_el) => _el.id === 'BTC')
+    const to = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
+    const fees = await getSwapFees(from, to)
+    expect(fees).toStrictEqual({
+      basisPoints: 10,
+      minProtocolFee: 359066427289000,
+      networkFee: 359066427289000,
+    })
+  })
+
+  test('Should get fees for a host to native swap', async () => {
+    const from = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
+    const to = assets.find((_el) => _el.id === 'BTC')
+    const fees = await getSwapFees(from, to)
+    expect(fees).toStrictEqual({
+      basisPoints: 25,
+      minProtocolFee: 359066427289000,
+      networkFee: 179533213644500,
+    })
+  })
+
+  test('Should get fees for a host to host swap 1', async () => {
+    const from = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
+    const to = assets.find((_el) => _el.id === 'PBTC_ON_ALGORAND_MAINNET')
+    const fees = await getSwapFees(from, to)
+    expect(fees).toStrictEqual({
+      basisPoints: 10,
+      minProtocolFee: 359066427289000,
+      networkFee: 0,
+    })
+  })
+
+  test('Should get fees for a host to host swap 2', async () => {
+    const from = assets.find((_el) => _el.id === 'PBTC_ON_ALGORAND_MAINNET')
+    const to = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
+    const fees = await getSwapFees(from, to)
+    expect(fees).toStrictEqual({
+      basisPoints: 10,
+      minProtocolFee: 359066427289000,
+      networkFee: 359066427289000,
+    })
+  })
 })

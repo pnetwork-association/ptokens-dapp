@@ -10,7 +10,7 @@ import { MAX_IMPACT } from '../../../constants'
 import BigNumber from 'bignumber.js'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { getNetworkFeeDescription, getProtocolFeeDescription } from '../../../utils/fee'
+import { getFormattedNetworkFee, getFormattedProtocolFee } from '../../../utils/fee'
 
 const ContainerInfo = styled(Container)`
   background: ${({ theme }) => theme.secondary3Transparentized};
@@ -172,13 +172,13 @@ const SwapInfo = ({ from, to, amount, bpm, swappersBalances, curveImpact, fees }
         <React.Fragment>
           <FeeRow
             label="Protocol Fee"
-            value={getProtocolFeeDescription(fees, amount, to.symbol)}
+            value={getFormattedProtocolFee(fees, amount, to.symbol)}
             datatip='"Protocol Fee" is designed to reward the pNetwork nodes for operating and securing the pNetwork bridges.<br/>These fees are fully distributed to the pNetwork node operators.'
           />
           {fees && fees.networkFee > 0 ? (
             <FeeRow
               label="Network Fee"
-              value={getNetworkFeeDescription(fees, to.symbol)}
+              value={getFormattedNetworkFee(fees, to.symbol)}
               datatip='"Network Fee" covers the computing resources required to execute transactions on the chain (also known as Gas Fee).
 '
             />

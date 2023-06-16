@@ -142,6 +142,8 @@ const swapAssets = [
     image: 'pLTC.svg',
     withBalanceDecimalsConversion: true,
     chainId: ChainId.EthereumMainnet,
+    onPnetworkV2: true,
+    notifyDepositAddressWarning: true,
   },
   {
     address: 'ltc.ptokens',
@@ -1745,6 +1747,7 @@ const swapAssets = [
     peginWithDepositAddress: true,
     withBalanceDecimalsConversion: null,
     isBlockchainTokenNative: true,
+    chainId: ChainId.LitecoinMainnet,
   },
   {
     address: null,

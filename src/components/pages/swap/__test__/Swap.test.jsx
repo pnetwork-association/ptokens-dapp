@@ -3,8 +3,6 @@ import UserEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { waitFor, render, screen, getByText } from '@testing-library/react'
 import { ThemeContext } from 'styled-components'
-import * as Icon from '../../../atoms/icon/Icon'
-vi.spyOn(Icon, 'default').mockImplementation((props) => <div {...props} data-testid="icon" />)
 import * as SwapInfo from '../../../organisms/swapInfo/SwapInfo'
 import * as AssetListModal from '../../../organisms/assetListModal/AssetListModal'
 import * as feeUtils from '../../../../utils/fee'
@@ -44,6 +42,11 @@ const Wrapper = ({ asset, originBlockchain, destBlockchain }) => {
 }
 
 describe('Swap', async () => {
+  beforeEach(() => {
+    vi.restoreAllMocks()
+    vi.mock('../../../atoms/icon/Icon')
+  })
+
   it('Should update "to" amount correctly', async () => {
     vi.spyOn(SwapInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)
     vi.spyOn(feeUtils, 'getSwapFees').mockResolvedValue({ basisPoints: 15, networkFee: 1e18, minProtocolFee: 2e18 })
@@ -72,13 +75,13 @@ describe('Swap', async () => {
     render(<Wrapper />)
     await waitFor(() => expect(screen.getByText(/Enter an address/)).toBeInTheDocument())
     let img1, img2, img3
-    ;[img1, img2, img3] = screen.getAllByRole('img')
+    ;[, img1, , img2, img3] = screen.getAllByRole('img')
     expect(img1).toHaveAttribute('src', './assets/svg/BTC.svg')
     expect(img2).toHaveAttribute('src', './assets/svg/pBTC.svg')
     expect(img3).toHaveAttribute('src', './assets/svg/ETH.svg')
-    const [, changeOrderButton] = screen.getAllByTestId('icon')
+    const changeOrderButton = screen.getByTestId('icon-sort')
     await UserEvent.click(changeOrderButton)
-    ;[img1, img2, img3] = screen.getAllByRole('img')
+    ;[, img1, img2, , , img3] = screen.getAllByRole('img')
     expect(img1).toHaveAttribute('src', './assets/svg/pBTC.svg')
     expect(img2).toHaveAttribute('src', './assets/svg/ETH.svg')
     expect(img3).toHaveAttribute('src', './assets/svg/BTC.svg')
@@ -111,11 +114,11 @@ describe('Swap', async () => {
     vi.spyOn(feeUtils, 'getSwapFees').mockResolvedValue({ basisPoints: 15, networkFee: 1e18, minProtocolFee: 2e18 })
     render(<Wrapper asset="tlos" originBlockchain="eth" destBlockchain="telos" />)
     await waitFor(() => expect(screen.getByText(/Enter an amount/)).toBeInTheDocument())
-    const [, , img3] = screen.getAllByRole('img')
+    const [, , , , , img1] = screen.getAllByRole('img')
     const assetListModals = screen.getAllByTestId('asset-list-modal')
     expect(getByText(assetListModals[0], /show="false"/)).toBeInTheDocument()
     expect(getByText(assetListModals[1], /show="false"/)).toBeInTheDocument()
-    await UserEvent.click(img3)
+    await UserEvent.click(img1)
     expect(getByText(assetListModals[0], /show="false"/)).toBeInTheDocument()
     expect(getByText(assetListModals[1], /show="true"/)).toBeInTheDocument()
     expect(getByText(assetListModals[1], /title="Swap to \.\.\."/)).toBeInTheDocument()
@@ -138,14 +141,26 @@ describe('Swap', async () => {
     vi.spyOn(feeUtils, 'getSwapFees').mockResolvedValue({ basisPoints: 15, networkFee: 1e18, minProtocolFee: 2e18 })
     render(<Wrapper asset="tlos" originBlockchain="bsc" destBlockchain="telos" />)
     await waitFor(() => expect(screen.getByText(/Enter an amount/)).toBeInTheDocument())
-    const [, , img3] = screen.getAllByRole('img')
+    const [, , , , , img1] = screen.getAllByRole('img')
     const assetListModals = screen.getAllByTestId('asset-list-modal')
     expect(getByText(assetListModals[0], /show="false"/)).toBeInTheDocument()
     expect(getByText(assetListModals[1], /show="false"/)).toBeInTheDocument()
-    await UserEvent.click(img3)
+    await UserEvent.click(img1)
     expect(getByText(assetListModals[0], /show="false"/)).toBeInTheDocument()
     expect(getByText(assetListModals[1], /show="true"/)).toBeInTheDocument()
     expect(getByText(assetListModals[1], /title="Swap to \.\.\."/)).toBeInTheDocument()
     expect(getByText(assetListModals[1], /assets=["TLOS_ON_ETH_MAINNET","TLOS","TLOS"]/)).toBeInTheDocument()
+  })
+
+  it('Should show deposit address warning when pegging-in pLTC on Ethereum', async () => {
+    vi.spyOn(SwapInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)
+    vi.spyOn(feeUtils, 'getSwapFees').mockResolvedValue({ basisPoints: 15, networkFee: 1e18, minProtocolFee: 2e18 })
+    render(<Wrapper asset="ltc" originBlockchain="ltc" destBlockchain="eth" />)
+    await waitFor(() => expect(screen.getByText(/Enter an address/)).toBeInTheDocument())
+    expect(
+      screen.getByText(
+        'Please refrain from using previously generated deposit addresses, as doing so may result in a loss of funds.'
+      )
+    ).toBeInTheDocument()
   })
 })

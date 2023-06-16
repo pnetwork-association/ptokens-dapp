@@ -7,7 +7,7 @@ const commonCss = css`
   color: ${({ color }) => color};
   display: inline-block;
   width: 20px;
-  heigth: 20px;
+  height: 20px;
   & > svg {
     width: 100%;
     height: 100%;
