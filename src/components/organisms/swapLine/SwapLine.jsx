@@ -23,6 +23,7 @@ const AmountInput = styled.input`
   border: 0;
   background: transparent;
   outline: 0px !important;
+  appearance: auto;
   -webkit-appearance: none;
   box-shadow: none !important;
   caret-color: #32b1f5;
@@ -83,6 +84,7 @@ const AddressInput = styled.input`
   border: 0;
   background: transparent;
   outline: 0px !important;
+  appearance: auto;
   -webkit-appearance: none;
   box-shadow: none !important;
   caret-color: #32b1f5;

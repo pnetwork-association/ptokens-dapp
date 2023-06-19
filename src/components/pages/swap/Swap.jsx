@@ -96,7 +96,7 @@ export const SwapLabel = styled.label`
 const InfoEta = styled.div`
   margin-top: 30px;
   padding: 20px;
-  margin-botton: 10px;
+  margin-bottom: 10px;
   background: #66b8ff40;
   border: 0.5px solid ${({ theme }) => theme.blue};
   border-radius: 10px;
