@@ -1,4 +1,4 @@
-import { afterEach, test, vi, describe, expect } from 'vitest'
+import { test, vi, describe, expect } from 'vitest'
 import {
   getMigrationFees,
   computeMigrationAmount,
@@ -30,7 +30,6 @@ describe('getFormattedFees with no amount', () => {
     const networkFee = 0
     const ret = getFormattedFees({ basisPoints, minProtocolFee, networkFee }, '', 'SYM')
     expect(ret).toEqual(_expectedResult)
-    vi.resetAllMocks()
   })
 
   test.each([
@@ -46,7 +45,6 @@ describe('getFormattedFees with no amount', () => {
     const networkFee = 0
     const ret = getFormattedFees({ basisPoints, minProtocolFee, networkFee }, '', 'SYM')
     expect(ret).toEqual(_expectedResult)
-    vi.resetAllMocks()
   })
 
   test.each([
@@ -63,7 +61,6 @@ describe('getFormattedFees with no amount', () => {
     const symbol = 'SYM'
     const ret = getFormattedFees({ basisPoints, minProtocolFee, networkFee }, '', symbol)
     expect(ret).toEqual(_expectedResult)
-    vi.resetAllMocks()
   })
 
   test.each([
@@ -80,7 +77,6 @@ describe('getFormattedFees with no amount', () => {
     const symbol = 'SYM'
     const ret = getFormattedFees({ basisPoints, minProtocolFee, networkFee }, '', symbol)
     expect(ret).toEqual(_expectedResult)
-    vi.resetAllMocks()
   })
 })
 

@@ -1,8 +1,8 @@
-import { afterEach, test, vi, describe, expect } from 'vitest'
+import { test, vi, describe, expect } from 'vitest'
 import { getDecimalSeparator, getThousandSeparator, formatDecimalSeparator } from '../amount-utils'
 
 describe('getDecimalSeparator', () => {
-  afterEach(() => {
+  beforeEach(() => {
     vi.restoreAllMocks()
   })
   test.each([
@@ -19,7 +19,7 @@ describe('getDecimalSeparator', () => {
 })
 
 describe('getThousandSeparator', () => {
-  afterEach(() => {
+  beforeEach(() => {
     vi.restoreAllMocks()
   })
   test.each([
@@ -36,7 +36,7 @@ describe('getThousandSeparator', () => {
 })
 
 describe('formatDecimalSeparator', () => {
-  afterEach(() => {
+  beforeEach(() => {
     vi.restoreAllMocks()
   })
   test.each([
