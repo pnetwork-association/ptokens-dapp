@@ -1,9 +1,9 @@
-import settings from '../../../settings'
 import { toastr } from 'react-redux-toastr'
-import { WALLET_TELOS_CONNECTED } from '../../../constants'
+import { Blockchain, DAPP_NAME, WALLET_TELOS_CONNECTED } from '../../../constants'
 import EosConnect from '../../../lib/eosConnect/'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
+import { getRpcNodeEndopointByBlockchain } from '../../settings/settings.selectors'
 
 const connectWithTelosWallet = (_dispatch) => {
   if (document.getElementById('EOS_CONNECT')) {
@@ -11,14 +11,14 @@ const connectWithTelosWallet = (_dispatch) => {
   }
 
   const eosConnect = new EosConnect({
-    dappName: settings.dappName,
+    dappName: DAPP_NAME,
     theme: getWeb3ModalTheme(getTheme()),
     providerOptions: {
       tokenPocket: {
-        settings: settings.rpc.mainnet.telos,
+        settings: getRpcNodeEndopointByBlockchain(Blockchain.Telos),
       },
       anchor: {
-        settings: settings.rpc.mainnet.telos,
+        settings: getRpcNodeEndopointByBlockchain(Blockchain.Telos),
       },
     },
   })

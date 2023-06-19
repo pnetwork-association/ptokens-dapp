@@ -5,7 +5,8 @@ import { Navbar, Nav, NavDropdown, Container, Row, Col } from 'react-bootstrap'
 import Walletinfo from '../walletInfoModal/WalletInfoModal'
 import { useWallets } from '../../../hooks/use-wallets'
 import Icon from '../../atoms/icon/Icon'
-import settings from '../../../settings'
+import { getLinks } from '../../../store/settings/settings.selectors'
+import { useSelector } from 'react-redux'
 
 const HeaderWrapper = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -161,6 +162,7 @@ const Header = (_props) => {
   const { selectedPage, theme, connectWithWallet, disconnectFromWallet, selectPage, setTheme, loadSwapData } = _props
   const [showWalletInfo, setShowWalletInfo] = useState(false)
   const { isConnected, wallets } = useWallets(_props.wallets)
+  const links = useSelector(getLinks)
 
   const onConnectWallet = useCallback(
     (_blockchain) => {
@@ -215,13 +217,13 @@ const Header = (_props) => {
           <StyledNavLink active={selectedPage === 'risks'} onClick={() => selectPage('risks')}>
             Risks
           </StyledNavLink>
-          <StyledNavLink onClick={() => window.open(settings.links.stats, '_blank', 'noopener,noreferrer')}>
+          <StyledNavLink onClick={() => window.open(links.stats, '_blank', 'noopener,noreferrer')}>
             Stats <GoToIcon icon="arrow-diagonal" />
           </StyledNavLink>
-          <StyledNavLink onClick={() => window.open(settings.links.audit, '_blank', 'noopener,noreferrer')}>
+          <StyledNavLink onClick={() => window.open(links.audit, '_blank', 'noopener,noreferrer')}>
             Audits <GoToIcon icon="arrow-diagonal" />
           </StyledNavLink>
-          <StyledNavLink onClick={() => window.open(settings.links.coinmarketcap, '_blank', 'noopener,noreferrer')}>
+          <StyledNavLink onClick={() => window.open(links.coinmarketcap, '_blank', 'noopener,noreferrer')}>
             $PNT <GoToIcon icon="arrow-diagonal" />
           </StyledNavLink>
         </StyledNav>
@@ -244,17 +246,17 @@ const Header = (_props) => {
               </StyledNavDown>
             </NavDropdown.Item>
             <NavDropdown.Item>
-              <StyledNavDown onClick={() => window.open(settings.links.stats, '_blank', 'noopener,noreferrer')}>
+              <StyledNavDown onClick={() => window.open(links.stats, '_blank', 'noopener,noreferrer')}>
                 Stats <GoToIcon icon="arrow-diagonal" />
               </StyledNavDown>
             </NavDropdown.Item>
             <NavDropdown.Item>
-              <StyledNavDown onClick={() => window.open(settings.links.audit, '_blank', 'noopener,noreferrer')}>
+              <StyledNavDown onClick={() => window.open(links.audit, '_blank', 'noopener,noreferrer')}>
                 Audits <GoToIcon icon="arrow-diagonal" />
               </StyledNavDown>
             </NavDropdown.Item>
             <NavDropdown.Item>
-              <StyledNavDown onClick={() => window.open(settings.links.coinmarketcap, '_blank', 'noopener,noreferrer')}>
+              <StyledNavDown onClick={() => window.open(links.coinmarketcap, '_blank', 'noopener,noreferrer')}>
                 $PNT <GoToIcon icon="arrow-diagonal" />
               </StyledNavDown>
             </NavDropdown.Item>

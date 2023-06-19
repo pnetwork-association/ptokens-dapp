@@ -1,14 +1,19 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
-import { WALLET_FTM_CONNECTED, WALLET_FTM_DISCONNECTED, WALLET_FTM_ACCOUNT_CHANGED } from '../../../constants'
+import {
+  WALLET_FTM_CONNECTED,
+  WALLET_FTM_DISCONNECTED,
+  WALLET_FTM_ACCOUNT_CHANGED,
+  DAPP_NAME,
+} from '../../../constants'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import WalletLink from 'walletlink'
-import settings from '../../../settings'
 import { changeNetwork, setupNetwork } from '../../../utils/wallet'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
 import { Blockchain } from '../../../constants'
+import { getExplorerBaseByBlockchain, getRpcNodeEndopointByBlockchain } from '../../settings/settings.selectors'
 
 let web3Modal
 
@@ -26,15 +31,15 @@ const connectWithFtmWallet = async (_dispatch) => {
           options: {
             network: 'fantom',
             rpc: {
-              250: settings.rpc.mainnet.ftm.endpoint,
+              250: getRpcNodeEndopointByBlockchain(Blockchain.Fantom),
             },
           },
         },
         walletlink: {
           package: WalletLink,
           options: {
-            appName: settings.dappName,
-            rpc: settings.rpc.mainnet.ftm.endpoint,
+            appName: DAPP_NAME,
+            rpc: getRpcNodeEndopointByBlockchain(Blockchain.Fantom),
             chainId: 250,
             darkMode: getTheme() === 'dark',
           },
@@ -100,8 +105,8 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
               symbol: 'ftm',
               decimals: 18,
             },
-            nodes: [settings.rpc.mainnet.ftm.endpoint],
-            blockExplorerUrls: [settings.explorers.mainnet.ftm],
+            nodes: [getRpcNodeEndopointByBlockchain(Blockchain.Fantom)],
+            blockExplorerUrls: [getExplorerBaseByBlockchain(Blockchain.Fantom)],
           })
         }
       }

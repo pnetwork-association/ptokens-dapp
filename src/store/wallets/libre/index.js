@@ -1,9 +1,9 @@
-import settings from '../../../settings'
 import { toastr } from 'react-redux-toastr'
-import { WALLET_LIBRE_CONNECTED, WALLET_LIBRE_DISCONNECTED } from '../../../constants'
+import { Blockchain, DAPP_NAME, WALLET_LIBRE_CONNECTED, WALLET_LIBRE_DISCONNECTED } from '../../../constants'
 import EosConnect from '../../../lib/eosConnect/'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
+import { getRpcNodeEndopointByBlockchain } from '../../settings/settings.selectors'
 
 const connectWithLibreWallet = (_dispatch) => {
   if (document.getElementById('EOS_CONNECT')) {
@@ -11,14 +11,14 @@ const connectWithLibreWallet = (_dispatch) => {
   }
 
   const eosConnect = new EosConnect({
-    dappName: settings.dappName,
+    dappName: DAPP_NAME,
     theme: getWeb3ModalTheme(getTheme()),
     providerOptions: {
       libre: {
-        settings: settings.rpc.mainnet.libre,
+        settings: getRpcNodeEndopointByBlockchain(Blockchain.Libre),
       },
       anchor: {
-        settings: settings.rpc.mainnet.libre,
+        settings: getRpcNodeEndopointByBlockchain(Blockchain.Libre),
       },
     },
   })

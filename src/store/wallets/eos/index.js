@@ -1,8 +1,8 @@
-import settings from '../../../settings'
-import { WALLET_EOS_CONNECTED, WALLET_EOS_DISCONNECTED } from '../../../constants'
+import { Blockchain, DAPP_NAME, WALLET_EOS_CONNECTED, WALLET_EOS_DISCONNECTED } from '../../../constants'
 import EosConnect from '../../../lib/eosConnect/'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
+import { getRpcNodeEndopointByBlockchain } from '../../settings/settings.selectors'
 
 const connectWithEosWallet = (_dispatch) => {
   if (document.getElementById('EOS_CONNECT')) {
@@ -10,14 +10,14 @@ const connectWithEosWallet = (_dispatch) => {
   }
 
   const eosConnect = new EosConnect({
-    dappName: settings.dappName,
+    dappName: DAPP_NAME,
     theme: getWeb3ModalTheme(getTheme()),
     providerOptions: {
       tokenPocket: {
-        settings: settings.rpc.mainnet.eos,
+        settings: getRpcNodeEndopointByBlockchain(Blockchain.EOS),
       },
       anchor: {
-        settings: settings.rpc.mainnet.eos,
+        settings: getRpcNodeEndopointByBlockchain(Blockchain.EOS),
       },
     },
   })

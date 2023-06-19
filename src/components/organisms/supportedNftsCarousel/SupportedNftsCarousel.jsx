@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Carousel } from 'react-responsive-carousel'
-import settings from '../../../settings'
+import { useSelector } from 'react-redux'
+import { getNfts } from '../../../store/settings/settings.selectors'
 
 const ContainerNft = styled.div``
 
@@ -10,9 +11,10 @@ const Name = styled.span`
 `
 
 const SupportedNfstCarousel = () => {
+  const nfts = useSelector(getNfts)
   return (
     <Carousel showIndicators={false} showThumbs={false} autoPlay={true} centerMode={true} centerSlidePercentage={50}>
-      {settings.supportedNfts.map(({ symbol, name }) => (
+      {nfts.map(({ symbol, name }) => (
         <ContainerNft key={`carousel_card_${symbol}`}>
           <img src={`./assets/png/${symbol}_carousel.png`} alt={`${symbol}_carousel.png`} />
           <Name className="legend">{name}</Name>

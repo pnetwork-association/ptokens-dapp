@@ -1,14 +1,19 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
-import { WALLET_BSC_CONNECTED, WALLET_BSC_DISCONNECTED, WALLET_BSC_ACCOUNT_CHANGED } from '../../../constants'
+import {
+  WALLET_BSC_CONNECTED,
+  WALLET_BSC_DISCONNECTED,
+  WALLET_BSC_ACCOUNT_CHANGED,
+  DAPP_NAME,
+} from '../../../constants'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import WalletLink from 'walletlink'
-import settings from '../../../settings'
 import { changeNetwork, setupNetwork } from '../../../utils/wallet'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
 import { Blockchain } from '../../../constants'
+import { getExplorerBaseByBlockchain, getRpcNodeEndopointByBlockchain } from '../../settings/settings.selectors'
 
 let web3Modal
 
@@ -26,15 +31,15 @@ const connectWithBscWallet = async (_dispatch) => {
           options: {
             network: 'binance',
             rpc: {
-              56: settings.rpc.mainnet.bsc.endpoint,
+              56: getRpcNodeEndopointByBlockchain(Blockchain.BSC),
             },
           },
         },
         walletlink: {
           package: WalletLink,
           options: {
-            appName: settings.dappName,
-            rpc: settings.rpc.mainnet.bsc.endpoint,
+            appName: DAPP_NAME,
+            rpc: getRpcNodeEndopointByBlockchain(Blockchain.BSC),
             chainId: 56,
             darkMode: getTheme() === 'dark',
           },
@@ -100,8 +105,8 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
               symbol: 'bnb',
               decimals: 18,
             },
-            nodes: [settings.rpc.mainnet.bsc.endpoint],
-            blockExplorerUrls: [settings.explorers.mainnet.bsc],
+            nodes: [getRpcNodeEndopointByBlockchain(Blockchain.BSC)],
+            blockExplorerUrls: [getExplorerBaseByBlockchain(Blockchain.BSC)],
           })
         }
       }

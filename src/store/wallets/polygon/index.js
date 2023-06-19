@@ -6,13 +6,14 @@ import {
   WALLET_POLYGON_CONNECTED,
   WALLET_POLYGON_ACCOUNT_CHANGED,
   WALLET_POLYGON_DISCONNECTED,
+  DAPP_NAME,
 } from '../../../constants'
 import { setupNetwork } from '../../../utils/wallet'
-import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
 import { Blockchain } from '../../../constants'
+import { getExplorerBaseByBlockchain, getRpcNodeEndopointByBlockchain } from '../../settings/settings.selectors'
 
 let web3Modal
 
@@ -30,15 +31,15 @@ const connectWithPolygonWallet = async (_dispatch) => {
           options: {
             network: 'matic',
             rpc: {
-              137: settings.rpc.mainnet.polygon.endpoint,
+              137: getRpcNodeEndopointByBlockchain(Blockchain.Polygon),
             },
           },
         },
         walletlink: {
           package: WalletLink,
           options: {
-            appName: settings.dappName,
-            rpc: settings.rpc.mainnet.polygon.endpoint,
+            appName: DAPP_NAME,
+            rpc: getRpcNodeEndopointByBlockchain(Blockchain.Polygon),
             chainId: 137,
             darkMode: getTheme() === 'dark',
           },
@@ -90,8 +91,8 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
           symbol: 'matic',
           decimals: 18,
         },
-        nodes: [settings.rpc.mainnet.polygon.endpoint],
-        blockExplorerUrls: [settings.explorers.mainnet.polygon],
+        nodes: [getRpcNodeEndopointByBlockchain(Blockchain.Polygon)],
+        blockExplorerUrls: [getExplorerBaseByBlockchain(Blockchain.Polygon)],
       })
 
       _dispatch({

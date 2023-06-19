@@ -1,7 +1,7 @@
-import { Blockchain, Network, PTokenId } from '../constants'
+import { createSlice } from '@reduxjs/toolkit'
+import { Blockchain, Network, PTokenId } from '../../constants'
 
-const settings = {
-  dappName: 'pTokens Dapp',
+const initialState = {
   links: {
     audit: 'https://skynet.certik.com/projects/pnt',
     stats: 'https://pnetwork.watch/',
@@ -15,58 +15,19 @@ const settings = {
     bpm: 'https://pnetwork.watch:8082/sync-status?apikey=a1d87144c4d60917b880d9fed94d480829d0893a',
   },
   supportedBlockchains: [
-    {
-      name: 'Ethereum',
-      symbol: 'ETH',
-    },
-    {
-      name: 'Binance Smart Chain',
-      symbol: 'BSC',
-    },
-    {
-      name: Blockchain.EOS,
-      symbol: 'EOS',
-    },
-    {
-      name: 'Polygon',
-      symbol: 'POLYGON',
-    },
-    {
-      name: 'Telos',
-      symbol: 'TELOS',
-    },
-    {
-      name: 'Libre',
-      symbol: 'LIBRE',
-    },
-    {
-      name: 'xDai',
-      symbol: 'XDAI',
-    },
-    {
-      name: 'Ultra',
-      symbol: 'ULTRA',
-    },
-    {
-      name: 'Arbitrum',
-      symbol: 'ARBITRUM',
-    },
-    {
-      name: 'Luxochain',
-      symbol: 'LUXOCHAIN',
-    },
-    {
-      name: 'Algorand',
-      symbol: 'ALGORAND',
-    },
-    {
-      name: 'Fantom',
-      symbol: 'FTM',
-    },
-    {
-      name: 'Ore',
-      symbol: 'ORE',
-    },
+    Blockchain.Ethereum,
+    Blockchain.BSC,
+    Blockchain.EOS,
+    Blockchain.Polygon,
+    Blockchain.Telos,
+    Blockchain.Libre,
+    Blockchain.XDAI,
+    Blockchain.Ultra,
+    Blockchain.Arbitrum,
+    Blockchain.Luxochain,
+    Blockchain.Algorand,
+    Blockchain.Fantom,
+    Blockchain.Ore,
   ],
   rpc: {
     [Network.Mainnet]: {
@@ -75,21 +36,18 @@ const settings = {
       },
       [Blockchain.EOS]: {
         chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
-        host: 'https://eos.greymass.com',
         port: 443,
         protocol: 'https',
         endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com',
       },
       [Blockchain.Telos]: {
         chainId: '4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11',
-        host: 'telos.greymass.com',
         port: 443,
         protocol: 'https',
         endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://telos.greymass.com',
       },
       [Blockchain.Libre]: {
         chainId: '38b1d7815474d0c60683ecbea321d723e83f5da6ae5f1c1f9fecc69d9ba96465',
-        host: 'libre-node-2.ptokens.io',
         port: 443,
         protocol: 'https',
         endpoint: 'https://libre-node-2.ptokens.io:8889',
@@ -105,7 +63,6 @@ const settings = {
       },
       [Blockchain.Ultra]: {
         chainId: 'a9c481dfbc7d9506dc7e87e9a137c931b0a9303f64fd7a1d08b8230133920097',
-        host: 'https://corsproxy.ptokens.io/v1/?apiurl=http://ultra-mainnet-1.ptokens.io:8888',
         port: 443,
         protocol: 'https',
         endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=http://ultra-mainnet-1.ptokens.io:8888',
@@ -126,7 +83,6 @@ const settings = {
       },
       [Blockchain.Ore]: {
         chainId: '7900eaca71d5b213d3e1e15d54d98ad235a7a5b8166361be78e672edeeb2b47a',
-        host: 'https://ore-node-1.ptokens.io',
         port: 443,
         protocol: 'https',
         endpoint: 'https://ore-node-1.ptokens.io',
@@ -191,4 +147,15 @@ const settings = {
   },
 }
 
-export default settings
+const settingsSlice = createSlice({
+  name: 'settings',
+  initialState,
+  reducers: {
+    setRpcEndpoint(state, action) {
+      state.rpc[action.payload.network][action.payload.blockchain].endpoint = action.payload.endpoint
+    },
+  },
+})
+
+export const { setRpcEndpoint } = settingsSlice.actions
+export default settingsSlice.reducer

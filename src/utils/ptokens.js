@@ -39,16 +39,16 @@ const getAssetBuilder = (_asset) => {
 const getProvider = (_asset, _wallets) => {
   const wallet = _wallets[_asset.blockchain]
   if (utxoBlockchains.includes(_asset.blockchain))
-    return new pTokensBlockstreamUtxoProvider(getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase()), {
+    return new pTokensBlockstreamUtxoProvider(getReadOnlyProviderByBlockchain(_asset.blockchain), {
       'Content-Type': 'text/plain',
     })
   else if (evmBlockchains.includes(_asset.blockchain))
     return new pTokensEvmProvider(
-      _wallets[_asset.blockchain].provider || getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase())
+      _wallets[_asset.blockchain].provider || getReadOnlyProviderByBlockchain(_asset.blockchain)
     )
   else if (eosioBlockchains.includes(_asset.blockchain)) {
     const provider = new pTokensEosioProvider(
-      getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase()),
+      getReadOnlyProviderByBlockchain(_asset.blockchain),
       wallet.provider || undefined
     )
     if (wallet.account) provider.setActor(wallet.account)
@@ -56,7 +56,7 @@ const getProvider = (_asset, _wallets) => {
     return provider
   } else if (algorandBlockchains.includes(_asset.blockchain)) {
     const provider = new pTokensAlgorandProvider(
-      getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase()),
+      getReadOnlyProviderByBlockchain(_asset.blockchain),
       wallet.provider || undefined
     )
     if (wallet.account) provider.setAccount(wallet.account)

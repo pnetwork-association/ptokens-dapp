@@ -2,18 +2,19 @@ import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import WalletLink from 'walletlink'
-import settings from '../../../settings'
 import { changeNetwork } from '../../../utils/wallet'
 import {
   WALLET_ETH_CONNECTED,
   WALLET_ETH_DISCONNECTED,
   WALLET_ETH_NETWORK_CHANGED,
   WALLET_ETH_ACCOUNT_CHANGED,
+  DAPP_NAME,
 } from '../../../constants'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
 import { Blockchain } from '../../../constants'
+import { getRpcNodeEndopointByBlockchain } from '../../settings/settings.selectors'
 
 let web3Modal
 
@@ -31,15 +32,15 @@ const connectWithEthWallet = async (_dispatch) => {
           options: {
             network: 'mainnet',
             rpc: {
-              1: settings.rpc.mainnet.eth.endpoint,
+              1: getRpcNodeEndopointByBlockchain(Blockchain.Ethereum),
             },
           },
         },
         walletlink: {
           package: WalletLink,
           options: {
-            appName: settings.dappName,
-            rpc: settings.rpc.mainnet.eth.endpoint,
+            appName: DAPP_NAME,
+            rpc: getRpcNodeEndopointByBlockchain(Blockchain.Ethereum),
             chainId: 1,
             darkMode: getTheme() === 'dark',
           },

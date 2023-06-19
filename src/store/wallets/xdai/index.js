@@ -2,13 +2,18 @@ import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import WalletLink from 'walletlink'
-import { WALLET_XDAI_CONNECTED, WALLET_XDAI_ACCOUNT_CHANGED, WALLET_XDAI_DISCONNECTED } from '../../../constants'
+import {
+  WALLET_XDAI_CONNECTED,
+  WALLET_XDAI_ACCOUNT_CHANGED,
+  WALLET_XDAI_DISCONNECTED,
+  DAPP_NAME,
+} from '../../../constants'
 import { changeNetwork, setupNetwork } from '../../../utils/wallet'
-import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
 import { Blockchain } from '../../../constants'
+import { getExplorerBaseByBlockchain, getRpcNodeEndopointByBlockchain } from '../../settings/settings.selectors'
 
 let web3Modal
 
@@ -26,15 +31,15 @@ const connectWithXdaiWallet = async (_dispatch) => {
           options: {
             network: 'xdai',
             rpc: {
-              100: settings.rpc.mainnet.xdai.endpoint,
+              100: getRpcNodeEndopointByBlockchain(Blockchain.XDAI),
             },
           },
         },
         walletlink: {
           package: WalletLink,
           options: {
-            appName: settings.dappName,
-            rpc: settings.rpc.mainnet.xdai.endpoint,
+            appName: DAPP_NAME,
+            rpc: getRpcNodeEndopointByBlockchain(Blockchain.XDAI),
             chainId: 100,
             darkMode: getTheme() === 'dark',
           },
@@ -93,8 +98,8 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
               symbol: 'matic',
               decimals: 18,
             },
-            nodes: [settings.rpc.mainnet.xdai.endpoint],
-            blockExplorerUrls: [settings.explorers.mainnet.xdai],
+            nodes: [getRpcNodeEndopointByBlockchain(Blockchain.XDAI)],
+            blockExplorerUrls: [getExplorerBaseByBlockchain(Blockchain.XDAI)],
           })
         }
       }

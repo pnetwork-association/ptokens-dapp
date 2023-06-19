@@ -1,9 +1,9 @@
-import settings from '../../../settings'
 import { toastr } from 'react-redux-toastr'
-import { WALLET_ULTRA_CONNECTED, WALLET_ULTRA_DISCONNECTED } from '../../../constants'
+import { Blockchain, DAPP_NAME, WALLET_ULTRA_CONNECTED, WALLET_ULTRA_DISCONNECTED } from '../../../constants'
 import EosConnect from '../../../lib/eosConnect/'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
+import { getRpcNodeEndopointByBlockchain } from '../../settings/settings.selectors'
 
 const connectWithUltraWallet = (_dispatch) => {
   if (document.getElementById('EOS_CONNECT')) {
@@ -11,14 +11,14 @@ const connectWithUltraWallet = (_dispatch) => {
   }
 
   const eosConnect = new EosConnect({
-    dappName: settings.dappName,
+    dappName: DAPP_NAME,
     theme: getWeb3ModalTheme(getTheme()),
     providerOptions: {
       tokenPocket: {
-        settings: settings.rpc.mainnet.ultra,
+        settings: getRpcNodeEndopointByBlockchain(Blockchain.Ultra),
       },
       anchor: {
-        settings: settings.rpc.mainnet.ultra,
+        settings: getRpcNodeEndopointByBlockchain(Blockchain.Ultra),
       },
     },
   })

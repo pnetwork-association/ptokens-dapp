@@ -29,10 +29,10 @@ import { loadOldPntBalance } from '../store/swap-old-pnt/swap-old-pnt.actions'
 import { loadNftsData } from '../store/nfts/nfts.actions'
 import { setLoading } from '../store/pages/pages.actions'
 import { getIsLoading } from '../store/pages/pages.selectors'
-import settings from '../settings'
+import { getSupportedNftsNumber } from '../store/settings/settings.selectors'
 
 let countNftsLoading = 0
-const middleware = ({ dispatch }) => {
+const middleware = ({ dispatch, getState }) => {
   return (_next) => {
     return async (_action) => {
       const { type, payload } = _action
@@ -94,7 +94,7 @@ const middleware = ({ dispatch }) => {
 
       if (type === NFTS_DATA_LOADED || type === NFT_DATA_LOADED) {
         countNftsLoading += 1
-        if ((getIsLoading() && payload.nfts.length > 0) || countNftsLoading === settings.supportedNfts.length) {
+        if ((getIsLoading() && payload.nfts.length > 0) || countNftsLoading === getSupportedNftsNumber(getState())) {
           countNftsLoading = 0
           dispatch(
             setLoading({

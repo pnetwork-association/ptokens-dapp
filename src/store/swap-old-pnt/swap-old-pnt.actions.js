@@ -1,7 +1,6 @@
 import assets from '../../settings/swap-assets'
 import { loadEvmCompatibleBalance } from '../swap/utils/balances'
-import settings from '../../settings'
-import { ASSETS_LOADED_SWAP_OLD_PNT, PNT_ON_BSC_MAINNET } from '../../constants/index'
+import { ASSETS_LOADED_SWAP_OLD_PNT, PTokenId } from '../../constants'
 import { resetProgress, updateSwapButton, updateProgress, loadBalances } from '../swap/swap.actions'
 import { getWalletByBlockchain } from '../wallets/wallets.selectors'
 import Erc20Abi from '../../utils/abi/ERC20.json'
@@ -12,21 +11,21 @@ import BigNumber from 'bignumber.js'
 import { getCorrespondingTxExplorerLinkByBlockchain } from '../../utils/explorer'
 import { Blockchain } from '../../constants/index'
 
-const loadSwapOldPntData = () => ({
+const loadSwapOldPntData = () => (_dispatch, _getState) => ({
   type: ASSETS_LOADED_SWAP_OLD_PNT,
   payload: {
     assets: [
-      { defaultFrom: true, ...settings.swapOldPntOnBsc.asset },
-      { defaultTo: true, ...assets.find(({ id }) => id === PNT_ON_BSC_MAINNET) },
+      { defaultFrom: true, ..._getState().settings.swapOldPntOnBsc.asset },
+      { defaultTo: true, ...assets.find(({ id }) => id === PTokenId.PNT_ON_BSC_MAINNET) },
     ],
   },
 })
 
 const loadOldPntBalance = (_account) => {
-  return (_dispatch) => {
+  return (_dispatch, _getState) => {
     // NOTE: used by swap old pnt
     loadEvmCompatibleBalance({
-      asset: settings.swapOldPntOnBsc.asset,
+      asset: _getState().settings.swapOldPntOnBsc.asset,
       account: _account,
       dispatch: _dispatch,
       blockchain: Blockchain.BSC,
@@ -35,7 +34,7 @@ const loadOldPntBalance = (_account) => {
 }
 
 const swap = (_amount, _address) => {
-  return async (_dispatch) => {
+  return async (_dispatch, _getState) => {
     try {
       let withApprove = false
       let link
@@ -60,10 +59,13 @@ const swap = (_amount, _address) => {
       const web3 = new Web3(provider)
 
       const oldPntContract = new web3.eth.Contract(Erc20Abi, getOldPnt().address)
-      const swapContract = new web3.eth.Contract(SwapOldPntAbi, settings.swapOldPntOnBsc.swapContractAddress)
+      const swapContract = new web3.eth.Contract(
+        SwapOldPntAbi,
+        _getState().settings.swapOldPntOnBsc.swapContractAddress
+      )
 
       const allowance = await oldPntContract.methods
-        .allowance(_address, settings.swapOldPntOnBsc.swapContractAddress)
+        .allowance(_address, _getState().settings.swapOldPntOnBsc.swapContractAddress)
         .call()
       if (!BigNumber(allowance).isGreaterThanOrEqualTo(amount)) {
         withApprove = true
@@ -80,7 +82,7 @@ const swap = (_amount, _address) => {
         const _approve = () =>
           new Promise((_resolve) =>
             oldPntContract.methods
-              .approve(settings.swapOldPntOnBsc.swapContractAddress, amount)
+              .approve(_getState().settings.swapOldPntOnBsc.swapContractAddress, amount)
               .send({ from: account })
               .once('transactionHash', (_hash) => {
                 link = getCorrespondingTxExplorerLinkByBlockchain(Blockchain.BSC, _hash)

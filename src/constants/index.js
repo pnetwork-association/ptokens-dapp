@@ -1,3 +1,6 @@
+// general
+export const DAPP_NAME = 'pTokens Dapp'
+
 // nodes
 export const PNETWORK_NODE_V3 = 'https://pnetwork-node-2a.eu.ngrok.io/v3'
 

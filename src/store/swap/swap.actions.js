@@ -1,6 +1,5 @@
 import axios from 'axios'
 import assets from '../../settings/swap-assets'
-import settings from '../../settings'
 import {
   ASSETS_LOADED,
   SHOW_DEPOSIT_ADDRESS_MODAL,
@@ -35,12 +34,13 @@ import Web3 from 'web3'
 import BigNumber from 'bignumber.js'
 import eosioTokenAbi from '../../utils/abi/eosio.token'
 import { createAsset, getSwapBuilder } from '../../utils/ptokens'
+import { getApi } from '../settings/settings.selectors'
 
 const loadSwapData = (_opts = {}) => {
   const {
     defaultSelection: { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol } = {},
   } = _opts
-  return async (_dispatch) => {
+  return async (_dispatch, _getState) => {
     try {
       _dispatch({
         type: ASSETS_LOADED,
@@ -95,7 +95,7 @@ const loadSwapData = (_opts = {}) => {
 
       const loadBpm = async () => {
         try {
-          const resp = await axios.get(settings.api.bpm, {
+          const resp = await axios.get(getApi(_getState()).bpm, {
             headers: {
               'Content-Type': 'application/json',
             },
@@ -418,7 +418,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
       else if (!_from.isNative && !_fromNative.requiresCurve) {
         await pegout({ swap: swap, ptokenFrom: _from, ptokenTo: _to, dispatch: _dispatch })
       } else if (!_from.isNative && _fromNative.requiresCurve) {
-        const curveProvider = getReadOnlyProviderByBlockchain(_fromNative.blockchain.toUpperCase())
+        const curveProvider = getReadOnlyProviderByBlockchain(_fromNative.blockchain)
         await pegoutFromCurve({
           swap: swap,
           provider: curveProvider,

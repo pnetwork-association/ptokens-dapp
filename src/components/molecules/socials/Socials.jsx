@@ -1,22 +1,24 @@
 import React from 'react'
 import { FaTelegram, FaTwitter } from 'react-icons/fa'
-import settings from '../../../settings'
 import './styles.css'
+import { useSelector } from 'react-redux'
+import { getLinks } from '../../../store/settings/settings.selectors'
 
 export default function SocialLinks() {
+  const links = useSelector(getLinks)
   return (
     <div className="social-div">
       <p className="social-container">
-        <a href={settings.links.github} className="github social">
+        <a href={links.github} className="github social">
           <img src="./assets/svg/github.svg" alt="" />
         </a>
-        <a href={settings.links['p.network']} className="social pnetwork">
+        <a href={links['p.network']} className="social pnetwork">
           <img src="./assets/svg/PNT.svg" alt="" />
         </a>
-        <a href={settings.links.telegram} className="telegram social">
+        <a href={links.telegram} className="telegram social">
           <FaTelegram size={30} />
         </a>
-        <a href={settings.links.twitter} className="twitter social">
+        <a href={links.twitter} className="twitter social">
           <FaTwitter size={30} />
         </a>
       </p>

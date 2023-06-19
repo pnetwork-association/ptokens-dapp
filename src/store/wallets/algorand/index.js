@@ -2,9 +2,9 @@ import {
   WALLET_ALGORAND_CONNECTED,
   WALLET_ALGORAND_DISCONNECTED,
   WALLET_ALGORAND_ACCOUNT_CHANGED,
+  DAPP_NAME,
 } from '../../../constants'
 
-import settings from '../../../settings'
 import AlgoWalletModal from '../../../lib/algoWalletModal'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
@@ -17,7 +17,7 @@ const connectWithAlgorandWallet = async (_dispatch) => {
   }
 
   const algoWalletModal = new AlgoWalletModal({
-    dappName: settings.dappName,
+    dappName: DAPP_NAME,
     theme: getWeb3ModalTheme(getTheme()),
     providerOptions: {
       walletConnect: {

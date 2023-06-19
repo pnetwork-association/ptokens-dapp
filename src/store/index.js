@@ -9,6 +9,7 @@ import swapReducer from './swap/swap.reducer'
 import swapOldPntReducer from './swap-old-pnt/swap-old-pnt.reducer'
 import pagesReducer from './pages/pages.reducer'
 import nftsReducer from './nfts/nfts.reducer'
+import settingsReducer from './settings/settings.reducer'
 
 const rootReducer = combineReducers({
   migration: migrationReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   pages: pagesReducer,
   nfts: nftsReducer,
   toastr: toastrReducer,
+  settings: settingsReducer,
 })
 
 const store = configureStore({ reducer: rootReducer, middleware: [middleware, thunk] })

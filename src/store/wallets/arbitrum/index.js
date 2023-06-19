@@ -2,18 +2,19 @@ import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import WalletLink from 'walletlink'
-import settings from '../../../settings'
 import {
   WALLET_ARBITRUM_CONNECTED,
   WALLET_ARBITRUM_DISCONNECTED,
   WALLET_ARBITRUM_NETWORK_CHANGED,
   WALLET_ARBITRUM_ACCOUNT_CHANGED,
+  DAPP_NAME,
 } from '../../../constants'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
 import { changeNetwork, setupNetwork } from '../../../utils/wallet'
 import { Blockchain } from '../../../constants'
+import { getExplorerBaseByBlockchain, getRpcNodeEndopointByBlockchain } from '../../settings/settings.selectors'
 
 let web3Modal
 
@@ -31,15 +32,15 @@ const connectWithArbitrumWallet = async (_dispatch) => {
           options: {
             network: 'mainnet',
             rpc: {
-              42161: settings.rpc.mainnet.arbitrum.endpoint,
+              42161: getRpcNodeEndopointByBlockchain(Blockchain.Arbitrum),
             },
           },
         },
         walletlink: {
           package: WalletLink,
           options: {
-            appName: settings.dappName,
-            rpc: settings.rpc.mainnet.arbitrum.endpoint,
+            appName: DAPP_NAME,
+            rpc: getRpcNodeEndopointByBlockchain(Blockchain.Arbitrum),
             chainId: 42161,
             darkMode: getTheme() === 'dark',
           },
@@ -108,8 +109,8 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
               symbol: 'AETH',
               decimals: 18,
             },
-            nodes: [settings.rpc.mainnet.arbitrum.endpoint],
-            blockExplorerUrls: [settings.explorers.mainnet.arbitrum],
+            nodes: [getRpcNodeEndopointByBlockchain(Blockchain.Arbitrum)],
+            blockExplorerUrls: [getExplorerBaseByBlockchain(Blockchain.Arbitrum)],
           })
         }
       }
