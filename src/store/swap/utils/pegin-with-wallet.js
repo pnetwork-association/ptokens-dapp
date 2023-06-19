@@ -2,7 +2,7 @@ import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explo
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
 import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
-import { approveTransaction, getBigNumber } from '../../evm-approve'
+import { approveTransaction, getBigNumber } from '../../../utils/evm-approve'
 import Web3 from 'web3'
 import { getWalletByBlockchain } from '../../wallets/wallets.selectors'
 

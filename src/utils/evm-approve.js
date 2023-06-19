@@ -1,4 +1,4 @@
-import ERC20Abi from '../utils/abi/ERC20.json'
+import ERC20Abi from './abi/ERC20.json'
 import BigNumber from 'bignumber.js'
 import { stringUtils } from 'ptokens-helpers'
 

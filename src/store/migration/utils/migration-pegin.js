@@ -2,7 +2,7 @@ import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explo
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateMigrateButton } from '../migration.actions'
 import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
-import { approveTransaction, getBigNumber } from '../../evm-approve'
+import { approveTransaction, getBigNumber } from '../../../utils/evm-approve'
 import { sendEvent } from '../../../ga4'
 
 const migrationPegin = async ({ swap, ptokenFrom, ptokenTo, web3, dispatch }) => {
