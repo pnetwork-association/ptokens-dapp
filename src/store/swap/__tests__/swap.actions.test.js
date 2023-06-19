@@ -9,6 +9,7 @@ import * as wallets from '../../wallets/wallets.selectors'
 import { swap } from '../swap.actions'
 import assets from '../../../settings/swap-assets'
 import algosdk from 'algosdk'
+import { Blockchain, PTokenId, TokenId } from '../../../constants'
 
 describe('swap', () => {
   beforeAll(() => {
@@ -23,8 +24,8 @@ describe('swap', () => {
     const peginWithDepositAddressSpy = vi.spyOn(peginWithDepositAddress, 'default').mockResolvedValue()
     const addDestinationAssetSpy = vi.spyOn(pTokensSwapBuilder.prototype, 'addDestinationAsset')
     const setAmountSpy = vi.spyOn(pTokensSwapBuilder.prototype, 'setAmount')
-    const from = assets.find((_el) => _el.id === 'BTC')
-    const to = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
+    const from = assets.find((_el) => _el.id === TokenId.BTC)
+    const to = assets.find((_el) => _el.id === PTokenId.PBTC_ON_ETH_MAINNET)
     const amount = '10'
     const address = '0xF39d30Fa570db7940e5b3A3e42694665A1449E4B'
     const f = swap(from, to, amount, address)
@@ -51,8 +52,8 @@ describe('swap', () => {
     const pegoutSpy = vi.spyOn(pegout, 'default').mockResolvedValue()
     const addDestinationAssetSpy = vi.spyOn(pTokensSwapBuilder.prototype, 'addDestinationAsset')
     const setAmountSpy = vi.spyOn(pTokensSwapBuilder.prototype, 'setAmount')
-    const from = assets.find((_el) => _el.id === 'TLOS_ON_BSC_MAINNET')
-    const to = assets.find((_el) => _el.id === 'TLOS')
+    const from = assets.find((_el) => _el.id === PTokenId.TLOS_ON_BSC_MAINNET)
+    const to = assets.find((_el) => _el.id === TokenId.TLOS)
     const amount = '100'
     const address = '0xF39d30Fa570db7940e5b3A3e42694665A1449E4B'
     const f = swap(from, to, amount, address, { pegoutToTelosEvmAddress: true })
@@ -82,8 +83,8 @@ describe('swap', () => {
     const addDestinationAssetSpy = vi.spyOn(pTokensSwapBuilder.prototype, 'addDestinationAsset')
     const setAmountSpy = vi.spyOn(pTokensSwapBuilder.prototype, 'setAmount')
     const setCustomActionsSpy = vi.spyOn(pTokensEosioAsset.prototype, 'setCustomActions')
-    const from = assets.find((_el) => _el.id === 'PUOS_ON_ULTRA_MAINNET')
-    const to = assets.find((_el) => _el.id === 'UOS')
+    const from = assets.find((_el) => _el.id === PTokenId.PUOS_ON_ULTRA_MAINNET)
+    const to = assets.find((_el) => _el.id === TokenId.UOS)
     const amount = '100'
     const address = '0xF39d30Fa570db7940e5b3A3e42694665A1449E4B'
     const f = swap(from, to, amount, address)
@@ -124,8 +125,8 @@ describe('swap', () => {
     const peginWithWalletSpy = vi.spyOn(peginWithWallet, 'default').mockResolvedValue()
     const addDestinationAssetSpy = vi.spyOn(pTokensSwapBuilder.prototype, 'addDestinationAsset')
     const setAmountSpy = vi.spyOn(pTokensSwapBuilder.prototype, 'setAmount')
-    const from = assets.find((_el) => _el.id === 'ZMT')
-    const to = assets.find((_el) => _el.id === 'ZMT_ON_BSC_MAINNET')
+    const from = assets.find((_el) => _el.id === TokenId.ZMT)
+    const to = assets.find((_el) => _el.id === PTokenId.ZMT_ON_BSC_MAINNET)
     const amount = '1000'
     const address = '0xF39d30Fa570db7940e5b3A3e42694665A1449E4B'
     const f = swap(from, to, amount, address)
@@ -153,8 +154,8 @@ describe('swap', () => {
     const addDestinationAssetSpy = vi.spyOn(pTokensSwapBuilder.prototype, 'addDestinationAsset')
     const setCustomTransactionsSpy = vi.spyOn(pTokensAlgorandAsset.prototype, 'setCustomTransactions')
     const setAmountSpy = vi.spyOn(pTokensSwapBuilder.prototype, 'setAmount')
-    const from = assets.find((_el) => _el.id === 'PBTC_ON_ALGORAND_MAINNET')
-    const to = assets.find((_el) => _el.id === 'BTC')
+    const from = assets.find((_el) => _el.id === PTokenId.PBTC_ON_ALGORAND_MAINNET)
+    const to = assets.find((_el) => _el.id === TokenId.BTC)
     const amount = '1000'
     const address = '19qn1TWUUxyhFvxwVxNfhF3XaL2eK4ya65'
     const f = swap(from, to, amount, address)
@@ -187,15 +188,18 @@ describe('swap', () => {
         }),
     })
     vi.spyOn(wallets, 'getWallets').mockReturnValue({
-      algorand: { provider: undefined, account: 'VCMJKWOY5P5P7SKMZFFOCEROPJCZOTIJMNIYNUCKH7LRO45JMJP6UYBIJA' },
-      eth: {},
+      [Blockchain.Algorand]: {
+        provider: undefined,
+        account: 'VCMJKWOY5P5P7SKMZFFOCEROPJCZOTIJMNIYNUCKH7LRO45JMJP6UYBIJA',
+      },
+      [Blockchain.Ethereum]: {},
     })
     const pegoutSpy = vi.spyOn(pegout, 'default').mockResolvedValue()
     const addDestinationAssetSpy = vi.spyOn(pTokensSwapBuilder.prototype, 'addDestinationAsset')
     const setCustomTransactionsSpy = vi.spyOn(pTokensAlgorandAsset.prototype, 'setCustomTransactions')
     const setAmountSpy = vi.spyOn(pTokensSwapBuilder.prototype, 'setAmount')
-    const from = assets.find((_el) => _el.id === 'USDC_ON_ALGORAND_MAINNET')
-    const to = assets.find((_el) => _el.id === 'USDC')
+    const from = assets.find((_el) => _el.id === PTokenId.USDC_ON_ALGORAND_MAINNET)
+    const to = assets.find((_el) => _el.id === TokenId.USDC)
     const amount = '1000'
     const address = '0xF39d30Fa570db7940e5b3A3e42694665A1449E4B'
     const f = swap(from, to, amount, address)
@@ -222,14 +226,17 @@ describe('swap', () => {
 
   it('Should peg-in USDC on Algorand', async () => {
     vi.spyOn(wallets, 'getWallets').mockReturnValue({
-      eth: { account: '0xF39d30Fa570db7940e5b3A3e42694665A1449E4B' },
-      algorand: { provider: undefined, account: 'VCMJKWOY5P5P7SKMZFFOCEROPJCZOTIJMNIYNUCKH7LRO45JMJP6UYBIJA' },
+      [Blockchain.Ethereum]: { account: '0xF39d30Fa570db7940e5b3A3e42694665A1449E4B' },
+      [Blockchain.Algorand]: {
+        provider: undefined,
+        account: 'VCMJKWOY5P5P7SKMZFFOCEROPJCZOTIJMNIYNUCKH7LRO45JMJP6UYBIJA',
+      },
     })
     const peginWithWalletSpy = vi.spyOn(peginWithWallet, 'default').mockResolvedValue()
     const addDestinationAssetSpy = vi.spyOn(pTokensSwapBuilder.prototype, 'addDestinationAsset')
     const setAmountSpy = vi.spyOn(pTokensSwapBuilder.prototype, 'setAmount')
-    const from = assets.find((_el) => _el.id === 'USDC')
-    const to = assets.find((_el) => _el.id === 'USDC_ON_ALGORAND_MAINNET')
+    const from = assets.find((_el) => _el.id === TokenId.USDC)
+    const to = assets.find((_el) => _el.id === PTokenId.USDC_ON_ALGORAND_MAINNET)
     const amount = '1000'
     const address = 'VCMJKWOY5P5P7SKMZFFOCEROPJCZOTIJMNIYNUCKH7LRO45JMJP6UYBIJA'
     const f = swap(from, to, amount, address)

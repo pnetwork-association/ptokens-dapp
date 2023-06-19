@@ -15,9 +15,7 @@ const createAsset = async (_node, _asset, _wallet) => {
   builder.setBlockchain(_asset.chainId)
   builder.setSymbol(_asset.symbol)
   builder.setDecimals(_asset.decimals)
-  const provider = new pTokensEvmProvider(
-    _wallet.provider || getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase())
-  )
+  const provider = new pTokensEvmProvider(_wallet.provider || getReadOnlyProviderByBlockchain(_asset.blockchain))
   builder.setProvider(provider)
   const asset = await builder.build()
   return asset

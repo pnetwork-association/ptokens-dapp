@@ -1,38 +1,39 @@
 import { ChainId } from 'ptokens-constants'
 import { validators, stringUtils } from 'ptokens-helpers'
+import { Blockchain } from '../constants'
 
 const isValidAccountByBlockchain = (_account, _blockchain) => {
   if (!_account) return false
   switch (_blockchain) {
-    case 'ETH':
+    case Blockchain.Ethereum:
       return validators.isValidAddressByChainId(stringUtils.addHexPrefix(_account), ChainId.EthereumMainnet)
-    case 'XDAI':
+    case Blockchain.XDAI:
       return validators.isValidAddressByChainId(stringUtils.addHexPrefix(_account), ChainId.XdaiMainnet)
-    case 'POLYGON':
+    case Blockchain.Polygon:
       return validators.isValidAddressByChainId(stringUtils.addHexPrefix(_account), ChainId.PolygonMainnet)
-    case 'BSC':
+    case Blockchain.BSC:
       return validators.isValidAddressByChainId(stringUtils.addHexPrefix(_account), ChainId.BscMainnet)
-    case 'ARBITRUM':
+    case Blockchain.Arbitrum:
       return validators.isValidAddressByChainId(stringUtils.addHexPrefix(_account), ChainId.ArbitrumMainnet)
-    case 'LUXOCHAIN':
+    case Blockchain.Luxochain:
       return validators.isValidAddressByChainId(stringUtils.addHexPrefix(_account), ChainId.LuxochainMainnet)
-    case 'TELOS':
+    case Blockchain.Telos:
       return validators.isValidAddressByChainId(_account, ChainId.TelosMainnet)
-    case 'LIBRE':
+    case Blockchain.Libre:
       return validators.isValidAddressByChainId(_account, ChainId.LibreMainnet)
-    case 'EOS':
+    case Blockchain.EOS:
       return validators.isValidAddressByChainId(_account, ChainId.EosMainnet)
-    case 'ULTRA':
+    case Blockchain.Ultra:
       return validators.isValidAddressByChainId(_account, ChainId.UltraMainnet)
-    case 'ALGORAND':
+    case Blockchain.Algorand:
       return validators.isValidAddressByChainId(_account, ChainId.AlgorandMainnet)
-    case 'FTM':
+    case Blockchain.Fantom:
       return validators.isValidAddressByChainId(stringUtils.addHexPrefix(_account), ChainId.FantomMainnet)
-    case 'ORE':
+    case Blockchain.Ore:
       return validators.isValidAddressByChainId(_account, ChainId.EosMainnet)
-    case 'BTC':
+    case Blockchain.Bitcoin:
       return validators.isValidAddressByChainId(_account, ChainId.BitcoinMainnet)
-    case 'LTC':
+    case Blockchain.Litecoin:
       return validators.isValidAddressByChainId(_account, ChainId.LitecoinMainnet)
     default:
       return false

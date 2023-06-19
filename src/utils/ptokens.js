@@ -7,12 +7,19 @@ import { pTokensSwapBuilder } from 'ptokens-swap'
 import { pTokensNode, pTokensNodeProvider } from 'ptokens-node'
 
 import { getReadOnlyProviderByBlockchain } from './read-only-providers'
-import { PNETWORK_NODE_V3 } from '../constants/index'
+import { Blockchain, PNETWORK_NODE_V3 } from '../constants'
 
-const utxoBlockchains = ['btc', 'ltc']
-const evmBlockchains = ['eth', 'bsc', 'ftm', 'polygon', 'luxochain', 'arbitrum']
-const eosioBlockchains = ['telos', 'eos', 'libre', 'ultra']
-const algorandBlockchains = ['algorand']
+const utxoBlockchains = [Blockchain.Bitcoin, Blockchain.Litecoin]
+const evmBlockchains = [
+  Blockchain.Ethereum,
+  Blockchain.BSC,
+  Blockchain.Fantom,
+  Blockchain.Polygon,
+  Blockchain.Luxochain,
+  Blockchain.Arbitrum,
+]
+const eosioBlockchains = [Blockchain.Telos, Blockchain.EOS, Blockchain.Libre, Blockchain.Ultra]
+const algorandBlockchains = [Blockchain.Algorand]
 
 const getNodeProvider = _.memoize((_url) => new pTokensNodeProvider(_url))
 
@@ -23,24 +30,23 @@ const getNode = _.memoize(() => {
 
 const getAssetBuilder = (_asset) => {
   const node = getNode()
-  if (utxoBlockchains.includes(_asset.blockchain.toLowerCase())) return new pTokensUtxoAssetBuilder(node)
-  if (evmBlockchains.includes(_asset.blockchain.toLowerCase())) return new pTokensEvmAssetBuilder(node)
-  if (eosioBlockchains.includes(_asset.blockchain.toLowerCase())) return new pTokensEosioAssetBuilder(node)
-  if (algorandBlockchains.includes(_asset.blockchain.toLowerCase())) return new pTokensAlgorandAssetBuilder(node)
+  if (utxoBlockchains.includes(_asset.blockchain)) return new pTokensUtxoAssetBuilder(node)
+  if (evmBlockchains.includes(_asset.blockchain)) return new pTokensEvmAssetBuilder(node)
+  if (eosioBlockchains.includes(_asset.blockchain)) return new pTokensEosioAssetBuilder(node)
+  if (algorandBlockchains.includes(_asset.blockchain)) return new pTokensAlgorandAssetBuilder(node)
 }
 
 const getProvider = (_asset, _wallets) => {
-  const wallet = _wallets[_asset.blockchain.toLowerCase()]
-  if (utxoBlockchains.includes(_asset.blockchain.toLowerCase()))
+  const wallet = _wallets[_asset.blockchain]
+  if (utxoBlockchains.includes(_asset.blockchain))
     return new pTokensBlockstreamUtxoProvider(getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase()), {
       'Content-Type': 'text/plain',
     })
-  else if (evmBlockchains.includes(_asset.blockchain.toLowerCase()))
+  else if (evmBlockchains.includes(_asset.blockchain))
     return new pTokensEvmProvider(
-      _wallets[_asset.blockchain.toLowerCase()].provider ||
-        getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase())
+      _wallets[_asset.blockchain].provider || getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase())
     )
-  else if (eosioBlockchains.includes(_asset.blockchain.toLowerCase())) {
+  else if (eosioBlockchains.includes(_asset.blockchain)) {
     const provider = new pTokensEosioProvider(
       getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase()),
       wallet.provider || undefined
@@ -48,7 +54,7 @@ const getProvider = (_asset, _wallets) => {
     if (wallet.account) provider.setActor(wallet.account)
     if (wallet.permission) provider.setPermission(wallet.permission)
     return provider
-  } else if (algorandBlockchains.includes(_asset.blockchain.toLowerCase())) {
+  } else if (algorandBlockchains.includes(_asset.blockchain)) {
     const provider = new pTokensAlgorandProvider(
       getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase()),
       wallet.provider || undefined

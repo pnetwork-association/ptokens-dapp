@@ -12,59 +12,60 @@ import { connectWithAlgorandWallet, disconnectFromAlgorandWallet } from './algor
 import { connectWithFtmWallet, disconnectFromFtmWallet } from './ftm'
 import { connectWithOreWallet, disconnectFromOreWallet } from './ore'
 import { sendEvent } from '../../ga4'
+import { Blockchain } from '../../constants'
 
 const connectWithWallet = (_blockchain) => {
   return async (_dispatch) => {
     switch (_blockchain) {
-      case 'ETH': {
+      case Blockchain.Ethereum: {
         connectWithEthWallet(_dispatch)
         break
       }
-      case 'EOS': {
+      case Blockchain.EOS: {
         connectWithEosWallet(_dispatch)
         break
       }
-      case 'TELOS': {
+      case Blockchain.Telos: {
         connectWithTelosWallet(_dispatch)
         break
       }
-      case 'LIBRE': {
+      case Blockchain.Libre: {
         connectWithLibreWallet(_dispatch)
         break
       }
-      case 'BSC': {
+      case Blockchain.BSC: {
         connectWithBscWallet(_dispatch)
         break
       }
-      case 'POLYGON': {
+      case Blockchain.Polygon: {
         connectWithPolygonWallet(_dispatch)
         break
       }
-      case 'XDAI': {
+      case Blockchain.XDAI: {
         connectWithXdaiWallet(_dispatch)
         break
       }
-      case 'ULTRA': {
+      case Blockchain.Ultra: {
         connectWithUltraWallet(_dispatch)
         break
       }
-      case 'ARBITRUM': {
+      case Blockchain.Arbitrum: {
         connectWithArbitrumWallet(_dispatch)
         break
       }
-      case 'LUXOCHAIN': {
+      case Blockchain.Luxochain: {
         connectWithLuxochainWallet(_dispatch)
         break
       }
-      case 'ALGORAND': {
+      case Blockchain.Algorand: {
         connectWithAlgorandWallet(_dispatch)
         break
       }
-      case 'FTM': {
+      case Blockchain.Fantom: {
         connectWithFtmWallet(_dispatch)
         break
       }
-      case 'ORE': {
+      case Blockchain.Ore: {
         connectWithOreWallet(_dispatch)
         break
       }
@@ -78,55 +79,55 @@ const connectWithWallet = (_blockchain) => {
 const disconnectFromWallet = (_blockchain) => {
   return async (_dispatch) => {
     switch (_blockchain) {
-      case 'ETH': {
+      case Blockchain.Ethereum: {
         disconnectFromEthWallet(_dispatch)
         break
       }
-      case 'EOS': {
+      case Blockchain.EOS: {
         disconnectFromEosWallet(_dispatch)
         break
       }
-      case 'TELOS': {
+      case Blockchain.Telos: {
         disconnectFromTelosWallet(_dispatch)
         break
       }
-      case 'LIBRE': {
+      case Blockchain.Libre: {
         disconnectFromLibreWallet(_dispatch)
         break
       }
-      case 'BSC': {
+      case Blockchain.BSC: {
         disconnectFromBscWallet(_dispatch)
         break
       }
-      case 'POLYGON': {
+      case Blockchain.Polygon: {
         disconnectFromPolygonWallet(_dispatch)
         break
       }
-      case 'XDAI': {
+      case Blockchain.XDAI: {
         disconnectFromXdaiWallet(_dispatch)
         break
       }
-      case 'ULTRA': {
+      case Blockchain.Ultra: {
         disconnectFromUltraWallet(_dispatch)
         break
       }
-      case 'ARBITRUM': {
+      case Blockchain.Arbitrum: {
         disconnectFromArbitrumWallet(_dispatch)
         break
       }
-      case 'LUXOCHAIN': {
+      case Blockchain.Luxochain: {
         disconnectFromLuxochainWallet(_dispatch)
         break
       }
-      case 'ALGORAND': {
+      case Blockchain.Algorand: {
         disconnectFromAlgorandWallet(_dispatch)
         break
       }
-      case 'FTM': {
+      case Blockchain.Fantom: {
         disconnectFromFtmWallet(_dispatch)
         break
       }
-      case 'ORE': {
+      case Blockchain.Ore: {
         disconnectFromOreWallet(_dispatch)
         break
       }

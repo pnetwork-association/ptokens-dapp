@@ -6,6 +6,7 @@ import { executeEvmCompatibleTxWithToast } from '../../../utils/tx-utils'
 import { getProviderByBlockchain, getAccountByBlockchain } from '../nfts.selectors'
 import { loadErc721Data } from './erc721'
 import { loadNftData } from '../nfts.actions'
+import { Blockchain } from '../../../constants'
 
 const moveChainGuardians = async ({ nft, destinationAccount, dispatch }) => {
   try {
@@ -21,19 +22,19 @@ const moveChainGuardians = async ({ nft, destinationAccount, dispatch }) => {
       if (approvedAccount.toLowerCase() !== nft.portalsAddress.toLowerCase()) {
         await executeEvmCompatibleTxWithToast(nftContract.methods.approve(nft.portalsAddress, nft.id), {
           from: account,
-          blockchain: 'ETH',
+          blockchain: Blockchain.Ethereum,
         })
       }
 
       await executeEvmCompatibleTxWithToast(portals.methods.wrap(nft.id, destinationAccount), {
         from: account,
-        blockchain: 'ETH',
+        blockchain: Blockchain.Ethereum,
       })
     } else {
       const portals = new web3.eth.Contract(HostAbi, nft.portalsAddress)
       await executeEvmCompatibleTxWithToast(portals.methods.unwrap(nft.id, destinationAccount), {
         from: account,
-        blockchain: 'BSC',
+        blockchain: Blockchain.BSC,
       })
     }
 

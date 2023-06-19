@@ -12,6 +12,7 @@ import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
+import { Blockchain } from '../../../constants'
 
 let web3Modal
 
@@ -64,7 +65,7 @@ const connectWithPolygonWallet = async (_dispatch) => {
 }
 
 const disconnectFromPolygonWallet = async (_dispatch) => {
-  const provider = getWalletProviderByBlockchain('POLYGON')
+  const provider = getWalletProviderByBlockchain(Blockchain.Polygon)
   if (provider.close) {
     await provider.close()
   }

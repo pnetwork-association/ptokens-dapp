@@ -8,6 +8,7 @@ import { changeNetwork, setupNetwork } from '../../../utils/wallet'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
+import { Blockchain } from '../../../constants'
 
 let web3Modal
 
@@ -67,7 +68,7 @@ const connectWithFtmWallet = async (_dispatch) => {
 }
 
 const disconnectFromFtmWallet = async (_dispatch) => {
-  const provider = getWalletProviderByBlockchain('FTM')
+  const provider = getWalletProviderByBlockchain(Blockchain.Fantom)
   if (provider.close) {
     await provider.close()
   }
@@ -95,7 +96,7 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
             chainId: 250,
             chainName: 'Fantom',
             nativeCurrency: {
-              name: 'FTM',
+              name: Blockchain.Fantom,
               symbol: 'ftm',
               decimals: 18,
             },

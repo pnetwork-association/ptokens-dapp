@@ -1,3 +1,5 @@
+import { Blockchain } from '../constants'
+
 const nfts = [
   {
     internalId: 'RAREBITBUNNIES_ON_ETH',
@@ -7,10 +9,10 @@ const nfts = [
     contractAddress: '0x61bd6B10C7bf3e548F8659d016079e099510a4Dc',
     symbol: 'RAREBITBUNNIES',
     isNative: true,
-    blockchain: 'ETH',
+    blockchain: Blockchain.Ethereum,
     fromBlock: 11701037,
     loadDataKey: 'erc1155',
-    supportedBlockchains: ['BSC'],
+    supportedBlockchains: [Blockchain.BSC],
   },
   {
     internalId: 'RAREBITBUNNIES_ON_BSC',
@@ -20,10 +22,10 @@ const nfts = [
     contractAddress: '0xF6fD8bE7D3B9fd9B52f18f78a07963777383B898',
     symbol: 'RAREBITBUNNIES',
     isNative: false,
-    blockchain: 'BSC',
+    blockchain: Blockchain.BSC,
     fromBlock: 6170510,
     loadDataKey: 'erc1155',
-    supportedBlockchains: ['ETH'],
+    supportedBlockchains: [Blockchain.Ethereum],
   },
   {
     internalId: 'CHAINGUARDIANS_ON_ETH',
@@ -33,9 +35,9 @@ const nfts = [
     contractAddress: '0x3CD41EC039c1F2DD1f76144bb3722E7b503f50ab',
     symbol: 'CGT',
     isNative: true,
-    blockchain: 'ETH',
+    blockchain: Blockchain.Ethereum,
     loadDataKey: 'cgt',
-    supportedBlockchains: ['BSC'],
+    supportedBlockchains: [Blockchain.BSC],
     baseUri: 'https://api.chainguardians.io/api/opensea',
   },
   {
@@ -46,9 +48,9 @@ const nfts = [
     contractAddress: '0x17D8214A8B81A0F55fcd4E401B098579Cb457008',
     symbol: 'pCGT',
     isNative: false,
-    blockchain: 'BSC',
+    blockchain: Blockchain.BSC,
     loadDataKey: 'cgt',
-    supportedBlockchains: ['ETH'],
+    supportedBlockchains: [Blockchain.Ethereum],
     baseUri: 'https://api.chainguardians.io/api/opensea',
   },
 ]

@@ -12,6 +12,7 @@ import {
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
+import { Blockchain } from '../../../constants'
 
 let web3Modal
 
@@ -74,7 +75,7 @@ const connectWithLuxochainWallet = async (_dispatch) => {
 }
 
 const disconnectFromLuxochainWallet = async (_dispatch) => {
-  const provider = getWalletProviderByBlockchain('ETH')
+  const provider = getWalletProviderByBlockchain(Blockchain.Ethereum)
   if (provider.close) {
     await provider.close()
   }

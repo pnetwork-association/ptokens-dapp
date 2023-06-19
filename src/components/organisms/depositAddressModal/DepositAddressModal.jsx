@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import QRCode from 'qrcode.react'
-import { blockchainSymbolToCoin } from '../../../utils/maps'
+import { blockchainToCoin } from '../../../utils/maps'
 import ReactTooltip from 'react-tooltip'
 import { copyToClipboard } from '../../../utils/utils'
 import Modal from '../../molecules/modal/Modal'
@@ -69,7 +69,7 @@ const DepositAddressModal = ({ show, asset, onClose, value }) => {
       <Modal
         show={show}
         onClose={onClose}
-        title={`${asset ? blockchainSymbolToCoin[asset.nativeSymbol] : ''} Deposit Address`}
+        title={`${asset ? blockchainToCoin[asset.blockchain] : ''} Deposit Address`}
         body={
           <OuterContainer>
             <ContainerQrCode>
@@ -88,7 +88,7 @@ const DepositAddressModal = ({ show, asset, onClose, value }) => {
               {value ? value : ''}
             </Address>
             <Info>{`Send your ${asset ? asset.nativeSymbol : '-'} to the ${
-              asset ? blockchainSymbolToCoin[asset.nativeSymbol] : ''
+              asset ? blockchainToCoin[asset.blockchain] : ''
             } deposit address above. The asset will be made compatibile with your blockchain of choise and directly accredited on the specified destination address.`}</Info>
             <ReactTooltip getContent={() => (isCopiedToClipboard ? 'Copied!' : 'Copy to clipboard')} />
           </OuterContainer>

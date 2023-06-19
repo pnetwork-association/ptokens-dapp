@@ -9,7 +9,7 @@ const useSwapInfo = ({ from, to, amount, bpm, swappersBalances, fees }) => {
     function getEta() {
       let fromAsset = from
       if (from.requiresCurve) {
-        fromAsset = getAssetById(from.pTokenId)
+        fromAsset = getAssetById(from.PTokenId)
       }
       // ATM, the API returns untrustworthy estimates for EOS-like chains.
       // For those chains, assume the sync ETA is 0 if the BPM is > 0

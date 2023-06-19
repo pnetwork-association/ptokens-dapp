@@ -9,6 +9,7 @@ import { registerToken } from '../../../utils/wallet'
 import { getBase64Image } from '../../../utils/image'
 import { useProvider } from '../../../hooks/use-provider'
 import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
+import { Blockchain } from '../../../constants'
 
 const ContainerAssetInfo = styled(Col)`
   margin-top: 10px;
@@ -108,7 +109,10 @@ const AssetInfo = ({ asset, wallet }) => {
                 }, 1500)
               }}
             />
-            {blockchain !== 'EOS' && blockchain !== 'TELOS' && blockchain !== 'LIBRE' && blockchain !== 'ALGORAND' ? (
+            {blockchain !== Blockchain.EOS &&
+            blockchain !== Blockchain.Telos &&
+            blockchain !== Blockchain.Libre &&
+            blockchain !== Blockchain.Algorand ? (
               <MetamaskIcon
                 icon="metamask"
                 data-tip={!wallet.provider ? 'Connect MetaMask to add the token' : 'Add to MetaMask'}

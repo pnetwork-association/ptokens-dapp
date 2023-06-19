@@ -2,12 +2,13 @@ import algosdk from 'algosdk'
 import { getWalletAccountByBlockchain, getWalletProviderByBlockchain } from '../../wallets/wallets.selectors'
 import { getReadOnlyProviderByBlockchain } from '../../../utils/read-only-providers'
 import { toastr } from 'react-redux-toastr'
+import { Blockchain } from '../../../constants'
 
 export const maybeOptInAlgoAsset = async (_account, _assetIndex, updateButton = undefined) => {
   try {
-    const walletAccount = getWalletAccountByBlockchain('ALGORAND')
-    const provider = getWalletProviderByBlockchain('ALGORAND')
-    const client = getReadOnlyProviderByBlockchain('ALGORAND')
+    const walletAccount = getWalletAccountByBlockchain(Blockchain.Algorand)
+    const provider = getWalletProviderByBlockchain(Blockchain.Algorand)
+    const client = getReadOnlyProviderByBlockchain(Blockchain.Algorand)
 
     // check if the user has already opted in this asset
     const accountInfo = await client.accountInformation(_account).do()
@@ -52,9 +53,9 @@ export const maybeOptInAlgoAsset = async (_account, _assetIndex, updateButton = 
 
 export const maybeOptInAlgoApp = async (_appIndex, updateButton = undefined) => {
   try {
-    const walletAccount = getWalletAccountByBlockchain('ALGORAND')
-    const provider = getWalletProviderByBlockchain('ALGORAND')
-    const client = getReadOnlyProviderByBlockchain('ALGORAND')
+    const walletAccount = getWalletAccountByBlockchain(Blockchain.Algorand)
+    const provider = getWalletProviderByBlockchain(Blockchain.Algorand)
+    const client = getReadOnlyProviderByBlockchain(Blockchain.Algorand)
 
     // check if the user has already opted in this asset
     const accountInfo = await client.accountInformation(walletAccount).do()

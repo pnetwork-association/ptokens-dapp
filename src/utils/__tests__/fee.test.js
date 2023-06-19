@@ -9,7 +9,7 @@ import {
   getFormattedProtocolFee,
   getSwapFees,
 } from '../fee'
-import { PBTC_ON_ETH_MAINNET_V1_MIGRATION, ETHPNT_ON_ETH_MAINNET, PNT_ON_ETH_MAINNET } from '../../constants'
+import { MigrationAssetId, PTokenId, TokenId } from '../../constants'
 import assets from '../../settings/swap-assets'
 
 describe('getFormattedFees with no amount', () => {
@@ -82,9 +82,9 @@ describe('getFormattedFees with no amount', () => {
 
 describe('getMigrationFees', () => {
   test.each([
-    [{ id: PBTC_ON_ETH_MAINNET_V1_MIGRATION }, { id: 2 }, 0],
-    [{ id: ETHPNT_ON_ETH_MAINNET }, { id: PNT_ON_ETH_MAINNET }, 0.25],
-    [{ id: PNT_ON_ETH_MAINNET }, { id: ETHPNT_ON_ETH_MAINNET }, null],
+    [{ id: MigrationAssetId.PBTC_ON_ETH_MAINNET_V1_MIGRATION }, { id: 2 }, 0],
+    [{ id: MigrationAssetId.ETHPNT_ON_ETH_MAINNET }, { id: MigrationAssetId.PNT_ON_ETH_MAINNET }, 0.25],
+    [{ id: MigrationAssetId.PNT_ON_ETH_MAINNET }, { id: MigrationAssetId.ETHPNT_ON_ETH_MAINNET }, null],
   ])('Should compute migration fees amount %s %s', (from, to, expected) => {
     const ret = getMigrationFees(from, to)
     expect(ret).toStrictEqual(expected)
@@ -93,11 +93,17 @@ describe('getMigrationFees', () => {
 
 describe('computeMigrationAmount', () => {
   test.each([
-    [{ id: PBTC_ON_ETH_MAINNET_V1_MIGRATION }, { id: 2 }, '10', 'from', '10'],
-    [{ id: ETHPNT_ON_ETH_MAINNET }, { id: PNT_ON_ETH_MAINNET }, '10', 'from', '10.025062656641603'],
-    [{ id: ETHPNT_ON_ETH_MAINNET }, { id: PNT_ON_ETH_MAINNET }, '10', 'to', '9.975'],
-    [{ id: PNT_ON_ETH_MAINNET }, { id: ETHPNT_ON_ETH_MAINNET }, '10', 'to', null],
-    [{ id: ETHPNT_ON_ETH_MAINNET }, { id: PNT_ON_ETH_MAINNET }, '', 'to', ''],
+    [{ id: MigrationAssetId.PBTC_ON_ETH_MAINNET_V1_MIGRATION }, { id: 2 }, '10', 'from', '10'],
+    [
+      { id: MigrationAssetId.ETHPNT_ON_ETH_MAINNET },
+      { id: MigrationAssetId.PNT_ON_ETH_MAINNET },
+      '10',
+      'from',
+      '10.025062656641603',
+    ],
+    [{ id: MigrationAssetId.ETHPNT_ON_ETH_MAINNET }, { id: MigrationAssetId.PNT_ON_ETH_MAINNET }, '10', 'to', '9.975'],
+    [{ id: MigrationAssetId.PNT_ON_ETH_MAINNET }, { id: MigrationAssetId.ETHPNT_ON_ETH_MAINNET }, '10', 'to', null],
+    [{ id: MigrationAssetId.ETHPNT_ON_ETH_MAINNET }, { id: MigrationAssetId.PNT_ON_ETH_MAINNET }, '', 'to', ''],
   ])('Should compute migration fees amount', (from, to, amount, direction, expected) => {
     const ret = computeMigrationAmount(from, to, amount, direction)
     expect(ret).toStrictEqual(expected)
@@ -235,8 +241,8 @@ describe('getSwapFees', () => {
     vi.mock('ptokens-node')
   })
   test('Should get fees for a native to host swap', async () => {
-    const from = assets.find((_el) => _el.id === 'BTC')
-    const to = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
+    const from = assets.find((_el) => _el.id === TokenId.BTC)
+    const to = assets.find((_el) => _el.id === PTokenId.PBTC_ON_ETH_MAINNET)
     const fees = await getSwapFees(from, to)
     expect(fees).toStrictEqual({
       basisPoints: 10,
@@ -246,8 +252,8 @@ describe('getSwapFees', () => {
   })
 
   test('Should get fees for a host to native swap', async () => {
-    const from = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
-    const to = assets.find((_el) => _el.id === 'BTC')
+    const from = assets.find((_el) => _el.id === PTokenId.PBTC_ON_ETH_MAINNET)
+    const to = assets.find((_el) => _el.id === TokenId.BTC)
     const fees = await getSwapFees(from, to)
     expect(fees).toStrictEqual({
       basisPoints: 25,
@@ -257,8 +263,8 @@ describe('getSwapFees', () => {
   })
 
   test('Should get fees for a host to host swap 1', async () => {
-    const from = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
-    const to = assets.find((_el) => _el.id === 'PBTC_ON_ALGORAND_MAINNET')
+    const from = assets.find((_el) => _el.id === PTokenId.PBTC_ON_ETH_MAINNET)
+    const to = assets.find((_el) => _el.id === PTokenId.PBTC_ON_ALGORAND_MAINNET)
     const fees = await getSwapFees(from, to)
     expect(fees).toStrictEqual({
       basisPoints: 10,
@@ -268,8 +274,8 @@ describe('getSwapFees', () => {
   })
 
   test('Should get fees for a host to host swap 2', async () => {
-    const from = assets.find((_el) => _el.id === 'PBTC_ON_ALGORAND_MAINNET')
-    const to = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
+    const from = assets.find((_el) => _el.id === PTokenId.PBTC_ON_ALGORAND_MAINNET)
+    const to = assets.find((_el) => _el.id === PTokenId.PBTC_ON_ETH_MAINNET)
     const fees = await getSwapFees(from, to)
     expect(fees).toStrictEqual({
       basisPoints: 10,

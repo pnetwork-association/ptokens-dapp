@@ -18,7 +18,7 @@ import AddressWarning from '../../molecules/popup/AddressWarning'
 import WarningPopup from '../../molecules/popup/Warning'
 import Switch from '../../atoms/switch/Switch'
 import Button from '../../atoms/button/Button'
-import { MAX_IMPACT, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../../../constants'
+import { MAX_IMPACT, MigrationAssetId, PTokenId, TokenId } from '../../../constants'
 import { sendEvent } from '../../../ga4'
 import ReactTooltip from 'react-tooltip'
 
@@ -234,7 +234,7 @@ const Swap = ({
   })
 
   useEffect(() => {
-    const pbtcv1 = migrationAssets.find(({ id }) => id === PBTC_ON_ETH_MAINNET_V1_MIGRATION)
+    const pbtcv1 = migrationAssets.find(({ id }) => id === MigrationAssetId.PBTC_ON_ETH_MAINNET_V1_MIGRATION)
     if (pbtcv1) {
       if (BigNumber(pbtcv1.balance).isGreaterThan(0)) {
         setNotifyMigration('pbtc-v1-v2')
@@ -353,7 +353,7 @@ const Swap = ({
                 onMax={onToMax}
               />
 
-              {from && from.id === 'TLOS_ON_BSC_MAINNET' && to && to.id === 'TLOS' ? (
+              {from && from.id === PTokenId.TLOS_ON_BSC_MAINNET && to && to.id === TokenId.TLOS ? (
                 <EnableTelosEvmRow>
                   <Col style={{ paddingLeft: 0 }} className="pr-0">
                     <EnableTelosEvmText>Receive on a tEVM (Telos EVM) compatible address</EnableTelosEvmText>

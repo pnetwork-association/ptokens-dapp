@@ -5,13 +5,14 @@ import { getSwapFees, computeSwapAmount } from '../utils/fee'
 import BigNumber from 'bignumber.js'
 import { getLegacyUrl, updateUrlForSwap } from '../utils/url'
 import { useWalletByBlockchain } from './use-wallets'
-import { TLOS_ON_BSC_MAINNET, TLOS_ON_ETH_MAINNET } from '../constants'
+import { PTokenId } from '../constants'
 import { PBTC_ON_ETH_POOL, CURVE_MIN_AMOUNT, CURVE_MAX_AMOUNT } from '../constants'
 import { maybeOptInAlgoApp, maybeOptInAlgoAsset } from '../store/swap/utils/opt-in-algo'
 import { useRef } from 'react'
 import curve from '@curvefi/api'
 import { sendEvent } from '../ga4'
 import { useSwapInfo } from './use-swap-info'
+import { Blockchain } from '../constants'
 
 const useSwap = ({
   wallets,
@@ -95,7 +96,7 @@ const useSwap = ({
 
   useEffect(() => {
     async function curveInit() {
-      const provider = getReadOnlyProviderByBlockchain(from.blockchain.toUpperCase())
+      const provider = getReadOnlyProviderByBlockchain(from.blockchain)
       await curve.init('Web3', { externalProvider: provider }, { chainId: from.curveChainId })
       await curve.fetchFactoryPools()
       curveRef.current = [curve, from.address, from.swapToAddress]
@@ -269,7 +270,7 @@ const useSwap = ({
   }, [])
 
   const onCloseDepositAddressModal = useCallback(() => {
-    updateSwapButton(!wallets[from.blockchain.toLowerCase()] ? 'Get Deposit Address' : 'Swap')
+    updateSwapButton(!wallets[from.blockchain] ? 'Get Deposit Address' : 'Swap')
     hideDepositAddressModal()
   }, [from, wallets, updateSwapButton, hideDepositAddressModal])
 
@@ -358,8 +359,7 @@ const useSwap = ({
 
   // NOTE: change to address with a connected account
   useEffect(() => {
-    if (to && wallets[to.blockchain.toLowerCase()] && wallets[to.blockchain.toLowerCase()].account)
-      setAddress(wallets[to.blockchain.toLowerCase()].account)
+    if (to && wallets[to.blockchain] && wallets[to.blockchain].account) setAddress(wallets[to.blockchain].account)
   }, [wallets, to])
 
   // NOTE: calculates button text
@@ -403,18 +403,18 @@ const useSwap = ({
       }
 
       // NOTE: if wallet is connected but balance is still null it means that we are loading balances
-      if (wallets[from.blockchain.toLowerCase()] && wallets[from.blockchain.toLowerCase()].account && !from.balance) {
+      if (wallets[from.blockchain] && wallets[from.blockchain].account && !from.balance) {
         updateSwapButton('Loading balances ...', true)
         return
       }
 
-      if (wallets[to.blockchain.toLowerCase()] && wallets[to.blockchain.toLowerCase()].account && !to.balance) {
+      if (wallets[to.blockchain] && wallets[to.blockchain].account && !to.balance) {
         updateSwapButton('Loading balances ...', true)
         return
       }
 
       // NOTE: pegin with deposit address
-      if (!wallets[from.blockchain.toLowerCase()]) {
+      if (!wallets[from.blockchain]) {
         if (!address || address === '') {
           updateSwapButton('Enter an address', true)
           return
@@ -426,7 +426,7 @@ const useSwap = ({
         }
 
         if (
-          to.blockchain === 'ALGORAND' &&
+          to.blockchain === Blockchain.Algorand &&
           !(await maybeOptInAlgoAsset(address, parseInt(to.address, 10), updateSwapButton))
         )
           return
@@ -440,13 +440,13 @@ const useSwap = ({
         return
       }
 
-      if (!from.isNative && from.blockchain === 'ALGORAND' && from.isPseudoNative && poolAmount < fromAmount) {
+      if (!from.isNative && from.blockchain === Blockchain.Algorand && from.isPseudoNative && poolAmount < fromAmount) {
         updateSwapButton('Insufficient liquidity', true)
         return
       }
 
       // NOTE: missing from account for a non deposit address pegin
-      if (!wallets[from.blockchain.toLowerCase()].account) {
+      if (!wallets[from.blockchain].account) {
         updateSwapButton('Connect Wallet')
         return
       }
@@ -465,8 +465,8 @@ const useSwap = ({
       if (
         !from.isNative &&
         pegoutToTelosEvmAddress &&
-        (from.id === TLOS_ON_ETH_MAINNET || from.id === TLOS_ON_BSC_MAINNET) &&
-        !isValidAccountByBlockchain(address, 'ETH')
+        (from.id === PTokenId.TLOS_ON_ETH_MAINNET || from.id === PTokenId.TLOS_ON_BSC_MAINNET) &&
+        !isValidAccountByBlockchain(address, Blockchain.Ethereum)
       ) {
         updateSwapButton('Invalid Address', true)
         return
@@ -477,7 +477,7 @@ const useSwap = ({
         return
       }
 
-      if (from.isNative && to.blockchain === 'ALGORAND') {
+      if (from.isNative && to.blockchain === Blockchain.Algorand) {
         if (!(await maybeOptInAlgoAsset(address, parseInt(to.address, 10), updateSwapButton))) return
         if (to.ptokenAddress && !(await maybeOptInAlgoAsset(address, parseInt(to.ptokenAddress, 10), updateSwapButton)))
           return
@@ -485,7 +485,7 @@ const useSwap = ({
 
       if (
         !from.isNative &&
-        from.blockchain === 'ALGORAND' &&
+        from.blockchain === Blockchain.Algorand &&
         from.isPseudoNative &&
         !(await maybeOptInAlgoApp(parseInt(from.swapperAddress, 10), updateSwapButton))
       )

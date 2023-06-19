@@ -1,6 +1,7 @@
 import algosdk from 'algosdk'
 import { encode } from '@msgpack/msgpack'
 import { getReadOnlyProviderByBlockchain } from '../../../utils/read-only-providers'
+import { Blockchain } from '../../../constants'
 
 function encodeUint64Number(num) {
   const tmp = new window.BigUint64Array(1)
@@ -56,7 +57,7 @@ export const buildPoolSwapTransactions = async ({
   nativeAccount,
   swapInfo,
 }) => {
-  const client = getReadOnlyProviderByBlockchain('ALGORAND')
+  const client = getReadOnlyProviderByBlockchain(Blockchain.Algorand)
   const suggestedParams = await client.getTransactionParams().do()
   const encodedDestinationChainId = parseHexString(destinationChainId.substring(2))
   const asaTransferTx = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({

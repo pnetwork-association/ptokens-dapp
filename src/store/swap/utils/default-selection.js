@@ -1,4 +1,5 @@
 import { toastr } from 'react-redux-toastr'
+import { Blockchain } from '../../../constants'
 
 const getDefaultSelection = (_assets, _options = {}) => {
   const { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol } = _options
@@ -19,7 +20,7 @@ const getDefaultSelectionV1 = (_assets, { pToken }) => {
       isNative
   )
   const assetTo = _assets.find(({ workingName, blockchain }) =>
-    pToken ? pToken.toLowerCase() === `${workingName}-on-${blockchain.toLowerCase()}` : null
+    pToken ? pToken.toLowerCase() === `${workingName}-on-${blockchain}`.toLowerCase() : null
   )
 
   // NOTE: handle token with p and without p as first letter
@@ -44,15 +45,15 @@ const getDefaultSelectionV2 = (
     ({ nativeSymbol, blockchain, address, symbol }) =>
       nativeSymbol.toLowerCase() === asset.toLowerCase() &&
       from.toLowerCase() === blockchain.toLowerCase() &&
-      (algorand_from_assetid && blockchain === 'ALGORAND' ? address === algorand_from_assetid : true) &&
+      (algorand_from_assetid && blockchain === Blockchain.Algorand ? address === algorand_from_assetid : true) &&
       (host_symbol ? symbol.toLowerCase() === host_symbol.toLowerCase() : true)
   )
 
   const assetTo = _assets.find(
     ({ nativeSymbol, blockchain, address }) =>
       nativeSymbol.toLowerCase() === asset.toLowerCase() &&
-      blockchain.toLowerCase() === to.toLowerCase() &&
-      (algorand_to_assetid && blockchain === 'ALGORAND' ? address === algorand_to_assetid : true)
+      to.toLowerCase() === blockchain.toLowerCase() &&
+      (algorand_to_assetid && blockchain === Blockchain.Algorand ? address === algorand_to_assetid : true)
   )
 
   if ((assetFrom && !assetTo) || (!assetFrom && assetTo)) {

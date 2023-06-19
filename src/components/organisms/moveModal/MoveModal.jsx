@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { isValidAccountByBlockchain } from '../../../utils/account-validator'
 import Modal from '../../molecules/modal/Modal'
-import { blockchainSymbolToName } from '../../../utils/maps'
+import { blockchainToName } from '../../../utils/maps'
 
 const ContainerRow = styled.div`
   padding-top: 10px;
@@ -144,13 +144,13 @@ const MoveModal = ({ supportedBlockchains, show, type, onClose, onMove }) => {
       title={step === 0 ? 'Select the blockchain ...' : 'Finalize ...'}
       body={
         step === 0 ? (
-          supportedBlockchains.map((_symbol) => (
-            <ContainerRow key={_symbol} onClick={() => onNext(_symbol)}>
+          supportedBlockchains.map((_blockchain) => (
+            <ContainerRow key={_blockchain} onClick={() => onNext(_blockchain)}>
               <StyledRow>
                 <Col xs={2}>
-                  <BlokchainIcon src={`../assets/svg/${_symbol}.svg`} />
+                  <BlokchainIcon src={`../assets/svg/${_blockchain.toUpperCase()}.svg`} />
                 </Col>
-                <ContainerBlockchainName xs={8}>{blockchainSymbolToName[_symbol]}</ContainerBlockchainName>
+                <ContainerBlockchainName xs={8}>{blockchainToName[_blockchain]}</ContainerBlockchainName>
                 <ContainerRightArrow xs={2}>
                   <RightArrow src="../assets/png/right-arrow.png" />
                 </ContainerRightArrow>

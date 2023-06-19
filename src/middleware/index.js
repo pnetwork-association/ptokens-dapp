@@ -21,6 +21,7 @@ import {
   NFT_DATA_LOADED,
   WALLET_FTM_CONNECTED,
   WALLET_FTM_ACCOUNT_CHANGED,
+  Blockchain,
 } from '../constants'
 import { loadBalances } from '../store/swap/swap.actions'
 import * as migrationActions from '../store/migration/migration.actions'
@@ -38,56 +39,56 @@ const middleware = ({ dispatch }) => {
 
       if (type === WALLET_ETH_CONNECTED || type === WALLET_ETH_ACCOUNT_CHANGED) {
         // NOTE: avoid loading balances without having loaded the address from pNetwork node
-        dispatch(loadBalances(payload.account, 'ETH'))
-        dispatch(loadNftsData(payload.account, 'ETH'))
-        dispatch(migrationActions.loadBalances(payload.account, 'ETH'))
+        dispatch(loadBalances(payload.account, Blockchain.Ethereum))
+        dispatch(loadNftsData(payload.account, Blockchain.Ethereum))
+        dispatch(migrationActions.loadBalances(payload.account, Blockchain.Ethereum))
       }
 
       if (type === WALLET_BSC_CONNECTED || type === WALLET_BSC_ACCOUNT_CHANGED) {
-        dispatch(loadBalances(payload.account, 'BSC'))
-        dispatch(loadNftsData(payload.account, 'BSC'))
+        dispatch(loadBalances(payload.account, Blockchain.BSC))
+        dispatch(loadNftsData(payload.account, Blockchain.BSC))
         dispatch(loadOldPntBalance(payload.account))
       }
 
       if (type === WALLET_XDAI_CONNECTED || type === WALLET_XDAI_ACCOUNT_CHANGED) {
-        dispatch(loadBalances(payload.account, 'XDAI'))
+        dispatch(loadBalances(payload.account, Blockchain.XDAI))
       }
 
       if (type === WALLET_POLYGON_CONNECTED || type === WALLET_POLYGON_ACCOUNT_CHANGED) {
-        dispatch(loadBalances(payload.account, 'POLYGON'))
+        dispatch(loadBalances(payload.account, Blockchain.Polygon))
       }
 
       if (type === WALLET_EOS_CONNECTED) {
-        dispatch(loadBalances(payload.account, 'EOS'))
+        dispatch(loadBalances(payload.account, Blockchain.EOS))
       }
 
       if (type === WALLET_TELOS_CONNECTED) {
-        dispatch(loadBalances(payload.account, 'TELOS'))
+        dispatch(loadBalances(payload.account, Blockchain.Telos))
       }
 
       if (type === WALLET_LIBRE_CONNECTED) {
-        dispatch(loadBalances(payload.account, 'LIBRE'))
+        dispatch(loadBalances(payload.account, Blockchain.Libre))
       }
 
       if (type === WALLET_ULTRA_CONNECTED) {
-        dispatch(loadBalances(payload.account, 'ULTRA'))
+        dispatch(loadBalances(payload.account, Blockchain.Ultra))
       }
 
       if (type === WALLET_ARBITRUM_CONNECTED || type === WALLET_ARBITRUM_ACCOUNT_CHANGED) {
-        dispatch(loadBalances(payload.account, 'ARBITRUM'))
+        dispatch(loadBalances(payload.account, Blockchain.Arbitrum))
       }
 
       if (type === WALLET_LUXOCHAIN_CONNECTED || type === WALLET_LUXOCHAIN_ACCOUNT_CHANGED) {
-        dispatch(loadBalances(payload.account, 'LUXOCHAIN'))
+        dispatch(loadBalances(payload.account, Blockchain.Luxochain))
       }
 
       if (type === WALLET_ALGORAND_CONNECTED || type === WALLET_ALGORAND_ACCOUNT_CHANGED) {
-        dispatch(loadBalances(payload.account, 'ALGORAND'))
+        dispatch(loadBalances(payload.account, Blockchain.Algorand))
       }
 
       if (type === WALLET_FTM_CONNECTED || type === WALLET_FTM_ACCOUNT_CHANGED) {
-        dispatch(loadBalances(payload.account, 'FTM'))
-        dispatch(loadNftsData(payload.account, 'FTM'))
+        dispatch(loadBalances(payload.account, Blockchain.Fantom))
+        dispatch(loadNftsData(payload.account, Blockchain.Fantom))
         dispatch(loadOldPntBalance(payload.account))
       }
 

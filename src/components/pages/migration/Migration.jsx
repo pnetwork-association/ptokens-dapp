@@ -17,7 +17,7 @@ import Button from '../../atoms/button/Button'
 import Progress from '../../molecules/progress/Progress'
 import InfoModal from '../../organisms/infoModal/InfoModal'
 import MigrationInfo from '../../organisms/migrationInfo/MigrationInfo'
-import { PBTC_ON_ETH_MAINNET_V2_MIGRATION, PNT_ON_ETH_MAINNET } from '../../../constants'
+import { MigrationAssetId } from '../../../constants'
 
 const ArrowIcon = styled(SortIcon)`
   cursor: normal !important;
@@ -69,7 +69,11 @@ const Migration = ({
   })
 
   const getPrefix = (_to) => {
-    if (to) return _to.id === PBTC_ON_ETH_MAINNET_V2_MIGRATION || _to.id === PNT_ON_ETH_MAINNET ? '' : '~'
+    if (to)
+      return _to.id === MigrationAssetId.PBTC_ON_ETH_MAINNET_V2_MIGRATION ||
+        _to.id === MigrationAssetId.PNT_ON_ETH_MAINNET
+        ? ''
+        : '~'
     return ''
   }
 

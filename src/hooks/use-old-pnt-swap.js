@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import { isValidAccountByBlockchain } from '../utils/account-validator'
 import BigNumber from 'bignumber.js'
 import { useWalletByBlockchain } from './use-wallets'
+import { Blockchain } from '../constants'
 
 const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, swapButton, updateSwapButton }) => {
   const [from, setFrom] = useState(null)
@@ -24,7 +25,7 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, swapButto
 
   const onSwap = useCallback(() => {
     if (swapButton.text === 'Connect Wallet') {
-      connectWithWallet('BSC')
+      connectWithWallet(Blockchain.BSC)
     }
 
     if (swapButton.text === 'Swap') {
@@ -55,11 +56,7 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, swapButto
   }, [progress])
 
   useEffect(() => {
-    setAddress(
-      to && wallets[to.blockchain.toLowerCase()] && wallets[to.blockchain.toLowerCase()].account
-        ? wallets[to.blockchain.toLowerCase()].account
-        : ''
-    )
+    setAddress(to && wallets[to.blockchain] && wallets[to.blockchain].account ? wallets[to.blockchain].account : '')
   }, [wallets, to])
 
   useEffect(() => {
@@ -68,18 +65,18 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, swapButto
       return
     }
 
-    if (wallets[from.blockchain.toLowerCase()] && wallets[from.blockchain.toLowerCase()].account && !from.balance) {
+    if (wallets[from.blockchain] && wallets[from.blockchain].account && !from.balance) {
       updateSwapButton('Loading balances ...', true)
       return
     }
 
-    if (wallets[to.blockchain.toLowerCase()] && wallets[to.blockchain.toLowerCase()].account && !to.balance) {
+    if (wallets[to.blockchain] && wallets[to.blockchain].account && !to.balance) {
       updateSwapButton('Loading balances ...', true)
       return
     }
 
     // NOTE: missing from account for a non deposit address pegin
-    if (!wallets[from.blockchain.toLowerCase()].account) {
+    if (!wallets[from.blockchain].account) {
       updateSwapButton('Connect Wallet')
       return
     }
@@ -93,7 +90,7 @@ const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, swapButto
       updateSwapButton('Enter an address', true)
     }
 
-    if (!isValidAccountByBlockchain(address, 'BSC')) {
+    if (!isValidAccountByBlockchain(address, Blockchain.BSC)) {
       updateSwapButton(address === '' ? 'Insert an address' : 'Invalid Address', true)
       return
     }

@@ -1,39 +1,41 @@
-const blockchainSymbolToName = {
-  ETH: 'Ethereum',
-  BTC: 'Bitcoin',
-  LTC: 'Litecoin',
-  TELOS: 'Telos',
-  LIBRE: 'Libre',
-  XDAI: 'xDai',
-  BSC: 'Binance Smart Chain',
-  DOGE: 'Dogecoin',
-  EOS: 'EOS',
-  POLYGON: 'Polygon',
-  ULTRA: 'Ultra',
-  ARBITRUM: 'Arbitrum',
-  LUXOCHAIN: 'Luxochain',
-  ALGORAND: 'Algorand',
-  FTM: 'Fantom',
-  ORE: 'ORE',
+import { Blockchain } from '../constants'
+
+const blockchainToName = {
+  [Blockchain.Ethereum]: 'Ethereum',
+  [Blockchain.Bitcoin]: 'Bitcoin',
+  [Blockchain.Litecoin]: 'Litecoin',
+  [Blockchain.Telos]: 'Telos',
+  [Blockchain.Libre]: 'Libre',
+  [Blockchain.XDAI]: 'xDai',
+  [Blockchain.BSC]: 'Binance Smart Chain',
+  [Blockchain.Dogecoin]: 'Dogecoin',
+  [Blockchain.EOS]: 'EOS',
+  [Blockchain.Polygon]: 'Polygon',
+  [Blockchain.Ultra]: 'Ultra',
+  [Blockchain.Arbitrum]: 'Arbitrum',
+  [Blockchain.Luxochain]: 'Luxochain',
+  [Blockchain.Algorand]: 'Algorand',
+  [Blockchain.Fantom]: 'Fantom',
+  [Blockchain.Ore]: 'Ore',
 }
 
-const blockchainSymbolToCoin = {
-  ETH: 'Ethereum',
-  BTC: 'Bitcoin',
-  LTC: 'Litecoin',
-  TELOS: 'Telos',
-  LIBRE: 'Libre',
-  XDAI: 'xDai',
-  BSC: 'Binance Coin',
-  DOGE: 'Dogecoin',
-  EOS: 'EOS',
-  POLYGON: 'MATIC',
-  ULTRA: 'Ultra Token',
-  ARBITRUM: 'Arbitrum',
-  LUXOCHAIN: 'Luxochain',
-  ALGORAND: 'Algorand',
-  FTM: 'Fantom',
-  ORE: 'ORE',
+const blockchainToCoin = {
+  [Blockchain.Ethereum]: 'Ethereum',
+  [Blockchain.Bitcoin]: 'Bitcoin',
+  [Blockchain.Litecoin]: 'Litecoin',
+  [Blockchain.Telos]: 'Telos',
+  [Blockchain.Libre]: 'Libre',
+  [Blockchain.XDAI]: 'xDai',
+  [Blockchain.BSC]: 'Binance Coin',
+  [Blockchain.Dogecoin]: 'Dogecoin',
+  [Blockchain.EOS]: 'EOS',
+  [Blockchain.Polygon]: 'MATIC',
+  [Blockchain.Ultra]: 'Ultra Token',
+  [Blockchain.Arbitrum]: 'Arbitrum',
+  [Blockchain.Luxochain]: 'Luxochain',
+  [Blockchain.Algorand]: 'Algorand',
+  [Blockchain.Fantom]: 'Fantom',
+  [Blockchain.Ore]: 'Ore',
 }
 
 const getAssetFromSymbol = (_assets, _symbol) => _assets.find(({ symbol }) => symbol === _symbol)
@@ -41,4 +43,4 @@ const getAssetFromSymbol = (_assets, _symbol) => _assets.find(({ symbol }) => sy
 const getWorkingNameForNodeSelection = (_workingName) =>
   _workingName.toLowerCase() === 'peth' ? 'pweth' : _workingName.toLowerCase()
 
-export { blockchainSymbolToName, getAssetFromSymbol, blockchainSymbolToCoin, getWorkingNameForNodeSelection }
+export { blockchainToName, getAssetFromSymbol, blockchainToCoin, getWorkingNameForNodeSelection }

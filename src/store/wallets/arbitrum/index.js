@@ -13,6 +13,7 @@ import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
 import { changeNetwork, setupNetwork } from '../../../utils/wallet'
+import { Blockchain } from '../../../constants'
 
 let web3Modal
 
@@ -75,7 +76,7 @@ const connectWithArbitrumWallet = async (_dispatch) => {
 }
 
 const disconnectFromArbitrumWallet = async (_dispatch) => {
-  const provider = getWalletProviderByBlockchain('ARBITRUM')
+  const provider = getWalletProviderByBlockchain(Blockchain.Arbitrum)
   if (provider.close) {
     await provider.close()
   }

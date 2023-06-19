@@ -1,15 +1,15 @@
 import { useMemo } from 'react'
-import { blockchainSymbolToName } from '../utils/maps'
+import { blockchainToName } from '../utils/maps'
 import { slicerByBlockchain } from '../utils/account-viewer'
 
 const useWallets = (_wallets) => {
   return useMemo(() => {
     const wallets = Object.keys(_wallets).map((_blockchain) => ({
-      blockchain: _blockchain.toUpperCase(),
+      blockchain: _blockchain,
       formattedAccount: _wallets[_blockchain].account
         ? slicerByBlockchain(_wallets[_blockchain].account, _blockchain)
         : '-',
-      formattedBlockchain: blockchainSymbolToName[_blockchain.toUpperCase()],
+      formattedBlockchain: blockchainToName[_blockchain],
       ..._wallets[_blockchain],
       isConnected: _wallets[_blockchain] && _wallets[_blockchain].account,
     }))
@@ -33,7 +33,7 @@ const useWalletByBlockchain = (_wallets, _blockchain) => {
       }
     }
 
-    const wallet = _wallets[_blockchain.toLowerCase()]
+    const wallet = _wallets[_blockchain]
     return {
       isConnected: wallet && wallet.account,
       provider: wallet && wallet.account ? wallet.provider : null,

@@ -6,6 +6,7 @@ import { render, screen, getByRole, getByText } from '@testing-library/react'
 import SwapInfo from '../SwapInfo'
 import assets from '../../../../settings/swap-assets'
 import ReactTooltip from 'react-tooltip'
+import { PTokenId, TokenId } from '../../../../constants'
 
 describe('SwapInfo', () => {
   it('Should not show if from is missing', async () => {
@@ -19,8 +20,8 @@ describe('SwapInfo', () => {
   })
 
   it('Should show skeletons if fees are not loaded', async () => {
-    const from = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
-    const to = assets.find((_el) => _el.id === 'BTC')
+    const from = assets.find((_el) => _el.id === PTokenId.PBTC_ON_ETH_MAINNET)
+    const to = assets.find((_el) => _el.id === TokenId.BTC)
     const { container } = render(<SwapInfo from={from} to={to} bpm={{}}></SwapInfo>)
     expect(container.querySelector('div')).toHaveAttribute('show', 'true')
     const feesRow = screen.getByText('Fees').parentElement
@@ -32,8 +33,8 @@ describe('SwapInfo', () => {
   })
 
   it('Should show fees structure if there is no specified amount (with network fee)', async () => {
-    const from = assets.find((_el) => _el.id === 'BTC')
-    const to = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
+    const from = assets.find((_el) => _el.id === TokenId.BTC)
+    const to = assets.find((_el) => _el.id === PTokenId.PBTC_ON_ETH_MAINNET)
     const { container } = render(
       <React.Fragment>
         <SwapInfo
@@ -75,8 +76,8 @@ describe('SwapInfo', () => {
 
   it('Should show fees structure if there is no specified amount (without network fee)', async () => {
     const ThemeContextMock = {}
-    const from = assets.find((_el) => _el.id === 'BTC')
-    const to = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
+    const from = assets.find((_el) => _el.id === TokenId.BTC)
+    const to = assets.find((_el) => _el.id === PTokenId.PBTC_ON_ETH_MAINNET)
     const { container } = render(
       <ThemeContext.Provider value={ThemeContextMock}>
         <SwapInfo
@@ -113,8 +114,8 @@ describe('SwapInfo', () => {
   })
 
   it('Should show computed fees if there is an amount specified', async () => {
-    const from = assets.find((_el) => _el.id === 'BTC')
-    const to = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
+    const from = assets.find((_el) => _el.id === TokenId.BTC)
+    const to = assets.find((_el) => _el.id === PTokenId.PBTC_ON_ETH_MAINNET)
     const { container } = render(
       <React.Fragment>
         <SwapInfo
@@ -156,8 +157,8 @@ describe('SwapInfo', () => {
 
   it('Should show gasless switch', async () => {
     const ThemeContextMock = {}
-    const from = assets.find((_el) => _el.id === 'BTC')
-    const to = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
+    const from = assets.find((_el) => _el.id === TokenId.BTC)
+    const to = assets.find((_el) => _el.id === PTokenId.PBTC_ON_ETH_MAINNET)
     const { container } = render(
       <ThemeContext.Provider value={ThemeContextMock}>
         <SwapInfo from={from} to={to} bpm={{}} fees={{ basisPoints: 15, networkFee: 0, minProtocolFee: 0 }}></SwapInfo>
@@ -176,8 +177,8 @@ describe('SwapInfo', () => {
 
   it('Should show default processing time if bpm is missing', async () => {
     const ThemeContextMock = {}
-    const from = assets.find((_el) => _el.id === 'BTC')
-    const to = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
+    const from = assets.find((_el) => _el.id === TokenId.BTC)
+    const to = assets.find((_el) => _el.id === PTokenId.PBTC_ON_ETH_MAINNET)
     const { container } = render(
       <ThemeContext.Provider value={ThemeContextMock}>
         <SwapInfo
@@ -195,8 +196,8 @@ describe('SwapInfo', () => {
 
   it('Should show default processing time if estimated sync time is reasonable', async () => {
     const ThemeContextMock = {}
-    const from = assets.find((_el) => _el.id === 'BTC')
-    const to = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
+    const from = assets.find((_el) => _el.id === TokenId.BTC)
+    const to = assets.find((_el) => _el.id === PTokenId.PBTC_ON_ETH_MAINNET)
     const { container } = render(
       <ThemeContext.Provider value={ThemeContextMock}>
         <SwapInfo
@@ -216,8 +217,8 @@ describe('SwapInfo', () => {
 
   it('Should show bpm sync time if estimated sync time is high (peg-in)', async () => {
     const ThemeContextMock = {}
-    const from = assets.find((_el) => _el.id === 'BTC')
-    const to = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
+    const from = assets.find((_el) => _el.id === TokenId.BTC)
+    const to = assets.find((_el) => _el.id === PTokenId.PBTC_ON_ETH_MAINNET)
     const { container } = render(
       <ThemeContext.Provider value={ThemeContextMock}>
         <SwapInfo
@@ -237,8 +238,8 @@ describe('SwapInfo', () => {
 
   it('Should show bpm sync time if estimated sync time is high (peg-out)', async () => {
     const ThemeContextMock = {}
-    const from = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
-    const to = assets.find((_el) => _el.id === 'BTC')
+    const from = assets.find((_el) => _el.id === PTokenId.PBTC_ON_ETH_MAINNET)
+    const to = assets.find((_el) => _el.id === TokenId.BTC)
     const { container } = render(
       <ThemeContext.Provider value={ThemeContextMock}>
         <SwapInfo
@@ -256,8 +257,8 @@ describe('SwapInfo', () => {
 
   it('Should show unknown processing time if estimated time is high', async () => {
     const ThemeContextMock = {}
-    const from = assets.find((_el) => _el.id === 'BTC')
-    const to = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
+    const from = assets.find((_el) => _el.id === TokenId.BTC)
+    const to = assets.find((_el) => _el.id === PTokenId.PBTC_ON_ETH_MAINNET)
     const { container } = render(
       <ThemeContext.Provider value={ThemeContextMock}>
         <SwapInfo
@@ -277,8 +278,8 @@ describe('SwapInfo', () => {
 
   it('Should show unknown processing time if estimated time is in error', async () => {
     const ThemeContextMock = {}
-    const from = assets.find((_el) => _el.id === 'BTC')
-    const to = assets.find((_el) => _el.id === 'PBTC_ON_ETH_MAINNET')
+    const from = assets.find((_el) => _el.id === TokenId.BTC)
+    const to = assets.find((_el) => _el.id === PTokenId.PBTC_ON_ETH_MAINNET)
     const { container } = render(
       <ThemeContext.Provider value={ThemeContextMock}>
         <SwapInfo

@@ -4,11 +4,12 @@ import BigNumber from 'bignumber.js'
 import { SWAP_BALANCE_LOADED } from '../../../constants/index'
 import ERC20 from '../../../utils/abi/ERC20'
 import { stringUtils } from 'ptokens-helpers'
+import { Blockchain } from '../../../constants'
 
 const loadEvmCompatibleBalances = async ({
   assets,
   account,
-  blockchain = 'ETH',
+  blockchain = Blockchain.Ethereum,
   dispatch,
   actionType = SWAP_BALANCE_LOADED,
 }) => Promise.all(assets.map((asset) => loadEvmCompatibleBalance({ asset, account, blockchain, dispatch, actionType })))
@@ -17,7 +18,7 @@ const loadEvmCompatibleBalance = async ({
   asset,
   account,
   dispatch,
-  blockchain = 'ETH',
+  blockchain = Blockchain.Ethereum,
   actionType = SWAP_BALANCE_LOADED,
 }) => {
   try {
@@ -51,7 +52,7 @@ const loadEvmCompatibleBalance = async ({
 const loadEosioCompatibleBalances = async ({
   assets,
   account,
-  blockchain = 'EOS',
+  blockchain = Blockchain.EOS,
   dispatch,
   actionType = SWAP_BALANCE_LOADED,
 }) =>
@@ -61,7 +62,7 @@ const loadEosioCompatibleBalance = async ({
   asset,
   account,
   dispatch,
-  blockchain = 'EOS',
+  blockchain = Blockchain.EOS,
   actionType = SWAP_BALANCE_LOADED,
 }) => {
   try {
@@ -87,7 +88,7 @@ const loadAlgorandBalances = async ({
   assets,
   account,
   dispatch,
-  blockchain = 'ALGORAND',
+  blockchain = Blockchain.Algorand,
   actionType = SWAP_BALANCE_LOADED,
 }) => {
   try {

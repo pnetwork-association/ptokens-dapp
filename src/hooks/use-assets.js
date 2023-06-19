@@ -2,9 +2,10 @@ import { useMemo, useState } from 'react'
 import _ from 'lodash'
 
 import { offChainFormat, strip } from '../utils/amount-utils'
-import { blockchainSymbolToName, blockchainSymbolToCoin } from '../utils/maps'
+import { blockchainToName, blockchainToCoin } from '../utils/maps'
 import { getCorrespondingTokenExplorerLinkByBlockchain } from '../utils/explorer'
 import { stringUtils } from 'ptokens-helpers'
+import { Blockchain } from '../constants'
 
 const useAssets = (_assets) => {
   return useMemo(() => {
@@ -70,11 +71,11 @@ const updateAsset = (_asset) => ({
   ..._asset,
   address:
     _asset.address &&
-    _asset.blockchain !== 'EOS' &&
-    _asset.blockchain !== 'TELOS' &&
-    _asset.blockchain !== 'LIBRE' &&
-    _asset.blockchain !== 'ULTRA' &&
-    _asset.blockchain !== 'ALGORAND'
+    _asset.blockchain !== Blockchain.EOS &&
+    _asset.blockchain !== Blockchain.Telos &&
+    _asset.blockchain !== Blockchain.Libre &&
+    _asset.blockchain !== Blockchain.Ultra &&
+    _asset.blockchain !== Blockchain.Algorand
       ? stringUtils.addHexPrefix(_asset.address)
       : _asset.address,
   explorer: _asset.address ? getCorrespondingTokenExplorerLinkByBlockchain(_asset.blockchain, _asset.address) : null,
@@ -88,16 +89,16 @@ const updateAsset = (_asset) => ({
       ? offChainFormat(_asset.balance, _asset.decimals)
       : _asset.balance
     : null,
-  coin: blockchainSymbolToCoin[_asset.nativeSymbol],
+  coin: blockchainToCoin[_asset.nativeSymbol],
   formattedName: _asset.formattedName
     ? _asset.formattedName
     : _asset.isBlockchainTokenNative
     ? _asset.symbol
     : !_asset.isNative
-    ? `on ${blockchainSymbolToName[_asset.blockchain].toUpperCase()}${_asset.isPseudoNative ? ' (NATIVE)' : ''}`
+    ? `on ${blockchainToName[_asset.blockchain].toUpperCase()}${_asset.isPseudoNative ? ' (NATIVE)' : ''}`
     : _asset.symbol,
   image: `./assets/svg/${_asset.image}`,
-  miniImage: `./assets/svg/${_asset.miniImage || _asset.blockchain}.svg`,
+  miniImage: `./assets/svg/${_asset.miniImage || _asset.blockchain.toUpperCase()}.svg`,
 })
 
 export { useAssets, useAssetsWithouDefault, usePtoken, useAssetsGroupedByGivenStrategy, useSearchAssets }

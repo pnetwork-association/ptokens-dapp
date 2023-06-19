@@ -8,6 +8,7 @@ import { changeNetwork, setupNetwork } from '../../../utils/wallet'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
+import { Blockchain } from '../../../constants'
 
 let web3Modal
 
@@ -67,7 +68,7 @@ const connectWithBscWallet = async (_dispatch) => {
 }
 
 const disconnectFromBscWallet = async (_dispatch) => {
-  const provider = getWalletProviderByBlockchain('BSC')
+  const provider = getWalletProviderByBlockchain(Blockchain.BSC)
   if (provider.close) {
     await provider.close()
   }

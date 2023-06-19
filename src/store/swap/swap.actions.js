@@ -10,7 +10,8 @@ import {
   UPDATE_SWAP_BUTTON,
   BPM_LOADED,
   SWAPPERS_BALANCES_LOADED,
-} from '../../constants/index'
+  Blockchain,
+} from '../../constants'
 import {
   loadEvmCompatibleBalances,
   loadEosioCompatibleBalances,
@@ -61,7 +62,7 @@ const loadSwapData = (_opts = {}) => {
 
       const loadSwapperAmount = async () => {
         const ret = {}
-        const client = getReadOnlyProviderByBlockchain('ALGORAND')
+        const client = getReadOnlyProviderByBlockchain(Blockchain.Algorand)
         const amounts = (
           await Promise.all(
             assets
@@ -133,118 +134,118 @@ const loadBalances = (_account, _blockchain) => {
   return async (_dispatch) => {
     try {
       switch (_blockchain.toUpperCase()) {
-        case 'ETH': {
+        case Blockchain.Ethereum: {
           loadEvmCompatibleBalances({
-            assets: getAssetsByBlockchain('ETH'),
+            assets: getAssetsByBlockchain(Blockchain.Ethereum),
             account: _account,
             dispatch: _dispatch,
           })
           break
         }
-        case 'EOS': {
+        case Blockchain.EOS: {
           loadEosioCompatibleBalances({
-            assets: getAssetsByBlockchain('EOS'),
+            assets: getAssetsByBlockchain(Blockchain.EOS),
             account: _account,
             dispatch: _dispatch,
           })
           break
         }
-        case 'TELOS': {
+        case Blockchain.Telos: {
           loadEosioCompatibleBalances({
-            assets: getAssetsByBlockchain('TELOS'),
+            assets: getAssetsByBlockchain(Blockchain.Telos),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'TELOS',
+            blockchain: Blockchain.Telos,
           })
           break
         }
-        case 'LIBRE': {
+        case Blockchain.Libre: {
           loadEosioCompatibleBalances({
-            assets: getAssetsByBlockchain('LIBRE'),
+            assets: getAssetsByBlockchain(Blockchain.Libre),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'LIBRE',
+            blockchain: Blockchain.Libre,
           })
           break
         }
-        case 'ULTRA': {
+        case Blockchain.Ultra: {
           loadEosioCompatibleBalances({
-            assets: getAssetsByBlockchain('ULTRA'),
+            assets: getAssetsByBlockchain(Blockchain.Ultra),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'ULTRA',
+            blockchain: Blockchain.Ultra,
           })
           break
         }
-        case 'ORE': {
+        case Blockchain.Ore: {
           loadEosioCompatibleBalances({
-            assets: getAssetsByBlockchain('ORE'),
+            assets: getAssetsByBlockchain(Blockchain.Ore),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'ORE',
+            blockchain: Blockchain.Ore,
           })
           break
         }
-        case 'BSC': {
+        case Blockchain.BSC: {
           loadEvmCompatibleBalances({
-            assets: getAssetsByBlockchain('BSC'),
+            assets: getAssetsByBlockchain(Blockchain.BSC),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'BSC',
+            blockchain: Blockchain.BSC,
           })
           break
         }
-        case 'XDAI': {
+        case Blockchain.XDAI: {
           loadEvmCompatibleBalances({
-            assets: getAssetsByBlockchain('XDAI'),
+            assets: getAssetsByBlockchain(Blockchain.XDAI),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'XDAI',
+            blockchain: Blockchain.XDAI,
           })
           break
         }
-        case 'POLYGON': {
+        case Blockchain.Polygon: {
           loadEvmCompatibleBalances({
-            assets: getAssetsByBlockchain('POLYGON'),
+            assets: getAssetsByBlockchain(Blockchain.Polygon),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'POLYGON',
+            blockchain: Blockchain.Polygon,
           })
           break
         }
-        case 'ARBITRUM': {
+        case Blockchain.Arbitrum: {
           loadEvmCompatibleBalances({
-            assets: getAssetsByBlockchain('ARBITRUM'),
+            assets: getAssetsByBlockchain(Blockchain.Arbitrum),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'ARBITRUM',
+            blockchain: Blockchain.Arbitrum,
           })
           break
         }
-        case 'LUXOCHAIN': {
+        case Blockchain.Luxochain: {
           loadEvmCompatibleBalances({
-            assets: getAssetsByBlockchain('LUXOCHAIN'),
+            assets: getAssetsByBlockchain(Blockchain.Luxochain),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'LUXOCHAIN',
+            blockchain: Blockchain.Luxochain,
           })
           break
         }
-        case 'ALGORAND': {
+        case Blockchain.Algorand: {
           loadAlgorandBalances({
-            assets: getAssetsByBlockchain('ALGORAND'),
+            assets: getAssetsByBlockchain(Blockchain.Algorand),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'ALGORAND',
+            blockchain: Blockchain.Algorand,
           })
           break
         }
-        case 'FTM': {
+        case Blockchain.Fantom: {
           loadEvmCompatibleBalances({
-            assets: getAssetsByBlockchain('FTM'),
+            assets: getAssetsByBlockchain(Blockchain.Fantom),
             account: _account,
             dispatch: _dispatch,
-            blockchain: 'FTM',
+            blockchain: Blockchain.Fantom,
           })
           break
         }
@@ -268,56 +269,56 @@ const loadBalanceByAssetId = (_id) => {
       const account = wallet.account
 
       switch (asset.blockchain) {
-        case 'ETH': {
+        case Blockchain.Ethereum: {
           loadEvmCompatibleBalance({ asset, account, dispatch: _dispatch })
           break
         }
-        case 'EOS': {
+        case Blockchain.EOS: {
           loadEosioCompatibleBalance({ asset, account, dispatch: _dispatch })
           break
         }
-        case 'ORE': {
+        case Blockchain.Ore: {
           loadEosioCompatibleBalance({ asset, account, dispatch: _dispatch })
           break
         }
-        case 'BSC': {
-          loadEvmCompatibleBalance({ asset, account, blockchain: 'BSC', dispatch: _dispatch })
+        case Blockchain.BSC: {
+          loadEvmCompatibleBalance({ asset, account, blockchain: Blockchain.BSC, dispatch: _dispatch })
           break
         }
-        case 'POLYGON': {
-          loadEvmCompatibleBalance({ asset, account, blockchain: 'POLYGON', dispatch: _dispatch })
+        case Blockchain.Polygon: {
+          loadEvmCompatibleBalance({ asset, account, blockchain: Blockchain.Polygon, dispatch: _dispatch })
           break
         }
-        case 'XDAI': {
-          loadEvmCompatibleBalance({ asset, account, blockchain: 'XDAI', dispatch: _dispatch })
+        case Blockchain.XDAI: {
+          loadEvmCompatibleBalance({ asset, account, blockchain: Blockchain.XDAI, dispatch: _dispatch })
           break
         }
-        case 'TELOS': {
-          loadEosioCompatibleBalance({ asset, account, blockchain: 'TELOS', dispatch: _dispatch })
+        case Blockchain.Telos: {
+          loadEosioCompatibleBalance({ asset, account, blockchain: Blockchain.Telos, dispatch: _dispatch })
           break
         }
-        case 'LIBRE': {
-          loadEosioCompatibleBalance({ asset, account, blockchain: 'LIBRE', dispatch: _dispatch })
+        case Blockchain.Libre: {
+          loadEosioCompatibleBalance({ asset, account, blockchain: Blockchain.Libre, dispatch: _dispatch })
           break
         }
-        case 'ULTRA': {
-          loadEosioCompatibleBalance({ asset, account, blockchain: 'ULTRA', dispatch: _dispatch })
+        case Blockchain.Ultra: {
+          loadEosioCompatibleBalance({ asset, account, blockchain: Blockchain.Ultra, dispatch: _dispatch })
           break
         }
-        case 'ARBITRUM': {
-          loadEvmCompatibleBalance({ asset, account, blockchain: 'ARBITRUM', dispatch: _dispatch })
+        case Blockchain.Arbitrum: {
+          loadEvmCompatibleBalance({ asset, account, blockchain: Blockchain.Arbitrum, dispatch: _dispatch })
           break
         }
-        case 'LUXOCHAIN': {
-          loadEvmCompatibleBalance({ asset, account, blockchain: 'LUXOCHAIN', dispatch: _dispatch })
+        case Blockchain.Luxochain: {
+          loadEvmCompatibleBalance({ asset, account, blockchain: Blockchain.Luxochain, dispatch: _dispatch })
           break
         }
-        case 'ALGORAND': {
-          loadAlgorandBalances({ assets: [asset], account, blockchain: 'ALGORAND', dispatch: _dispatch })
+        case Blockchain.Algorand: {
+          loadAlgorandBalances({ assets: [asset], account, blockchain: Blockchain.Algorand, dispatch: _dispatch })
           break
         }
-        case 'FTM': {
-          loadEvmCompatibleBalance({ asset, account, blockchain: 'FTM', dispatch: _dispatch })
+        case Blockchain.Fantom: {
+          loadEvmCompatibleBalance({ asset, account, blockchain: Blockchain.Fantom, dispatch: _dispatch })
           break
         }
         default: {
@@ -338,7 +339,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
 
       const _fromNative = _from
       if (_from.requiresCurve) {
-        _from = getAssetById(_fromNative.pTokenId)
+        _from = getAssetById(_fromNative.PTokenId)
       }
 
       const sourceAsset = await createAsset(_from, wallets, true)
@@ -346,7 +347,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
       const swapBuilder = getSwapBuilder()
       swapBuilder.setAmount(_amount)
       swapBuilder.setSourceAsset(sourceAsset)
-      if (_from.isPseudoNative && _from.blockchain === 'ALGORAND') {
+      if (_from.isPseudoNative && _from.blockchain === Blockchain.Algorand) {
         _amount = BigNumber(_amount)
           .multipliedBy(10 ** _from.decimals)
           .toFixed()
@@ -354,7 +355,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
         const txs = await buildPoolSwapTransactions({
           amount: _amount,
           to: sourceAsset.identity,
-          from: wallets[_from.blockchain.toLowerCase()].account,
+          from: wallets[_from.blockchain].account,
           assetIndex: _from.ptokenAddress,
           destinationChainId: _to.chainId,
           nativeAccount: _address,
@@ -368,7 +369,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
             method: 'transfer',
             abi: eosioTokenAbi,
             arguments: {
-              from: wallets[_from.blockchain.toLowerCase()].account,
+              from: wallets[_from.blockchain].account,
               to: 'ultra.swap',
               // it is UOS we need to transfer to ultra.swap, not PUOS
               quantity: getAmountInEosFormat(_amount, _from.decimals, 'UOS'),
@@ -381,7 +382,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
       if (_opts.pegoutToTelosEvmAddress) {
         const web3 = new Web3()
         swapBuilder.addDestinationAsset(destinationAsset, 'devm.ptokens', web3.utils.asciiToHex(_address))
-      } else if (_to.isPseudoNative && _to.blockchain === 'ALGORAND') {
+      } else if (_to.isPseudoNative && _to.blockchain === Blockchain.Algorand) {
         _amount = BigNumber(_amount)
           .multipliedBy(10 ** _from.decimals)
           .toFixed()

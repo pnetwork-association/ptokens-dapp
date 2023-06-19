@@ -8,6 +8,7 @@ import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
+import { Blockchain } from '../../../constants'
 
 let web3Modal
 
@@ -60,7 +61,7 @@ const connectWithXdaiWallet = async (_dispatch) => {
 }
 
 const disconnectFromXdaiWallet = async (_dispatch) => {
-  const provider = getWalletProviderByBlockchain('XDAI')
+  const provider = getWalletProviderByBlockchain(Blockchain.XDAI)
   if (provider.close) {
     await provider.close()
   }
@@ -86,7 +87,7 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
           await setupNetwork({
             provider: _provider,
             chainId: 100,
-            chainName: 'XDAI',
+            chainName: Blockchain.XDAI,
             nativeCurrency: {
               name: 'MATIC',
               symbol: 'matic',

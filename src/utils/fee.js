@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { formatDecimalSeparator } from './amount-utils'
 import { createAsset } from './ptokens'
-import { PNT_ON_ETH_MAINNET, ETHPNT_ON_ETH_MAINNET, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../constants'
+import { MigrationAssetId } from '../constants'
 import _ from 'lodash'
 
 const getFeeFactor = (fee) => (_.isNil(fee) ? null : 1 - fee / 100)
@@ -18,8 +18,8 @@ const getBasisPoints = (_fromAsset, _toAsset) => {
 }
 
 const getMigrationFees = (_from, _to) => {
-  if (_from.id === ETHPNT_ON_ETH_MAINNET && _to.id === PNT_ON_ETH_MAINNET) return 0.25
-  else if (_from.id === PBTC_ON_ETH_MAINNET_V1_MIGRATION) return 0
+  if (_from.id === MigrationAssetId.ETHPNT_ON_ETH_MAINNET && _to.id === MigrationAssetId.PNT_ON_ETH_MAINNET) return 0.25
+  else if (_from.id === MigrationAssetId.PBTC_ON_ETH_MAINNET_V1_MIGRATION) return 0
   else return null
 }
 

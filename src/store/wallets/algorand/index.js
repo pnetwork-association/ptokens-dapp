@@ -9,6 +9,7 @@ import AlgoWalletModal from '../../../lib/algoWalletModal'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
+import { Blockchain } from '../../../constants'
 
 const connectWithAlgorandWallet = async (_dispatch) => {
   if (document.getElementById('ALGO_WALLET_MODAL')) {
@@ -52,7 +53,7 @@ const connectWithAlgorandWallet = async (_dispatch) => {
 }
 
 const disconnectFromAlgorandWallet = async (_dispatch) => {
-  const provider = getWalletProviderByBlockchain('ALGORAND')
+  const provider = getWalletProviderByBlockchain(Blockchain.Algorand)
   provider.close()
   _dispatch({
     type: WALLET_ALGORAND_DISCONNECTED,

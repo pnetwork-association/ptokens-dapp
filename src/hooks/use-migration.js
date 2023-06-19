@@ -85,17 +85,17 @@ const useMigration = ({
     }
 
     // NOTE: if wallet is connected but balance is still null it means that we are loading balances
-    if (wallets[from.blockchain.toLowerCase()] && wallets[from.blockchain.toLowerCase()].account && !from.balance) {
+    if (wallets[from.blockchain] && wallets[from.blockchain].account && !from.balance) {
       updateMigrateButton('Loading balances ...', true)
       return
     }
 
-    if (wallets[to.blockchain.toLowerCase()] && wallets[to.blockchain.toLowerCase()].account && !to.balance) {
+    if (wallets[to.blockchain] && wallets[to.blockchain].account && !to.balance) {
       updateMigrateButton('Loading balances ...', true)
       return
     }
 
-    if (!wallets[from.blockchain.toLowerCase()].account) {
+    if (!wallets[from.blockchain].account) {
       updateMigrateButton('Connect Wallet')
       return
     }

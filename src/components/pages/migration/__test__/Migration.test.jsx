@@ -12,12 +12,12 @@ import Migration from '../Migration'
 import assets from '../../../../settings/migration-assets'
 import { getDefaultSelection } from '../../../../store/migration/utils/default-selection'
 import { useCallback, useState } from 'react'
-import { ETHPNT_ON_ETH_MAINNET, PNT_ON_ETH_MAINNET } from '../../../../constants'
+import { Blockchain, MigrationAssetId } from '../../../../constants'
 
 const Wrapper = ({ strategy, connectWithWallet, migrate, assets }) => {
   const ThemeContextMock = {}
   const [button, setButton] = useState({})
-  const [wallets] = useState({ eth: { account: 'account' }, bsc: {} })
+  const [wallets] = useState({ [Blockchain.Ethereum]: { account: 'account' }, [Blockchain.BSC]: {} })
   const updateMigrateButton = useCallback((_text, _disabled = false) => {
     setButton({ text: _text, disabled: _disabled })
   }, [])
@@ -49,8 +49,8 @@ describe('Migration', async () => {
     vi.spyOn(MigrationInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)
     vi.spyOn(feeUtils, 'getSwapFees').mockResolvedValue({ basisPoints: 15, networkFee: 1e18, minProtocolFee: 2e18 })
     const migrateSpy = vi.fn()
-    assets.find((_el) => _el.id === ETHPNT_ON_ETH_MAINNET).balance = BigNumber(15000e18)
-    assets.find((_el) => _el.id === PNT_ON_ETH_MAINNET).balance = BigNumber(0)
+    assets.find((_el) => _el.id === MigrationAssetId.ETHPNT_ON_ETH_MAINNET).balance = BigNumber(15000e18)
+    assets.find((_el) => _el.id === MigrationAssetId.PNT_ON_ETH_MAINNET).balance = BigNumber(0)
     render(<Wrapper strategy="ethPNT-to-PNT" migrate={migrateSpy} assets={assets} />)
     const [maxButton, swapButton] = screen.getAllByRole('button')
     expect(swapButton).toHaveTextContent('Enter an amount')

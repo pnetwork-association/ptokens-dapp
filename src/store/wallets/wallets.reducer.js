@@ -33,81 +33,82 @@ import {
   WALLET_FTM_DISCONNECTED,
   WALLET_ORE_CONNECTED,
   WALLET_ORE_DISCONNECTED,
+  Blockchain,
 } from '../../constants/index'
 
 const initialState = {
-  arbitrum: {
+  [Blockchain.Arbitrum]: {
     provider: null,
     account: null,
     chainId: null,
     network: null,
   },
-  eth: {
+  [Blockchain.Ethereum]: {
     provider: null,
     account: null,
     chainId: null,
     network: null,
   },
-  algorand: {
+  [Blockchain.Algorand]: {
     provider: null,
     account: null,
     network: null,
   },
-  eos: {
+  [Blockchain.EOS]: {
     provider: null,
     account: null,
     network: null,
     permission: null,
   },
-  telos: {
+  [Blockchain.Telos]: {
     provider: null,
     account: null,
     network: null,
     permission: null,
   },
-  libre: {
+  [Blockchain.Libre]: {
     provider: null,
     account: null,
     network: null,
     permission: null,
   },
-  bsc: {
+  [Blockchain.BSC]: {
     provider: null,
     account: null,
     chainId: null,
     network: null,
   },
-  xdai: {
+  [Blockchain.XDAI]: {
     provider: null,
     account: null,
     chainId: null,
     network: null,
   },
-  polygon: {
+  [Blockchain.Polygon]: {
     provider: null,
     account: null,
     chainId: null,
     network: null,
   },
-  ultra: {
+  [Blockchain.Ultra]: {
     provider: null,
     account: null,
     network: null,
     permission: null,
   },
-  luxochain: {
+  [Blockchain.Luxochain]: {
     provider: null,
     account: null,
     chainId: null,
     network: null,
   },
-  ftm: {
+  [Blockchain.Fantom]: {
     provider: null,
     account: null,
     chainId: null,
     network: null,
   },
-  ore: {
+  [Blockchain.Ore]: {
     provider: null,
     account: null,
     network: null,
@@ -119,7 +120,7 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_ETH_CONNECTED) {
     const { provider, account, network, chainId } = _action.payload
     return Object.assign({}, _state, {
-      eth: {
+      [Blockchain.Ethereum]: {
         provider,
         account,
         network,
@@ -130,8 +131,8 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_ETH_ACCOUNT_CHANGED) {
     const { account } = _action.payload
     return Object.assign({}, _state, {
-      eth: {
-        ..._state.eth,
+      [Blockchain.Ethereum]: {
+        ..._state[Blockchain.Ethereum],
         account,
       },
     })
@@ -139,7 +140,7 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_EOS_CONNECTED) {
     const { provider, account, network, permission } = _action.payload
     return Object.assign({}, _state, {
-      eos: {
+      [Blockchain.EOS]: {
         provider,
         account,
         network,
@@ -150,7 +151,7 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_BSC_CONNECTED) {
     const { provider, account, network, chainId } = _action.payload
     return Object.assign({}, _state, {
-      bsc: {
+      [Blockchain.BSC]: {
         provider,
         account,
         network,
@@ -162,7 +163,7 @@ const walletsReducer = (_state = initialState, _action) => {
     const { account } = _action.payload
     return Object.assign({}, _state, {
       bsc: {
-        ..._state.bsc,
+        ..._state[Blockchain.BSC],
         account,
       },
     })
@@ -170,7 +171,7 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_XDAI_CONNECTED) {
     const { provider, account, network, chainId } = _action.payload
     return Object.assign({}, _state, {
-      xdai: {
+      [Blockchain.XDAI]: {
         provider,
         account,
         network,
@@ -181,8 +182,8 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_XDAI_ACCOUNT_CHANGED) {
     const { account } = _action.payload
     return Object.assign({}, _state, {
-      xdai: {
-        ..._state.xdai,
+      [Blockchain.XDAI]: {
+        ..._state[Blockchain.XDAI],
         account,
       },
     })
@@ -190,7 +191,7 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_POLYGON_CONNECTED) {
     const { provider, account, network, chainId } = _action.payload
     return Object.assign({}, _state, {
-      polygon: {
+      [Blockchain.Polygon]: {
         provider,
         account,
         network,
@@ -201,8 +202,8 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_POLYGON_ACCOUNT_CHANGED) {
     const { account } = _action.payload
     return Object.assign({}, _state, {
-      polygon: {
-        ..._state.polygon,
+      [Blockchain.Polygon]: {
+        ..._state[Blockchain.Polygon],
         account,
       },
     })
@@ -210,7 +211,7 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_TELOS_CONNECTED) {
     const { provider, account, network, permission } = _action.payload
     return Object.assign({}, _state, {
-      telos: {
+      [Blockchain.Telos]: {
         provider,
         account,
         network,
@@ -221,7 +222,7 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_LIBRE_CONNECTED) {
     const { provider, account, network, permission } = _action.payload
     return Object.assign({}, _state, {
-      libre: {
+      [Blockchain.Libre]: {
         provider,
         account,
         network,
@@ -232,7 +233,7 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_ORE_CONNECTED) {
     const { provider, account, network, permission } = _action.payload
     return Object.assign({}, _state, {
-      ore: {
+      [Blockchain.Ore]: {
         provider,
         account,
         network,
@@ -243,7 +244,7 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_ULTRA_CONNECTED) {
     const { provider, account, network, permission } = _action.payload
     return Object.assign({}, _state, {
-      ultra: {
+      [Blockchain.Ultra]: {
         provider,
         account,
         network,
@@ -253,7 +254,7 @@ const walletsReducer = (_state = initialState, _action) => {
   }
   if (_action.type === WALLET_ETH_DISCONNECTED) {
     return Object.assign({}, _state, {
-      eth: {
+      [Blockchain.Ethereum]: {
         provider: null,
         account: null,
         network: null,
@@ -262,7 +263,7 @@ const walletsReducer = (_state = initialState, _action) => {
   }
   if (_action.type === WALLET_BSC_DISCONNECTED) {
     return Object.assign({}, _state, {
-      bsc: {
+      [Blockchain.BSC]: {
         provider: null,
         account: null,
         network: null,
@@ -271,7 +272,7 @@ const walletsReducer = (_state = initialState, _action) => {
   }
   if (_action.type === WALLET_POLYGON_DISCONNECTED) {
     return Object.assign({}, _state, {
-      polygon: {
+      [Blockchain.Polygon]: {
         provider: null,
         account: null,
         network: null,
@@ -280,7 +281,7 @@ const walletsReducer = (_state = initialState, _action) => {
   }
   if (_action.type === WALLET_XDAI_DISCONNECTED) {
     return Object.assign({}, _state, {
-      xdai: {
+      [Blockchain.XDAI]: {
         provider: null,
         account: null,
         network: null,
@@ -289,7 +290,7 @@ const walletsReducer = (_state = initialState, _action) => {
   }
   if (_action.type === WALLET_EOS_DISCONNECTED) {
     return Object.assign({}, _state, {
-      eos: {
+      [Blockchain.EOS]: {
         provider: null,
         account: null,
         network: null,
@@ -299,7 +300,7 @@ const walletsReducer = (_state = initialState, _action) => {
   }
   if (_action.type === WALLET_ORE_DISCONNECTED) {
     return Object.assign({}, _state, {
-      ore: {
+      [Blockchain.Ore]: {
         provider: null,
         account: null,
         network: null,
@@ -309,7 +310,7 @@ const walletsReducer = (_state = initialState, _action) => {
   }
   if (_action.type === WALLET_TELOS_DISCONNECTED) {
     return Object.assign({}, _state, {
-      telos: {
+      [Blockchain.Telos]: {
         provider: null,
         account: null,
         network: null,
@@ -319,7 +320,7 @@ const walletsReducer = (_state = initialState, _action) => {
   }
   if (_action.type === WALLET_LIBRE_DISCONNECTED) {
     return Object.assign({}, _state, {
-      libre: {
+      [Blockchain.Libre]: {
         provider: null,
         account: null,
         network: null,
@@ -329,7 +330,7 @@ const walletsReducer = (_state = initialState, _action) => {
   }
   if (_action.type === WALLET_ULTRA_DISCONNECTED) {
     return Object.assign({}, _state, {
-      ultra: {
+      [Blockchain.Ultra]: {
         provider: null,
         account: null,
         network: null,
@@ -340,7 +341,7 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_ARBITRUM_CONNECTED) {
     const { provider, account, network, chainId } = _action.payload
     return Object.assign({}, _state, {
-      arbitrum: {
+      [Blockchain.Arbitrum]: {
         provider,
         account,
         network,
@@ -351,15 +352,15 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_ARBITRUM_ACCOUNT_CHANGED) {
     const { account } = _action.payload
     return Object.assign({}, _state, {
-      arbitrum: {
-        ..._state.arbitrum,
+      [Blockchain.Arbitrum]: {
+        ..._state[[Blockchain.Arbitrum]],
         account,
       },
     })
   }
   if (_action.type === WALLET_ARBITRUM_DISCONNECTED) {
     return Object.assign({}, _state, {
-      arbitrum: {
+      [Blockchain.Arbitrum]: {
         provider: null,
         account: null,
         network: null,
@@ -369,7 +370,7 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_LUXOCHAIN_CONNECTED) {
     const { provider, account, network, chainId } = _action.payload
     return Object.assign({}, _state, {
-      luxochain: {
+      [Blockchain.Luxochain]: {
         provider,
         account,
         network,
@@ -380,8 +381,8 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_LUXOCHAIN_ACCOUNT_CHANGED) {
     const { account } = _action.payload
     return Object.assign({}, _state, {
-      luxochain: {
-        ..._state.luxochain,
+      [Blockchain.Luxochain]: {
+        ..._state[[Blockchain.Luxochain]],
         account,
       },
     })
@@ -397,7 +398,7 @@ const walletsReducer = (_state = initialState, _action) => {
   }
   if (_action.type === WALLET_ALGORAND_DISCONNECTED) {
     return Object.assign({}, _state, {
-      algorand: {
+      [Blockchain.Algorand]: {
         provider: null,
         account: null,
         network: null,
@@ -407,7 +408,7 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_ALGORAND_CONNECTED) {
     const { provider, account, network } = _action.payload
     return Object.assign({}, _state, {
-      algorand: {
+      [Blockchain.Algorand]: {
         provider,
         account,
         network,
@@ -417,15 +418,15 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_ALGORAND_ACCOUNT_CHANGED) {
     const { account } = _action.payload
     return Object.assign({}, _state, {
-      algorand: {
-        ..._state.algorand,
+      [Blockchain.Algorand]: {
+        ..._state[Blockchain.Algorand],
         account,
       },
     })
   }
   if (_action.type === WALLET_ALGORAND_DISCONNECTED) {
     return Object.assign({}, _state, {
-      algorand: {
+      [Blockchain.Algorand]: {
         provider: null,
         account: null,
         network: null,
@@ -435,7 +436,7 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_FTM_CONNECTED) {
     const { provider, account, network, chainId } = _action.payload
     return Object.assign({}, _state, {
-      ftm: {
+      [Blockchain.Fantom]: {
         provider,
         account,
         network,
@@ -446,15 +447,15 @@ const walletsReducer = (_state = initialState, _action) => {
   if (_action.type === WALLET_FTM_ACCOUNT_CHANGED) {
     const { account } = _action.payload
     return Object.assign({}, _state, {
-      ftm: {
-        ..._state.eth,
+      [Blockchain.Fantom]: {
+        ..._state[Blockchain.Fantom],
         account,
       },
     })
   }
   if (_action.type === WALLET_FTM_DISCONNECTED) {
     return Object.assign({}, _state, {
-      ftm: {
+      [Blockchain.Fantom]: {
         provider: null,
         account: null,
         network: null,

@@ -7,11 +7,12 @@ import { updateProgress, loadBalanceByAssetId, resetProgress, updateMigrateButto
 import { getWalletByBlockchain } from '../../wallets/wallets.selectors'
 import { updateInfoModal } from '../../pages/pages.actions'
 import { parseError } from '../../../utils/errors'
+import { Blockchain } from '../../../constants'
 
 const migratePBTC = async (_amount, _from, _to, { dispatch }) => {
   try {
     let hash
-    const wallet = getWalletByBlockchain('ETH')
+    const wallet = getWalletByBlockchain(Blockchain.Ethereum)
     const web3 = new Web3(wallet.provider)
     const token = new web3.eth.Contract(ERC20Abi, _from.address)
     dispatch(
@@ -43,7 +44,7 @@ const migratePBTC = async (_amount, _from, _to, { dispatch }) => {
                 show: true,
                 percent: 50,
                 // prettier-ignore
-                message: `Asset migration <a href="${getCorrespondingTxExplorerLinkByBlockchain('ETH', _hash)}" target="_blank">transaction</a> sent, waiting for confirmation ...`,
+                message: `Asset migration <a href="${getCorrespondingTxExplorerLinkByBlockchain(Blockchain.Ethereum, _hash)}" target="_blank">transaction</a> sent, waiting for confirmation ...`,
                 steps: [0, 50, 100],
                 terminated: false,
               })
@@ -59,7 +60,7 @@ const migratePBTC = async (_amount, _from, _to, { dispatch }) => {
         show: true,
         percent: 100,
         // prettier-ignore
-        message: `Migration <a href="${getCorrespondingTxExplorerLinkByBlockchain('ETH', hash)}" target="_blank">transaction</a> confirmed.`,
+        message: `Migration <a href="${getCorrespondingTxExplorerLinkByBlockchain(Blockchain.Ethereum, hash)}" target="_blank">transaction</a> confirmed.`,
         steps: [0, 50, 100],
         terminated: true,
       })

@@ -1,4 +1,5 @@
 import history from './history'
+import { Blockchain } from '../constants'
 
 const LEGACY_DAPP_BASE_URL = 'http://dapp-legacy.ptokens.io/'
 
@@ -9,8 +10,8 @@ const updateUrlForSwap = (_from, _to) =>
     `swap?asset=${encodeForUrl(_from.nativeSymbol || _to.nativeSymbol)}&from=${encodeForUrl(
       _from.blockchain
     )}&to=${encodeForUrl(_to.blockchain)}${
-      _from.blockchain === 'ALGORAND' ? '&algorand_from_assetid=' + _from.address : ''
-    }${_to.blockchain === 'ALGORAND' ? '&algorand_to_assetid=' + _to.address : ''}${
+      _from.blockchain === Blockchain.Algorand ? '&algorand_from_assetid=' + _from.address : ''
+    }${_to.blockchain === Blockchain.Algorand ? '&algorand_to_assetid=' + _to.address : ''}${
       _from.requiresCurve ? '&host_symbol=' + _from.symbol.toLowerCase() : ''
     }
     `

@@ -5,6 +5,7 @@ import { executeEvmCompatibleTxWithToast } from '../../../utils/tx-utils'
 import { getProviderByBlockchain, getAccountByBlockchain } from '../nfts.selectors'
 import ERC1155Abi from '../../../utils/abi/ERC1155.json'
 import { loadNftData } from '../nfts.actions'
+import { Blockchain } from '../../../constants'
 
 const moveRarebitBunnies = async ({ nft, destinationAccount, amount, dispatch }) => {
   try {
@@ -20,20 +21,20 @@ const moveRarebitBunnies = async ({ nft, destinationAccount, amount, dispatch })
       if (!isApprovedForAll) {
         await executeEvmCompatibleTxWithToast(nftContract.methods.setApprovalForAll(nft.portalsAddress, true), {
           from: account,
-          blockchain: 'ETH',
+          blockchain: Blockchain.Ethereum,
         })
       }
 
       await executeEvmCompatibleTxWithToast(portals.methods.mint(nft.id, amount, account), {
         from: account,
-        blockchain: 'ETH',
+        blockchain: Blockchain.Ethereum,
       })
     } else {
       const web3 = new Web3(provider)
       const portals = new web3.eth.Contract(HostAbi, nft.portalsAddress)
       await executeEvmCompatibleTxWithToast(portals.methods.burn(nft.id, amount, destinationAccount), {
         from: account,
-        blockchain: 'BSC',
+        blockchain: Blockchain.BSC,
       })
     }
 

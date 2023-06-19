@@ -14,6 +14,7 @@ import { getDefaultSelection } from './utils/default-selection'
 import migratePBTC from './migrations/pBTC-migration'
 import migratePNT from './migrations/ethPNT-migration'
 import axios from 'axios'
+import { Blockchain } from '../../constants/index'
 
 const loadMigrationData = (_opts = {}) => {
   const { strategy } = _opts
@@ -26,7 +27,7 @@ const loadMigrationData = (_opts = {}) => {
         },
       })
 
-      const wallet = getWalletByBlockchain('ETH')
+      const wallet = getWalletByBlockchain(Blockchain.Ethereum)
       if (wallet && wallet.account) {
         _dispatch(loadBalances(wallet.account))
       }
@@ -65,7 +66,7 @@ const loadBalances = (_account) => {
   return async (_dispatch) => {
     try {
       loadEvmCompatibleBalances({
-        assets: getAssetsByBlockchain('ETH'),
+        assets: getAssetsByBlockchain(Blockchain.Ethereum),
         account: _account,
         dispatch: _dispatch,
         actionType: MIGRATION_BALANCE_LOADED,

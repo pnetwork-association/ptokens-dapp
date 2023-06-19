@@ -10,6 +10,7 @@ import Web3 from 'web3'
 import { getOldPnt } from './swap-old-pnt-selector'
 import BigNumber from 'bignumber.js'
 import { getCorrespondingTxExplorerLinkByBlockchain } from '../../utils/explorer'
+import { Blockchain } from '../../constants/index'
 
 const loadSwapOldPntData = () => ({
   type: ASSETS_LOADED_SWAP_OLD_PNT,
@@ -28,7 +29,7 @@ const loadOldPntBalance = (_account) => {
       asset: settings.swapOldPntOnBsc.asset,
       account: _account,
       dispatch: _dispatch,
-      blockchain: 'BSC',
+      blockchain: Blockchain.BSC,
     })
   }
 }
@@ -55,7 +56,7 @@ const swap = (_amount, _address) => {
         })
       )
 
-      const { provider, account } = getWalletByBlockchain('BSC')
+      const { provider, account } = getWalletByBlockchain(Blockchain.BSC)
       const web3 = new Web3(provider)
 
       const oldPntContract = new web3.eth.Contract(Erc20Abi, getOldPnt().address)
@@ -82,7 +83,7 @@ const swap = (_amount, _address) => {
               .approve(settings.swapOldPntOnBsc.swapContractAddress, amount)
               .send({ from: account })
               .once('transactionHash', (_hash) => {
-                link = getCorrespondingTxExplorerLinkByBlockchain('BSC', _hash)
+                link = getCorrespondingTxExplorerLinkByBlockchain(Blockchain.BSC, _hash)
                 _dispatch(
                   updateProgress({
                     show: true,
@@ -119,7 +120,7 @@ const swap = (_amount, _address) => {
             .swap(amount, _address)
             .send({ from: account, gas: 120000 })
             .once('transactionHash', (_hash) => {
-              link = getCorrespondingTxExplorerLinkByBlockchain('BSC', _hash)
+              link = getCorrespondingTxExplorerLinkByBlockchain(Blockchain.BSC, _hash)
               _dispatch(
                 updateProgress({
                   show: true,
@@ -139,7 +140,7 @@ const swap = (_amount, _address) => {
 
       await _swap()
 
-      _dispatch(loadBalances(account, 'BSC'))
+      _dispatch(loadBalances(account, Blockchain.BSC))
       _dispatch(loadOldPntBalance(account))
 
       _dispatch(
