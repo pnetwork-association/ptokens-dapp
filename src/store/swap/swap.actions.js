@@ -28,7 +28,6 @@ import pegoutFromCurve from './utils/pegout-curve'
 import { getAssetsByBlockchain, getAssetById } from './swap.selectors'
 import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
 import { getDefaultSelection } from './utils/default-selection'
-// import pegoutPuosOnUltra from './utils/pegout-puos-on-ultra'
 import { getAsaBalance, encodeUserData, buildPoolSwapTransactions } from './utils/algorand'
 import { getAmountInEosFormat } from 'ptokens-assets-eosio'
 import Web3 from 'web3'
@@ -403,27 +402,23 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
 
       // // NOTE: pegin
       if (_from.isNative) {
-        const ptokenFromId = _from.id
-        const ptokenFrom = getAssetById(ptokenFromId)
-        const ptokenToId = _to.id
-        const ptokenTo = getAssetById(ptokenToId)
-        if (['pBTC', 'pLTC', 'pDOGE', 'pRVN', 'pLBC'].includes(ptokenTo.name))
-          peginWithDepositAddress({ swap, ptokenFrom, ptokenTo, dispatch: _dispatch })
+        if (['pBTC', 'pLTC', 'pDOGE', 'pRVN', 'pLBC'].includes(_to.name))
+          await peginWithDepositAddress({ swap, ptokenFrom: _from, ptokenTo: _to, dispatch: _dispatch })
         else {
-          peginWithWallet({
+          await peginWithWallet({
             swap,
-            ptokenFrom,
-            ptokenTo,
+            ptokenFrom: _from,
+            ptokenTo: _to,
             dispatch: _dispatch,
           })
         }
       }
       // NOTE: pegout
       else if (!_from.isNative && !_fromNative.requiresCurve) {
-        pegout({ swap: swap, ptokenFrom: _from, ptokenTo: _to, dispatch: _dispatch })
+        await pegout({ swap: swap, ptokenFrom: _from, ptokenTo: _to, dispatch: _dispatch })
       } else if (!_from.isNative && _fromNative.requiresCurve) {
         const curveProvider = getReadOnlyProviderByBlockchain(_fromNative.blockchain.toUpperCase())
-        pegoutFromCurve({
+        await pegoutFromCurve({
           swap: swap,
           provider: curveProvider,
           tokenFrom: _fromNative,
