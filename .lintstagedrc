@@ -1,0 +1,4 @@
+ {
+    "*.+(js|jsx)": "eslint --cache --fix",
+    "*.+(js|jsx|ts|json|yml)": "prettier --config ./.prettierrc --write"
+  }
