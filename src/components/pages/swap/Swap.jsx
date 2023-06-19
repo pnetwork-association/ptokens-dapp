@@ -381,7 +381,7 @@ const Swap = ({
                   caution!
                 </InfoEta>
               ) : null}
-              {from && from.isNative && to.notifyDepositAddressWarning && (
+              {from && from.isNative && to && to.notifyDepositAddressWarning && (
                 <WarningEta>
                   Please refrain from using previously generated deposit addresses, as doing so may result in a loss of
                   funds.
