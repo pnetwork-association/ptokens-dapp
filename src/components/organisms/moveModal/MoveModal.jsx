@@ -70,6 +70,7 @@ const AddressInput = styled.input`
   padding-top: 5px;
   padding-bottom: 5px;
   height: 70px;
+  appearance: auto;
   -webkit-appearance: none;
   box-shadow: none !important;
   background: ${({ theme }) => theme.bg1};
