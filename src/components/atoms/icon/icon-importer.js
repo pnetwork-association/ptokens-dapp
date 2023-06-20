@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import arrowDiagonal from './icons/arrow-diagonal.svg?raw'
 import arrowDown from './icons/arrow-down.svg?raw'
 import arrowDown2 from './icons/arrow-down2.svg?raw'
