@@ -152,7 +152,7 @@ const curvePhase = async (swap, provider, tokenFrom, ptokenFrom, dispatch) => {
     let updatedAmount = getInputAmount(txReceipt, pool.address, provider.selectedAddress, link)
     swap._amount = updatedAmount
   } catch (_err) {
-    console.log(_err)
+    console.error(_err)
     dispatch(
       updateInfoModal({
         show: true,
