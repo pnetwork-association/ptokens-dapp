@@ -353,7 +353,10 @@ const Swap = ({
                 onMax={onToMax}
               />
 
-              {from && from.id === 'TLOS_ON_BSC_MAINNET' && to && to.id === 'TLOS' ? (
+              {from &&
+              (from.id === 'TLOS_ON_BSC_MAINNET' || from.id === 'TLOS_ON_ETH_MAINNET') &&
+              to &&
+              to.id === 'TLOS' ? (
                 <EnableTelosEvmRow>
                   <Col style={{ paddingLeft: 0 }} className="pr-0">
                     <EnableTelosEvmText>Receive on a tEVM (Telos EVM) compatible address</EnableTelosEvmText>
