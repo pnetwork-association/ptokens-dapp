@@ -1,4 +1,4 @@
-import { PAGE_SELECTED, SET_LOADING, SET_THEME, UPDATE_INFO_MODAL } from '../../constants'
+import * as pages from './pages.reducer'
 import history from '../../utils/history'
 
 const selectPage = (_page, _options = {}) => {
@@ -25,45 +25,27 @@ const selectPage = (_page, _options = {}) => {
     )
   }
 
-  return {
-    type: PAGE_SELECTED,
-    payload: {
-      page: _page,
-    },
-  }
+  return pages.selectPage(_page)
 }
 
-const setLoading = ({ isLoading, text }) => ({
-  type: SET_LOADING,
-  payload: {
-    loading: {
-      isLoading,
-      text,
-    },
-  },
-})
+const setLoading = ({ isLoading, text }) =>
+  pages.setLoading({
+    isLoading,
+    text,
+  })
 
-const updateInfoModal = ({ show, text, showMoreText, showMoreLabel, icon }) => ({
-  type: UPDATE_INFO_MODAL,
-  payload: {
-    infoModal: {
-      show,
-      text,
-      icon,
-      showMoreText,
-      showMoreLabel,
-    },
-  },
-})
+const updateInfoModal = ({ show, text, showMoreText, showMoreLabel, icon }) =>
+  pages.updateInfoModal({
+    show,
+    text,
+    icon,
+    showMoreText,
+    showMoreLabel,
+  })
 
 const setTheme = (_theme) => {
   window.localStorage.setItem('THEME', _theme)
-  return {
-    type: SET_THEME,
-    payload: {
-      theme: _theme,
-    },
-  }
+  return pages.setTheme(_theme)
 }
 
 export { selectPage, setLoading, setTheme, updateInfoModal }
