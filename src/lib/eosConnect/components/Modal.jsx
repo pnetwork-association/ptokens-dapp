@@ -1,13 +1,15 @@
-import * as React from 'react'
 import * as PropTypes from 'prop-types'
+import * as React from 'react'
 import styled from 'styled-components'
-import { Provider } from './Provider'
+
 import {
   MODAL_LIGHTBOX_CLASSNAME,
   MODAL_CONTAINER_CLASSNAME,
   MODAL_HITBOX_CLASSNAME,
   MODAL_CARD_CLASSNAME,
 } from '../constants'
+
+import { Provider } from './Provider'
 
 const SLightbox = styled.div`
   transition: opacity 0.1s ease-in-out;
@@ -144,7 +146,7 @@ export default class Modal extends React.Component {
               ref={(c) => (this.mainModalCard = c)}
             >
               {userOptions.map((provider) =>
-                !!provider ? (
+                provider ? (
                   <Provider
                     key={provider.name}
                     name={provider.name}

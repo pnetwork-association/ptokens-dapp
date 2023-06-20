@@ -1,15 +1,16 @@
-import Web3 from 'web3'
-import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import WalletLink from 'walletlink'
+import Web3 from 'web3'
+import Web3Modal from 'web3modal'
+
 import {
   WALLET_POLYGON_CONNECTED,
   WALLET_POLYGON_ACCOUNT_CHANGED,
   WALLET_POLYGON_DISCONNECTED,
 } from '../../../constants'
-import { setupNetwork } from '../../../utils/wallet'
 import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
+import { setupNetwork } from '../../../utils/wallet'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
 import { createWalletConnect2 } from '../wallets.utils'

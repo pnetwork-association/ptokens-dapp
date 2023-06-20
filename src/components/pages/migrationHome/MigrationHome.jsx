@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import React, { useCallback } from 'react'
 import { Container, Table } from 'react-bootstrap'
+import styled from 'styled-components'
+
 import Button from '../../atoms/button/Button'
 import { ContainerImage, Image } from '../../organisms/swapLine/SwapLine'
 

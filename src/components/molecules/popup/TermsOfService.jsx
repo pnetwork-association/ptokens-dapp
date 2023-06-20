@@ -1,7 +1,7 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import React from 'react'
 import { Modal } from 'react-bootstrap'
+import styled from 'styled-components'
 
 const StyledModalTitle = styled(Modal.Title)`
   color: ${({ theme }) => theme.text1};

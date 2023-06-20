@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
 import { Row, Col, Container } from 'react-bootstrap'
+import styled from 'styled-components'
+
 import Icon from '../../atoms/icon/Icon'
 
 const ContainerBanner = styled(Container)`

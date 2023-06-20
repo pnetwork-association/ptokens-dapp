@@ -3,9 +3,8 @@ import {
   WALLET_ALGORAND_DISCONNECTED,
   WALLET_ALGORAND_ACCOUNT_CHANGED,
 } from '../../../constants'
-
-import settings from '../../../settings'
 import AlgoWalletModal from '../../../lib/algoWalletModal'
+import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'

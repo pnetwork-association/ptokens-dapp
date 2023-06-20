@@ -1,10 +1,11 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import React from 'react'
 import { Row, Container, Col } from 'react-bootstrap'
+import styled from 'styled-components'
+
+import { useWallets } from '../../../hooks/use-wallets'
 import NftCard from '../../organisms/nftCard/NftCard'
 import SupportedNfstCarousel from '../../organisms/supportedNftsCarousel/SupportedNftsCarousel'
-import { useWallets } from '../../../hooks/use-wallets'
 
 const ContainerNftCard = styled(Col)`
   margin-top: 100px;

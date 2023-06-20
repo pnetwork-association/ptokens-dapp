@@ -1,18 +1,19 @@
-import Web3 from 'web3'
-import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import WalletLink from 'walletlink'
-import settings from '../../../settings'
+import Web3 from 'web3'
+import Web3Modal from 'web3modal'
+
 import {
   WALLET_ARBITRUM_CONNECTED,
   WALLET_ARBITRUM_DISCONNECTED,
   WALLET_ARBITRUM_NETWORK_CHANGED,
   WALLET_ARBITRUM_ACCOUNT_CHANGED,
 } from '../../../constants'
+import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
+import { changeNetwork, setupNetwork } from '../../../utils/wallet'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
-import { changeNetwork, setupNetwork } from '../../../utils/wallet'
 import { createWalletConnect2 } from '../wallets.utils'
 
 let web3Modal

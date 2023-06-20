@@ -1,5 +1,5 @@
-import { EventEmitter } from 'eventemitter3'
 import MyAlgoConnect from '@randlabs/myalgo-connect'
+import { EventEmitter } from 'eventemitter3'
 
 class Provider extends EventEmitter {
   constructor(myAlgoConnect, accountsSharedByUser) {

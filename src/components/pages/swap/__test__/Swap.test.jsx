@@ -1,14 +1,15 @@
-import UserEvent from '@testing-library/user-event'
-import { describe, expect, it, vi } from 'vitest'
 import { waitFor, render, screen, getByText } from '@testing-library/react'
+import UserEvent from '@testing-library/user-event'
+import { useCallback, useState } from 'react'
 import { ThemeContext } from 'styled-components'
-import * as SwapInfo from '../../../organisms/swapInfo/SwapInfo'
-import * as AssetListModal from '../../../organisms/assetListModal/AssetListModal'
-import * as feeUtils from '../../../../utils/fee'
-import Swap from '../Swap'
+import { describe, expect, it, vi } from 'vitest'
+
 import swapAssets from '../../../../settings/swap-assets'
 import { getDefaultSelection } from '../../../../store/swap/utils/default-selection'
-import { useCallback, useState } from 'react'
+import * as feeUtils from '../../../../utils/fee'
+import * as AssetListModal from '../../../organisms/assetListModal/AssetListModal'
+import * as SwapInfo from '../../../organisms/swapInfo/SwapInfo'
+import Swap from '../Swap'
 
 const Wrapper = ({ asset, originBlockchain, destBlockchain }) => {
   const ThemeContextMock = {}

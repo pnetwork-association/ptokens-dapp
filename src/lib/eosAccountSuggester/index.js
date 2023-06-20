@@ -1,5 +1,6 @@
-import { getReadOnlyProviderByBlockchain } from '../../utils/read-only-providers'
 import { Mutex } from 'async-mutex'
+
+import { getReadOnlyProviderByBlockchain } from '../../utils/read-only-providers'
 
 const mutex = new Mutex()
 

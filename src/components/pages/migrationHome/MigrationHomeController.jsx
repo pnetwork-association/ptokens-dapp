@@ -1,9 +1,11 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'
-import MigrationHome from './MigrationHome'
-import PropTypes from 'prop-types'
-import { selectPage } from '../../../store/pages/pages.actions'
+
 import { loadMigrationData } from '../../../store/migration/migration.actions'
+import { selectPage } from '../../../store/pages/pages.actions'
+
+import MigrationHome from './MigrationHome'
 
 const mapStateToProps = (_state) => {
   return {

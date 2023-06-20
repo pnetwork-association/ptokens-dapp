@@ -1,11 +1,13 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import SwapOldPnt from './SwapOldPnt'
-import { connectWithWallet } from '../../../store/wallets/wallets.actions'
+
+import { updateInfoModal } from '../../../store/pages/pages.actions'
 import { resetProgress, updateSwapButton } from '../../../store/swap/swap.actions'
 import { swap } from '../../../store/swap-old-pnt/swap-old-pnt.actions'
-import { updateInfoModal } from '../../../store/pages/pages.actions'
+import { connectWithWallet } from '../../../store/wallets/wallets.actions'
+
+import SwapOldPnt from './SwapOldPnt'
 
 const mapStateToProps = (_state) => {
   return {

@@ -1,14 +1,15 @@
-import { updateInfoModal } from '../../pages/pages.actions'
-import { parseError } from '../../../utils/errors'
-import { getWalletByBlockchain } from '../../wallets/wallets.selectors'
-import { pTokensNode, pTokensNodeProvider } from 'ptokens-node'
 import { pTokensEvmAsset, pTokensEvmAssetBuilder, pTokensEvmProvider } from 'ptokens-assets-evm'
-import { getReadOnlyProviderByBlockchain } from '../../../utils/read-only-providers'
-import { resetProgress, updateMigrateButton } from '../migration.actions'
+import { pTokensNode, pTokensNodeProvider } from 'ptokens-node'
 import { pTokensSwapBuilder } from 'ptokens-swap'
-import { PNETWORK_NODE_V3 } from '../../../constants'
-import migrationPegin from '../utils/migration-pegin'
 import Web3 from 'web3'
+
+import { PNETWORK_NODE_V3 } from '../../../constants'
+import { parseError } from '../../../utils/errors'
+import { getReadOnlyProviderByBlockchain } from '../../../utils/read-only-providers'
+import { updateInfoModal } from '../../pages/pages.actions'
+import { getWalletByBlockchain } from '../../wallets/wallets.selectors'
+import { resetProgress, updateMigrateButton } from '../migration.actions'
+import migrationPegin from '../utils/migration-pegin'
 
 const createAsset = async (_node, _asset, _wallet) => {
   const builder = new pTokensEvmAssetBuilder(_node)

@@ -1,4 +1,5 @@
 import { test, vi, describe, expect } from 'vitest'
+
 import { getDecimalSeparator, getThousandSeparator, formatDecimalSeparator } from '../amount-utils'
 
 describe('getDecimalSeparator', () => {

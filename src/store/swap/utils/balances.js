@@ -1,9 +1,10 @@
-import { getReadOnlyProviderByBlockchain } from '../../../utils/read-only-providers'
-import Web3 from 'web3'
 import BigNumber from 'bignumber.js'
+import { stringUtils } from 'ptokens-helpers'
+import Web3 from 'web3'
+
 import { SWAP_BALANCE_LOADED } from '../../../constants/index'
 import ERC20 from '../../../utils/abi/ERC20'
-import { stringUtils } from 'ptokens-helpers'
+import { getReadOnlyProviderByBlockchain } from '../../../utils/read-only-providers'
 
 const loadEvmCompatibleBalances = async ({
   assets,

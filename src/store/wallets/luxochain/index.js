@@ -1,14 +1,15 @@
-import Web3 from 'web3'
-import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import WalletLink from 'walletlink'
-import settings from '../../../settings'
+import Web3 from 'web3'
+import Web3Modal from 'web3modal'
+
 import {
   WALLET_LUXOCHAIN_CONNECTED,
   WALLET_LUXOCHAIN_DISCONNECTED,
   WALLET_LUXOCHAIN_NETWORK_CHANGED,
   WALLET_LUXOCHAIN_ACCOUNT_CHANGED,
 } from '../../../constants'
+import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'

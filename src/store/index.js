@@ -1,14 +1,15 @@
-import { createStore, applyMiddleware, compose } from 'redux'
-import { middleware } from '../middleware'
-import thunk from 'redux-thunk'
-import { combineReducers } from 'redux'
 import { reducer as toastrReducer } from 'react-redux-toastr'
-import walletsReducer from './wallets/wallets.reducer'
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
+import thunk from 'redux-thunk'
+
+import { middleware } from '../middleware'
+
 import migrationReducer from './migration/migration.reducer'
+import nftsReducer from './nfts/nfts.reducer'
+import pagesReducer from './pages/pages.reducer'
 import swapReducer from './swap/swap.reducer'
 import swapOldPntReducer from './swap-old-pnt/swap-old-pnt.reducer'
-import pagesReducer from './pages/pages.reducer'
-import nftsReducer from './nfts/nfts.reducer'
+import walletsReducer from './wallets/wallets.reducer'
 
 const rootReducer = combineReducers({
   migration: migrationReducer,
