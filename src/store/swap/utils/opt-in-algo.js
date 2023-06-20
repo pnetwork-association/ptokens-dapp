@@ -1,7 +1,8 @@
 import algosdk from 'algosdk'
-import { getWalletAccountByBlockchain, getWalletProviderByBlockchain } from '../../wallets/wallets.selectors'
-import { getReadOnlyProviderByBlockchain } from '../../../utils/read-only-providers'
 import { toastr } from 'react-redux-toastr'
+
+import { getReadOnlyProviderByBlockchain } from '../../../utils/read-only-providers'
+import { getWalletAccountByBlockchain, getWalletProviderByBlockchain } from '../../wallets/wallets.selectors'
 
 export const maybeOptInAlgoAsset = async (_account, _assetIndex, updateButton = undefined) => {
   try {

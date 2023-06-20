@@ -1,14 +1,15 @@
-import { vi, describe, expect } from 'vitest'
-import * as peginWithDepositAddress from '../utils/pegin-with-deposit-address'
-import * as pegout from '../utils/pegout'
-import * as peginWithWallet from '../utils/pegin-with-wallet'
-import { pTokensSwapBuilder, pTokensSwap } from 'ptokens-swap'
-import { pTokensEosioAsset } from 'ptokens-assets-eosio'
+import algosdk from 'algosdk'
 import { pTokensAlgorandAsset } from 'ptokens-assets-algorand'
+import { pTokensEosioAsset } from 'ptokens-assets-eosio'
+import { pTokensSwapBuilder, pTokensSwap } from 'ptokens-swap'
+import { vi, describe, expect } from 'vitest'
+
+import assets from '../../../settings/swap-assets'
 import * as wallets from '../../wallets/wallets.selectors'
 import { swap } from '../swap.actions'
-import assets from '../../../settings/swap-assets'
-import algosdk from 'algosdk'
+import * as peginWithDepositAddress from '../utils/pegin-with-deposit-address'
+import * as peginWithWallet from '../utils/pegin-with-wallet'
+import * as pegout from '../utils/pegout'
 
 describe('swap', () => {
   beforeAll(() => {

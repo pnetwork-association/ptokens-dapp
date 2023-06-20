@@ -1,6 +1,8 @@
 import axios from 'axios'
-import assets from '../../settings/swap-assets'
-import settings from '../../settings'
+import BigNumber from 'bignumber.js'
+import { getAmountInEosFormat } from 'ptokens-assets-eosio'
+import Web3 from 'web3'
+
 import {
   ASSETS_LOADED,
   SHOW_DEPOSIT_ADDRESS_MODAL,
@@ -11,6 +13,17 @@ import {
   BPM_LOADED,
   SWAPPERS_BALANCES_LOADED,
 } from '../../constants/index'
+import settings from '../../settings'
+import assets from '../../settings/swap-assets'
+import eosioTokenAbi from '../../utils/abi/eosio.token'
+import { parseError } from '../../utils/errors'
+import { createAsset, getSwapBuilder } from '../../utils/ptokens'
+import { getReadOnlyProviderByBlockchain } from '../../utils/read-only-providers'
+import { updateInfoModal } from '../pages/pages.actions'
+import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
+
+import { getAssetsByBlockchain, getAssetById } from './swap.selectors'
+import { getAsaBalance, encodeUserData, buildPoolSwapTransactions } from './utils/algorand'
 import {
   loadEvmCompatibleBalances,
   loadEosioCompatibleBalances,
@@ -18,22 +31,11 @@ import {
   loadEosioCompatibleBalance,
   loadAlgorandBalances,
 } from './utils/balances'
-import { parseError } from '../../utils/errors'
-import { updateInfoModal } from '../pages/pages.actions'
-import { getReadOnlyProviderByBlockchain } from '../../utils/read-only-providers'
+import { getDefaultSelection } from './utils/default-selection'
 import peginWithDepositAddress from './utils/pegin-with-deposit-address'
 import peginWithWallet from './utils/pegin-with-wallet'
 import pegout from './utils/pegout'
 import pegoutFromCurve from './utils/pegout-curve'
-import { getAssetsByBlockchain, getAssetById } from './swap.selectors'
-import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
-import { getDefaultSelection } from './utils/default-selection'
-import { getAsaBalance, encodeUserData, buildPoolSwapTransactions } from './utils/algorand'
-import { getAmountInEosFormat } from 'ptokens-assets-eosio'
-import Web3 from 'web3'
-import BigNumber from 'bignumber.js'
-import eosioTokenAbi from '../../utils/abi/eosio.token'
-import { createAsset, getSwapBuilder } from '../../utils/ptokens'
 
 const loadSwapData = (_opts = {}) => {
   const {

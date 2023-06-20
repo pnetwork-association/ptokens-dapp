@@ -1,18 +1,24 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
-import { isValidAccountByBlockchain } from '../utils/account-validator'
-import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
-import { getSwapFees, computeSwapAmount } from '../utils/fee'
-import BigNumber from 'bignumber.js'
-import { getLegacyUrl, updateUrlForSwap } from '../utils/url'
-import { useWalletByBlockchain } from './use-wallets'
-import { TLOS_ON_BSC_MAINNET, TLOS_ON_ETH_MAINNET } from '../constants'
-import { PBTC_ON_ETH_POOL, CURVE_MIN_AMOUNT, CURVE_MAX_AMOUNT } from '../constants'
-import { maybeOptInAlgoApp, maybeOptInAlgoAsset } from '../store/swap/utils/opt-in-algo'
-import { useRef } from 'react'
 import curve from '@curvefi/api'
+import BigNumber from 'bignumber.js'
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
+
+import {
+  TLOS_ON_BSC_MAINNET,
+  TLOS_ON_ETH_MAINNET,
+  PBTC_ON_ETH_POOL,
+  CURVE_MIN_AMOUNT,
+  CURVE_MAX_AMOUNT,
+} from '../constants'
 import { sendEvent } from '../ga4'
-import { useSwapInfo } from './use-swap-info'
+import { maybeOptInAlgoApp, maybeOptInAlgoAsset } from '../store/swap/utils/opt-in-algo'
+import { isValidAccountByBlockchain } from '../utils/account-validator'
+import { getSwapFees, computeSwapAmount } from '../utils/fee'
+import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 import { isValidSwap } from '../utils/swap-valildator'
+import { getLegacyUrl, updateUrlForSwap } from '../utils/url'
+
+import { useSwapInfo } from './use-swap-info'
+import { useWalletByBlockchain } from './use-wallets'
 
 const useSwap = ({
   wallets,

@@ -1,5 +1,6 @@
 import React from 'react'
 import { FaTelegram, FaTwitter } from 'react-icons/fa'
+
 import settings from '../../../settings'
 import './styles.css'
 

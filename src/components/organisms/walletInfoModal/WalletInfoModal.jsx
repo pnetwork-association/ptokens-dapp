@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import { Row, Col } from 'react-bootstrap'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import Modal from '../../molecules/modal/Modal'
 import ReactTooltip from 'react-tooltip'
+import styled from 'styled-components'
+
+import Modal from '../../molecules/modal/Modal'
 
 const ContainerAccountInfo = styled.div`
   border-radius: 20px;

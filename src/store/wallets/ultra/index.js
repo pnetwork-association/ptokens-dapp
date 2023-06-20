@@ -1,7 +1,8 @@
-import settings from '../../../settings'
 import { toastr } from 'react-redux-toastr'
+
 import { WALLET_ULTRA_CONNECTED, WALLET_ULTRA_DISCONNECTED } from '../../../constants'
 import EosConnect from '../../../lib/eosConnect/'
+import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 

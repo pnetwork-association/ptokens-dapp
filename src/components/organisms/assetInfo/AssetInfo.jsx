@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import ReactTooltip from 'react-tooltip'
-import Icon from '../../atoms/icon/Icon'
-import { copyToClipboard } from '../../../utils/utils'
-import { registerToken } from '../../../utils/wallet'
-import { getBase64Image } from '../../../utils/image'
+import styled from 'styled-components'
+
 import { useProvider } from '../../../hooks/use-provider'
 import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
+import { getBase64Image } from '../../../utils/image'
+import { copyToClipboard } from '../../../utils/utils'
+import { registerToken } from '../../../utils/wallet'
+import Icon from '../../atoms/icon/Icon'
 
 const ContainerAssetInfo = styled(Col)`
   margin-top: 10px;

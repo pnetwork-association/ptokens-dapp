@@ -1,10 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import React from 'react'
 import { Row, Col, Container } from 'react-bootstrap'
-import Switch from '../../atoms/switch/Switch'
 import ReactTooltip from 'react-tooltip'
+import styled from 'styled-components'
+
 import { getMigrationFees } from '../../../utils/fee'
+import Switch from '../../atoms/switch/Switch'
 
 const ContainerInfo = styled(Container)`
   background: ${({ theme }) => theme.secondary3Transparentized};

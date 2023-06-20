@@ -1,10 +1,12 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'
-import Header from './Header'
-import PropTypes from 'prop-types'
-import { connectWithWallet, disconnectFromWallet } from '../../../store/wallets/wallets.actions'
+
 import { selectPage, setTheme } from '../../../store/pages/pages.actions'
 import { loadSwapData } from '../../../store/swap/swap.actions'
+import { connectWithWallet, disconnectFromWallet } from '../../../store/wallets/wallets.actions'
+
+import Header from './Header'
 
 const mapStateToProps = (_state) => {
   return {

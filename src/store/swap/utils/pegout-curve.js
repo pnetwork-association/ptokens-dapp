@@ -1,12 +1,13 @@
-import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
-import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
-import { updateInfoModal } from '../../pages/pages.actions'
-import { parseError } from '../../../utils/errors'
 import curve from '@curvefi/api'
 import polling from 'light-async-polling'
 import Web3 from 'web3'
+
 import { PBTC_ON_ETH_POOL, TRANSFER_EVENT_TOPIC } from '../../../constants/index'
 import { sendEvent } from '../../../ga4'
+import { parseError } from '../../../utils/errors'
+import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
+import { updateInfoModal } from '../../pages/pages.actions'
+import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
 
 function getInputAmount(web3, txReceipt, poolAddress, returnAddress, trLink) {
   poolAddress = poolAddress.toUpperCase()

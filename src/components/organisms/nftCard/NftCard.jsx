@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { Card, Row, Col } from 'react-bootstrap'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
 import MoveModal from '../moveModal/MoveModal'
 
 const StyledCard = styled(Card)`

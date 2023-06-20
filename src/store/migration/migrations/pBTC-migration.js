@@ -1,12 +1,13 @@
-import Web3 from 'web3'
 import BigNumber from 'bignumber.js'
-import ERC20Abi from '../../../utils/abi/ERC20.json'
-import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
+import Web3 from 'web3'
+
 import settings from '../../../settings'
-import { updateProgress, loadBalanceByAssetId, resetProgress, updateMigrateButton } from '../migration.actions'
-import { getWalletByBlockchain } from '../../wallets/wallets.selectors'
-import { updateInfoModal } from '../../pages/pages.actions'
+import ERC20Abi from '../../../utils/abi/ERC20.json'
 import { parseError } from '../../../utils/errors'
+import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
+import { updateInfoModal } from '../../pages/pages.actions'
+import { getWalletByBlockchain } from '../../wallets/wallets.selectors'
+import { updateProgress, loadBalanceByAssetId, resetProgress, updateMigrateButton } from '../migration.actions'
 
 const migratePBTC = async (_amount, _from, _to, { dispatch }) => {
   try {

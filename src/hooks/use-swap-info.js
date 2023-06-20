@@ -1,8 +1,9 @@
+import { chainIdToTypeMap, BlockchainType } from 'ptokens-constants'
 import { useMemo } from 'react'
+
+import { getAssetById } from '../store/swap/swap.selectors'
 import { getPeginOrPegoutMinutesEstimationByBlockchainAndEta } from '../utils/estimations'
 import { getFormattedFees } from '../utils/fee'
-import { getAssetById } from '../store/swap/swap.selectors'
-import { chainIdToTypeMap, BlockchainType } from 'ptokens-constants'
 
 const useSwapInfo = ({ from, to, amount, bpm, swappersBalances, fees }) => {
   return useMemo(() => {

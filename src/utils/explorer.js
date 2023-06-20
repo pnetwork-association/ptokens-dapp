@@ -1,4 +1,5 @@
 import { sprintf } from 'sprintf-js'
+
 import settings from '../settings'
 
 const transactionBaseLink = {

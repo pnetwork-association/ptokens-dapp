@@ -1,11 +1,12 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import Migration from './Migration'
-import { connectWithWallet } from '../../../store/wallets/wallets.actions'
+
 import { migrate, resetProgress, updateMigrateButton } from '../../../store/migration/migration.actions'
-import { selectPage } from '../../../store/pages/pages.actions'
-import { updateInfoModal } from '../../../store/pages/pages.actions'
+import { selectPage, updateInfoModal } from '../../../store/pages/pages.actions'
+import { connectWithWallet } from '../../../store/wallets/wallets.actions'
+
+import Migration from './Migration'
 
 const mapStateToProps = (_state) => {
   return {

@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import PropTypes from 'prop-types'
-import { Row, Col, Container } from 'react-bootstrap'
-import { useSwapInfo } from '../../../hooks/use-swap-info'
-import Switch from '../../atoms/switch/Switch'
-import Icon from '../../atoms/icon/Icon'
-import ReactTooltip from 'react-tooltip'
-import { MAX_IMPACT } from '../../../constants'
 import BigNumber from 'bignumber.js'
+import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react'
+import { Row, Col, Container } from 'react-bootstrap'
 import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import ReactTooltip from 'react-tooltip'
+import styled from 'styled-components'
+
+import { MAX_IMPACT } from '../../../constants'
+import { useSwapInfo } from '../../../hooks/use-swap-info'
 import { getFormattedNetworkFee, getFormattedProtocolFee } from '../../../utils/fee'
+import Icon from '../../atoms/icon/Icon'
+import Switch from '../../atoms/switch/Switch'
+
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const ContainerInfo = styled(Container)`
   background: ${({ theme }) => theme.secondary3Transparentized};

@@ -1,8 +1,9 @@
-import settings from '../settings'
-import Web3 from 'web3'
-import { JsonRpc } from 'eosjs'
-import fetch from 'cross-fetch'
 import { Algodv2 } from 'algosdk'
+import fetch from 'cross-fetch'
+import { JsonRpc } from 'eosjs'
+import Web3 from 'web3'
+
+import settings from '../settings'
 
 const getReadOnlyProviderByBlockchain = (_blockchain) => {
   // TODO: only mainnet at the moment
