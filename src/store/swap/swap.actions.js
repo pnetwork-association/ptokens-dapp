@@ -15,7 +15,7 @@ import {
 } from '../../constants/index'
 import settings from '../../settings'
 import assets from '../../settings/swap-assets'
-import eosioTokenAbi from '../../utils/abi/eosio.token'
+import eosioTokenAbi from '../../utils/abi/eosio.token.json'
 import { parseError } from '../../utils/errors'
 import { createAsset, getSwapBuilder } from '../../utils/ptokens'
 import { getReadOnlyProviderByBlockchain } from '../../utils/read-only-providers'
