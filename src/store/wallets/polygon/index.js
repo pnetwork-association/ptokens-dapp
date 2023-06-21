@@ -1,6 +1,7 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
+import EthereumProvider from '@walletconnect/ethereum-provider'
 import WalletLink from 'walletlink'
 import {
   WALLET_POLYGON_CONNECTED,
@@ -12,6 +13,7 @@ import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
+import { walletConnectV2Connector, walletConnectV2ConnectorDisplay } from '../wallets.utils'
 
 let web3Modal
 
@@ -32,6 +34,15 @@ const connectWithPolygonWallet = async (_dispatch) => {
               137: settings.rpc.mainnet.polygon.endpoint,
             },
           },
+        },
+        'custom-walletconnectv2': {
+          display: walletConnectV2ConnectorDisplay,
+          options: {
+            chainId: [137],
+            showQrModal: true,
+          },
+          package: EthereumProvider,
+          connector: walletConnectV2Connector,
         },
         walletlink: {
           package: WalletLink,

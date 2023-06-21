@@ -1,6 +1,7 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
+import EthereumProvider from '@walletconnect/ethereum-provider'
 import WalletLink from 'walletlink'
 import settings from '../../../settings'
 import {
@@ -12,6 +13,7 @@ import {
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
+import { walletConnectV2Connector, walletConnectV2ConnectorDisplay } from '../wallets.utils'
 
 let web3Modal
 
@@ -32,6 +34,15 @@ const connectWithLuxochainWallet = async (_dispatch) => {
               110: settings.rpc.mainnet.luxochain.endpoint,
             },
           },
+        },
+        'custom-walletconnectv2': {
+          display: walletConnectV2ConnectorDisplay,
+          options: {
+            chainId: [110],
+            showQrModal: true,
+          },
+          package: EthereumProvider,
+          connector: walletConnectV2Connector,
         },
         walletlink: {
           package: WalletLink,

@@ -1,6 +1,7 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
+import EthereumProvider from '@walletconnect/ethereum-provider'
 import WalletLink from 'walletlink'
 import settings from '../../../settings'
 import { changeNetwork } from '../../../utils/wallet'
@@ -13,8 +14,7 @@ import {
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
-// import { WalletConnectV2Package } from '../../../../public/'
-import EthereumProvider from '@walletconnect/ethereum-provider'
+import { walletConnectV2Connector, walletConnectV2ConnectorDisplay } from '../wallets.utils'
 
 let web3Modal
 
@@ -38,25 +38,13 @@ const connectWithEthWallet = async (_dispatch) => {
           },
         },
         'custom-walletconnectv2': {
-          display: {
-            logo: './assets/png/walletconnectv2.png',
-            name: 'WalletConnect V2',
-            description: 'Connect through WalletConnect V2',
+          display: walletConnectV2ConnectorDisplay,
+          options: {
+            chainId: [1],
+            showQrModal: true,
           },
           package: EthereumProvider,
-          connector: async (EthereumProvider, options) => {
-            const provider = await EthereumProvider.init({
-              projectId: '', // REQUIRED your projectId
-              chains: [1], // REQUIRED chain ids
-              showQrModal: true,
-              methods: ['eth_sendTransaction', 'eth_signTransaction', 'eth_sign', 'personal_sign', 'eth_signTypedData'], // REQUIRED ethereum methods
-              events: ['chainChanged', 'accountsChanged'], // REQUIRED ethereum events
-            })
-
-            await provider.connect()
-
-            return provider
-          },
+          connector: walletConnectV2Connector,
         },
         walletlink: {
           package: WalletLink,

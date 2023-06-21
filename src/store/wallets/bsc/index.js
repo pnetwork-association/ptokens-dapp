@@ -2,12 +2,14 @@ import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import { WALLET_BSC_CONNECTED, WALLET_BSC_DISCONNECTED, WALLET_BSC_ACCOUNT_CHANGED } from '../../../constants'
 import WalletConnectProvider from '@walletconnect/web3-provider'
+import EthereumProvider from '@walletconnect/ethereum-provider'
 import WalletLink from 'walletlink'
 import settings from '../../../settings'
 import { changeNetwork, setupNetwork } from '../../../utils/wallet'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
+import { walletConnectV2Connector, walletConnectV2ConnectorDisplay } from '../wallets.utils'
 
 let web3Modal
 
@@ -28,6 +30,15 @@ const connectWithBscWallet = async (_dispatch) => {
               56: settings.rpc.mainnet.bsc.endpoint,
             },
           },
+        },
+        'custom-walletconnectv2': {
+          display: walletConnectV2ConnectorDisplay,
+          options: {
+            chainId: [56],
+            showQrModal: true,
+          },
+          package: EthereumProvider,
+          connector: walletConnectV2Connector,
         },
         walletlink: {
           package: WalletLink,

@@ -2,12 +2,14 @@ import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import { WALLET_FTM_CONNECTED, WALLET_FTM_DISCONNECTED, WALLET_FTM_ACCOUNT_CHANGED } from '../../../constants'
 import WalletConnectProvider from '@walletconnect/web3-provider'
+import EthereumProvider from '@walletconnect/ethereum-provider'
 import WalletLink from 'walletlink'
 import settings from '../../../settings'
 import { changeNetwork, setupNetwork } from '../../../utils/wallet'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
+import { walletConnectV2Connector, walletConnectV2ConnectorDisplay } from '../wallets.utils'
 
 let web3Modal
 
@@ -28,6 +30,15 @@ const connectWithFtmWallet = async (_dispatch) => {
               250: settings.rpc.mainnet.ftm.endpoint,
             },
           },
+        },
+        'custom-walletconnectv2': {
+          display: walletConnectV2ConnectorDisplay,
+          options: {
+            chainId: [250],
+            showQrModal: true,
+          },
+          package: EthereumProvider,
+          connector: walletConnectV2Connector,
         },
         walletlink: {
           package: WalletLink,
