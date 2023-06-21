@@ -54,7 +54,6 @@ export const ArrowContainer = styled.div`
   margin-top: 10px;
   margin-bottom: 10px;
   text-align: center;
-  cursor: pointer;
   @media (max-width: 767.98px) {
     margin-top: 5px;
     margin-bottom: 5px;
@@ -64,8 +63,23 @@ export const ArrowContainer = styled.div`
 export const SortIcon = styled(Icon)`
   width: 16px;
   height: 16px;
+  cursor: pointer;
   svg {
     fill: ${({ theme }) => theme.primary1};
+  }
+  @media (max-width: 767.98px) {
+    width: 12px;
+    height: 12px;
+  }
+`
+
+export const DisabledSortIcon = styled(Icon)`
+  width: 16px;
+  height: 16px;
+  user-select: none;
+  pointer-events: none;
+  svg {
+    fill: ${({ theme }) => theme.lightGray};
   }
   @media (max-width: 767.98px) {
     width: 12px;
@@ -218,6 +232,7 @@ const Swap = ({
     setPegoutToTelosEvmAddress,
     ToSRef,
     AddressWarningRef,
+    canChangeOrder,
   } = useSwap({
     progress,
     wallets,
@@ -335,7 +350,7 @@ const Swap = ({
                 onMax={onFromMax}
               />
               <ArrowContainer>
-                <SortIcon icon="sort" onClick={onChangeOrder} />
+                {canChangeOrder ? <SortIcon icon="sort" onClick={onChangeOrder} /> : <DisabledSortIcon icon="sort" />}
               </ArrowContainer>
               <SwapLine
                 style={{ marginBottom: '20px' }}
@@ -384,7 +399,7 @@ const Swap = ({
                   caution!
                 </InfoEta>
               ) : null}
-              {from && from.isNative && to.notifyDepositAddressWarning && (
+              {from && from.isNative && to && to.notifyDepositAddressWarning && (
                 <WarningEta>
                   Please refrain from using previously generated deposit addresses, as doing so may result in a loss of
                   funds.

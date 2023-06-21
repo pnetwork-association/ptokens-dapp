@@ -7,7 +7,7 @@ import * as SwapInfo from '../../../organisms/swapInfo/SwapInfo'
 import * as AssetListModal from '../../../organisms/assetListModal/AssetListModal'
 import * as feeUtils from '../../../../utils/fee'
 import Swap from '../Swap'
-import assets from '../../../../settings/swap-assets'
+import swapAssets from '../../../../settings/swap-assets'
 import { getDefaultSelection } from '../../../../store/swap/utils/default-selection'
 import { useCallback, useState } from 'react'
 
@@ -24,10 +24,11 @@ const Wrapper = ({ asset, originBlockchain, destBlockchain }) => {
     v2selection.from = originBlockchain
     v2selection.to = destBlockchain
   }
+  const [assets] = useState([...swapAssets, ...getDefaultSelection(swapAssets, v2selection)])
   return (
     <ThemeContext.Provider value={ThemeContextMock}>
       <Swap
-        assets={[...assets, ...getDefaultSelection(assets, v2selection)]}
+        assets={assets}
         migrationAssets={[]}
         progress={{}}
         depositAddressModal={{}}
