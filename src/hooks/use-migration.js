@@ -27,13 +27,9 @@ const useMigration = ({
     [from, to]
   )
 
-  const onChangeToAmount = useCallback(
-    (_amount) => {
-      setToAmount(_amount)
-      setFromAmount(computeMigrationAmount(from, to, _amount, 'from'))
-    },
-    [from, to]
-  )
+  const onChangeToAmount = useCallback((_amount) => {
+    setToAmount(_amount)
+  }, [])
 
   const onFromMax = useCallback(() => {
     const amount = BigNumber(from.balance).toFixed()
@@ -75,7 +71,7 @@ const useMigration = ({
       setFromAmount('')
       setToAmount('')
     }
-  }, [progress, setToAmount])
+  }, [progress])
 
   // NOTE: calculates button text
   useEffect(() => {

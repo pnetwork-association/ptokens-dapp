@@ -12,6 +12,7 @@ import { useRef } from 'react'
 import curve from '@curvefi/api'
 import { sendEvent } from '../ga4'
 import { useSwapInfo } from './use-swap-info'
+import { isValidSwap } from '../utils/swap-valildator'
 
 const useSwap = ({
   wallets,
@@ -273,66 +274,6 @@ const useSwap = ({
     hideDepositAddressModal()
   }, [from, wallets, updateSwapButton, hideDepositAddressModal])
 
-  // NOTE: check combination
-  const [isValidSwap] = useMemo(() => {
-    if (!from || !to) return [false]
-
-    // NOTE: pegin
-    if (from.isNative && !to.isNative) {
-      const ptokenId = to.id
-
-      if (to.nativeSymbol !== from.nativeSymbol) {
-        return [false]
-      }
-
-      if (to.requiresCurve) {
-        return [false]
-      }
-
-      const ptoken = assets.find(({ id }) => ptokenId === id)
-      if (!ptoken) {
-        return [false]
-      }
-
-      return [true]
-    }
-    // NOTE: pegout
-    else if (!from.isNative) {
-      if (to.id === from.id) {
-        return [false]
-      }
-
-      if (to.nativeSymbol !== from.nativeSymbol) {
-        return [false]
-      }
-
-      if (!from.onPnetworkV2 && !to.isNative) {
-        return [false]
-      }
-
-      if (from.isPseudoNative && !to.isNative) {
-        return [false]
-      }
-
-      if (to.isPseudoNative) {
-        return [false]
-      }
-
-      if (!to.onPnetworkV2 && !to.isNative) {
-        return [false]
-      }
-      if (to.requiresCurve) {
-        return [false]
-      }
-      if (from.requiresCurve && from.blockchain === to.blockchain) {
-        return [false]
-      }
-
-      return [true]
-    }
-    return [false]
-  }, [from, to, assets])
-
   // NOTE: default selection
   useMemo(() => {
     if (assets.length > 0 && !assetsLoaded) {
@@ -381,14 +322,14 @@ const useSwap = ({
         return
       }
 
-      if (!isValidSwap) {
-        setAddress('')
-        updateSwapButton('Invalid Swap', true)
+      if (!onPnetworkV2) {
+        updateSwapButton('Go to Legacy dApp', false, getLegacyUrl(from, to))
         return
       }
 
-      if (!onPnetworkV2) {
-        updateSwapButton('Go to Legacy dApp', false, getLegacyUrl(from, to))
+      if (!isValidSwap(from, to, assets)) {
+        setAddress('')
+        updateSwapButton('Invalid Swap', true)
         return
       }
 
@@ -500,8 +441,8 @@ const useSwap = ({
     fromAmount,
     toAmount,
     to,
+    assets,
     address,
-    isValidSwap,
     pegoutToTelosEvmAddress,
     updateSwapButton,
     poolAmount,
@@ -510,40 +451,14 @@ const useSwap = ({
   ])
 
   // NOTE: filters based on from selection
-  const [filteredAssets] = useMemo(() => {
-    if (from && from.isNative) {
-      let filtered = assets.filter(
-        ({ isNative, nativeSymbol, isHidden }) =>
-          !isNative && !isHidden && nativeSymbol.toLowerCase() === from.nativeSymbol.toLowerCase()
-      )
-      filtered = filtered.filter(({ requiresCurve }) => !requiresCurve)
-      if (!isValidSwap) {
-        setTo(filtered[0])
-      }
-
-      return [filtered]
+  const filteredAssets = useMemo(() => {
+    if (from) {
+      const filtered = assets.filter((_asset) => isValidSwap(from, _asset, assets))
+      if (!isValidSwap(from, to, assets)) setTo(filtered[0])
+      return filtered
     }
-
-    if (from && !from.isNative) {
-      let filtered = assets.filter(
-        ({ nativeSymbol, id, isHidden }) =>
-          from.id !== id && !isHidden && from.nativeSymbol.toLowerCase() === nativeSymbol.toLowerCase()
-      )
-      filtered = filtered.filter(({ onPnetworkV2, isNative, isPseudoNative }) =>
-        from.onPnetworkV2 ? (onPnetworkV2 && !isPseudoNative) || isNative : isNative
-      )
-      filtered = filtered.filter(({ isNative }) => (from.isPseudoNative ? isNative : true))
-      filtered = filtered.filter(({ requiresCurve }) => !requiresCurve)
-      filtered = filtered.filter(({ blockchain }) => from.blockchain !== blockchain)
-      if (from.id === 'TLOS_ON_ETH_MAINNET') filtered = filtered.filter(({ id }) => id !== 'TLOS_ON_BSC_MAINNET')
-      if (!isValidSwap) {
-        setTo(filtered.find(({ isNative }) => isNative))
-      }
-      return [filtered]
-    }
-
-    return [assets]
-  }, [assets, isValidSwap, from])
+    return assets
+  }, [assets, from, to])
 
   // NOTE: from balance is null but it has been loaded
   useEffect(() => {
@@ -570,6 +485,8 @@ const useSwap = ({
     }
   }, [from, to])
 
+  const canChangeOrder = isValidSwap(to, from, assets)
+
   // NOTE: wallet selection
   const fromWallet = useWalletByBlockchain(wallets, from ? from.blockchain : null)
   const toWallet = useWalletByBlockchain(wallets, to ? to.blockchain : null)
@@ -578,13 +495,10 @@ const useSwap = ({
     from,
     to,
     fees,
-    setFrom,
-    setTo,
     address,
     setAddress,
     fromAmount,
     toAmount,
-    isValidSwap,
     filteredAssets,
     fromWallet,
     toWallet,
@@ -612,6 +526,7 @@ const useSwap = ({
     setPegoutToTelosEvmAddress,
     ToSRef,
     AddressWarningRef,
+    canChangeOrder,
   }
 }
 

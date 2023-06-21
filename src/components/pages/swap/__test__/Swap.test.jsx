@@ -7,7 +7,7 @@ import * as SwapInfo from '../../../organisms/swapInfo/SwapInfo'
 import * as AssetListModal from '../../../organisms/assetListModal/AssetListModal'
 import * as feeUtils from '../../../../utils/fee'
 import Swap from '../Swap'
-import assets from '../../../../settings/swap-assets'
+import swapAssets from '../../../../settings/swap-assets'
 import { getDefaultSelection } from '../../../../store/swap/utils/default-selection'
 import { useCallback, useState } from 'react'
 
@@ -24,10 +24,11 @@ const Wrapper = ({ asset, originBlockchain, destBlockchain }) => {
     v2selection.from = originBlockchain
     v2selection.to = destBlockchain
   }
+  const [assets] = useState([...swapAssets, ...getDefaultSelection(swapAssets, v2selection)])
   return (
     <ThemeContext.Provider value={ThemeContextMock}>
       <Swap
-        assets={[...assets, ...getDefaultSelection(assets, v2selection)]}
+        assets={assets}
         migrationAssets={[]}
         progress={{}}
         depositAddressModal={{}}
@@ -150,6 +151,22 @@ describe('Swap', async () => {
     expect(getByText(assetListModals[1], /show="true"/)).toBeInTheDocument()
     expect(getByText(assetListModals[1], /title="Swap to \.\.\."/)).toBeInTheDocument()
     expect(getByText(assetListModals[1], /assets=["TLOS_ON_ETH_MAINNET","TLOS","TLOS"]/)).toBeInTheDocument()
+  })
+
+  it('Should permit to pegout to tEVM when pegging-out pTLOS on BSC', async () => {
+    vi.spyOn(SwapInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)
+    vi.spyOn(feeUtils, 'getSwapFees').mockResolvedValue({ basisPoints: 15, networkFee: 1e18, minProtocolFee: 2e18 })
+    render(<Wrapper asset="tlos" originBlockchain="bsc" destBlockchain="telos" />)
+    await waitFor(() => expect(screen.getByText(/Enter an amount/)).toBeInTheDocument())
+    expect(screen.getByText('Receive on a tEVM (Telos EVM) compatible address')).toBeInTheDocument()
+  })
+
+  it('Should permit to pegout to tEVM when pegging-out pTLOS on ETH', async () => {
+    vi.spyOn(SwapInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)
+    vi.spyOn(feeUtils, 'getSwapFees').mockResolvedValue({ basisPoints: 15, networkFee: 1e18, minProtocolFee: 2e18 })
+    render(<Wrapper asset="tlos" originBlockchain="eth" destBlockchain="telos" />)
+    await waitFor(() => expect(screen.getByText(/Enter an amount/)).toBeInTheDocument())
+    expect(screen.getByText('Receive on a tEVM (Telos EVM) compatible address')).toBeInTheDocument()
   })
 
   it('Should show deposit address warning when pegging-in pLTC on Ethereum', async () => {
