@@ -50,7 +50,7 @@ const LabelCol = styled(Col)`
 const MigrationInfo = ({ from, to }) => {
   const fees = getMigrationFees(from, to)
   return (
-    <ContainerInfo show={true}>
+    <ContainerInfo show="true">
       <MarginedRow>
         <LabelCol xs={10}>Gasless</LabelCol>
         <ValueCol
@@ -60,7 +60,7 @@ const MigrationInfo = ({ from, to }) => {
           data-for="tooltip-gasless"
           xs={2}
         >
-          <Switch height={20} width={40} checked={true} disabled="true" />
+          <Switch height={20} width={40} checked={true} disabled={true} />
         </ValueCol>
         <ReactTooltip multiline={true} place="left" />
       </MarginedRow>
