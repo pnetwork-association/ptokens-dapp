@@ -1096,6 +1096,8 @@ const swapAssets = [
     image: 'pBTC.svg',
     withBalanceDecimalsConversion: true,
     chainId: ChainId.PolygonMainnet,
+    onPnetworkV2: true,
+    notifyDepositAddressWarning: true,
   },
   {
     address: '0xad178e5d81dbbf0e7da5106e8c035d9289091c45',
