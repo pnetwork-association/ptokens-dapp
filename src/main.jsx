@@ -13,6 +13,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import './theme/font.css'
 import './theme/bootstrap.css'
 import { initialize } from './ga4'
+import SettingsDrawer from './components/organisms/settings/Settings'
 
 initialize()
 
@@ -28,7 +29,9 @@ root.render(
     <ThemeProvider>
       <ThemedGlobalStyle />
       <HashRouter history={history}>
-        <App />
+        <SettingsDrawer>
+          <App />
+        </SettingsDrawer>
       </HashRouter>
     </ThemeProvider>
   </Provider>

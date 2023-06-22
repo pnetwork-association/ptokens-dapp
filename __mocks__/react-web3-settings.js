@@ -1,0 +1,16 @@
+export const getWeb3Settings = () => ({
+  eth: 'https://cloudflare-eth.com/',
+  eos: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com',
+  telos: 'https://telos.eosphere.io',
+  libre: 'https://libre-node-2.ptokens.io:8889',
+  bsc: 'https://bsc-dataseed1.binance.org/',
+  xdai: 'https://rpc.xdaichain.com/',
+  polygon: 'https://polygon-rpc.com/',
+  ultra: 'https://corsproxy.ptokens.io/v1/?apiurl=http://ultra-mainnet-1.ptokens.io:8888',
+  arbitrum: 'https://arb1.arbitrum.io/rpc',
+  luxochain: 'https://corsproxy.ptokens.io/v1/?apiurl=https://lugano.nodes.luxochain.io',
+  algorand: 'https://algorand-node-1.ptokens.io',
+  ftm: 'https://rpc.ftm.tools/',
+  ore: 'https://ore-node-1.ptokens.io',
+  btc: 'https://blockstream.info/api/',
+})

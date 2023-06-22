@@ -71,6 +71,7 @@ const settings = {
       eth: {
         endpoint: 'https://cloudflare-eth.com/',
         chainId: 1,
+        label: 'Ethereum',
       },
       eos: {
         chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
@@ -78,6 +79,7 @@ const settings = {
         port: 443,
         protocol: 'https',
         endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com',
+        label: 'EOS',
       },
       telos: {
         chainId: '4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11',
@@ -85,6 +87,7 @@ const settings = {
         port: 443,
         protocol: 'https',
         endpoint: 'https://telos.eosphere.io',
+        label: 'Telos',
       },
       libre: {
         chainId: '38b1d7815474d0c60683ecbea321d723e83f5da6ae5f1c1f9fecc69d9ba96465',
@@ -92,18 +95,22 @@ const settings = {
         port: 443,
         protocol: 'https',
         endpoint: 'https://libre-node-2.ptokens.io:8889',
+        label: 'Libre',
       },
       bsc: {
         endpoint: 'https://bsc-dataseed1.binance.org/',
         chainId: 56,
+        label: 'BSC',
       },
       xdai: {
         endpoint: 'https://rpc.xdaichain.com/',
         chainId: 100,
+        label: 'xDAI',
       },
       polygon: {
         endpoint: 'https://polygon-rpc.com/',
         chainId: 137,
+        label: 'Polygon',
       },
       ultra: {
         chainId: 'a9c481dfbc7d9506dc7e87e9a137c931b0a9303f64fd7a1d08b8230133920097',
@@ -111,23 +118,28 @@ const settings = {
         port: 443,
         protocol: 'https',
         endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=http://ultra-mainnet-1.ptokens.io:8888',
+        label: 'Ultra',
       },
       arbitrum: {
         endpoint: 'https://arb1.arbitrum.io/rpc',
         chainId: 42161,
+        label: 'Arbitrum',
       },
       luxochain: {
         endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://lugano.nodes.luxochain.io',
         chainId: 110,
+        label: 'Luxochain',
       },
       algorand: {
         token: '4950dcab89ddc2e7f4dd8e51deb2f0c44aa37aab18cbfd8242ac5fb697222342',
         port: 443,
         endpoint: 'https://algorand-node-1.ptokens.io',
+        label: 'Algorand',
       },
       ftm: {
         endpoint: 'https://rpc.ftm.tools/',
         chainId: 250,
+        label: 'Fantom',
       },
       ore: {
         chainId: '7900eaca71d5b213d3e1e15d54d98ad235a7a5b8166361be78e672edeeb2b47a',
@@ -135,9 +147,11 @@ const settings = {
         port: 443,
         protocol: 'https',
         endpoint: 'https://ore-node-1.ptokens.io',
+        label: 'ORE',
       },
       btc: {
         endpoint: 'https://blockstream.info/api/',
+        label: 'Bitcoin',
       },
     },
   },
