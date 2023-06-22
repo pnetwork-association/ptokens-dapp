@@ -264,6 +264,7 @@ const Header = (_props) => {
           </DropdownMobile>
         </StyledNavMobile>
         <ContainerOptions>
+          <Web3SettingsButton>Connect Wallets</Web3SettingsButton>
           {isConnected ? (
             <ConnectedIcon icon="wallet" onClick={() => setShowWalletInfo(true)} />
           ) : (

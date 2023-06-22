@@ -8,6 +8,8 @@ import { Web3SettingsProvider } from 'react-web3-settings'
 import App from './App'
 import { initialize } from './ga4'
 import * as serviceWorker from './serviceWorker'
+import settings from './settings'
+import generateSettings from './settings/utils'
 import store from './store'
 import ThemeProvider, { ThemedGlobalStyle } from './theme/ThemeProvider'
 import history from './utils/history'
@@ -45,6 +47,10 @@ root.render(
                   value: FactoryAddress.get(NetworkId.ArbitrumMainnet),
                 },
               },
+            },
+            rpcEndpoints: {
+              label: 'RPC Node Endpoints',
+              settings: generateSettings(settings.rpc.mainnet),
             },
           }}
         >
