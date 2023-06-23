@@ -1,11 +1,8 @@
-/* eslint-disable import/first */
 import BigNumber from 'bignumber.js'
 import UserEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { ThemeContext } from 'styled-components'
-import * as Icon from '../../../atoms/icon/Icon'
-vi.spyOn(Icon, 'default').mockImplementation((props) => <div {...props} data-testid="icon" />)
 import * as MigrationInfo from '../../../organisms/migrationInfo/MigrationInfo'
 import * as feeUtils from '../../../../utils/fee'
 import Migration from '../Migration'
@@ -44,6 +41,11 @@ const Wrapper = ({ strategy, connectWithWallet, migrate, assets }) => {
 }
 
 describe('Migration', async () => {
+  beforeEach(() => {
+    vi.restoreAllMocks()
+    vi.mock('../../../atoms/icon/Icon')
+  })
+
   it('Should update "to" amount correctly and call migrate', async () => {
     vi.mock('../../../../utils/history', () => ({ default: { location: { pathname: '#/migration/ethPNT-to-PNT' } } }))
     vi.spyOn(MigrationInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)

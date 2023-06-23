@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 import UserEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { waitFor, render, screen, getByText } from '@testing-library/react'
