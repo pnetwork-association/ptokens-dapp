@@ -11,7 +11,8 @@
     "coverage": "vitest run --coverage",
     "deploy": "npm ci && npm run build && npx thirdweb@latest upload dist",
     "create-version-file": "node ./scripts/generate-buildno.cjs",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "eslint --ext 'js,jsx,mjs,cjs,ts,tsx' ."
   },
   "dependencies": {
     "@curvefi/api": "^2.28.0",
@@ -83,6 +84,7 @@
     "eslint": "^8.39.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.0",
     "jest-styled-components": "^7.1.1",
@@ -91,6 +93,7 @@
     "prettier": "^2.8.8",
     "thirdweb": "^0.10.24",
     "vite": "^4.2.3",
+    "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-node-polyfills": "^0.7.0",
     "vitest": "^0.31.1"
   },
