@@ -4,6 +4,10 @@ import {
   WALLET_ARBITRUM_ACCOUNT_CHANGED,
   WALLET_ETH_CONNECTED,
   WALLET_ETH_ACCOUNT_CHANGED,
+  WALLET_SEPOLIA_CONNECTED,
+  WALLET_SEPOLIA_ACCOUNT_CHANGED,
+  WALLET_GOERLI_CONNECTED,
+  WALLET_GOERLI_ACCOUNT_CHANGED,
   WALLET_EOS_CONNECTED,
   WALLET_BSC_CONNECTED,
   WALLET_BSC_ACCOUNT_CHANGED,
@@ -43,6 +47,18 @@ const initialState = {
     network: null,
   },
   eth: {
+    provider: null,
+    account: null,
+    chainId: null,
+    network: null,
+  },
+  sepolia: {
+    provider: null,
+    account: null,
+    chainId: null,
+    network: null,
+  },
+  goerli: {
     provider: null,
     account: null,
     chainId: null,
@@ -132,6 +148,46 @@ const walletsReducer = (_state = initialState, _action) => {
     return Object.assign({}, _state, {
       eth: {
         ..._state.eth,
+        account,
+      },
+    })
+  }
+  if (_action.type === WALLET_SEPOLIA_CONNECTED) {
+    const { provider, account, network, chainId } = _action.payload
+    return Object.assign({}, _state, {
+      sepolia: {
+        provider,
+        account,
+        network,
+        chainId,
+      },
+    })
+  }
+  if (_action.type === WALLET_SEPOLIA_ACCOUNT_CHANGED) {
+    const { account } = _action.payload
+    return Object.assign({}, _state, {
+      sepolia: {
+        ..._state.sepolia,
+        account,
+      },
+    })
+  }
+  if (_action.type === WALLET_GOERLI_CONNECTED) {
+    const { provider, account, network, chainId } = _action.payload
+    return Object.assign({}, _state, {
+      goerli: {
+        provider,
+        account,
+        network,
+        chainId,
+      },
+    })
+  }
+  if (_action.type === WALLET_GOERLI_ACCOUNT_CHANGED) {
+    const { account } = _action.payload
+    return Object.assign({}, _state, {
+      goerli: {
+        ..._state.goerli,
         account,
       },
     })

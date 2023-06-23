@@ -1,59 +1,29 @@
 import { toastr } from 'react-redux-toastr'
 
 const getDefaultSelection = (_assets, _options = {}) => {
-  const { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol } = _options
-  if (!asset && !from && !to) {
-    return getDefaultSelectionV1(_assets, { pToken })
-  }
-
+  const { asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol } = _options
   return getDefaultSelectionV2(_assets, { asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol })
 }
 
-const getDefaultSelectionV1 = (_assets, { pToken }) => {
-  const nativeSymbolDefault = pToken ? pToken.split('-')[0].toLowerCase() : 'none'
-  const btc = _assets.find(({ symbol }) => symbol === 'BTC')
-  const pbtc = _assets.find(({ symbol }) => symbol === 'PBTC')
-  const assetFrom = _assets.find(
-    ({ symbol, isNative }) =>
-      (nativeSymbolDefault === symbol.toLowerCase() || nativeSymbolDefault.slice(1) === symbol.toLowerCase()) &&
-      isNative
-  )
-  const assetTo = _assets.find(({ workingName, blockchain }) =>
-    pToken ? pToken.toLowerCase() === `${workingName}-on-${blockchain.toLowerCase()}` : null
-  )
+const getDefaultSelectionV2 = (_assets, { asset, from, to, host_symbol }) => {
+  const tkn = _assets.find(({ id }) => id === 'TKN')
+  const ptkn = _assets.find(({ id }) => id === 'PTKN_ON_GOERLI_TESTNET')
+  const assetFrom = asset
+    ? _assets.find(
+        ({ isPtoken, nativeSymbol, blockchain, symbol }) =>
+          !isPtoken &&
+          nativeSymbol.toLowerCase() === asset.toLowerCase() &&
+          from.toLowerCase() === blockchain.toLowerCase() &&
+          (host_symbol ? symbol.toLowerCase() === host_symbol.toLowerCase() : true)
+      )
+    : null
 
-  // NOTE: handle token with p and without p as first letter
-  const pTokenDefaultFrom = Object.assign({}, assetFrom ? assetFrom : btc)
-  const pTokenDefaultTo = Object.assign({}, assetTo ? assetTo : pbtc)
-
-  if (pTokenDefaultFrom && pTokenDefaultTo) {
-    pTokenDefaultFrom.defaultFrom = true
-    pTokenDefaultTo.defaultTo = true
-  }
-
-  return [pTokenDefaultFrom, pTokenDefaultTo]
-}
-
-const getDefaultSelectionV2 = (
-  _assets,
-  { asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol }
-) => {
-  const btc = _assets.find(({ symbol }) => symbol === 'BTC')
-  const pbtc = _assets.find(({ symbol }) => symbol === 'PBTC')
-  const assetFrom = _assets.find(
-    ({ nativeSymbol, blockchain, address, symbol }) =>
-      nativeSymbol.toLowerCase() === asset.toLowerCase() &&
-      from.toLowerCase() === blockchain.toLowerCase() &&
-      (algorand_from_assetid && blockchain === 'ALGORAND' ? address === algorand_from_assetid : true) &&
-      (host_symbol ? symbol.toLowerCase() === host_symbol.toLowerCase() : true)
-  )
-
-  const assetTo = _assets.find(
-    ({ nativeSymbol, blockchain, address }) =>
-      nativeSymbol.toLowerCase() === asset.toLowerCase() &&
-      blockchain.toLowerCase() === to.toLowerCase() &&
-      (algorand_to_assetid && blockchain === 'ALGORAND' ? address === algorand_to_assetid : true)
-  )
+  const assetTo = asset
+    ? _assets.find(
+        ({ nativeSymbol, blockchain }) =>
+          nativeSymbol.toLowerCase() === asset.toLowerCase() && blockchain.toLowerCase() === to.toLowerCase()
+      )
+    : null
 
   if ((assetFrom && !assetTo) || (!assetFrom && assetTo)) {
     toastr.error('Error', 'Invalid routing')
@@ -67,7 +37,7 @@ const getDefaultSelectionV2 = (
     return [pTokenDefaultFrom, pTokenDefaultTo]
   }
 
-  return [btc, pbtc]
+  return [tkn, ptkn]
 }
 
-export { getDefaultSelection, getDefaultSelectionV1, getDefaultSelectionV2 }
+export { getDefaultSelection, getDefaultSelectionV2 }

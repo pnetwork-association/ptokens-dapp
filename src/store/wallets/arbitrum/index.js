@@ -50,7 +50,7 @@ const connectWithArbitrumWallet = async (_dispatch) => {
     })
 
     const provider = await web3Modal.connect()
-    _connectionSuccesfull(provider, _dispatch, {
+    await _connectionSuccesfull(provider, _dispatch, {
       type: 'multiWallet',
     })
 

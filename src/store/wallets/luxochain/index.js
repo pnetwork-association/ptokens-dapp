@@ -49,7 +49,7 @@ const connectWithLuxochainWallet = async (_dispatch) => {
     })
 
     const provider = await web3Modal.connect()
-    _connectionSuccesfull(provider, _dispatch, {
+    await _connectionSuccesfull(provider, _dispatch, {
       type: 'multiWallet',
     })
 
@@ -77,7 +77,7 @@ const connectWithLuxochainWallet = async (_dispatch) => {
 }
 
 const disconnectFromLuxochainWallet = async (_dispatch) => {
-  const provider = getWalletProviderByBlockchain('ETH')
+  const provider = getWalletProviderByBlockchain('LUXOCHAIN')
   if (provider.close) {
     await provider.close()
   }

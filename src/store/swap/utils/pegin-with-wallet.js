@@ -9,16 +9,15 @@ import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton }
 
 const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
   let link
-
   // NOTE: peth uses ethers
-  if ((ptokenTo.isPerc20 && ptokenTo.name !== 'pETH' && ptokenTo.name !== 'pFTM') || ptokenTo.isBep20) {
+  if (!ptokenFrom.isPtoken && (ptokenFrom.isPerc20 || ptokenTo.isBep20)) {
     try {
       const wallet = getWalletByBlockchain(ptokenFrom.blockchain)
       const web3 = new Web3(wallet.provider)
       const _amount = getBigNumber(swap.amount, ptokenTo.nativeDecimals)
       const approve_hash = await approveTransaction(
-        swap.sourceAsset.vaultAddress,
-        swap.sourceAsset.tokenAddress,
+        ptokenFrom.pTokenAddress,
+        swap.sourceAsset.assetTokenAddress,
         _amount,
         web3,
         ptokenTo.nativeSymbol === 'USDT'
@@ -52,8 +51,8 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
 
   await swap
     .execute()
-    .once('inputTxBroadcasted', (_hash) => {
-      link = getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, _hash)
+    .on('inputTxBroadcasted', (_swapResult) => {
+      link = getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, _swapResult.txHash)
       dispatch(
         updateProgress({
           show: true,
@@ -64,7 +63,7 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
         })
       )
     })
-    .once('inputTxConfirmed', () => {
+    .on('inputTxConfirmed', () => {
       dispatch(
         updateProgress({
           show: true,
@@ -75,40 +74,41 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
         })
       )
     })
-    .once('inputTxDetected', () => {
+    .on('operationQueued', (_swapResult) => {
+      link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _swapResult.txHash)
       dispatch(
         updateProgress({
           show: true,
           percent: 60,
-          message: `Enclave received the <a href="${link}" target="_blank">transaction</a>, broadcasting ...`,
+          message: `Asset transfer proposal <a href="${link}" target="_blank">transaction</a> broadcasted...`,
           steps: [0, 20, 40, 60, 80, 100],
           terminated: false,
         })
       )
     })
-    .once('outputTxBroadcasted', (_outputs) => {
-      link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _outputs[0].txHash)
+    .on('operationExecuted', (_swapResult) => {
+      link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _swapResult.txHash)
       dispatch(
         updateProgress({
           show: true,
           percent: 80,
-          message: `Asset swap <a href="${link}" target="_blank">transaction</a> completed, waiting for confirmation ...`,
-          steps: [0, 20, 40, 60, 80, 100],
-          terminated: false,
-        })
-      )
-    })
-    .then((_) => {
-      dispatch(
-        updateProgress({
-          show: true,
-          percent: 100,
-          message: `<a href="${link}" target="_blank">Transaction</a> Confirmed.`,
+          message: `Asset transfer <a href="${link}" target="_blank">transaction</a> executed.`,
           steps: [0, 20, 40, 60, 80, 100],
           terminated: true,
         })
       )
-
+    })
+    .on('operationConfirmed', (_swapResult) => {
+      link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _swapResult.txHash)
+      dispatch(
+        updateProgress({
+          show: true,
+          percent: 100,
+          message: `Asset transfer <a href="${link}" target="_blank">transaction</a> completed.`,
+          steps: [0, 20, 40, 60, 80, 100],
+          terminated: true,
+        })
+      )
       dispatch(updateSwapButton('Swap'))
       setTimeout(() => dispatch(loadBalanceByAssetId(ptokenFrom.id)), 2000)
       setTimeout(() => dispatch(loadBalanceByAssetId(ptokenTo.id)), 2000)

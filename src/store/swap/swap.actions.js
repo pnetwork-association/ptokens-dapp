@@ -1,8 +1,3 @@
-import axios from 'axios'
-import BigNumber from 'bignumber.js'
-import { getAmountInEosFormat } from 'ptokens-assets-eosio'
-import Web3 from 'web3'
-
 import {
   ASSETS_LOADED,
   SHOW_DEPOSIT_ADDRESS_MODAL,
@@ -10,12 +5,8 @@ import {
   PROGRESS_UPDATED,
   PROGRESS_RESET,
   UPDATE_SWAP_BUTTON,
-  BPM_LOADED,
-  SWAPPERS_BALANCES_LOADED,
 } from '../../constants/index'
-import settings from '../../settings'
 import assets from '../../settings/swap-assets'
-import eosioTokenAbi from '../../utils/abi/eosio.token.json'
 import { parseError } from '../../utils/errors'
 import { createAsset, getSwapBuilder } from '../../utils/ptokens'
 import { getReadOnlyProviderByBlockchain } from '../../utils/read-only-providers'
@@ -23,7 +14,6 @@ import { updateInfoModal } from '../pages/pages.actions'
 import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
 
 import { getAssetsByBlockchain, getAssetById } from './swap.selectors'
-import { getAsaBalance, encodeUserData, buildPoolSwapTransactions } from './utils/algorand'
 import {
   loadEvmCompatibleBalances,
   loadEosioCompatibleBalances,
@@ -32,15 +22,12 @@ import {
   loadAlgorandBalances,
 } from './utils/balances'
 import { getDefaultSelection } from './utils/default-selection'
-import peginWithDepositAddress from './utils/pegin-with-deposit-address'
 import peginWithWallet from './utils/pegin-with-wallet'
 import pegout from './utils/pegout'
 import pegoutFromCurve from './utils/pegout-curve'
 
 const loadSwapData = (_opts = {}) => {
-  const {
-    defaultSelection: { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol } = {},
-  } = _opts
+  const { defaultSelection: { pToken, asset, from, to, host_symbol } = {} } = _opts
   return async (_dispatch) => {
     try {
       _dispatch({
@@ -53,78 +40,17 @@ const loadSwapData = (_opts = {}) => {
               asset,
               from,
               to,
-              algorand_from_assetid,
-              algorand_to_assetid,
               host_symbol,
             }),
           ],
         },
       })
-
-      const loadSwapperAmount = async () => {
-        const ret = {}
-        const client = getReadOnlyProviderByBlockchain('ALGORAND')
-        const amounts = (
-          await Promise.all(
-            assets
-              .filter((asset) => asset.swapperAddress)
-              .map(async (asset) => [
-                {
-                  swapperAddress: asset.swapperAddress,
-                  assetId: asset.address,
-                  amount: await getAsaBalance(client, parseInt(asset.swapperAddress), asset.address),
-                },
-                {
-                  swapperAddress: asset.swapperAddress,
-                  assetId: asset.ptokenAddress,
-                  amount: await getAsaBalance(client, parseInt(asset.swapperAddress), asset.ptokenAddress),
-                },
-              ])
-          )
-        ).flat()
-        amounts.forEach((_obj) => {
-          if (ret[_obj.swapperAddress] === undefined) ret[_obj.swapperAddress] = {}
-          ret[_obj.swapperAddress][_obj.assetId] = _obj.amount
-        })
-        _dispatch({
-          type: SWAPPERS_BALANCES_LOADED,
-          payload: {
-            swappersBalances: ret,
-          },
-        })
-      }
-
-      const loadBpm = async () => {
-        try {
-          const resp = await axios.get(settings.api.bpm, {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          })
-          const bpm = Object.fromEntries(resp.data.map((_el) => [_el.bridgeName, _el]))
-          _dispatch({
-            type: BPM_LOADED,
-            payload: {
-              bpm,
-            },
-          })
-        } catch (err) {
-          console.error('BPM API error:', err.message)
-        }
-      }
-
       const wallets = getWallets()
       Object.keys(wallets).forEach((_network) => {
         if (wallets[_network] && wallets[_network].account) {
           _dispatch(loadBalances(wallets[_network].account, _network))
         }
       })
-
-      loadBpm()
-      setInterval(() => loadBpm(), 1000 * 20)
-
-      loadSwapperAmount()
-      setInterval(() => loadSwapperAmount(), 1000 * 10)
     } catch (_err) {
       console.error(_err)
     }
@@ -135,9 +61,12 @@ const loadBalances = (_account, _blockchain) => {
   return async (_dispatch) => {
     try {
       switch (_blockchain.toUpperCase()) {
-        case 'ETH': {
+        case 'ETH':
+        case 'SEPOLIA':
+        case 'GOERLI': {
           loadEvmCompatibleBalances({
-            assets: getAssetsByBlockchain('ETH'),
+            assets: getAssetsByBlockchain(_blockchain.toUpperCase()),
+            blockchain: _blockchain.toUpperCase(),
             account: _account,
             dispatch: _dispatch,
           })
@@ -348,72 +277,17 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
       const swapBuilder = getSwapBuilder()
       swapBuilder.setAmount(_amount)
       swapBuilder.setSourceAsset(sourceAsset)
-      if (_from.isPseudoNative && _from.blockchain === 'ALGORAND') {
-        _amount = BigNumber(_amount)
-          .multipliedBy(10 ** _from.decimals)
-          .toFixed()
-        const swapInfo = { appId: _from.swapperAddress, inputAssetId: _from.address }
-        const txs = await buildPoolSwapTransactions({
-          amount: _amount,
-          to: sourceAsset.identity,
-          from: wallets[_from.blockchain.toLowerCase()].account,
-          assetIndex: _from.ptokenAddress,
-          destinationChainId: _to.chainId,
-          nativeAccount: _address,
-          swapInfo,
-        })
-        sourceAsset.setCustomTransactions(txs)
-      } else if (_from.id === 'PUOS_ON_ULTRA_MAINNET') {
-        const actions = [
-          {
-            contractAddress: 'eosio.token',
-            method: 'transfer',
-            abi: eosioTokenAbi,
-            arguments: {
-              from: wallets[_from.blockchain.toLowerCase()].account,
-              to: 'ultra.swap',
-              // it is UOS we need to transfer to ultra.swap, not PUOS
-              quantity: getAmountInEosFormat(_amount, _from.decimals, 'UOS'),
-              memo: _address,
-            },
-          },
-        ]
-        sourceAsset.setCustomActions(actions)
-      }
-      if (_opts.pegoutToTelosEvmAddress) {
-        const web3 = new Web3()
-        swapBuilder.addDestinationAsset(destinationAsset, 'devm.ptokens', web3.utils.asciiToHex(_address))
-      } else if (_to.isPseudoNative && _to.blockchain === 'ALGORAND') {
-        _amount = BigNumber(_amount)
-          .multipliedBy(10 ** _from.decimals)
-          .toFixed()
-        const web3 = new Web3()
-        const input_asset_id = _to.ptokenAddress
-        const output_asset_id = _to.address
-        const metadata = web3.utils.bytesToHex(
-          encodeUserData(_address, parseInt(input_asset_id, 10), _amount, parseInt(output_asset_id, 10), 0)
-        )
-        swapBuilder.addDestinationAsset(destinationAsset, _to.swapperAddress, metadata)
-      } else if (_to.id === 'PUOS_ON_ULTRA_MAINNET') {
-        const web3 = new Web3()
-        swapBuilder.addDestinationAsset(destinationAsset, 'ultra.swap', web3.utils.utf8ToHex(_address))
-      } else {
-        swapBuilder.addDestinationAsset(destinationAsset, _address)
-      }
-      const swap = swapBuilder.build()
+      swapBuilder.addDestinationAsset(destinationAsset, _address)
 
+      const swap = swapBuilder.build()
       // // NOTE: pegin
       if (_from.isNative) {
-        if (['pBTC', 'pLTC', 'pDOGE', 'pRVN', 'pLBC'].includes(_to.name))
-          await peginWithDepositAddress({ swap, ptokenFrom: _from, ptokenTo: _to, dispatch: _dispatch })
-        else {
-          await peginWithWallet({
-            swap,
-            ptokenFrom: _from,
-            ptokenTo: _to,
-            dispatch: _dispatch,
-          })
-        }
+        await peginWithWallet({
+          swap,
+          ptokenFrom: _from,
+          ptokenTo: _to,
+          dispatch: _dispatch,
+        })
       }
       // NOTE: pegout
       else if (!_from.isNative && !_fromNative.requiresCurve) {

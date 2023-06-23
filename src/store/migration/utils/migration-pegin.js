@@ -53,7 +53,7 @@ const migrationPegin = async ({ swap, ptokenFrom, ptokenTo, web3, dispatch }) =>
     })
   )
 
-  await swap
+  swap
     .execute()
     .once('inputTxBroadcasted', (_hash) => {
       sendEvent('swap_confirmed_by_user', {

@@ -86,8 +86,6 @@ const Migration = ({
                 </Col>
               </Row>
               <SwapLine
-                defaultImage="./assets/svg/PBTC.svg"
-                defaultMiniImage="./assets/svg/ETH.svg"
                 title="From"
                 asset={from}
                 amount={fromAmount}
@@ -100,8 +98,6 @@ const Migration = ({
                 <ArrowIcon icon="arrow-down" />
               </ArrowContainer>
               <SwapLine
-                defaultImage="./assets/svg/pBTC.svg"
-                defaultMiniImage="./assets/svg/ETH.svg"
                 title="To"
                 asset={to}
                 amount={toAmount}

@@ -4,21 +4,20 @@ import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 
 import {
-  WALLET_ETH_CONNECTED,
-  WALLET_ETH_DISCONNECTED,
-  WALLET_ETH_NETWORK_CHANGED,
-  WALLET_ETH_ACCOUNT_CHANGED,
+  WALLET_SEPOLIA_CONNECTED,
+  WALLET_SEPOLIA_DISCONNECTED,
+  WALLET_SEPOLIA_NETWORK_CHANGED,
+  WALLET_SEPOLIA_ACCOUNT_CHANGED,
 } from '../../../constants'
 import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { changeNetwork } from '../../../utils/wallet'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
-import { createWalletConnect2 } from '../wallets.utils'
 
 let web3Modal
 
-const connectWithEthWallet = async (_dispatch) => {
+const connectWithSepoliaWallet = async (_dispatch) => {
   try {
     if (document.getElementById('WEB3_CONNECT_MODAL_ID')) {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
@@ -26,40 +25,38 @@ const connectWithEthWallet = async (_dispatch) => {
 
     web3Modal = new Web3Modal({
       theme: getWeb3ModalTheme(getTheme()),
-      cacheProvider: false,
       providerOptions: {
         walletconnect: {
           package: WalletConnectProvider,
           options: {
-            network: 'mainnet',
+            network: 'testnet',
             rpc: {
-              [settings.rpc.mainnet.eth.chainId]: settings.rpc.mainnet.eth.endpoint,
+              11155111: settings.rpc.testnet.sepolia.endpoint,
             },
           },
         },
-        'custom-walletconnectv2': createWalletConnect2(settings.rpc.mainnet.eth.chainId),
         walletlink: {
           package: WalletLink,
           options: {
             appName: settings.dappName,
-            rpc: settings.rpc.mainnet.eth.endpoint,
-            chainId: settings.rpc.mainnet.eth.chainId,
+            rpc: settings.rpc.testnet.sepolia.endpoint,
+            chainId: 11155111,
             darkMode: getTheme() === 'dark',
           },
         },
       },
     })
-
     const provider = await web3Modal.connect()
+
     await _connectionSuccesfull(provider, _dispatch, {
       type: 'multiWallet',
     })
 
     provider.on('chainChanged', (_chainId) => {
       _dispatch({
-        type: WALLET_ETH_NETWORK_CHANGED,
+        type: WALLET_SEPOLIA_NETWORK_CHANGED,
         payload: {
-          network: Number(_chainId) === settings.rpc.mainnet.eth.chainId ? 'mainnet' : 'testnet',
+          network: Number(_chainId) === 1 ? 'mainnet' : 'testnet',
           chainId: _chainId,
         },
       })
@@ -67,7 +64,7 @@ const connectWithEthWallet = async (_dispatch) => {
 
     provider.on('accountsChanged', (_accounts) => {
       _dispatch({
-        type: WALLET_ETH_ACCOUNT_CHANGED,
+        type: WALLET_SEPOLIA_ACCOUNT_CHANGED,
         payload: {
           account: _accounts[0],
         },
@@ -78,14 +75,14 @@ const connectWithEthWallet = async (_dispatch) => {
   }
 }
 
-const disconnectFromEthWallet = async (_dispatch) => {
-  const provider = getWalletProviderByBlockchain('ETH')
+const disconnectFromSepoliaWallet = async (_dispatch) => {
+  const provider = getWalletProviderByBlockchain('SEPOLIA')
   if (provider.close) {
     await provider.close()
   }
   await web3Modal.clearCachedProvider()
   _dispatch({
-    type: WALLET_ETH_DISCONNECTED,
+    type: WALLET_SEPOLIA_DISCONNECTED,
   })
 }
 
@@ -94,29 +91,29 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
     const { accounts, chainId } = _provider
     const account = accounts ? accounts[0] : await _getAccount(_provider)
 
-    if (Number(chainId) !== settings.rpc.mainnet.eth.chainId && _provider.isMetaMask) {
+    if (Number(chainId) !== 11155111 && _provider.isMetaMask) {
       await changeNetwork({
         provider: _provider,
-        chainId: settings.rpc.mainnet.eth.chainId,
+        chainId: 11155111,
       })
 
       _dispatch({
-        type: WALLET_ETH_CONNECTED,
+        type: WALLET_SEPOLIA_CONNECTED,
         payload: {
           provider: _provider,
           account,
-          network: 'mainnet',
-          chainId: settings.rpc.mainnet.eth.chainId,
+          network: 'testnet',
+          chainId: 11155111,
         },
       })
       return
-    } else if (Number(chainId) === settings.rpc.mainnet.eth.chainId) {
+    } else if (Number(chainId) === 11155111) {
       _dispatch({
-        type: WALLET_ETH_CONNECTED,
+        type: WALLET_SEPOLIA_CONNECTED,
         payload: {
           provider: _provider,
           account,
-          network: 'mainnet',
+          network: 'testnet',
           chainId,
         },
       })
@@ -136,4 +133,4 @@ const _getAccount = async (_provider) => {
   }
 }
 
-export { connectWithEthWallet, disconnectFromEthWallet }
+export { connectWithSepoliaWallet, disconnectFromSepoliaWallet }

@@ -18,6 +18,14 @@ const settings = {
       symbol: 'ETH',
     },
     {
+      name: 'Sepolia',
+      symbol: 'SEPOLIA',
+    },
+    {
+      name: 'Goerli',
+      symbol: 'GOERLI',
+    },
+    {
       name: 'Binance Smart Chain',
       symbol: 'BSC',
     },
@@ -67,6 +75,14 @@ const settings = {
     },
   ],
   rpc: {
+    testnet: {
+      sepolia: {
+        endpoint: 'https://eth-sepolia.g.alchemy.com/v2/87AIPRGpZDJxfKM0dlZwZHcgWq9M6InD',
+      },
+      goerli: {
+        endpoint: 'https://eth-goerli.g.alchemy.com/v2/e7XRoZjRoFecrVT06tHwApWd-CoBb6DD',
+      },
+    },
     mainnet: {
       eth: {
         endpoint: 'https://cloudflare-eth.com/',
@@ -144,6 +160,8 @@ const settings = {
   explorers: {
     mainnet: {
       eth: 'https://etherscan.io/',
+      sepolia: 'https://sepolia.etherscan.io/',
+      goerli: 'https://goerli.etherscan.io/',
       btc: 'https://blockstream.info/',
       eos: 'https://bloks.io/',
       telos: 'https://explorer.telos.net/',
@@ -183,7 +201,6 @@ const settings = {
       nativeDecimals: 18,
       blockchain: 'BSC',
       decimals: 18,
-      withMiniImage: true,
       symbol: 'PNT',
       nativeSymbol: 'PNT',
       image: 'PNT_gray.svg',

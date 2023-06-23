@@ -200,8 +200,6 @@ const SwapLine = ({
   asset,
   amount,
   address,
-  defaultImage,
-  defaultMiniImage,
   title,
   wallet,
   hideMaxButton,
@@ -254,10 +252,14 @@ const SwapLine = ({
       <Row>
         <ContainerImageAndMaxButton xs={4} className="my-auto">
           <ContainerImage onClick={() => onClickImage && onClickImage()}>
-            <Image src={asset ? asset.image : defaultImage} onClick={() => onClickImage && onClickImage()} />
-            {(asset && asset.withMiniImage) || (!asset && defaultMiniImage) ? (
-              <MiniImage src={!asset ? defaultMiniImage : asset.miniImage} />
-            ) : null}
+            {asset ? (
+              <React.Fragment>
+                <Image src={asset.image} onClick={() => onClickImage && onClickImage()} />
+                {asset.miniImage ? <MiniImage src={asset.miniImage} /> : null}
+              </React.Fragment>
+            ) : (
+              <Skeleton height={'40px'} width={'40px'} circle={true} />
+            )}
           </ContainerImage>{' '}
           {asset && asset.formattedBalance !== '-' && !hideMaxButton ? (
             <ContainerMaxButton>
@@ -321,7 +323,6 @@ SwapLine.propTypes = {
   amount: PropTypes.string,
   address: PropTypes.string,
   wallets: PropTypes.object,
-  defaultImage: PropTypes.string,
   defaultMiniImage: PropTypes.string,
   hideMaxButton: PropTypes.bool,
   onChangeAmount: PropTypes.func,

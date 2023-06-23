@@ -12,10 +12,10 @@ import {
 import { sendEvent } from '../ga4'
 import { maybeOptInAlgoApp, maybeOptInAlgoAsset } from '../store/swap/utils/opt-in-algo'
 import { isValidAccountByBlockchain } from '../utils/account-validator'
-import { getSwapFees, computeSwapAmount } from '../utils/fee'
+import { computeSwapAmount } from '../utils/fee'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 import { isValidSwap } from '../utils/swap-valildator'
-import { getLegacyUrl, updateUrlForSwap } from '../utils/url'
+import { updateUrlForSwap } from '../utils/url'
 
 import { useSwapInfo } from './use-swap-info'
 import { useWalletByBlockchain } from './use-wallets'
@@ -56,7 +56,7 @@ const useSwap = ({
 
   useEffect(() => {
     async function _getFees() {
-      const fees = await getSwapFees(from, to)
+      const fees = { basisPoints: 0, networkFee: 0, minProtocolFee: 0 }
       setFees(fees)
     }
     if (from && to) {
@@ -124,8 +124,6 @@ const useSwap = ({
       setCurvePoolName('')
     }
   }, [fromAmount, to, from, curveRef])
-
-  const onPnetworkV2 = Boolean((from && from.onPnetworkV2) || (to && to.onPnetworkV2))
 
   const { eta, poolAmount } = useSwapInfo({
     from,
@@ -323,16 +321,6 @@ const useSwap = ({
         return
       }
 
-      if (from.id === 'GALA' && to.id === 'GALA_ON_BSC_MAINNET') {
-        updateSwapButton('Disabled Swap', true)
-        return
-      }
-
-      if (!onPnetworkV2) {
-        updateSwapButton('Go to Legacy dApp', false, getLegacyUrl(from, to))
-        return
-      }
-
       if (!isValidSwap(from, to, assets)) {
         setAddress('')
         updateSwapButton('Invalid Swap', true)
@@ -357,28 +345,6 @@ const useSwap = ({
 
       if (wallets[to.blockchain.toLowerCase()] && wallets[to.blockchain.toLowerCase()].account && !to.balance) {
         updateSwapButton('Loading balances ...', true)
-        return
-      }
-
-      // NOTE: pegin with deposit address
-      if (!wallets[from.blockchain.toLowerCase()]) {
-        if (!address || address === '') {
-          updateSwapButton('Enter an address', true)
-          return
-        }
-
-        if (from.isNative && !(await isValidAccountByBlockchain(address, to.blockchain))) {
-          updateSwapButton('Invalid Address', true)
-          return
-        }
-
-        if (
-          to.blockchain === 'ALGORAND' &&
-          !(await maybeOptInAlgoAsset(address, parseInt(to.address, 10), updateSwapButton))
-        )
-          return
-
-        updateSwapButton('Get Deposit Address')
         return
       }
 
@@ -452,7 +418,6 @@ const useSwap = ({
     pegoutToTelosEvmAddress,
     updateSwapButton,
     poolAmount,
-    onPnetworkV2,
     curveState,
   ])
 
@@ -510,7 +475,6 @@ const useSwap = ({
     toWallet,
     eta,
     poolAmount,
-    onPnetworkV2,
     onChangeFromAmount,
     onChangeToAmount,
     disableToInput,

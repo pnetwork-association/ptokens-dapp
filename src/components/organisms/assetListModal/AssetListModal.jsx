@@ -269,22 +269,14 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
                       {assets[_nativeSymbol]
                         .sort((_a, _b) => (_a.formattedName > _b.formattedName ? 1 : -1))
                         .map((_asset) => {
-                          const {
-                            name,
-                            blockchain,
-                            network,
-                            formattedBalance,
-                            formattedName,
-                            withMiniImage,
-                            image,
-                            miniImage,
-                          } = _asset
+                          const { name, blockchain, network, formattedBalance, formattedName, image, miniImage } =
+                            _asset
                           return (
                             <ContainerInnerRow key={`${name}-on-${blockchain}-${network}`}>
                               <StyledInnerRow onClick={() => onSelectAsset(_asset)}>
                                 <Col xs={2} className="my-auto">
                                   <InnerTokenIcon src={image} />
-                                  {withMiniImage ? <Minicon src={miniImage} /> : null}
+                                  {miniImage ? <Minicon src={miniImage} /> : null}
                                 </Col>
                                 <Col xs={8} className="text-center my-auto">
                                   <FormattedName>{formattedName}</FormattedName>

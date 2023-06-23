@@ -6,10 +6,12 @@ import { connectWithBscWallet, disconnectFromBscWallet } from './bsc'
 import { connectWithEosWallet, disconnectFromEosWallet } from './eos'
 import { connectWithEthWallet, disconnectFromEthWallet } from './eth'
 import { connectWithFtmWallet, disconnectFromFtmWallet } from './ftm'
+import { connectWithGoerliWallet, disconnectFromGoerliWallet } from './goerli'
 import { connectWithLibreWallet, disconnectFromLibreWallet } from './libre'
 import { connectWithLuxochainWallet, disconnectFromLuxochainWallet } from './luxochain'
 import { connectWithOreWallet, disconnectFromOreWallet } from './ore'
 import { connectWithPolygonWallet, disconnectFromPolygonWallet } from './polygon'
+import { connectWithSepoliaWallet, disconnectFromSepoliaWallet } from './sepolia'
 import { connectWithTelosWallet, disconnectFromTelosWallet } from './telos'
 import { connectWithUltraWallet, disconnectFromUltraWallet } from './ultra'
 import { connectWithXdaiWallet, disconnectFromXdaiWallet } from './xdai'
@@ -19,6 +21,14 @@ const connectWithWallet = (_blockchain) => {
     switch (_blockchain) {
       case 'ETH': {
         connectWithEthWallet(_dispatch)
+        break
+      }
+      case 'SEPOLIA': {
+        connectWithSepoliaWallet(_dispatch)
+        break
+      }
+      case 'GOERLI': {
+        connectWithGoerliWallet(_dispatch)
         break
       }
       case 'EOS': {
@@ -81,6 +91,14 @@ const disconnectFromWallet = (_blockchain) => {
     switch (_blockchain) {
       case 'ETH': {
         disconnectFromEthWallet(_dispatch)
+        break
+      }
+      case 'SEPOLIA': {
+        disconnectFromSepoliaWallet(_dispatch)
+        break
+      }
+      case 'GOERLI': {
+        disconnectFromGoerliWallet(_dispatch)
         break
       }
       case 'EOS': {

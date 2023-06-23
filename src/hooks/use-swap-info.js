@@ -1,4 +1,4 @@
-import { chainIdToTypeMap, BlockchainType } from 'ptokens-constants'
+import { networkIdToTypeMap, BlockchainType } from 'ptokens-constants'
 import { useMemo } from 'react'
 
 import { getAssetById } from '../store/swap/swap.selectors'
@@ -15,7 +15,7 @@ const useSwapInfo = ({ from, to, amount, bpm, swappersBalances, fees }) => {
       // ATM, the API returns untrustworthy estimates for EOS-like chains.
       // For those chains, assume the sync ETA is 0 if the BPM is > 0
       // as EOS-like chains are usually very fast.
-      const eosLikeChainIds = [...chainIdToTypeMap]
+      const eosLikeChainIds = [...networkIdToTypeMap]
         .filter(([_k, _v]) => _v === BlockchainType.EOSIO)
         .map(([_id]) => _id)
       if (!fromAsset.isNative) {

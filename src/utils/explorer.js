@@ -4,6 +4,8 @@ import settings from '../settings'
 
 const transactionBaseLink = {
   ETH: `${settings.explorers.mainnet.eth}tx/%s`,
+  SEPOLIA: `${settings.explorers.mainnet.sepolia}tx/%s`,
+  GOERLI: `${settings.explorers.mainnet.goerli}tx/%s`,
   XDAI: `${settings.explorers.mainnet.xdai}tx/%s`,
   POLYGON: `${settings.explorers.mainnet.polygon}tx/%s`,
   BSC: `${settings.explorers.mainnet.bsc}tx/%s`,
@@ -25,6 +27,8 @@ const transactionBaseLink = {
 
 const tokenBaseLink = {
   ETH: `${settings.explorers.mainnet.eth}token/%s`,
+  SEPOLIA: `${settings.explorers.mainnet.sepolia}token/%s`,
+  GOERLI: `${settings.explorers.mainnet.goerli}token/%s`,
   XDAI: `${settings.explorers.mainnet.xdai}address/%s`,
   POLYGON: `${settings.explorers.mainnet.polygon}address/%s`,
   BSC: `${settings.explorers.mainnet.bsc}token/%s`,

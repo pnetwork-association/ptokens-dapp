@@ -17,6 +17,8 @@ const blockchainSymbolToName = {
   ALGORAND: 'Algorand',
   FTM: 'Fantom',
   ORE: 'ORE',
+  SEPOLIA: 'Sepolia',
+  GOERLI: 'Goerli',
 }
 
 const blockchainSymbolToCoin = {
@@ -38,11 +40,10 @@ const blockchainSymbolToCoin = {
   ALGORAND: 'Algorand',
   FTM: 'Fantom',
   ORE: 'ORE',
+  SEPOLIA: 'Sepolia',
+  GOERLI: 'Goerli',
 }
 
 const getAssetFromSymbol = (_assets, _symbol) => _assets.find(({ symbol }) => symbol === _symbol)
 
-const getWorkingNameForNodeSelection = (_workingName) =>
-  _workingName.toLowerCase() === 'peth' ? 'pweth' : _workingName.toLowerCase()
-
-export { blockchainSymbolToName, getAssetFromSymbol, blockchainSymbolToCoin, getWorkingNameForNodeSelection }
+export { blockchainSymbolToName, getAssetFromSymbol, blockchainSymbolToCoin }

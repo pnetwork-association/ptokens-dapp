@@ -3,6 +3,10 @@ import {
   WALLET_ARBITRUM_ACCOUNT_CHANGED,
   WALLET_ETH_CONNECTED,
   WALLET_ETH_ACCOUNT_CHANGED,
+  WALLET_SEPOLIA_CONNECTED,
+  WALLET_SEPOLIA_ACCOUNT_CHANGED,
+  WALLET_GOERLI_CONNECTED,
+  WALLET_GOERLI_ACCOUNT_CHANGED,
   WALLET_EOS_CONNECTED,
   WALLET_BSC_CONNECTED,
   WALLET_BSC_ACCOUNT_CHANGED,
@@ -41,6 +45,20 @@ const middleware = ({ dispatch }) => {
         dispatch(loadBalances(payload.account, 'ETH'))
         dispatch(loadNftsData(payload.account, 'ETH'))
         dispatch(migrationActions.loadBalances(payload.account, 'ETH'))
+      }
+
+      if (type === WALLET_SEPOLIA_CONNECTED || type === WALLET_SEPOLIA_ACCOUNT_CHANGED) {
+        // NOTE: avoid loading balances without having loaded the address from pNetwork node
+        dispatch(loadBalances(payload.account, 'SEPOLIA'))
+        dispatch(loadNftsData(payload.account, 'SEPOLIA'))
+        dispatch(migrationActions.loadBalances(payload.account, 'SEPOLIA'))
+      }
+
+      if (type === WALLET_GOERLI_CONNECTED || type === WALLET_GOERLI_ACCOUNT_CHANGED) {
+        // NOTE: avoid loading balances without having loaded the address from pNetwork node
+        dispatch(loadBalances(payload.account, 'GOERLI'))
+        dispatch(loadNftsData(payload.account, 'GOERLI'))
+        dispatch(migrationActions.loadBalances(payload.account, 'GOERLI'))
       }
 
       if (type === WALLET_BSC_CONNECTED || type === WALLET_BSC_ACCOUNT_CHANGED) {

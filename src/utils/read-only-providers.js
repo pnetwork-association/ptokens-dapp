@@ -10,6 +10,12 @@ const getReadOnlyProviderByBlockchain = (_blockchain) => {
   if (_blockchain === 'ETH') {
     return new Web3.providers.HttpProvider(settings.rpc.mainnet.eth.endpoint)
   }
+  if (_blockchain === 'SEPOLIA') {
+    return new Web3.providers.HttpProvider(settings.rpc.testnet.sepolia.endpoint)
+  }
+  if (_blockchain === 'GOERLI') {
+    return new Web3.providers.HttpProvider(settings.rpc.testnet.goerli.endpoint)
+  }
   if (_blockchain === 'BSC') {
     return new Web3.providers.HttpProvider(settings.rpc.mainnet.bsc.endpoint)
   }

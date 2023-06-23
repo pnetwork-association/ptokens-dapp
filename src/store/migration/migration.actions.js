@@ -1,20 +1,15 @@
-import axios from 'axios'
-
 import {
   MIGRATION_ASSETS_LOADED,
   MIGRATION_BALANCE_LOADED,
   MIGRATION_PROGRESS_UPDATED,
   MIGRATION_PROGRESS_RESET,
   UPDATE_MIGRATE_BUTTON,
-  APYS_LOADED,
 } from '../../constants/index'
 import assets from '../../settings/migration-assets'
 import { loadEvmCompatibleBalances, loadEvmCompatibleBalance } from '../swap/utils/balances'
 import { getWalletByBlockchain } from '../wallets/wallets.selectors'
 
 import { getAssetsByBlockchain, getAssetById } from './migration.selectors'
-import migratePNT from './migrations/ethPNT-migration'
-import migratePBTC from './migrations/pBTC-migration'
 import { getDefaultSelection } from './utils/default-selection'
 
 const loadMigrationData = (_opts = {}) => {
@@ -32,33 +27,8 @@ const loadMigrationData = (_opts = {}) => {
       if (wallet && wallet.account) {
         _dispatch(loadBalances(wallet.account))
       }
-
-      _dispatch(loadApys())
     } catch (_err) {
       console.error(_err)
-    }
-  }
-}
-
-const loadApys = () => {
-  return async (_dispatch) => {
-    try {
-      const {
-        data: { result },
-      } = await axios.get('https://extra.ptokens.io/pbtc-v1-migration-apys')
-      _dispatch({
-        type: APYS_LOADED,
-        payload: {
-          apys: result,
-        },
-      })
-    } catch (_err) {
-      _dispatch({
-        type: APYS_LOADED,
-        payload: {
-          apys: {},
-        },
-      })
     }
   }
 }
@@ -101,18 +71,6 @@ const migrate = (_strategy, _amount, _from, _to, _options = {}) => {
       _dispatch(resetProgress())
 
       switch (_strategy) {
-        // pbtc v1 -> pbtc v2
-        case 'pBTC-v1-to-v2':
-          migratePBTC(_amount, _from, _to, {
-            dispatch: _dispatch,
-          })
-          break
-        case 'ethPNT-to-PNT':
-          // ethPNT -> PNT
-          migratePNT(_amount, _from, _to, {
-            dispatch: _dispatch,
-          })
-          break
         default:
           break
       }

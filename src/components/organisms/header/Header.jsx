@@ -123,7 +123,8 @@ const DropdownMobile = styled(NavDropdown)`
   padding-right: 0px;
   margin-left: 10px;
   color: ${({ active, theme }) => (active ? theme.text1 : theme.text3)} !important;
-  z-index: 3 @media (max-width: 516.98px) {
+  z-index: 3;
+  @media (max-width: 516.98px) {
     display: block;
   }
 `
@@ -189,9 +190,9 @@ const Header = (_props) => {
 
   const onSwap = useCallback(() => {
     loadSwapData({
-      asset: 'pbtc',
-      from: 'btc',
-      to: 'eth',
+      asset: 'ptkn',
+      from: 'sepolia',
+      to: 'goerli',
     })
     selectPage('swap')
   }, [loadSwapData, selectPage])
