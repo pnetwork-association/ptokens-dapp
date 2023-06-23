@@ -22,13 +22,13 @@ import {
   WALLET_FTM_CONNECTED,
   WALLET_FTM_ACCOUNT_CHANGED,
 } from '../constants'
-import { loadBalances } from '../store/swap/swap.actions'
+import settings from '../settings'
 import * as migrationActions from '../store/migration/migration.actions'
-import { loadOldPntBalance } from '../store/swap-old-pnt/swap-old-pnt.actions'
 import { loadNftsData } from '../store/nfts/nfts.actions'
 import { setLoading } from '../store/pages/pages.actions'
 import { getIsLoading } from '../store/pages/pages.selectors'
-import settings from '../settings'
+import { loadBalances } from '../store/swap/swap.actions'
+import { loadOldPntBalance } from '../store/swap-old-pnt/swap-old-pnt.actions'
 
 let countNftsLoading = 0
 const middleware = ({ dispatch }) => {

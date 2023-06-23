@@ -16,7 +16,8 @@ export function register(config) {
         checkValidServiceWorker(swUrl, config)
 
         navigator.serviceWorker.ready.then(() => {
-          console.log(
+          // eslint-disable-next-line no-console
+          console.info(
             'This web app is being served cache-first by a service ' +
               'worker. To learn more, visit https://bit.ly/CRA-PWA'
           )
@@ -39,14 +40,16 @@ function registerValidSW(swUrl, config) {
         installingWorker.onstatechange = () => {
           if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
-              console.log(
+              // eslint-disable-next-line no-console
+              console.info(
                 'New content is available and will be used when all ' +
                   'tabs for this page are closed. See https://bit.ly/CRA-PWA.'
               )
 
               if (config && config.onUpdate) config.onUpdate(registration)
             } else {
-              console.log('Content is cached for offline use.')
+              // eslint-disable-next-line no-console
+              console.info('Content is cached for offline use.')
               if (config && config.onSuccess) config.onSuccess(registration)
             }
           }
@@ -73,7 +76,8 @@ function checkValidServiceWorker(swUrl, config) {
       }
     })
     .catch(() => {
-      console.log('No internet connection found. App is running in offline mode.')
+      // eslint-disable-next-line no-console
+      console.info('No internet connection found. App is running in offline mode.')
     })
 }
 

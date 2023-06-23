@@ -1,5 +1,6 @@
-import BigNumber from 'bignumber.js'
 import axios from 'axios'
+import BigNumber from 'bignumber.js'
+
 import ERC721Abi from '../../../utils/abi/ERC721.json'
 import { nftsDataLoaded } from '../nfts.actions'
 

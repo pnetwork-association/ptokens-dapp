@@ -1,6 +1,7 @@
-import { test, describe, expect, vi } from 'vitest'
-import { isValidAccountByBlockchain } from '../account-validator'
 import { validators } from 'ptokens-helpers'
+import { test, describe, expect, vi } from 'vitest'
+
+import { isValidAccountByBlockchain } from '../account-validator'
 
 describe('isValidAccountByBlockchain', () => {
   beforeAll(() => {

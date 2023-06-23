@@ -1,7 +1,8 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import React from 'react'
 import { Alert } from 'react-bootstrap'
+import styled from 'styled-components'
+
 import Icon from '../../atoms/icon/Icon'
 
 const StyledAlert = styled(Alert)`

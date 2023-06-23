@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
-import { blockchainSymbolToName } from '../utils/maps'
+
 import { slicerByBlockchain } from '../utils/account-viewer'
+import { blockchainSymbolToName } from '../utils/maps'
 
 const useWallets = (_wallets) => {
   return useMemo(() => {

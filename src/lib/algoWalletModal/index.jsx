@@ -1,11 +1,13 @@
+import EventEmitter from 'eventemitter3'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+
 import Modal from '../eosConnect/components/Modal'
-import EventEmitter from 'eventemitter3'
-import connectToWalletConnect from './connectors/wallet-connect'
+
 import connectToAlgoSigner from './connectors/algo-signer'
 import connectToMyAlgoWallet from './connectors/my-algo-wallet'
 import connectToPeraWallet from './connectors/pera-wallet'
+import connectToWalletConnect from './connectors/wallet-connect'
 
 const INITIAL_STATE = { show: false }
 

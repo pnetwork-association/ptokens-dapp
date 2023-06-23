@@ -1,4 +1,5 @@
-import assets from '../../settings/migration-assets'
+import axios from 'axios'
+
 import {
   MIGRATION_ASSETS_LOADED,
   MIGRATION_BALANCE_LOADED,
@@ -7,13 +8,14 @@ import {
   UPDATE_MIGRATE_BUTTON,
   APYS_LOADED,
 } from '../../constants/index'
+import assets from '../../settings/migration-assets'
 import { loadEvmCompatibleBalances, loadEvmCompatibleBalance } from '../swap/utils/balances'
-import { getAssetsByBlockchain, getAssetById } from './migration.selectors'
 import { getWalletByBlockchain } from '../wallets/wallets.selectors'
-import { getDefaultSelection } from './utils/default-selection'
-import migratePBTC from './migrations/pBTC-migration'
+
+import { getAssetsByBlockchain, getAssetById } from './migration.selectors'
 import migratePNT from './migrations/ethPNT-migration'
-import axios from 'axios'
+import migratePBTC from './migrations/pBTC-migration'
+import { getDefaultSelection } from './utils/default-selection'
 
 const loadMigrationData = (_opts = {}) => {
   const { strategy } = _opts

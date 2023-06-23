@@ -1,8 +1,8 @@
-import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
-import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
-import { updateInfoModal } from '../../pages/pages.actions'
-import { parseError } from '../../../utils/errors'
 import { sendEvent } from '../../../ga4'
+import { parseError } from '../../../utils/errors'
+import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
+import { updateInfoModal } from '../../pages/pages.actions'
+import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
 
 const pegout = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
   let link

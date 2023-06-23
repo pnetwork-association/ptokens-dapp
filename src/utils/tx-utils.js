@@ -1,4 +1,5 @@
 import { toastr } from 'react-redux-toastr'
+
 import { getCorrespondingTxExplorerLinkByBlockchain } from './explorer'
 
 const executeEvmCompatibleTxWithToast = (_fx, { from, blockchain }) =>

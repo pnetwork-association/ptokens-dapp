@@ -1,8 +1,8 @@
+import { formatJsonRpcRequest } from '@json-rpc-tools/utils'
 import WalletConnect from '@walletconnect/client'
 import QRCodeModal from 'algorand-walletconnect-qrcode-modal'
-import { EventEmitter } from 'eventemitter3'
-import { formatJsonRpcRequest } from '@json-rpc-tools/utils'
 import algosdk from 'algosdk'
+import { EventEmitter } from 'eventemitter3'
 
 class Provider extends EventEmitter {
   constructor(_connector) {

@@ -1,10 +1,10 @@
-import { useMemo, useState } from 'react'
 import _ from 'lodash'
+import { stringUtils } from 'ptokens-helpers'
+import { useMemo, useState } from 'react'
 
 import { offChainFormat, strip } from '../utils/amount-utils'
-import { blockchainSymbolToName, blockchainSymbolToCoin } from '../utils/maps'
 import { getCorrespondingTokenExplorerLinkByBlockchain } from '../utils/explorer'
-import { stringUtils } from 'ptokens-helpers'
+import { blockchainSymbolToName, blockchainSymbolToCoin } from '../utils/maps'
 
 const useAssets = (_assets) => {
   return useMemo(() => {

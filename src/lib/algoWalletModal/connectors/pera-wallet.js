@@ -1,5 +1,5 @@
-import { EventEmitter } from 'eventemitter3'
 import { PeraWalletConnect } from '@perawallet/connect'
+import { EventEmitter } from 'eventemitter3'
 
 class Provider extends EventEmitter {
   constructor(_peraWallet, _accounts) {

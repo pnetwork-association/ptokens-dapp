@@ -1,6 +1,7 @@
-import ERC20Abi from '../utils/abi/ERC20.json'
 import BigNumber from 'bignumber.js'
 import { stringUtils } from 'ptokens-helpers'
+
+import ERC20Abi from '../utils/abi/ERC20.json'
 
 // NOTE: avoids brave metamask gas estimation fails
 function getBigNumber(amount, decimals) {

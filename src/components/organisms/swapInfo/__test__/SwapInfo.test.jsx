@@ -1,11 +1,12 @@
-import React from 'react'
-import { ThemeContext } from 'styled-components'
-import UserEvent from '@testing-library/user-event'
-import { describe, expect, it } from 'vitest'
 import { render, screen, getByRole, getByText } from '@testing-library/react'
-import SwapInfo from '../SwapInfo'
-import assets from '../../../../settings/swap-assets'
+import UserEvent from '@testing-library/user-event'
+import React from 'react'
 import ReactTooltip from 'react-tooltip'
+import { ThemeContext } from 'styled-components'
+import { describe, expect, it } from 'vitest'
+
+import assets from '../../../../settings/swap-assets'
+import SwapInfo from '../SwapInfo'
 
 describe('SwapInfo', () => {
   it('Should not show if from is missing', async () => {

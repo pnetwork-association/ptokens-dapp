@@ -1,6 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Carousel } from 'react-responsive-carousel'
+import styled from 'styled-components'
+
 import settings from '../../../settings'
 
 const ContainerNft = styled.div``

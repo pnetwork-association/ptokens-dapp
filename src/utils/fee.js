@@ -1,8 +1,10 @@
 import BigNumber from 'bignumber.js'
+import _ from 'lodash'
+
+import { PNT_ON_ETH_MAINNET, ETHPNT_ON_ETH_MAINNET, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../constants'
+
 import { formatDecimalSeparator } from './amount-utils'
 import { createAsset } from './ptokens'
-import { PNT_ON_ETH_MAINNET, ETHPNT_ON_ETH_MAINNET, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../constants'
-import _ from 'lodash'
 
 const getFeeFactor = (fee) => (_.isNil(fee) ? null : 1 - fee / 100)
 

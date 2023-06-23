@@ -1,6 +1,6 @@
-import settings from '../../../settings'
 import { WALLET_EOS_CONNECTED, WALLET_EOS_DISCONNECTED } from '../../../constants'
 import EosConnect from '../../../lib/eosConnect/'
+import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 

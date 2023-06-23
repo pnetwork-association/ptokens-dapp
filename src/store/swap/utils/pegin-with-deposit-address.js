@@ -1,3 +1,6 @@
+import { sendEvent } from '../../../ga4'
+import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
+import { updateInfoModal } from '../../pages/pages.actions'
 import {
   showDepositAddressModal,
   hideDepositAddressModal,
@@ -6,9 +9,6 @@ import {
   resetProgress,
   updateSwapButton,
 } from '../swap.actions'
-import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
-import { updateInfoModal } from '../../pages/pages.actions'
-import { sendEvent } from '../../../ga4'
 
 const peginWithDepositAddress = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
   let link = null

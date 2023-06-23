@@ -1,9 +1,9 @@
-import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
-import { updateProgress, loadBalanceByAssetId, resetProgress, updateMigrateButton } from '../migration.actions'
-import { updateInfoModal } from '../../pages/pages.actions'
-import { parseError } from '../../../utils/errors'
-import { approveTransaction, getBigNumber } from '../../evm-approve'
 import { sendEvent } from '../../../ga4'
+import { parseError } from '../../../utils/errors'
+import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
+import { approveTransaction, getBigNumber } from '../../evm-approve'
+import { updateInfoModal } from '../../pages/pages.actions'
+import { updateProgress, loadBalanceByAssetId, resetProgress, updateMigrateButton } from '../migration.actions'
 
 const migrationPegin = async ({ swap, ptokenFrom, ptokenTo, web3, dispatch }) => {
   let link

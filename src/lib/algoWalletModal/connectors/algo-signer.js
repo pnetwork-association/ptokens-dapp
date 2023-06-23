@@ -1,5 +1,5 @@
-import { EventEmitter } from 'eventemitter3'
 import algosdk from 'algosdk'
+import { EventEmitter } from 'eventemitter3'
 
 class Provider extends EventEmitter {
   constructor(_algoSigner) {

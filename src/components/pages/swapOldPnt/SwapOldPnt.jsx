@@ -1,12 +1,14 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import React from 'react'
 import { Row, Container, Col } from 'react-bootstrap'
-import Progress from '../../molecules/progress/Progress'
-import { useSwap } from '../../../hooks/use-old-pnt-swap'
-import SwapLine from '../../organisms/swapLine/SwapLine'
+import styled from 'styled-components'
+
 import { useAssets } from '../../../hooks/use-assets'
+import { useSwap } from '../../../hooks/use-old-pnt-swap'
+import Button from '../../atoms/button/Button'
+import Progress from '../../molecules/progress/Progress'
 import InfoModal from '../../organisms/infoModal/InfoModal'
+import SwapLine from '../../organisms/swapLine/SwapLine'
 import {
   OuterContainerSwap,
   ContainerSwap,
@@ -15,7 +17,6 @@ import {
   ArrowContainer,
   SortIcon,
 } from '../swap/Swap'
-import Button from '../../atoms/button/Button'
 
 const StyledArrowContainer = styled(ArrowContainer)`
   cursor: default;

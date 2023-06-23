@@ -1,10 +1,16 @@
-import React from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import React from 'react'
 import { Row, Col, Container } from 'react-bootstrap'
-import SwapLine from '../../organisms/swapLine/SwapLine'
-import { useMigration } from '../../../hooks/use-migration'
+import styled from 'styled-components'
+
+import { PBTC_ON_ETH_MAINNET_V2_MIGRATION, PNT_ON_ETH_MAINNET } from '../../../constants'
 import { useAssets } from '../../../hooks/use-assets'
+import { useMigration } from '../../../hooks/use-migration'
+import Button from '../../atoms/button/Button'
+import Progress from '../../molecules/progress/Progress'
+import InfoModal from '../../organisms/infoModal/InfoModal'
+import MigrationInfo from '../../organisms/migrationInfo/MigrationInfo'
+import SwapLine from '../../organisms/swapLine/SwapLine'
 import {
   OuterContainerSwap,
   ContainerSwap,
@@ -13,11 +19,6 @@ import {
   ArrowContainer,
   SortIcon,
 } from '../swap/Swap'
-import Button from '../../atoms/button/Button'
-import Progress from '../../molecules/progress/Progress'
-import InfoModal from '../../organisms/infoModal/InfoModal'
-import MigrationInfo from '../../organisms/migrationInfo/MigrationInfo'
-import { PBTC_ON_ETH_MAINNET_V2_MIGRATION, PNT_ON_ETH_MAINNET } from '../../../constants'
 
 const ArrowIcon = styled(SortIcon)`
   cursor: normal !important;

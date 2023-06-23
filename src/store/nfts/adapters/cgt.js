@@ -1,11 +1,13 @@
 import Web3 from 'web3'
+
 import CGTAbi from '../../../utils/abi/CHAINGUARDIANS/CGT.json'
-import NativeAbi from '../../../utils/abi/CHAINGUARDIANS/Native.json'
 import HostAbi from '../../../utils/abi/CHAINGUARDIANS/Host.json'
+import NativeAbi from '../../../utils/abi/CHAINGUARDIANS/Native.json'
 import { executeEvmCompatibleTxWithToast } from '../../../utils/tx-utils'
-import { getProviderByBlockchain, getAccountByBlockchain } from '../nfts.selectors'
-import { loadErc721Data } from './erc721'
 import { loadNftData } from '../nfts.actions'
+import { getProviderByBlockchain, getAccountByBlockchain } from '../nfts.selectors'
+
+import { loadErc721Data } from './erc721'
 
 const moveChainGuardians = async ({ nft, destinationAccount, dispatch }) => {
   try {

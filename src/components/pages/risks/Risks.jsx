@@ -1,6 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Container } from 'react-bootstrap'
+import styled from 'styled-components'
 
 const Section = styled.div`
   font-size: 28px;

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import { ThemeContext } from 'styled-components'
 import Switch from 'react-switch'
+import { ThemeContext } from 'styled-components'
 
 const CustomSwitch = ({ checked, onChange, ..._props }) => {
   const theme = useContext(ThemeContext)

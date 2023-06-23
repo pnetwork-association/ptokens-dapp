@@ -1,15 +1,17 @@
-import assets from '../../settings/swap-assets'
-import { loadEvmCompatibleBalance } from '../swap/utils/balances'
-import settings from '../../settings'
+import BigNumber from 'bignumber.js'
+import Web3 from 'web3'
+
 import { ASSETS_LOADED_SWAP_OLD_PNT, PNT_ON_BSC_MAINNET } from '../../constants/index'
-import { resetProgress, updateSwapButton, updateProgress, loadBalances } from '../swap/swap.actions'
-import { getWalletByBlockchain } from '../wallets/wallets.selectors'
+import settings from '../../settings'
+import assets from '../../settings/swap-assets'
 import Erc20Abi from '../../utils/abi/ERC20.json'
 import SwapOldPntAbi from '../../utils/abi/SWAP_OLD_PNT/Swap.json'
-import Web3 from 'web3'
-import { getOldPnt } from './swap-old-pnt-selector'
-import BigNumber from 'bignumber.js'
 import { getCorrespondingTxExplorerLinkByBlockchain } from '../../utils/explorer'
+import { resetProgress, updateSwapButton, updateProgress, loadBalances } from '../swap/swap.actions'
+import { loadEvmCompatibleBalance } from '../swap/utils/balances'
+import { getWalletByBlockchain } from '../wallets/wallets.selectors'
+
+import { getOldPnt } from './swap-old-pnt-selector'
 
 const loadSwapOldPntData = () => ({
   type: ASSETS_LOADED_SWAP_OLD_PNT,

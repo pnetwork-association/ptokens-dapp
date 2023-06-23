@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import QRCode from 'qrcode.react'
-import { blockchainSymbolToCoin } from '../../../utils/maps'
+import React, { useEffect, useState } from 'react'
 import ReactTooltip from 'react-tooltip'
+import styled from 'styled-components'
+
+import { blockchainSymbolToCoin } from '../../../utils/maps'
 import { copyToClipboard } from '../../../utils/utils'
 import Modal from '../../molecules/modal/Modal'
 

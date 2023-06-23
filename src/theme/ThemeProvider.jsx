@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
-import { ThemeProvider as StyledComponentsThemeProvider, createGlobalStyle } from 'styled-components'
 import { useSelector } from 'react-redux'
+import { ThemeProvider as StyledComponentsThemeProvider, createGlobalStyle } from 'styled-components'
 
 export const colors = (_darkMode) => ({
   white: '#FFFFFF',

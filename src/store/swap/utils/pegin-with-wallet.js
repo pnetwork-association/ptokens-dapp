@@ -1,10 +1,11 @@
-import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
-import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
-import { updateInfoModal } from '../../pages/pages.actions'
-import { parseError } from '../../../utils/errors'
-import { approveTransaction, getBigNumber } from '../../evm-approve'
 import Web3 from 'web3'
+
+import { parseError } from '../../../utils/errors'
+import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
+import { approveTransaction, getBigNumber } from '../../evm-approve'
+import { updateInfoModal } from '../../pages/pages.actions'
 import { getWalletByBlockchain } from '../../wallets/wallets.selectors'
+import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
 
 const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
   let link
