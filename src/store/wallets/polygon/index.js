@@ -30,17 +30,17 @@ const connectWithPolygonWallet = async (_dispatch) => {
           options: {
             network: 'matic',
             rpc: {
-              137: settings.rpc.mainnet.polygon.endpoint,
+              [settings.rpc.mainnet.polygon.chainId]: settings.rpc.mainnet.polygon.endpoint,
             },
           },
         },
-        'custom-walletconnectv2': createWalletConnect2(137),
+        'custom-walletconnectv2': createWalletConnect2(settings.rpc.mainnet.polygon.chainId),
         walletlink: {
           package: WalletLink,
           options: {
             appName: settings.dappName,
             rpc: settings.rpc.mainnet.polygon.endpoint,
-            chainId: 137,
+            chainId: settings.rpc.mainnet.polygon.chainId,
             darkMode: getTheme() === 'dark',
           },
         },
@@ -81,10 +81,10 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
     const { accounts, chainId } = _provider
     const account = accounts ? accounts[0] : await _getAccount(_provider)
 
-    if (Number(chainId) !== 137 && _provider.isMetaMask) {
+    if (Number(chainId) !== settings.rpc.mainnet.polygon.chainId && _provider.isMetaMask) {
       await setupNetwork({
         provider: _provider,
-        chainId: 137,
+        chainId: settings.rpc.mainnet.polygon.chainId,
         chainName: 'Polygon',
         nativeCurrency: {
           name: 'MATIC',
@@ -101,11 +101,11 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
           provider: _provider,
           account,
           network: 'mainnet',
-          chainId: 137,
+          chainId: settings.rpc.mainnet.polygon.chainId,
         },
       })
       return
-    } else if (Number(chainId) === 137) {
+    } else if (Number(chainId) === settings.rpc.mainnet.polygon.chainId) {
       _dispatch({
         type: WALLET_POLYGON_CONNECTED,
         payload: {

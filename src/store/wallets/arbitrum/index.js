@@ -31,17 +31,17 @@ const connectWithArbitrumWallet = async (_dispatch) => {
           options: {
             network: 'mainnet',
             rpc: {
-              42161: settings.rpc.mainnet.arbitrum.endpoint,
+              [settings.rpc.mainnet.arbitrum.chainId]: settings.rpc.mainnet.arbitrum.endpoint,
             },
           },
         },
-        'custom-walletconnectv2': createWalletConnect2(42161),
+        'custom-walletconnectv2': createWalletConnect2(settings.rpc.mainnet.arbitrum.chainId),
         walletlink: {
           package: WalletLink,
           options: {
             appName: settings.dappName,
             rpc: settings.rpc.mainnet.arbitrum.endpoint,
-            chainId: 42161,
+            chainId: settings.rpc.mainnet.arbitrum.chainId,
             darkMode: getTheme() === 'dark',
           },
         },
@@ -57,7 +57,7 @@ const connectWithArbitrumWallet = async (_dispatch) => {
       _dispatch({
         type: WALLET_ARBITRUM_NETWORK_CHANGED,
         payload: {
-          network: Number(_chainId) === 42161 ? 'mainnet' : 'testnet',
+          network: Number(_chainId) === settings.rpc.mainnet.arbitrum.chainId ? 'mainnet' : 'testnet',
           chainId: _chainId,
         },
       })
@@ -92,17 +92,17 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
     const { accounts, chainId } = _provider
     const account = accounts ? accounts[0] : await _getAccount(_provider)
 
-    if (Number(chainId) !== 42161 && _provider.isMetaMask) {
+    if (Number(chainId) !== settings.rpc.mainnet.arbitrum.chainId && _provider.isMetaMask) {
       try {
         await changeNetwork({
           provider: _provider,
-          chainId: 42161,
+          chainId: settings.rpc.mainnet.arbitrum.chainId,
         })
       } catch (err) {
         if (err.code === 4902) {
           await setupNetwork({
             provider: _provider,
-            chainId: 42161,
+            chainId: settings.rpc.mainnet.arbitrum.chainId,
             chainName: 'Arbitrum',
             nativeCurrency: {
               name: 'AETH',
@@ -121,11 +121,11 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
           provider: _provider,
           account,
           network: 'mainnet',
-          chainId: 42161,
+          chainId: settings.rpc.mainnet.arbitrum.chainId,
         },
       })
       return
-    } else if (Number(chainId) === 42161) {
+    } else if (Number(chainId) === settings.rpc.mainnet.arbitrum.chainId) {
       _dispatch({
         type: WALLET_ARBITRUM_CONNECTED,
         payload: {

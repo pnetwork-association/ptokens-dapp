@@ -32,17 +32,17 @@ const connectWithEthWallet = async (_dispatch) => {
           options: {
             network: 'mainnet',
             rpc: {
-              1: settings.rpc.mainnet.eth.endpoint,
+              [settings.rpc.mainnet.eth.chainId]: settings.rpc.mainnet.eth.endpoint,
             },
           },
         },
-        'custom-walletconnectv2': createWalletConnect2(1),
+        'custom-walletconnectv2': createWalletConnect2(settings.rpc.mainnet.eth.chainId),
         walletlink: {
           package: WalletLink,
           options: {
             appName: settings.dappName,
             rpc: settings.rpc.mainnet.eth.endpoint,
-            chainId: 1,
+            chainId: settings.rpc.mainnet.eth.chainId,
             darkMode: getTheme() === 'dark',
           },
         },
@@ -58,7 +58,7 @@ const connectWithEthWallet = async (_dispatch) => {
       _dispatch({
         type: WALLET_ETH_NETWORK_CHANGED,
         payload: {
-          network: Number(_chainId) === 1 ? 'mainnet' : 'testnet',
+          network: Number(_chainId) === settings.rpc.mainnet.eth.chainId ? 'mainnet' : 'testnet',
           chainId: _chainId,
         },
       })
@@ -93,10 +93,10 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
     const { accounts, chainId } = _provider
     const account = accounts ? accounts[0] : await _getAccount(_provider)
 
-    if (Number(chainId) !== 1 && _provider.isMetaMask) {
+    if (Number(chainId) !== settings.rpc.mainnet.eth.chainId && _provider.isMetaMask) {
       await changeNetwork({
         provider: _provider,
-        chainId: 1,
+        chainId: settings.rpc.mainnet.eth.chainId,
       })
 
       _dispatch({
@@ -105,11 +105,11 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
           provider: _provider,
           account,
           network: 'mainnet',
-          chainId: 1,
+          chainId: settings.rpc.mainnet.eth.chainId,
         },
       })
       return
-    } else if (Number(chainId) === 1) {
+    } else if (Number(chainId) === settings.rpc.mainnet.eth.chainId) {
       _dispatch({
         type: WALLET_ETH_CONNECTED,
         payload: {
