@@ -8,6 +8,7 @@ import { changeNetwork, setupNetwork } from '../../../utils/wallet'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
+import { createWalletConnect2 } from '../wallets.utils'
 
 let web3Modal
 
@@ -25,16 +26,17 @@ const connectWithBscWallet = async (_dispatch) => {
           options: {
             network: 'binance',
             rpc: {
-              56: settings.rpc.mainnet.bsc.endpoint,
+              [settings.rpc.mainnet.bsc.chainId]: settings.rpc.mainnet.bsc.endpoint,
             },
           },
         },
+        'custom-walletconnectv2': createWalletConnect2(settings.rpc.mainnet.bsc.chainId),
         walletlink: {
           package: WalletLink,
           options: {
             appName: settings.dappName,
             rpc: settings.rpc.mainnet.bsc.endpoint,
-            chainId: 56,
+            chainId: settings.rpc.mainnet.bsc.chainId,
             darkMode: getTheme() === 'dark',
           },
         },
@@ -47,8 +49,8 @@ const connectWithBscWallet = async (_dispatch) => {
     })
 
     /*provider.on('chainChanged', _chainId => {
-      if (Number(_chainId) !== 56) {
-        toastr.error('Invalid Binance Smart Chain Network. Please use chainId = 56')
+      if (Number(_chainId) !== settings.rpc.mainnet.bsc.chainId) {
+        toastr.error('Invalid Binance Smart Chain Network. Please use chainId = settings.rpc.mainnet.bsc.chainId')
         return
       }
     })*/
@@ -82,17 +84,17 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
     const { accounts, chainId } = _provider
     const account = accounts ? accounts[0] : await _getAccount(_provider)
 
-    if (Number(chainId) !== 56 && _provider.isMetaMask) {
+    if (Number(chainId) !== settings.rpc.mainnet.bsc.chainId && _provider.isMetaMask) {
       try {
         await changeNetwork({
           provider: _provider,
-          chainId: 56,
+          chainId: settings.rpc.mainnet.bsc.chainId,
         })
       } catch (err) {
         if (err.code === 4902) {
           await setupNetwork({
             provider: _provider,
-            chainId: 56,
+            chainId: settings.rpc.mainnet.bsc.chainId,
             chainName: 'Binance Smart Chain',
             nativeCurrency: {
               name: 'BNB',
@@ -111,11 +113,11 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
           provider: _provider,
           account,
           network: 'mainnet',
-          chainId: 56,
+          chainId: settings.rpc.mainnet.bsc.chainId,
         },
       })
       return
-    } else if (Number(chainId) === 56) {
+    } else if (Number(chainId) === settings.rpc.mainnet.bsc.chainId) {
       _dispatch({
         type: WALLET_BSC_CONNECTED,
         payload: {

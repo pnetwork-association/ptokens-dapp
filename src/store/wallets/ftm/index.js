@@ -8,6 +8,7 @@ import { changeNetwork, setupNetwork } from '../../../utils/wallet'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
+import { createWalletConnect2 } from '../wallets.utils'
 
 let web3Modal
 
@@ -25,16 +26,17 @@ const connectWithFtmWallet = async (_dispatch) => {
           options: {
             network: 'fantom',
             rpc: {
-              250: settings.rpc.mainnet.ftm.endpoint,
+              [settings.rpc.mainnet.ftm.chainId]: settings.rpc.mainnet.ftm.endpoint,
             },
           },
         },
+        'custom-walletconnectv2': createWalletConnect2(settings.rpc.mainnet.ftm.chainId),
         walletlink: {
           package: WalletLink,
           options: {
             appName: settings.dappName,
             rpc: settings.rpc.mainnet.ftm.endpoint,
-            chainId: 250,
+            chainId: settings.rpc.mainnet.ftm.chainId,
             darkMode: getTheme() === 'dark',
           },
         },
@@ -47,8 +49,8 @@ const connectWithFtmWallet = async (_dispatch) => {
     })
 
     /*provider.on('chainChanged', _chainId => {
-      if (Number(_chainId) !== 250) {
-        toastr.error('Invalid Fantom Network. Please use chainId = 250')
+      if (Number(_chainId) !== settings.rpc.mainnet.ftm.chainId) {
+        toastr.error('Invalid Fantom Network. Please use chainId = settings.rpc.mainnet.ftm.chainId')
         return
       }
     })*/
@@ -82,17 +84,17 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
     const { accounts, chainId } = _provider
     const account = accounts ? accounts[0] : await _getAccount(_provider)
 
-    if (Number(chainId) !== 250 && _provider.isMetaMask) {
+    if (Number(chainId) !== settings.rpc.mainnet.ftm.chainId && _provider.isMetaMask) {
       try {
         await changeNetwork({
           provider: _provider,
-          chainId: 250,
+          chainId: settings.rpc.mainnet.ftm.chainId,
         })
       } catch (err) {
         if (err.code === 4902) {
           await setupNetwork({
             provider: _provider,
-            chainId: 250,
+            chainId: settings.rpc.mainnet.ftm.chainId,
             chainName: 'Fantom',
             nativeCurrency: {
               name: 'FTM',
@@ -111,11 +113,11 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
           provider: _provider,
           account,
           network: 'mainnet',
-          chainId: 250,
+          chainId: settings.rpc.mainnet.ftm.chainId,
         },
       })
       return
-    } else if (Number(chainId) === 250) {
+    } else if (Number(chainId) === settings.rpc.mainnet.ftm.chainId) {
       _dispatch({
         type: WALLET_FTM_CONNECTED,
         payload: {

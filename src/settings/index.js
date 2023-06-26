@@ -70,6 +70,7 @@ const settings = {
     mainnet: {
       eth: {
         endpoint: 'https://cloudflare-eth.com/',
+        chainId: 1,
       },
       eos: {
         chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
@@ -94,12 +95,15 @@ const settings = {
       },
       bsc: {
         endpoint: 'https://bsc-dataseed1.binance.org/',
+        chainId: 56,
       },
       xdai: {
         endpoint: 'https://rpc.xdaichain.com/',
+        chainId: 100,
       },
       polygon: {
         endpoint: 'https://polygon-rpc.com/',
+        chainId: 137,
       },
       ultra: {
         chainId: 'a9c481dfbc7d9506dc7e87e9a137c931b0a9303f64fd7a1d08b8230133920097',
@@ -110,9 +114,11 @@ const settings = {
       },
       arbitrum: {
         endpoint: 'https://arb1.arbitrum.io/rpc',
+        chainId: 42161,
       },
       luxochain: {
         endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://lugano.nodes.luxochain.io',
+        chainId: 110,
       },
       algorand: {
         token: '4950dcab89ddc2e7f4dd8e51deb2f0c44aa37aab18cbfd8242ac5fb697222342',
@@ -121,6 +127,7 @@ const settings = {
       },
       ftm: {
         endpoint: 'https://rpc.ftm.tools/',
+        chainId: 250,
       },
       ore: {
         chainId: '7900eaca71d5b213d3e1e15d54d98ad235a7a5b8166361be78e672edeeb2b47a',

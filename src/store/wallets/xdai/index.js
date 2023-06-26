@@ -8,6 +8,7 @@ import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
+import { createWalletConnect2 } from '../wallets.utils'
 
 let web3Modal
 
@@ -25,16 +26,17 @@ const connectWithXdaiWallet = async (_dispatch) => {
           options: {
             network: 'xdai',
             rpc: {
-              100: settings.rpc.mainnet.xdai.endpoint,
+              [settings.rpc.mainnet.xdai.chainId]: settings.rpc.mainnet.xdai.endpoint,
             },
           },
         },
+        'custom-walletconnectv2': createWalletConnect2(settings.rpc.mainnet.xdai.chainId),
         walletlink: {
           package: WalletLink,
           options: {
             appName: settings.dappName,
             rpc: settings.rpc.mainnet.xdai.endpoint,
-            chainId: 100,
+            chainId: settings.rpc.mainnet.xdai.chainId,
             darkMode: getTheme() === 'dark',
           },
         },
@@ -75,17 +77,17 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
     const { accounts, chainId } = _provider
     const account = accounts ? accounts[0] : await _getAccount(_provider)
 
-    if (Number(chainId) !== 100 && _provider.isMetaMask) {
+    if (Number(chainId) !== settings.rpc.mainnet.xdai.chainId && _provider.isMetaMask) {
       try {
         await changeNetwork({
           provider: _provider,
-          chainId: 100,
+          chainId: settings.rpc.mainnet.xdai.chainId,
         })
       } catch (err) {
         if (err.code === 4902) {
           await setupNetwork({
             provider: _provider,
-            chainId: 100,
+            chainId: settings.rpc.mainnet.xdai.chainId,
             chainName: 'XDAI',
             nativeCurrency: {
               name: 'MATIC',
@@ -104,11 +106,11 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
           provider: _provider,
           account,
           network: 'mainnet',
-          chainId: 100,
+          chainId: settings.rpc.mainnet.xdai.chainId,
         },
       })
       return
-    } else if (Number(chainId) === 100) {
+    } else if (Number(chainId) === settings.rpc.mainnet.xdai.chainId) {
       _dispatch({
         type: WALLET_XDAI_CONNECTED,
         payload: {

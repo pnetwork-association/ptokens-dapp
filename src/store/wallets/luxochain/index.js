@@ -12,6 +12,7 @@ import {
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
+import { createWalletConnect2 } from '../wallets.utils'
 
 let web3Modal
 
@@ -29,16 +30,17 @@ const connectWithLuxochainWallet = async (_dispatch) => {
           options: {
             network: 'mainnet',
             rpc: {
-              110: settings.rpc.mainnet.luxochain.endpoint,
+              [settings.rpc.mainnet.luxochain.chainId]: settings.rpc.mainnet.luxochain.endpoint,
             },
           },
         },
+        'custom-walletconnectv2': createWalletConnect2(settings.rpc.mainnet.luxochain.chainId),
         walletlink: {
           package: WalletLink,
           options: {
             appName: settings.dappName,
             rpc: settings.rpc.mainnet.luxochain.endpoint,
-            chainId: 110,
+            chainId: settings.rpc.mainnet.luxochain.chainId,
             darkMode: getTheme() === 'dark',
           },
         },
@@ -54,7 +56,7 @@ const connectWithLuxochainWallet = async (_dispatch) => {
       _dispatch({
         type: WALLET_LUXOCHAIN_NETWORK_CHANGED,
         payload: {
-          network: Number(_chainId) === 110 ? 'mainnet' : 'testnet',
+          network: Number(_chainId) === settings.rpc.mainnet.luxochain.chainId ? 'mainnet' : 'testnet',
           chainId: _chainId,
         },
       })
@@ -89,7 +91,7 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
     const { accounts, chainId } = _provider
     const account = accounts ? accounts[0] : await _getAccount(_provider)
 
-    if (Number(chainId) === 110) {
+    if (Number(chainId) === settings.rpc.mainnet.luxochain.chainId) {
       _dispatch({
         type: WALLET_LUXOCHAIN_CONNECTED,
         payload: {
