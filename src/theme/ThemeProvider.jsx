@@ -100,11 +100,13 @@ input[type=number] {
   height: 28px;
   width: 28px;
 }
+
 .api-icon-mobile {
   stroke-width: 1;
   height: 23px;
   width: 23px;
 }
+
 .api-button {
   width: 40px;
   color: white;
@@ -126,6 +128,7 @@ input[type=number] {
     height: 35px;
   }
 }
+
 .api-button-mobile {
   width: 35px;
   color: white;
@@ -148,7 +151,6 @@ input[type=number] {
     height: 35px;
   }
 }
-
 
 .navbar-nav .dropdown-menu {
   position: absolute;
