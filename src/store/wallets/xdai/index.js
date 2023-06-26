@@ -1,7 +1,6 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
-import EthereumProvider from '@walletconnect/ethereum-provider'
 import WalletLink from 'walletlink'
 import { WALLET_XDAI_CONNECTED, WALLET_XDAI_ACCOUNT_CHANGED, WALLET_XDAI_DISCONNECTED } from '../../../constants'
 import { changeNetwork, setupNetwork } from '../../../utils/wallet'
@@ -9,7 +8,7 @@ import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
-import { walletConnectV2Connector, walletConnectV2ConnectorDisplay } from '../wallets.utils'
+import { createWalletConnect2 } from '../wallets.utils'
 
 let web3Modal
 
@@ -31,15 +30,7 @@ const connectWithXdaiWallet = async (_dispatch) => {
             },
           },
         },
-        'custom-walletconnectv2': {
-          display: walletConnectV2ConnectorDisplay,
-          options: {
-            chainId: [100],
-            showQrModal: true,
-          },
-          package: EthereumProvider,
-          connector: walletConnectV2Connector,
-        },
+        'custom-walletconnectv2': createWalletConnect2(100),
         walletlink: {
           package: WalletLink,
           options: {

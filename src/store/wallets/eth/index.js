@@ -1,7 +1,6 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
-import EthereumProvider from '@walletconnect/ethereum-provider'
 import WalletLink from 'walletlink'
 import settings from '../../../settings'
 import { changeNetwork } from '../../../utils/wallet'
@@ -14,7 +13,7 @@ import {
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
-import { walletConnectV2Connector, walletConnectV2ConnectorDisplay } from '../wallets.utils'
+import { createWalletConnect2 } from '../wallets.utils'
 
 let web3Modal
 
@@ -37,15 +36,7 @@ const connectWithEthWallet = async (_dispatch) => {
             },
           },
         },
-        'custom-walletconnectv2': {
-          display: walletConnectV2ConnectorDisplay,
-          options: {
-            chainId: [1],
-            showQrModal: true,
-          },
-          package: EthereumProvider,
-          connector: walletConnectV2Connector,
-        },
+        'custom-walletconnectv2': createWalletConnect2(1),
         walletlink: {
           package: WalletLink,
           options: {

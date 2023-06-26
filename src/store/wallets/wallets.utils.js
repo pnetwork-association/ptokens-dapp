@@ -1,5 +1,7 @@
-export const walletConnectV2Connector = async (EthereumProvider, options) => {
-  const provider = await EthereumProvider.init({
+import EthereumProvider from '@walletconnect/ethereum-provider'
+
+const walletConnectV2Connector = async (_package, options) => {
+  const provider = await _package.init({
     projectId: import.meta.env.VITE_WALLETCONNECT_PROJECT_ID,
     chains: options.chainId,
     showQrModal: options.chainId,
@@ -12,8 +14,18 @@ export const walletConnectV2Connector = async (EthereumProvider, options) => {
   return provider
 }
 
-export const walletConnectV2ConnectorDisplay = {
+const walletConnectV2ConnectorDisplay = {
   logo: './assets/png/walletconnectv2.png',
   name: 'WalletConnect V2',
   description: 'Connect through WalletConnect V2',
 }
+
+export const createWalletConnect2 = (_chainId) => ({
+  display: walletConnectV2ConnectorDisplay,
+  options: {
+    chainId: [_chainId],
+    showQrModal: true,
+  },
+  package: EthereumProvider,
+  connector: walletConnectV2Connector,
+})
