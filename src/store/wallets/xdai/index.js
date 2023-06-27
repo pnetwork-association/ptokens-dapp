@@ -91,8 +91,8 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
             chainId: settings.rpc.mainnet.xdai.chainId,
             chainName: 'XDAI',
             nativeCurrency: {
-              name: 'MATIC',
-              symbol: 'matic',
+              name: 'XDAI',
+              symbol: 'xdai',
               decimals: 18,
             },
             nodes: [settings.rpc.mainnet.xdai.endpoint],
