@@ -5,7 +5,7 @@ import { getAssetById } from '../store/swap/swap.selectors'
 
 import { getReadOnlyProviderByBlockchain } from './read-only-providers'
 
-const evmBlockchains = ['eth', 'sepolia', 'goerli', 'bsc', 'ftm', 'polygon', 'luxochain', 'arbitrum']
+const evmBlockchains = ['eth', 'sepolia', 'goerli', 'bsc', 'ftm', 'polygon', 'luxochain', 'arbitrum', 'xdai']
 
 const getAssetBuilder = (_asset) => {
   if (evmBlockchains.includes(_asset.blockchain.toLowerCase())) return new pTokensEvmAssetBuilder()
