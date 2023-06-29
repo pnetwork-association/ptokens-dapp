@@ -38,6 +38,8 @@ export const createAsset = async (_asset, _wallets) => {
   const builder = getAssetBuilder(_asset)
   builder.setBlockchain(_asset.networkId)
   builder.setDecimals(_asset.decimals)
+  builder.setRouterAddress(_asset.routerAddress)
+  builder.setStateManagerAddress(_asset.stateManagerAddress)
   const assetInfo = buildAssetInfo(_asset)
   builder.setAssetInfo(assetInfo)
   if (_wallets) {

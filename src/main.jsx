@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
+import { Web3SettingsProvider } from 'react-web3-settings'
 
 import App from './App'
 import { initialize } from './ga4'
@@ -29,7 +30,28 @@ root.render(
     <ThemeProvider>
       <ThemedGlobalStyle />
       <HashRouter history={history}>
-        <App />
+        <Web3SettingsProvider settings={
+          {
+            arbitrumStateNabager: {
+              label: 'Arbitrum Statemanager',
+              value: 'address here',
+            },
+            arbitrumRouter: {
+              label: 'Arbitrum Router',
+              value: 'address here'
+            },
+            gnosisStateNabager: {
+              label: 'Gnosis Router',
+              value: 'address here'
+            },
+            gnosisRouter: {
+              label: 'Gnosis Statemanager',
+              value: 'address here'
+            }
+          }        
+        }>
+          <App />
+        </Web3SettingsProvider>
       </HashRouter>
     </ThemeProvider>
   </Provider>

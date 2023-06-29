@@ -95,6 +95,61 @@ input[type=number] {
   line-height: 0.9;
 }
 
+.api-icon {
+  stroke-width: 1;
+  height: 28px;
+  width: 28px;
+}
+.api-icon-mobile {
+  stroke-width: 1;
+  height: 23px;
+  width: 23px;
+}
+.api-button {
+  width: 40px;
+  color: white;
+  border-radius: 3px;
+  font-size: 15px;
+  font-weight: 300;
+  height: 40px;
+  border: 0;
+  margin-left: 10px;
+  font-weight: 500;
+  border-radius: 10px;
+  outline: none !important;
+  background: ${({ theme }) => theme.secondary4};
+  &:hover {
+    background: ${({ theme }) => theme.secondary4Hovered};
+  }
+  color: ${({ theme }) => theme.text1};
+  @media (max-width: 767.98px) {
+    height: 35px;
+  }
+}
+.api-button-mobile {
+  width: 35px;
+  color: white;
+  border-radius: 3px;
+  font-size: 15px;
+  font-weight: 300;
+  height: 35px;
+  border: 0;
+  padding: 0;
+  margin-left: 10px;
+  font-weight: 500;
+  border-radius: 10px;
+  outline: none !important;
+  background: ${({ theme }) => theme.secondary4};
+  &:hover {
+    background: ${({ theme }) => theme.secondary4Hovered};
+  }
+  color: ${({ theme }) => theme.text1};
+  @media (max-width: 767.98px) {
+    height: 35px;
+  }
+}
+
+
 .navbar-nav .dropdown-menu {
   position: absolute;
   float: none;

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React, { useState, useCallback } from 'react'
 import { Navbar, Nav, NavDropdown, Container, Row, Col } from 'react-bootstrap'
 import styled from 'styled-components'
+import { Web3SettingsButton } from 'react-web3-settings'
 
 import { useWallets } from '../../../hooks/use-wallets'
 import settings from '../../../settings'
@@ -272,6 +273,7 @@ const Header = (_props) => {
             icon={theme === 'light' ? 'sun' : 'moon'}
             onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
           ></ThemeIcon>
+          <Web3SettingsButton className={'api-button'} iconClassName={'api-icon'}></Web3SettingsButton>
         </ContainerOptions>
       </NavOptimized>
       <Walletinfo
@@ -296,6 +298,7 @@ const Header = (_props) => {
               icon={theme === 'light' ? 'sun' : 'moon'}
               onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
             ></ThemeIcon>
+            <Web3SettingsButton className={'api-button-mobile'} iconClassName={'api-icon-mobile'}></Web3SettingsButton>
           </Col>
         </Row>
       </ContainerBottomMobile>
