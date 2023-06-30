@@ -11,7 +11,7 @@ const isValidAccountByBlockchain = (_account, _blockchain) => {
     case 'GOERLI':
       return validators.isValidAddressByChainId(stringUtils.addHexPrefix(_account), NetworkId.GoerliTestnet)
     case 'XDAI':
-      return validators.isValidAddressByChainId(stringUtils.addHexPrefix(_account), NetworkId.XdaiMainnet)
+      return validators.isValidAddressByChainId(stringUtils.addHexPrefix(_account), NetworkId.GnosisMainnet)
     case 'POLYGON':
       return validators.isValidAddressByChainId(stringUtils.addHexPrefix(_account), NetworkId.PolygonMainnet)
     case 'BSC':

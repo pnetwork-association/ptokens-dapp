@@ -10,18 +10,20 @@ const getDefaultSelectionV2 = (_assets, { asset, from, to, host_symbol }) => {
   const ptkn = _assets.find(({ id }) => id === 'PUSDC_ON_ARBITRUM_MAINNET')
   const assetFrom = asset
     ? _assets.find(
-        ({ isPtoken, nativeSymbol, blockchain, symbol }) =>
-          !isPtoken &&
+        ({ nativeSymbol, symbol, blockchain, isHidden }) =>
+          !isHidden &&
           nativeSymbol.toLowerCase() === asset.toLowerCase() &&
-          from.toLowerCase() === blockchain.toLowerCase() &&
+          blockchain.toLowerCase() === from.toLowerCase() &&
           (host_symbol ? symbol.toLowerCase() === host_symbol.toLowerCase() : true)
       )
     : null
 
   const assetTo = asset
     ? _assets.find(
-        ({ nativeSymbol, blockchain }) =>
-          nativeSymbol.toLowerCase() === asset.toLowerCase() && blockchain.toLowerCase() === to.toLowerCase()
+        ({ nativeSymbol, blockchain, isHidden }) =>
+          !isHidden &&
+          nativeSymbol.toLowerCase() === asset.toLowerCase() &&
+          blockchain.toLowerCase() === to.toLowerCase()
       )
     : null
 

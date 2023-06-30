@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import { Row, Col, Container } from 'react-bootstrap'
@@ -10,7 +9,6 @@ import { MAX_IMPACT } from '../../../constants'
 import { useSwapInfo } from '../../../hooks/use-swap-info'
 import { getFormattedNetworkFee, getFormattedProtocolFee } from '../../../utils/fee'
 import Icon from '../../atoms/icon/Icon'
-import Switch from '../../atoms/switch/Switch'
 
 import 'react-loading-skeleton/dist/skeleton.css'
 
@@ -148,21 +146,6 @@ const SwapInfo = ({ from, to, amount, bpm, swappersBalances, curveImpact, fees }
 
   return (
     <ContainerInfo show={Boolean(show).toString()}>
-      {fees && BigNumber(fees.networkFee).isEqualTo(0) ? (
-        <MarginedRow>
-          <LabelCol xs={10}>Gasless</LabelCol>
-          <ValueCol
-            data-tip={
-              'Transaction fees on the destination blockchain<br/> to deliver the asset are covered by the pNetwork protocol'
-            }
-            data-for="tooltip-gasless"
-            xs={2}
-          >
-            <Switch height={20} width={40} checked={true} disabled={true} />
-          </ValueCol>
-          <ReactTooltip multiline={true} place="left" />
-        </MarginedRow>
-      ) : null}
       <MarginedRow style={{ alignItems: 'center' }}>
         <LabelCol style={{ maxWidth: '15%' }}>Fees</LabelCol>
         <FeesDescriptionCol>{formattedFee ? formattedFee : <Skeleton />}</FeesDescriptionCol>

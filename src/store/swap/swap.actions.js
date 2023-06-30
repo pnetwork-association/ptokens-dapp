@@ -9,7 +9,6 @@ import {
 import assets from '../../settings/swap-assets'
 import { parseError } from '../../utils/errors'
 import { createAsset, getSwapBuilder } from '../../utils/ptokens'
-import { getReadOnlyProviderByBlockchain } from '../../utils/read-only-providers'
 import { updateInfoModal } from '../pages/pages.actions'
 import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
 
@@ -23,8 +22,6 @@ import {
 } from './utils/balances'
 import { getDefaultSelection } from './utils/default-selection'
 import peginWithWallet from './utils/pegin-with-wallet'
-import pegout from './utils/pegout'
-import pegoutFromCurve from './utils/pegout-curve'
 
 const loadSwapData = (_opts = {}) => {
   const { defaultSelection: { pToken, asset, from, to, host_symbol } = {} } = _opts
@@ -277,32 +274,15 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
       const swapBuilder = getSwapBuilder()
       swapBuilder.setAmount(_amount)
       swapBuilder.setSourceAsset(sourceAsset)
-      swapBuilder.addDestinationAsset(destinationAsset, _address)
+      swapBuilder.addDestinationAsset(destinationAsset, _address, '0x', _to.isNative)
 
       const swap = swapBuilder.build()
-      // // NOTE: pegin
-      if (_from.isNative) {
-        await peginWithWallet({
-          swap,
-          ptokenFrom: _from,
-          ptokenTo: _to,
-          dispatch: _dispatch,
-        })
-      }
-      // NOTE: pegout
-      else if (!_from.isNative && !_fromNative.requiresCurve) {
-        await pegout({ swap: swap, ptokenFrom: _from, ptokenTo: _to, dispatch: _dispatch })
-      } else if (!_from.isNative && _fromNative.requiresCurve) {
-        const curveProvider = getReadOnlyProviderByBlockchain(_fromNative.blockchain.toUpperCase())
-        await pegoutFromCurve({
-          swap: swap,
-          provider: curveProvider,
-          tokenFrom: _fromNative,
-          ptokenFrom: _from,
-          ptokenTo: _to,
-          dispatch: _dispatch,
-        })
-      }
+      await peginWithWallet({
+        swap,
+        ptokenFrom: _from,
+        ptokenTo: _to,
+        dispatch: _dispatch,
+      })
     } catch (_err) {
       console.error(_err)
       const { showModal } = parseError(_err)

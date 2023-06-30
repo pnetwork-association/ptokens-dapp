@@ -1,3 +1,4 @@
+import { FactoryAddress, NetworkId } from 'ptokens-constants'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
@@ -7,7 +8,6 @@ import { Web3SettingsProvider } from 'react-web3-settings'
 import App from './App'
 import { initialize } from './ga4'
 import * as serviceWorker from './serviceWorker'
-import settings from './settings'
 import store from './store'
 import ThemeProvider, { ThemedGlobalStyle } from './theme/ThemeProvider'
 import history from './utils/history'
@@ -33,29 +33,16 @@ root.render(
       <HashRouter history={history}>
         <Web3SettingsProvider
           settings={{
-            stateManagerAddress: {
-              label: 'State Manager',
+            factoryAddress: {
+              label: 'pTokens Factory Address',
               settings: {
                 xdai: {
                   label: 'XDAI',
-                  value: settings.stateManagerAddress.mainnet.xdai,
+                  value: FactoryAddress.get(NetworkId.GnosisMainnet),
                 },
                 arbitrum: {
                   label: 'Arbitrum',
-                  value: settings.stateManagerAddress.mainnet.arbitrum,
-                },
-              },
-            },
-            routerAddress: {
-              label: 'Router Address',
-              settings: {
-                xdai: {
-                  label: 'XDAI',
-                  value: settings.routerAddress.mainnet.xdai,
-                },
-                arbitrum: {
-                  label: 'Arbitrum',
-                  value: settings.routerAddress.mainnet.arbitrum,
+                  value: FactoryAddress.get(NetworkId.ArbitrumMainnet),
                 },
               },
             },

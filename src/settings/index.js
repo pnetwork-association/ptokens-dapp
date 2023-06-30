@@ -170,7 +170,7 @@ const settings = {
       libre: 'https://lb.libre.org/v2/explore/',
       ltc: 'https://live.blockcypher.com/ltc/',
       bsc: 'https://bscscan.com/',
-      xdai: 'https://blockscout.com/poa/xdai/',
+      xdai: 'https://gnosisscan.io/',
       polygon: 'https://polygonscan.com/',
       doge: 'https://dogechain.info/',
       rvn: 'https://ravencoin.network/',
@@ -215,39 +215,15 @@ const settings = {
       pbtcV1StrategiesMigrator: '0xc25b475fCf0E970ECacD057D41787E0704ddc763',
     },
   },
-  routerAddress: {
-    mainnet: {
-      arbitrum: '0x715dE5C8BcC623c462e29b6253C6dd92Ed8e1440',
-      xdai: '0x1a364F5Aa1ED122D609206479103C980d6954E8C',
-    },
-  },
-  stateManagerAddress: {
-    mainnet: {
-      arbitrum: '0x578E916A4064c32F2eF44614Ff9B04B6D2546A13',
-      xdai: '0xc508e6af23d3C1FcAbD24Dfab5A5304F65c0042c',
-    },
-  },
 }
 
-export const getStateManagerAddressByBlockchain = (_blockchain, _network = 'mainnet') => {
+export const getFactoryAddressByBlockchain = (_blockchain, _network = 'mainnet') => {
   const web3Settings = getWeb3Settings()
   switch (_blockchain) {
     case 'ARBITRUM':
-      return web3Settings.stateManagerAddress.arbitrum
+      return web3Settings.factoryAddress.arbitrum
     case 'XDAI':
-      return web3Settings.stateManagerAddress.xdai
-    default:
-      return ''
-  }
-}
-
-export const getRouterAddressByBlockchain = (_blockchain, _network = 'mainnet') => {
-  const web3Settings = getWeb3Settings()
-  switch (_blockchain) {
-    case 'ARBITRUM':
-      return web3Settings.routerAddress.arbitrum
-    case 'XDAI':
-      return web3Settings.routerAddress.xdai
+      return web3Settings.factoryAddress.xdai
     default:
       return ''
   }

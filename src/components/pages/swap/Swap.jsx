@@ -379,7 +379,6 @@ const Swap = ({
         curveImpact={curveImpact}
         fees={fees}
       />
-      <ReactTooltip id="tooltip-gasless" multiline={true} style={{ zIndex: 2 }} />
       <ReactTooltip id="tooltip-fees" multiline={true} style={{ zIndex: 2 }} />
       <AssetListModal
         title="Swap from ..."

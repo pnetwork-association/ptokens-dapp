@@ -44,7 +44,7 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
       show: true,
       percent: 0,
       message: 'Waiting for the transaction to be signed ...',
-      steps: [0, 20, 40, 60, 80, 100],
+      steps: [0, 25, 50, 75, 100],
       terminated: false,
     })
   )
@@ -56,9 +56,9 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
       dispatch(
         updateProgress({
           show: true,
-          percent: 20,
+          percent: 25,
           message: `<a href="${link}" target="_blank">Transaction</a> broadcasted! Waiting for confirmation ...`,
-          steps: [0, 20, 40, 60, 80, 100],
+          steps: [0, 25, 50, 75, 100],
           terminated: false,
         })
       )
@@ -67,9 +67,9 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
       dispatch(
         updateProgress({
           show: true,
-          percent: 40,
+          percent: 50,
           message: `Waiting for the pNetwork to detect your <a href="${link}" target="_blank">transaction</a> ...`,
-          steps: [0, 20, 40, 60, 80, 100],
+          steps: [0, 25, 50, 75, 100],
           terminated: false,
         })
       )
@@ -79,9 +79,9 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
       dispatch(
         updateProgress({
           show: true,
-          percent: 60,
+          percent: 75,
           message: `Asset transfer proposal <a href="${link}" target="_blank">transaction</a> broadcasted...`,
-          steps: [0, 20, 40, 60, 80, 100],
+          steps: [0, 25, 50, 75, 100],
           terminated: false,
         })
       )
@@ -91,21 +91,9 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
       dispatch(
         updateProgress({
           show: true,
-          percent: 80,
-          message: `Asset transfer <a href="${link}" target="_blank">transaction</a> executed.`,
-          steps: [0, 20, 40, 60, 80, 100],
-          terminated: true,
-        })
-      )
-    })
-    .on('operationConfirmed', (_swapResult) => {
-      link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _swapResult.txHash)
-      dispatch(
-        updateProgress({
-          show: true,
           percent: 100,
-          message: `Asset transfer <a href="${link}" target="_blank">transaction</a> completed.`,
-          steps: [0, 20, 40, 60, 80, 100],
+          message: `Asset transfer <a href="${link}" target="_blank">transaction</a> executed.`,
+          steps: [0, 25, 50, 75, 100],
           terminated: true,
         })
       )

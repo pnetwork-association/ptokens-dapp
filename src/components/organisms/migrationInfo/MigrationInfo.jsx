@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Row, Col, Container } from 'react-bootstrap'
-import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
 import { getMigrationFees } from '../../../utils/fee'
-import Switch from '../../atoms/switch/Switch'
 
 const ContainerInfo = styled(Container)`
   background: ${({ theme }) => theme.secondary3Transparentized};
@@ -52,19 +50,6 @@ const MigrationInfo = ({ from, to }) => {
   const fees = getMigrationFees(from, to)
   return (
     <ContainerInfo show="true">
-      <MarginedRow>
-        <LabelCol xs={10}>Gasless</LabelCol>
-        <ValueCol
-          data-tip={
-            'Transaction fees on the destination blockchain<br/> to deliver the asset are covered by the pNetwork protocol'
-          }
-          data-for="tooltip-gasless"
-          xs={2}
-        >
-          <Switch height={20} width={40} checked={true} disabled={true} />
-        </ValueCol>
-        <ReactTooltip multiline={true} place="left" />
-      </MarginedRow>
       <MarginedRow>
         <LabelCol xs={8}>Fee</LabelCol>
         <ValueCol xs={4}>{`${fees}%`}</ValueCol>
