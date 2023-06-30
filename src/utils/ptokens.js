@@ -1,6 +1,7 @@
 import { pTokensEvmAssetBuilder, pTokensEvmProvider } from 'ptokens-assets-evm'
 import { pTokensSwapBuilder } from 'ptokens-swap'
 
+import { getRouterAddressByBlockchain, getStateManagerAddressByBlockchain } from '../settings'
 import { getAssetById } from '../store/swap/swap.selectors'
 
 import { getReadOnlyProviderByBlockchain } from './read-only-providers'
@@ -38,8 +39,8 @@ export const createAsset = async (_asset, _wallets) => {
   const builder = getAssetBuilder(_asset)
   builder.setBlockchain(_asset.networkId)
   builder.setDecimals(_asset.decimals)
-  builder.setRouterAddress(_asset.routerAddress)
-  builder.setStateManagerAddress(_asset.stateManagerAddress)
+  builder.setRouterAddress(getRouterAddressByBlockchain(_asset.blockchain))
+  builder.setStateManagerAddress(getStateManagerAddressByBlockchain(_asset.blockchain))
   const assetInfo = buildAssetInfo(_asset)
   builder.setAssetInfo(assetInfo)
   if (_wallets) {

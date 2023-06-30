@@ -1,7 +1,4 @@
 import { NetworkId } from 'ptokens-constants'
-import { getWeb3Settings } from 'react-web3-settings'
-
-const settings = getWeb3Settings()
 
 const swapAssets = [
   /* #################   pTokens   #################*/
@@ -60,8 +57,6 @@ const swapAssets = [
     underlyingAsset: 'USDC_ON_XDAI',
     isPerc20: true,
     isHidden: true,
-    routerAddress: settings.gnosisStateManager.value,
-    stateManagerAddress: settings.gnosisRouter.value,
   },
   {
     address: '0x8eF8BbA41fF90b7035B0d5D16fdE67570B453E82',
@@ -80,8 +75,6 @@ const swapAssets = [
     networkId: NetworkId.ArbitrumMainnet,
     underlyingAsset: 'USDC_ON_XDAI',
     isPerc20: true,
-    routerAddress: settings.arbitrumStateNabager.value,
-    stateManagerAddress: settings.arbitrumRouter.value,
   },
   /* #################   Native Tokens   #################*/
   {

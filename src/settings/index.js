@@ -1,3 +1,5 @@
+import { getWeb3Settings } from 'react-web3-settings'
+
 const settings = {
   dappName: 'pTokens Dapp',
   links: {
@@ -213,6 +215,42 @@ const settings = {
       pbtcV1StrategiesMigrator: '0xc25b475fCf0E970ECacD057D41787E0704ddc763',
     },
   },
+  routerAddress: {
+    mainnet: {
+      arbitrum: '0x2097d168d852DAF856A9Bc0Eb8E8EF16328d7d85',
+      xdai: '0x40088126dDBFd5508cdb33285451161aCbdA6C56',
+    },
+  },
+  stateManagerAddress: {
+    mainnet: {
+      arbitrum: '0x2Cd64a7dD0bd467fc1953521df2C440e4b493541',
+      xdai: '0xa3C4398244591841bCe776EC7F8D9E7741B9F934',
+    },
+  },
+}
+
+export const getStateManagerAddressByBlockchain = (_blockchain, _network = 'mainnet') => {
+  const web3Settings = getWeb3Settings()
+  switch (_blockchain) {
+    case 'ARBITRUM':
+      return web3Settings.arbitrumStateManager.value
+    case 'XDAI':
+      return web3Settings.gnosisStateManager.value
+    default:
+      return ''
+  }
+}
+
+export const getRouterAddressByBlockchain = (_blockchain, _network = 'mainnet') => {
+  const web3Settings = getWeb3Settings()
+  switch (_blockchain) {
+    case 'ARBITRUM':
+      return web3Settings.arbitrumRouter.value
+    case 'XDAI':
+      return web3Settings.gnosisRouter.value
+    default:
+      return ''
+  }
 }
 
 export default settings

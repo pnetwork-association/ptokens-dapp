@@ -7,6 +7,7 @@ import { Web3SettingsProvider } from 'react-web3-settings'
 import App from './App'
 import { initialize } from './ga4'
 import * as serviceWorker from './serviceWorker'
+import settings from './settings'
 import store from './store'
 import ThemeProvider, { ThemedGlobalStyle } from './theme/ThemeProvider'
 import history from './utils/history'
@@ -30,26 +31,26 @@ root.render(
     <ThemeProvider>
       <ThemedGlobalStyle />
       <HashRouter history={history}>
-        <Web3SettingsProvider settings={
-          {
-            arbitrumStateNabager: {
-              label: 'Arbitrum Statemanager',
-              value: 'address here',
+        <Web3SettingsProvider
+          settings={{
+            arbitrumStateManager: {
+              label: 'Arbitrum State Manager',
+              value: settings.stateManagerAddress.mainnet.arbitrum,
             },
             arbitrumRouter: {
               label: 'Arbitrum Router',
-              value: 'address here'
+              value: settings.routerAddress.mainnet.arbitrum,
             },
-            gnosisStateNabager: {
+            gnosisStateManager: {
               label: 'Gnosis Router',
-              value: 'address here'
+              value: settings.stateManagerAddress.mainnet.xdai,
             },
             gnosisRouter: {
-              label: 'Gnosis Statemanager',
-              value: 'address here'
-            }
-          }        
-        }>
+              label: 'Gnosis State Manager',
+              value: settings.routerAddress.mainnet.xdai,
+            },
+          }}
+        >
           <App />
         </Web3SettingsProvider>
       </HashRouter>
