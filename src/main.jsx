@@ -32,6 +32,42 @@ root.render(
       <ThemedGlobalStyle />
       <HashRouter history={history}>
         <Web3SettingsProvider
+          buttonSaveStyle={{
+            color: 'white',
+            background: 'rgb(255, 102, 102)',
+            fontSize: '16px',
+            borderRadius: '10px',
+            border: '0',
+            padding: '5px 10px 5px 10px',
+          }}
+          buttonResetStyle={{
+            color: 'white',
+            background: 'rgb(213, 217, 220)',
+            fontSize: '16px',
+            borderRadius: '10px',
+            border: '0',
+            padding: '5px 10px 5px 10px',
+            marginLeft: '10px',
+          }}
+          titleStyle={{
+            color: 'rgb(71, 89, 101)',
+            fontSize: '1.5rem',
+            fontWeight: '500',
+          }}
+          inputStyle={{
+            border: '0',
+            background: 'transparent',
+            outline: '0px !important',
+            webkitAppearance: 'none',
+            boxShadow: 'none !important',
+            textAlign: 'right',
+            fontSize: '16px',
+            color: '#475965',
+            width: '100%',
+          }}
+          labelStyle={{
+            marginTop: '2rem',
+          }}
           settings={{
             arbitrumStateManager: {
               label: 'Arbitrum State Manager',

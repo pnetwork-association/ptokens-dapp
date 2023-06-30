@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import React, { useState, useCallback } from 'react'
 import { Navbar, Nav, NavDropdown, Container, Row, Col } from 'react-bootstrap'
-import styled from 'styled-components'
 import { Web3SettingsButton } from 'react-web3-settings'
+import styled from 'styled-components'
 
 import { useWallets } from '../../../hooks/use-wallets'
 import settings from '../../../settings'
