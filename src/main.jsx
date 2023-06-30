@@ -33,21 +33,31 @@ root.render(
       <HashRouter history={history}>
         <Web3SettingsProvider
           settings={{
-            arbitrumStateManager: {
-              label: 'Arbitrum State Manager',
-              value: settings.stateManagerAddress.mainnet.arbitrum,
+            stateManagerAddress: {
+              label: 'State Manager',
+              settings: {
+                xdai: {
+                  label: 'XDAI',
+                  value: settings.stateManagerAddress.mainnet.xdai,
+                },
+                arbitrum: {
+                  label: 'Arbitrum',
+                  value: settings.stateManagerAddress.mainnet.arbitrum,
+                },
+              },
             },
-            arbitrumRouter: {
-              label: 'Arbitrum Router',
-              value: settings.routerAddress.mainnet.arbitrum,
-            },
-            gnosisStateManager: {
-              label: 'Gnosis Router',
-              value: settings.stateManagerAddress.mainnet.xdai,
-            },
-            gnosisRouter: {
-              label: 'Gnosis State Manager',
-              value: settings.routerAddress.mainnet.xdai,
+            routerAddress: {
+              label: 'Router Address',
+              settings: {
+                xdai: {
+                  label: 'XDAI',
+                  value: settings.routerAddress.mainnet.xdai,
+                },
+                arbitrum: {
+                  label: 'Arbitrum',
+                  value: settings.routerAddress.mainnet.arbitrum,
+                },
+              },
             },
           }}
         >

@@ -217,14 +217,14 @@ const settings = {
   },
   routerAddress: {
     mainnet: {
-      arbitrum: '0x2097d168d852DAF856A9Bc0Eb8E8EF16328d7d85',
-      xdai: '0x40088126dDBFd5508cdb33285451161aCbdA6C56',
+      arbitrum: '0x715dE5C8BcC623c462e29b6253C6dd92Ed8e1440',
+      xdai: '0x1a364F5Aa1ED122D609206479103C980d6954E8C',
     },
   },
   stateManagerAddress: {
     mainnet: {
-      arbitrum: '0x2Cd64a7dD0bd467fc1953521df2C440e4b493541',
-      xdai: '0xa3C4398244591841bCe776EC7F8D9E7741B9F934',
+      arbitrum: '0x578E916A4064c32F2eF44614Ff9B04B6D2546A13',
+      xdai: '0xc508e6af23d3C1FcAbD24Dfab5A5304F65c0042c',
     },
   },
 }
@@ -233,9 +233,9 @@ export const getStateManagerAddressByBlockchain = (_blockchain, _network = 'main
   const web3Settings = getWeb3Settings()
   switch (_blockchain) {
     case 'ARBITRUM':
-      return web3Settings.arbitrumStateManager.value
+      return web3Settings.stateManagerAddress.arbitrum
     case 'XDAI':
-      return web3Settings.gnosisStateManager.value
+      return web3Settings.stateManagerAddress.xdai
     default:
       return ''
   }
@@ -245,9 +245,9 @@ export const getRouterAddressByBlockchain = (_blockchain, _network = 'mainnet') 
   const web3Settings = getWeb3Settings()
   switch (_blockchain) {
     case 'ARBITRUM':
-      return web3Settings.arbitrumRouter.value
+      return web3Settings.routerAddress.arbitrum
     case 'XDAI':
-      return web3Settings.gnosisRouter.value
+      return web3Settings.routerAddress.xdai
     default:
       return ''
   }
