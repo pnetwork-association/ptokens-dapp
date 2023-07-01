@@ -32,6 +32,64 @@ root.render(
       <ThemedGlobalStyle />
       <HashRouter>
         <Web3SettingsProvider
+          buttonSaveStyle={{
+            color: 'white',
+            background: 'rgb(255, 102, 102)',
+            fontSize: '16px',
+            borderRadius: '10px',
+            border: '0',
+            padding: '5px 10px 5px 10px',
+          }}
+          buttonResetStyle={{
+            color: 'white',
+            background: 'rgb(213, 217, 220)',
+            fontSize: '16px',
+            borderRadius: '10px',
+            border: '0',
+            padding: '5px 10px 5px 10px',
+            marginLeft: '10px',
+          }}
+          titleStyle={{
+            color: 'rgb(71, 89, 101)',
+            fontSize: '1.5rem',
+            fontWeight: '500',
+          }}
+          headerStyle={{
+            paddingBottom: '0px',
+          }}
+          inputStyle={{
+            border: '0',
+            background: 'transparent',
+            outline: '0px !important',
+            WebkitAppearance: 'none',
+            boxShadow: 'none !important',
+            textAlign: 'left',
+            fontSize: '16px',
+            color: '#475965',
+            width: '100%',
+            background: '#eaeaea',
+            borderRadius: '5px',
+          }}
+          labelStyle={{
+            marginTop: 'rem',
+          }}
+          sectionLabelStyle={{
+            fontSize: '1.25rem',
+            fontWeight: '350',
+            marginBottom: '0px',
+          }}
+          sectionRowStyle={{
+            marginTop: '2.5rem',
+          }}
+          settingRowStyle={{
+            marginTop: '1rem',
+          }}
+          buttonAreaStyle={{
+            position: 'absolute',
+            bottom: '0px',
+            right: '1rem',
+            marginBottom: '1rem',
+          }}
           settings={{
             factoryAddress: {
               label: 'pTokens Factory Address',
