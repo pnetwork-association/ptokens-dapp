@@ -12,9 +12,6 @@ const settings = {
     'p.network': 'https://p.network/',
     github: 'https://github.com/pnetwork-association/ptokens-dapp/',
   },
-  api: {
-    bpm: 'https://pnetwork.watch:8082/sync-status?apikey=a1d87144c4d60917b880d9fed94d480829d0893a',
-  },
   supportedBlockchains: [
     {
       name: 'xDai',

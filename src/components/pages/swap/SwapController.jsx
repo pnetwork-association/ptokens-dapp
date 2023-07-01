@@ -11,7 +11,6 @@ import Swap from './Swap'
 const mapStateToProps = (_state) => {
   return {
     assets: _state.swap.assets,
-    bpm: _state.swap.bpm,
     wallets: _state.wallets,
     progress: _state.swap.progress,
     swapButton: _state.swap.swapButton,
@@ -34,7 +33,6 @@ const SwapController = (_props) => <Swap {..._props} />
 
 SwapController.propTypes = {
   assets: PropTypes.array.isRequired,
-  bpm: PropTypes.object.isRequired,
   wallets: PropTypes.object.isRequired,
   infoModal: PropTypes.object,
   swapButton: PropTypes.object,

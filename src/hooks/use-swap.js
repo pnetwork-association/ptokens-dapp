@@ -12,7 +12,6 @@ import { useWalletByBlockchain } from './use-wallets'
 
 const useSwap = ({
   wallets,
-  bpm,
   assets,
   connectWithWallet,
   swap,
@@ -58,7 +57,6 @@ const useSwap = ({
     from,
     to,
     fees,
-    bpm,
     fromAmount,
   })
 

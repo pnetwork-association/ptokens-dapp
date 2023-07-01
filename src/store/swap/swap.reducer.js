@@ -8,7 +8,6 @@ import {
 
 const initialState = {
   assets: [],
-  bpm: {},
   progress: {
     show: false,
     percent: 0,
