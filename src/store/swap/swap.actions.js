@@ -167,7 +167,7 @@ const loadBalanceByAssetId = (_id) => {
   }
 }
 
-const swap = (_from, _to, _amount, _address, _opts = {}) => {
+const swap = (_from, _to, _amount, _address) => {
   return async (_dispatch) => {
     try {
       _dispatch(resetProgress())

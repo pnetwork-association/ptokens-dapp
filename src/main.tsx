@@ -36,8 +36,7 @@ if (window.ethereum) window.ethereum.autoRefreshOnNetworkChange = false
 const loader = document.getElementsByClassName('loader')
 loader[0].parentNode.removeChild(loader[0])
 
-const root = ReactDOM.createRoot(document.getElementById('root'))
-root.render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <ThemeProvider>
       <ThemedGlobalStyle />

@@ -1,7 +1,7 @@
 import { Blockchain, NetworkId } from 'ptokens-constants'
 import { validators, stringUtils } from 'ptokens-helpers'
 
-const isValidAccountByBlockchain = (_account, _blockchain) => {
+const isValidAccountByBlockchain = (_account: string, _blockchain: Blockchain) => {
   if (!_account) return false
   switch (_blockchain) {
     case Blockchain.Gnosis:

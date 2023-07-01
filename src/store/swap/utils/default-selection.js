@@ -13,7 +13,7 @@ const getDefaultSelectionV2 = (_assets, { asset, from, to }) => {
   const ptkn = _assets.find(({ id }) => id === pTokenId.PUSDC_ON_ARBITRUM_MAINNET)
   const assetFrom = asset
     ? _assets.find(
-        ({ nativeSymbol, symbol, blockchain, isHidden }) =>
+        ({ nativeSymbol, blockchain, isHidden }) =>
           !isHidden &&
           nativeSymbol.toLowerCase() === asset.toLowerCase() &&
           blockchainSymbolToName[blockchain].toLowerCase() === from.toLowerCase()

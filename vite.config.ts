@@ -22,12 +22,13 @@ export default defineConfig(() => ({
     },
   },
   esbuild: {
-    loader: 'jsx',
+    loader: 'tsx',
   },
   optimizeDeps: {
     esbuildOptions: {
       loader: {
         '.js': 'jsx',
+        '.ts': 'tsx',
       },
     },
   },

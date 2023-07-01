@@ -10,6 +10,6 @@ const blockchainSymbolToCoin = {
   [Blockchain.Arbitrum]: 'Arbitrum',
 }
 
-const getAssetFromSymbol = (_assets, _symbol) => _assets.find(({ symbol }) => symbol === _symbol)
+const getAssetFromSymbol = (_assets: [], _symbol: string) => _assets.find(({ symbol }) => symbol === _symbol)
 
 export { blockchainSymbolToName, getAssetFromSymbol, blockchainSymbolToCoin }

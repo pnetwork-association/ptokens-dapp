@@ -1,6 +1,14 @@
 {
-  "extends": ["eslint:recommended", "react-app", "plugin:import/recommended"],
-  "plugins": ["prettier"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "react-app",
+    "plugin:import/recommended",
+    "plugin:import/typescript"
+  ],
+  "root": true,
+  "plugins": ["prettier", "@typescript-eslint"],
   "env": {
     "browser": true,
     "es6": true,
@@ -11,15 +19,20 @@
     "import/resolver": {
       "node": {
         "extensions": [".js", ".jsx"]
+      },
+      "typescript": {
+        "alwaysTryTypes": true
       }
     }
   },
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 2018,
     "ecmaFeatures": {
       "jsx": true
-    }
+    },
+    "project": ["./tsconfig.json"] // Specify it only for TypeScript files
   },
   "rules": {
     "prettier/prettier": "error",
@@ -42,6 +55,6 @@
     ],
     "no-unused-vars": "error",
     "no-unused-expressions": "error",
-    "no-unused-labels":"error"
+    "no-unused-labels": "error"
   }
 }

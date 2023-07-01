@@ -2,7 +2,7 @@ import { Blockchain, NetworkId } from 'ptokens'
 import { getWeb3Settings } from 'react-web3-settings'
 import Web3 from 'web3'
 
-export const getReadOnlyProviderByBlockchain = (_blockchain) => {
+export const getReadOnlyProviderByBlockchain = (_blockchain: Blockchain) => {
   const settings = getWeb3Settings()
   switch (_blockchain) {
     case Blockchain.Gnosis:
@@ -13,7 +13,7 @@ export const getReadOnlyProviderByBlockchain = (_blockchain) => {
   }
 }
 
-export const getReadOnlyProviderByNetworkId = (_networkId) => {
+export const getReadOnlyProviderByNetworkId = (_networkId: NetworkId) => {
   const map = new Map([
     [NetworkId.ArbitrumMainnet, Blockchain.Arbitrum],
     [NetworkId.GnosisMainnet, Blockchain.Gnosis],
