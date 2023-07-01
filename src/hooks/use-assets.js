@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { BlockchainType, networkIdToTypeMap } from 'ptokens-constants'
 import { stringUtils } from 'ptokens-helpers'
 import { useMemo, useState } from 'react'
 
@@ -56,7 +57,7 @@ const useSearchAssets = (_assets) => {
           name.toLowerCase().includes(searchWord.toLowerCase()) ||
           symbol.toLowerCase().includes(searchWord.toLowerCase()) ||
           (coin && coin.toLowerCase().includes(searchWord.toLowerCase())) ||
-          nativeBlockchain.toLowerCase().includes(searchWord.toLowerCase()) ||
+          blockchainSymbolToName[nativeBlockchain].toLowerCase().includes(searchWord.toLowerCase()) ||
           `${name} on ${blockchain}`.toLowerCase().includes(searchWord.toLowerCase()) ||
           (address && address.toLowerCase() === searchWord.toLowerCase())
       ),
@@ -69,12 +70,7 @@ const useSearchAssets = (_assets) => {
 const updateAsset = (_asset) => ({
   ..._asset,
   address:
-    _asset.address &&
-    _asset.blockchain !== 'EOS' &&
-    _asset.blockchain !== 'TELOS' &&
-    _asset.blockchain !== 'LIBRE' &&
-    _asset.blockchain !== 'ULTRA' &&
-    _asset.blockchain !== 'ALGORAND'
+    _asset.address && networkIdToTypeMap.get(_asset.networkId) === BlockchainType.EVM
       ? stringUtils.addHexPrefix(_asset.address)
       : _asset.address,
   explorer: _asset.address ? getCorrespondingTokenExplorerLinkByBlockchain(_asset.blockchain, _asset.address) : null,
@@ -97,7 +93,7 @@ const updateAsset = (_asset) => ({
     ? `on ${blockchainSymbolToName[_asset.blockchain].toUpperCase()}${_asset.isPseudoNative ? ' (NATIVE)' : ''}`
     : _asset.symbol,
   image: `./assets/svg/${_asset.image}`,
-  miniImage: `./assets/svg/${_asset.miniImage || _asset.blockchain}.svg`,
+  miniImage: `./assets/svg/${_asset.miniImage || blockchainSymbolToName[_asset.blockchain].toUpperCase()}.svg`,
 })
 
 export { useAssets, useAssetsWithouDefault, usePtoken, useAssetsGroupedByGivenStrategy, useSearchAssets }

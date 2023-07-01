@@ -1,4 +1,5 @@
 import WalletConnectProvider from '@walletconnect/web3-provider'
+import { Blockchain, Network } from 'ptokens'
 import WalletLink from 'walletlink'
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
@@ -32,17 +33,18 @@ const connectWithArbitrumWallet = async (_dispatch) => {
           options: {
             network: 'mainnet',
             rpc: {
-              [settings.rpc.mainnet.arbitrum.chainId]: settings.rpc.mainnet.arbitrum.endpoint,
+              [settings.rpc[Network.Mainnet][Blockchain.Arbitrum].chainId]:
+                settings.rpc[Network.Mainnet][Blockchain.Arbitrum].endpoint,
             },
           },
         },
-        'custom-walletconnectv2': createWalletConnect2(settings.rpc.mainnet.arbitrum.chainId),
+        'custom-walletconnectv2': createWalletConnect2(settings.rpc[Network.Mainnet][Blockchain.Arbitrum].chainId),
         walletlink: {
           package: WalletLink,
           options: {
             appName: settings.dappName,
-            rpc: settings.rpc.mainnet.arbitrum.endpoint,
-            chainId: settings.rpc.mainnet.arbitrum.chainId,
+            rpc: settings.rpc[Network.Mainnet][Blockchain.Arbitrum].endpoint,
+            chainId: settings.rpc[Network.Mainnet][Blockchain.Arbitrum].chainId,
             darkMode: getTheme() === 'dark',
           },
         },
@@ -58,7 +60,8 @@ const connectWithArbitrumWallet = async (_dispatch) => {
       _dispatch({
         type: WALLET_ARBITRUM_NETWORK_CHANGED,
         payload: {
-          network: Number(_chainId) === settings.rpc.mainnet.arbitrum.chainId ? 'mainnet' : 'testnet',
+          network:
+            Number(_chainId) === settings.rpc[Network.Mainnet][Blockchain.Arbitrum].chainId ? 'mainnet' : 'testnet',
           chainId: _chainId,
         },
       })
@@ -78,7 +81,7 @@ const connectWithArbitrumWallet = async (_dispatch) => {
 }
 
 const disconnectFromArbitrumWallet = async (_dispatch) => {
-  const provider = getWalletProviderByBlockchain('ARBITRUM')
+  const provider = getWalletProviderByBlockchain(Blockchain.Arbitrum)
   if (provider.close) {
     await provider.close()
   }
@@ -93,25 +96,25 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
     const { accounts, chainId } = _provider
     const account = accounts ? accounts[0] : await _getAccount(_provider)
 
-    if (Number(chainId) !== settings.rpc.mainnet.arbitrum.chainId && _provider.isMetaMask) {
+    if (Number(chainId) !== settings.rpc[Network.Mainnet][Blockchain.Arbitrum].chainId && _provider.isMetaMask) {
       try {
         await changeNetwork({
           provider: _provider,
-          chainId: settings.rpc.mainnet.arbitrum.chainId,
+          chainId: settings.rpc[Network.Mainnet][Blockchain.Arbitrum].chainId,
         })
       } catch (err) {
         if (err.code === 4902) {
           await setupNetwork({
             provider: _provider,
-            chainId: settings.rpc.mainnet.arbitrum.chainId,
+            chainId: settings.rpc[Network.Mainnet][Blockchain.Arbitrum].chainId,
             chainName: 'Arbitrum',
             nativeCurrency: {
               name: 'AETH',
               symbol: 'AETH',
               decimals: 18,
             },
-            nodes: [settings.rpc.mainnet.arbitrum.endpoint],
-            blockExplorerUrls: [settings.explorers.mainnet.arbitrum],
+            nodes: [settings.rpc[Network.Mainnet][Blockchain.Arbitrum].endpoint],
+            blockExplorerUrls: [settings.explorers[Network.Mainnet][Blockchain.Arbitrum]],
           })
         }
       }
@@ -122,11 +125,11 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
           provider: _provider,
           account,
           network: 'mainnet',
-          chainId: settings.rpc.mainnet.arbitrum.chainId,
+          chainId: settings.rpc[Network.Mainnet][Blockchain.Arbitrum].chainId,
         },
       })
       return
-    } else if (Number(chainId) === settings.rpc.mainnet.arbitrum.chainId) {
+    } else if (Number(chainId) === settings.rpc[Network.Mainnet][Blockchain.Arbitrum].chainId) {
       _dispatch({
         type: WALLET_ARBITRUM_CONNECTED,
         payload: {

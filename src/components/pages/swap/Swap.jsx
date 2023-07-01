@@ -11,12 +11,10 @@ import { useSwap } from '../../../hooks/use-swap'
 import defaultAssets from '../../../settings/swap-assets'
 import Button from '../../atoms/button/Button'
 import Icon from '../../atoms/icon/Icon'
-import Switch from '../../atoms/switch/Switch'
 import AddressWarning from '../../molecules/popup/AddressWarning'
 import WarningPopup from '../../molecules/popup/Warning'
 import Progress from '../../molecules/progress/Progress'
 import AssetListModal from '../../organisms/assetListModal/AssetListModal'
-import DepositAddressModal from '../../organisms/depositAddressModal/DepositAddressModal'
 import InfoModal from '../../organisms/infoModal/InfoModal'
 import SwapInfo from '../../organisms/swapInfo/SwapInfo'
 import SwapLine from '../../organisms/swapLine/SwapLine'
@@ -117,15 +115,6 @@ const InfoEta = styled.div`
   text-align: center;
 `
 
-const WarningEta = styled.div`
-  padding: 20px;
-  background: #ffed8640;
-  border: 0.5px solid ${({ theme }) => theme.primary1};
-  border-radius: 10px;
-  color: ${({ theme }) => theme.primary1};
-  text-align: center;
-`
-
 const ProvisionalSafemoonBox = styled(InfoEta)``
 
 const PnetworkV3Badge = styled.span`
@@ -136,36 +125,15 @@ const PnetworkV3Badge = styled.span`
   padding: 5px 10px 5px 10px;
 `
 
-const EnableTelosEvmRow = styled.div`
-  display: flex;
-  padding: 0px 6px 0px 6px;
-  align-items: center;
-`
-
-const EnableTelosEvmText = styled.span`
-  padding-left: 0px;
-  text-align: left;
-  font-weight: 300;
-  color: ${({ theme }) => theme.text1};
-  font-size: 14px;
-  @media (max-width: 767.98px) {
-    font-size: 12px;
-  }
-`
-
 const Swap = ({
   assets: _assets,
-  migrationAssets: _migrationAssets,
   bpm,
-  swappersBalances,
   wallets,
   progress,
   infoModal,
   connectWithWallet,
-  depositAddressModal,
   swapButton = {},
   updateSwapButton,
-  hideDepositAddressModal,
   swap,
   hideInfoModal,
   selectPage,
@@ -187,13 +155,11 @@ const Swap = ({
     fromWallet,
     toWallet,
     eta,
-    poolAmount,
     onChangeFromAmount,
     onChangeToAmount,
     disableToInput,
     disableFromInput,
     curvePoolName,
-    curveImpact,
     onChangeOrder,
     onFromMax,
     onToMax,
@@ -204,9 +170,6 @@ const Swap = ({
     showModalTo,
     setShowModalFrom,
     setShowModalTo,
-    onCloseDepositAddressModal,
-    pegoutToTelosEvmAddress,
-    setPegoutToTelosEvmAddress,
     ToSRef,
     AddressWarningRef,
     canChangeOrder,
@@ -214,13 +177,11 @@ const Swap = ({
     progress,
     wallets,
     bpm,
-    swappersBalances,
     assets,
     connectWithWallet,
     swap,
     swapButton,
     updateSwapButton,
-    hideDepositAddressModal,
     setTosShow,
     setAddressWarningShow,
   })
@@ -279,40 +240,8 @@ const Swap = ({
                 onMax={onToMax}
               />
 
-              {from &&
-              (from.id === 'TLOS_ON_BSC_MAINNET' || from.id === 'TLOS_ON_ETH_MAINNET') &&
-              to &&
-              to.id === 'TLOS' ? (
-                <EnableTelosEvmRow>
-                  <Col style={{ paddingLeft: 0 }} className="pr-0">
-                    <EnableTelosEvmText>Receive on a tEVM (Telos EVM) compatible address</EnableTelosEvmText>
-                  </Col>
-                  <Col className="text-right" style={{ paddingRight: 0, paddingLeft: 0 }}>
-                    <Switch checked={pegoutToTelosEvmAddress} onChange={setPegoutToTelosEvmAddress} />
-                  </Col>
-                </EnableTelosEvmRow>
-              ) : null}
               {progress.show ? (
                 <Progress percent={progress.percent} message={progress.message} steps={progress.steps} />
-              ) : null}
-              {from && from.isNative && to && to && to.notifyDepositAddressWarning && (
-                <WarningEta>
-                  Please refrain from using previously generated deposit addresses, as doing so may result in a loss of
-                  funds.
-                </WarningEta>
-              )}
-              {to && to.swapperAddress && poolAmount < 1.2 * toAmount ? (
-                <WarningEta>
-                  Due to insufficient liquidity it may not be possible to process a swap of this size. Please try with a
-                  smaller amount or try again later. If you decide to proceed anyway, you may receive p{to.symbol}{' '}
-                  instead.
-                </WarningEta>
-              ) : null}
-              {from && from.swapperAddress && poolAmount < fromAmount ? (
-                <InfoEta>
-                  There is not enough liquidity in the stableswap pool to process this swap right now, please try again
-                  later
-                </InfoEta>
               ) : null}
               {eta === -1 || eta > 15 ? (
                 <InfoEta>
@@ -370,15 +299,7 @@ const Swap = ({
           </OuterContainerSwap>
         </Row>
       </Container>
-      <SwapInfo
-        from={from}
-        to={to}
-        amount={fromAmount}
-        bpm={bpm}
-        curvePoolName={curvePoolName}
-        curveImpact={curveImpact}
-        fees={fees}
-      />
+      <SwapInfo from={from} to={to} amount={fromAmount} bpm={bpm} curvePoolName={curvePoolName} fees={fees} />
       <ReactTooltip id="tooltip-fees" multiline={true} style={{ zIndex: 2 }} />
       <AssetListModal
         title="Swap from ..."
@@ -396,13 +317,6 @@ const Swap = ({
         onClose={() => setShowModalTo(false)}
         onSelect={onSelectTo}
       />
-      <DepositAddressModal
-        show={depositAddressModal.show}
-        onClose={onCloseDepositAddressModal}
-        asset={depositAddressModal.asset}
-        disabled={address === ''}
-        value={depositAddressModal.value}
-      />
       <InfoModal onClose={hideInfoModal} {...infoModal} />
     </React.Fragment>
   )
@@ -411,15 +325,12 @@ const Swap = ({
 Swap.propTypes = {
   assets: PropTypes.array.isRequired,
   bpm: PropTypes.object.isRequired,
-  swappersBalances: PropTypes.object.isRequired,
   wallets: PropTypes.object.isRequired,
-  depositAddressModal: PropTypes.object,
   defaultSelection: PropTypes.object,
   infoModal: PropTypes.object,
   swapButton: PropTypes.object,
   progress: PropTypes.object,
   connectWithWallet: PropTypes.func,
-  hideDepositAddressModal: PropTypes.func,
   swap: PropTypes.func,
   resetProgress: PropTypes.func,
   hideInfoModal: PropTypes.func,

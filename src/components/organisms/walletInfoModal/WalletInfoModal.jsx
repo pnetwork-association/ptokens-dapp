@@ -4,6 +4,7 @@ import { Row, Col } from 'react-bootstrap'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
+import { blockchainSymbolToName } from '../../../utils/maps'
 import Modal from '../../molecules/modal/Modal'
 
 const ContainerAccountInfo = styled.div`
@@ -79,7 +80,10 @@ const WalletInfoModal = ({ show, wallets, onClose, onChange, onConnect, onDiscon
             <ContainerAccountInfo key={`${blockchain}-wallet`}>
               <Row>
                 <Col xs={6} className="my-auto">
-                  <BlockchainImage src={`./assets/svg/${blockchain}.svg`} data-tip={formattedBlockchain} />
+                  <BlockchainImage
+                    src={`./assets/svg/${blockchainSymbolToName[blockchain].toUpperCase()}.svg`}
+                    data-tip={formattedBlockchain}
+                  />
                   <Account>{formattedAccount}</Account>
                 </Col>
                 <Col xs={6} className="my-auto text-right">

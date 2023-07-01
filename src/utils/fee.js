@@ -1,12 +1,8 @@
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 
-import { PNT_ON_ETH_MAINNET, ETHPNT_ON_ETH_MAINNET, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../constants'
-
 import { formatDecimalSeparator } from './amount-utils'
 import { createAsset } from './ptokens'
-
-const getFeeFactor = (fee) => (_.isNil(fee) ? null : 1 - fee / 100)
 
 const getBasisPoints = (_fromAsset, _toAsset) => {
   if (_fromAsset.assetInfo.isNative && _toAsset.assetInfo.isNative)
@@ -17,12 +13,6 @@ const getBasisPoints = (_fromAsset, _toAsset) => {
     return _fromAsset.assetInfo.fees.basisPoints.hostToNative
   else if (!_fromAsset.assetInfo.isNative && !_toAsset.assetInfo.isNative)
     return _fromAsset.assetInfo.fees.basisPoints.hostToHost
-}
-
-const getMigrationFees = (_from, _to) => {
-  if (_from.id === ETHPNT_ON_ETH_MAINNET && _to.id === PNT_ON_ETH_MAINNET) return 0.25
-  else if (_from.id === PBTC_ON_ETH_MAINNET_V1_MIGRATION) return 0
-  else return null
 }
 
 const getSwapFees = async (_from, _to) => {
@@ -75,16 +65,6 @@ const computeFromAmount = (fees, amount) => {
         .plus(BigNumber(fees.networkFee).dividedBy(1e18))
         .plus(BigNumber(fees.minProtocolFee).dividedBy(1e18))
         .toFixed()
-}
-
-const computeMigrationAmount = (from, to, amount, direction) => {
-  const feeCoeff = getFeeFactor(getMigrationFees(from, to))
-  if (_.isNil(feeCoeff)) return null
-  return amount !== ''
-    ? BigNumber(amount)
-        .multipliedBy(direction === 'to' ? feeCoeff : 1 / feeCoeff)
-        .toFixed()
-    : amount
 }
 
 const computeSwapAmount = (fees, amount, direction) => {
@@ -147,9 +127,7 @@ const getFormattedFees = (fees, amount, symbol) => {
 }
 
 export {
-  getMigrationFees,
   getSwapFees,
-  computeMigrationAmount,
   computeSwapAmount,
   computeFeesAmount,
   getFormattedFees,

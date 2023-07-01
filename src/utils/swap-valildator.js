@@ -7,13 +7,10 @@ export const isValidSwap = (from, to, assets) => {
   if (to.isHidden) return false
   if (to.nativeSymbol.toLowerCase() !== from.nativeSymbol.toLowerCase()) return false
   if (from.isNative) {
-    if (to.requiresCurve) return false
     return true
   } else {
     if (from.isPseudoNative && !to.isNative) return false
     if (to.isPseudoNative) return false
-    if (to.requiresCurve) return false
-    if (from.requiresCurve && from.blockchain === to.blockchain) return false
     return true
   }
 }

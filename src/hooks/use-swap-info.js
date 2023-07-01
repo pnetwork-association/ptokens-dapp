@@ -1,17 +1,13 @@
 import { networkIdToTypeMap, BlockchainType } from 'ptokens-constants'
 import { useMemo } from 'react'
 
-import { getAssetById } from '../store/swap/swap.selectors'
 import { getPeginOrPegoutMinutesEstimationByBlockchainAndEta } from '../utils/estimations'
 import { getFormattedFees } from '../utils/fee'
 
-const useSwapInfo = ({ from, to, amount, bpm, swappersBalances, fees }) => {
+const useSwapInfo = ({ from, to, amount, bpm, fees }) => {
   return useMemo(() => {
     function getEta() {
       let fromAsset = from
-      if (from.requiresCurve) {
-        fromAsset = getAssetById(from.pTokenId)
-      }
       // ATM, the API returns untrustworthy estimates for EOS-like chains.
       // For those chains, assume the sync ETA is 0 if the BPM is > 0
       // as EOS-like chains are usually very fast.
@@ -59,32 +55,18 @@ const useSwapInfo = ({ from, to, amount, bpm, swappersBalances, fees }) => {
     const estimatedSwapTime = getPeginOrPegoutMinutesEstimationByBlockchainAndEta(from.blockchain, eta)
 
     if (from.isNative && !to.isNative) {
-      const amounts = { ...swappersBalances }
-      const poolAmount =
-        to.isPseudoNative && amounts[to.swapperAddress]
-          ? amounts[to.swapperAddress][to.address] / 10 ** to.decimals
-          : undefined
       return {
         formattedFee: getFormattedFees(fees, amount, to.symbol),
         estimatedSwapTime,
         show: true,
         eta,
-        poolAmount,
       }
     } else if (!from.isNative) {
-      const amounts = { ...swappersBalances }
-      const requiresCurve = from.requiresCurve
-      const poolAmount =
-        from.isPseudoNative && amounts[from.swapperAddress]
-          ? amounts[from.swapperAddress][from.ptokenAddress] / 10 ** from.decimals
-          : undefined
       return {
         formattedFee: getFormattedFees(fees, amount, to.symbol),
         estimatedSwapTime,
         show: true,
         eta,
-        poolAmount,
-        requiresCurve,
       }
     }
 
@@ -95,7 +77,7 @@ const useSwapInfo = ({ from, to, amount, bpm, swappersBalances, fees }) => {
       estimatedSwapTime: `-`,
       show: false,
     }
-  }, [from, to, amount, bpm, swappersBalances, fees])
+  }, [from, to, amount, bpm, fees])
 }
 
 export { useSwapInfo }

@@ -209,12 +209,6 @@ const Header = (_props) => {
           <StyledNavLink active={selectedPage === 'swap'} onClick={onSwap}>
             Swap
           </StyledNavLink>
-          <StyledNavLink active={selectedPage.includes('migration')} onClick={() => selectPage('migration')}>
-            Migration
-          </StyledNavLink>
-          <StyledNavLink active={selectedPage === 'nfts'} onClick={() => selectPage('nfts')}>
-            NFTs
-          </StyledNavLink>
           <StyledNavLink active={selectedPage === 'risks'} onClick={() => selectPage('risks')}>
             Risks
           </StyledNavLink>
@@ -236,16 +230,6 @@ const Header = (_props) => {
             Risks
           </StyledNavLink>
           <DropdownMobile title="More">
-            <NavDropdown.Item>
-              <StyledNavDown active={selectedPage.includes('migration')} onClick={() => selectPage('migration')}>
-                Migration
-              </StyledNavDown>
-            </NavDropdown.Item>
-            <NavDropdown.Item>
-              <StyledNavDown active={selectedPage === 'nfts'} onClick={() => selectPage('nfts')}>
-                NFTs
-              </StyledNavDown>
-            </NavDropdown.Item>
             <NavDropdown.Item>
               <StyledNavDown onClick={() => window.open(settings.links.stats, '_blank', 'noopener,noreferrer')}>
                 Stats <GoToIcon icon="arrow-diagonal" />

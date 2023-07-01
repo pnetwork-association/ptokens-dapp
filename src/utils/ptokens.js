@@ -1,4 +1,5 @@
 import { pTokensEvmAssetBuilder, pTokensEvmProvider } from 'ptokens-assets-evm'
+import { BlockchainType, networkIdToTypeMap } from 'ptokens-constants'
 import { pTokensSwapBuilder } from 'ptokens-swap'
 
 import { getFactoryAddressByBlockchain } from '../settings'
@@ -6,17 +7,14 @@ import { getAssetById } from '../store/swap/swap.selectors'
 
 import { getReadOnlyProviderByBlockchain } from './read-only-providers'
 
-const evmBlockchains = ['eth', 'sepolia', 'goerli', 'bsc', 'ftm', 'polygon', 'luxochain', 'arbitrum', 'xdai']
-
 const getAssetBuilder = (_asset) => {
-  if (evmBlockchains.includes(_asset.blockchain.toLowerCase())) return new pTokensEvmAssetBuilder()
+  if (networkIdToTypeMap.get(_asset.networkId) === BlockchainType.EVM) return new pTokensEvmAssetBuilder()
 }
 
 const getProvider = (_asset, _wallets) => {
-  if (evmBlockchains.includes(_asset.blockchain.toLowerCase()))
+  if (networkIdToTypeMap.get(_asset.networkId) === BlockchainType.EVM)
     return new pTokensEvmProvider(
-      _wallets[_asset.blockchain.toLowerCase()].provider ||
-        getReadOnlyProviderByBlockchain(_asset.blockchain.toUpperCase())
+      _wallets[_asset.blockchain].provider || getReadOnlyProviderByBlockchain(_asset.blockchain)
     )
 }
 

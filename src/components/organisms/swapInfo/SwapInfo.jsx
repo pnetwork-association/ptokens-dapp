@@ -5,7 +5,6 @@ import Skeleton from 'react-loading-skeleton'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
-import { MAX_IMPACT } from '../../../constants'
 import { useSwapInfo } from '../../../hooks/use-swap-info'
 import { getFormattedNetworkFee, getFormattedProtocolFee } from '../../../utils/fee'
 import Icon from '../../atoms/icon/Icon'
@@ -129,14 +128,13 @@ const FeeRow = ({ label, value, datatip }) => (
   </MarginedRow>
 )
 
-const SwapInfo = ({ from, to, amount, bpm, swappersBalances, curveImpact, fees }) => {
+const SwapInfo = ({ from, to, amount, bpm, fees }) => {
   const [showInfo, setShowInfo] = useState(false)
-  const { show, formattedFee, estimatedSwapTime, requiresCurve } = useSwapInfo({
+  const { show, formattedFee, estimatedSwapTime } = useSwapInfo({
     from,
     to,
     amount,
     bpm,
-    swappersBalances,
     fees,
   })
 
@@ -174,25 +172,12 @@ const SwapInfo = ({ from, to, amount, bpm, swappersBalances, curveImpact, fees }
         <LabelCol xs={7}>Estimated processing time</LabelCol>
         <ValueCol xs={5}>{estimatedSwapTime}</ValueCol>
       </MarginedRow>
-      {requiresCurve && +curveImpact > MAX_IMPACT ? (
-        <MarginedRow>
-          <LabelCol xs={6}>High price impact</LabelCol>
-          <ValueCol xs={6}>{curveImpact}%</ValueCol>
-        </MarginedRow>
-      ) : null}
-      {requiresCurve && +curveImpact <= MAX_IMPACT ? (
-        <MarginedRow>
-          <LabelCol xs={6}>Price impact</LabelCol>
-          <ValueCol xs={6}>{curveImpact}%</ValueCol>
-        </MarginedRow>
-      ) : null}
     </ContainerInfo>
   )
 }
 
 SwapInfo.propTypes = {
   bpm: PropTypes.object,
-  swappersBalances: PropTypes.object,
   from: PropTypes.object,
   to: PropTypes.object,
   amount: PropTypes.string,

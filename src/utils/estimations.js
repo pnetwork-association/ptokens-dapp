@@ -1,24 +1,9 @@
 import BigNumber from 'bignumber.js'
+import { Blockchain } from 'ptokens-constants'
 
 const estimations = {
-  eth: 5,
-  btc: 10,
-  eos: 4,
-  telos: 4,
-  libre: 4,
-  bsc: 5,
-  xdai: 5,
-  polygon: 5,
-  ltc: 10,
-  doge: 5,
-  rvn: 5,
-  lbc: 5,
-  ultra: 4,
-  arbitrum: 5,
-  luxochain: 5,
-  algorand: 5,
-  ftm: 5,
-  ore: 4,
+  [Blockchain.Gnosis]: 5,
+  [Blockchain.Arbitrum]: 5,
 }
 
 const getPeginOrPegoutMinutesEstimationByBlockchainAndEta = (_blockchain, _eta) => {
@@ -26,8 +11,8 @@ const getPeginOrPegoutMinutesEstimationByBlockchainAndEta = (_blockchain, _eta) 
     return `Unknown`
   }
 
-  if (_eta < 2 * estimations[_blockchain.toLowerCase()]) {
-    return `~${BigNumber(estimations[_blockchain.toLowerCase()]).toFixed(0)} minutes`
+  if (_eta < 2 * estimations[_blockchain]) {
+    return `~${BigNumber(estimations[_blockchain]).toFixed(0)} minutes`
   }
 
   return `~${BigNumber(_eta).toFixed(0)} minutes`

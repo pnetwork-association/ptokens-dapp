@@ -35,7 +35,6 @@ const Wrapper = ({ asset, originBlockchain, destBlockchain }) => {
         updateSwapButton={updateSwapButton}
         bpm={{}}
         wallets={wallets}
-        swappersBalances={{}}
         swapButton={button}
       />
     </ThemeContext.Provider>

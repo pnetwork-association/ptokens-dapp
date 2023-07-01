@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { BlockchainType, networkIdToTypeMap } from 'ptokens-constants'
 import React, { useState, useEffect, useCallback } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import ReactTooltip from 'react-tooltip'
@@ -65,7 +66,7 @@ const MetamaskIcon = styled(Icon)`
 `
 
 const AssetInfo = ({ asset, wallet }) => {
-  const { symbol, address, explorer, blockchain, decimals, isSpecial, isNative, image } = asset
+  const { symbol, address, explorer, networkId, decimals, isSpecial, isNative, image } = asset
   const [isCopiedToClipboard, setIsCopiedToClipboard] = useState(false)
   const { isMetaMask } = useProvider(wallet.provider)
 
@@ -109,7 +110,7 @@ const AssetInfo = ({ asset, wallet }) => {
                 }, 1500)
               }}
             />
-            {blockchain !== 'EOS' && blockchain !== 'TELOS' && blockchain !== 'LIBRE' && blockchain !== 'ALGORAND' ? (
+            {networkIdToTypeMap.get(networkId) === BlockchainType.EVM ? (
               <MetamaskIcon
                 icon="metamask"
                 data-tip={!wallet.provider ? 'Connect MetaMask to add the token' : 'Add to MetaMask'}

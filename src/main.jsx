@@ -1,4 +1,4 @@
-import { FactoryAddress, NetworkId } from 'ptokens-constants'
+import { Blockchain, FactoryAddress, Network, NetworkId } from 'ptokens-constants'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
@@ -9,10 +9,8 @@ import App from './App'
 import { initialize } from './ga4'
 import * as serviceWorker from './serviceWorker'
 import settings from './settings'
-import generateSettings from './settings/utils'
 import store from './store'
 import ThemeProvider, { ThemedGlobalStyle } from './theme/ThemeProvider'
-import history from './utils/history'
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 import 'react-step-progress-bar/styles.css'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
@@ -32,17 +30,17 @@ root.render(
   <Provider store={store}>
     <ThemeProvider>
       <ThemedGlobalStyle />
-      <HashRouter history={history}>
+      <HashRouter>
         <Web3SettingsProvider
           settings={{
             factoryAddress: {
               label: 'pTokens Factory Address',
               settings: {
-                xdai: {
-                  label: 'XDAI',
+                [Blockchain.Gnosis]: {
+                  label: 'Gnosis',
                   value: FactoryAddress.get(NetworkId.GnosisMainnet),
                 },
-                arbitrum: {
+                [Blockchain.Arbitrum]: {
                   label: 'Arbitrum',
                   value: FactoryAddress.get(NetworkId.ArbitrumMainnet),
                 },
@@ -50,7 +48,16 @@ root.render(
             },
             rpcEndpoints: {
               label: 'RPC Node Endpoints',
-              settings: generateSettings(settings.rpc.mainnet),
+              settings: {
+                [Blockchain.Gnosis]: {
+                  label: 'Gnosis',
+                  value: settings.rpc[Network.Mainnet][Blockchain.Gnosis].endpoint,
+                },
+                [Blockchain.Arbitrum]: {
+                  label: 'Arbitrum',
+                  value: settings.rpc[Network.Mainnet][Blockchain.Arbitrum].endpoint,
+                },
+              },
             },
           }}
         >

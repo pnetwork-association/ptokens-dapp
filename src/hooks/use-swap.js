@@ -1,19 +1,9 @@
-import curve from '@curvefi/api'
 import BigNumber from 'bignumber.js'
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 
-import {
-  TLOS_ON_BSC_MAINNET,
-  TLOS_ON_ETH_MAINNET,
-  PBTC_ON_ETH_POOL,
-  CURVE_MIN_AMOUNT,
-  CURVE_MAX_AMOUNT,
-} from '../constants'
 import { sendEvent } from '../ga4'
-import { maybeOptInAlgoApp, maybeOptInAlgoAsset } from '../store/swap/utils/opt-in-algo'
 import { isValidAccountByBlockchain } from '../utils/account-validator'
 import { computeSwapAmount } from '../utils/fee'
-import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 import { isValidSwap } from '../utils/swap-valildator'
 import { updateUrlForSwap } from '../utils/url'
 
@@ -23,14 +13,12 @@ import { useWalletByBlockchain } from './use-wallets'
 const useSwap = ({
   wallets,
   bpm,
-  swappersBalances,
   assets,
   connectWithWallet,
   swap,
   progress,
   swapButton,
   updateSwapButton,
-  hideDepositAddressModal,
   setTosShow,
   setAddressWarningShow,
 }) => {
@@ -43,14 +31,9 @@ const useSwap = ({
   const [showModalFrom, setShowModalFrom] = useState(false)
   const [showModalTo, setShowModalTo] = useState(false)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
-  const [pegoutToTelosEvmAddress, setPegoutToTelosEvmAddress] = useState(false)
   const ToSRef = useRef({ isAccepted: false, isRefused: false })
-  const curveRef = useRef(null)
-  const [disableToInput, setDisableToInput] = useState(false)
-  const [disableFromInput, setDisableFromInput] = useState(false)
-  const [curveState, setCurveState] = useState(false)
-  const [curveImpact, setCurveImpact] = useState(0)
-  const [curvePoolName, setCurvePoolName] = useState('')
+  const [disableToInput] = useState(false)
+  const [disableFromInput] = useState(false)
   const [toAmountNeedsUpdate, setToAmountNeedsUpdate] = useState(true)
   const AddressWarningRef = useRef({ proceed: false, doNotProceed: false })
 
@@ -66,71 +49,16 @@ const useSwap = ({
   }, [from, to])
 
   useEffect(() => {
-    let curveExpected = 0
-    let curveImpact = 0
-
-    async function calcWithNewAmount(_amount) {
-      if (_amount && _amount > CURVE_MIN_AMOUNT) {
-        try {
-          if (_amount > CURVE_MAX_AMOUNT) _amount = CURVE_MAX_AMOUNT
-          curveExpected = await curveRef.current[0]
-            .getPool(PBTC_ON_ETH_POOL)
-            .swapExpected(curveRef.current[1], curveRef.current[2], _amount)
-          curveImpact = await curveRef.current[0]
-            .getPool(PBTC_ON_ETH_POOL)
-            .swapPriceImpact(curveRef.current[1], curveRef.current[2], _amount)
-          curveImpact = curveImpact.toString().slice(0, 6)
-          setCurveImpact(curveImpact)
-        } catch (_err) {
-          curveExpected = 0
-        }
-      } else {
-        curveExpected = 0
-        setCurveImpact(0)
-      }
-      setToAmount(computeSwapAmount(fees, curveExpected, 'to'))
-    }
-
-    if (curveRef.current) {
-      calcWithNewAmount(fromAmount)
-    } else {
-      if (toAmountNeedsUpdate) {
-        setToAmount(computeSwapAmount(fees, fromAmount, 'to'))
-      }
+    if (toAmountNeedsUpdate) {
+      setToAmount(computeSwapAmount(fees, fromAmount, 'to'))
     }
   }, [fees, fromAmount, toAmountNeedsUpdate])
 
-  useEffect(() => {
-    async function curveInit() {
-      const provider = getReadOnlyProviderByBlockchain(from.blockchain.toUpperCase())
-      await curve.init('Web3', { externalProvider: provider }, { chainId: from.curveChainId })
-      await curve.fetchFactoryPools()
-      curveRef.current = [curve, from.address, from.swapToAddress]
-      setCurvePoolName(curveRef.current[0].getPool(PBTC_ON_ETH_POOL).fullName)
-      setDisableFromInput(false)
-      setCurveState(true)
-    }
-
-    if (from && from.requiresCurve) {
-      setDisableToInput(true)
-      if (!curveRef.current) {
-        curveInit()
-      }
-    } else if (curveRef.current) {
-      setDisableToInput(false)
-      setDisableFromInput(false)
-      curveRef.current = null
-      setCurveState(false)
-      setCurvePoolName('')
-    }
-  }, [fromAmount, to, from, curveRef])
-
-  const { eta, poolAmount } = useSwapInfo({
+  const { eta } = useSwapInfo({
     from,
     to,
     fees,
     bpm,
-    swappersBalances,
     fromAmount,
   })
 
@@ -152,7 +80,6 @@ const useSwap = ({
     const currentFrom = from
     setFrom(to)
     setTo(currentFrom)
-    setPegoutToTelosEvmAddress(false)
   }, [from, to])
 
   const onFromMax = useCallback(() => {
@@ -206,9 +133,7 @@ const useSwap = ({
     function doSwap() {
       updateSwapButton(swapButton.text === 'Swap' ? 'Swapping ...' : 'Generating ...', true)
       sendEvent('swap_click', { asset_from: from.id, asset_to: to.id, from_amount: fromAmount })
-      swap(from, to, fromAmount, address, {
-        pegoutToTelosEvmAddress,
-      })
+      swap(from, to, fromAmount, address)
     }
 
     if (swapButton.text === 'Connect Wallet') {
@@ -223,7 +148,7 @@ const useSwap = ({
       connectToWallet()
     }
 
-    if (swapButton.text === 'Get Deposit Address' || swapButton.text === 'Swap') {
+    if (swapButton.text === 'Swap') {
       const swapAction = async () => {
         try {
           await waitForToS()
@@ -249,7 +174,6 @@ const useSwap = ({
     address,
     fromAmount,
     swap,
-    pegoutToTelosEvmAddress,
     connectWithWallet,
     setTosShow,
     updateSwapButton,
@@ -259,10 +183,8 @@ const useSwap = ({
   const onSelectFrom = useCallback((_asset) => {
     setShowModalFrom(false)
     setFrom(_asset)
-    if (_asset.requiresCurve) setDisableFromInput(true)
     setFromAmount('')
     setToAmount('')
-    setPegoutToTelosEvmAddress(false)
   }, [])
 
   const onSelectTo = useCallback((_asset) => {
@@ -270,13 +192,7 @@ const useSwap = ({
     setTo(_asset)
     setFromAmount('')
     setToAmount('')
-    setPegoutToTelosEvmAddress(false)
   }, [])
-
-  const onCloseDepositAddressModal = useCallback(() => {
-    updateSwapButton(!wallets[from.blockchain.toLowerCase()] ? 'Get Deposit Address' : 'Swap')
-    hideDepositAddressModal()
-  }, [from, wallets, updateSwapButton, hideDepositAddressModal])
 
   // NOTE: default selection
   useMemo(() => {
@@ -303,19 +219,12 @@ const useSwap = ({
 
   // NOTE: change to address with a connected account
   useEffect(() => {
-    if (to && wallets[to.blockchain.toLowerCase()] && wallets[to.blockchain.toLowerCase()].account)
-      setAddress(wallets[to.blockchain.toLowerCase()].account)
+    if (to && wallets[to.blockchain] && wallets[to.blockchain].account) setAddress(wallets[to.blockchain].account)
   }, [wallets, to])
 
   // NOTE: calculates button text
   useEffect(() => {
     const validate = async () => {
-      if (from && from.requiresCurve && !curveState) {
-        updateSwapButton('Loading wBTC Curve pool ...', true)
-        setDisableFromInput(true)
-        return
-      }
-
       if (!from || !to) {
         updateSwapButton('Loading ...', true)
         return
@@ -338,28 +247,23 @@ const useSwap = ({
       }
 
       // NOTE: if wallet is connected but balance is still null it means that we are loading balances
-      if (wallets[from.blockchain.toLowerCase()] && wallets[from.blockchain.toLowerCase()].account && !from.balance) {
+      if (wallets[from.blockchain] && wallets[from.blockchain].account && !from.balance) {
         updateSwapButton('Loading balances ...', true)
         return
       }
 
-      if (wallets[to.blockchain.toLowerCase()] && wallets[to.blockchain.toLowerCase()].account && !to.balance) {
+      if (wallets[to.blockchain] && wallets[to.blockchain].account && !to.balance) {
         updateSwapButton('Loading balances ...', true)
         return
       }
 
-      if (fromAmount === '' && !from.peginWithDepositAddress) {
+      if (fromAmount === '') {
         updateSwapButton('Enter an amount', true)
         return
       }
 
-      if (!from.isNative && from.blockchain === 'ALGORAND' && from.isPseudoNative && poolAmount < fromAmount) {
-        updateSwapButton('Insufficient liquidity', true)
-        return
-      }
-
       // NOTE: missing from account for a non deposit address pegin
-      if (!wallets[from.blockchain.toLowerCase()].account) {
+      if (!wallets[from.blockchain].account) {
         updateSwapButton('Connect Wallet')
         return
       }
@@ -369,57 +273,20 @@ const useSwap = ({
         return
       }
 
-      if (from.isNative && !(await isValidAccountByBlockchain(address, to.blockchain))) {
+      if (from.isNative && !isValidAccountByBlockchain(address, to.blockchain)) {
         updateSwapButton('Invalid Address', true)
         return
       }
 
-      // handle enabling pegout to telos evm
-      if (
-        !from.isNative &&
-        pegoutToTelosEvmAddress &&
-        (from.id === TLOS_ON_ETH_MAINNET || from.id === TLOS_ON_BSC_MAINNET) &&
-        !isValidAccountByBlockchain(address, 'ETH')
-      ) {
+      if (!from.isNative && !isValidAccountByBlockchain(address, to.blockchain)) {
         updateSwapButton('Invalid Address', true)
         return
       }
-
-      if (!from.isNative && !pegoutToTelosEvmAddress && !(await isValidAccountByBlockchain(address, to.blockchain))) {
-        updateSwapButton('Invalid Address', true)
-        return
-      }
-
-      if (from.isNative && to.blockchain === 'ALGORAND') {
-        if (!(await maybeOptInAlgoAsset(address, parseInt(to.address, 10), updateSwapButton))) return
-        if (to.ptokenAddress && !(await maybeOptInAlgoAsset(address, parseInt(to.ptokenAddress, 10), updateSwapButton)))
-          return
-      }
-
-      if (
-        !from.isNative &&
-        from.blockchain === 'ALGORAND' &&
-        from.isPseudoNative &&
-        !(await maybeOptInAlgoApp(parseInt(from.swapperAddress, 10), updateSwapButton))
-      )
-        return
 
       updateSwapButton('Swap')
     }
     validate()
-  }, [
-    wallets,
-    from,
-    fromAmount,
-    toAmount,
-    to,
-    assets,
-    address,
-    pegoutToTelosEvmAddress,
-    updateSwapButton,
-    poolAmount,
-    curveState,
-  ])
+  }, [wallets, from, fromAmount, toAmount, to, assets, address, updateSwapButton])
 
   // NOTE: filters based on from selection
   const filteredAssets = useMemo(() => {
@@ -474,13 +341,10 @@ const useSwap = ({
     fromWallet,
     toWallet,
     eta,
-    poolAmount,
     onChangeFromAmount,
     onChangeToAmount,
     disableToInput,
     disableFromInput,
-    curvePoolName,
-    curveImpact,
     onChangeOrder,
     onFromMax,
     onToMax,
@@ -491,9 +355,6 @@ const useSwap = ({
     showModalTo,
     setShowModalFrom,
     setShowModalTo,
-    onCloseDepositAddressModal,
-    pegoutToTelosEvmAddress,
-    setPegoutToTelosEvmAddress,
     ToSRef,
     AddressWarningRef,
     canChangeOrder,

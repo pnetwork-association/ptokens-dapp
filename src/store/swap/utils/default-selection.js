@@ -1,20 +1,22 @@
 import { toastr } from 'react-redux-toastr'
 
+import { pTokenId, tokenId } from '../../../constants'
+import { blockchainSymbolToName } from '../../../utils/maps'
+
 const getDefaultSelection = (_assets, _options = {}) => {
-  const { asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol } = _options
-  return getDefaultSelectionV2(_assets, { asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol })
+  const { asset, from, to } = _options
+  return getDefaultSelectionV2(_assets, { asset, from, to })
 }
 
-const getDefaultSelectionV2 = (_assets, { asset, from, to, host_symbol }) => {
-  const tkn = _assets.find(({ id }) => id === 'USDC_ON_XDAI')
-  const ptkn = _assets.find(({ id }) => id === 'PUSDC_ON_ARBITRUM_MAINNET')
+const getDefaultSelectionV2 = (_assets, { asset, from, to }) => {
+  const tkn = _assets.find(({ id }) => id === tokenId.USDC_ON_XDAI)
+  const ptkn = _assets.find(({ id }) => id === pTokenId.PUSDC_ON_ARBITRUM_MAINNET)
   const assetFrom = asset
     ? _assets.find(
         ({ nativeSymbol, symbol, blockchain, isHidden }) =>
           !isHidden &&
           nativeSymbol.toLowerCase() === asset.toLowerCase() &&
-          blockchain.toLowerCase() === from.toLowerCase() &&
-          (host_symbol ? symbol.toLowerCase() === host_symbol.toLowerCase() : true)
+          blockchainSymbolToName[blockchain].toLowerCase() === from.toLowerCase()
       )
     : null
 
@@ -23,7 +25,7 @@ const getDefaultSelectionV2 = (_assets, { asset, from, to, host_symbol }) => {
         ({ nativeSymbol, blockchain, isHidden }) =>
           !isHidden &&
           nativeSymbol.toLowerCase() === asset.toLowerCase() &&
-          blockchain.toLowerCase() === to.toLowerCase()
+          blockchainSymbolToName[blockchain].toLowerCase() === to.toLowerCase()
       )
     : null
 

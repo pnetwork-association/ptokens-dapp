@@ -3,9 +3,6 @@ import history from '../../utils/history'
 
 const selectPage = (_page, _options = {}) => {
   const { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol } = _options
-  if (history.location.pathname.includes('migration')) {
-    history.replace('')
-  }
 
   history.push(_page)
 
