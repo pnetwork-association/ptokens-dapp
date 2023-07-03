@@ -128,13 +128,14 @@ const FeeRow = ({ label, value, datatip }) => (
   </MarginedRow>
 )
 
-const SwapInfo = ({ from, to, amount, fees }) => {
+const SwapInfo = ({ from, to, amount, fees, bpm }) => {
   const [showInfo, setShowInfo] = useState(false)
   const { show, formattedFee, estimatedSwapTime } = useSwapInfo({
     from,
     to,
     amount,
     fees,
+    bpm,
   })
 
   useEffect(() => {
@@ -180,6 +181,7 @@ SwapInfo.propTypes = {
   to: PropTypes.object,
   amount: PropTypes.string,
   fees: PropTypes.object,
+  bpm: PropTypes.object,
 }
 
 export default SwapInfo

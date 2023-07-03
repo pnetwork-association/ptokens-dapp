@@ -127,6 +127,7 @@ const PnetworkV3Badge = styled.span`
 
 const Swap = ({
   assets: _assets,
+  bpm,
   wallets,
   progress,
   infoModal,
@@ -296,7 +297,7 @@ const Swap = ({
           </OuterContainerSwap>
         </Row>
       </Container>
-      <SwapInfo from={from} to={to} amount={fromAmount} fees={fees} />
+      <SwapInfo from={from} to={to} amount={fromAmount} fees={fees} bpm={bpm} />
       <ReactTooltip id="tooltip-fees" multiline={true} style={{ zIndex: 2 }} />
       <AssetListModal
         title="Swap from ..."
@@ -321,6 +322,7 @@ const Swap = ({
 
 Swap.propTypes = {
   assets: PropTypes.array.isRequired,
+  bpm: PropTypes.object.isRequired,
   wallets: PropTypes.object.isRequired,
   defaultSelection: PropTypes.object,
   infoModal: PropTypes.object,

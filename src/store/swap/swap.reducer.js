@@ -1,5 +1,6 @@
 import {
   ASSETS_LOADED,
+  BPM_LOADED,
   SWAP_BALANCE_LOADED,
   PROGRESS_UPDATED,
   PROGRESS_RESET,
@@ -8,6 +9,7 @@ import {
 
 const initialState = {
   assets: [],
+  bpm: {},
   progress: {
     show: false,
     percent: 0,
@@ -36,6 +38,11 @@ const swapReducer = (_state = initialState, _action) => {
     const { id, balance } = payload
     return Object.assign({}, _state, {
       assets: _state.assets.map((_asset) => (_asset.id === id ? { ..._asset, balance } : _asset)),
+    })
+  }
+  if (type === BPM_LOADED) {
+    return Object.assign({}, _state, {
+      bpm: payload.challengePeriod,
     })
   }
   if (type === PROGRESS_UPDATED) {
