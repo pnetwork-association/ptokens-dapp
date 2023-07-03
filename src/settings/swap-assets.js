@@ -5,7 +5,6 @@ import { pTokenId, tokenId } from '../constants'
 const swapAssets = [
   /* #################   pTokens   #################*/
   {
-    address: '0x56112511EeDDC484EfDefCF18d4Ce28BDB542a1C',
     id: pTokenId.PUSDC_ON_XDAI_MAINNET,
     name: 'pUSDC',
     nativeDecimals: 6,
@@ -24,7 +23,6 @@ const swapAssets = [
     isHidden: true,
   },
   {
-    address: '0xff40059ab6e7250078963706496F05FB262dcEAF',
     id: pTokenId.PUSDC_ON_ARBITRUM_MAINNET,
     name: 'pUSDC',
     nativeDecimals: 6,
@@ -57,7 +55,6 @@ const swapAssets = [
     withBalanceDecimalsConversion: true,
     networkId: NetworkId.GnosisMainnet,
     isPerc20: true,
-    pTokenAddress: '0x56112511EeDDC484EfDefCF18d4Ce28BDB542a1C',
   },
 ]
 
