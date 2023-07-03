@@ -1,13 +1,9 @@
 import _ from 'lodash'
 import { useMemo, useState } from 'react'
 
-import { getFactoryAddressByBlockchain } from '../settings'
-import factoryAbi from '../store/swap/abi/PFactroryAbi.json'
-import { getAssetById } from '../store/swap/swap.selectors'
 import { offChainFormat, strip } from '../utils/amount-utils'
 import { getCorrespondingTokenExplorerLinkByBlockchain } from '../utils/explorer'
 import { blockchainSymbolToName, blockchainSymbolToCoin } from '../utils/maps'
-import { getProviderByNetworkId } from '../utils/ptokens'
 
 const updateAssets = async (_assets) => {
   const modifiedAssets = await Promise.all(
@@ -67,31 +63,10 @@ const useSearchAssets = (_assets) => {
   return [assets, setSearchWord]
 }
 
-const computeAssetAddress = async (_asset) => {
-  const asset = _asset.underlyingAsset ? getAssetById(_asset.underlyingAsset) : _asset
-  const provider = getProviderByNetworkId(_asset.networkId)
-  const factoryAddress = getFactoryAddressByBlockchain(_asset.blockchain)
-  const pTokenAddress = await provider.makeContractCall(
-    {
-      contractAddress: factoryAddress,
-      method: 'getPTokenAddress',
-      abi: factoryAbi,
-    },
-    [asset.name, asset.symbol, asset.decimals, asset.address, asset.networkId]
-  )
-  return pTokenAddress
-}
-
 const updateAsset = async (_asset) => {
-  const pTokenAddress = await computeAssetAddress(_asset)
   return {
     ..._asset,
-    address: _asset.isNative ? _asset.address : pTokenAddress,
-    pTokenAddress: _asset.isNative ? pTokenAddress : null,
-    explorer: getCorrespondingTokenExplorerLinkByBlockchain(
-      _asset.blockchain,
-      _asset.isPtoken ? pTokenAddress : _asset.address
-    ),
+    explorer: getCorrespondingTokenExplorerLinkByBlockchain(_asset.blockchain, _asset.address),
     formattedBalance: _asset.balance
       ? _asset.withBalanceDecimalsConversion
         ? strip(offChainFormat(_asset.balance, _asset.decimals))

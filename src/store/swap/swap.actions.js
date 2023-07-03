@@ -15,16 +15,41 @@ import { loadEvmCompatibleBalances, loadEvmCompatibleBalance } from './utils/bal
 import { getDefaultSelection } from './utils/default-selection'
 import peginWithWallet from './utils/pegin-with-wallet'
 
+const computeAssetAddress = async (_asset, _assets) => {
+  const asset = _asset.underlyingAsset ? _assets.find((_el) => _el.id === _asset.underlyingAsset) : _asset
+  const provider = getProviderByNetworkId(_asset.networkId)
+  const factoryAddress = getFactoryAddressByBlockchain(_asset.blockchain)
+  const pTokenAddress = await provider.makeContractCall(
+    {
+      contractAddress: factoryAddress,
+      method: 'getPTokenAddress',
+      abi: factoryAbi,
+    },
+    [asset.name, asset.symbol, asset.decimals, asset.address, asset.networkId]
+  )
+  return pTokenAddress
+}
+
 const loadSwapData = (_opts = {}) => {
   const { defaultSelection: { pToken, asset, from, to, host_symbol } = {} } = _opts
   return async (_dispatch) => {
     try {
+      const assetsWithAddress = await Promise.all(
+        assets.map(async (_asset) => {
+          const pTokenAddress = await computeAssetAddress(_asset, assets)
+          return {
+            ..._asset,
+            address: _asset.isNative ? _asset.address : pTokenAddress,
+            pTokenAddress: _asset.isNative ? pTokenAddress : null,
+          }
+        })
+      )
       _dispatch({
         type: ASSETS_LOADED,
         payload: {
           assets: [
-            ...assets,
-            ...getDefaultSelection(assets, {
+            ...assetsWithAddress,
+            ...getDefaultSelection(assetsWithAddress, {
               pToken,
               asset,
               from,
