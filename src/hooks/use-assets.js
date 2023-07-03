@@ -1,23 +1,20 @@
 import _ from 'lodash'
-import { BlockchainType, networkIdToTypeMap } from 'ptokens-constants'
-import { stringUtils } from 'ptokens-helpers'
 import { useMemo, useState } from 'react'
 
 import { offChainFormat, strip } from '../utils/amount-utils'
 import { getCorrespondingTokenExplorerLinkByBlockchain } from '../utils/explorer'
 import { blockchainSymbolToName, blockchainSymbolToCoin } from '../utils/maps'
 
-const useAssets = (_assets) => {
-  return useMemo(() => {
-    const modifiedAssets = _assets.filter(({ isHidden }) => !isHidden).map((_asset) => updateAsset(_asset))
+const updateAssets = async (_assets) => {
+  const modifiedAssets = await Promise.all(
+    _assets.filter(({ isHidden }) => !isHidden).map((_asset) => updateAsset(_asset))
+  )
+  const assetsWithBalance = modifiedAssets
+    .filter(({ formattedBalance }) => formattedBalance !== '-')
+    .sort((_a, _b) => _b.formattedBalance - _a.formattedBalance)
+  const assetsWithoutBalance = modifiedAssets.filter(({ formattedBalance }) => formattedBalance === '-')
 
-    const assetsWithBalance = modifiedAssets
-      .filter(({ formattedBalance }) => formattedBalance !== '-')
-      .sort((_a, _b) => _b.formattedBalance - _a.formattedBalance)
-    const assetsWithoutBalance = modifiedAssets.filter(({ formattedBalance }) => formattedBalance === '-')
-
-    return [[...assetsWithBalance, ...assetsWithoutBalance]]
-  }, [_assets])
+  return [...assetsWithBalance, ...assetsWithoutBalance]
 }
 
 const useAssetsWithouDefault = (_assets) => {
@@ -53,13 +50,12 @@ const useSearchAssets = (_assets) => {
   const [assets] = useMemo(() => {
     return [
       _assets.filter(
-        ({ name, nativeBlockchain, blockchain, address, symbol, coin }) =>
+        ({ name, nativeBlockchain, blockchain, symbol, coin }) =>
           name.toLowerCase().includes(searchWord.toLowerCase()) ||
           symbol.toLowerCase().includes(searchWord.toLowerCase()) ||
           (coin && coin.toLowerCase().includes(searchWord.toLowerCase())) ||
           blockchainSymbolToName[nativeBlockchain].toLowerCase().includes(searchWord.toLowerCase()) ||
-          `${name} on ${blockchain}`.toLowerCase().includes(searchWord.toLowerCase()) ||
-          (address && address.toLowerCase() === searchWord.toLowerCase())
+          `${name} on ${blockchain}`.toLowerCase().includes(searchWord.toLowerCase())
       ),
     ]
   }, [_assets, searchWord])
@@ -67,33 +63,31 @@ const useSearchAssets = (_assets) => {
   return [assets, setSearchWord]
 }
 
-const updateAsset = (_asset) => ({
-  ..._asset,
-  address:
-    _asset.address && networkIdToTypeMap.get(_asset.networkId) === BlockchainType.EVM
-      ? stringUtils.addHexPrefix(_asset.address)
-      : _asset.address,
-  explorer: _asset.address ? getCorrespondingTokenExplorerLinkByBlockchain(_asset.blockchain, _asset.address) : null,
-  formattedBalance: _asset.balance
-    ? _asset.withBalanceDecimalsConversion
-      ? strip(offChainFormat(_asset.balance, _asset.decimals))
-      : _asset.balance
-    : '-',
-  balance: _asset.balance
-    ? _asset.withBalanceDecimalsConversion
-      ? offChainFormat(_asset.balance, _asset.decimals)
-      : _asset.balance
-    : null,
-  coin: blockchainSymbolToCoin[_asset.nativeSymbol],
-  formattedName: _asset.formattedName
-    ? _asset.formattedName
-    : _asset.isBlockchainTokenNative
-    ? _asset.symbol
-    : !_asset.isNative
-    ? `on ${blockchainSymbolToName[_asset.blockchain].toUpperCase()}${_asset.isPseudoNative ? ' (NATIVE)' : ''}`
-    : _asset.symbol,
-  image: `./assets/svg/${_asset.image}`,
-  miniImage: `./assets/svg/${_asset.miniImage || blockchainSymbolToName[_asset.blockchain].toUpperCase()}.svg`,
-})
+const updateAsset = async (_asset) => {
+  return {
+    ..._asset,
+    explorer: getCorrespondingTokenExplorerLinkByBlockchain(_asset.blockchain, _asset.address),
+    formattedBalance: _asset.balance
+      ? _asset.withBalanceDecimalsConversion
+        ? strip(offChainFormat(_asset.balance, _asset.decimals))
+        : _asset.balance
+      : '-',
+    balance: _asset.balance
+      ? _asset.withBalanceDecimalsConversion
+        ? offChainFormat(_asset.balance, _asset.decimals)
+        : _asset.balance
+      : null,
+    coin: blockchainSymbolToCoin[_asset.nativeSymbol],
+    formattedName: _asset.formattedName
+      ? _asset.formattedName
+      : _asset.isBlockchainTokenNative
+      ? _asset.symbol
+      : !_asset.isNative
+      ? `on ${blockchainSymbolToName[_asset.blockchain].toUpperCase()}${_asset.isPseudoNative ? ' (NATIVE)' : ''}`
+      : _asset.symbol,
+    image: `./assets/svg/${_asset.image}`,
+    miniImage: `./assets/svg/${_asset.miniImage || blockchainSymbolToName[_asset.blockchain].toUpperCase()}.svg`,
+  }
+}
 
-export { useAssets, useAssetsWithouDefault, usePtoken, useAssetsGroupedByGivenStrategy, useSearchAssets }
+export { updateAssets, useAssetsWithouDefault, usePtoken, useAssetsGroupedByGivenStrategy, useSearchAssets }

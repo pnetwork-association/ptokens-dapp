@@ -36,7 +36,7 @@ const loadEvmCompatibleBalance = async ({
     })
     return
   } catch (_err) {
-    console.error(`Error during getting ${asset.name} on ${blockchainSymbolToName(blockchain)} balance`, _err)
+    console.error(`Error during getting ${asset.name} on ${blockchainSymbolToName[blockchain]} balance`, _err)
   }
 }
 

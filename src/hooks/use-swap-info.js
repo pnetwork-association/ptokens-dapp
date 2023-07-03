@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { getPeginOrPegoutMinutesEstimationByBlockchainAndEta } from '../utils/estimations'
 import { getFormattedFees } from '../utils/fee'
 
-const useSwapInfo = ({ from, to, amount, fees }) => {
+const useSwapInfo = ({ from, to, amount, fees, bpm }) => {
   return useMemo(() => {
     if (!from || !to) {
       return {
@@ -15,7 +15,7 @@ const useSwapInfo = ({ from, to, amount, fees }) => {
       }
     }
 
-    const estimatedSwapTime = getPeginOrPegoutMinutesEstimationByBlockchainAndEta(from.blockchain)
+    const estimatedSwapTime = getPeginOrPegoutMinutesEstimationByBlockchainAndEta(to.blockchain, bpm)
 
     if (from.isNative && !to.isNative) {
       return {
@@ -38,7 +38,7 @@ const useSwapInfo = ({ from, to, amount, fees }) => {
       estimatedSwapTime: `-`,
       show: false,
     }
-  }, [from, to, amount, fees])
+  }, [from, to, amount, fees, bpm])
 }
 
 export { useSwapInfo }

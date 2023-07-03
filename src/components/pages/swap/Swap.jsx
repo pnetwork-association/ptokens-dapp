@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Row, Col, Container } from 'react-bootstrap'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
 import TermsOfService from '../../../components/molecules/popup/TermsOfService'
 import { sendEvent } from '../../../ga4'
-import { useAssets } from '../../../hooks/use-assets'
+import { updateAssets } from '../../../hooks/use-assets'
 import { useSwap } from '../../../hooks/use-swap'
 import defaultAssets from '../../../settings/swap-assets'
 import Button from '../../atoms/button/Button'
@@ -127,6 +127,7 @@ const PnetworkV3Badge = styled.span`
 
 const Swap = ({
   assets: _assets,
+  bpm,
   wallets,
   progress,
   infoModal,
@@ -137,7 +138,14 @@ const Swap = ({
   hideInfoModal,
   selectPage,
 }) => {
-  const [assets] = useAssets(_assets)
+  const [assets, setAssets] = useState([])
+  useEffect(() => {
+    async function f() {
+      const ret = await updateAssets(_assets)
+      setAssets(ret)
+    }
+    f()
+  }, [_assets])
   const [TosShow, setTosShow] = useState(false)
   const [AddressWarningShow, setAddressWarningShow] = useState(false)
   const [showWarningPopup, setShowWarningPopup] = useState(true)
@@ -296,7 +304,7 @@ const Swap = ({
           </OuterContainerSwap>
         </Row>
       </Container>
-      <SwapInfo from={from} to={to} amount={fromAmount} fees={fees} />
+      <SwapInfo from={from} to={to} amount={fromAmount} fees={fees} bpm={bpm} />
       <ReactTooltip id="tooltip-fees" multiline={true} style={{ zIndex: 2 }} />
       <AssetListModal
         title="Swap from ..."
@@ -321,6 +329,7 @@ const Swap = ({
 
 Swap.propTypes = {
   assets: PropTypes.array.isRequired,
+  bpm: PropTypes.object.isRequired,
   wallets: PropTypes.object.isRequired,
   defaultSelection: PropTypes.object,
   infoModal: PropTypes.object,

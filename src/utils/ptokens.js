@@ -5,10 +5,17 @@ import { pTokensSwapBuilder } from 'ptokens-swap'
 import { getFactoryAddressByBlockchain } from '../settings'
 import { getAssetById } from '../store/swap/swap.selectors'
 
-import { getReadOnlyProviderByBlockchain } from './read-only-providers'
+import { getReadOnlyProviderByBlockchain, getReadOnlyProviderByNetworkId } from './read-only-providers'
 
 const getAssetBuilder = (_asset) => {
   if (networkIdToTypeMap.get(_asset.networkId) === BlockchainType.EVM) return new pTokensEvmAssetBuilder()
+}
+
+export const getProviderByNetworkId = (_networkId) => {
+  if (networkIdToTypeMap.get(_networkId) === BlockchainType.EVM) {
+    const url = getReadOnlyProviderByNetworkId(_networkId)
+    return new pTokensEvmProvider(url)
+  }
 }
 
 const getProvider = (_asset, _wallets) => {

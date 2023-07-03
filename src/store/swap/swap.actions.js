@@ -1,27 +1,55 @@
-import { Blockchain } from 'ptokens-constants'
+import { Blockchain, NetworkId } from 'ptokens-constants'
 
-import { ASSETS_LOADED, PROGRESS_UPDATED, PROGRESS_RESET, UPDATE_SWAP_BUTTON } from '../../constants/index'
+import { ASSETS_LOADED, BPM_LOADED, PROGRESS_UPDATED, PROGRESS_RESET, UPDATE_SWAP_BUTTON } from '../../constants/index'
+import { getFactoryAddressByBlockchain } from '../../settings'
 import assets from '../../settings/swap-assets'
 import { parseError } from '../../utils/errors'
-import { createAsset, getSwapBuilder } from '../../utils/ptokens'
+import { createAsset, getProviderByNetworkId, getSwapBuilder } from '../../utils/ptokens'
 import { updateInfoModal } from '../pages/pages.actions'
 import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
 
+import factoryAbi from './abi/PFactroryAbi.json'
+import stateManagerAbi from './abi/PStateManagerAbi.json'
 import { getAssetsByBlockchain, getAssetById } from './swap.selectors'
 import { loadEvmCompatibleBalances, loadEvmCompatibleBalance } from './utils/balances'
 import { getDefaultSelection } from './utils/default-selection'
 import peginWithWallet from './utils/pegin-with-wallet'
 
+const computeAssetAddress = async (_asset, _assets) => {
+  const asset = _asset.underlyingAsset ? _assets.find((_el) => _el.id === _asset.underlyingAsset) : _asset
+  const provider = getProviderByNetworkId(_asset.networkId)
+  const factoryAddress = getFactoryAddressByBlockchain(_asset.blockchain)
+  const pTokenAddress = await provider.makeContractCall(
+    {
+      contractAddress: factoryAddress,
+      method: 'getPTokenAddress',
+      abi: factoryAbi,
+    },
+    [asset.name, asset.symbol, asset.decimals, asset.address, asset.networkId]
+  )
+  return pTokenAddress
+}
+
 const loadSwapData = (_opts = {}) => {
   const { defaultSelection: { pToken, asset, from, to, host_symbol } = {} } = _opts
   return async (_dispatch) => {
     try {
+      const assetsWithAddress = await Promise.all(
+        assets.map(async (_asset) => {
+          const pTokenAddress = await computeAssetAddress(_asset, assets)
+          return {
+            ..._asset,
+            address: _asset.isNative ? _asset.address : pTokenAddress,
+            pTokenAddress: _asset.isNative ? pTokenAddress : null,
+          }
+        })
+      )
       _dispatch({
         type: ASSETS_LOADED,
         payload: {
           assets: [
-            ...assets,
-            ...getDefaultSelection(assets, {
+            ...assetsWithAddress,
+            ...getDefaultSelection(assetsWithAddress, {
               pToken,
               asset,
               from,
@@ -31,6 +59,53 @@ const loadSwapData = (_opts = {}) => {
           ],
         },
       })
+
+      const loadBpm = async () => {
+        try {
+          const _getChallengePeriod = async (_networkId, _blockchain) => {
+            try {
+              const provider = getProviderByNetworkId(_networkId)
+              const factoryAddress = getFactoryAddressByBlockchain(_blockchain)
+              const stateManagerAddress = await provider.makeContractCall({
+                contractAddress: factoryAddress,
+                method: 'stateManager',
+                abi: factoryAbi,
+              })
+              const challengePeriodSeconds = await provider.makeContractCall({
+                contractAddress: stateManagerAddress,
+                method: 'getCurrentChallengePeriodDuration',
+                abi: stateManagerAbi,
+              })
+              return challengePeriodSeconds
+            } catch (_err) {
+              return 0
+            }
+          }
+
+          const a = await Promise.all(
+            [
+              { networkId: NetworkId.GnosisMainnet, blockchain: Blockchain.Gnosis },
+              { networkId: NetworkId.ArbitrumMainnet, blockchain: Blockchain.Arbitrum },
+            ].map(async ({ networkId, blockchain }) => ({
+              [blockchain]: await _getChallengePeriod(networkId, blockchain),
+            }))
+          )
+          const challengePeriod = Object.assign({}, ...a)
+
+          _dispatch({
+            type: BPM_LOADED,
+            payload: {
+              challengePeriod,
+            },
+          })
+        } catch (err) {
+          console.error('BPM API error:', err.message)
+        }
+      }
+
+      loadBpm()
+      setInterval(() => loadBpm(), 1000 * 5)
+
       const wallets = getWallets()
       Object.keys(wallets).forEach((_network) => {
         if (wallets[_network] && wallets[_network].account) {
