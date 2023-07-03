@@ -1,0 +1,36 @@
+import { beforeEach, describe, expect, test } from 'vitest'
+import { render, screen } from '@testing-library/react'
+import UserEvent from '@testing-library/user-event'
+import App from '../../App'
+import '@testing-library/jest-dom'
+import store from '../../store'
+import { Provider } from 'react-redux'
+import { HashRouter } from 'react-router-dom'
+import history from '../../utils/history'
+import ThemeProvider, { ThemedGlobalStyle } from '../../theme/ThemeProvider'
+
+describe('Swap', () => {
+  beforeEach(() => {
+    render(
+      <Provider store={store}>
+        <ThemeProvider>
+          <ThemedGlobalStyle />
+          <HashRouter history={history}>
+            <App />
+          </HashRouter>
+        </ThemeProvider>
+      </Provider>
+    )
+  })
+  test('should show title all the time', async () => {
+    const user = UserEvent.setup()
+    expect(screen.getByPlaceholderText('destination address').value).toStrictEqual('')
+    await user.tripleClick(screen.getByPlaceholderText('destination address'))
+    await user.paste('new address')
+    expect(screen.getByPlaceholderText('destination address').value).toStrictEqual('new address')
+    document.querySelector(
+      'html > body > div > div.main-content > div:nth-child(3) > div:nth-child(3) > div > div > div:nth-child(5) > button'
+    )
+    screen.debug(document)
+  })
+})

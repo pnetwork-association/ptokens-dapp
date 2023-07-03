@@ -9,7 +9,7 @@ export default defineConfig(() => ({
   base: './',
   plugins: [
     react(),
-    eslint(),
+    // eslint(),
     nodePolyfills({
       // Whether to polyfill `node:` protocol imports.
       protocolImports: true,

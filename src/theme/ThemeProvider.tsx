@@ -2,7 +2,32 @@ import React, { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { ThemeProvider as StyledComponentsThemeProvider, createGlobalStyle } from 'styled-components'
 
-export const colors = (_darkMode) => ({
+import { RootState } from '../store'
+
+export interface ITheme {
+  white: string
+  black: string
+  text1: string
+  text2: string
+  text3: string
+  bg1: string
+  bg2: string
+  primary1: string
+  primary1Transparentized: string
+  primary1Hovered: string
+  primary2: string
+  primary3: string
+  secondary1: string
+  secondary2: string
+  secondary3: string
+  secondary3Transparentized: string
+  secondary4: string
+  secondary4Hovered: string
+  lightGray: string
+  blue: string
+}
+
+export const colors = (_darkMode: boolean): ITheme => ({
   white: '#FFFFFF',
   black: '#000000',
 
@@ -33,13 +58,13 @@ export const colors = (_darkMode) => ({
   blue: '#66b8ff',
 })
 
-export const theme = (_darkMode) => ({
+export const theme = (_darkMode: string) => ({
   ...colors(_darkMode),
   type: _darkMode ? 'dark' : 'light',
 })
 
 export default function ThemeProvider({ children }) {
-  const currentTheme = useSelector((_state) => _state.pages.theme)
+  const currentTheme = useSelector((_state: RootState) => _state.pages.theme)
   const darkMode = currentTheme === 'dark'
   const themeObject = useMemo(() => theme(darkMode), [darkMode])
   return <StyledComponentsThemeProvider theme={themeObject}>{children}</StyledComponentsThemeProvider>
@@ -182,11 +207,11 @@ input[type=number] {
   font-weight: 500;
   border-radius: 10px;
   outline: none !important;
-  background: ${({ theme }) => theme.secondary4};
+  background: ${({ theme }: { theme: ITheme }) => theme.secondary4};
   &:hover {
-    background: ${({ theme }) => theme.secondary4Hovered};
+    background: ${({ theme }: { theme: ITheme }) => theme.secondary4Hovered};
   }
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }: { theme: ITheme }) => theme.text1};
   @media (max-width: 767.98px) {
     height: 35px;
   }
@@ -205,11 +230,11 @@ input[type=number] {
   font-weight: 500;
   border-radius: 10px;
   outline: none !important;
-  background: ${({ theme }) => theme.secondary4};
+  background: ${({ theme }: { theme: ITheme }) => theme.secondary4};
   &:hover {
-    background: ${({ theme }) => theme.secondary4Hovered};
+    background: ${({ theme }: { theme: ITheme }) => theme.secondary4Hovered};
   }
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }: { theme: ITheme }) => theme.text1};
   @media (max-width: 767.98px) {
     height: 35px;
   }
@@ -221,12 +246,12 @@ input[type=number] {
 }
 
 .dropdown-toggle.nav-link {
-  color: ${({ active, theme }) => (active ? theme.text1 : theme.text3)} !important;
+  color: ${({ active, theme }: { theme: ITheme }) => (active ? theme.text1 : theme.text3)} !important;
 }
 
 body {
   min-height: 100vh;
-  background-color: ${({ theme }) => theme.bg1} !important;
+  background-color: ${({ theme }: { theme: ITheme }) => theme.bg1} !important;
   background-image: radial-gradient(50% 50% at 50% 50%, rgba(255, 0,0, 0.1) 10%, rgba(255, 255, 255, 0) 100%);
 }
 `

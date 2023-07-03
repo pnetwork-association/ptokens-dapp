@@ -1,0 +1,39 @@
+import { beforeEach, describe, expect, test, vi } from 'vitest'
+import { render, screen } from '@testing-library/react'
+import UserEvent from '@testing-library/user-event'
+import SwapLine from '../SwapLine'
+import assets from '../../../../settings/swap-assets'
+import '@testing-library/jest-dom'
+import { useAssets } from '../../../../hooks/use-assets'
+
+describe('SwapLine', () => {
+  let onChangeAmountSpy = vi.fn()
+  let onChangeAddressSpy = vi.fn()
+  let onClickImageSpy = vi.fn()
+  beforeEach(() => {})
+
+  test('should show title all the time', async () => {
+    const user = UserEvent.setup()
+    const asset = useAssets(assets)
+    render(
+      <SwapLine
+        asset={asset[0]}
+        address=""
+        amount={'10.0000'}
+        defaultImage="./assets/svg/pBTC.svg"
+        defaultMiniImage="./assets/svg/ETH.svg"
+        hideMaxButton={true}
+        title="To"
+        wallet={{}}
+        onChangeAmount={onChangeAmountSpy}
+        onChangeAddress={onChangeAddressSpy}
+        onClickImage={onClickImageSpy}
+      />
+    )
+    expect(screen.getByPlaceholderText('destination address').value).toStrictEqual('')
+    await user.tripleClick(screen.getByPlaceholderText('destination address'))
+    await user.paste('new address')
+    expect(onChangeAddressSpy).toHaveBeenCalledTimes(1)
+    expect(onChangeAddressSpy).toHaveBeenCalledWith('new address')
+  })
+})

@@ -4,6 +4,8 @@ import { Col, Row, Spinner } from 'react-bootstrap'
 import styled from 'styled-components'
 
 import { useAssetsWithouDefault, useSearchAssets, useAssetsGroupedByGivenStrategy } from '../../../hooks/use-assets'
+import { Asset } from '../../../settings/swap-assets'
+import { ITheme } from '../../../theme/ThemeProvider'
 import { getAssetFromSymbol } from '../../../utils/maps'
 import Icon from '../../atoms/icon/Icon'
 import Modal from '../../molecules/modal/Modal'
@@ -13,9 +15,9 @@ const OuterTokenIcon = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid ${({ theme }) => theme.secondary2};
+  border: 1px solid ${({ theme }: { theme: ITheme }) => theme.secondary2};
   cursor: pointer;
-  box-shadow: ${({ theme }) => theme.secondary1} 1px 1px 9px -3px;
+  box-shadow: ${({ theme }: { theme: ITheme }) => theme.secondary1} 1px 1px 9px -3px;
 `
 
 const InnerTokenIcon = styled.img`
@@ -23,8 +25,8 @@ const InnerTokenIcon = styled.img`
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: 1px solid ${({ theme }) => theme.secondary2};
-  box-shadow: ${({ theme }) => theme.secondary1} 1px 1px 9px -3px;
+  border: 1px solid ${({ theme }: { theme: ITheme }) => theme.secondary2};
+  box-shadow: ${({ theme }: { theme: ITheme }) => theme.secondary1} 1px 1px 9px -3px;
   cursor: pointer;
 `
 
@@ -35,8 +37,8 @@ const Minicon = styled.img`
   border-radius: 50%;
   margin-top: 21px;
   margin-left: -12px;
-  border: 1px solid ${({ theme }) => theme.secondary2};
-  box-shadow: ${({ theme }) => theme.secondary1} 1px 1px 9px -3px;
+  border: 1px solid ${({ theme }: { theme: ITheme }) => theme.secondary2};
+  box-shadow: ${({ theme }: { theme: ITheme }) => theme.secondary1} 1px 1px 9px -3px;
   background: white;
   @media (max-width: 767.98px) {
     margin-top: -10px;
@@ -51,7 +53,7 @@ const ContainerRow = styled.div`
   padding-right: 15px;
   cursor: pointer;
   &:hover {
-    background: ${({ theme }) => theme.bg2};
+    background: ${({ theme }: { theme: ITheme }) => theme.bg2};
   }
 `
 
@@ -61,7 +63,7 @@ const ContainerInnerRow = styled.div`
   padding-left: 45px;
   padding-right: 45px;
   &:hover {
-    background: ${({ theme }) => theme.bg2};
+    background: ${({ theme }: { theme: ITheme }) => theme.bg2};
   }
 `
 
@@ -92,7 +94,7 @@ const Arrow = styled(Icon)`
   cursor: pointer;
 
   svg {
-    fill: ${({ theme }) => theme.text3};
+    fill: ${({ theme }: { theme: ITheme }) => theme.text3};
   }
 
   @media (max-width: 767.98px) {
@@ -108,7 +110,7 @@ const AssetSymbol = styled.div`
 `
 
 const AssetName = styled.div`
-  color: ${({ theme }) => theme.text3};
+  color: ${({ theme }: { theme: ITheme }) => theme.text3};
   font-size: 12px;
 `
 
@@ -117,18 +119,18 @@ const FormattedName = styled.span`
 `
 
 const Search = styled.input`
-  background: ${({ theme }) => theme.bg1};
+  background: ${({ theme }: { theme: ITheme }) => theme.bg1};
   width: 100%;
   padding: 15px;
   border-radius: 20px;
   outline: 0px !important;
   -webkit-appearance: none;
   box-shadow: none !important;
-  border: 1px solid ${({ theme }) => theme.lightGray};
-  color: ${({ theme }) => theme.secondary1};
+  border: 1px solid ${({ theme }: { theme: ITheme }) => theme.lightGray};
+  color: ${({ theme }: { theme: ITheme }) => theme.secondary1};
   font-size: 18px;
   &:focus {
-    border: 1px solid ${({ theme }) => theme.blue};
+    border: 1px solid ${({ theme }: { theme: ITheme }) => theme.blue};
   }
   @media (max-width: 767.98px) {
     font-size: 14px;
@@ -140,7 +142,7 @@ const ContainerSearch = styled.div`
   padding-bottom: 15px;
   padding-left: 15px;
   padding-right: 15px;
-  border-bottom: 1px solid ${({ theme }) => theme.lightGray};
+  border-bottom: 1px solid ${({ theme }: { theme: ITheme }) => theme.lightGray};
 `
 
 const ContainerTokenInfo = styled(Col)`
@@ -155,7 +157,7 @@ const ContainerTokenNameAndSymbol = styled.div`
 const StyledSpinner = styled(Spinner)`
   width: 18px;
   height: 18px;
-  color: ${({ theme }) => theme.blue};
+  color: ${({ theme }: { theme: ITheme }) => theme.blue};
   display: inline-block;
   vertical-align: text-bottom;
   border: 0.15em solid currentColor;
@@ -164,10 +166,18 @@ const StyledSpinner = styled(Spinner)`
   animation: spinner-border 0.75s linear infinite;
 `
 
-const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _assets, defaultAssets }) => {
+interface IFace {
+  show: boolean
+  title: string
+  assets: Asset[]
+  onClose: () => void
+  onSelect: () => void
+}
+
+const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _assets, defaultAssets }: IFace) => {
   const [assetsWithoutDefault] = useAssetsWithouDefault(_assets)
   const [filteredAssets, setSearchWord] = useSearchAssets(assetsWithoutDefault)
-  const [assets] = useAssetsGroupedByGivenStrategy(filteredAssets)
+  const assets = useAssetsGroupedByGivenStrategy(filteredAssets)
   const [show, setShow] = useState([])
   const inputSearchRef = useRef(null)
 
@@ -188,7 +198,7 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
   }, [assets, stillLoading])
 
   const onShow = useCallback(
-    (_index) => {
+    (_index: number) => {
       const currentShow = show
       currentShow[_index] = currentShow[_index] ? !currentShow[_index] : true
       setShow(currentShow.slice())
@@ -212,7 +222,7 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
   )
 
   const onShowLine = useCallback(
-    (_nativeSymbol, _index) => {
+    (_nativeSymbol: string, _index: number) => {
       if (assets[_nativeSymbol].find(({ miniImage, image }) => !miniImage || !image)) {
         return
       }

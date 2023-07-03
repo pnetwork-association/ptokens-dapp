@@ -28,7 +28,7 @@ const ShowMore = styled.div`
   font-size: 15px;
   margin-top: 15px;
   margin-bottom: 10px;
-  color: ${({ theme }) => theme.primary1};
+  color: ${({ theme }: { theme: ITheme }) => theme.primary1};
   cursor: pointer;
 `
 

@@ -14,7 +14,7 @@ const ContainerRow = styled.div`
   padding-right: 15px;
   cursor: pointer;
   &:hover {
-    background: ${({ theme }) => theme.bg2};
+    background: ${({ theme }: { theme: ITheme }) => theme.bg2};
   }
 `
 
@@ -27,16 +27,16 @@ const BlokchainIcon = styled.img`
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 1px solid ${({ theme }) => theme.secondary2};
+  border: 1px solid ${({ theme }: { theme: ITheme }) => theme.secondary2};
   cursor: pointer;
-  box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
+  box-shadow: ${({ theme }: { theme: ITheme }) => theme.text1} 1px 1px 9px -3px;
 `
 
 const ContainerBlockchainName = styled(Col)`
   margin-bottom: auto !important;
   margin-top: auto !important;
   text-align: center;
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }: { theme: ITheme }) => theme.text1};
   font-size: 16px;
 `
 const ContainerRightArrow = styled(Col)`
@@ -73,12 +73,12 @@ const AddressInput = styled.input`
   appearance: auto;
   -webkit-appearance: none;
   box-shadow: none !important;
-  background: ${({ theme }) => theme.bg1};
-  border: 1px solid ${({ theme }) => theme.lightGray};
-  color: ${({ theme }) => theme.secondary1};
+  background: ${({ theme }: { theme: ITheme }) => theme.bg1};
+  border: 1px solid ${({ theme }: { theme: ITheme }) => theme.lightGray};
+  color: ${({ theme }: { theme: ITheme }) => theme.secondary1};
   font-size: 18px;
   &:focus {
-    border: 1px solid ${({ theme }) => theme.blue};
+    border: 1px solid ${({ theme }: { theme: ITheme }) => theme.blue};
   }
 `
 
@@ -90,7 +90,7 @@ const MoveButton = styled.button`
   margin-top: 30px;
   width: 100%;
   color: white;
-  background: ${({ theme }) => theme.primary1};
+  background: ${({ theme }: { theme: ITheme }) => theme.primary1};
   border: 0;
   border-radius: 20px;
   height: 70px;
@@ -98,13 +98,13 @@ const MoveButton = styled.button`
   outline: none !important;
   box-shadow: none;
   &:disabled {
-    background: ${({ theme }) => theme.primary1Transparentized};
+    background: ${({ theme }: { theme: ITheme }) => theme.primary1Transparentized};
     &:hover {
-      background: ${({ theme }) => theme.primary1Transparentized};
+      background: ${({ theme }: { theme: ITheme }) => theme.primary1Transparentized};
     }
   }
   &:hover {
-    background: ${({ theme }) => theme.primary1Hovered};
+    background: ${({ theme }: { theme: ITheme }) => theme.primary1Hovered};
   }
 `
 

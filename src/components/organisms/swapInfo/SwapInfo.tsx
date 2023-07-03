@@ -12,7 +12,7 @@ import Icon from '../../atoms/icon/Icon'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 const ContainerInfo = styled(Container)`
-  background: ${({ theme }) => theme.secondary3Transparentized};
+  background: ${({ theme }: { theme: ITheme }) => theme.secondary3Transparentized};
   padding-top: 35px;
   padding-bottom: 15px;
   position: relative;
@@ -40,7 +40,7 @@ const MarginedRow = styled(Row)`
 const ValueCol = styled(Col)`
   text-align: right;
   font-weight: 500;
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }: { theme: ITheme }) => theme.text1};
   @media (max-width: 767.98px) {
     font-size: 12px;
   }
@@ -57,7 +57,7 @@ const FeesDescriptionCol = styled(Col)`
   padding-right: 0px;
   padding-left: 0px;
   font-weight: 500;
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }: { theme: ITheme }) => theme.text1};
   @media (max-width: 767.98px) {
     font-size: 12px;
   }
@@ -67,7 +67,7 @@ const ArrowCol = styled(Col)`
   padding-right: 0px;
   padding-left: 0px;
   max-width: 30px;
-  color: ${({ theme }) => theme.text2};
+  color: ${({ theme }: { theme: ITheme }) => theme.text2};
   font-size: 12px;
   cursor: pointer;
   text-align: right;
@@ -76,7 +76,7 @@ const ArrowCol = styled(Col)`
 const LabelCol = styled(Col)`
   text-align: left;
   font-weight: 300;
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }: { theme: ITheme }) => theme.text1};
   @media (max-width: 767.98px) {
     font-size: 11px;
   }
@@ -86,7 +86,7 @@ const FeeDescLabelCol = styled(Col)`
   padding-left: 30px;
   text-align: left;
   font-weight: 300;
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }: { theme: ITheme }) => theme.text1};
   @media (max-width: 767.98px) {
     padding-left: 20px;
     font-size: 11px;
@@ -99,7 +99,7 @@ const Arrow = styled(Icon)`
   margin-right: 15px;
   cursor: pointer;
   svg {
-    fill: ${({ theme }) => theme.text3};
+    fill: ${({ theme }: { theme: ITheme }) => theme.text3};
   }
 `
 
@@ -108,7 +108,7 @@ const Info = styled(Icon)`
   position: relative;
   width: 22px;
   svg {
-    fill: ${({ theme }) => theme.text1};
+    fill: ${({ theme }: { theme: ITheme }) => theme.text1};
   }
 
   @media (max-width: 767.98px) {

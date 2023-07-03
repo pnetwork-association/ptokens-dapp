@@ -4,31 +4,31 @@ import { Modal } from 'react-bootstrap'
 import styled from 'styled-components'
 
 const StyledModalTitle = styled(Modal.Title)`
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }: { theme: ITheme }) => theme.text1};
   @media (max-width: 767.98px) {
     font-size: 20px;
   }
 `
 
 const StyledBody = styled(Modal.Body)`
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }: { theme: ITheme }) => theme.text1};
   font-size: 18px;
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 0px;
   padding-right: 0px;
-  background: ${({ theme }) => theme.bg1};
+  background: ${({ theme }: { theme: ITheme }) => theme.bg1};
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 `
 
 const StyledHeader = styled(Modal.Header)`
-  background: ${({ theme }) => theme.bg1};
-  border-bottom: 1px solid ${({ theme }) => theme.lightGray};
+  background: ${({ theme }: { theme: ITheme }) => theme.bg1};
+  border-bottom: 1px solid ${({ theme }: { theme: ITheme }) => theme.lightGray};
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   span {
-    color: ${({ theme }) => theme.text1};
+    color: ${({ theme }: { theme: ITheme }) => theme.text1};
   }
 `
 

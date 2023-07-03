@@ -11,7 +11,7 @@ const ContainerBanner = styled(Container)`
   color: white;
   display: inline-block;
   vertical-align: middle;
-  background: ${({ theme }) => theme.primary1};
+  background: ${({ theme }: { theme: ITheme }) => theme.primary1};
   max-width: 100%;
 `
 

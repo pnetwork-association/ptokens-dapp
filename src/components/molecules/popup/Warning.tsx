@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import Icon from '../../atoms/icon/Icon'
 
 const StyledAlert = styled(Alert)`
-  // background: ${({ theme }) => theme.bg1};
+  // background: ${({ theme }: { theme: ITheme }) => theme.bg1};
   font-size: 16px;
   padding-top: 0px;
   padding-bottom: 0px;

@@ -3,11 +3,12 @@ import { BlockchainType, networkIdToTypeMap } from 'ptokens-constants'
 import { pTokensSwapBuilder } from 'ptokens-swap'
 
 import { getFactoryAddressByBlockchain } from '../settings'
+import { Asset } from '../settings/swap-assets'
 import { getAssetById } from '../store/swap/swap.selectors'
 
 import { getReadOnlyProviderByBlockchain, getReadOnlyProviderByNetworkId } from './read-only-providers'
 
-const getAssetBuilder = (_asset) => {
+const getAssetBuilder = (_asset: Asset) => {
   if (networkIdToTypeMap.get(_asset.networkId) === BlockchainType.EVM) return new pTokensEvmAssetBuilder()
 }
 
@@ -25,7 +26,7 @@ const getProvider = (_asset, _wallets) => {
     )
 }
 
-const buildAssetInfo = (_asset) => {
+const buildAssetInfo = (_asset: Asset) => {
   const underlyingAsset = _asset.underlyingAsset ? getAssetById(_asset.underlyingAsset) : null
   return {
     networkId: _asset.networkId,
@@ -40,7 +41,7 @@ const buildAssetInfo = (_asset) => {
   }
 }
 
-export const createAsset = async (_asset, _wallets) => {
+export const createAsset = async (_asset: Asset, _wallets) => {
   const builder = getAssetBuilder(_asset)
   builder.setBlockchain(_asset.networkId)
   builder.setDecimals(_asset.decimals)

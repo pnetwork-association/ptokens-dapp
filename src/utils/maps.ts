@@ -1,15 +1,19 @@
 import { Blockchain } from 'ptokens-constants'
 
-const blockchainSymbolToName = {
+import { Asset } from '../settings/swap-assets'
+
+const blockchainSymbolToName: Record<string, string> = {
   [Blockchain.Gnosis]: 'xDai',
   [Blockchain.Arbitrum]: 'Arbitrum',
 }
 
-const blockchainSymbolToCoin = {
+const blockchainSymbolToCoin: Record<string, string> = {
   [Blockchain.Gnosis]: 'xDai',
   [Blockchain.Arbitrum]: 'Arbitrum',
 }
 
-const getAssetFromSymbol = (_assets: [], _symbol: string) => _assets.find(({ symbol }) => symbol === _symbol)
+const getAssetFromSymbol = (_assets: Asset[], _symbol: string) => {
+  return _assets.find(({ symbol }) => symbol === _symbol)
+}
 
 export { blockchainSymbolToName, getAssetFromSymbol, blockchainSymbolToCoin }

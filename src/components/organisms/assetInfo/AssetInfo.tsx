@@ -6,6 +6,8 @@ import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
 import { useProvider } from '../../../hooks/use-provider'
+import { Asset } from '../../../settings/swap-assets'
+import { ITheme } from '../../../theme/ThemeProvider'
 import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
 import { getBase64Image } from '../../../utils/image'
 import { copyToClipboard } from '../../../utils/utils'
@@ -16,7 +18,7 @@ const ContainerAssetInfo = styled(Col)`
   margin-top: 10px;
   padding-left: -15px !important;
   padding-right: -15px !important;
-  border-top: 1px solid ${({ theme }) => theme.lightGray};
+  border-top: 1px solid ${({ theme }: { theme: ITheme }) => theme.lightGray};
   padding-top: 15px;
   @media (max-width: 767.98px) {
     margin-top: 10px;
@@ -25,7 +27,7 @@ const ContainerAssetInfo = styled(Col)`
 `
 
 const Token = styled.a`
-  color: ${({ theme }) => theme.blue};
+  color: ${({ theme }: { theme: ITheme }) => theme.blue};
   font-size: 14px;
   text-decoration: underline;
   margin-left: 7px;
@@ -50,7 +52,7 @@ const CopyIcon = styled(Icon)`
   height: 18px;
   cursor: pointer;
   svg {
-    fill: ${({ theme }) => (theme.type === 'light' ? theme.text1 : 'white')};
+    fill: ${({ theme }: { theme: ITheme }) => (theme.type === 'light' ? theme.text1 : 'white')};
   }
 `
 
@@ -65,7 +67,7 @@ const MetamaskIcon = styled(Icon)`
   cursor: pointer;
 `
 
-const AssetInfo = ({ asset, wallet }) => {
+const AssetInfo = ({ asset, wallet }: { asset: Asset }) => {
   const { symbol, address, explorer, networkId, decimals, isSpecial, isNative, image } = asset
   const [isCopiedToClipboard, setIsCopiedToClipboard] = useState(false)
   const { isMetaMask } = useProvider(wallet.provider)

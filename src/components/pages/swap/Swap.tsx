@@ -35,7 +35,7 @@ export const ContainerSwap = styled.div`
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
   border: 0;
   border-radius: 20px;
-  background: ${({ theme }) => theme.secondary3};
+  background: ${({ theme }: { theme: ITheme }) => theme.secondary3};
   height: 100%;
   padding: 15px;
   width: 460px;
@@ -62,7 +62,7 @@ export const SortIcon = styled(Icon)`
   height: 16px;
   cursor: pointer;
   svg {
-    fill: ${({ theme }) => theme.primary1};
+    fill: ${({ theme }: { theme: ITheme }) => theme.primary1};
   }
   @media (max-width: 767.98px) {
     width: 12px;
@@ -76,7 +76,7 @@ export const DisabledSortIcon = styled(Icon)`
   user-select: none;
   pointer-events: none;
   svg {
-    fill: ${({ theme }) => theme.lightGray};
+    fill: ${({ theme }: { theme: ITheme }) => theme.lightGray};
   }
   @media (max-width: 767.98px) {
     width: 12px;
@@ -95,7 +95,7 @@ export const ContainerTermOfService = styled.div`
 `
 
 export const SwapLabel = styled.label`
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }: { theme: ITheme }) => theme.text1};
   margin-bottom: 20px;
   margin-left: 14px;
   @media (max-width: 767.98px) {
@@ -109,9 +109,9 @@ const InfoEta = styled.div`
   padding: 20px;
   margin-bottom: 10px;
   background: #66b8ff40;
-  border: 0.5px solid ${({ theme }) => theme.blue};
+  border: 0.5px solid ${({ theme }: { theme: ITheme }) => theme.blue};
   border-radius: 10px;
-  color: ${({ theme }) => theme.blue};
+  color: ${({ theme }: { theme: ITheme }) => theme.blue};
   text-align: center;
 `
 
@@ -119,7 +119,7 @@ const ProvisionalSafemoonBox = styled(InfoEta)``
 
 const PnetworkV3Badge = styled.span`
   color: white;
-  background: ${({ theme }) => theme.primary1};
+  background: ${({ theme }: { theme: ITheme }) => theme.primary1};
   font-size: 11px;
   border-radius: 10px;
   padding: 5px 10px 5px 10px;

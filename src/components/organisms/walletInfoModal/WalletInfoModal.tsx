@@ -1,15 +1,18 @@
 import PropTypes from 'prop-types'
+import { Blockchain } from 'ptokens'
 import React from 'react'
 import { Row, Col } from 'react-bootstrap'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
+import { IUseWallets } from '../../../hooks/use-wallets'
+import { ITheme } from '../../../theme/ThemeProvider'
 import { blockchainSymbolToName } from '../../../utils/maps'
 import Modal from '../../molecules/modal/Modal'
 
 const ContainerAccountInfo = styled.div`
   border-radius: 20px;
-  border: 1px solid ${({ theme }) => theme.lightGray};
+  border: 1px solid ${({ theme }: { theme: ITheme }) => theme.lightGray};
   margin: 20px 15px 20px 15px;
   padding: 25px 20px 25px 20px;
   @media (max-width: 767.98px) {
@@ -24,8 +27,8 @@ const BlockchainImage = styled.img`
   height: 40px;
   background: white;
   border-radius: 50%;
-  border: 1px solid ${({ theme }) => theme.lightGray};
-  box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
+  border: 1px solid ${({ theme }: { theme: ITheme }) => theme.lightGray};
+  box-shadow: ${({ theme }: { theme: ITheme }) => theme.text1} 1px 1px 9px -3px;
   @media (max-width: 767.98px) {
     width: 32px;
     height: 32px;
@@ -42,7 +45,7 @@ const Account = styled.span`
 
 const ConnectButton = styled.button`
   width: auto;
-  color: ${({ theme }) => theme.blue};
+  color: ${({ theme }: { theme: ITheme }) => theme.blue};
   background: #66b8ff40;
   border-radius: 3px;
   font-family: Helvetica;
@@ -67,7 +70,17 @@ const DisconnectButton = styled(ConnectButton)`
   margin-left: 10px;
 `
 
-const WalletInfoModal = ({ show, wallets, onClose, onChange, onConnect, onDisconnect }) => {
+interface IWalletInfoModalProps {
+  show: boolean
+  onClose: (_blockchain: Blockchain) => void
+  onChange: (_blockchain: Blockchain) => void
+  onConnect: (_blockchain: Blockchain) => void
+  onDisconnect: (_blockchain: Blockchain) => void
+  wallets: IUseWallets[]
+}
+
+const WalletInfoModal = ({ show, wallets, onClose, onChange, onConnect, onDisconnect }: IWalletInfoModalProps) => {
+  console.info('aasdfdfsdfdsfsf', wallets)
   return (
     <Modal
       show={show}
@@ -76,30 +89,33 @@ const WalletInfoModal = ({ show, wallets, onClose, onChange, onConnect, onDiscon
       dialogClassName="modal-wallet"
       body={
         <React.Fragment>
-          {wallets.map(({ formattedAccount, blockchain, formattedBlockchain, isConnected }) => (
-            <ContainerAccountInfo key={`${blockchain}-wallet`}>
-              <Row>
-                <Col xs={6} className="my-auto">
-                  <BlockchainImage
-                    src={`./assets/svg/${blockchainSymbolToName[blockchain].toUpperCase()}.svg`}
-                    data-tip={formattedBlockchain}
-                  />
-                  <Account>{formattedAccount}</Account>
-                </Col>
-                <Col xs={6} className="my-auto text-right">
-                  {isConnected ? (
-                    <React.Fragment>
-                      <ChangeButton onClick={() => onChange(blockchain)}>CHANGE</ChangeButton>
-                      <DisconnectButton onClick={() => onDisconnect(blockchain)}>DISCONNECT</DisconnectButton>
-                    </React.Fragment>
-                  ) : (
-                    <ConnectButton onClick={() => onConnect(blockchain)}>CONNECT</ConnectButton>
-                  )}
-                </Col>
-              </Row>
-              <ReactTooltip />
-            </ContainerAccountInfo>
-          ))}
+          {wallets.map(
+            ({ formattedAccount, blockchain, formattedBlockchain, isConnected }) =>
+              console.info('blockchain', blockchain, wallets) || (
+                <ContainerAccountInfo key={`${blockchain}-wallet`}>
+                  <Row>
+                    <Col xs={6} className="my-auto">
+                      <BlockchainImage
+                        src={`./assets/svg/${blockchainSymbolToName[blockchain].toUpperCase()}.svg`}
+                        data-tip={formattedBlockchain}
+                      />
+                      <Account>{formattedAccount}</Account>
+                    </Col>
+                    <Col xs={6} className="my-auto text-right">
+                      {isConnected ? (
+                        <React.Fragment>
+                          <ChangeButton onClick={() => onChange(blockchain)}>CHANGE</ChangeButton>
+                          <DisconnectButton onClick={() => onDisconnect(blockchain)}>DISCONNECT</DisconnectButton>
+                        </React.Fragment>
+                      ) : (
+                        <ConnectButton onClick={() => onConnect(blockchain)}>CONNECT</ConnectButton>
+                      )}
+                    </Col>
+                  </Row>
+                  <ReactTooltip />
+                </ContainerAccountInfo>
+              )
+          )}
         </React.Fragment>
       }
     />

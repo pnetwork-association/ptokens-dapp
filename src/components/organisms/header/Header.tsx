@@ -1,10 +1,13 @@
 import PropTypes from 'prop-types'
+import { Blockchain } from 'ptokens-constants'
 import React, { useState, useCallback } from 'react'
 import { Navbar, Nav, NavDropdown, Container, Row, Col } from 'react-bootstrap'
 import styled from 'styled-components'
 
 import { useWallets } from '../../../hooks/use-wallets'
 import settings from '../../../settings'
+import { Wallets } from '../../../store/wallets/wallets.reducer'
+import { ITheme } from '../../../theme/ThemeProvider'
 import Icon from '../../atoms/icon/Icon'
 import Walletinfo from '../walletInfoModal/WalletInfoModal'
 
@@ -29,11 +32,11 @@ const ConnectButton = styled.button`
   font-weight: 500;
   border-radius: 10px;
   outline: none !important;
-  background: ${({ theme }) => theme.secondary4};
+  background: ${({ theme }: { theme: ITheme }) => theme.secondary4};
   &:hover {
-    background: ${({ theme }) => theme.secondary4Hovered};
+    background: ${({ theme }: { theme: ITheme }) => theme.secondary4Hovered};
   }
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }: { theme: ITheme }) => theme.text1};
   @media (max-width: 767.98px) {
     height: 35px;
   }
@@ -46,13 +49,13 @@ const ThemeIcon = styled(Icon)`
   margin-left: 10px;
   padding: 6px;
   border-radius: 10px;
-  background: ${({ theme }) => theme.secondary4};
+  background: ${({ theme }: { theme: ITheme }) => theme.secondary4};
   &:hover {
-    background: ${({ theme }) => theme.secondary4Hovered};
+    background: ${({ theme }: { theme: ITheme }) => theme.secondary4Hovered};
   }
 
   svg {
-    fill: ${({ theme }) => theme.text1};
+    fill: ${({ theme }: { theme: ITheme }) => theme.text1};
   }
 
   @media (max-width: 767.98px) {
@@ -82,7 +85,7 @@ const StyledNavLink = styled(Nav.Link)`
   font-size: 18px;
   padding-left: 15px;
   padding-right: 15px;
-  color: ${({ active, theme }) => (active ? theme.text1 : theme.text3)} !important;
+  color: ${({ active, theme }: { active: boolean; theme: ITheme }) => (active ? theme.text1 : theme.text3)} !important;
   @media (max-width: 991.98px) {
     margin-left: 10px;
     font-size: 17px;
@@ -96,7 +99,7 @@ const GoToIcon = styled(Icon)`
   margin-top: -10px;
   vertical-align: super;
   svg {
-    fill: ${({ active, theme }) => (active ? theme.text1 : theme.text3)} !important;
+    fill: ${({ active, theme }: { active: true; theme: ITheme }) => (active ? theme.text1 : theme.text3)} !important;
   }
 `
 
@@ -122,7 +125,7 @@ const DropdownMobile = styled(NavDropdown)`
   padding-left: 0px;
   padding-right: 0px;
   margin-left: 10px;
-  color: ${({ active, theme }) => (active ? theme.text1 : theme.text3)} !important;
+  color: ${({ active, theme }: { active: boolean; theme: ITheme }) => (active ? theme.text1 : theme.text3)} !important;
   z-index: 3;
   @media (max-width: 516.98px) {
     display: block;
@@ -131,7 +134,7 @@ const DropdownMobile = styled(NavDropdown)`
 
 const StyledNavDown = styled(Nav.Link)`
   font-size: 17px;
-  color: ${({ active, theme }) => (active ? theme.text1 : theme.text3)} !important;
+  color: ${({ active, theme }: { active: boolean; theme: ITheme }) => (active ? theme.text1 : theme.text3)} !important;
 `
 
 const ContainerBottomMobile = styled(Container)`
@@ -144,8 +147,8 @@ const ContainerBottomMobile = styled(Container)`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   padding: 15px;
-  border: 1px solid ${({ theme }) => theme.lightGray};
-  background-color: ${({ theme }) => theme.bg1} !important;
+  border: 1px solid ${({ theme }: { theme: ITheme }) => theme.lightGray};
+  background-color: ${({ theme }: { theme: ITheme }) => theme.bg1} !important;
   @media (max-width: 767.98px) {
     display: block;
   }
@@ -159,14 +162,24 @@ const ContainerOptions = styled.div`
   }
 `
 
-const Header = (_props) => {
+interface IHeaderProps {
+  wallets: Wallets
+  connectWithWallet: (Blockchain) => void
+  disconnectFromWallet: (Blockchain) => void
+  loadSwapData: () => void
+  selectPage: (string) => void
+  setTheme: (string) => void
+}
+
+const Header = (_props: IHeaderProps) => {
   const { selectedPage, theme, connectWithWallet, disconnectFromWallet, selectPage, setTheme, loadSwapData } = _props
   const [showWalletInfo, setShowWalletInfo] = useState(false)
   const { isConnected, wallets } = useWallets(_props.wallets)
 
   const onConnectWallet = useCallback(
-    (_blockchain) => {
+    (_blockchain: Blockchain) => {
       setShowWalletInfo(false)
+      console.info('saaaaaa', _blockchain, typeof _blockchain)
       connectWithWallet(_blockchain)
     },
     [connectWithWallet]

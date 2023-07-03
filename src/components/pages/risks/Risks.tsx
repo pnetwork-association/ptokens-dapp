@@ -5,7 +5,7 @@ import styled from 'styled-components'
 const Section = styled.div`
   font-size: 28px;
   margin-top: 40px;
-  color: ${({ theme }) => theme.text3};
+  color: ${({ theme }: { theme: ITheme }) => theme.text3};
   @media (max-width: 1049.98px) {
     padding-left: 20px;
   }
@@ -17,7 +17,7 @@ const Section = styled.div`
 const Paragraph = styled.div`
   font-size: 18px;
   margin-top: 15px;
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }: { theme: ITheme }) => theme.text1};
   @media (max-width: 1049.98px) {
     padding-left: 20px;
   }
@@ -30,7 +30,7 @@ const PaddedParagraph = styled.div`
   font-size: 18px;
   margin-top: 15px;
   padding-bottom: 200px;
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }: { theme: ITheme }) => theme.text1};
   @media (max-width: 1049.98px) {
     padding-left: 20px;
   }
@@ -42,7 +42,7 @@ const PaddedParagraph = styled.div`
 const Title = styled.div`
   font-size: 38px;
   margin-top: 15px;
-  color: ${({ theme }) => theme.text2};
+  color: ${({ theme }: { theme: ITheme }) => theme.text2};
   @media (max-width: 1049.98px) {
     padding-left: 20px;
   }

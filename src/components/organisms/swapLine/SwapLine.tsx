@@ -5,6 +5,7 @@ import Skeleton from 'react-loading-skeleton'
 import { NumericFormat } from 'react-number-format'
 import styled from 'styled-components'
 
+import { ITheme } from '../../../theme/ThemeProvider'
 import { getDecimalSeparator, getThousandSeparator } from '../../../utils/amount-utils'
 import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
 import Icon from '../../atoms/icon/Icon'
@@ -14,7 +15,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 
 const SwapLineContainer = styled.div`
   border-radius: 20px;
-  border: 1px solid ${({ theme }) => theme.lightGray};
+  border: 1px solid ${({ theme }: { theme: ITheme }) => theme.lightGray};
   padding: 12px 15px 12px 15px;
   @media (max-width: 767.98px) {
     padding: 10px 15px 10px 15px;
@@ -30,7 +31,7 @@ const AmountInput = styled.input`
   caret-color: #32b1f5;
   text-align: right;
   font-size: 40px;
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }: { theme: ITheme }) => theme.text1};
   width: 100%;
   @media (max-width: 767.98px) {
     font-size: 35px;
@@ -45,11 +46,11 @@ export const Image = styled.img`
   position: relative;
   width: 50px;
   height: 50px;
-  background: ${({ theme }) => (theme.type === 'light' ? 'white' : 'transparent')};
+  background: ${({ theme }: { theme: ITheme }) => (theme.type === 'light' ? 'white' : 'transparent')};
   border-radius: 50%;
-  border: 1px solid ${({ theme }) => (theme.type === 'light' ? theme.lightGray : 'transparent')};
+  border: 1px solid ${({ theme }: { theme: ITheme }) => (theme.type === 'light' ? theme.lightGray : 'transparent')};
   cursor: ${({ onClickImage }) => (onClickImage ? 'pointer' : 'normal')};
-  box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
+  box-shadow: ${({ theme }: { theme: ITheme }) => theme.text1} 1px 1px 9px -3px;
   @media (max-width: 767.98px) {
     width: 40px;
     height: 40px;
@@ -63,10 +64,10 @@ export const MiniImage = styled.img`
   border-radius: 50%;
   margin-top: 33px;
   margin-left: -15px;
-  border: 1px solid ${({ theme }) => (theme.type === 'light' ? theme.lightGray : 'transparent')};
-  box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
+  border: 1px solid ${({ theme }: { theme: ITheme }) => (theme.type === 'light' ? theme.lightGray : 'transparent')};
+  box-shadow: ${({ theme }: { theme: ITheme }) => theme.text1} 1px 1px 9px -3px;
   background: white;
-  box-shadow: ${({ theme }) => theme.text1} 1px 1px 9px -3px;
+  box-shadow: ${({ theme }: { theme: ITheme }) => theme.text1} 1px 1px 9px -3px;
   @media (max-width: 767.98px) {
     width: 16px;
     height: 16px;
@@ -77,7 +78,7 @@ export const MiniImage = styled.img`
 
 const BalanceLabel = styled.label`
   font-size: 13px;
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }: { theme: ITheme }) => theme.text1};
   margin-bottom: 5px;
 `
 
@@ -90,7 +91,7 @@ const AddressInput = styled.input`
   caret-color: #32b1f5;
   text-align: right;
   font-size: 16px;
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }: { theme: ITheme }) => theme.text1};
   width: 100%;
   @media (max-width: 767.98px) {
     font-size: 14px;
@@ -99,7 +100,7 @@ const AddressInput = styled.input`
 
 const InnerContainerAddressInput = styled.div`
   width: 100%;
-  border-top: 1px solid ${({ theme }) => theme.lightGray};
+  border-top: 1px solid ${({ theme }: { theme: ITheme }) => theme.lightGray};
   margin-top: 15px;
   padding-top: 10px;
   padding-left: 15px;
@@ -132,7 +133,7 @@ const MaxButton = styled.button`
   margin-left: 15px;
   border-radius: 5px;
   border: 0;
-  color: ${({ theme }) => theme.blue};
+  color: ${({ theme }: { theme: ITheme }) => theme.blue};
   background: #66b8ff40;
   font-size: 12px;
   padding-left: 10px;
@@ -161,14 +162,14 @@ const ContainerMaxButton = styled.div`
 
 const ContainerTypeAndBalance = styled(Row)`
   margin-bottom: 10px;
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }: { theme: ITheme }) => theme.text1};
   @media (max-width: 767.98px) {
     margin-bottom: 0px;
   }
 `
 
 const ContainerTitle = styled(Col)`
-  color: ${({ theme }) => theme.text2};
+  color: ${({ theme }: { theme: ITheme }) => theme.text2};
   margin-bottom: auto !important;
   font-size: 14px;
   @media (max-width: 767.98px) {
@@ -182,7 +183,7 @@ const ExpandContainer = styled(Col)`
 `
 
 const Expand = styled.span`
-  color: ${({ theme }) => theme.text2};
+  color: ${({ theme }: { theme: ITheme }) => theme.text2};
   font-size: 12px;
   cursor: pointer;
 `
@@ -192,7 +193,7 @@ const Arrow = styled(Icon)`
   height: 12px;
   margin-right: 5px;
   svg {
-    fill: ${({ theme }) => (theme.type === 'light' ? theme.text1 : 'white')};
+    fill: ${({ theme }: { theme: ITheme }) => (theme.type === 'light' ? theme.text1 : 'white')};
   }
 `
 
