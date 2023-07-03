@@ -29,7 +29,7 @@ const VersionButton = styled.button`
   border: 0;
   padding-left: 10px;
   padding-right: 10px;
-  font-weight: 500;
+  font-weight: 400;
   border-radius: 10px;
   outline: none !important;
   background: ${({ theme }) => theme.secondary4};

@@ -45,6 +45,69 @@ export default function ThemeProvider({ children }) {
   return <StyledComponentsThemeProvider theme={themeObject}>{children}</StyledComponentsThemeProvider>
 }
 
+export const buttonSaveStyle = {
+  color: 'white',
+  background: 'rgb(255, 102, 102)',
+  fontSize: '16px',
+  borderRadius: '10px',
+  border: '0',
+  padding: '5px 10px 5px 10px',
+}
+
+export const buttonResetStyle = {
+  color: 'white',
+  background: 'rgb(213, 217, 220)',
+  fontSize: '16px',
+  borderRadius: '10px',
+  border: '0',
+  padding: '5px 10px 5px 10px',
+  marginLeft: '10px',
+}
+
+export const titleStyle = {
+  color: 'rgb(71, 89, 101)',
+  fontSize: '1.5rem',
+  fontWeight: '500',
+}
+
+export const headerStyle = {
+  paddingBottom: '0px',
+}
+
+export const inputStyle = {
+  border: '0',
+  outline: '0px !important',
+  WebkitAppearance: 'none',
+  boxShadow: 'none !important',
+  textAlign: 'left',
+  fontSize: '16px',
+  color: '#475965',
+  width: '100%',
+  background: '#eaeaea',
+  borderRadius: '5px',
+}
+
+export const sectionLabelStyle = {
+  fontSize: '1.25rem',
+  fontWeight: '350',
+  marginBottom: '0px',
+}
+
+export const sectionRowStyle = {
+  marginTop: '2.5rem',
+}
+
+export const settingRowStyle = {
+  marginTop: '1rem',
+}
+
+export const buttonAreaStyle = {
+  position: 'absolute',
+  bottom: '0px',
+  right: '1rem',
+  marginBottom: '1rem',
+}
+
 export const ThemedGlobalStyle = createGlobalStyle`
 html * {
   font-family: 'Chivo', sans-serif;
