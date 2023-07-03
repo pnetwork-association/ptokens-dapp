@@ -10,7 +10,7 @@ const settings = {
     twitter: 'https://twitter.com/pNetworkDeFi',
     telegram: 'https://t.me/pNetworkDefi',
     'p.network': 'https://p.network/',
-    github: 'https://github.com/pnetwork-association/ptokens-dapp/',
+    github: 'https://github.com/pnetwork-association/',
   },
   supportedBlockchains: [
     {
