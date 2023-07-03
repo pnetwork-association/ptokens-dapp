@@ -7,8 +7,7 @@ const updateUrlForSwap = (_from, _to) =>
   history.replace(
     `swap?asset=${encodeForUrl(_from.nativeSymbol || _to.nativeSymbol)}&from=${encodeForUrl(
       blockchainSymbolToName[_from.blockchain]
-    )}&to=${encodeForUrl(blockchainSymbolToName[_to.blockchain])}
-    `
+    )}&to=${encodeForUrl(blockchainSymbolToName[_to.blockchain])}`
   )
 
 export { updateUrlForSwap }
