@@ -80,7 +80,7 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
         updateProgress({
           show: true,
           percent: 75,
-          message: `Asset transfer proposal <a href="${link}" target="_blank">transaction</a> broadcasted...`,
+          message: `A relayer has just sent the <a href="${link}" target="_blank">asset transfer proposal</a> ...`,
           steps: [0, 25, 50, 75, 100],
           terminated: false,
         })
