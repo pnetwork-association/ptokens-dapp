@@ -1,27 +1,14 @@
-import { Blockchain, FactoryAddress, Network, NetworkId } from 'ptokens-constants'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
-import { Web3SettingsProvider } from 'react-web3-settings'
 
 import App from './App'
+import SettingsDrawer from './components/organisms/settings/Settings'
 import { initialize } from './ga4'
 import * as serviceWorker from './serviceWorker'
-import settings from './settings'
 import store from './store'
-import ThemeProvider, {
-  ThemedGlobalStyle,
-  buttonSaveStyle,
-  buttonResetStyle,
-  titleStyle,
-  headerStyle,
-  inputStyle,
-  sectionLabelStyle,
-  sectionRowStyle,
-  settingRowStyle,
-  buttonAreaStyle,
-} from './theme/ThemeProvider'
+import ThemeProvider, { ThemedGlobalStyle } from './theme/ThemeProvider'
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 import 'react-step-progress-bar/styles.css'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
@@ -42,47 +29,9 @@ root.render(
     <ThemeProvider>
       <ThemedGlobalStyle />
       <HashRouter>
-        <Web3SettingsProvider
-          buttonSaveStyle={buttonSaveStyle}
-          buttonResetStyle={buttonResetStyle}
-          titleStyle={titleStyle}
-          headerStyle={headerStyle}
-          inputStyle={inputStyle}
-          sectionLabelStyle={sectionLabelStyle}
-          sectionRowStyle={sectionRowStyle}
-          settingRowStyle={settingRowStyle}
-          buttonAreaStyle={buttonAreaStyle}
-          settings={{
-            factoryAddress: {
-              label: 'pTokens Factory Address',
-              settings: {
-                [Blockchain.Gnosis]: {
-                  label: 'Gnosis',
-                  value: FactoryAddress.get(NetworkId.GnosisMainnet),
-                },
-                [Blockchain.Arbitrum]: {
-                  label: 'Arbitrum',
-                  value: FactoryAddress.get(NetworkId.ArbitrumMainnet),
-                },
-              },
-            },
-            rpcEndpoints: {
-              label: 'RPC Node Endpoints',
-              settings: {
-                [Blockchain.Gnosis]: {
-                  label: 'Gnosis',
-                  value: settings.rpc[Network.Mainnet][Blockchain.Gnosis].endpoint,
-                },
-                [Blockchain.Arbitrum]: {
-                  label: 'Arbitrum',
-                  value: settings.rpc[Network.Mainnet][Blockchain.Arbitrum].endpoint,
-                },
-              },
-            },
-          }}
-        >
+        <SettingsDrawer>
           <App />
-        </Web3SettingsProvider>
+        </SettingsDrawer>
       </HashRouter>
     </ThemeProvider>
   </Provider>
