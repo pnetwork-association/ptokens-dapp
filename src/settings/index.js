@@ -81,10 +81,10 @@ const settings = {
       },
       telos: {
         chainId: '4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11',
-        host: 'telos.greymass.com',
+        host: 'telos.eosphere.io',
         port: 443,
         protocol: 'https',
-        endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://telos.greymass.com',
+        endpoint: 'https://telos.eosphere.io',
       },
       libre: {
         chainId: '38b1d7815474d0c60683ecbea321d723e83f5da6ae5f1c1f9fecc69d9ba96465',
