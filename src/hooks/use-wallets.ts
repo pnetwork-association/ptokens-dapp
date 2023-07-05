@@ -16,7 +16,7 @@ const useWallets = (_wallets: Wallets) => {
   return useMemo(() => {
     const wallets: IUseWallets[] = Object.entries(_wallets).map(([_blockchain, _wallet]) => ({
       blockchain: _blockchain,
-      formattedAccount: _wallet.account ? slicerByBlockchain(_wallets[_blockchain].account, _blockchain) : '-',
+      formattedAccount: _wallet.account ? slicerByBlockchain(_wallet.account, _blockchain) : '-',
       formattedBlockchain: blockchainSymbolToName[_blockchain],
       ..._wallet,
       isConnected: _wallets[_blockchain] && _wallets[_blockchain].account,

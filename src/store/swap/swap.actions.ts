@@ -1,8 +1,9 @@
 import { Blockchain, NetworkId } from 'ptokens-constants'
+import { AbiItem } from 'web3-utils'
 
-import { ASSETS_LOADED, BPM_LOADED, PROGRESS_UPDATED, PROGRESS_RESET, UPDATE_SWAP_BUTTON } from '../../constants/index'
+import { AppDispatch } from '..'
 import { getFactoryAddressByBlockchain } from '../../settings'
-import assets from '../../settings/swap-assets'
+import assets, { Asset, NativeAsset } from '../../settings/swap-assets'
 import { parseError } from '../../utils/errors'
 import { createAsset, getProviderByNetworkId, getSwapBuilder } from '../../utils/ptokens'
 import { updateInfoModal } from '../pages/pages.actions'
@@ -10,72 +11,74 @@ import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
 
 import factoryAbi from './abi/PFactroryAbi.json'
 import stateManagerAbi from './abi/PStateManagerAbi.json'
+import { AssetWithAddress } from './swap.reducer'
+import * as actions from './swap.reducer'
 import { getAssetsByBlockchain, getAssetById } from './swap.selectors'
 import { loadEvmCompatibleBalances, loadEvmCompatibleBalance } from './utils/balances'
 import { getDefaultSelection } from './utils/default-selection'
 import peginWithWallet from './utils/pegin-with-wallet'
-import { assetId } from '../../constants'
 
-const computeAssetAddress = async (_asset, _assets) => {
-  const asset = _asset.underlyingAsset ? _assets.find((_el) => _el.id === _asset.underlyingAsset) : _asset
-  const provider = getProviderByNetworkId(_asset.networkId)
-  const factoryAddress = getFactoryAddressByBlockchain(_asset.blockchain)
-  const pTokenAddress = await provider.makeContractCall(
-    {
-      contractAddress: factoryAddress,
-      method: 'getPTokenAddress',
-      abi: factoryAbi,
-    },
-    [asset.name, asset.symbol, asset.decimals, asset.address, asset.networkId]
-  )
-  return pTokenAddress
+const computePTokenAddress = async (_asset: Asset, _assets: Asset[]) => {
+  const asset =
+    'underlyingAsset' in _asset && _asset.underlyingAsset
+      ? _assets.find((_el) => _el.id === _asset.underlyingAsset)
+      : _asset
+  if (asset) {
+    const provider = getProviderByNetworkId(_asset.networkId)
+    const factoryAddress = getFactoryAddressByBlockchain(_asset.blockchain)
+    const pTokenAddress = await provider.makeContractCall<string>(
+      {
+        contractAddress: factoryAddress,
+        method: 'getPTokenAddress',
+        abi: factoryAbi as unknown as AbiItem,
+      },
+      [asset.name, asset.symbol, asset.decimals, asset.address, asset.networkId]
+    )
+    return pTokenAddress
+  }
+  throw new Error('Unable to calculate pToken address')
 }
 
-const loadSwapData = (_opts = {}) => {
-  const { defaultSelection: { pToken, asset, from, to, host_symbol } = {} } = _opts
-  return async (_dispatch) => {
+const loadSwapData = (_opts: { defaultSelection?: { asset?: string; from?: string; to?: string } } = {}) => {
+  const { defaultSelection: { asset, from, to } = {} } = _opts
+  return async (_dispatch: AppDispatch) => {
     try {
-      const assetsWithAddress = await Promise.all(
+      const assetsWithAddress: AssetWithAddress[] = await Promise.all(
         assets.map(async (_asset) => {
-          const pTokenAddress = await computeAssetAddress(_asset, assets)
+          const pTokenAddress = await computePTokenAddress(_asset, assets)
           return {
             ..._asset,
-            address: _asset.isNative ? _asset.address : pTokenAddress,
-            pTokenAddress: _asset.isNative ? pTokenAddress : null,
+            address: 'isNative' in _asset && _asset.isNative ? _asset.address : pTokenAddress,
+            pTokenAddress: 'isNative' in _asset && _asset.isNative ? pTokenAddress : null,
           }
         })
       )
-      _dispatch({
-        type: ASSETS_LOADED,
-        payload: {
-          assets: [
-            ...assetsWithAddress,
-            ...getDefaultSelection(assetsWithAddress, {
-              pToken,
-              asset,
-              from,
-              to,
-              host_symbol,
-            }),
-          ],
-        },
-      })
+      _dispatch(
+        actions.assetsLoaded([
+          ...assetsWithAddress,
+          ...getDefaultSelection(assetsWithAddress, {
+            asset,
+            from,
+            to,
+          }),
+        ])
+      )
 
       const loadBpm = async () => {
         try {
-          const _getChallengePeriod = async (_networkId, _blockchain) => {
+          const _getChallengePeriod: Promise<number> = async (_networkId: NetworkId, _blockchain: Blockchain) => {
             try {
               const provider = getProviderByNetworkId(_networkId)
               const factoryAddress = getFactoryAddressByBlockchain(_blockchain)
-              const stateManagerAddress = await provider.makeContractCall({
+              const stateManagerAddress: string = await provider.makeContractCall({
                 contractAddress: factoryAddress,
                 method: 'stateManager',
-                abi: factoryAbi,
+                abi: factoryAbi as unknown as AbiItem,
               })
-              const challengePeriodSeconds = await provider.makeContractCall({
+              const challengePeriodSeconds: number = await provider.makeContractCall({
                 contractAddress: stateManagerAddress,
                 method: 'getCurrentChallengePeriodDuration',
-                abi: stateManagerAbi,
+                abi: stateManagerAbi as unknown as AbiItem,
               })
               return challengePeriodSeconds
             } catch (_err) {
@@ -83,7 +86,7 @@ const loadSwapData = (_opts = {}) => {
             }
           }
 
-          const a = await Promise.all(
+          const a: Record<number, number>[] = await Promise.all(
             [
               { networkId: NetworkId.GnosisMainnet, blockchain: Blockchain.Gnosis },
               { networkId: NetworkId.ArbitrumMainnet, blockchain: Blockchain.Arbitrum },
@@ -91,16 +94,12 @@ const loadSwapData = (_opts = {}) => {
               [blockchain]: await _getChallengePeriod(networkId, blockchain),
             }))
           )
-          const challengePeriod = Object.assign({}, ...a)
+          const challengePeriod = Object.assign({}, ...a) as IBpm
 
-          _dispatch({
-            type: BPM_LOADED,
-            payload: {
-              challengePeriod,
-            },
-          })
+          _dispatch(actions.bpmLoaded(challengePeriod))
         } catch (err) {
-          console.error('BPM API error:', err.message)
+          if (err instanceof Error) console.error('BPM API error:', err.message)
+          else throw err
         }
       }
 
@@ -172,7 +171,7 @@ const loadBalanceByAssetId = (_id: assetId) => {
 const swap = (_from: Asset, _to: Asset, _amount: string, _address: string) => {
   return async (_dispatch: AppDispatch) => {
     try {
-      _dispatch(actions.resetProgress())
+      _dispatch(actions.progressReset())
       const wallets = getWallets()
 
       const sourceAsset = await createAsset(_from, wallets, true)
@@ -210,7 +209,7 @@ const swap = (_from: Asset, _to: Asset, _amount: string, _address: string) => {
   }
 }
 
-const updateSwapButton = (_text: string, _disabled: boolean, _link: string) =>
+const updateSwapButton = (_text: string, _disabled = false, _link: string | null = null) =>
   actions.updateSwapButton({ text: _text, disabled: _disabled, link: _link })
 
 const updateProgress = actions.progressUpdated

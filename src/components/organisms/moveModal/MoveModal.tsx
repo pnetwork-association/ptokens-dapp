@@ -3,6 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import styled from 'styled-components'
 
+import { ITheme } from '../../../theme/ThemeProvider'
 import { isValidAccountByBlockchain } from '../../../utils/account-validator'
 import { blockchainSymbolToName } from '../../../utils/maps'
 import Modal from '../../molecules/modal/Modal'

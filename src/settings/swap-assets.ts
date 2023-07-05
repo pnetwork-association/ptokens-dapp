@@ -1,32 +1,52 @@
+import BigNumber from 'bignumber.js'
 import { Blockchain, Network, NetworkId } from 'ptokens-constants'
 
-import { AssetId, PTokenId, TokenId } from '../constants'
+import { AssetId, TokenId, PTokenId } from '../constants'
 
-export type Asset = {
+export type BaseAsset = {
+  address?: string
   id: AssetId
-  address: string
   name: string
-  nativeDecimals?: number
   network: Network
   blockchain: Blockchain
   decimals: number
   symbol: string
-  isPtoken?: boolean
+  image: string
+  networkId: NetworkId
+  withBalanceDecimalsConversion: boolean
+  isPerc20?: boolean
+  isHidden?: boolean
+  formattedName?: string
+  miniImage?: string
+  titleLabel?: string
+  isSpecial?: boolean
+  symbolToDisplay?: string
+}
+
+export type NativeAsset = BaseAsset & {
+  address: string
+  isNative: boolean
+}
+
+export type pTokenAsset = BaseAsset & {
+  underlyingAsset: TokenId
   nativeSymbol: string
   nativeBlockchain: Blockchain
-  image: string
-  withBalanceDecimalsConversion: boolean
-  networkId: NetworkId
-  isPerc20: boolean
-  underlyingAsset?: TokenId
-  isHidden?: boolean
+  nativeDecimals: number
+  isPtoken?: boolean
+}
+
+export type Asset = NativeAsset | pTokenAsset
+
+export type UpdatedAsset = Asset & {
+  address: string
+  explorer: string
   pTokenAddress?: string
-  isNative?: boolean
   formattedName?: string
   formattedBalance?: string
   coin?: string
   miniImage?: string
-  balance?: string
+  balance?: BigNumber | null
   defaultFrom?: boolean
   defaultTo?: boolean
 }
@@ -34,7 +54,7 @@ export type Asset = {
 const swapAssets: Asset[] = [
   /* #################   pTokens   #################*/
   {
-    id: pTokenId.PUSDC_ON_XDAI_MAINNET,
+    id: PTokenId.PUSDC_ON_XDAI_MAINNET,
     name: 'pUSDC',
     nativeDecimals: 6,
     network: Network.Mainnet,
@@ -52,7 +72,7 @@ const swapAssets: Asset[] = [
     isHidden: true,
   },
   {
-    id: pTokenId.PUSDC_ON_ARBITRUM_MAINNET,
+    id: PTokenId.PUSDC_ON_ARBITRUM_MAINNET,
     name: 'pUSDC',
     nativeDecimals: 6,
     network: Network.Mainnet,
@@ -78,8 +98,6 @@ const swapAssets: Asset[] = [
     blockchain: Blockchain.Gnosis,
     decimals: 6,
     isNative: true,
-    nativeSymbol: 'USDC',
-    nativeBlockchain: Blockchain.Gnosis,
     image: 'USDC.svg',
     withBalanceDecimalsConversion: true,
     networkId: NetworkId.GnosisMainnet,

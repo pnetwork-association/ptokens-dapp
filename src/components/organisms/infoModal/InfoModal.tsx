@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+import { ITheme } from '../../../theme/ThemeProvider'
 import Icon from '../../atoms/icon/Icon'
 import Modal from '../../molecules/modal/Modal'
 

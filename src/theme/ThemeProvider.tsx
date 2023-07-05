@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { ReactElement, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { ThemeProvider as StyledComponentsThemeProvider, createGlobalStyle } from 'styled-components'
 
@@ -25,6 +25,7 @@ export interface ITheme {
   secondary4Hovered: string
   lightGray: string
   blue: string
+  type?: 'dark' | 'light'
 }
 
 export const colors = (_darkMode: boolean): ITheme => ({
@@ -58,12 +59,12 @@ export const colors = (_darkMode: boolean): ITheme => ({
   blue: '#66b8ff',
 })
 
-export const theme = (_darkMode: string) => ({
+export const theme = (_darkMode: boolean) => ({
   ...colors(_darkMode),
   type: _darkMode ? 'dark' : 'light',
 })
 
-export default function ThemeProvider({ children }) {
+export default function ThemeProvider({ children }: { children: ReactElement }) {
   const currentTheme = useSelector((_state: RootState) => _state.pages.theme)
   const darkMode = currentTheme === 'dark'
   const themeObject = useMemo(() => theme(darkMode), [darkMode])
@@ -146,6 +147,7 @@ margin: 0;
 
 /* Firefox */
 input[type=number] {
+  appearance: auto;
 -moz-appearance: textfield;
 }
 
@@ -246,7 +248,7 @@ input[type=number] {
 }
 
 .dropdown-toggle.nav-link {
-  color: ${({ active, theme }: { theme: ITheme }) => (active ? theme.text1 : theme.text3)} !important;
+  color: ${({ active, theme }: { active: boolean; theme: ITheme }) => (active ? theme.text1 : theme.text3)} !important;
 }
 
 body {

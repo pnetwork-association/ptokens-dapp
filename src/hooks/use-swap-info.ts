@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 
-import { Asset } from '../settings/swap-assets'
 import { getPeginOrPegoutMinutesEstimationByBlockchainAndEta } from '../utils/estimations'
 import { getFormattedFees } from '../utils/fee'
 

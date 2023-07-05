@@ -1,10 +1,11 @@
 import { pTokensEvmAssetBuilder, pTokensEvmProvider } from 'ptokens-assets-evm'
-import { BlockchainType, networkIdToTypeMap } from 'ptokens-constants'
+import { BlockchainType, NetworkId, networkIdToTypeMap } from 'ptokens-constants'
 import { pTokensSwapBuilder } from 'ptokens-swap'
 
 import { getFactoryAddressByBlockchain } from '../settings'
 import { Asset } from '../settings/swap-assets'
 import { getAssetById } from '../store/swap/swap.selectors'
+import { Wallets } from '../store/wallets/wallets.reducer'
 
 import { getReadOnlyProviderByBlockchain, getReadOnlyProviderByNetworkId } from './read-only-providers'
 
@@ -12,14 +13,14 @@ const getAssetBuilder = (_asset: Asset) => {
   if (networkIdToTypeMap.get(_asset.networkId) === BlockchainType.EVM) return new pTokensEvmAssetBuilder()
 }
 
-export const getProviderByNetworkId = (_networkId) => {
+export const getProviderByNetworkId = (_networkId: NetworkId) => {
   if (networkIdToTypeMap.get(_networkId) === BlockchainType.EVM) {
     const url = getReadOnlyProviderByNetworkId(_networkId)
     return new pTokensEvmProvider(url)
   }
 }
 
-const getProvider = (_asset, _wallets) => {
+const getProvider = (_asset: Asset, _wallets: Wallets) => {
   if (networkIdToTypeMap.get(_asset.networkId) === BlockchainType.EVM)
     return new pTokensEvmProvider(
       _wallets[_asset.blockchain].provider || getReadOnlyProviderByBlockchain(_asset.blockchain)
@@ -41,19 +42,23 @@ const buildAssetInfo = (_asset: Asset) => {
   }
 }
 
-export const createAsset = async (_asset: Asset, _wallets) => {
+export const createAsset = async (_asset: Asset, _wallets: Wallets) => {
   const builder = getAssetBuilder(_asset)
-  builder.setBlockchain(_asset.networkId)
-  builder.setDecimals(_asset.decimals)
-  builder.setFactoryAddress(getFactoryAddressByBlockchain(_asset.blockchain))
-  const assetInfo = buildAssetInfo(_asset)
-  builder.setAssetInfo(assetInfo)
-  if (_wallets) {
-    const provider = getProvider(_asset, _wallets)
-    builder.setProvider(provider)
+  if (builder) {
+    builder.setBlockchain(_asset.networkId)
+    builder.setDecimals(_asset.decimals)
+    builder.setFactoryAddress(getFactoryAddressByBlockchain(_asset.blockchain))
+    const assetInfo = buildAssetInfo(_asset)
+    builder.setAssetInfo(assetInfo)
+    if (_wallets) {
+      const provider = getProvider(_asset, _wallets)
+      builder.setProvider(provider)
+    }
+    const asset = await builder.build()
+    return asset
+  } else {
+    throw new Error('Missing builder')
   }
-  const asset = await builder.build()
-  return asset
 }
 
 export const getSwapBuilder = () => {

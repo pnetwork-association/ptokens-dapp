@@ -6,6 +6,7 @@ import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
 import { useSwapInfo } from '../../../hooks/use-swap-info'
+import { ITheme } from '../../../theme/ThemeProvider'
 import { getFormattedNetworkFee, getFormattedProtocolFee } from '../../../utils/fee'
 import Icon from '../../atoms/icon/Icon'
 

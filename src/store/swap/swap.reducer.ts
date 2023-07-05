@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Blockchain } from 'ptokens-constants'
 
 import { AssetId } from '../../constants'
 import { Asset } from '../../settings/swap-assets'
@@ -14,18 +15,27 @@ interface IProgress {
 interface ISwapButton {
   disabled: boolean
   text: string
-  link: string
+  link: string | null
+}
+
+export type AssetWithAddress = Asset & {
+  address: string
+  pTokenAddress: string | null
 }
 
 interface ISwapState {
-  assets: Asset[]
+  assets: AssetWithAddress[]
+  bpm: IBpm | null
   progress: IProgress
   swapButton: ISwapButton
   defaultSelection: { from: Asset | null; to: Asset | null }
 }
 
+type IBpm = Record<Blockchain, number>
+
 const initialState: ISwapState = {
   assets: [],
+  bpm: null,
   progress: {
     show: false,
     percent: 0,
@@ -48,7 +58,7 @@ const swapSlice = createSlice({
   name: 'pages',
   initialState,
   reducers: {
-    assetsLoaded: (_state, _action: PayloadAction<Asset[]>) => {
+    assetsLoaded: (_state, _action: PayloadAction<AssetWithAddress[]>) => {
       _state.assets = _action.payload
     },
     swapBalanceLoaded: (_state, _action: PayloadAction<{ id: AssetId; balance: string }>) => {
@@ -56,10 +66,13 @@ const swapSlice = createSlice({
         _asset.id === _action.payload.id ? { ..._asset, balance: _action.payload.balance } : _asset
       )
     },
+    bpmLoaded: (_state, _action: PayloadAction<IBpm>) => {
+      _state.bpm = _action.payload
+    },
     progressUpdated: (_state, _action: PayloadAction<IProgress>) => {
       _state.progress = _action.payload
     },
-    progressReset: (_state, _action: PayloadAction<IProgress>) => {
+    progressReset: (_state) => {
       _state.progress = {
         show: false,
         percent: 0,
@@ -74,5 +87,6 @@ const swapSlice = createSlice({
   },
 })
 
-export const { assetsLoaded, swapBalanceLoaded, progressUpdated, progressReset, updateSwapButton } = swapSlice.actions
+export const { assetsLoaded, swapBalanceLoaded, progressUpdated, progressReset, updateSwapButton, bpmLoaded } =
+  swapSlice.actions
 export default swapSlice.reducer

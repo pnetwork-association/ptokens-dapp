@@ -10,6 +10,6 @@ const getAssetsWithAddress = () => store.getState().swap.assets.filter(({ addres
 const getAssetsByBlockchain = (_blockchain: Blockchain) =>
   store.getState().swap.assets.filter(({ blockchain }) => blockchain === _blockchain)
 
-const getAssetById = (_id: assetId) => store.getState().swap.assets.find(({ id }) => id === _id)
+const getAssetById = (_id: assetId) => store.getState().swap.assets.find(({ id }) => id === _id) || null
 
 export { getAssets, getAssetsWithAddress, getAssetsByBlockchain, getAssetById }

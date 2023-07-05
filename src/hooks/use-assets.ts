@@ -1,18 +1,19 @@
 import _ from 'lodash'
 import { useMemo, useState } from 'react'
 
-import { Asset } from '../settings/swap-assets'
+import { Asset, UpdatedAsset } from '../settings/swap-assets'
+import { AssetWithAddress } from '../store/swap/swap.reducer'
 import { offChainFormat, strip } from '../utils/amount-utils'
 import { getCorrespondingTokenExplorerLinkByBlockchain } from '../utils/explorer'
 import { blockchainSymbolToName, blockchainSymbolToCoin } from '../utils/maps'
 
-const updateAssets = async (_assets) => {
+const updateAssets = async (_assets: AssetWithAddress[]) => {
   const modifiedAssets = await Promise.all(
     _assets.filter(({ isHidden }) => !isHidden).map((_asset) => updateAsset(_asset))
   )
   const assetsWithBalance = modifiedAssets
-    .filter(({ formattedBalance }) => formattedBalance !== '-')
-    .sort((_a, _b) => _b.formattedBalance - _a.formattedBalance)
+    .filter(({ balance }) => balance !== null && balance !== undefined)
+    .sort((_a, _b) => _b.balance - _a.balance)
   const assetsWithoutBalance = modifiedAssets.filter(({ formattedBalance }) => formattedBalance === '-')
 
   return [...assetsWithBalance, ...assetsWithoutBalance]
@@ -45,7 +46,7 @@ const useAssetsGroupedByGivenStrategy = (_assets: Asset[]) => {
   }, [_assets])
 }
 
-const useSearchAssets = (_assets: Asset[]) => {
+const useSearchAssets = (_assets: UpdatedAsset[]) => {
   const [searchWord, setSearchWord] = useState('')
 
   const [assets] = useMemo(() => {
@@ -64,7 +65,7 @@ const useSearchAssets = (_assets: Asset[]) => {
   return [assets, setSearchWord]
 }
 
-const updateAsset = async (_asset) => {
+const updateAsset = (_asset: AssetWithAddress): UpdatedAsset => {
   return {
     ..._asset,
     explorer: getCorrespondingTokenExplorerLinkByBlockchain(_asset.blockchain, _asset.address),
@@ -81,10 +82,8 @@ const updateAsset = async (_asset) => {
     coin: blockchainSymbolToCoin[_asset.nativeSymbol],
     formattedName: _asset.formattedName
       ? _asset.formattedName
-      : _asset.isBlockchainTokenNative
-      ? _asset.symbol
       : !_asset.isNative
-      ? `on ${blockchainSymbolToName[_asset.blockchain].toUpperCase()}${_asset.isPseudoNative ? ' (NATIVE)' : ''}`
+      ? `on ${blockchainSymbolToName[_asset.blockchain].toUpperCase()}`
       : _asset.symbol,
     image: `./assets/svg/${_asset.image}`,
     miniImage: `./assets/svg/${_asset.miniImage || blockchainSymbolToName[_asset.blockchain].toUpperCase()}.svg`,

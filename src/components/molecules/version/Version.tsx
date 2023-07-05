@@ -2,6 +2,8 @@ import React from 'react'
 import { Web3SettingsButton } from 'react-web3-settings'
 import styled from 'styled-components'
 
+import { ITheme } from '../../../theme/ThemeProvider'
+
 const VersionDiv = styled.div`
   background: transparent;
   position: fixed;
@@ -32,11 +34,11 @@ const VersionButton = styled.button`
   font-weight: 400;
   border-radius: 10px;
   outline: none !important;
-  background: ${({ theme }) => theme.secondary4};
+  background: ${({ theme }: { theme: ITheme }) => theme.secondary4};
   &:hover {
-    background: ${({ theme }) => theme.secondary4Hovered};
+    background: ${({ theme }: { theme: ITheme }) => theme.secondary4Hovered};
   }
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }: { theme: ITheme }) => theme.text1};
   @media (max-width: 767.98px) {
     height: 35px;
   }

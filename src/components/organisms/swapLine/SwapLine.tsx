@@ -2,9 +2,11 @@ import PropTypes from 'prop-types'
 import React, { useState, useEffect, useMemo } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import Skeleton from 'react-loading-skeleton'
-import { NumericFormat } from 'react-number-format'
+import { NumericFormat, OnValueChanges } from 'react-number-format'
 import styled from 'styled-components'
 
+import { AssetId } from '../../../constants'
+import { UpdatedAsset } from '../../../settings/swap-assets'
 import { ITheme } from '../../../theme/ThemeProvider'
 import { getDecimalSeparator, getThousandSeparator } from '../../../utils/amount-utils'
 import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
@@ -12,6 +14,7 @@ import Icon from '../../atoms/icon/Icon'
 import AssetInfo from '../assetInfo/AssetInfo'
 
 import 'react-loading-skeleton/dist/skeleton.css'
+import { IWallet } from '../../../store/wallets/wallets.reducer'
 
 const SwapLineContainer = styled.div`
   border-radius: 20px;
@@ -49,7 +52,7 @@ export const Image = styled.img`
   background: ${({ theme }: { theme: ITheme }) => (theme.type === 'light' ? 'white' : 'transparent')};
   border-radius: 50%;
   border: 1px solid ${({ theme }: { theme: ITheme }) => (theme.type === 'light' ? theme.lightGray : 'transparent')};
-  cursor: ${({ onClickImage }) => (onClickImage ? 'pointer' : 'normal')};
+  cursor: ${({ onClick }) => (onClick ? 'pointer' : 'normal')};
   box-shadow: ${({ theme }: { theme: ITheme }) => theme.text1} 1px 1px 9px -3px;
   @media (max-width: 767.98px) {
     width: 40px;
@@ -86,6 +89,7 @@ const AddressInput = styled.input`
   border: 0;
   background: transparent;
   outline: 0px !important;
+  appearance: auto;
   -webkit-appearance: none;
   box-shadow: none !important;
   caret-color: #32b1f5;
@@ -197,6 +201,24 @@ const Arrow = styled(Icon)`
   }
 `
 
+type SwapLineProps = {
+  asset: UpdatedAsset
+  amount: string
+  address: string
+  title: string
+  wallet: IWallet
+  hideMaxButton: boolean
+  onChangeAmount: (_el: OnValueChanges) => void
+  onClickImage: () => void
+  onChangeAddress: (_address: string) => void
+  onMax: () => void
+  withTitleLabel: boolean
+  disableInput: boolean
+  inputType: string
+  inputPlaceholder: string
+  prefix: string
+}
+
 const SwapLine = ({
   asset,
   amount,
@@ -214,9 +236,9 @@ const SwapLine = ({
   inputPlaceholder = '0',
   prefix = '',
   ..._props
-}) => {
+}: SwapLineProps) => {
   const [showInfo, setShowInfo] = useState(false)
-  const [id, setId] = useState(false)
+  const [id, setId] = useState<AssetId | null>(null)
 
   // NOTE: avoid to close show info when asset is reloaded with the balance
   useEffect(() => {
@@ -228,7 +250,6 @@ const SwapLine = ({
 
   const formattedTitle = useMemo(() => {
     if (!withTitleLabel || !asset || !asset.titleLabel) return title
-
     return `${title}: ${asset.titleLabel}`
   }, [title, asset, withTitleLabel])
 
@@ -236,7 +257,7 @@ const SwapLine = ({
     <SwapLineContainer {..._props}>
       <ContainerTypeAndBalance>
         <ContainerTitle xs={6}>{formattedTitle}</ContainerTitle>
-        {asset && asset.formattedBalance !== '-' ? (
+        {asset && asset.formattedBalance && asset.formattedBalance !== '-' ? (
           <Col xs={6} className="text-right my-auto">
             <ContainerBalance>
               <BalanceLabel>{`Balance: ${asset.formattedBalance} ${

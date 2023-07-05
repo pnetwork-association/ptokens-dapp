@@ -2,6 +2,8 @@ import React from 'react'
 import { Container } from 'react-bootstrap'
 import styled from 'styled-components'
 
+import { ITheme } from '../../../theme/ThemeProvider'
+
 const Section = styled.div`
   font-size: 28px;
   margin-top: 40px;

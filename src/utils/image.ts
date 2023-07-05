@@ -1,4 +1,4 @@
-const getBase64Image = (url) =>
+const getBase64Image = (url: string) =>
   new Promise((resolve) => {
     const request = new XMLHttpRequest()
     request.onload = function () {
@@ -6,7 +6,7 @@ const getBase64Image = (url) =>
       file.onloadend = function () {
         resolve(file.result)
       }
-      file.readAsDataURL(request.response)
+      file.readAsDataURL(request.response as Blob)
     }
     request.open('GET', url)
     request.responseType = 'blob'

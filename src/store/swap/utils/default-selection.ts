@@ -17,20 +17,21 @@ const getDefaultSelectionV2 = (
   const ptkn = _assets.find(({ id }) => id === PTokenId.PUSDC_ON_ARBITRUM_MAINNET)
   const assetFrom = asset
     ? _assets.find(
-        ({ nativeSymbol, blockchain, isHidden }) =>
-          !isHidden &&
-          nativeSymbol.toLowerCase() === asset.toLowerCase() &&
+        (_asset) =>
+          !_asset.isHidden &&
+          _asset.symbol.toLowerCase() === asset.toLowerCase() &&
           from &&
-          blockchainSymbolToName[blockchain].toLowerCase() === from.toLowerCase()
+          blockchainSymbolToName[_asset.blockchain].toLowerCase() === from.toLowerCase()
       )
     : null
 
   const assetTo = asset
     ? _assets.find(
-        ({ nativeSymbol, blockchain, isHidden }) =>
-          !isHidden &&
-          nativeSymbol.toLowerCase() === asset.toLowerCase() &&
-          blockchainSymbolToName[blockchain].toLowerCase() === to.toLowerCase()
+        (_asset) =>
+          !_asset.isHidden &&
+          _asset.symbol.toLowerCase() === asset.toLowerCase() &&
+          to &&
+          blockchainSymbolToName[_asset.blockchain].toLowerCase() === to.toLowerCase()
       )
     : null
 
@@ -38,7 +39,7 @@ const getDefaultSelectionV2 = (
     toastr.error('Error', 'Invalid routing')
   }
 
-  const pTokenDefaultFrom = Object.assign({}, assetFrom ? assetFrom : tkn)
+  const pTokenDefaultFrom: Asset = Object.assign({}, assetFrom ? assetFrom : tkn)
   const pTokenDefaultTo = Object.assign({}, assetTo ? assetTo : ptkn)
 
   if (pTokenDefaultFrom && pTokenDefaultTo) {
@@ -49,4 +50,4 @@ const getDefaultSelectionV2 = (
   return [pTokenDefaultFrom, pTokenDefaultTo]
 }
 
-export { getDefaultSelection, getDefaultSelectionV2 }
+export { getDefaultSelection }
