@@ -1,6 +1,5 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
-import WalletConnectProvider from '@walletconnect/web3-provider'
 import WalletLink from 'walletlink'
 import { WALLET_XDAI_CONNECTED, WALLET_XDAI_ACCOUNT_CHANGED, WALLET_XDAI_DISCONNECTED } from '../../../constants'
 import { changeNetwork, setupNetwork } from '../../../utils/wallet'
@@ -21,15 +20,6 @@ const connectWithXdaiWallet = async (_dispatch) => {
     web3Modal = new Web3Modal({
       theme: getWeb3ModalTheme(getTheme()),
       providerOptions: {
-        walletconnect: {
-          package: WalletConnectProvider,
-          options: {
-            network: 'xdai',
-            rpc: {
-              [settings.rpc.mainnet.xdai.chainId]: settings.rpc.mainnet.xdai.endpoint,
-            },
-          },
-        },
         'custom-walletconnectv2': createWalletConnect2(settings.rpc.mainnet.xdai.chainId),
         walletlink: {
           package: WalletLink,

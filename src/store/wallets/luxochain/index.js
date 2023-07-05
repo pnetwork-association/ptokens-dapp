@@ -1,6 +1,5 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
-import WalletConnectProvider from '@walletconnect/web3-provider'
 import WalletLink from 'walletlink'
 import settings from '../../../settings'
 import {
@@ -25,15 +24,6 @@ const connectWithLuxochainWallet = async (_dispatch) => {
     web3Modal = new Web3Modal({
       theme: getWeb3ModalTheme(getTheme()),
       providerOptions: {
-        walletconnect: {
-          package: WalletConnectProvider,
-          options: {
-            network: 'mainnet',
-            rpc: {
-              [settings.rpc.mainnet.luxochain.chainId]: settings.rpc.mainnet.luxochain.endpoint,
-            },
-          },
-        },
         'custom-walletconnectv2': createWalletConnect2(settings.rpc.mainnet.luxochain.chainId),
         walletlink: {
           package: WalletLink,

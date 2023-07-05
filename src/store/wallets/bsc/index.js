@@ -1,7 +1,6 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import { WALLET_BSC_CONNECTED, WALLET_BSC_DISCONNECTED, WALLET_BSC_ACCOUNT_CHANGED } from '../../../constants'
-import WalletConnectProvider from '@walletconnect/web3-provider'
 import WalletLink from 'walletlink'
 import settings from '../../../settings'
 import { changeNetwork, setupNetwork } from '../../../utils/wallet'
@@ -21,15 +20,6 @@ const connectWithBscWallet = async (_dispatch) => {
     web3Modal = new Web3Modal({
       theme: getWeb3ModalTheme(getTheme()),
       providerOptions: {
-        walletconnect: {
-          package: WalletConnectProvider,
-          options: {
-            network: 'binance',
-            rpc: {
-              [settings.rpc.mainnet.bsc.chainId]: settings.rpc.mainnet.bsc.endpoint,
-            },
-          },
-        },
         'custom-walletconnectv2': createWalletConnect2(settings.rpc.mainnet.bsc.chainId),
         walletlink: {
           package: WalletLink,

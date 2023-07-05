@@ -1,6 +1,5 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
-import WalletConnectProvider from '@walletconnect/web3-provider'
 import WalletLink from 'walletlink'
 import {
   WALLET_POLYGON_CONNECTED,
@@ -25,15 +24,6 @@ const connectWithPolygonWallet = async (_dispatch) => {
     web3Modal = new Web3Modal({
       theme: getWeb3ModalTheme(getTheme()),
       providerOptions: {
-        walletconnect: {
-          package: WalletConnectProvider,
-          options: {
-            network: 'matic',
-            rpc: {
-              [settings.rpc.mainnet.polygon.chainId]: settings.rpc.mainnet.polygon.endpoint,
-            },
-          },
-        },
         'custom-walletconnectv2': createWalletConnect2(settings.rpc.mainnet.polygon.chainId),
         walletlink: {
           package: WalletLink,

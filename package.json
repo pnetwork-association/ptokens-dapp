@@ -23,7 +23,6 @@
     "@randlabs/myalgo-connect": "^1.2.0",
     "@walletconnect/ethereum-provider": "^2.8.1",
     "@walletconnect/modal": "^2.4.7",
-    "@walletconnect/web3-provider": "^1.6.6",
     "algorand-walletconnect-qrcode-modal": "^1.8.0",
     "algosdk": "^2.1.0",
     "anchor-link": "^3.5.0",
