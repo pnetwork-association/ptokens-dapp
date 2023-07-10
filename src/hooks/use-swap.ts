@@ -2,18 +2,24 @@ import BigNumber from 'bignumber.js'
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 
 import { sendEvent } from '../ga4'
+import { UpdatedAsset } from '../settings/swap-assets'
+import { Wallets } from '../store/wallets/wallets.reducer'
 import { isValidAccountByBlockchain } from '../utils/account-validator'
-import { computeSwapAmount } from '../utils/fee'
+import { Fees, computeSwapAmount } from '../utils/fee'
 import { isValidSwap } from '../utils/swap-valildator'
 import { updateUrlForSwap } from '../utils/url'
 
 import { useSwapInfo } from './use-swap-info'
 import { useWalletByBlockchain } from './use-wallets'
-import { Asset } from '../settings/swap-assets'
+
+type UseSwapArg = {
+  assets: UpdatedAsset[]
+  wallets: Wallets
+}
 
 const useSwap = ({
-  wallets,
   assets,
+  wallets,
   connectWithWallet,
   swap,
   progress,
@@ -21,13 +27,14 @@ const useSwap = ({
   updateSwapButton,
   setTosShow,
   setAddressWarningShow,
-}) => {
-  const [from, setFrom] = useState<Asset>(null)
-  const [to, setTo] = useState<Asset>(null)
+  bpm,
+}: UseSwapArg) => {
+  const [from, setFrom] = useState<UpdatedAsset | null>(null)
+  const [to, setTo] = useState<UpdatedAsset | null>(null)
   const [address, setAddress] = useState<string>('')
-  const [fees, setFees] = useState(null)
-  const [fromAmount, setFromAmount] = useState('')
-  const [toAmount, setToAmount] = useState(null)
+  const [fees, setFees] = useState<Fees | null>(null)
+  const [fromAmount, setFromAmount] = useState<string | null>('')
+  const [toAmount, setToAmount] = useState<string | null>(null)
   const [showModalFrom, setShowModalFrom] = useState(false)
   const [showModalTo, setShowModalTo] = useState(false)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
@@ -59,15 +66,16 @@ const useSwap = ({
     to,
     fees,
     fromAmount,
+    bpm,
   })
 
-  const onChangeFromAmount = (_amount) => {
+  const onChangeFromAmount = (_amount: string) => {
     setFromAmount(_amount)
     setToAmountNeedsUpdate(true)
   }
 
   const onChangeToAmount = useCallback(
-    (_amount) => {
+    (_amount: string) => {
       setToAmount(_amount)
       setToAmountNeedsUpdate(false)
       setFromAmount(computeSwapAmount(fees, _amount, 'from'))
@@ -82,16 +90,20 @@ const useSwap = ({
   }, [from, to])
 
   const onFromMax = useCallback(() => {
-    const amount = from.balance
-    setFromAmount(BigNumber(amount).toFixed())
-    setToAmountNeedsUpdate(true)
+    if (from) {
+      const amount = from.balance
+      setFromAmount(BigNumber(amount).toFixed())
+      setToAmountNeedsUpdate(true)
+    }
   }, [from])
 
   const onToMax = useCallback(() => {
-    const amount = to.balance
-    setToAmount(BigNumber(amount).toFixed())
-    setToAmountNeedsUpdate(false)
-    setFromAmount(computeSwapAmount(fees, amount, 'from'))
+    if (to) {
+      const amount = to.balance
+      setToAmount(BigNumber(amount).toFixed())
+      setToAmountNeedsUpdate(false)
+      setFromAmount(computeSwapAmount(fees, amount, 'from'))
+    }
   }, [to, fees])
 
   const onSwap = useCallback(() => {
@@ -179,14 +191,14 @@ const useSwap = ({
     setAddressWarningShow,
   ])
 
-  const onSelectFrom = useCallback((_asset) => {
+  const onSelectFrom = useCallback((_asset: UpdatedAsset) => {
     setShowModalFrom(false)
     setFrom(_asset)
     setFromAmount('')
     setToAmount('')
   }, [])
 
-  const onSelectTo = useCallback((_asset) => {
+  const onSelectTo = useCallback((_asset: UpdatedAsset) => {
     setShowModalTo(false)
     setTo(_asset)
     setFromAmount('')

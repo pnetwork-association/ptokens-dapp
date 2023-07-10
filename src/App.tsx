@@ -12,7 +12,9 @@ import HeaderController from './components/organisms/header/HeaderController'
 import Risks from './components/pages/risks/Risks'
 import SwapController from './components/pages/swap/SwapController'
 import { sendPageView, setPageLocation } from './ga4'
+import { AppDispatch, AppThunk, RootState } from './store'
 import { selectPage, setTheme } from './store/pages/pages.actions'
+import { ILoading } from './store/pages/pages.reducer'
 import { loadSwapData } from './store/swap/swap.actions'
 import history from './utils/history'
 
@@ -21,17 +23,17 @@ history.listen((location) => {
   sendPageView()
 })
 
-const mapStateToProps = (_state) => {
+const mapStateToProps = (_state: RootState) => {
   return {
     loading: _state.pages.loading,
   }
 }
 
-const mapDispatchToProps = (_dispatch) => {
+const mapDispatchToProps = (_dispatch: AppDispatch) => {
   return {
-    loadSwapData: (_options) => _dispatch(loadSwapData(_options)),
-    selectPage: (_page, _options) => _dispatch(selectPage(_page, _options)),
-    setTheme: (_theme) => _dispatch(setTheme(_theme)),
+    setTheme: (_theme: string) => _dispatch(setTheme(_theme)),
+    loadSwapData: (opts: Record<string, unknown>) => _dispatch(loadSwapData(opts)),
+    selectPage: (page: string, opts: Record<string, unknown>) => _dispatch(selectPage(page, opts)),
   }
 }
 
@@ -46,7 +48,14 @@ const RisksPage = () => {
   )
 }
 
-const App = ({ setTheme, loadSwapData, selectPage }) => {
+type AppProps = {
+  loading: ILoading
+  setTheme: (theme: string) => AppThunk
+  loadSwapData: (opts: Record<string, unknown>) => AppThunk
+  selectPage: (page: string, opts: Record<string, unknown>) => AppThunk
+}
+
+const App = ({ setTheme, loadSwapData, selectPage }: AppProps) => {
   useEffect(() => {
     /* window.location.search -> window.location.hash
      * window.location.search not available in HashRouter

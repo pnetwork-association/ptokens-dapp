@@ -14,7 +14,7 @@ const useSwapInfo = ({ from, to, amount, fees, bpm }) => {
         eta: null,
       }
     }
-
+    console.info('bpm', bpm)
     const estimatedSwapTime = getPeginOrPegoutMinutesEstimationByBlockchainAndEta(to.blockchain, bpm)
 
     if (from.isNative && !to.isNative) {

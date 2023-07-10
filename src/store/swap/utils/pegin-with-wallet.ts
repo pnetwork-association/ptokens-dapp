@@ -2,7 +2,7 @@ import { SwapResult } from 'ptokens-entities'
 import { pTokensSwap } from 'ptokens-swap'
 import Web3 from 'web3'
 
-import { AppDispatch } from '../..'
+import { AppDispatch, AppThunk } from '../..'
 import { Asset } from '../../../settings/swap-assets'
 import { parseError } from '../../../utils/errors'
 import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
@@ -12,7 +12,7 @@ import { getWalletByBlockchain } from '../../wallets/wallets.selectors'
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
 
 const peginWithWallet =
-  ({ swap, ptokenFrom, ptokenTo }: { swap: pTokensSwap; ptokenFrom: Asset; ptokenTo: Asset }) =>
+  ({ swap, ptokenFrom, ptokenTo }: { swap: pTokensSwap; ptokenFrom: Asset; ptokenTo: Asset }): AppThunk =>
   async (_dispatch: AppDispatch) => {
     let link: string
     // NOTE: peth uses ethers
@@ -30,15 +30,17 @@ const peginWithWallet =
         )
         link = getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, approve_hash)
       } catch (_err) {
-        _dispatch(
-          updateInfoModal({
-            show: true,
-            text: 'Error during pegin, try again!',
-            showMoreText: _err.message ? _err.message : _err,
-            showMoreLabel: 'Show Details',
-            icon: 'cancel',
-          })
-        )
+        if (_err instanceof Error) {
+          _dispatch(
+            updateInfoModal({
+              show: true,
+              text: 'Error during pegin, try again!',
+              showMoreText: _err.message ? _err.message : _err.toString(),
+              showMoreLabel: 'Show Details',
+              icon: 'cancel',
+            })
+          )
+        }
         _dispatch(updateSwapButton('Swap'))
         console.error(_err)
         return

@@ -6,7 +6,7 @@ import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
 import { useProvider } from '../../../hooks/use-provider'
-import { Asset } from '../../../settings/swap-assets'
+import { Asset, UpdatedAsset } from '../../../settings/swap-assets'
 import { ITheme } from '../../../theme/ThemeProvider'
 import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
 import { getBase64Image } from '../../../utils/image'
@@ -67,8 +67,8 @@ const MetamaskIcon = styled(Icon)`
   cursor: pointer;
 `
 
-const AssetInfo = ({ asset, wallet }: { asset: Asset }) => {
-  const { symbol, address, explorer, networkId, decimals, isSpecial, isNative, image } = asset
+const AssetInfo = ({ asset, wallet }: { asset: UpdatedAsset }) => {
+  const { symbol, address, explorer, networkId, decimals, isSpecial, image } = asset
   const [isCopiedToClipboard, setIsCopiedToClipboard] = useState(false)
   const { isMetaMask } = useProvider(wallet.provider)
 

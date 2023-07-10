@@ -1,25 +1,27 @@
 import { Blockchain } from 'ptokens'
 
-import { AppDispatch } from '..'
+import { AppDispatch, AppThunk } from '..'
 import { sendEvent } from '../../ga4'
 
 import { connectWithEvmWallet, disconnectFromEvmWallet } from './evm'
 
-const connectWithWallet = (_blockchain: Blockchain) => (_dispatch: AppDispatch) => {
-  console.info('connectWithWallet', _blockchain, _blockchain === 11, typeof _blockchain)
-  switch (_blockchain) {
-    case Blockchain.Gnosis:
-    case Blockchain.Arbitrum: {
-      console.info('fgfff')
-      _dispatch(connectWithEvmWallet(_blockchain))
-      break
+const connectWithWallet =
+  (_blockchain: Blockchain): AppThunk =>
+  (_dispatch: AppDispatch) => {
+    console.info('connectWithWallet', _blockchain, _blockchain === 11, typeof _blockchain)
+    switch (_blockchain) {
+      case Blockchain.Gnosis:
+      case Blockchain.Arbitrum: {
+        console.info('fgfff')
+        _dispatch(connectWithEvmWallet(_blockchain))
+        break
+      }
+      default:
+        console.info('ccccc')
+        break
     }
-    default:
-      console.info('ccccc')
-      break
+    sendEvent('wallet_connection', { blockchain: _blockchain })
   }
-  sendEvent('wallet_connection', { blockchain: _blockchain })
-}
 
 const disconnectFromWallet = (_blockchain: Blockchain) => (_dispatch: AppDispatch) => {
   switch (_blockchain) {

@@ -1,14 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-interface ILoading {
+export interface ILoading {
   isLoading: boolean
-  text: string
+  text: string | null
 }
 interface IInfoModal {
   show: boolean
-  text: string
+  text: string | null
   showMoreText: string | null
   showMoreLabel: string | null
+  icon?: string
 }
 
 interface IFace {

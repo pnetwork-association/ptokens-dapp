@@ -2,12 +2,8 @@ import history from '../../utils/history'
 
 import * as pages from './pages.reducer'
 
-const selectPage = (_page: string, _options: { asset: string; from: string; to: string } = {}) => {
+const selectPage = (_page: string, _options: { asset?: string; from?: string; to?: string } = {}) => {
   const { asset, from, to } = _options
-  if (history.location.pathname.includes('migration')) {
-    history.replace('')
-  }
-
   history.push(_page)
 
   // NOTE: v2 dapp new style

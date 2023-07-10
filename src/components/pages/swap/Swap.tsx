@@ -8,7 +8,9 @@ import TermsOfService from '../../../components/molecules/popup/TermsOfService'
 import { sendEvent } from '../../../ga4'
 import { updateAssets } from '../../../hooks/use-assets'
 import { useSwap } from '../../../hooks/use-swap'
-import defaultAssets from '../../../settings/swap-assets'
+import defaultAssets, { UpdatedAsset } from '../../../settings/swap-assets'
+import { AssetWithAddress, IBpm } from '../../../store/swap/swap.reducer'
+import { Wallets } from '../../../store/wallets/wallets.reducer'
 import { ITheme } from '../../../theme/ThemeProvider'
 import Button from '../../atoms/button/Button'
 import Icon from '../../atoms/icon/Icon'
@@ -126,6 +128,12 @@ const PnetworkV3Badge = styled.span`
   padding: 5px 10px 5px 10px;
 `
 
+type SwapProps = {
+  assets: AssetWithAddress[]
+  bpm: IBpm
+  wallets: Wallets
+}
+
 const Swap = ({
   assets: _assets,
   bpm,
@@ -137,16 +145,17 @@ const Swap = ({
   updateSwapButton,
   swap,
   hideInfoModal,
-  selectPage,
-}) => {
-  const [assets, setAssets] = useState([])
-  useEffect(() => {
-    async function f() {
-      const ret = await updateAssets(_assets)
-      setAssets(ret)
-    }
-    f()
+}: SwapProps) => {
+  const [assets, setAssets] = useState<UpdatedAsset[]>([])
+
+  const updateAssetsCallback = useCallback(async () => {
+    const ret = await updateAssets(_assets)
+    setAssets(ret)
   }, [_assets])
+
+  useEffect(() => {
+    updateAssetsCallback()
+  }, [updateAssetsCallback])
   const [TosShow, setTosShow] = useState(false)
   const [AddressWarningShow, setAddressWarningShow] = useState(false)
   const [showWarningPopup, setShowWarningPopup] = useState(true)
@@ -190,6 +199,7 @@ const Swap = ({
     updateSwapButton,
     setTosShow,
     setAddressWarningShow,
+    bpm
   })
 
   const onSelectFrom = useCallback(
@@ -341,7 +351,6 @@ Swap.propTypes = {
   resetProgress: PropTypes.func,
   hideInfoModal: PropTypes.func,
   updateSwapButton: PropTypes.func,
-  selectPage: PropTypes.func,
 }
 
 export default Swap

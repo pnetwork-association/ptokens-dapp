@@ -19,9 +19,9 @@ const updateAssets = async (_assets: AssetWithAddress[]) => {
   return [...assetsWithBalance, ...assetsWithoutBalance]
 }
 
-const useAssetsWithouDefault = (_assets: Asset[]) => {
+const useAssetsWithouDefault = (_assets: UpdatedAsset[]) => {
   return useMemo(() => {
-    return [_assets.filter(({ defaultFrom, defaultTo }) => !defaultFrom && !defaultTo)]
+    return _assets.filter(({ defaultFrom, defaultTo }) => !defaultFrom && !defaultTo)
   }, [_assets])
 }
 
@@ -38,28 +38,29 @@ const useAssetsGroupedByGivenStrategy = (_assets: Asset[]) => {
         .map((_asset) => ({
           ..._asset,
           formattedName: _asset.formattedName === _asset.nativeSymbol ? 'NATIVE' : _asset.formattedName,
+          group: _asset.nativeSymbol ? _asset.nativeSymbol : _asset.symbol
         }))
         .sort((_a, _b) => (_a.nativeSymbol > _b.nativeSymbol ? 1 : -1)),
-      'nativeSymbol'
+      'group'
     )
     return assetsGroupedByKey
   }, [_assets])
 }
 
-const useSearchAssets = (_assets: UpdatedAsset[]) => {
-  const [searchWord, setSearchWord] = useState('')
+const useSearchAssets = (_assets: UpdatedAsset[]): [UpdatedAsset[], React.Dispatch<React.SetStateAction<string>>] => {
+  const [searchWord, setSearchWord] = useState<string>('')
 
-  const [assets] = useMemo(() => {
-    return [
-      _assets.filter(
-        ({ name, nativeBlockchain, blockchain, symbol, coin }) =>
-          name.toLowerCase().includes(searchWord.toLowerCase()) ||
-          symbol.toLowerCase().includes(searchWord.toLowerCase()) ||
-          (coin && coin.toLowerCase().includes(searchWord.toLowerCase())) ||
-          blockchainSymbolToName[nativeBlockchain].toLowerCase().includes(searchWord.toLowerCase()) ||
-          `${name} on ${blockchain}`.toLowerCase().includes(searchWord.toLowerCase())
-      ),
-    ]
+  const assets = useMemo(() => {
+    return _assets.filter(
+      (_asset) =>
+        _asset.name.toLowerCase().includes(searchWord.toLowerCase()) ||
+        _asset.symbol.toLowerCase().includes(searchWord.toLowerCase()) ||
+        (_asset.coin && _asset.coin.toLowerCase().includes(searchWord.toLowerCase())) ||
+        (_asset.nativeBlockchain
+          ? blockchainSymbolToName[_asset.nativeBlockchain].toLowerCase().includes(searchWord.toLowerCase())
+          : false) ||
+        `${_asset.name} on ${_asset.blockchain}`.toLowerCase().includes(searchWord.toLowerCase())
+    )
   }, [_assets, searchWord])
 
   return [assets, setSearchWord]

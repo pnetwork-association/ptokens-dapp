@@ -9,6 +9,7 @@ export const isValidSwap = (from: Asset, to: Asset, assets: Asset[]) => {
   if (to.isHidden) return false
   if (to.nativeSymbol.toLowerCase() !== from.nativeSymbol.toLowerCase()) return false
   if (from.isNative) {
+    if (to.underlyingSymbol !== from.id) return false
     return true
   } else {
     if (from.isPseudoNative && !to.isNative) return false

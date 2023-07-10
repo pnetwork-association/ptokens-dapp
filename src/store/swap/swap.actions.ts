@@ -1,7 +1,7 @@
 import { Blockchain, NetworkId } from 'ptokens-constants'
 import { AbiItem } from 'web3-utils'
 
-import { AppDispatch } from '..'
+import { AppDispatch, AppThunk } from '..'
 import { getFactoryAddressByBlockchain } from '../../settings'
 import assets, { Asset, NativeAsset } from '../../settings/swap-assets'
 import { parseError } from '../../utils/errors'
@@ -19,13 +19,12 @@ import { getDefaultSelection } from './utils/default-selection'
 import peginWithWallet from './utils/pegin-with-wallet'
 
 const computePTokenAddress = async (_asset: Asset, _assets: Asset[]) => {
-  const asset =
-    'underlyingAsset' in _asset && _asset.underlyingAsset
-      ? _assets.find((_el) => _el.id === _asset.underlyingAsset)
-      : _asset
+  const asset = 'underlyingAsset' in _asset ? _assets.find((_el) => _el.id === _asset.underlyingAsset) : _asset
   if (asset) {
     const provider = getProviderByNetworkId(_asset.networkId)
     const factoryAddress = getFactoryAddressByBlockchain(_asset.blockchain)
+    console.info('cccc _asset', _asset)
+    console.info('cccc bbbbb', [asset.name, asset.symbol, asset.decimals, asset.address, asset.networkId])
     const pTokenAddress = await provider.makeContractCall<string>(
       {
         contractAddress: factoryAddress,
@@ -34,12 +33,15 @@ const computePTokenAddress = async (_asset: Asset, _assets: Asset[]) => {
       },
       [asset.name, asset.symbol, asset.decimals, asset.address, asset.networkId]
     )
+    console.info('cccc adddr', pTokenAddress)
     return pTokenAddress
   }
   throw new Error('Unable to calculate pToken address')
 }
 
-const loadSwapData = (_opts: { defaultSelection?: { asset?: string; from?: string; to?: string } } = {}) => {
+const loadSwapData = (
+  _opts: { defaultSelection?: { asset?: string; from?: string; to?: string } } = {}
+): AppThunk<Promise<void>> => {
   const { defaultSelection: { asset, from, to } = {} } = _opts
   return async (_dispatch: AppDispatch) => {
     try {
@@ -103,7 +105,6 @@ const loadSwapData = (_opts: { defaultSelection?: { asset?: string; from?: strin
         }
       }
 
-      loadBpm()
       setInterval(() => loadBpm(), 1000 * 5)
 
       const wallets = getWallets()
@@ -118,7 +119,7 @@ const loadSwapData = (_opts: { defaultSelection?: { asset?: string; from?: strin
   }
 }
 
-const loadBalances = (_account: string, _blockchain: Blockchain) => {
+const loadBalances = (_account: string, _blockchain: Blockchain): AppThunk => {
   return (_dispatch: AppDispatch) => {
     try {
       switch (_blockchain) {
@@ -142,7 +143,7 @@ const loadBalances = (_account: string, _blockchain: Blockchain) => {
   }
 }
 
-const loadBalanceByAssetId = (_id: assetId) => {
+const loadBalanceByAssetId = (_id: AssetId): AppThunk => {
   return (_dispatch: AppDispatch) => {
     try {
       const asset = getAssetById(_id)
@@ -168,7 +169,7 @@ const loadBalanceByAssetId = (_id: assetId) => {
   }
 }
 
-const swap = (_from: Asset, _to: Asset, _amount: string, _address: string) => {
+const swap = (_from: Asset, _to: Asset, _amount: string, _address: string): AppThunk<Promise<void>> => {
   return async (_dispatch: AppDispatch) => {
     try {
       _dispatch(actions.progressReset())

@@ -29,6 +29,7 @@ const getProvider = (_asset: Asset, _wallets: Wallets) => {
 
 const buildAssetInfo = (_asset: Asset) => {
   const underlyingAsset = _asset.underlyingAsset ? getAssetById(_asset.underlyingAsset) : null
+  console.info('underlyingAsset', underlyingAsset)
   return {
     networkId: _asset.networkId,
     symbol: _asset.symbol,

@@ -4,7 +4,7 @@ import { Col, Row, Spinner } from 'react-bootstrap'
 import styled from 'styled-components'
 
 import { useAssetsWithouDefault, useSearchAssets, useAssetsGroupedByGivenStrategy } from '../../../hooks/use-assets'
-import { Asset } from '../../../settings/swap-assets'
+import { Asset, UpdatedAsset } from '../../../settings/swap-assets'
 import { ITheme } from '../../../theme/ThemeProvider'
 import { getAssetFromSymbol } from '../../../utils/maps'
 import Icon from '../../atoms/icon/Icon'
@@ -124,6 +124,7 @@ const Search = styled.input`
   padding: 15px;
   border-radius: 20px;
   outline: 0px !important;
+  appearance: auto;
   -webkit-appearance: none;
   box-shadow: none !important;
   border: 1px solid ${({ theme }: { theme: ITheme }) => theme.lightGray};
@@ -166,19 +167,28 @@ const StyledSpinner = styled(Spinner)`
   animation: spinner-border 0.75s linear infinite;
 `
 
-interface IFace {
+interface AssetListModalProps {
   show: boolean
   title: string
-  assets: Asset[]
+  assets: UpdatedAsset[]
   onClose: () => void
   onSelect: () => void
+  defaultAssets: Asset[]
 }
 
-const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _assets, defaultAssets }: IFace) => {
-  const [assetsWithoutDefault] = useAssetsWithouDefault(_assets)
+const AssetListModal = ({
+  show: showModal,
+  title,
+  onClose,
+  onSelect,
+  assets: _assets,
+  defaultAssets,
+}: AssetListModalProps) => {
+  const assetsWithoutDefault = useAssetsWithouDefault(_assets)
   const [filteredAssets, setSearchWord] = useSearchAssets(assetsWithoutDefault)
   const assets = useAssetsGroupedByGivenStrategy(filteredAssets)
-  const [show, setShow] = useState([])
+  console.info('assetsassetsassets', assets)
+  const [show, setShow] = useState<boolean[]>([])
   const inputSearchRef = useRef(null)
 
   const [stillLoading] = useMemo(() => {
@@ -213,7 +223,7 @@ const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _as
   }, [show, onClose, setSearchWord])
 
   const onSelectAsset = useCallback(
-    (_asset) => {
+    (_asset: Asset) => {
       setSearchWord('')
       setShow(show.map(() => false))
       onSelect(_asset)

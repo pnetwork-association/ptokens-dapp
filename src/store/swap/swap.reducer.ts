@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Blockchain } from 'ptokens-constants'
+import { Blockchain, BlockchainType } from 'ptokens-constants'
 
 import { AssetId } from '../../constants'
 import { Asset } from '../../settings/swap-assets'
@@ -25,17 +25,17 @@ export type AssetWithAddress = Asset & {
 
 interface ISwapState {
   assets: AssetWithAddress[]
-  bpm: IBpm | null
+  bpm: IBpm
   progress: IProgress
   swapButton: ISwapButton
   defaultSelection: { from: Asset | null; to: Asset | null }
 }
 
-type IBpm = Record<Blockchain, number>
+export type IBpm = Partial<Record<Blockchain, number>>
 
 const initialState: ISwapState = {
   assets: [],
-  bpm: null,
+  bpm: {},
   progress: {
     show: false,
     percent: 0,

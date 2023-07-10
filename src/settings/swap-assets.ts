@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import { Blockchain, Network, NetworkId } from 'ptokens-constants'
 
 import { AssetId, TokenId, PTokenId } from '../constants'
+import { Asset } from 'anchor-link'
 
 export type BaseAsset = {
   address?: string
@@ -23,36 +24,55 @@ export type BaseAsset = {
   symbolToDisplay?: string
 }
 
-export type NativeAsset = BaseAsset & {
+export interface NativeAsset extends BaseAsset {
   address: string
-  isNative: boolean
+  underlyingAsset?: never
+  isPtoken?: never
+  nativeSymbol?: string
+  nativeBlockchain?: Blockchain
+  nativeDecimals?: number
 }
 
-export type pTokenAsset = BaseAsset & {
+export interface HostAsset extends BaseAsset {
+  address?: never
   underlyingAsset: TokenId
   nativeSymbol: string
   nativeBlockchain: Blockchain
   nativeDecimals: number
-  isPtoken?: boolean
+  isPtoken: boolean
 }
 
-export type Asset = NativeAsset | pTokenAsset
+export type Asset = NativeAsset | HostAsset
+
+export const isNative = (_asset: Asset) => _asset instanceof NativeAsset
 
 export type UpdatedAsset = Asset & {
   address: string
   explorer: string
+  balance: BigNumber
+  formattedBalance: string
   pTokenAddress?: string
   formattedName?: string
-  formattedBalance?: string
   coin?: string
   miniImage?: string
-  balance?: BigNumber | null
   defaultFrom?: boolean
   defaultTo?: boolean
 }
 
 const swapAssets: Asset[] = [
-  /* #################   pTokens   #################*/
+  {
+    address: '0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83',
+    id: TokenId.USDC_ON_XDAI,
+    symbol: 'USDC',
+    name: 'USD//C on xDai',
+    network: Network.Mainnet,
+    blockchain: Blockchain.Gnosis,
+    decimals: 6,
+    image: 'USDC.svg',
+    withBalanceDecimalsConversion: true,
+    networkId: NetworkId.GnosisMainnet,
+    isPerc20: true,
+  },
   {
     id: PTokenId.PUSDC_ON_XDAI_MAINNET,
     name: 'pUSDC',
@@ -86,21 +106,6 @@ const swapAssets: Asset[] = [
     withBalanceDecimalsConversion: true,
     networkId: NetworkId.ArbitrumMainnet,
     underlyingAsset: TokenId.USDC_ON_XDAI,
-    isPerc20: true,
-  },
-  /* #################   Native Tokens   #################*/
-  {
-    address: '0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83',
-    id: TokenId.USDC_ON_XDAI,
-    symbol: 'USDC',
-    name: 'USD//C on xDai',
-    network: Network.Mainnet,
-    blockchain: Blockchain.Gnosis,
-    decimals: 6,
-    isNative: true,
-    image: 'USDC.svg',
-    withBalanceDecimalsConversion: true,
-    networkId: NetworkId.GnosisMainnet,
     isPerc20: true,
   },
 ]

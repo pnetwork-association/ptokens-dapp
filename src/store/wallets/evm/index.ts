@@ -5,7 +5,7 @@ import Web3 from 'web3'
 import { provider } from 'web3-core'
 import Web3Modal from 'web3modal'
 
-import { AppDispatch } from '../..'
+import { AppDispatch, AppThunk } from '../..'
 import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { changeNetwork, setupNetwork } from '../../../utils/wallet'
@@ -13,12 +13,11 @@ import { getTheme } from '../../pages/pages.selectors'
 import { walletConnected, walletDisconnected, accountChanged } from '../wallets.reducer'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
 import { createWalletConnect2 } from '../wallets.utils'
-import { isInstanceOf } from 'anchor-link'
 
-let web3Modal
+let web3Modal: Web3Modal
 
 const connectWithEvmWallet =
-  (_blockchain: Blockchain, _network = Network.Mainnet) =>
+  (_blockchain: Blockchain, _network = Network.Mainnet): AppThunk =>
   async (_dispatch: AppDispatch) => {
     try {
       console.info('connectWithEvmWallet', _blockchain, _network)
@@ -53,7 +52,7 @@ const connectWithEvmWallet =
       const provider = await web3Modal.connect()
       _dispatch(_connectionSuccesfull(provider, _blockchain))
 
-      provider.on('accountsChanged', (_accounts) => {
+      provider.on('accountsChanged', (_accounts: string[]) => {
         _dispatch(accountChanged({ blockchain: _blockchain, account: _accounts[0] }))
       })
     } catch (_err) {
@@ -61,17 +60,22 @@ const connectWithEvmWallet =
     }
   }
 
-const disconnectFromEvmWallet = (_blockchain: Blockchain) => async (_dispatch: AppDispatch) => {
-  const provider = getWalletProviderByBlockchain(_blockchain)
-  if (provider.close) {
-    await provider.close()
+const disconnectFromEvmWallet =
+  (_blockchain: Blockchain): AppThunk =>
+  async (_dispatch: AppDispatch) => {
+    const provider = getWalletProviderByBlockchain(_blockchain)
+    if (provider.close) {
+      await provider.close()
+    }
+    await web3Modal.clearCachedProvider()
+    _dispatch(walletDisconnected({ blockchain: _blockchain }))
   }
-  await web3Modal.clearCachedProvider()
-  _dispatch(walletDisconnected({ blockchain: _blockchain }))
-}
 
 const _connectionSuccesfull =
-  (_provider: { accounts: string[]; chainId: string | number; isMetaMask: boolean }, _blockchain: Blockchain) =>
+  (
+    _provider: { accounts: string[]; chainId: string | number; isMetaMask: boolean },
+    _blockchain: Blockchain
+  ): AppThunk =>
   async (_dispatch: AppDispatch) => {
     console.info('_connectionSuccesfull', _blockchain, _provider)
     try {
