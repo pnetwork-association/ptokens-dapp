@@ -688,7 +688,7 @@ const swapAssets = [
     id: 'IQ_ON_ETH_MAINNET',
     name: 'IQ',
     workingName: 'iq',
-    nativeDecimals: 0,
+    nativeDecimals: 3,
     network: 'mainnet',
     isHidden: false,
     blockchain: 'ETH',
@@ -702,6 +702,7 @@ const swapAssets = [
     withBalanceDecimalsConversion: true,
     isSpecial: true,
     chainId: ChainId.EthereumMainnet,
+    onPnetworkV2: true,
   },
   {
     address: '0x7825e833d495f3d1c28872415a4aee339d26ac88',
@@ -1247,6 +1248,7 @@ const swapAssets = [
     image: 'pEFX.svg',
     withBalanceDecimalsConversion: true,
     chainId: ChainId.EthereumMainnet,
+    onPnetworkV2: true,
   },
   {
     address: '0xde960267b9aabfb5404d9a566c1ed6db9db09522',
@@ -2078,7 +2080,7 @@ const swapAssets = [
     name: 'Everipedia',
     network: 'mainnet',
     blockchain: 'EOS',
-    decimals: 0,
+    decimals: 3,
     withMiniImage: true,
     isNative: true,
     nativeSymbol: 'IQ',
