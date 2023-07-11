@@ -6,6 +6,7 @@ import Walletinfo from '../walletInfoModal/WalletInfoModal'
 import { useWallets } from '../../../hooks/use-wallets'
 import Icon from '../../atoms/icon/Icon'
 import settings from '../../../settings'
+import { Web3SettingsButton } from 'react-web3-settings'
 
 const HeaderWrapper = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -294,6 +295,7 @@ const Header = (_props) => {
               icon={theme === 'light' ? 'sun' : 'moon'}
               onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
             ></ThemeIcon>
+            <Web3SettingsButton className={'api-button-mobile'} iconClassName={'api-icon-mobile'}></Web3SettingsButton>
           </Col>
         </Row>
       </ContainerBottomMobile>

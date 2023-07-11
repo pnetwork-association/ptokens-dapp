@@ -13,6 +13,7 @@ import algosdk from 'algosdk'
 describe('swap', () => {
   beforeAll(() => {
     vi.mock('ptokens-node')
+    vi.mock('react-web3-settings')
   })
 
   beforeEach(() => {
