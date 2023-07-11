@@ -1,7 +1,6 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 import { WALLET_FTM_CONNECTED, WALLET_FTM_DISCONNECTED, WALLET_FTM_ACCOUNT_CHANGED } from '../../../constants'
-import WalletConnectProvider from '@walletconnect/web3-provider'
 import WalletLink from 'walletlink'
 import settings from '../../../settings'
 import { changeNetwork, setupNetwork } from '../../../utils/wallet'
@@ -21,15 +20,6 @@ const connectWithFtmWallet = async (_dispatch) => {
     web3Modal = new Web3Modal({
       theme: getWeb3ModalTheme(getTheme()),
       providerOptions: {
-        walletconnect: {
-          package: WalletConnectProvider,
-          options: {
-            network: 'fantom',
-            rpc: {
-              [settings.rpc.mainnet.ftm.chainId]: settings.rpc.mainnet.ftm.endpoint,
-            },
-          },
-        },
         'custom-walletconnectv2': createWalletConnect2(settings.rpc.mainnet.ftm.chainId),
         walletlink: {
           package: WalletLink,

@@ -1,6 +1,5 @@
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
-import WalletConnectProvider from '@walletconnect/web3-provider'
 import WalletLink from 'walletlink'
 import settings from '../../../settings'
 import { changeNetwork } from '../../../utils/wallet'
@@ -27,15 +26,6 @@ const connectWithEthWallet = async (_dispatch) => {
       theme: getWeb3ModalTheme(getTheme()),
       cacheProvider: false,
       providerOptions: {
-        walletconnect: {
-          package: WalletConnectProvider,
-          options: {
-            network: 'mainnet',
-            rpc: {
-              [settings.rpc.mainnet.eth.chainId]: settings.rpc.mainnet.eth.endpoint,
-            },
-          },
-        },
         'custom-walletconnectv2': createWalletConnect2(settings.rpc.mainnet.eth.chainId),
         walletlink: {
           package: WalletLink,
