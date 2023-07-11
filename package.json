@@ -21,9 +21,9 @@
     "@msgpack/msgpack": "^2.7.2",
     "@perawallet/connect": "^1.2.0",
     "@randlabs/myalgo-connect": "^1.2.0",
-    "@walletconnect/web3-provider": "^1.6.6",
     "@walletconnect/ethereum-provider": "^2.8.1",
     "@walletconnect/modal": "^2.4.7",
+    "@walletconnect/web3-provider": "^1.6.6",
     "algorand-walletconnect-qrcode-modal": "^1.8.0",
     "algosdk": "^2.1.0",
     "anchor-link": "^3.5.0",
@@ -88,7 +88,7 @@
     "jsdom": "^22.0.0",
     "lint-staged": "^13.2.2",
     "prettier": "^2.8.8",
-    "thirdweb": "^0.10.24",
+    "thirdweb": "^0.10.30",
     "vite": "^4.2.3",
     "vite-plugin-node-polyfills": "^0.7.0",
     "vitest": "^0.31.1"
@@ -113,5 +113,9 @@
   "lint-staged": {
     "*.+(js|jsx)": "eslint --cache --fix",
     "*.+(js|jsx|ts|json|yml)": "prettier --config ./.prettierrc --write"
+  },
+  "overrides": {
+    "make-dir": "4.0.0",
+    "semver": "7.5.4"
   }
 }
