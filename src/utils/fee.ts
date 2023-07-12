@@ -70,7 +70,7 @@ const computeFromAmount = (fees: Fees, amount: BigNumber.Value) => {
         .toFixed()
 }
 
-const computeSwapAmount = (fees: Fees, amount: BigNumber.Value, direction: string) => {
+const computeSwapAmount = (fees: Fees | null, amount: BigNumber.Value, direction: string) => {
   if (!fees || _.isNil(fees.basisPoints) || _.isNil(fees.minProtocolFee) || _.isNil(fees.networkFee)) return null
   return amount !== '' ? (direction === 'to' ? computeToAmount(fees, amount) : computeFromAmount(fees, amount)) : amount
 }

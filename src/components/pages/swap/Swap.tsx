@@ -199,7 +199,7 @@ const Swap = ({
     updateSwapButton,
     setTosShow,
     setAddressWarningShow,
-    bpm
+    bpm,
   })
 
   const onSelectFrom = useCallback(

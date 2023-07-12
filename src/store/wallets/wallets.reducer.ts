@@ -34,7 +34,6 @@ const walletsSlice = createSlice({
   initialState,
   reducers: {
     walletConnected: (_state, _action: PayloadAction<WalletConnectedPayload>) => {
-      console.info('walletConnected reducer', _action)
       _state[_action.payload.blockchain] = {
         provider: _action.payload.provider,
         account: _action.payload.account,

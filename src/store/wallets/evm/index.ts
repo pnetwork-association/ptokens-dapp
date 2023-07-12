@@ -20,7 +20,6 @@ const connectWithEvmWallet =
   (_blockchain: Blockchain, _network = Network.Mainnet): AppThunk =>
   async (_dispatch: AppDispatch) => {
     try {
-      console.info('connectWithEvmWallet', _blockchain, _network)
       if (document.getElementById('WEB3_CONNECT_MODAL_ID')) {
         document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
       }
@@ -48,7 +47,6 @@ const connectWithEvmWallet =
           },
         },
       })
-      console.info('connecting')
       const provider = await web3Modal.connect()
       _dispatch(_connectionSuccesfull(provider, _blockchain))
 
@@ -77,7 +75,6 @@ const _connectionSuccesfull =
     _blockchain: Blockchain
   ): AppThunk =>
   async (_dispatch: AppDispatch) => {
-    console.info('_connectionSuccesfull', _blockchain, _provider)
     try {
       const { accounts, chainId } = _provider
       const account = accounts ? accounts[0] : await _getAccount(_provider)

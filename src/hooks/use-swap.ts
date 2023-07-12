@@ -1,8 +1,10 @@
 import BigNumber from 'bignumber.js'
+import { Blockchain } from 'ptokens-constants'
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 
 import { sendEvent } from '../ga4'
 import { UpdatedAsset } from '../settings/swap-assets'
+import { IBpm } from '../store/swap/swap.reducer'
 import { Wallets } from '../store/wallets/wallets.reducer'
 import { isValidAccountByBlockchain } from '../utils/account-validator'
 import { Fees, computeSwapAmount } from '../utils/fee'
@@ -15,6 +17,9 @@ import { useWalletByBlockchain } from './use-wallets'
 type UseSwapArg = {
   assets: UpdatedAsset[]
   wallets: Wallets
+  connectWithWallet: (_blockchain: Blockchain) => void
+  setAddressWarningShow: React.Dispatch<React.SetStateAction<boolean>>
+  bpm: IBpm
 }
 
 const useSwap = ({
@@ -33,7 +38,7 @@ const useSwap = ({
   const [to, setTo] = useState<UpdatedAsset | null>(null)
   const [address, setAddress] = useState<string>('')
   const [fees, setFees] = useState<Fees | null>(null)
-  const [fromAmount, setFromAmount] = useState<string | null>('')
+  const [fromAmount, setFromAmount] = useState<string>('')
   const [toAmount, setToAmount] = useState<string | null>(null)
   const [showModalFrom, setShowModalFrom] = useState(false)
   const [showModalTo, setShowModalTo] = useState(false)
@@ -65,7 +70,7 @@ const useSwap = ({
     from,
     to,
     fees,
-    fromAmount,
+    amount: fromAmount,
     bpm,
   })
 
@@ -210,7 +215,6 @@ const useSwap = ({
     if (assets.length > 0 && !assetsLoaded) {
       const defaultFromAsset = assets.find(({ defaultFrom }) => defaultFrom)
       const defaultToAsset = assets.find(({ defaultTo }) => defaultTo)
-
       if (defaultFromAsset && defaultToAsset) {
         setFrom(defaultFromAsset)
         setTo(defaultToAsset)
@@ -256,7 +260,7 @@ const useSwap = ({
         updateSwapButton('Amount too low', true)
         return
       }
-      console.info('wallets', wallets, from)
+
       // NOTE: if wallet is connected but balance is still null it means that we are loading balances
       if (wallets[from.blockchain] && wallets[from.blockchain].account && !from.balance) {
         updateSwapButton('Loading balances ...', true)

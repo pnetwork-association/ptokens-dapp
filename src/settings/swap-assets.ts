@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js'
 import { Blockchain, Network, NetworkId } from 'ptokens-constants'
 
 import { AssetId, TokenId, PTokenId } from '../constants'
-import { Asset } from 'anchor-link'
 
 export type BaseAsset = {
   address?: string
@@ -28,9 +27,9 @@ export interface NativeAsset extends BaseAsset {
   address: string
   underlyingAsset?: never
   isPtoken?: never
-  nativeSymbol?: string
-  nativeBlockchain?: Blockchain
-  nativeDecimals?: number
+  nativeSymbol?: never
+  nativeBlockchain?: never
+  nativeDecimals?: never
 }
 
 export interface HostAsset extends BaseAsset {
@@ -44,8 +43,6 @@ export interface HostAsset extends BaseAsset {
 
 export type Asset = NativeAsset | HostAsset
 
-export const isNative = (_asset: Asset) => _asset instanceof NativeAsset
-
 export type UpdatedAsset = Asset & {
   address: string
   explorer: string
@@ -58,6 +55,10 @@ export type UpdatedAsset = Asset & {
   defaultFrom?: boolean
   defaultTo?: boolean
 }
+
+export const isNative = (_asset: Asset) => !isHost(_asset)
+
+export const isHost = (_asset: Asset) => 'underlyingAsset' in _asset
 
 const swapAssets: Asset[] = [
   {

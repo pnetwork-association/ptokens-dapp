@@ -6,7 +6,7 @@ import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
 import { useProvider } from '../../../hooks/use-provider'
-import { Asset, UpdatedAsset } from '../../../settings/swap-assets'
+import { UpdatedAsset, isNative } from '../../../settings/swap-assets'
 import { ITheme } from '../../../theme/ThemeProvider'
 import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
 import { getBase64Image } from '../../../utils/image'
@@ -69,6 +69,7 @@ const MetamaskIcon = styled(Icon)`
 
 const AssetInfo = ({ asset, wallet }: { asset: UpdatedAsset }) => {
   const { symbol, address, explorer, networkId, decimals, isSpecial, image } = asset
+  const isNativeAsset = isNative(asset)
   const [isCopiedToClipboard, setIsCopiedToClipboard] = useState(false)
   const { isMetaMask } = useProvider(wallet.provider)
 
@@ -97,7 +98,7 @@ const AssetInfo = ({ asset, wallet }: { asset: UpdatedAsset }) => {
         <Row>
           <ContainerName xs={6}>
             <Token href={explorer} target="blank">
-              {isNative ? symbol : isSpecial ? symbol : capitalizeAllLettersExceptFirst(symbol)}
+              {isNativeAsset ? symbol : isSpecial ? symbol : capitalizeAllLettersExceptFirst(symbol)}
             </Token>
           </ContainerName>
           <ContainerOptions xs={6}>

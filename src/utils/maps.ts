@@ -13,7 +13,6 @@ const blockchainSymbolToCoin: Record<string, string> = {
 }
 
 const getAssetFromSymbol = (_assets: Asset[], _symbol: string) => {
-  console.info('getAssetFromSymbol', _assets, _symbol)
   return _assets.find(({ symbol }) => symbol === _symbol)
 }
 

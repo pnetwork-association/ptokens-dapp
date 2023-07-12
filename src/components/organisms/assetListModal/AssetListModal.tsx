@@ -4,7 +4,7 @@ import { Col, Row, Spinner } from 'react-bootstrap'
 import styled from 'styled-components'
 
 import { useAssetsWithouDefault, useSearchAssets, useAssetsGroupedByGivenStrategy } from '../../../hooks/use-assets'
-import { Asset, UpdatedAsset } from '../../../settings/swap-assets'
+import { Asset, UpdatedAsset, isNative } from '../../../settings/swap-assets'
 import { ITheme } from '../../../theme/ThemeProvider'
 import { getAssetFromSymbol } from '../../../utils/maps'
 import Icon from '../../atoms/icon/Icon'
@@ -187,7 +187,6 @@ const AssetListModal = ({
   const assetsWithoutDefault = useAssetsWithouDefault(_assets)
   const [filteredAssets, setSearchWord] = useSearchAssets(assetsWithoutDefault)
   const assets = useAssetsGroupedByGivenStrategy(filteredAssets)
-  console.info('assetsassetsassets', assets)
   const [show, setShow] = useState<boolean[]>([])
   const inputSearchRef = useRef(null)
 
@@ -267,10 +266,7 @@ const AssetListModal = ({
                           <AssetSymbol>{_nativeSymbol}</AssetSymbol>
                           <AssetName>
                             {_assets.length > 0
-                              ? getAssetFromSymbol(
-                                  defaultAssets.filter(({ isNative }) => isNative),
-                                  _nativeSymbol
-                                ).name
+                              ? getAssetFromSymbol(defaultAssets.filter(isNative), _nativeSymbol).name
                               : ''}
                           </AssetName>
                         </ContainerTokenNameAndSymbol>

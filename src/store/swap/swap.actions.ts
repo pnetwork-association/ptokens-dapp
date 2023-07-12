@@ -23,8 +23,6 @@ const computePTokenAddress = async (_asset: Asset, _assets: Asset[]) => {
   if (asset) {
     const provider = getProviderByNetworkId(_asset.networkId)
     const factoryAddress = getFactoryAddressByBlockchain(_asset.blockchain)
-    console.info('cccc _asset', _asset)
-    console.info('cccc bbbbb', [asset.name, asset.symbol, asset.decimals, asset.address, asset.networkId])
     const pTokenAddress = await provider.makeContractCall<string>(
       {
         contractAddress: factoryAddress,
@@ -33,7 +31,6 @@ const computePTokenAddress = async (_asset: Asset, _assets: Asset[]) => {
       },
       [asset.name, asset.symbol, asset.decimals, asset.address, asset.networkId]
     )
-    console.info('cccc adddr', pTokenAddress)
     return pTokenAddress
   }
   throw new Error('Unable to calculate pToken address')

@@ -179,7 +179,6 @@ const Header = (_props: IHeaderProps) => {
   const onConnectWallet = useCallback(
     (_blockchain: Blockchain) => {
       setShowWalletInfo(false)
-      console.info('saaaaaa', _blockchain, typeof _blockchain)
       connectWithWallet(_blockchain)
     },
     [connectWithWallet]
