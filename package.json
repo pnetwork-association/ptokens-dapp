@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "deploy": "npm ci && npm run build && npx thirdweb upload dist",
+    "deploy": "node ./scripts/check-env.js && npm ci && npm run build && npx thirdweb upload dist",
     "create-version-file": "node ./scripts/generate-buildno.cjs",
     "prepare": "husky install"
   },
