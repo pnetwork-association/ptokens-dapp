@@ -38,7 +38,7 @@ const useAssetsGroupedByGivenStrategy = (_assets: Asset[]) => {
         .map((_asset) => ({
           ..._asset,
           formattedName: _asset.formattedName === _asset.nativeSymbol ? 'NATIVE' : _asset.formattedName,
-          group: _asset.nativeSymbol ? _asset.nativeSymbol : _asset.symbol
+          group: _asset.nativeSymbol ? _asset.nativeSymbol : _asset.symbol,
         }))
         .sort((_a, _b) => (_a.nativeSymbol > _b.nativeSymbol ? 1 : -1)),
       'group'

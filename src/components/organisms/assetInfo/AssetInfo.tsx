@@ -7,6 +7,7 @@ import styled from 'styled-components'
 
 import { useProvider } from '../../../hooks/use-provider'
 import { UpdatedAsset, isNative } from '../../../settings/swap-assets'
+import { IWallet } from '../../../store/wallets/wallets.reducer'
 import { ITheme } from '../../../theme/ThemeProvider'
 import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
 import { getBase64Image } from '../../../utils/image'
@@ -67,7 +68,12 @@ const MetamaskIcon = styled(Icon)`
   cursor: pointer;
 `
 
-const AssetInfo = ({ asset, wallet }: { asset: UpdatedAsset }) => {
+type AssetInfoArg = {
+  asset: UpdatedAsset
+  wallet: IWallet
+}
+
+const AssetInfo = ({ asset, wallet }: AssetInfoArg) => {
   const { symbol, address, explorer, networkId, decimals, isSpecial, image } = asset
   const isNativeAsset = isNative(asset)
   const [isCopiedToClipboard, setIsCopiedToClipboard] = useState(false)

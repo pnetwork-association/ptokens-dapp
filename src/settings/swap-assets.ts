@@ -25,15 +25,9 @@ export type BaseAsset = {
 
 export interface NativeAsset extends BaseAsset {
   address: string
-  underlyingAsset?: never
-  isPtoken?: never
-  nativeSymbol?: never
-  nativeBlockchain?: never
-  nativeDecimals?: never
 }
 
 export interface HostAsset extends BaseAsset {
-  address?: never
   underlyingAsset: TokenId
   nativeSymbol: string
   nativeBlockchain: Blockchain
@@ -41,7 +35,10 @@ export interface HostAsset extends BaseAsset {
   isPtoken: boolean
 }
 
-export type Asset = NativeAsset | HostAsset
+export type Asset = (NativeAsset | HostAsset) & {
+  defaultFrom: boolean
+  defaultTo: boolean
+}
 
 export type UpdatedAsset = Asset & {
   address: string

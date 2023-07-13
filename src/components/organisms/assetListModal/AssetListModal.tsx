@@ -172,7 +172,7 @@ interface AssetListModalProps {
   title: string
   assets: UpdatedAsset[]
   onClose: () => void
-  onSelect: () => void
+  onSelect: (_asset: UpdatedAsset) => void
   defaultAssets: Asset[]
 }
 
@@ -188,7 +188,7 @@ const AssetListModal = ({
   const [filteredAssets, setSearchWord] = useSearchAssets(assetsWithoutDefault)
   const assets = useAssetsGroupedByGivenStrategy(filteredAssets)
   const [show, setShow] = useState<boolean[]>([])
-  const inputSearchRef = useRef(null)
+  const inputSearchRef = useRef<HTMLInputElement>(null)
 
   const [stillLoading] = useMemo(() => {
     const nativeSymbols = Object.keys(assets)
@@ -222,7 +222,7 @@ const AssetListModal = ({
   }, [show, onClose, setSearchWord])
 
   const onSelectAsset = useCallback(
-    (_asset: Asset) => {
+    (_asset: UpdatedAsset) => {
       setSearchWord('')
       setShow(show.map(() => false))
       onSelect(_asset)

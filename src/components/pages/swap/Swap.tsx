@@ -9,7 +9,7 @@ import { sendEvent } from '../../../ga4'
 import { updateAssets } from '../../../hooks/use-assets'
 import { useSwap } from '../../../hooks/use-swap'
 import defaultAssets, { UpdatedAsset } from '../../../settings/swap-assets'
-import { AssetWithAddress, IBpm } from '../../../store/swap/swap.reducer'
+import { AssetWithAddress, IBpm, IProgress, ISwapButton } from '../../../store/swap/swap.reducer'
 import { Wallets } from '../../../store/wallets/wallets.reducer'
 import { ITheme } from '../../../theme/ThemeProvider'
 import Button from '../../atoms/button/Button'
@@ -21,6 +21,7 @@ import AssetListModal from '../../organisms/assetListModal/AssetListModal'
 import InfoModal from '../../organisms/infoModal/InfoModal'
 import SwapInfo from '../../organisms/swapInfo/SwapInfo'
 import SwapLine from '../../organisms/swapLine/SwapLine'
+import { Update } from 'vite'
 
 export const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -132,6 +133,8 @@ type SwapProps = {
   assets: AssetWithAddress[]
   bpm: IBpm
   wallets: Wallets
+  progress: IProgress
+  swapButton: ISwapButton
 }
 
 const Swap = ({
@@ -141,7 +144,7 @@ const Swap = ({
   progress,
   infoModal,
   connectWithWallet,
-  swapButton = {},
+  swapButton,
   updateSwapButton,
   swap,
   hideInfoModal,
@@ -203,14 +206,14 @@ const Swap = ({
   })
 
   const onSelectFrom = useCallback(
-    (_asset) => {
+    (_asset: UpdatedAsset) => {
       _onSelectFrom(_asset)
     },
     [_onSelectFrom]
   )
 
   const onSelectTo = useCallback(
-    (_asset) => {
+    (_asset: UpdatedAsset) => {
       _onSelectTo(_asset)
     },
     [_onSelectTo]

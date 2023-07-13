@@ -85,7 +85,6 @@ const WalletInfoModal = ({ show, wallets, onClose, onChange, onConnect, onDiscon
       show={show}
       onClose={onClose}
       title={'Accounts'}
-      dialogClassName="modal-wallet"
       body={
         <React.Fragment>
           {wallets.map(({ formattedAccount, blockchain, formattedBlockchain, isConnected }) => (

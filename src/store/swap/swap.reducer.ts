@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Blockchain, BlockchainType } from 'ptokens-constants'
+import { Blockchain } from 'ptokens-constants'
 
 import { AssetId } from '../../constants'
 import { Asset } from '../../settings/swap-assets'
 
-interface IProgress {
+export interface IProgress {
   show: boolean
   percent: number
   message: string | null
@@ -12,7 +12,7 @@ interface IProgress {
   terminated: boolean
 }
 
-interface ISwapButton {
+export interface ISwapButton {
   disabled: boolean
   text: string
   link: string | null

@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Blockchain } from 'ptokens'
-import Web3 from 'web3'
 
 export type IWallet = {
   provider: Record<string, unknown> | null

@@ -3,7 +3,7 @@ import { AbiItem } from 'web3-utils'
 
 import { AppDispatch, AppThunk } from '..'
 import { getFactoryAddressByBlockchain } from '../../settings'
-import assets, { Asset, NativeAsset } from '../../settings/swap-assets'
+import assets, { Asset, NativeAsset, isNative } from '../../settings/swap-assets'
 import { parseError } from '../../utils/errors'
 import { createAsset, getProviderByNetworkId, getSwapBuilder } from '../../utils/ptokens'
 import { updateInfoModal } from '../pages/pages.actions'
@@ -18,7 +18,7 @@ import { loadEvmCompatibleBalances, loadEvmCompatibleBalance } from './utils/bal
 import { getDefaultSelection } from './utils/default-selection'
 import peginWithWallet from './utils/pegin-with-wallet'
 
-const computePTokenAddress = async (_asset: Asset, _assets: Asset[]) => {
+const computePTokenAddress = async (_asset: Asset, _assets: Asset[]): Promise<string> => {
   const asset = 'underlyingAsset' in _asset ? _assets.find((_el) => _el.id === _asset.underlyingAsset) : _asset
   if (asset) {
     const provider = getProviderByNetworkId(_asset.networkId)
@@ -42,13 +42,13 @@ const loadSwapData = (
   const { defaultSelection: { asset, from, to } = {} } = _opts
   return async (_dispatch: AppDispatch) => {
     try {
-      const assetsWithAddress: AssetWithAddress[] = await Promise.all(
+      const assetsWithAddress = await Promise.all(
         assets.map(async (_asset) => {
-          const pTokenAddress = await computePTokenAddress(_asset, assets)
+          const pTokenAddress: string = await computePTokenAddress(_asset, assets)
           return {
             ..._asset,
-            address: 'isNative' in _asset && _asset.isNative ? _asset.address : pTokenAddress,
-            pTokenAddress: 'isNative' in _asset && _asset.isNative ? pTokenAddress : null,
+            address: isNative(_asset) ? _asset.address : pTokenAddress,
+            pTokenAddress: isNative(_asset) ? pTokenAddress : null,
           }
         })
       )
@@ -195,7 +195,7 @@ const swap = (_from: Asset, _to: Asset, _amount: string, _address: string): AppT
           updateInfoModal({
             show: true,
             text: 'Error during pegin, try again!',
-            showMoreText: _err.message ? _err.message : '_err',
+            showMoreText: _err instanceof Error ? _err.message : '',
             showMoreLabel: 'Show Details',
             icon: 'cancel',
           })
