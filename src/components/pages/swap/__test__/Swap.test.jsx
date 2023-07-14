@@ -48,6 +48,18 @@ describe('Swap', async () => {
     vi.mock('../../../atoms/icon/Icon')
   })
 
+  it('Should set amount correctly', async () => {
+    vi.spyOn(SwapInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)
+    const computeSwap = vi.spyOn(feeUtils, 'computeSwapAmount')
+    render(<Wrapper />)
+    await waitFor(() => expect(screen.getByText(/Enter an address/)).toBeInTheDocument())
+    const [fromInput, toInput] = screen.getAllByRole('textbox')
+    await UserEvent.type(fromInput, '1')
+    expect(computeSwap).toBeCalledTimes(1)
+    await UserEvent.type(toInput, '1')
+    expect(computeSwap).toBeCalledTimes(2)
+  })
+
   it('Should update "to" amount correctly', async () => {
     vi.spyOn(SwapInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)
     vi.spyOn(feeUtils, 'getSwapFees').mockResolvedValue({ basisPoints: 15, networkFee: 1e18, minProtocolFee: 2e18 })

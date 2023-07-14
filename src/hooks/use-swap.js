@@ -33,7 +33,7 @@ const useSwap = ({
   const [address, setAddress] = useState('')
   const [fees, setFees] = useState(null)
   const [fromAmount, setFromAmount] = useState('')
-  const [toAmount, setToAmount] = useState(null)
+  const [toAmount, setToAmount] = useState('')
   const [showModalFrom, setShowModalFrom] = useState(false)
   const [showModalTo, setShowModalTo] = useState(false)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
@@ -45,7 +45,6 @@ const useSwap = ({
   const [curveState, setCurveState] = useState(false)
   const [curveImpact, setCurveImpact] = useState(0)
   const [curvePoolName, setCurvePoolName] = useState('')
-  const [toAmountNeedsUpdate, setToAmountNeedsUpdate] = useState(true)
   const AddressWarningRef = useRef({ proceed: false, doNotProceed: false })
 
   useEffect(() => {
@@ -87,12 +86,8 @@ const useSwap = ({
 
     if (curveRef.current) {
       calcWithNewAmount(fromAmount)
-    } else {
-      if (toAmountNeedsUpdate) {
-        setToAmount(computeSwapAmount(fees, fromAmount, 'to'))
-      }
     }
-  }, [fees, fromAmount, toAmountNeedsUpdate])
+  }, [fees, fromAmount])
 
   useEffect(() => {
     async function curveInit() {
@@ -130,16 +125,18 @@ const useSwap = ({
     fromAmount,
   })
 
-  const onChangeFromAmount = (_amount) => {
-    setFromAmount(_amount)
-    setToAmountNeedsUpdate(true)
-  }
+  const onChangeFromAmount = useCallback(
+    (_amount, _source) => {
+      setFromAmount(_amount)
+      if (_source.source === 'event') setToAmount(computeSwapAmount(fees, _amount, 'to'))
+    },
+    [fees]
+  )
 
   const onChangeToAmount = useCallback(
-    (_amount) => {
+    (_amount, _source) => {
       setToAmount(_amount)
-      setToAmountNeedsUpdate(false)
-      setFromAmount(computeSwapAmount(fees, _amount, 'from'))
+      if (_source.source === 'event') setFromAmount(computeSwapAmount(fees, _amount, 'from'))
     },
     [fees]
   )
@@ -154,13 +151,12 @@ const useSwap = ({
   const onFromMax = useCallback(() => {
     const amount = from.balance
     setFromAmount(BigNumber(amount).toFixed())
-    setToAmountNeedsUpdate(true)
-  }, [from])
+    setToAmount(computeSwapAmount(fees, amount, 'to'))
+  }, [from, fees])
 
   const onToMax = useCallback(() => {
     const amount = to.balance
     setToAmount(BigNumber(amount).toFixed())
-    setToAmountNeedsUpdate(false)
     setFromAmount(computeSwapAmount(fees, amount, 'from'))
   }, [to, fees])
 

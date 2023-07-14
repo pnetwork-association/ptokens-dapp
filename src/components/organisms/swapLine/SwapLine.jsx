@@ -269,10 +269,11 @@ const SwapLine = ({
           ) : (
             <ContainerAmountInput>
               <NumericFormat
+                decimalScale={asset ? asset.decimals : undefined}
                 customInput={AmountInput}
                 placeholder={inputPlaceholder}
                 disabled={disableInput}
-                onValueChange={(_e) => onChangeAmount(_e.value.toString().replace(',', '.'))}
+                onValueChange={(_e, _source) => onChangeAmount(_e.value.toString().replace(',', '.'), _source)}
                 prefix={prefix}
                 value={amount !== '' ? +amount : amount}
                 allowedDecimalSeparators={[',', '.']}
