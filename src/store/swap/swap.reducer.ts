@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import BigNumber from 'bignumber.js'
 import { Blockchain } from 'ptokens-constants'
 
 import { AssetId } from '../../constants'
-import { Asset } from '../../settings/swap-assets'
+import { Asset, AssetWithAddress } from '../../settings/swap-assets'
 
 export interface IProgress {
   show: boolean
@@ -18,13 +19,8 @@ export interface ISwapButton {
   link: string | null
 }
 
-export type AssetWithAddress = Asset & {
-  address: string
-  pTokenAddress: string | null
-}
-
 interface ISwapState {
-  assets: AssetWithAddress[]
+  assets: Partial<Record<AssetId, AssetWithAddress>>
   bpm: IBpm
   progress: IProgress
   swapButton: ISwapButton
@@ -34,7 +30,7 @@ interface ISwapState {
 export type IBpm = Partial<Record<Blockchain, number>>
 
 const initialState: ISwapState = {
-  assets: [],
+  assets: {},
   bpm: {},
   progress: {
     show: false,
@@ -58,13 +54,13 @@ const swapSlice = createSlice({
   name: 'pages',
   initialState,
   reducers: {
-    assetsLoaded: (_state, _action: PayloadAction<AssetWithAddress[]>) => {
+    assetsLoaded: (_state, _action: PayloadAction<Partial<Record<AssetId, AssetWithAddress>>>) => {
       _state.assets = _action.payload
     },
     swapBalanceLoaded: (_state, _action: PayloadAction<{ id: AssetId; balance: string }>) => {
-      _state.assets = _state.assets.map((_asset) =>
-        _asset.id === _action.payload.id ? { ..._asset, balance: _action.payload.balance } : _asset
-      )
+      const id = _action.payload.id
+      const asset = _state.assets[id]
+      if (asset) asset.balance = BigNumber(_action.payload.balance)
     },
     bpmLoaded: (_state, _action: PayloadAction<IBpm>) => {
       _state.bpm = _action.payload

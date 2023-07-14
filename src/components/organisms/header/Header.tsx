@@ -6,6 +6,7 @@ import styled from 'styled-components'
 
 import { useWallets } from '../../../hooks/use-wallets'
 import settings from '../../../settings'
+import { LoadSwapDataOpts } from '../../../store/swap/swap.actions'
 import { Wallets } from '../../../store/wallets/wallets.reducer'
 import { ITheme } from '../../../theme/ThemeProvider'
 import Icon from '../../atoms/icon/Icon'
@@ -164,11 +165,13 @@ const ContainerOptions = styled.div`
 
 interface IHeaderProps {
   wallets: Wallets
-  connectWithWallet: (Blockchain) => void
-  disconnectFromWallet: (Blockchain) => void
-  loadSwapData: () => void
-  selectPage: (string) => void
-  setTheme: (string) => void
+  selectedPage: string
+  theme: string
+  connectWithWallet: (_blockchain: Blockchain) => void
+  disconnectFromWallet: (_blockchain: Blockchain) => void
+  loadSwapData: (opts: LoadSwapDataOpts) => void
+  selectPage: (page: string) => void
+  setTheme: (theme: string) => void
 }
 
 const Header = (_props: IHeaderProps) => {
@@ -185,7 +188,7 @@ const Header = (_props: IHeaderProps) => {
   )
 
   const onChangeWallet = useCallback(
-    (_blockchain) => {
+    (_blockchain: Blockchain) => {
       setShowWalletInfo(false)
       connectWithWallet(_blockchain)
     },
@@ -193,7 +196,7 @@ const Header = (_props: IHeaderProps) => {
   )
 
   const onDisconnectWallet = useCallback(
-    (_blockchain) => {
+    (_blockchain: Blockchain) => {
       setShowWalletInfo(false)
       disconnectFromWallet(_blockchain)
     },

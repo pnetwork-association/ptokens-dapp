@@ -70,7 +70,7 @@ const MetamaskIcon = styled(Icon)`
 
 type AssetInfoArg = {
   asset: UpdatedAsset
-  wallet: IWallet
+  wallet: { provider: Record<string, unknown> | null; isConnected: boolean }
 }
 
 const AssetInfo = ({ asset, wallet }: AssetInfoArg) => {

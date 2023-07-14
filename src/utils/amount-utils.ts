@@ -12,7 +12,7 @@ const parseAmount = (_decimals: number, _amount: number) => {
   return num.dividedBy(den)
 }
 
-const strip = (_number: string) =>
+const strip = (_number: BigNumber.Value) =>
   BigNumber(_number)
     .toFixed()
     .match(/^-?\d*\.?0*\d{0,4}/)[0]
@@ -112,7 +112,7 @@ const getThousandSeparator = () => getSeparator().thousandSeparator
 
 const getDecimalSeparator = () => getSeparator().decimalSeparator
 
-const formatDecimalSeparator = (num: number) => num.toString().replace('.', getDecimalSeparator())
+const formatDecimalSeparator = (num: number | string) => num.toString().replace('.', getDecimalSeparator())
 
 export {
   onChainFormat,

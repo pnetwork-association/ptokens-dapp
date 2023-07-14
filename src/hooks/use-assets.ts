@@ -1,22 +1,29 @@
+import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { useMemo, useState } from 'react'
 
-import { Asset, UpdatedAsset } from '../settings/swap-assets'
-import { AssetWithAddress } from '../store/swap/swap.reducer'
+import { AssetId } from '../constants'
+import { Asset, AssetWithAddress, UpdatedAsset, isNative } from '../settings/swap-assets'
 import { offChainFormat, strip } from '../utils/amount-utils'
 import { getCorrespondingTokenExplorerLinkByBlockchain } from '../utils/explorer'
 import { blockchainSymbolToName, blockchainSymbolToCoin } from '../utils/maps'
 
-const updateAssets = async (_assets: AssetWithAddress[]) => {
+const updateAssets = async (_assets: Partial<Record<AssetId, AssetWithAddress>>) => {
   const modifiedAssets = await Promise.all(
-    _assets.filter(({ isHidden }) => !isHidden).map((_asset) => updateAsset(_asset))
+    Object.values(_assets)
+      .filter(({ isHidden }) => !isHidden)
+      .map((_asset) => updateAsset(_asset))
   )
-  const assetsWithBalance = modifiedAssets
-    .filter(({ balance }) => balance !== null && balance !== undefined)
-    .sort((_a, _b) => _b.balance - _a.balance)
-  const assetsWithoutBalance = modifiedAssets.filter(({ formattedBalance }) => formattedBalance === '-')
-
-  return [...assetsWithBalance, ...assetsWithoutBalance]
+  const assetsWithBalance = Object.fromEntries(
+    modifiedAssets
+      .filter(({ balance }) => balance !== null && balance !== undefined)
+      .sort((_a, _b) => _b.balance.minus(_a.balance).toNumber())
+      .map((_el) => [_el.id, _el])
+  )
+  const assetsWithoutBalance = Object.fromEntries(
+    modifiedAssets.filter(({ formattedBalance }) => formattedBalance === '-').map((_el) => [_el.id, _el])
+  )
+  return Object.assign({}, assetsWithBalance, assetsWithoutBalance)
 }
 
 const useAssetsWithouDefault = (_assets: UpdatedAsset[]) => {
@@ -27,7 +34,7 @@ const useAssetsWithouDefault = (_assets: UpdatedAsset[]) => {
 
 const usePtoken = (_asset: Asset) => {
   return useMemo(() => {
-    return [_asset && !_asset.isNative ? true : false]
+    return [_asset && !isNative(_asset) ? true : false]
   }, [_asset])
 }
 
@@ -37,10 +44,10 @@ const useAssetsGroupedByGivenStrategy = (_assets: Asset[]) => {
       Object.values(_assets)
         .map((_asset) => ({
           ..._asset,
-          formattedName: _asset.formattedName === _asset.nativeSymbol ? 'NATIVE' : _asset.formattedName,
-          group: _asset.nativeSymbol ? _asset.nativeSymbol : _asset.symbol,
+          formattedName: isNative(_asset) ? 'NATIVE' : _asset.formattedName,
+          group: 'nativeSymbol' in _asset ? _asset.nativeSymbol : _asset.symbol,
         }))
-        .sort((_a, _b) => (_a.nativeSymbol > _b.nativeSymbol ? 1 : -1)),
+        .sort((_a, _b) => (_a.group > _b.group ? 1 : -1)),
       'group'
     )
     return assetsGroupedByKey
@@ -56,7 +63,7 @@ const useSearchAssets = (_assets: UpdatedAsset[]): [UpdatedAsset[], React.Dispat
         _asset.name.toLowerCase().includes(searchWord.toLowerCase()) ||
         _asset.symbol.toLowerCase().includes(searchWord.toLowerCase()) ||
         (_asset.coin && _asset.coin.toLowerCase().includes(searchWord.toLowerCase())) ||
-        (_asset.nativeBlockchain
+        ('nativeBlockchain' in _asset
           ? blockchainSymbolToName[_asset.nativeBlockchain].toLowerCase().includes(searchWord.toLowerCase())
           : false) ||
         `${_asset.name} on ${_asset.blockchain}`.toLowerCase().includes(searchWord.toLowerCase())
@@ -73,17 +80,17 @@ const updateAsset = (_asset: AssetWithAddress): UpdatedAsset => {
     formattedBalance: _asset.balance
       ? _asset.withBalanceDecimalsConversion
         ? strip(offChainFormat(_asset.balance, _asset.decimals))
-        : _asset.balance
+        : _asset.balance.toString()
       : '-',
     balance: _asset.balance
       ? _asset.withBalanceDecimalsConversion
         ? offChainFormat(_asset.balance, _asset.decimals)
         : _asset.balance
-      : null,
-    coin: blockchainSymbolToCoin[_asset.nativeSymbol],
+      : BigNumber(0),
+    coin: blockchainSymbolToCoin['nativeSymbol' in _asset ? _asset.nativeSymbol : _asset.symbol],
     formattedName: _asset.formattedName
       ? _asset.formattedName
-      : !_asset.isNative
+      : !isNative(_asset)
       ? `on ${blockchainSymbolToName[_asset.blockchain].toUpperCase()}`
       : _asset.symbol,
     image: `./assets/svg/${_asset.image}`,

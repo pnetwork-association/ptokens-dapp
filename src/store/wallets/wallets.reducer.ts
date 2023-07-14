@@ -7,6 +7,7 @@ export type IWallet = {
   chainId: number | null
   network: string | null
   permission?: string
+  isConnected?: boolean
 }
 
 type WalletConnectedPayload = IWallet & { blockchain: Blockchain }

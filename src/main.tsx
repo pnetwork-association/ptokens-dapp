@@ -30,61 +30,68 @@ import './theme/bootstrap.css'
 
 initialize()
 
-if (window.ethereum) window.ethereum.autoRefreshOnNetworkChange = false
+if (window.ethereum && 'autoRefreshOnNetworkChange' in window.ethereum)
+  window.ethereum.autoRefreshOnNetworkChange = false
 
 // NOTE: remove loader
 const loader = document.getElementsByClassName('loader')
-loader[0].parentNode.removeChild(loader[0])
+if (loader[0] && loader[0].parentNode) {
+  loader[0].parentNode.removeChild(loader[0])
+}
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <Provider store={store}>
-    <ThemeProvider>
-      <ThemedGlobalStyle />
-      <HashRouter>
-        <Web3SettingsProvider
-          buttonSaveStyle={buttonSaveStyle}
-          buttonResetStyle={buttonResetStyle}
-          titleStyle={titleStyle}
-          headerStyle={headerStyle}
-          inputStyle={inputStyle}
-          sectionLabelStyle={sectionLabelStyle}
-          sectionRowStyle={sectionRowStyle}
-          settingRowStyle={settingRowStyle}
-          buttonAreaStyle={buttonAreaStyle}
-          settings={{
-            factoryAddress: {
-              label: 'pTokens Factory Address',
-              settings: {
-                [Blockchain.Gnosis]: {
-                  label: 'Gnosis',
-                  value: FactoryAddress.get(NetworkId.GnosisMainnet),
+const root = document.getElementById('root')
+if (root)
+  ReactDOM.createRoot(root).render(
+    <Provider store={store}>
+      <ThemeProvider>
+        <React.Fragment>
+          <ThemedGlobalStyle active={true} />
+          <HashRouter>
+            <Web3SettingsProvider
+              buttonSaveStyle={buttonSaveStyle}
+              buttonResetStyle={buttonResetStyle}
+              titleStyle={titleStyle}
+              headerStyle={headerStyle}
+              inputStyle={inputStyle}
+              sectionLabelStyle={sectionLabelStyle}
+              sectionRowStyle={sectionRowStyle}
+              settingRowStyle={settingRowStyle}
+              buttonAreaStyle={buttonAreaStyle}
+              settings={{
+                factoryAddress: {
+                  label: 'pTokens Factory Address',
+                  settings: {
+                    [Blockchain.Gnosis]: {
+                      label: 'Gnosis',
+                      value: FactoryAddress.get(NetworkId.GnosisMainnet) || '',
+                    },
+                    [Blockchain.Arbitrum]: {
+                      label: 'Arbitrum',
+                      value: FactoryAddress.get(NetworkId.ArbitrumMainnet) || '',
+                    },
+                  },
                 },
-                [Blockchain.Arbitrum]: {
-                  label: 'Arbitrum',
-                  value: FactoryAddress.get(NetworkId.ArbitrumMainnet),
+                rpcEndpoints: {
+                  label: 'RPC Node Endpoints',
+                  settings: {
+                    [Blockchain.Gnosis]: {
+                      label: 'Gnosis',
+                      value: settings.rpc[Network.Mainnet][Blockchain.Gnosis].endpoint,
+                    },
+                    [Blockchain.Arbitrum]: {
+                      label: 'Arbitrum',
+                      value: settings.rpc[Network.Mainnet][Blockchain.Arbitrum].endpoint,
+                    },
+                  },
                 },
-              },
-            },
-            rpcEndpoints: {
-              label: 'RPC Node Endpoints',
-              settings: {
-                [Blockchain.Gnosis]: {
-                  label: 'Gnosis',
-                  value: settings.rpc[Network.Mainnet][Blockchain.Gnosis].endpoint,
-                },
-                [Blockchain.Arbitrum]: {
-                  label: 'Arbitrum',
-                  value: settings.rpc[Network.Mainnet][Blockchain.Arbitrum].endpoint,
-                },
-              },
-            },
-          }}
-        >
-          <App />
-        </Web3SettingsProvider>
-      </HashRouter>
-    </ThemeProvider>
-  </Provider>
-)
+              }}
+            >
+              <App />
+            </Web3SettingsProvider>
+          </HashRouter>
+        </React.Fragment>
+      </ThemeProvider>
+    </Provider>
+  )
 
 serviceWorker.unregister()

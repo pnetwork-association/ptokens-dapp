@@ -2,9 +2,11 @@ import BigNumber from 'bignumber.js'
 import { Blockchain } from 'ptokens-constants'
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 
+import { AssetId } from '../constants'
 import { sendEvent } from '../ga4'
-import { UpdatedAsset } from '../settings/swap-assets'
-import { IBpm } from '../store/swap/swap.reducer'
+import { Asset, UpdatedAsset, isNative } from '../settings/swap-assets'
+import { AppThunk } from '../store'
+import { IBpm, IProgress, ISwapButton } from '../store/swap/swap.reducer'
 import { Wallets } from '../store/wallets/wallets.reducer'
 import { isValidAccountByBlockchain } from '../utils/account-validator'
 import { Fees, computeSwapAmount } from '../utils/fee'
@@ -15,11 +17,16 @@ import { useSwapInfo } from './use-swap-info'
 import { useWalletByBlockchain } from './use-wallets'
 
 type UseSwapArg = {
-  assets: UpdatedAsset[]
+  progress: IProgress
+  assets: Partial<Record<AssetId, UpdatedAsset>>
   wallets: Wallets
+  bpm: IBpm
+  swapButton: ISwapButton
   connectWithWallet: (_blockchain: Blockchain) => void
   setAddressWarningShow: React.Dispatch<React.SetStateAction<boolean>>
-  bpm: IBpm
+  swap: (_from: Asset, _to: Asset, _amount: string, _address: string) => AppThunk<Promise<void>>
+  updateSwapButton: (_text: string, _disabled?: boolean, _link?: string | null) => void
+  setTosShow: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const useSwap = ({
@@ -36,7 +43,7 @@ const useSwap = ({
 }: UseSwapArg) => {
   const [from, setFrom] = useState<UpdatedAsset | null>(null)
   const [to, setTo] = useState<UpdatedAsset | null>(null)
-  const [address, setAddress] = useState<string>('')
+  const [address, setAddress] = useState<string | null>(null)
   const [fees, setFees] = useState<Fees | null>(null)
   const [fromAmount, setFromAmount] = useState<string>('')
   const [toAmount, setToAmount] = useState<string | null>(null)
@@ -61,7 +68,7 @@ const useSwap = ({
   }, [from, to])
 
   useEffect(() => {
-    if (toAmountNeedsUpdate) {
+    if (fees && toAmountNeedsUpdate) {
       setToAmount(computeSwapAmount(fees, fromAmount, 'to'))
     }
   }, [fees, fromAmount, toAmountNeedsUpdate])
@@ -83,7 +90,7 @@ const useSwap = ({
     (_amount: string) => {
       setToAmount(_amount)
       setToAmountNeedsUpdate(false)
-      setFromAmount(computeSwapAmount(fees, _amount, 'from'))
+      if (_amount && fees) setFromAmount(computeSwapAmount(fees, _amount, 'from'))
     },
     [fees]
   )
@@ -103,7 +110,7 @@ const useSwap = ({
   }, [from])
 
   const onToMax = useCallback(() => {
-    if (to) {
+    if (to && fees) {
       const amount = to.balance
       setToAmount(BigNumber(amount).toFixed())
       setToAmountNeedsUpdate(false)
@@ -111,14 +118,14 @@ const useSwap = ({
     }
   }, [to, fees])
 
-  const onSwap = useCallback(() => {
+  const onSwap = useCallback(async () => {
     function waitForToS() {
       setTosShow(!ToSRef.current.isAccepted)
-      function _waitForToS(resolve, reject) {
+      function _waitForToS(resolve: (value: unknown) => void, reject: (reason?: any) => void) {
         if (ToSRef.current.isAccepted) resolve('Terms have beed accepted')
         if (ToSRef.current.isRefused) reject('Terms have been refused')
         else {
-          setTimeout(_waitForToS.bind(this, resolve, reject), 30)
+          setTimeout(() => _waitForToS(resolve, reject), 30)
         }
       }
       return new Promise(_waitForToS)
@@ -126,11 +133,11 @@ const useSwap = ({
 
     function waitForAddressWarning() {
       setAddressWarningShow(true)
-      function _waitForAddressWarning(resolve, reject) {
-        if (AddressWarningRef.current.proceed) resolve('Proceeding to selected address')
-        if (AddressWarningRef.current.doNotProceed) reject('Insert new address')
+      function _waitForAddressWarning(resolve: (value: unknown) => void, reject: (reason?: any) => void) {
+        if (AddressWarningRef.current.proceed) return resolve('Proceeding to selected address')
+        if (AddressWarningRef.current.doNotProceed) return reject('Insert new address')
         else {
-          setTimeout(_waitForAddressWarning.bind(this, resolve, reject), 30)
+          setTimeout(() => _waitForAddressWarning(resolve, reject), 30)
         }
       }
       return new Promise(_waitForAddressWarning)
@@ -138,8 +145,8 @@ const useSwap = ({
 
     function isReasonableAddress() {
       if (
-        (from.address && address.toLowerCase() === from.address.toLowerCase()) ||
-        (to.address && address.toLowerCase() === to.address.toLowerCase())
+        (address && from && from.address && address.toLowerCase() === from.address.toLowerCase()) ||
+        (address && to && to.address && address.toLowerCase() === to.address.toLowerCase())
       ) {
         return false
       }
@@ -147,21 +154,23 @@ const useSwap = ({
     }
 
     function doSwap() {
-      updateSwapButton(swapButton.text === 'Swap' ? 'Swapping ...' : 'Generating ...', true)
-      sendEvent('swap_click', { asset_from: from.id, asset_to: to.id, from_amount: fromAmount })
-      swap(from, to, fromAmount, address)
+      if (from && to && address) {
+        updateSwapButton(swapButton.text === 'Swap' ? 'Swapping ...' : 'Generating ...', true)
+        sendEvent('swap_click', { asset_from: from.id, asset_to: to.id, from_amount: fromAmount })
+        swap(from, to, fromAmount, address)
+      }
     }
 
     if (swapButton.text === 'Connect Wallet') {
       const connectToWallet = async () => {
         try {
           await waitForToS()
-          connectWithWallet(from.blockchain)
+          connectWithWallet(from!.blockchain)
         } catch (err) {
           ToSRef.current.isRefused = false
         }
       }
-      connectToWallet()
+      await connectToWallet()
     }
 
     if (swapButton.text === 'Swap') {
@@ -181,7 +190,7 @@ const useSwap = ({
           }
         }
       }
-      swapAction()
+      await swapAction()
     }
   }, [
     from,
@@ -212,9 +221,9 @@ const useSwap = ({
 
   // NOTE: default selection
   useMemo(() => {
-    if (assets.length > 0 && !assetsLoaded) {
-      const defaultFromAsset = assets.find(({ defaultFrom }) => defaultFrom)
-      const defaultToAsset = assets.find(({ defaultTo }) => defaultTo)
+    if (Object.values(assets).length > 0 && !assetsLoaded) {
+      const defaultFromAsset = Object.values(assets).find(({ defaultFrom }) => defaultFrom)
+      const defaultToAsset = Object.values(assets).find(({ defaultTo }) => defaultTo)
       if (defaultFromAsset && defaultToAsset) {
         setFrom(defaultFromAsset)
         setTo(defaultToAsset)
@@ -239,7 +248,7 @@ const useSwap = ({
 
   // NOTE: calculates button text
   useEffect(() => {
-    const validate = async () => {
+    const validate = () => {
       if (!from || !to) {
         updateSwapButton('Loading ...', true)
         return
@@ -288,12 +297,12 @@ const useSwap = ({
         return
       }
 
-      if (from.isNative && !isValidAccountByBlockchain(address, to.blockchain)) {
+      if (isNative(from) && !isValidAccountByBlockchain(address, to.blockchain)) {
         updateSwapButton('Invalid Address', true)
         return
       }
 
-      if (!from.isNative && !isValidAccountByBlockchain(address, to.blockchain)) {
+      if (!isNative(from) && !isValidAccountByBlockchain(address, to.blockchain)) {
         updateSwapButton('Invalid Address', true)
         return
       }
@@ -306,9 +315,9 @@ const useSwap = ({
   // NOTE: filters based on from selection
   const filteredAssets = useMemo(() => {
     if (from) {
-      const filtered = assets.filter((_asset) => isValidSwap(from, _asset, assets))
+      const filtered = Object.values(assets).filter((_asset) => isValidSwap(from, _asset, assets))
       if (!isValidSwap(from, to, assets)) setTo(filtered[0])
-      return filtered
+      return Object.fromEntries(filtered.map((_el) => [_el.id, _el])) as Partial<Record<AssetId, UpdatedAsset>>
     }
     return assets
   }, [assets, from, to])
@@ -316,7 +325,7 @@ const useSwap = ({
   // NOTE: from balance is null but it has been loaded
   useEffect(() => {
     if (!from) return
-    const maybeFromWithBalance = assets.find(({ id }) => from.id === id)
+    const maybeFromWithBalance = assets[from.id]
     if (!from.balance && maybeFromWithBalance && maybeFromWithBalance.balance) {
       setFrom(maybeFromWithBalance)
     }
@@ -325,7 +334,7 @@ const useSwap = ({
   // NOTE: to balance is null but it has been loaded
   useEffect(() => {
     if (!to) return
-    const maybeToWithBalance = assets.find(({ id }) => to.id === id)
+    const maybeToWithBalance = assets[to.id]
     if (!to.balance && maybeToWithBalance && maybeToWithBalance.balance) {
       setTo(maybeToWithBalance)
     }

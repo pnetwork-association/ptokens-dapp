@@ -62,7 +62,7 @@ const disconnectFromEvmWallet =
   (_blockchain: Blockchain): AppThunk =>
   async (_dispatch: AppDispatch) => {
     const provider = getWalletProviderByBlockchain(_blockchain)
-    if (provider.close) {
+    if (provider && provider.close) {
       await provider.close()
     }
     await web3Modal.clearCachedProvider()

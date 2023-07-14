@@ -1,6 +1,6 @@
-const parseError = (_err: Error) => {
+const parseError = (_err: object) => {
   // NOTE: metamask
-  if ('code' in _err && _err.code && _err.message) {
+  if ('code' in _err && _err.code && 'message' in _err) {
     const { code } = _err
     if (code === 4001) {
       return {
@@ -20,7 +20,7 @@ const parseError = (_err: Error) => {
 
   return {
     showModal: true,
-    message: _err.message ? _err.message : _err,
+    message: 'message' in _err ? _err.message : _err,
   }
 }
 

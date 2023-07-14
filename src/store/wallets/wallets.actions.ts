@@ -24,7 +24,7 @@ const disconnectFromWallet = (_blockchain: Blockchain) => (_dispatch: AppDispatc
   switch (_blockchain) {
     case Blockchain.Gnosis:
     case Blockchain.Arbitrum: {
-      _dispatch(disconnectFromEvmWallet())
+      _dispatch(disconnectFromEvmWallet(_blockchain))
       break
     }
     default:

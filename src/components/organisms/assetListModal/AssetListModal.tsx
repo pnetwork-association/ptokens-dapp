@@ -3,6 +3,7 @@ import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import { Col, Row, Spinner } from 'react-bootstrap'
 import styled from 'styled-components'
 
+import { AssetId } from '../../../constants'
 import { useAssetsWithouDefault, useSearchAssets, useAssetsGroupedByGivenStrategy } from '../../../hooks/use-assets'
 import { Asset, UpdatedAsset, isNative } from '../../../settings/swap-assets'
 import { ITheme } from '../../../theme/ThemeProvider'
@@ -170,10 +171,10 @@ const StyledSpinner = styled(Spinner)`
 interface AssetListModalProps {
   show: boolean
   title: string
-  assets: UpdatedAsset[]
+  assets: Partial<Record<AssetId, UpdatedAsset>>
   onClose: () => void
   onSelect: (_asset: UpdatedAsset) => void
-  defaultAssets: Asset[]
+  defaultAssets: Partial<Record<AssetId, Asset>>
 }
 
 const AssetListModal = ({
@@ -184,7 +185,7 @@ const AssetListModal = ({
   assets: _assets,
   defaultAssets,
 }: AssetListModalProps) => {
-  const assetsWithoutDefault = useAssetsWithouDefault(_assets)
+  const assetsWithoutDefault = useAssetsWithouDefault(Object.values(_assets))
   const [filteredAssets, setSearchWord] = useSearchAssets(assetsWithoutDefault)
   const assets = useAssetsGroupedByGivenStrategy(filteredAssets)
   const [show, setShow] = useState<boolean[]>([])
@@ -265,8 +266,8 @@ const AssetListModal = ({
                         <ContainerTokenNameAndSymbol>
                           <AssetSymbol>{_nativeSymbol}</AssetSymbol>
                           <AssetName>
-                            {_assets.length > 0
-                              ? getAssetFromSymbol(defaultAssets.filter(isNative), _nativeSymbol).name
+                            {Object.values(_assets).length > 0
+                              ? getAssetFromSymbol(Object.values(defaultAssets).filter(isNative), _nativeSymbol)!.name
                               : ''}
                           </AssetName>
                         </ContainerTokenNameAndSymbol>

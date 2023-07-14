@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { UpdatedAsset, isNative } from '../settings/swap-assets'
+import { UpdatedAsset } from '../settings/swap-assets'
 import { IBpm } from '../store/swap/swap.reducer'
 import { getPeginOrPegoutMinutesEstimationByBlockchainAndEta } from '../utils/estimations'
 import { Fees, getFormattedFees } from '../utils/fee'
@@ -26,27 +26,10 @@ const useSwapInfo = ({ from, to, amount, fees, bpm }: useSwapInfoArg) => {
     }
 
     const estimatedSwapTime = getPeginOrPegoutMinutesEstimationByBlockchainAndEta(to.blockchain, bpm)
-
-    if (isNative(from) && !isNative(to)) {
-      return {
-        formattedFee: getFormattedFees(fees, amount, to.symbol),
-        estimatedSwapTime,
-        show: true,
-      }
-    } else if (!isNative(from)) {
-      return {
-        formattedFee: getFormattedFees(fees, amount, to.symbol),
-        estimatedSwapTime,
-        show: true,
-      }
-    }
-
-    // NOTE: it should never happen
     return {
-      formattedFee: null,
-      feeDescription: null,
-      estimatedSwapTime: `-`,
-      show: false,
+      formattedFee: fees ? getFormattedFees(fees, amount, to.symbol) : null,
+      estimatedSwapTime,
+      show: true,
     }
   }, [from, to, amount, fees, bpm])
 }

@@ -1,10 +1,9 @@
 import BigNumber from 'bignumber.js'
 import { Blockchain, Network, NetworkId } from 'ptokens-constants'
 
-import { AssetId, TokenId, PTokenId } from '../constants'
+import { AssetId } from '../constants'
 
 export type BaseAsset = {
-  address?: string
   id: AssetId
   name: string
   network: Network
@@ -28,7 +27,7 @@ export interface NativeAsset extends BaseAsset {
 }
 
 export interface HostAsset extends BaseAsset {
-  underlyingAsset: TokenId
+  underlyingAsset: AssetId
   nativeSymbol: string
   nativeBlockchain: Blockchain
   nativeDecimals: number
@@ -36,31 +35,34 @@ export interface HostAsset extends BaseAsset {
 }
 
 export type Asset = (NativeAsset | HostAsset) & {
-  defaultFrom: boolean
-  defaultTo: boolean
+  defaultFrom?: boolean
+  defaultTo?: boolean
 }
 
-export type UpdatedAsset = Asset & {
+export type AssetWithAddress = Asset & {
   address: string
+  pTokenAddress: string | null
+  formattedName?: string
+  balance?: BigNumber
+}
+
+export type UpdatedAsset = AssetWithAddress & {
   explorer: string
   balance: BigNumber
   formattedBalance: string
-  pTokenAddress?: string
   formattedName?: string
   coin?: string
   miniImage?: string
-  defaultFrom?: boolean
-  defaultTo?: boolean
 }
 
 export const isNative = (_asset: Asset) => !isHost(_asset)
 
 export const isHost = (_asset: Asset) => 'underlyingAsset' in _asset
 
-const swapAssets: Asset[] = [
-  {
+const swapAssets: Record<AssetId, Asset> = {
+  [AssetId.USDC_ON_XDAI]: {
+    id: AssetId.USDC_ON_XDAI,
     address: '0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83',
-    id: TokenId.USDC_ON_XDAI,
     symbol: 'USDC',
     name: 'USD//C on xDai',
     network: Network.Mainnet,
@@ -71,8 +73,8 @@ const swapAssets: Asset[] = [
     networkId: NetworkId.GnosisMainnet,
     isPerc20: true,
   },
-  {
-    id: PTokenId.PUSDC_ON_XDAI_MAINNET,
+  [AssetId.PUSDC_ON_XDAI_MAINNET]: {
+    id: AssetId.PUSDC_ON_XDAI_MAINNET,
     name: 'pUSDC',
     nativeDecimals: 6,
     network: Network.Mainnet,
@@ -85,12 +87,12 @@ const swapAssets: Asset[] = [
     image: 'pUSDC.svg',
     withBalanceDecimalsConversion: true,
     networkId: NetworkId.GnosisMainnet,
-    underlyingAsset: TokenId.USDC_ON_XDAI,
+    underlyingAsset: AssetId.USDC_ON_XDAI,
     isPerc20: true,
     isHidden: true,
   },
-  {
-    id: PTokenId.PUSDC_ON_ARBITRUM_MAINNET,
+  [AssetId.PUSDC_ON_ARBITRUM_MAINNET]: {
+    id: AssetId.PUSDC_ON_ARBITRUM_MAINNET,
     name: 'pUSDC',
     nativeDecimals: 6,
     network: Network.Mainnet,
@@ -103,9 +105,9 @@ const swapAssets: Asset[] = [
     image: 'pUSDC.svg',
     withBalanceDecimalsConversion: true,
     networkId: NetworkId.ArbitrumMainnet,
-    underlyingAsset: TokenId.USDC_ON_XDAI,
+    underlyingAsset: AssetId.USDC_ON_XDAI,
     isPerc20: true,
   },
-]
+}
 
 export default swapAssets

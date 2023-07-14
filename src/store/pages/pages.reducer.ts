@@ -4,7 +4,7 @@ export interface ILoading {
   isLoading: boolean
   text: string | null
 }
-interface IInfoModal {
+export interface IInfoModal {
   show: boolean
   text: string | null
   showMoreText: string | null

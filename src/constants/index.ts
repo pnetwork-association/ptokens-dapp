@@ -1,15 +1,10 @@
 // nodes
 export const PNETWORK_NODE_V3 = 'https://pnetwork-node-2a.eu.ngrok.io/v3'
 
-// ptokens id
-export enum PTokenId {
-  PUSDC_ON_XDAI_MAINNET,
-  PUSDC_ON_ARBITRUM_MAINNET,
+export enum AssetId {
+  // ptokens id
+  PUSDC_ON_XDAI_MAINNET = 'PUSDC_ON_XDAI_MAINNET',
+  PUSDC_ON_ARBITRUM_MAINNET = 'PUSDC_ON_ARBITRUM_MAINNET',
+  // tokens id
+  USDC_ON_XDAI = 'USDC_ON_XDAI',
 }
-
-// tokens id
-export enum TokenId {
-  USDC_ON_XDAI,
-}
-
-export type AssetId = PTokenId | TokenId

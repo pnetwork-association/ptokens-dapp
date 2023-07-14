@@ -1,8 +1,10 @@
+import { Update } from 'history'
 import PropTypes from 'prop-types'
 import queryString from 'query-string'
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom'
+import { AnyAction } from 'redux'
 
 import MainWrapper from './components/atoms/mainWrapper/MainWrapper'
 import Notifications from './components/molecules/notifications/Notifications'
@@ -12,14 +14,14 @@ import HeaderController from './components/organisms/header/HeaderController'
 import Risks from './components/pages/risks/Risks'
 import SwapController from './components/pages/swap/SwapController'
 import { sendPageView, setPageLocation } from './ga4'
-import { AppDispatch, AppThunk, RootState } from './store'
+import { AppDispatch, RootState } from './store'
 import { selectPage, setTheme } from './store/pages/pages.actions'
 import { ILoading } from './store/pages/pages.reducer'
 import { loadSwapData } from './store/swap/swap.actions'
 import history from './utils/history'
 
-history.listen((location) => {
-  setPageLocation(location.pathname)
+history.listen((update: Update) => {
+  setPageLocation(update.location.pathname)
   sendPageView()
 })
 
@@ -50,9 +52,9 @@ const RisksPage = () => {
 
 type AppProps = {
   loading: ILoading
-  setTheme: (theme: string) => AppThunk
-  loadSwapData: (opts: Record<string, unknown>) => AppThunk
-  selectPage: (page: string, opts: Record<string, unknown>) => AppThunk
+  setTheme: (theme: string) => AnyAction
+  loadSwapData: (opts: Record<string, unknown>) => Promise<void>
+  selectPage: (page: string, opts: Record<string, unknown>) => AnyAction
 }
 
 const App = ({ setTheme, loadSwapData, selectPage }: AppProps) => {
@@ -68,7 +70,7 @@ const App = ({ setTheme, loadSwapData, selectPage }: AppProps) => {
      * '?' is not retained with the new solution but if present gets removed by the parser anyways.
      */
     const { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol } = queryString.parse(
-      window.location.hash.split('?').pop()
+      window.location.pathname
     )
     const theme = window.localStorage.getItem('THEME')
     if (theme) setTheme(theme)

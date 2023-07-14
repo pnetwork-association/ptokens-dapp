@@ -2,8 +2,9 @@ import { Blockchain, NetworkId } from 'ptokens-constants'
 import { AbiItem } from 'web3-utils'
 
 import { AppDispatch, AppThunk } from '..'
+import { AssetId } from '../../constants'
 import { getFactoryAddressByBlockchain } from '../../settings'
-import assets, { Asset, NativeAsset, isNative } from '../../settings/swap-assets'
+import assets, { Asset, AssetWithAddress, NativeAsset, isNative } from '../../settings/swap-assets'
 import { parseError } from '../../utils/errors'
 import { createAsset, getProviderByNetworkId, getSwapBuilder } from '../../utils/ptokens'
 import { updateInfoModal } from '../pages/pages.actions'
@@ -11,17 +12,17 @@ import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
 
 import factoryAbi from './abi/PFactroryAbi.json'
 import stateManagerAbi from './abi/PStateManagerAbi.json'
-import { AssetWithAddress } from './swap.reducer'
 import * as actions from './swap.reducer'
 import { getAssetsByBlockchain, getAssetById } from './swap.selectors'
 import { loadEvmCompatibleBalances, loadEvmCompatibleBalance } from './utils/balances'
 import { getDefaultSelection } from './utils/default-selection'
 import peginWithWallet from './utils/pegin-with-wallet'
 
-const computePTokenAddress = async (_asset: Asset, _assets: Asset[]): Promise<string> => {
-  const asset = 'underlyingAsset' in _asset ? _assets.find((_el) => _el.id === _asset.underlyingAsset) : _asset
+const computePTokenAddress = async (_asset: Asset, _assets: Record<AssetId, Asset>): Promise<string> => {
+  const asset = 'underlyingAsset' in _asset ? (_assets[_asset.underlyingAsset] as NativeAsset) : _asset
   if (asset) {
     const provider = getProviderByNetworkId(_asset.networkId)
+    if (!provider) throw new Error(`Missing provider for network ID ${_asset.networkId}`)
     const factoryAddress = getFactoryAddressByBlockchain(_asset.blockchain)
     const pTokenAddress = await provider.makeContractCall<string>(
       {
@@ -36,38 +37,47 @@ const computePTokenAddress = async (_asset: Asset, _assets: Asset[]): Promise<st
   throw new Error('Unable to calculate pToken address')
 }
 
-const loadSwapData = (
-  _opts: { defaultSelection?: { asset?: string; from?: string; to?: string } } = {}
-): AppThunk<Promise<void>> => {
+export type LoadSwapDataOpts = { defaultSelection?: { asset?: string; from?: string; to?: string } }
+
+const loadSwapData = (_opts: LoadSwapDataOpts = {}): AppThunk<Promise<void>> => {
   const { defaultSelection: { asset, from, to } = {} } = _opts
   return async (_dispatch: AppDispatch) => {
     try {
-      const assetsWithAddress = await Promise.all(
-        assets.map(async (_asset) => {
-          const pTokenAddress: string = await computePTokenAddress(_asset, assets)
-          return {
-            ..._asset,
-            address: isNative(_asset) ? _asset.address : pTokenAddress,
-            pTokenAddress: isNative(_asset) ? pTokenAddress : null,
-          }
-        })
-      )
+      const assetsWithAddress = Object.fromEntries(
+        await Promise.all(
+          Object.values(assets).map(async (_asset) => {
+            const pTokenAddress: string = await computePTokenAddress(_asset, assets)
+            return [
+              _asset.id,
+              {
+                ..._asset,
+                address: 'address' in _asset ? _asset.address : pTokenAddress,
+                pTokenAddress: isNative(_asset) ? pTokenAddress : null,
+              },
+            ] as [AssetId, AssetWithAddress]
+          })
+        )
+      ) as Record<AssetId, AssetWithAddress>
       _dispatch(
-        actions.assetsLoaded([
-          ...assetsWithAddress,
-          ...getDefaultSelection(assetsWithAddress, {
-            asset,
-            from,
-            to,
-          }),
-        ])
+        actions.assetsLoaded(
+          Object.assign(
+            {},
+            assetsWithAddress,
+            getDefaultSelection(assetsWithAddress, {
+              asset,
+              from,
+              to,
+            })
+          )
+        )
       )
 
       const loadBpm = async () => {
         try {
-          const _getChallengePeriod: Promise<number> = async (_networkId: NetworkId, _blockchain: Blockchain) => {
+          const _getChallengePeriod = async (_networkId: NetworkId, _blockchain: Blockchain): Promise<number> => {
             try {
               const provider = getProviderByNetworkId(_networkId)
+              if (!provider) return 0
               const factoryAddress = getFactoryAddressByBlockchain(_blockchain)
               const stateManagerAddress: string = await provider.makeContractCall({
                 contractAddress: factoryAddress,
@@ -85,15 +95,13 @@ const loadSwapData = (
             }
           }
 
-          const a: Record<number, number>[] = await Promise.all(
+          const a: [Blockchain, number][] = await Promise.all(
             [
               { networkId: NetworkId.GnosisMainnet, blockchain: Blockchain.Gnosis },
               { networkId: NetworkId.ArbitrumMainnet, blockchain: Blockchain.Arbitrum },
-            ].map(async ({ networkId, blockchain }) => ({
-              [blockchain]: await _getChallengePeriod(networkId, blockchain),
-            }))
+            ].map(async ({ networkId, blockchain }) => [blockchain, await _getChallengePeriod(networkId, blockchain)])
           )
-          const challengePeriod = Object.assign({}, ...a) as IBpm
+          const challengePeriod = Object.fromEntries(a)
 
           _dispatch(actions.bpmLoaded(challengePeriod))
         } catch (err) {
@@ -105,9 +113,9 @@ const loadSwapData = (
       setInterval(() => loadBpm(), 1000 * 5)
 
       const wallets = getWallets()
-      Object.keys(wallets).forEach((_network: Blockchain) => {
+      Object.keys(wallets).forEach((_network) => {
         if (wallets[_network] && wallets[_network].account) {
-          _dispatch(loadBalances(wallets[_network].account, _network))
+          _dispatch(loadBalances(wallets[_network].account!, _network as unknown as Blockchain))
         }
       })
     } catch (_err) {
@@ -144,10 +152,9 @@ const loadBalanceByAssetId = (_id: AssetId): AppThunk => {
   return (_dispatch: AppDispatch) => {
     try {
       const asset = getAssetById(_id)
+      if (!asset) return
       const wallet = getWalletByBlockchain(asset.blockchain)
-      if (!wallet || !wallet.account) {
-        return
-      }
+      if (!wallet || !wallet.account) return
       const account = wallet.account
 
       switch (asset.blockchain) {
@@ -172,12 +179,12 @@ const swap = (_from: Asset, _to: Asset, _amount: string, _address: string): AppT
       _dispatch(actions.progressReset())
       const wallets = getWallets()
 
-      const sourceAsset = await createAsset(_from, wallets, true)
+      const sourceAsset = await createAsset(_from, wallets)
       const destinationAsset = await createAsset(_to, wallets)
       const swapBuilder = getSwapBuilder()
       swapBuilder.setAmount(_amount)
       swapBuilder.setSourceAsset(sourceAsset)
-      swapBuilder.addDestinationAsset(destinationAsset, _address, '0x', _to.isNative)
+      swapBuilder.addDestinationAsset(destinationAsset, _address, '0x', isNative(_to))
 
       const swap = swapBuilder.build()
       _dispatch(

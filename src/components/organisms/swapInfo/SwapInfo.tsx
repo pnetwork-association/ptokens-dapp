@@ -6,8 +6,10 @@ import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
 import { useSwapInfo } from '../../../hooks/use-swap-info'
+import { UpdatedAsset } from '../../../settings/swap-assets'
+import { IBpm } from '../../../store/swap/swap.reducer'
 import { ITheme } from '../../../theme/ThemeProvider'
-import { getFormattedNetworkFee, getFormattedProtocolFee } from '../../../utils/fee'
+import { Fees, getFormattedNetworkFee, getFormattedProtocolFee } from '../../../utils/fee'
 import Icon from '../../atoms/icon/Icon'
 
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -117,7 +119,13 @@ const Info = styled(Icon)`
   }
 `
 
-const FeeRow = ({ label, value, datatip }) => (
+type FeeRowObj = {
+  label: string
+  value: string | null
+  datatip: string
+}
+
+const FeeRow = ({ label, value, datatip }: FeeRowObj) => (
   <MarginedRow>
     <React.Fragment>
       <FeeDescLabelCol data-tip={datatip} data-for="tooltip-fees" xs={5}>
@@ -129,7 +137,15 @@ const FeeRow = ({ label, value, datatip }) => (
   </MarginedRow>
 )
 
-const SwapInfo = ({ from, to, amount, fees, bpm }) => {
+type SwapInfoProps = {
+  from: UpdatedAsset
+  to: UpdatedAsset
+  amount: string | null
+  fees: Fees | null
+  bpm: IBpm
+}
+
+const SwapInfo = ({ from, to, amount, fees, bpm }: SwapInfoProps) => {
   const [showInfo, setShowInfo] = useState(false)
   const { show, formattedFee, estimatedSwapTime } = useSwapInfo({
     from,
@@ -138,7 +154,7 @@ const SwapInfo = ({ from, to, amount, fees, bpm }) => {
     fees,
     bpm,
   })
-
+  console.info('feeeee', fees)
   useEffect(() => {
     ReactTooltip.rebuild()
   })
@@ -156,7 +172,7 @@ const SwapInfo = ({ from, to, amount, fees, bpm }) => {
         <React.Fragment>
           <FeeRow
             label="Protocol Fee"
-            value={getFormattedProtocolFee(fees, amount, to.symbol)}
+            value={fees ? getFormattedProtocolFee(fees, amount, to.symbol) : null}
             datatip='"Protocol Fee" is designed to reward the pNetwork nodes for operating and securing the pNetwork bridges.<br/>These fees are fully distributed to the pNetwork node operators.'
           />
           {fees && fees.networkFee > 0 ? (

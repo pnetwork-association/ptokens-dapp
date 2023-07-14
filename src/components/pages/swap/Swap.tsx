@@ -1,15 +1,19 @@
 import PropTypes from 'prop-types'
+import { Blockchain } from 'ptokens-constants'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Row, Col, Container } from 'react-bootstrap'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
 import TermsOfService from '../../../components/molecules/popup/TermsOfService'
+import { AssetId } from '../../../constants'
 import { sendEvent } from '../../../ga4'
 import { updateAssets } from '../../../hooks/use-assets'
 import { useSwap } from '../../../hooks/use-swap'
-import defaultAssets, { UpdatedAsset } from '../../../settings/swap-assets'
-import { AssetWithAddress, IBpm, IProgress, ISwapButton } from '../../../store/swap/swap.reducer'
+import defaultAssets, { Asset, AssetWithAddress, UpdatedAsset } from '../../../settings/swap-assets'
+import { AppThunk } from '../../../store'
+import { IInfoModal } from '../../../store/pages/pages.reducer'
+import { IBpm, IProgress, ISwapButton } from '../../../store/swap/swap.reducer'
 import { Wallets } from '../../../store/wallets/wallets.reducer'
 import { ITheme } from '../../../theme/ThemeProvider'
 import Button from '../../atoms/button/Button'
@@ -21,7 +25,6 @@ import AssetListModal from '../../organisms/assetListModal/AssetListModal'
 import InfoModal from '../../organisms/infoModal/InfoModal'
 import SwapInfo from '../../organisms/swapInfo/SwapInfo'
 import SwapLine from '../../organisms/swapLine/SwapLine'
-import { Update } from 'vite'
 
 export const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -130,11 +133,16 @@ const PnetworkV3Badge = styled.span`
 `
 
 type SwapProps = {
-  assets: AssetWithAddress[]
+  assets: Partial<Record<AssetId, AssetWithAddress>>
   bpm: IBpm
   wallets: Wallets
   progress: IProgress
   swapButton: ISwapButton
+  infoModal: IInfoModal
+  connectWithWallet: (_blockchain: Blockchain) => void
+  updateSwapButton: (_text: string, _disabled?: boolean, _link?: string | null) => void
+  hideInfoModal: () => void
+  swap: (_from: Asset, _to: Asset, _amount: string, _address: string) => AppThunk<Promise<void>>
 }
 
 const Swap = ({
@@ -149,16 +157,16 @@ const Swap = ({
   swap,
   hideInfoModal,
 }: SwapProps) => {
-  const [assets, setAssets] = useState<UpdatedAsset[]>([])
-
-  const updateAssetsCallback = useCallback(async () => {
-    const ret = await updateAssets(_assets)
-    setAssets(ret)
-  }, [_assets])
+  const [assets, setAssets] = useState<Partial<Record<AssetId, UpdatedAsset>>>({})
 
   useEffect(() => {
-    updateAssetsCallback()
-  }, [updateAssetsCallback])
+    const _updateAssets = async () => {
+      const ret = await updateAssets(_assets)
+      setAssets(ret)
+    }
+    _updateAssets()
+  }, [_assets])
+
   const [TosShow, setTosShow] = useState(false)
   const [AddressWarningShow, setAddressWarningShow] = useState(false)
   const [showWarningPopup, setShowWarningPopup] = useState(true)
@@ -241,12 +249,13 @@ const Swap = ({
                 onChangeAmount={onChangeFromAmount}
                 onClickImage={() => setShowModalFrom(true)}
                 onMax={onFromMax}
+                address={null}
+                onChangeAddress={null}
               />
               <ArrowContainer>
                 {canChangeOrder ? <SortIcon icon="sort" onClick={onChangeOrder} /> : <DisabledSortIcon icon="sort" />}
               </ArrowContainer>
               <SwapLine
-                style={{ marginBottom: '20px' }}
                 title="To"
                 asset={to}
                 amount={toAmount}
@@ -262,7 +271,7 @@ const Swap = ({
               {progress.show ? (
                 <Progress percent={progress.percent} message={progress.message} steps={progress.steps} />
               ) : null}
-              {eta === -1 || eta > 15 ? (
+              {eta && (eta === -1 || eta > 15) ? (
                 <InfoEta>
                   {eta > 15 && eta < 45
                     ? 'Please note that this operation may take longer than usual to get processed as the bridge is experiencing some delays.'
@@ -318,20 +327,20 @@ const Swap = ({
           </OuterContainerSwap>
         </Row>
       </Container>
-      <SwapInfo from={from} to={to} amount={fromAmount} fees={fees} bpm={bpm} />
+      {from && to ? <SwapInfo from={from} to={to} amount={fromAmount} fees={fees} bpm={bpm} /> : null}
       <ReactTooltip id="tooltip-fees" multiline={true} style={{ zIndex: 2 }} />
       <AssetListModal
         title="Swap from ..."
-        defaultAssets={assets.length === 0 ? defaultAssets : assets}
-        assets={assets.length === 0 ? defaultAssets : assets}
+        defaultAssets={Object.values(assets).length === 0 ? defaultAssets : assets}
+        assets={Object.values(assets).length === 0 ? defaultAssets : assets}
         show={showModalFrom}
         onClose={() => setShowModalFrom(false)}
         onSelect={onSelectFrom}
       />
       <AssetListModal
         title="Swap to ..."
-        defaultAssets={assets.length === 0 ? defaultAssets : assets}
-        assets={filteredAssets.length === 0 ? defaultAssets : filteredAssets}
+        defaultAssets={Object.values(assets).length === 0 ? defaultAssets : assets}
+        assets={Object.values(filteredAssets).length === 0 ? defaultAssets : filteredAssets}
         show={showModalTo}
         onClose={() => setShowModalTo(false)}
         onSelect={onSelectTo}

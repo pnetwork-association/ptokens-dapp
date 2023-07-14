@@ -2,11 +2,11 @@ import PropTypes from 'prop-types'
 import React, { useState, useEffect, useMemo } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import Skeleton from 'react-loading-skeleton'
-import { NumericFormat, OnValueChanges } from 'react-number-format'
+import { NumberFormatValues, NumericFormat } from 'react-number-format'
 import styled from 'styled-components'
 
 import { AssetId } from '../../../constants'
-import { UpdatedAsset } from '../../../settings/swap-assets'
+import { UpdatedAsset, isNative } from '../../../settings/swap-assets'
 import { ITheme } from '../../../theme/ThemeProvider'
 import { getDecimalSeparator, getThousandSeparator } from '../../../utils/amount-utils'
 import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
@@ -14,7 +14,6 @@ import Icon from '../../atoms/icon/Icon'
 import AssetInfo from '../assetInfo/AssetInfo'
 
 import 'react-loading-skeleton/dist/skeleton.css'
-import { IWallet } from '../../../store/wallets/wallets.reducer'
 
 const SwapLineContainer = styled.div`
   border-radius: 20px;
@@ -29,6 +28,7 @@ const AmountInput = styled.input`
   border: 0;
   background: transparent;
   outline: 0px !important;
+  appearance: auto;
   -webkit-appearance: none;
   box-shadow: none !important;
   caret-color: #32b1f5;
@@ -202,21 +202,21 @@ const Arrow = styled(Icon)`
 `
 
 type SwapLineProps = {
-  asset: UpdatedAsset
-  amount: string
-  address: string
+  asset: UpdatedAsset | null
+  amount: string | null
+  address: string | null
   title: string
-  wallet: IWallet
+  wallet: { provider: Record<string, unknown> | null; isConnected: boolean }
   hideMaxButton: boolean
-  onChangeAmount: (_el: OnValueChanges) => void
+  onChangeAmount: (_el: string) => void
   onClickImage: () => void
-  onChangeAddress: (_address: string) => void
+  onChangeAddress: ((_address: string) => void) | null
   onMax: () => void
-  withTitleLabel: boolean
+  withTitleLabel?: boolean
   disableInput: boolean
-  inputType: string
-  inputPlaceholder: string
-  prefix: string
+  inputType?: string
+  inputPlaceholder?: string
+  prefix?: string
 }
 
 const SwapLine = ({
@@ -263,7 +263,7 @@ const SwapLine = ({
               <BalanceLabel>{`Balance: ${asset.formattedBalance} ${
                 asset.symbolToDisplay
                   ? asset.symbolToDisplay
-                  : !asset.isNative && !asset.isSpecial
+                  : !isNative(asset) && !asset.isSpecial
                   ? capitalizeAllLettersExceptFirst(asset.symbol)
                   : asset.symbol
               }`}</BalanceLabel>
@@ -298,7 +298,7 @@ const SwapLine = ({
                 customInput={AmountInput}
                 placeholder={inputPlaceholder}
                 disabled={disableInput}
-                onValueChange={(_e) => onChangeAmount(_e.value.toString().replace(',', '.'))}
+                onValueChange={(_e: NumberFormatValues) => onChangeAmount(_e.value.toString().replace(',', '.'))}
                 prefix={prefix}
                 value={amount !== '' ? +amount : amount}
                 allowedDecimalSeparators={[',', '.']}
@@ -329,13 +329,15 @@ const SwapLine = ({
               <AddressInput
                 placeholder="destination address"
                 value={address}
-                onChange={(_e) => onChangeAddress(_e.target.value)}
+                onChange={(_e) => {
+                  if (onChangeAddress) onChangeAddress(_e.target.value)
+                }}
               />
             </InnerContainerAddressInput>
           </OuterContainerAddressInput>
         </Row>
       ) : null}
-      {showInfo ? <AssetInfo asset={asset} wallet={wallet} /> : null}
+      {showInfo && asset ? <AssetInfo asset={asset} wallet={wallet} /> : null}
     </SwapLineContainer>
   )
 }

@@ -31,27 +31,19 @@ const getSwapFees = async (_from: Asset, _to: Asset) => {
 }
 
 const computeNetworkFee = (fees: Fees) => {
-  if (!fees || _.isNil(fees.networkFee)) return null
   return BigNumber(fees.networkFee).dividedBy(1e18)
 }
+
 const computeProtocolFee = (fees: Fees, amount: BigNumber.Value) =>
   BigNumber.maximum(
     BigNumber(fees.minProtocolFee).dividedBy(1e18),
     BigNumber(amount).multipliedBy(fees.basisPoints).dividedBy(10000)
   )
 
-const computeFeesAmount = (fees: Fees, amount: string) => {
-  if (
-    !fees ||
-    _.isNil(fees.basisPoints) ||
-    _.isNil(fees.minProtocolFee) ||
-    _.isNil(fees.networkFee) ||
-    _.isNil(amount) ||
-    amount === ''
-  )
-    return null
+const computeFeesAmount = (fees: Fees, amount: BigNumber.Value) => {
   return computeProtocolFee(fees, amount).plus(computeNetworkFee(fees))
 }
+
 const computeToAmount = (fees: Fees, amount: BigNumber.Value) =>
   BigNumber(amount).minus(computeFeesAmount(fees, amount)).toFixed()
 
@@ -70,12 +62,14 @@ const computeFromAmount = (fees: Fees, amount: BigNumber.Value) => {
         .toFixed()
 }
 
-const computeSwapAmount = (fees: Fees | null, amount: BigNumber.Value, direction: string) => {
-  if (!fees || _.isNil(fees.basisPoints) || _.isNil(fees.minProtocolFee) || _.isNil(fees.networkFee)) return null
+const computeSwapAmount = (fees: Fees, amount: BigNumber.Value, direction: string) => {
   return amount !== '' ? (direction === 'to' ? computeToAmount(fees, amount) : computeFromAmount(fees, amount)) : amount
 }
 
-const getFixedOrPrecision = (_n: BigNumber) => (BigNumber(_n).e >= 3 ? _n.toFixed(1) : _n.toPrecision(3))
+const getFixedOrPrecision = (_n: BigNumber.Value) => {
+  const bn = BigNumber(_n)
+  return bn.e && bn.e >= 3 ? bn.toFixed(1) : bn.toPrecision(3)
+}
 
 const getFormattedAmount = (_amount: BigNumber, _tilde = false) => {
   const requiresTilde = _tilde && !_amount.eq(getFixedOrPrecision(_amount))
@@ -101,13 +95,15 @@ const getProtocolFeeDescription = (fees: Fees, symbol: string) => {
   )
 }
 
-const getFormattedProtocolFee = (fees: Fees, amount: BigNumber, symbol: string) => {
+const getFormattedProtocolFee = (fees: Fees, amount: BigNumber.Value, symbol: string) => {
   if (!fees || _.isNil(fees.basisPoints) || _.isNil(fees.minProtocolFee) || _.isNil(fees.networkFee) || _.isNil(symbol))
     return ''
   if (_.isNil(amount) || amount === '') return getProtocolFeeDescription(fees, symbol)
   const protocolFee = computeProtocolFee(fees, amount)
   return protocolFee.isGreaterThan(BigNumber(fees.minProtocolFee).dividedBy(1e18))
-    ? `${getFormattedAmount(protocolFee, true)} ${symbol} (=${BigNumber(fees.basisPoints).dividedBy(100)}%)`
+    ? `${getFormattedAmount(protocolFee, true)} ${symbol} (=${getFixedOrPrecision(
+        BigNumber(fees.basisPoints).dividedBy(100)
+      )}%)`
     : `${getFormattedAmount(protocolFee, false)} ${symbol}`
 }
 

@@ -3,7 +3,7 @@ import { BlockchainType, NetworkId, networkIdToTypeMap } from 'ptokens-constants
 import { pTokensSwapBuilder } from 'ptokens-swap'
 
 import { getFactoryAddressByBlockchain } from '../settings'
-import { Asset } from '../settings/swap-assets'
+import { Asset, UpdatedAsset } from '../settings/swap-assets'
 import { getAssetById } from '../store/swap/swap.selectors'
 import { Wallets } from '../store/wallets/wallets.reducer'
 
@@ -27,8 +27,8 @@ const getProvider = (_asset: Asset, _wallets: Wallets) => {
     )
 }
 
-const buildAssetInfo = (_asset: Asset) => {
-  const underlyingAsset = _asset.underlyingAsset ? getAssetById(_asset.underlyingAsset) : null
+const buildAssetInfo = (_asset: UpdatedAsset) => {
+  const underlyingAsset = 'underlyingAsset' in _asset ? getAssetById(_asset.underlyingAsset) : null
   return {
     networkId: _asset.networkId,
     symbol: _asset.symbol,
@@ -42,7 +42,7 @@ const buildAssetInfo = (_asset: Asset) => {
   }
 }
 
-export const createAsset = async (_asset: Asset, _wallets: Wallets) => {
+export const createAsset = async (_asset: Asset, _wallets?: Wallets) => {
   const builder = getAssetBuilder(_asset)
   if (builder) {
     builder.setBlockchain(_asset.networkId)
