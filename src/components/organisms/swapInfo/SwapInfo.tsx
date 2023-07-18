@@ -154,7 +154,6 @@ const SwapInfo = ({ from, to, amount, fees, bpm }: SwapInfoProps) => {
     fees,
     bpm,
   })
-  console.info('feeeee', fees)
   useEffect(() => {
     ReactTooltip.rebuild()
   })

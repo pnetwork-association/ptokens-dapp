@@ -46,7 +46,7 @@ const useWalletByBlockchain = (_wallets: Wallets, _blockchain: Blockchain | null
     const wallet = _wallets[_blockchain]
     return {
       isConnected: wallet && wallet.account ? true : false,
-      provider: wallet && wallet.account ? wallet.provider : null,
+      provider: wallet && wallet.account && wallet.provider ? wallet.provider : null,
     }
   }, [_wallets, _blockchain])
 }

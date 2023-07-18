@@ -10,8 +10,7 @@ import { AssetId } from '../../../constants'
 import { sendEvent } from '../../../ga4'
 import { updateAssets } from '../../../hooks/use-assets'
 import { useSwap } from '../../../hooks/use-swap'
-import defaultAssets, { Asset, AssetWithAddress, UpdatedAsset } from '../../../settings/swap-assets'
-import { AppThunk } from '../../../store'
+import { Asset, AssetWithAddress, UpdatedAsset } from '../../../settings/swap-assets'
 import { IInfoModal } from '../../../store/pages/pages.reducer'
 import { IBpm, IProgress, ISwapButton } from '../../../store/swap/swap.reducer'
 import { Wallets } from '../../../store/wallets/wallets.reducer'
@@ -142,7 +141,7 @@ type SwapProps = {
   connectWithWallet: (_blockchain: Blockchain) => void
   updateSwapButton: (_text: string, _disabled?: boolean, _link?: string | null) => void
   hideInfoModal: () => void
-  swap: (_from: Asset, _to: Asset, _amount: string, _address: string) => AppThunk<Promise<void>>
+  swap: (_from: Asset, _to: Asset, _amount: string, _address: string) => Promise<void>
 }
 
 const Swap = ({
@@ -328,19 +327,17 @@ const Swap = ({
         </Row>
       </Container>
       {from && to ? <SwapInfo from={from} to={to} amount={fromAmount} fees={fees} bpm={bpm} /> : null}
-      <ReactTooltip id="tooltip-fees" multiline={true} style={{ zIndex: 2 }} />
+      <ReactTooltip id="tooltip-fees" multiline={true} />
       <AssetListModal
         title="Swap from ..."
-        defaultAssets={Object.values(assets).length === 0 ? defaultAssets : assets}
-        assets={Object.values(assets).length === 0 ? defaultAssets : assets}
+        assets={Object.values(assets)}
         show={showModalFrom}
         onClose={() => setShowModalFrom(false)}
         onSelect={onSelectFrom}
       />
       <AssetListModal
         title="Swap to ..."
-        defaultAssets={Object.values(assets).length === 0 ? defaultAssets : assets}
-        assets={Object.values(filteredAssets).length === 0 ? defaultAssets : filteredAssets}
+        assets={Object.values(filteredAssets)}
         show={showModalTo}
         onClose={() => setShowModalTo(false)}
         onSelect={onSelectTo}
@@ -351,7 +348,7 @@ const Swap = ({
 }
 
 Swap.propTypes = {
-  assets: PropTypes.array.isRequired,
+  assets: PropTypes.object.isRequired,
   bpm: PropTypes.object.isRequired,
   wallets: PropTypes.object.isRequired,
   defaultSelection: PropTypes.object,

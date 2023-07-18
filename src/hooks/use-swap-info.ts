@@ -8,7 +8,7 @@ import { Fees, getFormattedFees } from '../utils/fee'
 type useSwapInfoArg = {
   from: UpdatedAsset | null
   to: UpdatedAsset | null
-  amount: string
+  amount: string | null
   fees: Fees | null
   bpm: IBpm
 }

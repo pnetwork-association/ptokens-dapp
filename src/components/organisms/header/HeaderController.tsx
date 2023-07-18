@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { Blockchain } from 'ptokens-constants'
 import { connect } from 'react-redux'
 
@@ -6,7 +5,6 @@ import { AppDispatch, RootState } from '../../../store'
 import { selectPage, setTheme } from '../../../store/pages/pages.actions'
 import { LoadSwapDataOpts, loadSwapData } from '../../../store/swap/swap.actions'
 import { connectWithWallet, disconnectFromWallet } from '../../../store/wallets/wallets.actions'
-import { Wallets } from '../../../store/wallets/wallets.reducer'
 
 import Header from './Header'
 
@@ -27,29 +25,4 @@ const mapDispatchToProps = (_dispatch: AppDispatch) => {
   }
 }
 
-type HeaderControllerProps = {
-  wallets: Wallets
-  selectedPage: string
-  theme: string
-  connectWithWallet: (_blockchain: Blockchain) => void
-  disconnectFromWallet: (_blockchain: Blockchain) => void
-  loadSwapData: (opts: LoadSwapDataOpts) => Promise<void>
-  selectPage: (page: string) => void
-  setTheme: (theme: string) => void
-}
-
-const HeaderController = (_props: HeaderControllerProps) => {
-  return <Header {..._props} />
-}
-
-HeaderController.propTypes = {
-  selectedPage: PropTypes.string.isRequired,
-  theme: PropTypes.string.isRequired,
-  connectWithWallet: PropTypes.func.isRequired,
-  disconnectFromWallet: PropTypes.func.isRequired,
-  selectPage: PropTypes.func.isRequired,
-  setTheme: PropTypes.func.isRequired,
-  loadSwapData: PropTypes.func.isRequired,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderController)
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

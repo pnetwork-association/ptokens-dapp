@@ -40,7 +40,16 @@ const ShowMoreText = styled.div`
   font-size: 13px;
 `
 
-const InfoModal = ({ show, text, showMoreText, showMoreLabel, icon, onClose }) => {
+type InfoModalProps = {
+  show: boolean
+  text: string | null
+  showMoreText: string | null
+  showMoreLabel: string | null
+  icon?: string | null
+  onClose: () => void
+}
+
+const InfoModal = ({ show, text, showMoreText, showMoreLabel, icon, onClose }: InfoModalProps) => {
   const [showMore, setShowMore] = useState(false)
 
   useEffect(() => {
@@ -70,6 +79,7 @@ const InfoModal = ({ show, text, showMoreText, showMoreLabel, icon, onClose }) =
 InfoModal.propTypes = {
   text: PropTypes.string,
   showMoreText: PropTypes.string,
+  showMoreLabel: PropTypes.string,
   icon: PropTypes.string,
   show: PropTypes.bool,
   onClose: PropTypes.func,

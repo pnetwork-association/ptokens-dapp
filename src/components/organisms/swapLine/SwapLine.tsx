@@ -4,6 +4,7 @@ import { Row, Col } from 'react-bootstrap'
 import Skeleton from 'react-loading-skeleton'
 import { NumberFormatValues, NumericFormat } from 'react-number-format'
 import styled from 'styled-components'
+import { provider } from 'web3-core'
 
 import { AssetId } from '../../../constants'
 import { UpdatedAsset, isNative } from '../../../settings/swap-assets'
@@ -206,14 +207,14 @@ type SwapLineProps = {
   amount: string | null
   address: string | null
   title: string
-  wallet: { provider: Record<string, unknown> | null; isConnected: boolean }
-  hideMaxButton: boolean
+  wallet: { provider: provider | null; isConnected: boolean }
+  disableInput: boolean
   onChangeAmount: (_el: string) => void
   onClickImage: () => void
   onChangeAddress: ((_address: string) => void) | null
   onMax: () => void
+  hideMaxButton?: boolean
   withTitleLabel?: boolean
-  disableInput: boolean
   inputType?: string
   inputPlaceholder?: string
   prefix?: string
@@ -329,7 +330,7 @@ const SwapLine = ({
               <AddressInput
                 placeholder="destination address"
                 value={address}
-                onChange={(_e) => {
+                onChange={(_e: React.ChangeEvent<HTMLInputElement>) => {
                   if (onChangeAddress) onChangeAddress(_e.target.value)
                 }}
               />

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { Blockchain } from 'ptokens-constants'
-import React, { useState, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { Navbar, Nav, NavDropdown, Container, Row, Col } from 'react-bootstrap'
 import styled from 'styled-components'
 
@@ -205,9 +205,11 @@ const Header = (_props: IHeaderProps) => {
 
   const onSwap = useCallback(() => {
     loadSwapData({
-      asset: 'ptkn',
-      from: 'sepolia',
-      to: 'goerli',
+      defaultSelection: {
+        asset: 'ptkn',
+        from: 'sepolia',
+        to: 'goerli',
+      },
     })
     selectPage('swap')
   }, [loadSwapData, selectPage])

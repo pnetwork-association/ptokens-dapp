@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components'
 import getIconSource from './icon-importer'
 
 const commonCss = css`
-  color: ${({ color }) => color};
+  color: ${({ color }: IconProps) => color};
   display: inline-block;
   width: 20px;
   height: 20px;
@@ -14,7 +14,7 @@ const commonCss = css`
     height: 100%;
     fill: currentcolor;
   }
-  ${({ isGreyScale }) => (isGreyScale ? 'filter: grayscale(100%); opacity: 0.25;' : '')}
+  ${({ isGreyScale }: IconProps) => (isGreyScale ? 'filter: grayscale(100%); opacity: 0.25;' : '')}
 `
 const StyledSpan = styled.span`
   ${commonCss};
@@ -24,13 +24,21 @@ const StyledImg = styled.img`
   ${commonCss};
 `
 
-const Icon = ({ icon, ...props }) => {
-  if (icon.startsWith('data:') || icon.startsWith('http') || icon.startsWith('asset:')) {
-    const asset = icon.startsWith('asset:') && `src/app/assets/icons/${icon.split(':')[1]}`
-    return <StyledImg alt="" src={asset || icon} {...props} />
+type IconProps = {
+  icon: string
+  isGreyScale?: boolean
+  color?: string
+  fontSize?: string
+  onClick?: () => void
+}
+
+const Icon = (props: IconProps) => {
+  if (props.icon.startsWith('data:') || props.icon.startsWith('http') || props.icon.startsWith('asset:')) {
+    const asset = props.icon.startsWith('asset:') && `src/app/assets/icons/${props.icon.split(':')[1]}`
+    return <StyledImg alt="" src={asset || props.icon} {...props} />
   }
 
-  const svg = getIconSource(icon)
+  const svg = getIconSource(props.icon)
   return <StyledSpan {...props} dangerouslySetInnerHTML={{ __html: svg }} />
 }
 

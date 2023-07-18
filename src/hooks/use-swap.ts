@@ -5,7 +5,6 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { AssetId } from '../constants'
 import { sendEvent } from '../ga4'
 import { Asset, UpdatedAsset, isNative } from '../settings/swap-assets'
-import { AppThunk } from '../store'
 import { IBpm, IProgress, ISwapButton } from '../store/swap/swap.reducer'
 import { Wallets } from '../store/wallets/wallets.reducer'
 import { isValidAccountByBlockchain } from '../utils/account-validator'
@@ -24,7 +23,7 @@ type UseSwapArg = {
   swapButton: ISwapButton
   connectWithWallet: (_blockchain: Blockchain) => void
   setAddressWarningShow: React.Dispatch<React.SetStateAction<boolean>>
-  swap: (_from: Asset, _to: Asset, _amount: string, _address: string) => AppThunk<Promise<void>>
+  swap: (_from: Asset, _to: Asset, _amount: string, _address: string) => Promise<void>
   updateSwapButton: (_text: string, _disabled?: boolean, _link?: string | null) => void
   setTosShow: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -121,7 +120,7 @@ const useSwap = ({
   const onSwap = useCallback(async () => {
     function waitForToS() {
       setTosShow(!ToSRef.current.isAccepted)
-      function _waitForToS(resolve: (value: unknown) => void, reject: (reason?: any) => void) {
+      function _waitForToS(resolve: (value: unknown) => void, reject: (reason?: string) => void) {
         if (ToSRef.current.isAccepted) resolve('Terms have beed accepted')
         if (ToSRef.current.isRefused) reject('Terms have been refused')
         else {
@@ -133,7 +132,7 @@ const useSwap = ({
 
     function waitForAddressWarning() {
       setAddressWarningShow(true)
-      function _waitForAddressWarning(resolve: (value: unknown) => void, reject: (reason?: any) => void) {
+      function _waitForAddressWarning(resolve: (value: unknown) => void, reject: (reason?: string) => void) {
         if (AddressWarningRef.current.proceed) return resolve('Proceeding to selected address')
         if (AddressWarningRef.current.doNotProceed) return reject('Insert new address')
         else {
@@ -153,19 +152,19 @@ const useSwap = ({
       return true
     }
 
-    function doSwap() {
+    async function doSwap() {
       if (from && to && address) {
         updateSwapButton(swapButton.text === 'Swap' ? 'Swapping ...' : 'Generating ...', true)
         sendEvent('swap_click', { asset_from: from.id, asset_to: to.id, from_amount: fromAmount })
-        swap(from, to, fromAmount, address)
+        await swap(from, to, fromAmount, address)
       }
     }
 
-    if (swapButton.text === 'Connect Wallet') {
+    if (from && swapButton.text === 'Connect Wallet') {
       const connectToWallet = async () => {
         try {
           await waitForToS()
-          connectWithWallet(from!.blockchain)
+          connectWithWallet(from.blockchain)
         } catch (err) {
           ToSRef.current.isRefused = false
         }
@@ -179,7 +178,7 @@ const useSwap = ({
           await waitForToS()
           if (!isReasonableAddress()) await waitForAddressWarning()
           AddressWarningRef.current.proceed = false
-          doSwap()
+          await doSwap()
         } catch (err) {
           if (err === 'Terms have been refused') {
             ToSRef.current.isRefused = false

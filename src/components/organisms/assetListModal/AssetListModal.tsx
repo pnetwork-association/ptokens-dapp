@@ -3,9 +3,8 @@ import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import { Col, Row, Spinner } from 'react-bootstrap'
 import styled from 'styled-components'
 
-import { AssetId } from '../../../constants'
 import { useAssetsWithouDefault, useSearchAssets, useAssetsGroupedByGivenStrategy } from '../../../hooks/use-assets'
-import { Asset, UpdatedAsset, isNative } from '../../../settings/swap-assets'
+import { UpdatedAsset, isNative } from '../../../settings/swap-assets'
 import { ITheme } from '../../../theme/ThemeProvider'
 import { getAssetFromSymbol } from '../../../utils/maps'
 import Icon from '../../atoms/icon/Icon'
@@ -171,21 +170,13 @@ const StyledSpinner = styled(Spinner)`
 interface AssetListModalProps {
   show: boolean
   title: string
-  assets: Partial<Record<AssetId, UpdatedAsset>>
+  assets: UpdatedAsset[]
   onClose: () => void
   onSelect: (_asset: UpdatedAsset) => void
-  defaultAssets: Partial<Record<AssetId, Asset>>
 }
 
-const AssetListModal = ({
-  show: showModal,
-  title,
-  onClose,
-  onSelect,
-  assets: _assets,
-  defaultAssets,
-}: AssetListModalProps) => {
-  const assetsWithoutDefault = useAssetsWithouDefault(Object.values(_assets))
+const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _assets }: AssetListModalProps) => {
+  const assetsWithoutDefault = useAssetsWithouDefault(_assets)
   const [filteredAssets, setSearchWord] = useSearchAssets(assetsWithoutDefault)
   const assets = useAssetsGroupedByGivenStrategy(filteredAssets)
   const [show, setShow] = useState<boolean[]>([])
@@ -201,7 +192,7 @@ const AssetListModal = ({
 
   useEffect(() => {
     if (inputSearchRef.current) inputSearchRef.current.focus()
-  })
+  }, [])
 
   useEffect(() => {
     setShow(Object.keys(assets).length === 1 && !stillLoading ? [true] : [false])
@@ -252,13 +243,13 @@ const AssetListModal = ({
             <Search
               placeholder="Search or paste an address ..."
               ref={inputSearchRef}
-              onChange={(_e) => setSearchWord(_e.target.value)}
+              onChange={(_e: React.ChangeEvent<HTMLInputElement>) => setSearchWord(_e.target.value)}
             />
           </ContainerSearch>
           <ContainerAssets>
             {Object.keys(assets).map((_nativeSymbol, _index) => {
               return (
-                <React.Fragment key={_index}>
+                <React.Fragment>
                   <ContainerRow>
                     <StyledRow onClick={() => onShowLine(_nativeSymbol, _index)}>
                       <ContainerTokenInfo xs={8}>
@@ -266,8 +257,8 @@ const AssetListModal = ({
                         <ContainerTokenNameAndSymbol>
                           <AssetSymbol>{_nativeSymbol}</AssetSymbol>
                           <AssetName>
-                            {Object.values(_assets).length > 0
-                              ? getAssetFromSymbol(Object.values(defaultAssets).filter(isNative), _nativeSymbol)!.name
+                            {_assets.length > 0
+                              ? getAssetFromSymbol(_assets.filter(isNative), _nativeSymbol)?.name || ''
                               : ''}
                           </AssetName>
                         </ContainerTokenNameAndSymbol>
@@ -320,7 +311,7 @@ const AssetListModal = ({
 AssetListModal.propTypes = {
   title: PropTypes.string,
   show: PropTypes.bool,
-  assets: PropTypes.array,
+  assets: PropTypes.object,
   onClose: PropTypes.func,
   onSelect: PropTypes.func,
 }

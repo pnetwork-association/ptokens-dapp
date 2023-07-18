@@ -1,17 +1,18 @@
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { bounceInUp } from 'react-animations'
 import { Card } from 'react-bootstrap'
 import styled, { keyframes } from 'styled-components'
 
+import { ITheme } from '../../../theme/ThemeProvider'
 import Icon from '../../atoms/icon/Icon'
 
-const StyledCard = styled(Card)`
+const StyledCard = styled(Card)<{ display: string }>`
   position: fixed;
   right: 30px;
   bottom: 50px;
   border: 0;
-  border: 1px solid ${({ theme }: { theme: ITheme }) => (theme.type === 'ligth' ? '#f1f2f3' : theme.lightGray)};
+  border: 1px solid ${({ theme }: { theme: ITheme }) => (theme.type === 'light' ? '#f1f2f3' : theme.lightGray)};
   box-shadow: 0 0 15px rgb(0 0 0 / 5%);
   z-index: 1010;
   animation: 1s ${keyframes`${bounceInUp}`};
@@ -46,7 +47,11 @@ const CloseIcon = styled(Icon)`
   color: ${({ theme }: { theme: ITheme }) => theme.text1};
 `
 
-const Popup = ({ content }) => {
+type PopupProps = {
+  content: ReactNode
+}
+
+const Popup = ({ content }: PopupProps) => {
   const [display, setDisplay] = useState('block')
   return (
     <StyledCard display={display}>

@@ -1,33 +1,12 @@
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
-import { pTokensAsset } from 'ptokens-entities'
-
-import { Asset } from '../settings/swap-assets'
 
 import { formatDecimalSeparator } from './amount-utils'
-import { createAsset } from './ptokens'
 
 export type Fees = {
   networkFee: number
   basisPoints: number
   minProtocolFee: number
-}
-
-const getBasisPoints = (_fromAsset: pTokensAsset, _toAsset: pTokensAsset) => {
-  return 0
-}
-
-const getSwapFees = async (_from: Asset, _to: Asset) => {
-  try {
-    const fromAsset = await createAsset(_from)
-    const toAsset = await createAsset(_to)
-    const basisPoints = getBasisPoints(fromAsset, toAsset)
-    const networkFee = 0
-    const minProtocolFee = 0
-    return { basisPoints, networkFee, minProtocolFee }
-  } catch (_err) {
-    return { basisPoints: undefined, networkFee: undefined, minProtocolFee: undefined }
-  }
 }
 
 const computeNetworkFee = (fees: Fees) => {
@@ -95,7 +74,7 @@ const getProtocolFeeDescription = (fees: Fees, symbol: string) => {
   )
 }
 
-const getFormattedProtocolFee = (fees: Fees, amount: BigNumber.Value, symbol: string) => {
+const getFormattedProtocolFee = (fees: Fees, amount: BigNumber.Value | null, symbol: string) => {
   if (!fees || _.isNil(fees.basisPoints) || _.isNil(fees.minProtocolFee) || _.isNil(fees.networkFee) || _.isNil(symbol))
     return ''
   if (_.isNil(amount) || amount === '') return getProtocolFeeDescription(fees, symbol)
@@ -110,7 +89,7 @@ const getFormattedProtocolFee = (fees: Fees, amount: BigNumber.Value, symbol: st
 const getFeesDescription = (fees: Fees, symbol: string) =>
   getProtocolFeeDescription(fees, symbol) + (fees.networkFee > 0 ? ` + ${getNetworkFeeDescription(fees, symbol)}` : '')
 
-const getFormattedFees = (fees: Fees, amount: BigNumber.Value, symbol: string) => {
+const getFormattedFees = (fees: Fees, amount: BigNumber.Value | null, symbol: string) => {
   if (
     !fees ||
     _.isNil(fees.basisPoints) ||
@@ -125,11 +104,4 @@ const getFormattedFees = (fees: Fees, amount: BigNumber.Value, symbol: string) =
   return `${getFormattedAmount(feesAmount, true)} ${symbol}`
 }
 
-export {
-  getSwapFees,
-  computeSwapAmount,
-  computeFeesAmount,
-  getFormattedFees,
-  getFormattedNetworkFee,
-  getFormattedProtocolFee,
-}
+export { computeSwapAmount, computeFeesAmount, getFormattedFees, getFormattedNetworkFee, getFormattedProtocolFee }

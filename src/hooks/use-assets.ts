@@ -38,7 +38,7 @@ const usePtoken = (_asset: Asset) => {
   }, [_asset])
 }
 
-const useAssetsGroupedByGivenStrategy = (_assets: Asset[]) => {
+const useAssetsGroupedByGivenStrategy = (_assets: UpdatedAsset[]) => {
   return useMemo(() => {
     const assetsGroupedByKey = _.groupBy(
       Object.values(_assets)

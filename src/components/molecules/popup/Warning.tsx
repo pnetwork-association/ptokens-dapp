@@ -3,6 +3,7 @@ import React from 'react'
 import { Alert } from 'react-bootstrap'
 import styled from 'styled-components'
 
+import { ITheme } from '../../../theme/ThemeProvider'
 import Icon from '../../atoms/icon/Icon'
 
 const StyledAlert = styled(Alert)`
@@ -26,7 +27,12 @@ const Paragraph = styled.div`
   margin-left: 2px;
 `
 
-const WarningPopup = ({ show, onClose }) => {
+type WarningPopupProps = {
+  show: boolean
+  onClose: () => void
+}
+
+const WarningPopup = ({ show, onClose }: WarningPopupProps) => {
   return (
     <StyledAlert show={show} onClose={onClose} variant="warning" dismissible>
       <Paragraph>

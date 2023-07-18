@@ -50,7 +50,7 @@ export type UpdatedAsset = AssetWithAddress & {
   explorer: string
   balance: BigNumber
   formattedBalance: string
-  formattedName?: string
+  formattedName: string
   coin?: string
   miniImage?: string
 }

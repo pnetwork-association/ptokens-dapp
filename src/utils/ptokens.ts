@@ -9,8 +9,11 @@ import { Wallets } from '../store/wallets/wallets.reducer'
 
 import { getReadOnlyProviderByBlockchain, getReadOnlyProviderByNetworkId } from './read-only-providers'
 
-const getAssetBuilder = (_asset: Asset) => {
-  if (networkIdToTypeMap.get(_asset.networkId) === BlockchainType.EVM) return new pTokensEvmAssetBuilder()
+const getAssetBuilder = (_asset: Asset, _wallets: Wallets) => {
+  if (networkIdToTypeMap.get(_asset.networkId) === BlockchainType.EVM) {
+    const provider = getProvider(_asset, _wallets)
+    return new pTokensEvmAssetBuilder(provider)
+  }
 }
 
 export const getProviderByNetworkId = (_networkId: NetworkId) => {
@@ -25,6 +28,7 @@ const getProvider = (_asset: Asset, _wallets: Wallets) => {
     return new pTokensEvmProvider(
       _wallets[_asset.blockchain].provider || getReadOnlyProviderByBlockchain(_asset.blockchain)
     )
+  throw new Error('Cannot create provider')
 }
 
 const buildAssetInfo = (_asset: UpdatedAsset) => {
@@ -42,18 +46,14 @@ const buildAssetInfo = (_asset: UpdatedAsset) => {
   }
 }
 
-export const createAsset = async (_asset: Asset, _wallets?: Wallets) => {
-  const builder = getAssetBuilder(_asset)
+export const createAsset = async (_asset: UpdatedAsset, _wallets: Wallets) => {
+  const builder = getAssetBuilder(_asset, _wallets)
   if (builder) {
     builder.setBlockchain(_asset.networkId)
     builder.setDecimals(_asset.decimals)
     builder.setFactoryAddress(getFactoryAddressByBlockchain(_asset.blockchain))
     const assetInfo = buildAssetInfo(_asset)
     builder.setAssetInfo(assetInfo)
-    if (_wallets) {
-      const provider = getProvider(_asset, _wallets)
-      builder.setProvider(provider)
-    }
     const asset = await builder.build()
     return asset
   } else {

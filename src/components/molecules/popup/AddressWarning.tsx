@@ -3,6 +3,8 @@ import React from 'react'
 import { Modal } from 'react-bootstrap'
 import styled from 'styled-components'
 
+import { ITheme } from '../../../theme/ThemeProvider'
+
 const StyledModalTitle = styled(Modal.Title)`
   color: ${({ theme }: { theme: ITheme }) => theme.text1};
   @media (max-width: 767.98px) {
@@ -89,7 +91,13 @@ const CancelButton = styled.button`
   }
 `
 
-const AddressWarning = ({ show, onClose, onHide }) => {
+type AddressWarningProps = {
+  show: boolean
+  onClose: () => void
+  onHide: () => void
+}
+
+const AddressWarning = ({ show, onClose, onHide }: AddressWarningProps) => {
   return (
     <Modal
       show={show}
@@ -110,12 +118,8 @@ const AddressWarning = ({ show, onClose, onHide }) => {
         Are you sure you want to swap toward this address?
       </StyledBody>
       <StyledFooter>
-        <CancelButton variant="primary" onClick={onHide}>
-          No
-        </CancelButton>
-        <Button variant="secondary" onClick={onClose}>
-          Yes
-        </Button>
+        <CancelButton onClick={onHide}>No</CancelButton>
+        <Button onClick={onClose}>Yes</Button>
       </StyledFooter>
     </Modal>
   )

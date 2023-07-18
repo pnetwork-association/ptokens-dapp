@@ -4,10 +4,10 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
+import { provider } from 'web3-core'
 
 import { useProvider } from '../../../hooks/use-provider'
 import { UpdatedAsset, isNative } from '../../../settings/swap-assets'
-import { IWallet } from '../../../store/wallets/wallets.reducer'
 import { ITheme } from '../../../theme/ThemeProvider'
 import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
 import { getBase64Image } from '../../../utils/image'
@@ -70,7 +70,7 @@ const MetamaskIcon = styled(Icon)`
 
 type AssetInfoArg = {
   asset: UpdatedAsset
-  wallet: { provider: Record<string, unknown> | null; isConnected: boolean }
+  wallet: { provider: provider | null; isConnected: boolean }
 }
 
 const AssetInfo = ({ asset, wallet }: AssetInfoArg) => {
