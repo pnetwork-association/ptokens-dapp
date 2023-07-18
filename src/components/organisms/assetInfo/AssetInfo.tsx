@@ -123,7 +123,9 @@ const AssetInfo = ({ asset, wallet }: AssetInfoArg) => {
               <MetamaskIcon
                 icon="metamask"
                 data-tip={!wallet.provider ? 'Connect MetaMask to add the token' : 'Add to MetaMask'}
-                onClick={onAddToken}
+                onClick={() => {
+                  void onAddToken()
+                }}
               />
             ) : null}
             <Token href={explorer} target="blank">

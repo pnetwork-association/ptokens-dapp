@@ -163,7 +163,7 @@ const Swap = ({
       const ret = await updateAssets(_assets)
       setAssets(ret)
     }
-    _updateAssets()
+    void _updateAssets()
   }, [_assets])
 
   const [TosShow, setTosShow] = useState(false)
@@ -284,13 +284,13 @@ const Swap = ({
               ) : null}
               <ContainerSwapButton>
                 <Button
-                  onClick={() =>
+                  onClick={() => {
                     swapButton.link
-                      ? sendEvent('external_redirect', {
+                      ? void sendEvent('external_redirect', {
                           link: swapButton.link,
                         }) || window.open(swapButton.link, '_self')
-                      : onSwap()
-                  }
+                      : void onSwap()
+                  }}
                   disabled={
                     swapButton.link
                       ? false
