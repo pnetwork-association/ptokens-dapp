@@ -4,7 +4,7 @@ import { AbiItem } from 'web3-utils'
 import { AppDispatch, AppThunk } from '..'
 import { AssetId } from '../../constants'
 import { getFactoryAddressByBlockchain } from '../../settings'
-import assets, { Asset, AssetWithAddress, NativeAsset, isNative } from '../../settings/swap-assets'
+import assets, { Asset, AssetWithAddress, NativeAsset, UpdatedAsset, isNative } from '../../settings/swap-assets'
 import { parseError } from '../../utils/errors'
 import { createAsset, getProviderByNetworkId, getSwapBuilder } from '../../utils/ptokens'
 import { updateInfoModal } from '../pages/pages.actions'
@@ -124,7 +124,7 @@ const loadSwapData = (_opts: LoadSwapDataOpts = {}): AppThunk<Promise<void>> => 
   }
 }
 
-const loadBalances = (_account: string, _blockchain: Blockchain): AppThunk => {
+const loadBalances = (_account: string, _blockchain: Blockchain) => {
   return (_dispatch: AppDispatch) => {
     try {
       switch (_blockchain) {
@@ -148,7 +148,7 @@ const loadBalances = (_account: string, _blockchain: Blockchain): AppThunk => {
   }
 }
 
-const loadBalanceByAssetId = (_id: AssetId): AppThunk => {
+const loadBalanceByAssetId = (_id: AssetId) => {
   return (_dispatch: AppDispatch) => {
     try {
       const asset = getAssetById(_id)
@@ -173,7 +173,7 @@ const loadBalanceByAssetId = (_id: AssetId): AppThunk => {
   }
 }
 
-const swap = (_from: Asset, _to: Asset, _amount: string, _address: string): AppThunk<Promise<void>> => {
+const swap = (_from: UpdatedAsset, _to: UpdatedAsset, _amount: string, _address: string): AppThunk<Promise<void>> => {
   return async (_dispatch: AppDispatch) => {
     try {
       _dispatch(actions.progressReset())

@@ -79,7 +79,7 @@ const App = ({ setTheme, loadSwapData, selectPage }: AppProps) => {
     const page = urlParts[1]
 
     selectPage(page, { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol })
-    loadSwapData({
+    void loadSwapData({
       defaultSelection: { pToken, asset, from, to, algorand_from_assetid, algorand_to_assetid, host_symbol },
     })
   }, [loadSwapData, selectPage, setTheme])

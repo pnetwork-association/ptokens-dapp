@@ -4,6 +4,8 @@ import styled from 'styled-components'
 
 import { ITheme } from '../../../theme/ThemeProvider'
 
+const VITE_REACT_APP_GIT_SHA = import.meta.env.VITE_REACT_APP_GIT_SHA as string
+
 const VersionDiv = styled.div`
   background: transparent;
   position: fixed;
@@ -45,8 +47,7 @@ const VersionButton = styled.button`
 `
 
 export default function Version() {
-  const githubLink =
-    'https://github.com/pnetwork-association/ptokens-dapp/tree/' + import.meta.env.VITE_REACT_APP_GIT_SHA
+  const githubLink = 'https://github.com/pnetwork-association/ptokens-dapp/tree/' + VITE_REACT_APP_GIT_SHA
   return (
     <VersionDiv>
       <ContainerOptions>

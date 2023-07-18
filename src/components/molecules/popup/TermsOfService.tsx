@@ -3,6 +3,8 @@ import React from 'react'
 import { Modal } from 'react-bootstrap'
 import styled from 'styled-components'
 
+import { ITheme } from '../../../theme/ThemeProvider'
+
 const StyledModalTitle = styled(Modal.Title)`
   color: ${({ theme }: { theme: ITheme }) => theme.text1};
   @media (max-width: 767.98px) {
@@ -63,7 +65,13 @@ const Button = styled.button`
   }
 `
 
-const TermsOfService = ({ show, onClose, onHide }) => {
+type TermsOfServiceProps = {
+  show: boolean
+  onClose: () => void
+  onHide: () => void
+}
+
+const TermsOfService = ({ show, onClose, onHide }: TermsOfServiceProps) => {
   return (
     <Modal
       show={show}
@@ -85,9 +93,7 @@ const TermsOfService = ({ show, onClose, onHide }) => {
         By proceeding, you understand the risks and are responsible for any lost funds.
       </StyledBody>
       <StyledFooter>
-        <Button variant="primary" onClick={onClose}>
-          Accept Terms
-        </Button>
+        <Button onClick={onClose}>Accept Terms</Button>
       </StyledFooter>
     </Modal>
   )

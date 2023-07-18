@@ -3,6 +3,8 @@ import React from 'react'
 import { ProgressBar, Step } from 'react-step-progress-bar'
 import styled from 'styled-components'
 
+import { ITheme } from '../../../theme/ThemeProvider'
+
 const ContainerProgress = styled.div`
   padding-left: 10px;
   padding-right: 10px;
@@ -22,24 +24,32 @@ const IndexedStep = styled.div`
   width: 20px;
   height: 20px;
   font-size: 12px;
-  background-color: ${({ accomplished, theme }) => (accomplished ? theme.blue : 'rgba(211, 211, 211, 0.8)')};
+  background-color: ${(_props: { accomplished: boolean; theme: ITheme }) =>
+    _props.accomplished ? _props.theme.blue : 'rgba(211, 211, 211, 0.8)'};
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
 `
 
-const Progress = ({ percent, message, steps }) => {
+type ProgressProps = {
+  percent: number
+  message: string | null
+  steps: number[]
+}
+const Progress = ({ percent, message, steps }: ProgressProps) => {
   return (
     <ContainerProgress>
       <ProgressBar percent={percent} filledBackground="#66b8ff" hasStepZero={true} stepPositions={steps}>
         {Array(steps.length)
           .fill(0)
           .map((_, _index) => (
-            <Step key={_index}>{({ accomplished }) => <IndexedStep accomplished={accomplished}></IndexedStep>}</Step>
+            <Step key={_index}>
+              {({ accomplished }: { accomplished: boolean }) => <IndexedStep accomplished={accomplished}></IndexedStep>}
+            </Step>
           ))}
       </ProgressBar>
-      <ContainerText dangerouslySetInnerHTML={{ __html: message }} />
+      {message ? <ContainerText dangerouslySetInnerHTML={{ __html: message }} /> : null}
     </ContainerProgress>
   )
 }

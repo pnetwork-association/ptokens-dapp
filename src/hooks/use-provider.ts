@@ -1,6 +1,9 @@
 import { useMemo } from 'react'
 
-const useProvider = (_provider): { isMetaMask: true, chainId: string} => {
+const useProvider = (_provider: {
+  isMetaMask: boolean
+  chainId: string
+}): { isMetaMask: boolean; chainId: string | null } => {
   return useMemo(() => {
     if (!_provider) {
       return {

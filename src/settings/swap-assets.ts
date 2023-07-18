@@ -14,6 +14,7 @@ export type BaseAsset = {
   networkId: NetworkId
   withBalanceDecimalsConversion: boolean
   isPerc20?: boolean
+  isBep20?: boolean
   isHidden?: boolean
   formattedName?: string
   miniImage?: string

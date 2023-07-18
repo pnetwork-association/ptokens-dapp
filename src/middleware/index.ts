@@ -8,7 +8,7 @@ const middleware = createListenerMiddleware()
 middleware.startListening({
   actionCreator: walletConnected,
   effect: (action, listenerApi) => {
-    listenerApi.dispatch(loadBalances(action.payload.account, action.payload.blockchain))
+    action.payload.account && listenerApi.dispatch(loadBalances(action.payload.account, action.payload.blockchain))
   },
 })
 

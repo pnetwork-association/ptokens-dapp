@@ -10,7 +10,7 @@ import { AssetId } from '../../../constants'
 import { sendEvent } from '../../../ga4'
 import { updateAssets } from '../../../hooks/use-assets'
 import { useSwap } from '../../../hooks/use-swap'
-import { Asset, AssetWithAddress, UpdatedAsset } from '../../../settings/swap-assets'
+import { AssetWithAddress, UpdatedAsset } from '../../../settings/swap-assets'
 import { IInfoModal } from '../../../store/pages/pages.reducer'
 import { IBpm, IProgress, ISwapButton } from '../../../store/swap/swap.reducer'
 import { Wallets } from '../../../store/wallets/wallets.reducer'
@@ -141,7 +141,7 @@ type SwapProps = {
   connectWithWallet: (_blockchain: Blockchain) => void
   updateSwapButton: (_text: string, _disabled?: boolean, _link?: string | null) => void
   hideInfoModal: () => void
-  swap: (_from: Asset, _to: Asset, _amount: string, _address: string) => Promise<void>
+  swap: (_from: UpdatedAsset, _to: UpdatedAsset, _amount: string, _address: string) => Promise<void>
 }
 
 const Swap = ({

@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 
 import { AssetId } from '../constants'
 import { sendEvent } from '../ga4'
-import { Asset, UpdatedAsset, isNative } from '../settings/swap-assets'
+import { UpdatedAsset, isNative } from '../settings/swap-assets'
 import { IBpm, IProgress, ISwapButton } from '../store/swap/swap.reducer'
 import { Wallets } from '../store/wallets/wallets.reducer'
 import { isValidAccountByBlockchain } from '../utils/account-validator'
@@ -23,7 +23,7 @@ type UseSwapArg = {
   swapButton: ISwapButton
   connectWithWallet: (_blockchain: Blockchain) => void
   setAddressWarningShow: React.Dispatch<React.SetStateAction<boolean>>
-  swap: (_from: Asset, _to: Asset, _amount: string, _address: string) => Promise<void>
+  swap: (_from: UpdatedAsset, _to: UpdatedAsset, _amount: string, _address: string) => Promise<void>
   updateSwapButton: (_text: string, _disabled?: boolean, _link?: string | null) => void
   setTosShow: React.Dispatch<React.SetStateAction<boolean>>
 }

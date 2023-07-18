@@ -72,7 +72,7 @@ const DisconnectButton = styled(ConnectButton)`
 
 interface IWalletInfoModalProps {
   show: boolean
-  onClose: (_blockchain: Blockchain) => void
+  onClose: () => void
   onChange: (_blockchain: Blockchain) => void
   onConnect: (_blockchain: Blockchain) => void
   onDisconnect: (_blockchain: Blockchain) => void
@@ -88,7 +88,7 @@ const WalletInfoModal = ({ show, wallets, onClose, onChange, onConnect, onDiscon
       body={
         <React.Fragment>
           {wallets.map(({ formattedAccount, blockchain, formattedBlockchain, isConnected }) => (
-            <ContainerAccountInfo key={`${blockchain}-wallet`}>
+            <ContainerAccountInfo key={`${blockchain.toString()}-wallet`}>
               <Row>
                 <Col xs={6} className="my-auto">
                   <BlockchainImage

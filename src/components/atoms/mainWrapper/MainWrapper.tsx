@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
-const MainWrapper = (props) => {
+type MainWrapperProps = {
+  children: ReactNode
+}
+
+const MainWrapper = (props: MainWrapperProps) => {
   return <div className="main-content">{props.children}</div>
 }
 

@@ -5,8 +5,8 @@ interface ISettings {
   dappName: string
   links: Record<string, string>
   supportedBlockchains: Array<{ name: string; symbol: string }>
-  rpc: Record<Network, Record<Blockchain, { endpoint: string; chainId: number }>>
-  explorers: Record<Network, Record<Blockchain, string>>
+  rpc: Partial<Record<Network, Partial<Record<Blockchain, { endpoint: string; chainId: number }>>>>
+  explorers: Partial<Record<Network, Partial<Record<Blockchain, string>>>>
 }
 
 const settings: ISettings = {

@@ -3,6 +3,8 @@ import React from 'react'
 import { Modal } from 'react-bootstrap'
 import styled from 'styled-components'
 
+import { ITheme } from '../../../theme/ThemeProvider'
+
 const StyledModalTitle = styled(Modal.Title)`
   color: ${({ theme }: { theme: ITheme }) => theme.text1};
   @media (max-width: 767.98px) {
@@ -32,7 +34,14 @@ const StyledHeader = styled(Modal.Header)`
   }
 `
 
-const MyModal = ({ show, title, body, onClose }) => {
+type MyModalProps = {
+  show: boolean
+  title: string
+  body: object | object[]
+  onClose: () => void
+}
+
+const MyModal = ({ show, title, body, onClose }: MyModalProps) => {
   return (
     <Modal show={show} aria-labelledby="modal" centered onHide={onClose}>
       <StyledHeader closeButton>

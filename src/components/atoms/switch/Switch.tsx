@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
-import Switch from 'react-switch'
+import Switch, { ReactSwitchProps } from 'react-switch'
 import { ThemeContext } from 'styled-components'
 
-const CustomSwitch = ({ checked, onChange, ..._props }) => {
-  const theme = useContext(ThemeContext)
+import { ITheme } from '../../../theme/ThemeProvider'
 
+const CustomSwitch = (_props: ReactSwitchProps) => {
+  const theme = useContext(ThemeContext) as ITheme
   return (
     <Switch
       offColor={theme.secondary2}
@@ -13,11 +14,15 @@ const CustomSwitch = ({ checked, onChange, ..._props }) => {
       onHandleColor={theme.white}
       checkedIcon={false}
       uncheckedIcon={false}
-      checked={checked}
-      onChange={onChange ? onChange : () => {}}
       {..._props}
     />
   )
+}
+
+CustomSwitch.defaultProps = {
+  onchange: () => {
+    return
+  },
 }
 
 export default CustomSwitch

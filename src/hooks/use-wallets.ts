@@ -6,7 +6,7 @@ import { slicerByBlockchain } from '../utils/account-viewer'
 import { blockchainSymbolToName } from '../utils/maps'
 
 export type IUseWallets = IWallet & {
-  blockchain: string
+  blockchain: Blockchain
   formattedAccount: string | null
   formattedBlockchain: string
   isConnected: boolean
@@ -14,14 +14,11 @@ export type IUseWallets = IWallet & {
 
 const useWallets = (_wallets: Wallets) => {
   return useMemo(() => {
-    const wallets: IUseWallets[] = Object.entries(_wallets).map(([_blockchain, _wallet]) => ({
-      blockchain: _blockchain,
-      formattedAccount: _wallet.account
-        ? slicerByBlockchain(_wallet.account, _blockchain as unknown as Blockchain)
-        : '-',
-      formattedBlockchain: blockchainSymbolToName[_blockchain],
+    const wallets: IUseWallets[] = Object.values(_wallets).map((_wallet) => ({
+      formattedAccount: _wallet.account ? slicerByBlockchain(_wallet.account, _wallet.blockchain) : '-',
+      formattedBlockchain: blockchainSymbolToName[_wallet.blockchain],
       ..._wallet,
-      isConnected: _wallets[_blockchain] && _wallets[_blockchain].account ? true : false,
+      isConnected: _wallets[_wallet.blockchain] && _wallets[_wallet.blockchain].account ? true : false,
     }))
 
     const connectedWallets = wallets.filter(({ account }) => account)

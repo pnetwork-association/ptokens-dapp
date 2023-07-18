@@ -3,6 +3,7 @@ import { Blockchain } from 'ptokens'
 import { provider } from 'web3-core'
 
 export type IWallet = {
+  blockchain: Blockchain
   provider?: provider | null
   account: string | null
   chainId: number | null
@@ -17,12 +18,14 @@ export type Wallets = Record<string, IWallet>
 
 const initialState: Wallets = {
   [Blockchain.Arbitrum]: {
+    blockchain: Blockchain.Arbitrum,
     provider: null,
     account: null,
     chainId: null,
     network: null,
   },
   [Blockchain.Gnosis]: {
+    blockchain: Blockchain.Gnosis,
     provider: null,
     account: null,
     chainId: null,
@@ -36,6 +39,7 @@ const walletsSlice = createSlice({
   reducers: {
     walletConnected: (_state, _action: PayloadAction<WalletConnectedPayload>) => {
       _state[_action.payload.blockchain] = {
+        blockchain: _action.payload.blockchain,
         provider: _action.payload.provider,
         account: _action.payload.account,
         chainId: _action.payload.chainId,
@@ -44,6 +48,7 @@ const walletsSlice = createSlice({
     },
     walletDisconnected: (_state, _action: PayloadAction<{ blockchain: Blockchain }>) => {
       _state[_action.payload.blockchain] = {
+        blockchain: _action.payload.blockchain,
         provider: null,
         account: null,
         chainId: null,

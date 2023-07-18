@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { Row, Col, Container } from 'react-bootstrap'
 import styled from 'styled-components'
 
+import { ITheme } from '../../../theme/ThemeProvider'
 import Icon from '../../atoms/icon/Icon'
 
 const ContainerBanner = styled(Container)`
@@ -33,7 +34,11 @@ const CloseIcon = styled(Icon)`
   cursor: pointer;
 `
 
-const Banner = ({ children }) => {
+type BannerProps = {
+  children: ReactNode
+}
+
+const Banner = ({ children }: BannerProps) => {
   const [show, setShow] = useState(true)
 
   return show ? (

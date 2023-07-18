@@ -9,7 +9,7 @@ export interface IInfoModal {
   text: string | null
   showMoreText: string | null
   showMoreLabel: string | null
-  message: string | null
+  message?: string | null
   icon?: string
 }
 

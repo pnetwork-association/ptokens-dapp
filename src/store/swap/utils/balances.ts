@@ -5,16 +5,17 @@ import Web3 from 'web3'
 import { AbiItem } from 'web3-utils'
 
 import { AppDispatch, AppThunk } from '../..'
+import { AssetWithAddress } from '../../../settings/swap-assets'
 import ERC20 from '../../../utils/abi/ERC20.json'
 import { blockchainSymbolToName } from '../../../utils/maps'
 import { getReadOnlyProviderByBlockchain } from '../../../utils/read-only-providers'
-import { AssetWithAddress, swapBalanceLoaded } from '../swap.reducer'
+import { swapBalanceLoaded } from '../swap.reducer'
 
 const loadEvmCompatibleBalances =
   (_obj: { assets: AssetWithAddress[]; account: string; blockchain: Blockchain }): AppThunk =>
   (_dispatch: AppDispatch) => {
     _obj.assets.map((asset) =>
-      _dispatch(loadEvmCompatibleBalance({ asset: _obj.asset, account: _obj.account, blockchain: _obj.blockchain }))
+      _dispatch(loadEvmCompatibleBalance({ asset, account: _obj.account, blockchain: _obj.blockchain }))
     )
   }
 

@@ -3,7 +3,7 @@ import { pTokensSwap } from 'ptokens-swap'
 import Web3 from 'web3'
 
 import { AppDispatch, AppThunk } from '../..'
-import { Asset } from '../../../settings/swap-assets'
+import { UpdatedAsset, isNative } from '../../../settings/swap-assets'
 import { parseError } from '../../../utils/errors'
 import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
 import { approveTransaction, getBigNumber } from '../../evm-approve'
@@ -12,11 +12,11 @@ import { getWalletByBlockchain } from '../../wallets/wallets.selectors'
 import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
 
 const peginWithWallet =
-  ({ swap, ptokenFrom, ptokenTo }: { swap: pTokensSwap; ptokenFrom: Asset; ptokenTo: Asset }): AppThunk =>
+  ({ swap, ptokenFrom, ptokenTo }: { swap: pTokensSwap; ptokenFrom: UpdatedAsset; ptokenTo: UpdatedAsset }): AppThunk =>
   async (_dispatch: AppDispatch) => {
     let link: string
     // NOTE: peth uses ethers
-    if (!ptokenFrom.isPtoken && (ptokenFrom.isPerc20 || ptokenTo.isBep20)) {
+    if (isNative(ptokenFrom) && (ptokenFrom.isPerc20 || ptokenTo.isBep20)) {
       try {
         const wallet = getWalletByBlockchain(ptokenFrom.blockchain)
         const web3 = new Web3(wallet.provider)

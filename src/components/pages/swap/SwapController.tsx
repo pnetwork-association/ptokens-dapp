@@ -1,7 +1,7 @@
 import { Blockchain } from 'ptokens-constants'
 import { connect } from 'react-redux'
 
-import { Asset } from '../../../settings/swap-assets'
+import { UpdatedAsset } from '../../../settings/swap-assets'
 import { AppDispatch, RootState } from '../../../store'
 import { updateInfoModal, selectPage } from '../../../store/pages/pages.actions'
 import { swap, resetProgress, updateSwapButton } from '../../../store/swap/swap.actions'
@@ -23,7 +23,7 @@ const mapStateToProps = (_state: RootState) => {
 const mapDispatchToProps = (_dispatch: AppDispatch) => {
   return {
     connectWithWallet: (_blockchain: Blockchain) => _dispatch(connectWithWallet(_blockchain)),
-    swap: (_from: Asset, _to: Asset, _amount: string, _address: string) =>
+    swap: (_from: UpdatedAsset, _to: UpdatedAsset, _amount: string, _address: string) =>
       _dispatch(swap(_from, _to, _amount, _address)),
     resetProgress: () => _dispatch(resetProgress()),
     hideInfoModal: () =>
