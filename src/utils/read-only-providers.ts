@@ -1,6 +1,6 @@
 import { Blockchain, NetworkId } from 'ptokens'
 import { getWeb3Settings } from 'react-web3-settings'
-import Web3 from 'web3'
+import { Web3 } from 'web3'
 
 export const getReadOnlyProviderByBlockchain = (_blockchain: Blockchain | null | undefined) => {
   const settings = getWeb3Settings() as { rpcEndpoints: Record<Blockchain, string> }

@@ -2,7 +2,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider'
 import { Blockchain, Network } from 'ptokens-constants'
 import WalletLink from 'walletlink'
 import Web3 from 'web3'
-import { provider } from 'web3-core'
+import { Web3BaseProvider } from 'web3'
 import Web3Modal from 'web3modal'
 
 import { AppDispatch, AppThunk } from '../..'
@@ -20,10 +20,11 @@ const connectWithEvmWallet =
   (_blockchain: Blockchain, _network = Network.Mainnet): AppThunk =>
   async (_dispatch: AppDispatch) => {
     try {
-      if (document.getElementById('WEB3_CONNECT_MODAL_ID')) {
-        document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
+      const web3ConnectModal = document.getElementById('WEB3_CONNECT_MODAL_ID')
+      if (web3ConnectModal) {
+        web3ConnectModal.remove()
       }
-      web3Modal = new Web3Modal({
+      const web3Modal = new Web3Modal({
         theme: getWeb3ModalTheme(getTheme()),
         providerOptions: {
           walletconnect: {
@@ -128,7 +129,7 @@ const _connectionSuccesfull =
     }
   }
 
-const _getAccount = async (_provider: provider): Promise<string | null> => {
+const _getAccount = async (_provider: Web3BaseProvider): Promise<string | null> => {
   try {
     const web3 = new Web3(_provider)
     const accounts = await web3.eth.getAccounts()

@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js'
 import { stringUtils } from 'ptokens-helpers'
-import Web3 from 'web3'
+import { Web3 } from 'web3'
 
-import ERC20Abi from '../utils/abi/ERC20.json'
+import ERC20Abi from '../utils/abi/ERC20'
 
 // NOTE: avoids brave metamask gas estimation fails
 function getBigNumber(amount: BigNumber.Value, decimals: number) {
@@ -21,19 +21,17 @@ async function approveTransaction(
 ) {
   const account = await web3.eth.getAccounts()
   const toApprove = new web3.eth.Contract(ERC20Abi, stringUtils.addHexPrefix(tokenAddress))
-  const allowance: number = (await toApprove.methods
-    .allowance(account[0], stringUtils.addHexPrefix(spender))
-    .call()) as number
+  const allowance = await toApprove.methods.allowance(account[0], stringUtils.addHexPrefix(spender)).call()
   let hash = ''
-  if (!BigNumber(allowance).isGreaterThanOrEqualTo(amount)) {
-    const _approve = (amount) =>
+  if (!BigNumber(allowance.toString()).isGreaterThanOrEqualTo(amount)) {
+    const _approve = (amount: BigNumber.Value) =>
       toApprove.methods
-        .approve(stringUtils.addHexPrefix(spender), amount)
+        .approve(stringUtils.addHexPrefix(spender), amount.toString())
         .send({ from: account[0] })
-        .once('hash', (_hash) => {
+        .on('transactionHash', (_hash) => {
           hash = _hash
         })
-    if (requiresReset && !BigNumber(allowance).isZero()) {
+    if (requiresReset && !BigNumber(allowance.toString()).isZero()) {
       await _approve(0)
     }
     await _approve(amount)

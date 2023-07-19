@@ -5,8 +5,8 @@ interface ISettings {
   dappName: string
   links: Record<string, string>
   supportedBlockchains: Array<{ name: string; symbol: string }>
-  rpc: Partial<Record<Network, Partial<Record<Blockchain, { endpoint: string; chainId: number }>>>>
-  explorers: Partial<Record<Network, Partial<Record<Blockchain, string>>>>
+  rpc: Record<Network, Record<Blockchain, { endpoint: string; chainId: number }>>
+  explorers: Record<Network, Record<Blockchain, string>>
 }
 
 const settings: ISettings = {
@@ -41,12 +41,14 @@ const settings: ISettings = {
         chainId: 42161,
       },
     },
+    [Network.Testnet]: {},
   },
   explorers: {
     [Network.Mainnet]: {
       [Blockchain.Gnosis]: 'https://gnosisscan.io/',
       [Blockchain.Arbitrum]: 'https://arbiscan.io/',
     },
+    [Network.Testnet]: {},
   },
 }
 
