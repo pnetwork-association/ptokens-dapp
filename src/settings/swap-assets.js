@@ -682,6 +682,7 @@ const swapAssets = [
     withBalanceDecimalsConversion: true,
     isSpecial: true,
     chainId: ChainId.EthereumMainnet,
+    onlyLegacyRedeem: true,
     onPnetworkV2: true,
   },
   {
@@ -703,6 +704,7 @@ const swapAssets = [
     image: 'pTLOS.svg',
     withBalanceDecimalsConversion: true,
     chainId: ChainId.EthereumMainnet,
+    onlyLegacyRedeem: true,
     onPnetworkV2: true,
   },
   {
@@ -972,7 +974,9 @@ const swapAssets = [
     withBalanceDecimalsConversion: true,
     isSpecial: true,
     isPerc20: true,
-    chainId: ChainId.XDaiMainnet,
+    chainId: ChainId.XdaiMainnet,
+    onlyLegacyRedeem: true,
+    onPnetworkV2: true,
   },
   {
     address: '0xb6c53431608e626ac81a9776ac3e999c5556717c',

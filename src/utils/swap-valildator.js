@@ -11,6 +11,7 @@ export const isValidSwap = (from, to, assets) => {
     if (to.requiresCurve) return false
     return true
   } else {
+    if (from.onlyLegacyRedeem && !to.isNative) return false
     if (from.onPnetworkV2 && !to.isNative && !to.onPnetworkV2) return false
     if (from.isPseudoNative && !to.isNative) return false
     if (to.isPseudoNative) return false
