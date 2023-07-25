@@ -24,7 +24,7 @@ const transactionBaseLink = {
 
 const tokenBaseLink = {
   ETH: `${settings.explorers.mainnet.eth}token/%s`,
-  XDAI: `${settings.explorers.mainnet.xdai}address/%s`,
+  XDAI: `${settings.explorers.mainnet.xdai}token/%s`,
   POLYGON: `${settings.explorers.mainnet.polygon}address/%s`,
   BSC: `${settings.explorers.mainnet.bsc}token/%s`,
   EOS: `${settings.explorers.mainnet.eos}account/%s`,

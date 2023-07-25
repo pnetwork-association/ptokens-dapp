@@ -164,7 +164,7 @@ const settings = {
       libre: 'https://lb.libre.org/v2/explore/',
       ltc: 'https://live.blockcypher.com/ltc/',
       bsc: 'https://bscscan.com/',
-      xdai: 'https://blockscout.com/poa/xdai/',
+      xdai: 'https://gnosisscan.io/',
       polygon: 'https://polygonscan.com/',
       doge: 'https://dogechain.info/',
       rvn: 'https://ravencoin.network/',
