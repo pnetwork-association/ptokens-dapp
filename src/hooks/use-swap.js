@@ -450,7 +450,7 @@ const useSwap = ({
   const filteredAssets = useMemo(() => {
     if (from) {
       const filtered = assets.filter((_asset) => isValidSwap(from, _asset, assets))
-      if (!isValidSwap(from, to, assets)) setTo(filtered[0])
+      if (!isValidSwap(from, to, assets)) setTo(filtered.find(({ isNative }) => isNative) || filtered[0])
       return filtered
     }
     return assets
