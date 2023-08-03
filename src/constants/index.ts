@@ -8,3 +8,9 @@ export enum AssetId {
   // tokens id
   USDC_ON_XDAI = 'USDC_ON_XDAI',
 }
+
+export enum ChainId {
+  // chain id
+  XDAI = 'XDAI_MAINNET',
+  ARBITRUM = 'ARBITRUM_MAINNET',
+}

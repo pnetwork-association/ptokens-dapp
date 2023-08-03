@@ -13,20 +13,31 @@ import {
   Tooltip,
 } from '@chakra-ui/react'
 import { ChevronDownIcon } from '@chakra-ui/icons'
+import { BaseAsset } from '../../settings/swap-assets'
+import ChainListMenu from './ChainsListMenu'
+import { BaseChain } from '../../settings/chain-list'
 
 interface SwapBoxProps {
   children?: ReactNode
   bg: string
   title: string
-  asset: object
-  chain: string
+  asset: BaseAsset
+  chain: BaseChain
+  setChain: Function
   onTokenClick?: () => void
-  onChainClick?: () => void
   mt?: string
 }
 
-const SwapBox: React.FC<SwapBoxProps> = ({children = null, bg, title, asset, chain, onTokenClick, onChainClick, mt = 0}) => {
-  console.log(asset)
+const SwapBox: React.FC<SwapBoxProps> = ({
+  children = null, 
+  bg, 
+  title, 
+  asset, 
+  chain,
+  setChain,
+  onTokenClick, 
+  mt = 0
+}) => {
   return(
     <Container mt={mt} bg={bg} padding='15px' pt='5px' rounded='lg'>
       <Flex justify={'space-between'} alignItems='center'>
@@ -34,7 +45,8 @@ const SwapBox: React.FC<SwapBoxProps> = ({children = null, bg, title, asset, cha
           {title}
         </Text>
         <Tooltip label='Ethereum'>
-          <Button
+          <ChainListMenu chain={chain} setChain={setChain} />
+          {/* <Button
             onClick={onChainClick}
             py={1} 
             px={2} 
@@ -46,8 +58,8 @@ const SwapBox: React.FC<SwapBoxProps> = ({children = null, bg, title, asset, cha
               bg: `gray.700`,
             }}
           >
-            <Image m={'1px'} mr='0' boxSize='25' src={chain}/>
-          </Button>
+            <Image m={'1px'} mr='0' boxSize='25' src={chain ? '/assets/svg/' + chain.image : '/assets/svg/blockchain.svg'}/>
+          </Button> */}
         </Tooltip>
       </Flex>
       <Container mt='5px' color={'gray.600'} border={'1px'} padding='15px' pb='0px' rounded='lg'>
@@ -65,7 +77,7 @@ const SwapBox: React.FC<SwapBoxProps> = ({children = null, bg, title, asset, cha
           >
             <Image
               boxSize='40px' 
-              src={'/assets/svg/' + asset.image}
+              src={asset ? '/assets/svg/' + asset.image : '/assets/svg/blockchain.svg'}
             />
           </Button>
           <NumberInput color='white' marginRight={'2px'} variant='unstyled' defaultValue={'0.0'} size={'lg'} w={'220px'}>

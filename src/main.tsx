@@ -14,6 +14,7 @@ const {
   Tooltip,
   Container,
   Modal,
+  Menu,
 } = chakraTheme.components
 
 const theme = extendBaseTheme({
@@ -27,6 +28,7 @@ const theme = extendBaseTheme({
     Tooltip,
     Input,
     Modal,
+    Menu,
   },
 })
 
