@@ -46,20 +46,6 @@ const SwapBox: React.FC<SwapBoxProps> = ({
         </Text>
         <Tooltip label='Ethereum'>
           <ChainListMenu chain={chain} setChain={setChain} />
-          {/* <Button
-            onClick={onChainClick}
-            py={1} 
-            px={2} 
-            rounded={'md'} 
-            iconSpacing='0'
-            rightIcon={<ChevronDownIcon />} 
-            _hover={{
-              transform: 'scale(1.05, 1.05)',
-              bg: `gray.700`,
-            }}
-          >
-            <Image m={'1px'} mr='0' boxSize='25' src={chain ? '/assets/svg/' + chain.image : '/assets/svg/blockchain.svg'}/>
-          </Button> */}
         </Tooltip>
       </Flex>
       <Container mt='5px' color={'gray.600'} border={'1px'} padding='15px' pb='0px' rounded='lg'>

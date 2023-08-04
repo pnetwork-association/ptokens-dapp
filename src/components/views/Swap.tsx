@@ -76,12 +76,14 @@ const Swap: React.FC = () => {
         onClose={onOriginChainListModalClose}
         setAsset={setOriginAsset}
         chain={originChain}
+        setChain={setOriginChain}
        />
       <AssetsListModal 
         isOpen={isDestListModalOpen} 
         onClose={onDestChainListModalClose}
         setAsset={setDestAsset}
         chain={destChain}
+        setChain={setDestChain}
       />
       
     </VStack>
