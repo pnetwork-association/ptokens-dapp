@@ -51,6 +51,7 @@ describe('isValidSwap', () => {
         'PBTC_ON_EOS_MAINNET',
       ],
     ],
+    ['PBTC_ON_ARBITRUM_MAINNET', ['BTC']],
     [
       'WBTC_ON_ETH_MAINNET',
       [
