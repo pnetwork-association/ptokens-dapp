@@ -125,6 +125,8 @@ const swapAssets = [
     withBalanceDecimalsConversion: true,
     gasLimitPegout: 80000 * 10,
     chainId: ChainId.ArbitrumMainnet,
+    onPnetworkV2: true,
+    notifyDepositAddressWarning: true,
   },
   {
     address: '0x5979f50f1d4c08f9a53863c2f39a7b0492c38d0f',

@@ -38,6 +38,7 @@ describe('isValidSwap', () => {
         'PBTC_ON_LIBRE_MAINNET',
         'PBTC_ON_POLYGON_MAINNET',
         'PBTC_ON_EOS_MAINNET',
+        'PBTC_ON_ARBITRUM_MAINNET',
       ],
     ],
     [
@@ -49,9 +50,21 @@ describe('isValidSwap', () => {
         'PBTC_ON_ALGORAND_MAINNET',
         'PBTC_ON_POLYGON_MAINNET',
         'PBTC_ON_EOS_MAINNET',
+        'PBTC_ON_ARBITRUM_MAINNET',
       ],
     ],
-    ['PBTC_ON_ARBITRUM_MAINNET', ['BTC']],
+    [
+      'PBTC_ON_ARBITRUM_MAINNET',
+      [
+        'BTC',
+        'PBTC_ON_BSC_MAINNET',
+        'PBTC_ON_ETH_MAINNET',
+        'PBTC_ON_ALGORAND_MAINNET',
+        'PBTC_ON_POLYGON_MAINNET',
+        'PBTC_ON_EOS_MAINNET',
+        'PBTC_ON_LIBRE_MAINNET',
+      ],
+    ],
     [
       'WBTC_ON_ETH_MAINNET',
       [
@@ -61,6 +74,7 @@ describe('isValidSwap', () => {
         'PBTC_ON_ALGORAND_MAINNET',
         'PBTC_ON_POLYGON_MAINNET',
         'PBTC_ON_EOS_MAINNET',
+        'PBTC_ON_ARBITRUM_MAINNET',
       ],
     ],
     [
