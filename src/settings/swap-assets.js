@@ -55,7 +55,7 @@ const swapAssets = [
     network: 'mainnet',
     isHidden: false,
     blockchain: 'EOS',
-    decimals: 0,
+    decimals: 8,
     withMiniImage: true,
     symbol: 'PBTC',
     isPtoken: true,
@@ -64,6 +64,8 @@ const swapAssets = [
     image: 'pBTC.svg',
     withBalanceDecimalsConversion: false,
     chainId: ChainId.EosMainnet,
+    onPnetworkV2: true,
+    notifyDepositAddressWarning: true,
   },
   {
     address: 'btc.ptokens',
