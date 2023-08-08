@@ -6,6 +6,7 @@ import connectToWalletConnect from './connectors/wallet-connect'
 import connectToAlgoSigner from './connectors/algo-signer'
 import connectToMyAlgoWallet from './connectors/my-algo-wallet'
 import connectToPeraWallet from './connectors/pera-wallet'
+import connectToDeflyWallet from './connectors/defly-wallet'
 
 const INITIAL_STATE = { show: false }
 
@@ -74,6 +75,17 @@ class AlgoWalletModal extends EventEmitter {
       themeColors: this.themeColors,
       onClick: async () => {
         this._call.resolve(await connectToPeraWallet())
+        await this.toogleModal()
+      },
+    })
+
+    this.userOptions.push({
+      name: 'Defly Wallet',
+      logo: './assets/png/defly-wallet-logo.png',
+      description: 'Connect to Defly Wallet',
+      themeColors: this.themeColors,
+      onClick: async () => {
+        this._call.resolve(await connectToDeflyWallet())
         await this.toogleModal()
       },
     })
