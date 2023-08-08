@@ -154,7 +154,7 @@ const swapAssets = [
     network: 'mainnet',
     isHidden: false,
     blockchain: 'EOS',
-    decimals: 0,
+    decimals: 8,
     withMiniImage: true,
     symbol: 'PLTC',
     isPtoken: true,
@@ -163,6 +163,8 @@ const swapAssets = [
     image: 'pLTC.svg',
     withBalanceDecimalsConversion: false,
     chainId: ChainId.EosMainnet,
+    onPnetworkV2: true,
+    notifyDepositAddressWarning: true,
   },
   {
     address: 'eth.ptokens',
