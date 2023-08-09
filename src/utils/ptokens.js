@@ -1,13 +1,14 @@
 import _ from 'lodash'
-import { pTokensUtxoAssetBuilder, pTokensBlockstreamUtxoProvider } from 'ptokens-assets-utxo'
-import { pTokensEvmAssetBuilder, pTokensEvmProvider } from 'ptokens-assets-evm'
-import { pTokensEosioAssetBuilder, pTokensEosioProvider } from 'ptokens-assets-eosio'
 import { pTokensAlgorandAssetBuilder, pTokensAlgorandProvider } from 'ptokens-assets-algorand'
-import { pTokensSwapBuilder } from 'ptokens-swap'
+import { pTokensEosioAssetBuilder, pTokensEosioProvider } from 'ptokens-assets-eosio'
+import { pTokensEvmAssetBuilder, pTokensEvmProvider } from 'ptokens-assets-evm'
+import { pTokensUtxoAssetBuilder, pTokensBlockstreamUtxoProvider } from 'ptokens-assets-utxo'
 import { pTokensNode, pTokensNodeProvider } from 'ptokens-node'
+import { pTokensSwapBuilder } from 'ptokens-swap'
+
+import { PNETWORK_NODE_V3 } from '../constants/index'
 
 import { getReadOnlyProviderByBlockchain } from './read-only-providers'
-import { PNETWORK_NODE_V3 } from '../constants/index'
 
 const utxoBlockchains = ['btc', 'ltc']
 const evmBlockchains = ['eth', 'bsc', 'ftm', 'polygon', 'luxochain', 'arbitrum', 'xdai']

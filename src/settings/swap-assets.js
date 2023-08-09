@@ -848,7 +848,7 @@ const swapAssets = [
     network: 'mainnet',
     isHidden: false,
     blockchain: 'TELOS',
-    decimals: 0,
+    decimals: 9,
     withMiniImage: true,
     symbol: 'PETH',
     isPtoken: true,
@@ -858,6 +858,7 @@ const swapAssets = [
     image: 'pETH.svg',
     withBalanceDecimalsConversion: false,
     chainId: ChainId.TelosMainnet,
+    onPnetworkV2: true,
   },
   {
     address: 'link.ptokens',
@@ -909,7 +910,7 @@ const swapAssets = [
     network: 'mainnet',
     isHidden: false,
     blockchain: 'TELOS',
-    decimals: 0,
+    decimals: 6,
     withMiniImage: true,
     symbol: 'PUSDT',
     isPtoken: true,
@@ -919,6 +920,7 @@ const swapAssets = [
     withBalanceDecimalsConversion: false,
     isPerc20: true,
     chainId: ChainId.TelosMainnet,
+    onPnetworkV2: true,
   },
   {
     address: 'usdt.ptokens',
