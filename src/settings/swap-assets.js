@@ -76,7 +76,7 @@ const swapAssets = [
     network: 'mainnet',
     isHidden: false,
     blockchain: 'TELOS',
-    decimals: 0,
+    decimals: 8,
     withMiniImage: true,
     symbol: 'PBTC',
     isPtoken: true,
@@ -85,6 +85,8 @@ const swapAssets = [
     image: 'pBTC.svg',
     withBalanceDecimalsConversion: false,
     chainId: ChainId.TelosMainnet,
+    onPnetworkV2: true,
+    notifyDepositAddressWarning: true,
   },
   {
     address: 'btc.ptokens',
