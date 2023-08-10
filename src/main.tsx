@@ -16,6 +16,7 @@ const {
   Modal,
   Menu,
   Tag,
+  Heading,
 } = chakraTheme.components
 
 const theme = extendBaseTheme({
@@ -24,6 +25,7 @@ const theme = extendBaseTheme({
     Button: buttonTheme,
     Container,
     Divider,
+    Heading,
     NumberInput,
     Slider,
     Tooltip,

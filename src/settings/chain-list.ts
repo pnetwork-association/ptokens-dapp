@@ -25,6 +25,20 @@ const chainList = [
     network: Network.Mainnet,
     image: 'ARBITRUM.svg'
   },
+  {
+    id: ChainId.BTC,
+    blockchain: Blockchain.Bitcoin,
+    networkId: NetworkId.SepoliaTestnet,
+    network: Network.Mainnet,
+    image: 'BTC.svg'
+  },
+  {
+    id: ChainId.ETH,
+    blockchain: Blockchain.Ethereum,
+    networkId: NetworkId.SepoliaTestnet,
+    network: Network.Mainnet,
+    image: 'ETH.svg'
+  },
 ]
 
 export default chainList

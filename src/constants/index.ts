@@ -13,4 +13,6 @@ export enum ChainId {
   // chain id
   XDAI = 'XDAI_MAINNET',
   ARBITRUM = 'ARBITRUM_MAINNET',
+  BTC = 'BITCOIN',
+  ETH = 'ETHEREUM_MAINNET'
 }

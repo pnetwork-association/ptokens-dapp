@@ -9,18 +9,21 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { BaseAsset } from '../../settings/swap-assets'
+import chainList from '../../settings/chain-list'
 import { Blockchain } from 'ptokens-constants'
 
 interface AssetBoxProps {
   asset: BaseAsset
   setAsset: Function
   close: Function
+  setChain: Function
 }
 
-const AssetBox: React.FC<AssetBoxProps> = ({asset, setAsset, close}) => {
+const AssetBox: React.FC<AssetBoxProps> = ({asset, setAsset, close, setChain}) => {
+  console.log(asset, chainList)
   return (
     <Button
-      onClick={() => setAsset(asset) || close() }
+      onClick={() => setAsset(asset) || setChain(chainList.find(chain => chain.blockchain === asset.blockchain)) || close() }
       w='100%'
       mb='8px'
       px={2}
@@ -44,9 +47,6 @@ const AssetBox: React.FC<AssetBoxProps> = ({asset, setAsset, close}) => {
             src={asset ? '/assets/svg/' + asset.image : '/assets/svg/blockchain.svg'}
           />
           <Flex alignContent={'center'} alignItems={'flex-start'} flexDir={'column'}>
-            <Text as='b' fontSize={'lg'}>
-              {asset ? asset.nativeSymbol : null}
-            </Text>
             {asset ? asset.isNative ? (
                 <Text fontSize={'sm'}> Native on 
                   <Badge ml='1' colorScheme='blue' alignContent={'right'}>

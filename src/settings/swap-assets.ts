@@ -21,6 +21,8 @@ export type BaseAsset = {
   titleLabel?: string
   isSpecial?: boolean
   symbolToDisplay?: string
+  nativeSymbol: string
+  underlyingAsset: AssetId
 }
 
 export interface NativeAsset extends BaseAsset {
@@ -93,6 +95,26 @@ const swapAssets = [
     underlyingAsset: AssetId.USDC_ON_XDAI,
     isPerc20: true,
   },
+  {
+    address: '0x62199B909FB8B8cf870f97BEf2cE6783493c4908',
+    id: 'PBTC_ON_ETH_MAINNET',
+    name: 'pBTC',
+    workingName: 'pbtc',
+    nativeDecimals: 8,
+    network: Network.Mainnet,
+    isHidden: false,
+    blockchain: Blockchain.Ethereum,
+    decimals: 18,
+    withMiniImage: true,
+    symbol: 'PBTC',
+    isPtoken: true,
+    nativeSymbol: 'BTC',
+    nativeBlockchain: Blockchain.Bitcoin,
+    image: 'pBTC.svg',
+    withBalanceDecimalsConversion: true,
+    onPnetworkV2: true,
+    networkId: NetworkId.SepoliaTestnet,
+  },
   /* #################   Native Tokens   #################*/
   {
     address: '0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83',
@@ -109,6 +131,25 @@ const swapAssets = [
     withBalanceDecimalsConversion: true,
     networkId: NetworkId.GnosisMainnet,
     isPerc20: true,
+    marketApi: 'https://api.coingecko.com/api/v3/coins/usd-coin/market_chart',
+  },
+  {
+    address: null,
+    id: 'BTC',
+    symbol: 'BTC',
+    name: 'Bitcoin',
+    network: Network.Mainnet,
+    blockchain: Blockchain.Bitcoin,
+    withMiniImage: false,
+    isNative: true,
+    nativeSymbol: 'BTC',
+    nativeBlockchain: Blockchain.Bitcoin,
+    image: 'BTC.svg',
+    peginWithDepositAddress: true,
+    withBalanceDecimalsConversion: null,
+    isBlockchainTokenNative: true,
+    networkId: NetworkId.SepoliaTestnet,
+    marketApi: 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart',
   },
 ]
 

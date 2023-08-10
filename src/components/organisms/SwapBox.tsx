@@ -10,7 +10,6 @@ import {
   SliderTrack,
   SliderFilledTrack,
   Image,
-  Tooltip,
 } from '@chakra-ui/react'
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import { BaseAsset } from '../../settings/swap-assets'
@@ -44,9 +43,7 @@ const SwapBox: React.FC<SwapBoxProps> = ({
         <Text ml='1' fontSize='md' color={'gray.500'}>
           {title}
         </Text>
-        <Tooltip label='Ethereum'>
-          <ChainListMenu chain={chain} setChain={setChain} />
-        </Tooltip>
+        <ChainListMenu chain={chain} setChain={setChain}/>
       </Flex>
       <Container mt='5px' color={'gray.600'} border={'1px'} padding='15px' pb='0px' rounded='lg'>
         <Flex justify={'space-between'} alignItems={'center'}>
@@ -65,6 +62,11 @@ const SwapBox: React.FC<SwapBoxProps> = ({
               boxSize='40px' 
               src={asset ? '/assets/svg/' + asset.image : '/assets/svg/blockchain.svg'}
             />
+            {asset ? (
+              <Text as='b' pl='2' fontSize='xl' color='whiteAlpha.800'>
+                {asset.nativeSymbol}
+              </Text>
+            ) : null}
           </Button>
           <NumberInput color='white' marginRight={'2px'} variant='unstyled' defaultValue={'0.0'} size={'lg'} w={'220px'}>
             <NumberInputField fontSize='40px' paddingInlineEnd='0' textAlign='right' h={'50px'}/>
