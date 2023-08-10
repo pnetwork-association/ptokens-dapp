@@ -954,7 +954,7 @@ const swapAssets = [
     network: 'mainnet',
     isHidden: false,
     blockchain: 'TELOS',
-    decimals: 0,
+    decimals: 6,
     withMiniImage: true,
     symbol: 'PUSDC',
     isPtoken: true,
@@ -964,6 +964,7 @@ const swapAssets = [
     withBalanceDecimalsConversion: false,
     isPerc20: true,
     chainId: ChainId.TelosMainnet,
+    onPnetworkV2: true,
   },
   {
     address: '0x0259461eed4d76d4f0f900f9035f6c4dfb39159a',
