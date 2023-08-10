@@ -1,7 +1,8 @@
 import { test, describe, expect } from 'vitest'
-import { isValidSwap } from '../swap-valildator'
-import assets from '../../settings/swap-assets'
+
 import migrationAssets from '../../settings/migration-assets'
+import assets from '../../settings/swap-assets'
+import { isValidSwap } from '../swap-valildator'
 
 describe('isValidSwap', () => {
   const getAssetById = (_id) => {
@@ -27,6 +28,7 @@ describe('isValidSwap', () => {
         'PBTC_ON_TELOS_MAINNET',
         'PBTC_ON_XDAI_MAINNET',
         'PBTC_ON_EOS_MAINNET',
+        'PBTC_ON_TELOS_MAINNET',
       ],
     ],
     [
@@ -39,6 +41,7 @@ describe('isValidSwap', () => {
         'PBTC_ON_POLYGON_MAINNET',
         'PBTC_ON_EOS_MAINNET',
         'PBTC_ON_ARBITRUM_MAINNET',
+        'PBTC_ON_TELOS_MAINNET',
       ],
     ],
     [
@@ -51,6 +54,7 @@ describe('isValidSwap', () => {
         'PBTC_ON_POLYGON_MAINNET',
         'PBTC_ON_EOS_MAINNET',
         'PBTC_ON_ARBITRUM_MAINNET',
+        'PBTC_ON_TELOS_MAINNET',
       ],
     ],
     [
@@ -63,6 +67,7 @@ describe('isValidSwap', () => {
         'PBTC_ON_POLYGON_MAINNET',
         'PBTC_ON_EOS_MAINNET',
         'PBTC_ON_LIBRE_MAINNET',
+        'PBTC_ON_TELOS_MAINNET',
       ],
     ],
     [
@@ -75,6 +80,7 @@ describe('isValidSwap', () => {
         'PBTC_ON_POLYGON_MAINNET',
         'PBTC_ON_EOS_MAINNET',
         'PBTC_ON_ARBITRUM_MAINNET',
+        'PBTC_ON_TELOS_MAINNET',
       ],
     ],
     [
@@ -82,7 +88,7 @@ describe('isValidSwap', () => {
       ['USDT_ON_ALGORAND_MAINNET', 'PUSDT_ON_ALGORAND_MAINNET', 'PUSDT_ON_LIBRE_MAINNET', 'PUSDT_ON_TELOS_MAINNET'],
     ],
     ['USDT_ON_ALGORAND_MAINNET', ['USDT']],
-    ['PUSDT_ON_ALGORAND_MAINNET', ['USDT', 'PUSDT_ON_LIBRE_MAINNET']],
+    ['PUSDT_ON_ALGORAND_MAINNET', ['USDT', 'PUSDT_ON_LIBRE_MAINNET', 'PUSDT_ON_TELOS_MAINNET']],
     ['UOS', ['PUOS_ON_EOS_MAINNET', 'PUOS_ON_ULTRA_MAINNET']],
   ])('Should determine valid destination assets for %s', (id, expectedIds) => {
     const from = getAssetById(id)
