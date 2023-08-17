@@ -10,7 +10,7 @@ const settings = {
     github: 'https://github.com/pnetwork-association/ptokens-dapp/',
   },
   api: {
-    bpm: 'https://pnetwork.watch:8082/sync-status?apikey=a1d87144c4d60917b880d9fed94d480829d0893a',
+    bpm: 'https://internal.pnetwork.watch:8082/sync-status?apikey=a1d87144c4d60917b880d9fed94d480829d0893a',
   },
   supportedBlockchains: [
     {
