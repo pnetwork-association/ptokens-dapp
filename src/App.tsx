@@ -1,13 +1,14 @@
-import React from 'react';
 import { HashRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
-import Swap from './components/views/Swap'
-import Risks from './components/views/Risks'
-import Header from './components/organisms/Header'
 
-const App: React.FC = () => {
+import './App.css'
+import Navbar from './components/organisms/Navbar'
+import Risks from './components/views/Risks'
+import Swap from './components/views/Swap'
+
+const App = (): JSX.Element => {
   return (
     <Router>
-      <Header />
+      {<Navbar />}
       <Routes>
         <Route path="/swap" element={<Swap />} />
         <Route path="/risks" element={<Risks />} />
