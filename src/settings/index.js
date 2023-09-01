@@ -38,8 +38,8 @@ const settings = {
       symbol: 'LIBRE',
     },
     {
-      name: 'xDai',
-      symbol: 'XDAI',
+      name: 'Gnosis Chain',
+      symbol: 'GNOSIS',
     },
     {
       name: 'Ultra',
@@ -102,10 +102,10 @@ const settings = {
         chainId: 56,
         label: 'BSC',
       },
-      xdai: {
-        endpoint: 'https://rpc.xdaichain.com/',
+      gnosis: {
+        endpoint: 'https://rpc.gnosischain.com',
         chainId: 100,
-        label: 'xDAI',
+        label: 'Gnosis',
       },
       polygon: {
         endpoint: 'https://polygon-rpc.com/',
@@ -164,7 +164,7 @@ const settings = {
       libre: 'https://lb.libre.org/v2/explore/',
       ltc: 'https://live.blockcypher.com/ltc/',
       bsc: 'https://bscscan.com/',
-      xdai: 'https://gnosisscan.io/',
+      gnosis: 'https://gnosisscan.io/',
       polygon: 'https://polygonscan.com/',
       doge: 'https://dogechain.info/',
       rvn: 'https://ravencoin.network/',

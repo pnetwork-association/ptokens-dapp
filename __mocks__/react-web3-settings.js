@@ -4,7 +4,7 @@ export const getWeb3Settings = () => ({
   telos: 'https://telos.eosphere.io',
   libre: 'https://libre-node-2.ptokens.io:8889',
   bsc: 'https://bsc-dataseed1.binance.org/',
-  xdai: 'https://rpc.xdaichain.com/',
+  gnosis: 'https://rpc.gnosischain.com',
   polygon: 'https://polygon-rpc.com/',
   ultra: 'https://corsproxy.ptokens.io/v1/?apiurl=http://ultra-mainnet-1.ptokens.io:8888',
   arbitrum: 'https://arb1.arbitrum.io/rpc',

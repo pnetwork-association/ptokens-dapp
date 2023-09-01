@@ -7,7 +7,7 @@ const estimations = {
   telos: 4,
   libre: 4,
   bsc: 5,
-  xdai: 5,
+  gnosis: 5,
   polygon: 5,
   ltc: 10,
   doge: 5,

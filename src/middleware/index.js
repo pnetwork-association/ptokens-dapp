@@ -6,8 +6,8 @@ import {
   WALLET_EOS_CONNECTED,
   WALLET_BSC_CONNECTED,
   WALLET_BSC_ACCOUNT_CHANGED,
-  WALLET_XDAI_ACCOUNT_CHANGED,
-  WALLET_XDAI_CONNECTED,
+  WALLET_GNOSIS_ACCOUNT_CHANGED,
+  WALLET_GNOSIS_CONNECTED,
   WALLET_POLYGON_ACCOUNT_CHANGED,
   WALLET_POLYGON_CONNECTED,
   WALLET_TELOS_CONNECTED,
@@ -22,13 +22,13 @@ import {
   WALLET_FTM_CONNECTED,
   WALLET_FTM_ACCOUNT_CHANGED,
 } from '../constants'
-import { loadBalances } from '../store/swap/swap.actions'
+import settings from '../settings'
 import * as migrationActions from '../store/migration/migration.actions'
-import { loadOldPntBalance } from '../store/swap-old-pnt/swap-old-pnt.actions'
 import { loadNftsData } from '../store/nfts/nfts.actions'
 import { setLoading } from '../store/pages/pages.actions'
 import { getIsLoading } from '../store/pages/pages.selectors'
-import settings from '../settings'
+import { loadBalances } from '../store/swap/swap.actions'
+import { loadOldPntBalance } from '../store/swap-old-pnt/swap-old-pnt.actions'
 
 let countNftsLoading = 0
 const middleware = ({ dispatch }) => {
@@ -49,8 +49,8 @@ const middleware = ({ dispatch }) => {
         dispatch(loadOldPntBalance(payload.account))
       }
 
-      if (type === WALLET_XDAI_CONNECTED || type === WALLET_XDAI_ACCOUNT_CHANGED) {
-        dispatch(loadBalances(payload.account, 'XDAI'))
+      if (type === WALLET_GNOSIS_CONNECTED || type === WALLET_GNOSIS_ACCOUNT_CHANGED) {
+        dispatch(loadBalances(payload.account, 'GNOSIS'))
       }
 
       if (type === WALLET_POLYGON_CONNECTED || type === WALLET_POLYGON_ACCOUNT_CHANGED) {

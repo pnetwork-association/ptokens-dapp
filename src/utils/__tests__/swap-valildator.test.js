@@ -26,7 +26,7 @@ describe('isValidSwap', () => {
         'PBTC_ON_LIBRE_MAINNET',
         'PBTC_ON_POLYGON_MAINNET',
         'PBTC_ON_TELOS_MAINNET',
-        'PBTC_ON_XDAI_MAINNET',
+        'PBTC_ON_GNOSIS_MAINNET',
         'PBTC_ON_EOS_MAINNET',
         'PBTC_ON_TELOS_MAINNET',
       ],

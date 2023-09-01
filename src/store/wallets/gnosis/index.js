@@ -1,17 +1,18 @@
+import WalletLink from 'walletlink'
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
-import WalletLink from 'walletlink'
-import { WALLET_XDAI_CONNECTED, WALLET_XDAI_ACCOUNT_CHANGED, WALLET_XDAI_DISCONNECTED } from '../../../constants'
-import { changeNetwork, setupNetwork } from '../../../utils/wallet'
+
+import { WALLET_GNOSIS_CONNECTED, WALLET_GNOSIS_ACCOUNT_CHANGED, WALLET_GNOSIS_DISCONNECTED } from '../../../constants'
 import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
+import { changeNetwork, setupNetwork } from '../../../utils/wallet'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
 import { createWalletConnect2 } from '../wallets.utils'
 
 let web3Modal
 
-const connectWithXdaiWallet = async (_dispatch) => {
+const connectWithGnosisWallet = async (_dispatch) => {
   try {
     if (document.getElementById('WEB3_CONNECT_MODAL_ID')) {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
@@ -20,13 +21,13 @@ const connectWithXdaiWallet = async (_dispatch) => {
     web3Modal = new Web3Modal({
       theme: getWeb3ModalTheme(getTheme()),
       providerOptions: {
-        'custom-walletconnectv2': createWalletConnect2(settings.rpc.mainnet.xdai.chainId),
+        'custom-walletconnectv2': createWalletConnect2(settings.rpc.mainnet.gnosis.chainId),
         walletlink: {
           package: WalletLink,
           options: {
             appName: settings.dappName,
-            rpc: settings.rpc.mainnet.xdai.endpoint,
-            chainId: settings.rpc.mainnet.xdai.chainId,
+            rpc: settings.rpc.mainnet.gnosis.endpoint,
+            chainId: settings.rpc.mainnet.gnosis.chainId,
             darkMode: getTheme() === 'dark',
           },
         },
@@ -40,7 +41,7 @@ const connectWithXdaiWallet = async (_dispatch) => {
 
     provider.on('accountsChanged', (_accounts) => {
       _dispatch({
-        type: WALLET_XDAI_ACCOUNT_CHANGED,
+        type: WALLET_GNOSIS_ACCOUNT_CHANGED,
         payload: {
           account: _accounts[0],
         },
@@ -51,14 +52,14 @@ const connectWithXdaiWallet = async (_dispatch) => {
   }
 }
 
-const disconnectFromXdaiWallet = async (_dispatch) => {
-  const provider = getWalletProviderByBlockchain('XDAI')
+const disconnectFromGnosisWallet = async (_dispatch) => {
+  const provider = getWalletProviderByBlockchain('GNOSIS')
   if (provider.close) {
     await provider.close()
   }
   await web3Modal.clearCachedProvider()
   _dispatch({
-    type: WALLET_XDAI_DISCONNECTED,
+    type: WALLET_GNOSIS_DISCONNECTED,
   })
 }
 
@@ -67,42 +68,42 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
     const { accounts, chainId } = _provider
     const account = accounts ? accounts[0] : await _getAccount(_provider)
 
-    if (Number(chainId) !== settings.rpc.mainnet.xdai.chainId && _provider.isMetaMask) {
+    if (Number(chainId) !== settings.rpc.mainnet.gnosis.chainId && _provider.isMetaMask) {
       try {
         await changeNetwork({
           provider: _provider,
-          chainId: settings.rpc.mainnet.xdai.chainId,
+          chainId: settings.rpc.mainnet.gnosis.chainId,
         })
       } catch (err) {
         if (err.code === 4902) {
           await setupNetwork({
             provider: _provider,
-            chainId: settings.rpc.mainnet.xdai.chainId,
-            chainName: 'XDAI',
+            chainId: settings.rpc.mainnet.gnosis.chainId,
+            chainName: 'Gnosis Chain',
             nativeCurrency: {
-              name: 'MATIC',
-              symbol: 'matic',
+              name: 'xDAI',
+              symbol: 'xDAI',
               decimals: 18,
             },
-            nodes: [settings.rpc.mainnet.xdai.endpoint],
-            blockExplorerUrls: [settings.explorers.mainnet.xdai],
+            nodes: [settings.rpc.mainnet.gnosis.endpoint],
+            blockExplorerUrls: [settings.explorers.mainnet.gnosis],
           })
         }
       }
 
       _dispatch({
-        type: WALLET_XDAI_CONNECTED,
+        type: WALLET_GNOSIS_CONNECTED,
         payload: {
           provider: _provider,
           account,
           network: 'mainnet',
-          chainId: settings.rpc.mainnet.xdai.chainId,
+          chainId: settings.rpc.mainnet.gnosis.chainId,
         },
       })
       return
-    } else if (Number(chainId) === settings.rpc.mainnet.xdai.chainId) {
+    } else if (Number(chainId) === settings.rpc.mainnet.gnosis.chainId) {
       _dispatch({
-        type: WALLET_XDAI_CONNECTED,
+        type: WALLET_GNOSIS_CONNECTED,
         payload: {
           provider: _provider,
           account,
@@ -122,8 +123,8 @@ const _getAccount = async (_provider) => {
     const accounts = await web3.eth.getAccounts()
     return accounts[0]
   } catch (_err) {
-    console.error(`Error during getting xDai account ${_err.message}`)
+    console.error(`Error during getting Gnosis account ${_err.message}`)
   }
 }
 
-export { connectWithXdaiWallet, disconnectFromXdaiWallet }
+export { connectWithGnosisWallet, disconnectFromGnosisWallet }

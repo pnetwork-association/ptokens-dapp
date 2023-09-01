@@ -1,8 +1,8 @@
-import Web3 from 'web3'
-import { JsonRpc } from 'eosjs'
-import fetch from 'cross-fetch'
 import { Algodv2 } from 'algosdk'
+import fetch from 'cross-fetch'
+import { JsonRpc } from 'eosjs'
 import { getWeb3Settings } from 'react-web3-settings'
+import Web3 from 'web3'
 
 import settings from '../settings'
 
@@ -19,8 +19,8 @@ const getReadOnlyProviderByBlockchain = (_blockchain) => {
   if (_blockchain === 'POLYGON') {
     return new Web3.providers.HttpProvider(configs.polygon)
   }
-  if (_blockchain === 'XDAI') {
-    return new Web3.providers.HttpProvider(configs.xdai)
+  if (_blockchain === 'GNOSIS') {
+    return new Web3.providers.HttpProvider(configs.gnosis)
   }
   if (_blockchain === 'EOS') {
     return new JsonRpc(configs.eos, { fetch })

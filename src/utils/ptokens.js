@@ -11,7 +11,7 @@ import { PNETWORK_NODE_V3 } from '../constants/index'
 import { getReadOnlyProviderByBlockchain } from './read-only-providers'
 
 const utxoBlockchains = ['btc', 'ltc']
-const evmBlockchains = ['eth', 'bsc', 'ftm', 'polygon', 'luxochain', 'arbitrum', 'xdai']
+const evmBlockchains = ['eth', 'bsc', 'ftm', 'polygon', 'luxochain', 'arbitrum', 'gnosis']
 const eosioBlockchains = ['telos', 'eos', 'libre', 'ultra']
 const algorandBlockchains = ['algorand']
 

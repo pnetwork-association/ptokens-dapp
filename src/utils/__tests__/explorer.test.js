@@ -1,10 +1,11 @@
 import { test, describe, expect } from 'vitest'
+
 import { getCorrespondingTxExplorerLinkByBlockchain, getCorrespondingTokenExplorerLinkByBlockchain } from '../explorer'
 
 describe('getCorrespondingTxExplorerLinkByBlockchain', () => {
   test.each([
     ['ETH', 'https://etherscan.io/tx/txhash'],
-    ['XDAI', 'https://gnosisscan.io/tx/txhash'],
+    ['GNOSIS', 'https://gnosisscan.io/tx/txhash'],
     ['POLYGON', 'https://polygonscan.com/tx/txhash'],
     ['BSC', 'https://bscscan.com/tx/txhash'],
     ['EOS', 'https://bloks.io/tx/txhash'],
@@ -31,7 +32,7 @@ describe('getCorrespondingTxExplorerLinkByBlockchain', () => {
 describe('getCorrespondingTokenExplorerLinkByBlockchain', () => {
   test.each([
     ['ETH', 'https://etherscan.io/token/tokenaddress'],
-    ['XDAI', 'https://gnosisscan.io/token/tokenaddress'],
+    ['GNOSIS', 'https://gnosisscan.io/token/tokenaddress'],
     ['POLYGON', 'https://polygonscan.com/address/tokenaddress'],
     ['BSC', 'https://bscscan.com/token/tokenaddress'],
     ['EOS', 'https://bloks.io/account/tokenaddress'],
