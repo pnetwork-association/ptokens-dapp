@@ -43,7 +43,7 @@ const ChainsDropdown = ({selectedAsset, selectedChain, setSelectedChain}: Chains
                 handleClick()
               }}
           >
-            <img src={`/svg/${chain.image}`} className='w-5 mr-1' />
+            <img src={`/svg/${chain.image}`} className='h-5 mr-1' />
             {Blockchain[chain.blockchain]}
           </button>
           ))}

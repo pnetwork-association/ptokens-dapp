@@ -1,4 +1,4 @@
-import { FaChevronDown } from "react-icons/fa"
+import { RiArrowDownSLine } from "react-icons/ri"
 import AssetsModal from "./AssetsModal"
 import { useEffect, useState } from "react"
 import swapAssets, { Asset } from "../../constants/swap-assets"
@@ -40,7 +40,7 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain}: Swa
           >
             <img src={`/svg/${selectedAsset.image}`} className="w-11" />
             Usdc
-            <FaChevronDown size={10} color="gray"/>
+            <RiArrowDownSLine size={20} color="gray"/>
           </button>
           <input type="number" placeholder="0" className="input text-right text-4xl w-full focus:outline-none mb-1 grow mr-0" />
         </div>
