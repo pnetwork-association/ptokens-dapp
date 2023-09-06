@@ -6,7 +6,7 @@ const isValidAccountByBlockchain = (_account, _blockchain) => {
   switch (_blockchain) {
     case 'ETH':
       return validators.isValidAddressByChainId(stringUtils.addHexPrefix(_account), ChainId.EthereumMainnet)
-    case 'XDAI':
+    case 'GNOSIS':
       return validators.isValidAddressByChainId(stringUtils.addHexPrefix(_account), ChainId.XdaiMainnet)
     case 'POLYGON':
       return validators.isValidAddressByChainId(stringUtils.addHexPrefix(_account), ChainId.PolygonMainnet)

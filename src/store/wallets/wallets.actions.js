@@ -1,17 +1,18 @@
+import { sendEvent } from '../../ga4'
+
+import { connectWithAlgorandWallet, disconnectFromAlgorandWallet } from './algorand'
 import { connectWithArbitrumWallet, disconnectFromArbitrumWallet } from './arbitrum'
+import { connectWithBscWallet, disconnectFromBscWallet } from './bsc'
 import { connectWithEosWallet, disconnectFromEosWallet } from './eos'
 import { connectWithEthWallet, disconnectFromEthWallet } from './eth'
-import { connectWithBscWallet, disconnectFromBscWallet } from './bsc'
-import { connectWithPolygonWallet, disconnectFromPolygonWallet } from './polygon'
-import { connectWithXdaiWallet, disconnectFromXdaiWallet } from './xdai'
-import { connectWithTelosWallet, disconnectFromTelosWallet } from './telos'
-import { connectWithLibreWallet, disconnectFromLibreWallet } from './libre'
-import { connectWithUltraWallet, disconnectFromUltraWallet } from './ultra'
-import { connectWithLuxochainWallet, disconnectFromLuxochainWallet } from './luxochain'
-import { connectWithAlgorandWallet, disconnectFromAlgorandWallet } from './algorand'
 import { connectWithFtmWallet, disconnectFromFtmWallet } from './ftm'
+import { connectWithGnosisWallet, disconnectFromGnosisWallet } from './gnosis'
+import { connectWithLibreWallet, disconnectFromLibreWallet } from './libre'
+import { connectWithLuxochainWallet, disconnectFromLuxochainWallet } from './luxochain'
 import { connectWithOreWallet, disconnectFromOreWallet } from './ore'
-import { sendEvent } from '../../ga4'
+import { connectWithPolygonWallet, disconnectFromPolygonWallet } from './polygon'
+import { connectWithTelosWallet, disconnectFromTelosWallet } from './telos'
+import { connectWithUltraWallet, disconnectFromUltraWallet } from './ultra'
 
 const connectWithWallet = (_blockchain) => {
   return async (_dispatch) => {
@@ -40,8 +41,8 @@ const connectWithWallet = (_blockchain) => {
         connectWithPolygonWallet(_dispatch)
         break
       }
-      case 'XDAI': {
-        connectWithXdaiWallet(_dispatch)
+      case 'GNOSIS': {
+        connectWithGnosisWallet(_dispatch)
         break
       }
       case 'ULTRA': {
@@ -102,8 +103,8 @@ const disconnectFromWallet = (_blockchain) => {
         disconnectFromPolygonWallet(_dispatch)
         break
       }
-      case 'XDAI': {
-        disconnectFromXdaiWallet(_dispatch)
+      case 'GNOSIS': {
+        disconnectFromGnosisWallet(_dispatch)
         break
       }
       case 'ULTRA': {

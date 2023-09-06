@@ -9,15 +9,15 @@ import {
   WALLET_BSC_ACCOUNT_CHANGED,
   WALLET_POLYGON_CONNECTED,
   WALLET_POLYGON_ACCOUNT_CHANGED,
-  WALLET_XDAI_ACCOUNT_CHANGED,
-  WALLET_XDAI_CONNECTED,
+  WALLET_GNOSIS_ACCOUNT_CHANGED,
+  WALLET_GNOSIS_CONNECTED,
   WALLET_TELOS_CONNECTED,
   WALLET_LIBRE_CONNECTED,
   WALLET_ULTRA_CONNECTED,
   WALLET_ETH_DISCONNECTED,
   WALLET_BSC_DISCONNECTED,
   WALLET_POLYGON_DISCONNECTED,
-  WALLET_XDAI_DISCONNECTED,
+  WALLET_GNOSIS_DISCONNECTED,
   WALLET_EOS_DISCONNECTED,
   WALLET_ULTRA_DISCONNECTED,
   WALLET_TELOS_DISCONNECTED,
@@ -77,7 +77,7 @@ const initialState = {
     chainId: null,
     network: null,
   },
-  xdai: {
+  gnosis: {
     provider: null,
     account: null,
     chainId: null,
@@ -167,10 +167,10 @@ const walletsReducer = (_state = initialState, _action) => {
       },
     })
   }
-  if (_action.type === WALLET_XDAI_CONNECTED) {
+  if (_action.type === WALLET_GNOSIS_CONNECTED) {
     const { provider, account, network, chainId } = _action.payload
     return Object.assign({}, _state, {
-      xdai: {
+      gnosis: {
         provider,
         account,
         network,
@@ -178,11 +178,11 @@ const walletsReducer = (_state = initialState, _action) => {
       },
     })
   }
-  if (_action.type === WALLET_XDAI_ACCOUNT_CHANGED) {
+  if (_action.type === WALLET_GNOSIS_ACCOUNT_CHANGED) {
     const { account } = _action.payload
     return Object.assign({}, _state, {
-      xdai: {
-        ..._state.xdai,
+      gnosis: {
+        ..._state.gnosis,
         account,
       },
     })
@@ -278,9 +278,9 @@ const walletsReducer = (_state = initialState, _action) => {
       },
     })
   }
-  if (_action.type === WALLET_XDAI_DISCONNECTED) {
+  if (_action.type === WALLET_GNOSIS_DISCONNECTED) {
     return Object.assign({}, _state, {
-      xdai: {
+      gnosis: {
         provider: null,
         account: null,
         network: null,

@@ -1,9 +1,10 @@
 import { sprintf } from 'sprintf-js'
+
 import settings from '../settings'
 
 const transactionBaseLink = {
   ETH: `${settings.explorers.mainnet.eth}tx/%s`,
-  XDAI: `${settings.explorers.mainnet.xdai}tx/%s`,
+  GNOSIS: `${settings.explorers.mainnet.gnosis}tx/%s`,
   POLYGON: `${settings.explorers.mainnet.polygon}tx/%s`,
   BSC: `${settings.explorers.mainnet.bsc}tx/%s`,
   EOS: `${settings.explorers.mainnet.eos}tx/%s`,
@@ -24,7 +25,7 @@ const transactionBaseLink = {
 
 const tokenBaseLink = {
   ETH: `${settings.explorers.mainnet.eth}token/%s`,
-  XDAI: `${settings.explorers.mainnet.xdai}token/%s`,
+  GNOSIS: `${settings.explorers.mainnet.gnosis}token/%s`,
   POLYGON: `${settings.explorers.mainnet.polygon}address/%s`,
   BSC: `${settings.explorers.mainnet.bsc}token/%s`,
   EOS: `${settings.explorers.mainnet.eos}account/%s`,

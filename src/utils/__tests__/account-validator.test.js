@@ -1,6 +1,7 @@
-import { test, describe, expect, vi } from 'vitest'
-import { isValidAccountByBlockchain } from '../account-validator'
 import { validators } from 'ptokens-helpers'
+import { test, describe, expect, vi } from 'vitest'
+
+import { isValidAccountByBlockchain } from '../account-validator'
 
 describe('isValidAccountByBlockchain', () => {
   beforeAll(() => {
@@ -21,7 +22,7 @@ describe('isValidAccountByBlockchain', () => {
     account        | blockchain     | expectedChainId | expectedAccount
     ${`account`}   | ${'ETH'}       | ${'0x005fe7f9'} | ${'0xaccount'}
     ${`0xaccount`} | ${'ETH'}       | ${'0x005fe7f9'} | ${'0xaccount'}
-    ${`account`}   | ${'XDAI'}      | ${'0x00f1918e'} | ${'0xaccount'}
+    ${`account`}   | ${'GNOSIS'}    | ${'0x00f1918e'} | ${'0xaccount'}
     ${`account`}   | ${'POLYGON'}   | ${'0x0075dd4c'} | ${'0xaccount'}
     ${`account`}   | ${'BSC'}       | ${'0x00e4b170'} | ${'0xaccount'}
     ${`account`}   | ${'ARBITRUM'}  | ${'0x00ce98c4'} | ${'0xaccount'}
