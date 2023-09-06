@@ -37,7 +37,7 @@ const InfoCard = ({asset, title, className = ''}: InfoCardProps): JSX.Element =>
         </div>
         <div className="flex items-center ml-4">
           <div className='bold mr-2 w-16 text-gray-500'>ADDRESS:</div>
-          <div className='ml-2'>{getPrettierAddress('willbeaddr')}</div>
+          <div className='ml-2'>{getPrettierAddress('willbeaddr', 4)}</div>
         </div>
       </div>
     </div>

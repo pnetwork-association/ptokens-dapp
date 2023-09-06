@@ -1,6 +1,8 @@
 import { RiArrowDownSLine } from "react-icons/ri"
-import AssetsModal from "./AssetsModal"
 import { useEffect, useState } from "react"
+import { useBalance, useAccount } from 'wagmi'
+
+import AssetsModal from "./AssetsModal"
 import swapAssets, { Asset } from "../../constants/swap-assets"
 import ChainsDropdown from "./ChainsDropdown"
 import swapChains, { Chain } from "../../constants/swap-chains"
@@ -15,6 +17,15 @@ type SwapLineProps = {
 
 const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain}: SwapLineProps): JSX.Element => {
   const [assetModalOpen, setAssetModalOpen] = useState(false)
+  const { address, isConnecting, isDisconnected } = useAccount()
+  const { data, isError, isLoading } = useBalance({
+    address: address,
+  })
+  const [amount, setAmount] = useState(0)
+
+  const handleChange = (event: any) => {
+    setAmount(event.target.value)
+  };
 
   useEffect(() => {
     setChain(swapChains.find((chain: Chain) => chain.blockchain === selectedAsset.blockchain) as Chain)
@@ -39,16 +50,27 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain}: Swa
             onClick={() => setAssetModalOpen(true)}
           >
             <img src={`/svg/${selectedAsset.image}`} className="w-11" />
-            Usdc
+            {selectedAsset.symbol}
             <RiArrowDownSLine size={20} color="gray"/>
           </button>
-          <input type="number" placeholder="0" className="input text-right text-4xl w-full focus:outline-none mb-1 grow mr-0" />
+          <input type="number" placeholder="0" className="input text-right text-4xl w-full focus:outline-none mb-1 grow mr-0" value={amount} onChange={handleChange}/>
         </div>
         <div className="flex justify-between items-center w-full ml-3">
-          Balance: 0
+          {isLoading || isError ? (
+            <>
+              <div>
+                Balance: 
+              </div>
+              <span className="loading loading-ring loading-md"></span>
+            </>
+          ) : (
+            <div>
+             Balance: {data ? data.formatted : 0}
+            </div>
+          )}
         </div>
         <div className="w-full px-2">
-          <input type="range" min={0} max="100" className="range range-xs" defaultValue="20" />
+          <input type="range" min={0} max="100" className="range range-xs" defaultValue="0" value={data?.formatted} />
         </div>
       </div>
       <AssetsModal setAsset={setAsset} open={assetModalOpen} isOpen={setAssetModalOpen} />

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Blockchain } from "ptokens-constants"
 import { RiSettings4Line, RiArrowUpDownLine, RiInformationLine } from "react-icons/ri"
+import { useSelector } from "react-redux"
 
 import SwapLine from "../organisms/SwapLine"
 import swapAssets, { Asset, NativeAsset, HostAsset, IS_NATIVE, IS_PTOKEN } from "../../constants/swap-assets"
@@ -17,6 +18,17 @@ const Swap = (): JSX.Element => {
   const [originChain, setOriginChain] = useState<Chain>(swapChains.find((chain: Chain) => chain.blockchain == Blockchain.Gnosis) as Chain)
   const [destChain, setDestChain] = useState<Chain>(swapChains.find((chain: Chain) => chain.blockchain == Blockchain.Arbitrum) as Chain)
   const [showInfo, setShowInfo] = useState(false)
+
+  const switchAssets = () => {
+    const originAssetT = originAsset
+    const originChainT = originChain
+    setOriginAsset(destAsset)
+    setOriginChain(destChain)
+    setDestAsset(originAssetT)
+    setDestChain(originChainT) 
+  }
+
+  const swapButtonDisplay = useSelector((state: any) => state.swap.swapButton.text)
 
   const mainClassName = cn({
     "flex justify-center items-start mt-5 duration-700": true,
@@ -52,12 +64,14 @@ const Swap = (): JSX.Element => {
           </div>
           <SwapLine title='Origin' selectedAsset={originAsset} setAsset={setOriginAsset} selectedChain={originChain} setChain={setOriginChain} />
           <div className="divider px-7">
-            <div className="btn btn-sm btn-ghost p-0 hover:rotate-180 transition-transform duration-200">
-              <RiArrowUpDownLine size={25} />
+            <div className="btn btn-sm btn-ghost p-0 hover:rotate-180 transition-transform duration-200" onClick={() => switchAssets()}>
+              <RiArrowUpDownLine size={25}/>
             </div>
           </div>
           <SwapLine title='Destination' selectedAsset={destAsset} setAsset={setDestAsset} selectedChain={destChain} setChain={setDestChain}/>
-          <button className="btn btn-lg w-11/12 m-4 bg-sky-900 border-sky-900 hover:bg-sky-800 hover:border-sky-800 hover:scale-[101%]">SWAP</button>
+          <button className="btn btn-lg w-11/12 m-4 bg-sky-900 border-sky-900 hover:bg-sky-800 hover:border-sky-800 hover:scale-[101%]">
+            {swapButtonDisplay}
+          </button>
         </div>
         <div className="flex flex-col justify-start items-center bg-gray-800 rounded-md mt-4">
           <div>Fees</div>

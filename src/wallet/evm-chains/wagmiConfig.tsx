@@ -2,7 +2,6 @@ import { configureChains, createConfig } from 'wagmi'
 import { arbitrum, bsc, gnosis, mainnet } from '@wagmi/core/chains'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
-import { InjectedConnector } from 'wagmi/connectors/injected'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 
@@ -46,13 +45,6 @@ const wagmiConfig = createConfig({
       chains,
       options: {
         projectId: '86b104208dd39901af8efecd767e8f6a',
-      },
-    }),
-    new InjectedConnector({
-      chains,
-      options: {
-        name: 'Injected',
-        shimDisconnect: true,
       },
     }),
   ],
