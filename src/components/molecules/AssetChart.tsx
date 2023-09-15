@@ -1,13 +1,13 @@
 import Chart from 'react-apexcharts'
-import swapAssets, { Asset, HostAsset, IS_NATIVE, NativeAsset } from '../../constants/swap-assets'
+import swapAssets, { Asset, HostAsset, NativeAsset, isNative } from '../../constants/swap-assets'
 import { SetStateAction, useEffect, useState } from 'react'
 import axios, { AxiosError } from 'axios'
 
 const getNativeAsset = (asset: Asset) => {
-  if (IS_NATIVE in asset && (asset as NativeAsset).isNative)
+  if (isNative(asset))
     return asset as NativeAsset
   else
-    return swapAssets.find((currAsset: Asset) => IS_NATIVE in currAsset ? (currAsset as NativeAsset).isNative && currAsset.symbol === (asset as HostAsset).nativeSymbol : false) as NativeAsset
+    return Object.values(swapAssets).find((currAsset: Asset) => currAsset.id === (asset as HostAsset).underlyingAsset) as NativeAsset
 }
 
 interface AssetChartProps  {

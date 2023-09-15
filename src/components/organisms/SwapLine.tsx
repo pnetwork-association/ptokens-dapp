@@ -28,11 +28,11 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain}: Swa
   };
 
   useEffect(() => {
-    setChain(swapChains.find((chain: Chain) => chain.blockchain === selectedAsset.blockchain) as Chain)
+    setChain(Object.values(swapChains).find((chain: Chain) => chain.blockchain === selectedAsset.blockchain) as Chain)
   }, [selectedAsset])
 
   useEffect(() => {
-    setAsset(swapAssets.find((asset: Asset) => asset.symbol === selectedAsset.symbol && asset.blockchain === selectedChain.blockchain) as Asset)
+    setAsset(Object.values(swapAssets).find((asset: Asset) => asset.symbol === selectedAsset.symbol && asset.blockchain === selectedChain.blockchain) as Asset)
   }, [selectedChain])
 
   return(

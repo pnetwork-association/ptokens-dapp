@@ -1,23 +1,37 @@
-import { useState } from "react"
-import { Blockchain } from "ptokens-constants"
+import { useEffect, useState } from "react"
 import { RiSettings4Line, RiArrowUpDownLine, RiInformationLine } from "react-icons/ri"
-import { useSelector } from "react-redux"
 
 import SwapLine from "../organisms/SwapLine"
-import swapAssets, { Asset, NativeAsset, HostAsset, IS_NATIVE, IS_PTOKEN } from "../../constants/swap-assets"
+import { Asset } from "../../constants/swap-assets"
 import swapChains, { Chain } from "../../constants/swap-chains"
 import { FaChevronRight } from "react-icons/fa"
 import AssetChart from "../organisms/AssetsInfo"
 import cn from "classnames"
+import { setGlobalOriginAsset, setGlobalDestAsset } from "../../app/features/swap/swapSlice"
+import { useAppDispatch } from "../../app/hook"
+import SwapButtonControl from "../../app/features/swap/SwapButtonControl"
+import { defaultAssets } from "../../constants/defaults"
+import { loadAssetsData } from "../../app/features/globals/globalSlice"
 
 const Swap = (): JSX.Element => {
-  const [originAsset, setOriginAsset] = useState<Asset>(swapAssets.find(
-    (asset: Asset) => IS_NATIVE in asset ? (asset as NativeAsset).isNative && asset.symbol === 'USDC' : false) as Asset)
-  const [destAsset, setDestAsset] = useState(swapAssets.find(
-    (asset: Asset) => IS_PTOKEN in asset ? (asset as HostAsset).isPtoken && asset.blockchain === Blockchain.Arbitrum: false) as Asset)
-  const [originChain, setOriginChain] = useState<Chain>(swapChains.find((chain: Chain) => chain.blockchain == Blockchain.Gnosis) as Chain)
-  const [destChain, setDestChain] = useState<Chain>(swapChains.find((chain: Chain) => chain.blockchain == Blockchain.Arbitrum) as Chain)
+  const dispatch = useAppDispatch()
+  const [originAsset, setOriginAsset] = useState<Asset>(defaultAssets.origin)
+  const [destAsset, setDestAsset] = useState(defaultAssets.destination)
+  const [originChain, setOriginChain] = useState<Chain>(swapChains.find((chain: Chain) => chain.blockchain == defaultAssets.origin.blockchain) as Chain)
+  const [destChain, setDestChain] = useState<Chain>(swapChains.find((chain: Chain) => chain.blockchain == defaultAssets.destination.blockchain) as Chain)
   const [showInfo, setShowInfo] = useState(false)
+
+  useEffect(() => {
+    dispatch(loadAssetsData())
+  }, [])
+
+  useEffect(() => {
+    dispatch(setGlobalOriginAsset(originAsset))
+  }, [originAsset])
+
+  useEffect(() => {
+    dispatch(setGlobalDestAsset(destAsset))
+  }, [destAsset])
 
   const switchAssets = () => {
     const originAssetT = originAsset
@@ -27,8 +41,6 @@ const Swap = (): JSX.Element => {
     setDestAsset(originAssetT)
     setDestChain(originChainT) 
   }
-
-  const swapButtonDisplay = useSelector((state: any) => state.swap.swapButton.text)
 
   const mainClassName = cn({
     "flex justify-center items-start mt-5 duration-700": true,
@@ -69,9 +81,7 @@ const Swap = (): JSX.Element => {
             </div>
           </div>
           <SwapLine title='Destination' selectedAsset={destAsset} setAsset={setDestAsset} selectedChain={destChain} setChain={setDestChain}/>
-          <button className="btn btn-lg w-11/12 m-4 bg-sky-900 border-sky-900 hover:bg-sky-800 hover:border-sky-800 hover:scale-[101%]">
-            {swapButtonDisplay}
-          </button>
+          <SwapButtonControl />
         </div>
         <div className="flex flex-col justify-start items-center bg-gray-800 rounded-md mt-4">
           <div>Fees</div>
@@ -79,6 +89,7 @@ const Swap = (): JSX.Element => {
         </div>
       </div>
       <AssetChart originAsset={originAsset} destAsset={destAsset} show={showInfo}/>
+      
     </div>
   )
 }

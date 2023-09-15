@@ -6,12 +6,15 @@ import { WagmiConfig } from 'wagmi'
 import App from './App.tsx'
 import wagmiConfig from './wallet/evm-chains/wagmiConfig.tsx'
 import { store } from './app/store.ts'
+import SettingsDrawer from './components/organisms/SettingsDrawer.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
       <WagmiConfig config={wagmiConfig}>
-        <App />
+        <SettingsDrawer>
+          <App />
+        </SettingsDrawer>
       </WagmiConfig>
     </Provider>
   </React.StrictMode>,

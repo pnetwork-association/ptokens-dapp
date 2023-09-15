@@ -1,34 +1,30 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { Asset } from "../../../constants/swap-assets"
+import { defaultAssets } from "../../../constants/defaults"
 
 type assetPayloadType = {
-  origin: Asset | null
-  destination: Asset | null
+  origin: Asset
+  destination: Asset
+}
+
+type swapButtonControlType = {
+  disabled: boolean
+  text: string
 }
 
 type stateType = {
   selectedAsset: assetPayloadType
-  defaultSelection: assetPayloadType
-  swapButton: {
-    disabled: boolean;
-    text: string;
-    action: (() => void) | null
-  }
+  swapButton: swapButtonControlType
 }
 
 const initialState: stateType = {
   selectedAsset: {
-    origin: null,
-    destination: null,
-  },
-  defaultSelection: {
-    origin: null,
-    destination: null,
+    origin: defaultAssets.origin,
+    destination: defaultAssets.destination,
   },
   swapButton: {
     disabled: false,
     text: 'SWAP',
-    action: null,
   },
 }
 
@@ -36,22 +32,19 @@ export const swapSlice = createSlice({
   name: 'swap',
   initialState,
   reducers: {
-    setAssets: (state: stateType, payload: any) => {
-      state.selectedAsset.origin = payload.origin
-      state.selectedAsset.destination = payload.destination
+    setGlobalOriginAsset: (state: stateType, action: PayloadAction<Asset>) => {
+      state.selectedAsset.origin = action.payload
     },
-    setDefaultSelection: (state: stateType, payload: any) => {
-      state.defaultSelection.origin = payload.origin
-      state.defaultSelection.destination = payload.destination
+    setGlobalDestAsset: (state: stateType, action: PayloadAction<Asset>) => {
+      state.selectedAsset.destination = action.payload
     },
-    setSwapButton: (state: stateType, payload: any) => {
-      state.swapButton.disabled = payload.disabled
-      state.swapButton.text = payload.text
-      state.swapButton.action = payload.action
+    updateSwapButton: (state: stateType, action:PayloadAction<swapButtonControlType>) => {
+      state.swapButton.disabled = action.payload.disabled
+      state.swapButton.text = action.payload.text
     },
   }
 })
 
-export const { setAssets, setDefaultSelection, setSwapButton} = swapSlice.actions
+export const { setGlobalOriginAsset, setGlobalDestAsset, updateSwapButton} = swapSlice.actions
 
 export default swapSlice.reducer

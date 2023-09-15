@@ -1,6 +1,6 @@
 import { Blockchain } from 'ptokens-constants'
-import swapAssets from '../../constants/swap-assets'
-import { Asset, NativeAsset, HostAsset, IS_NATIVE, IS_PTOKEN } from '../../constants/swap-assets'
+import swapAssets, { getAllNativeAssets, isHost, isNative } from '../../constants/swap-assets'
+import { Asset, HostAsset } from '../../constants/swap-assets'
 
 type AssetBoxProps = {
   setAsset: (arg0: Asset) => void
@@ -10,8 +10,7 @@ type AssetBoxProps = {
 const AssetBlock = ({ setAsset, isOpen }: AssetBoxProps): JSX.Element => {
   return(
     <div className='mt-6'>
-    {swapAssets
-      .filter((nativeAsset: Asset) => IS_NATIVE in nativeAsset ? (nativeAsset as NativeAsset).isNative === true : false )
+    {Object.values(getAllNativeAssets())
       .map((nativeAsset: Asset) => (
       <div key={nativeAsset.id} className="collapse collapse-arrow bg-base-200 mt-2">
         <input type="checkbox" name="my-accordion-1" /> 
@@ -20,13 +19,11 @@ const AssetBlock = ({ setAsset, isOpen }: AssetBoxProps): JSX.Element => {
           {nativeAsset.symbol}
         </div>
         <div className="collapse-content">
-          {swapAssets
+          {Object.values(swapAssets)
             .filter((singleAsset: Asset) =>
-              (IS_NATIVE in singleAsset &&
-                (singleAsset as NativeAsset).isNative &&
+              (isNative(singleAsset) &&
                 singleAsset.symbol === nativeAsset.symbol) ||
-              (IS_PTOKEN in singleAsset &&
-                (singleAsset as HostAsset).isPtoken &&
+              (isHost(singleAsset) &&
                 (singleAsset as HostAsset).nativeSymbol === nativeAsset.symbol))
             .map((asset: Asset) => (
               <button 

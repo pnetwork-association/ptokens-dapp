@@ -1,6 +1,7 @@
-import { Blockchain } from "ptokens-constants";
-import { Asset, IS_NATIVE, NativeAsset } from "../../constants/swap-assets";
-import { getBlockchain, getPrettierAddress } from "../../utils";
+import { Blockchain } from "ptokens-constants"
+
+import { Asset, isNative } from "../../constants/swap-assets"
+import { getBlockchain, getPrettierAddress } from "../../utils"
 
 type InfoCardProps = {
   asset: Asset
@@ -26,11 +27,11 @@ const InfoCard = ({asset, title, className = ''}: InfoCardProps): JSX.Element =>
             className="w-4 mx-2"
             src={`/svg/${getBlockchain(asset).image}`}
           />
-          <div>{Blockchain[asset.blockchain].toUpperCase()}</div>
+          <div>{Blockchain [asset.blockchain].toUpperCase()}</div>
         </div>
         <div className="flex items-center ml-4">
           <div className='bold mr-2 w-16 text-gray-500'>TYPE:</div>
-          {IS_NATIVE in asset && (asset as NativeAsset).isNative ? 
+          {isNative(asset) ? 
             (<div className='badge badge-outline badge-primary ml-2 rounded-md'> NATIVE </div>) :
             (<div className='badge badge-outline badge-primary ml-2 rounded-md'> PTOKEN </div>)
           }

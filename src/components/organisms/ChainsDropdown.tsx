@@ -2,7 +2,7 @@ import { FaChevronDown } from "react-icons/fa"
 import swapChains, { Chain } from "../../constants/swap-chains"
 import { Blockchain } from "ptokens-constants"
 import cn from 'classnames'
-import swapAssets, { Asset } from "../../constants/swap-assets"
+import { Asset, assetsHaveMatches } from "../../constants/swap-assets"
 
 type ChainsDropdownProps = {
   setSelectedChain: (arg0: Chain) => void
@@ -27,7 +27,7 @@ const ChainsDropdown = ({selectedAsset, selectedChain, setSelectedChain}: Chains
           <span>{Blockchain[selectedChain.blockchain]}</span>
           <FaChevronDown size={7} color="gray"/>
       </label>
-      <ul  tabIndex={0} className="dropdown-content z-[1] menu shadow bg-gray-800 rounded-md w-36 p-2 pb-0">
+      <ul  tabIndex={0} className="dropdown-content menu shadow bg-gray-800 rounded-md w-36 p-2 pb-0">
         <li>
           {swapChains.filter((chain: Chain) => chain != selectedChain).map((chain: Chain) => (
             <button 
@@ -35,8 +35,7 @@ const ChainsDropdown = ({selectedAsset, selectedChain, setSelectedChain}: Chains
               className={cn({
                 'btn btn-sm btn-outline flex flex-row flex-nowrap justify-start items-center w-full mb-2': true,
                 'btn-primary': chain === selectedChain,
-                'btn-disabled': chain === selectedChain || 
-                  swapAssets.filter((asset: Asset) => asset.blockchain === chain.blockchain && asset.symbol === selectedAsset.symbol).length === 0,
+                'btn-disabled': chain === selectedChain || assetsHaveMatches(chain.blockchain, selectedAsset.symbol)
               })}
               onClick={() => {
                 setSelectedChain(chain)

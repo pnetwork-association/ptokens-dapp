@@ -3,8 +3,7 @@ import { Blockchain, Network, NetworkId } from 'ptokens-constants'
 
 import { AssetId } from '.'
 
-export const IS_NATIVE = 'isNative'
-export const IS_PTOKEN = 'isPtoken'
+export const UNDERLYNG_ASSET = 'underlyingAsset'
 
 export type BaseAsset = {
   id: AssetId
@@ -27,13 +26,11 @@ export type BaseAsset = {
 }
 
 export interface NativeAsset extends BaseAsset {
-  [IS_NATIVE]: boolean
   address: string
   marketApi: string
 }
 
 export interface HostAsset extends BaseAsset {
-  [IS_PTOKEN]: boolean
   underlyingAsset: AssetId
   nativeSymbol: string
   nativeBlockchain: Blockchain
@@ -61,9 +58,30 @@ export type UpdatedAsset = AssetWithAddress & {
   miniImage?: string
 }
 
-const swapAssets: Asset[] = [
+export const isNative = (_asset: Asset): boolean => !isHost(_asset)
+
+export const isHost = (_asset: Asset): boolean => UNDERLYNG_ASSET in _asset
+
+export const assetsHaveMatches = (chain: Blockchain, symbol: string) => {
+  return Object.values(swapAssets).every((asset) => {
+    return !(asset.blockchain === chain && asset.symbol === symbol)
+  })
+}
+
+export const getAllNativeAssets = () => {
+  return Object.entries(swapAssets).reduce((result, [key, asset]) => {
+    if (isNative(asset)) {
+      result[key as AssetId] = asset
+    }
+    return result
+  }, {} as Record<AssetId, Asset>)
+}
+
+export const getAssetById = (id: AssetId) => swapAssets[id] || null
+
+const swapAssets: Record<AssetId, Asset> = {
   /* #################   pTokens   #################*/
-  {
+  [AssetId.PUSDC_ON_XDAI_MAINNET]: {
     id: AssetId.PUSDC_ON_XDAI_MAINNET,
     name: 'pUSDC',
     nativeDecimals: 6,
@@ -71,7 +89,6 @@ const swapAssets: Asset[] = [
     blockchain: Blockchain.Gnosis,
     decimals: 18,
     symbol: 'pUSDC',
-    isPtoken: true,
     nativeSymbol: 'USDC',
     nativeBlockchain: Blockchain.Gnosis,
     image: 'pUSDC.svg',
@@ -81,7 +98,7 @@ const swapAssets: Asset[] = [
     isPerc20: true,
     isHidden: true,
   },
-  {
+  [AssetId.PUSDC_ON_ARBITRUM_MAINNET]: {
     id: AssetId.PUSDC_ON_ARBITRUM_MAINNET,
     name: 'pUSDC',
     nativeDecimals: 6,
@@ -89,7 +106,6 @@ const swapAssets: Asset[] = [
     blockchain: Blockchain.Arbitrum,
     decimals: 18,
     symbol: 'pUSDC',
-    isPtoken: true,
     nativeSymbol: 'USDC',
     nativeBlockchain: Blockchain.Gnosis,
     image: 'pUSDC.svg',
@@ -119,7 +135,7 @@ const swapAssets: Asset[] = [
   //   networkId: NetworkId.SepoliaTestnet,
   // },
   /* #################   Native Tokens   #################*/
-  {
+  [AssetId.USDC_ON_XDAI]:{
     address: '0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83',
     id: AssetId.USDC_ON_XDAI,
     symbol: 'USDC',
@@ -131,7 +147,6 @@ const swapAssets: Asset[] = [
     withBalanceDecimalsConversion: true,
     networkId: NetworkId.GnosisMainnet,
     isPerc20: true,
-    isNative: true,
     marketApi: 'https://api.coingecko.com/api/v3/coins/usd-coin/market_chart',
   },
   // {
@@ -152,6 +167,6 @@ const swapAssets: Asset[] = [
   //   networkId: NetworkId.SepoliaTestnet,
   //   marketApi: 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart',
   // },
-]
+}
 
 export default swapAssets
