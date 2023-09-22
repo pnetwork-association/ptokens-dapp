@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from "../../hook"
 import { updateSwapButton } from "./swapSlice"
 import { setWalletIsDrawerOpened, setWalletConnectedChain } from "../globals/globalSlice"
 import swapChains from "../../../constants/swap-chains"
+import { swap } from "./swap"
+// import { useWeb3Signer } from "../../../wallet/evm-chains/web3-adapter"
 
 const CONNECT_WALLET = 'Connect Wallet'
 const SWITCH_CHAIN = 'Switch chain'
@@ -17,6 +19,7 @@ const SwapButtonControl = (): JSX.Element => {
   const swapButtonText = useAppSelector(state => state.swap.swapButton.text)
   const walletConnectedChain = useAppSelector(state => state.global.walletStatus.chain)
   const walletIsConnected = useAppSelector(state => state.global.walletStatus.isConnected)
+  // const web3 = useWeb3Signer()
 
   useEffect(() => {
     if (!walletIsConnected) {
@@ -39,6 +42,10 @@ const SwapButtonControl = (): JSX.Element => {
     }
   }, [disabled, swapButtonText, walletConnectedChain, walletIsConnected, originAsset])
 
+  // useEffect(() => {
+  //   console.log(web3)
+  // }, [web3])
+
   const swapButtonAction = () => {
     switch (swapButtonText) {
       case CONNECT_WALLET:
@@ -47,7 +54,9 @@ const SwapButtonControl = (): JSX.Element => {
       case SWITCH_CHAIN:
         dispatch(setWalletConnectedChain(swapChains.find(chain => chain.blockchain === originAsset.blockchain )))
         break
-    
+      case INIT_SWAP:
+        // swap(web3)
+        break
       default:
         break;
     }

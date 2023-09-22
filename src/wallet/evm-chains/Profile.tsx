@@ -6,14 +6,15 @@ import {
   useNetwork,
   useSwitchNetwork,
 } from 'wagmi'
-import { RiArrowDownSLine, RiCheckLine } from 'react-icons/ri'
+import { RiCheckLine } from 'react-icons/ri'
 import { Blockchain } from 'ptokens-constants'
 
 import swapChains, { Chain} from '../../constants/swap-chains'
-import { getPrettierAddress } from '../../utils'
+import { getPrettierAddress } from '../../utils/utils'
 import { useAppDispatch, useAppSelector } from '../../app/hook'
 import { setWalletConnectedAddress, setWalletConnectedChain, setWalletIsConnected, setWalletIsDrawerOpened } from '../../app/features/globals/globalSlice'
 import WalletDrawerButton from '../../components/molecules/WalletDrawerButton'
+
  
 export const Profile = (): JSX.Element => {
   const dispatch = useAppDispatch()
@@ -37,6 +38,10 @@ export const Profile = (): JSX.Element => {
   }, [selectedChain, isConnected])
 
   useEffect(() => {
+    isConnected ? dispatch(setWalletIsConnected(true)) : dispatch(setWalletIsConnected(false))
+  }, [isConnected])
+
+  useEffect(() => {
     if (switchStatus === 'error' && !switchLoading && isConnected && chain)
       dispatch(setWalletConnectedChain(swapChains.find((_chain: Chain) => _chain.chainId === chain.id)))
   }, [switchLoading])
@@ -45,11 +50,6 @@ export const Profile = (): JSX.Element => {
   useEffect(() => {
     dispatch(setWalletConnectedAddress(address as string))
   }, [address])
-
-  useEffect(() => {
-    dispatch(setWalletIsConnected(isConnected))
-  }, [isConnected])
-
  
   return (
     <div className='flex items-center'>

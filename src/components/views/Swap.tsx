@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react"
 import { RiSettings4Line, RiArrowUpDownLine, RiInformationLine } from "react-icons/ri"
+import { useAccount } from "wagmi"
+import cn from "classnames"
+import { FaChevronRight } from "react-icons/fa"
 
 import SwapLine from "../organisms/SwapLine"
 import { Asset } from "../../constants/swap-assets"
 import swapChains, { Chain } from "../../constants/swap-chains"
-import { FaChevronRight } from "react-icons/fa"
 import AssetChart from "../organisms/AssetsInfo"
-import cn from "classnames"
-import { setGlobalOriginAsset, setGlobalDestAsset } from "../../app/features/swap/swapSlice"
+import { setGlobalOriginAsset, setGlobalDestAsset, createPTokenAssets } from "../../app/features/swap/swapSlice"
 import { useAppDispatch } from "../../app/hook"
 import SwapButtonControl from "../../app/features/swap/SwapButtonControl"
 import { defaultAssets } from "../../constants/defaults"
-import { loadAssetsData } from "../../app/features/globals/globalSlice"
+import ProgressModal from "../organisms/Progress"
 
 const Swap = (): JSX.Element => {
   const dispatch = useAppDispatch()
@@ -20,10 +21,14 @@ const Swap = (): JSX.Element => {
   const [originChain, setOriginChain] = useState<Chain>(swapChains.find((chain: Chain) => chain.blockchain == defaultAssets.origin.blockchain) as Chain)
   const [destChain, setDestChain] = useState<Chain>(swapChains.find((chain: Chain) => chain.blockchain == defaultAssets.destination.blockchain) as Chain)
   const [showInfo, setShowInfo] = useState(false)
+  const { isConnected } = useAccount()
 
   useEffect(() => {
-    dispatch(loadAssetsData())
-  }, [])
+    if (isConnected)
+      dispatch(createPTokenAssets({ origin: originAsset, destination: destAsset }))
+    else 
+      dispatch(createPTokenAssets(null))
+  }, [isConnected, originAsset, destAsset])
 
   useEffect(() => {
     dispatch(setGlobalOriginAsset(originAsset))
@@ -89,7 +94,7 @@ const Swap = (): JSX.Element => {
         </div>
       </div>
       <AssetChart originAsset={originAsset} destAsset={destAsset} show={showInfo}/>
-      
+      <ProgressModal />
     </div>
   )
 }

@@ -1,83 +1,44 @@
 import { pTokensEvmAssetBuilder, pTokensEvmProvider } from 'ptokens-assets-evm'
-import { Blockchain, BlockchainType, NetworkId, networkIdToTypeMap } from 'ptokens-constants'
+import { BlockchainType, networkIdToTypeMap } from 'ptokens-constants'
 import { pTokensSwapBuilder } from 'ptokens-swap'
-import { getWeb3Settings } from 'react-web3-settings'
-import { Web3 } from 'web3'
+import { getPublicClient, getWalletClient } from 'wagmi/actions'
 
 import { getFactoryAddressByBlockchain } from '../settings'
-import { Wallets } from '../app/features/wallets/walletsSlice'
-import { Asset, UpdatedAsset } from '../constants/swap-assets'
-import { store } from '../app/store'
+import swapAssets, { Asset, NativeAsset, isNative } from '../constants/swap-assets'
 import { AssetId } from '../constants'
+import { getBlockchain } from './utils'
 
-
-const getAssetBuilder = (_asset: Asset, _wallets: Wallets) => {
+const getAssetBuilder = async (_asset: Asset) => {
   if (networkIdToTypeMap.get(_asset.networkId) === BlockchainType.EVM) {
-    const provider = getProvider(_asset, _wallets)
+    const walletClient = await getWalletClient()
+    if (!walletClient) throw new Error('Wallet not connected')
+    const publicClient = getPublicClient({chainId: getBlockchain(_asset).chainId})
+    const provider = new pTokensEvmProvider(publicClient, walletClient)
     return new pTokensEvmAssetBuilder(provider)
   }
+  throw new Error('Cannot create provider, only EVM assets are supported')
 }
 
-const getAssetById = (_id: AssetId) => store.getState().global.assets[_id] || null
+const getAssetById = (_id: AssetId) => swapAssets[_id] || null
 
-export const getReadOnlyProviderByBlockchain = (_blockchain: Blockchain | null | undefined) => {
-  const settings = getWeb3Settings() as { rpcEndpoints: Record<Blockchain, string> }
-  switch (_blockchain) {
-    case Blockchain.Gnosis:
-      return new Web3.providers.HttpProvider(settings.rpcEndpoints[_blockchain])
-    case Blockchain.Arbitrum:
-      return new Web3.providers.HttpProvider(settings.rpcEndpoints[_blockchain])
-    default:
-      return null
-  }
-}
-
-export const getReadOnlyProviderByNetworkId = (_networkId: NetworkId) => {
-  const map = new Map<NetworkId, Blockchain>([
-    [NetworkId.ArbitrumMainnet, Blockchain.Arbitrum],
-    [NetworkId.GnosisMainnet, Blockchain.Gnosis],
-  ])
-  switch (_networkId) {
-    case NetworkId.GnosisMainnet:
-    case NetworkId.ArbitrumMainnet:
-      return getReadOnlyProviderByBlockchain(map.get(_networkId))
-    default:
-      return null
-  }
-}
-
-export const getProviderByNetworkId = (_networkId: NetworkId) => {
-  if (networkIdToTypeMap.get(_networkId) === BlockchainType.EVM) {
-    const url = getReadOnlyProviderByNetworkId(_networkId)
-    return new pTokensEvmProvider(url)
-  }
-}
-
-const getProvider = (_asset: Asset, _wallets: Wallets) => {
-  if (networkIdToTypeMap.get(_asset.networkId) === BlockchainType.EVM)
-    return new pTokensEvmProvider(
-      _wallets[_asset.blockchain].provider || getReadOnlyProviderByBlockchain(_asset.blockchain)
-    )
-  throw new Error('Cannot create provider')
-}
-
-const buildAssetInfo = (_asset: UpdatedAsset) => {
+const buildAssetInfo = (_asset: Asset) => {
   const underlyingAsset = 'underlyingAsset' in _asset ? getAssetById(_asset.underlyingAsset) : null 
   return {
     networkId: _asset.networkId,
     symbol: _asset.symbol,
-    assetTokenAddress: _asset.address,
     decimals: _asset.decimals,
+    assetTokenAddress: isNative(_asset) ? (_asset as NativeAsset).address : undefined,
+    // ...(isNative(_asset) && { assetTokenAddress: (_asset as NativeAsset).address }), // TODO Maybe better this one to avoid defining assetTokenAddress at all.
     underlyingAssetName: underlyingAsset ? underlyingAsset.name : _asset.name,
     underlyingAssetSymbol: underlyingAsset ? underlyingAsset.symbol : _asset.symbol,
     underlyingAssetDecimals: underlyingAsset ? underlyingAsset.decimals : _asset.decimals,
-    underlyingAssetTokenAddress: underlyingAsset ? underlyingAsset.address : _asset.address,
+    underlyingAssetTokenAddress: underlyingAsset ? (underlyingAsset as NativeAsset).address : (_asset as NativeAsset).address,
     underlyingAssetNetworkId: underlyingAsset ? underlyingAsset.networkId : _asset.networkId,
   }
 }
 
-export const createAsset = async (_asset: UpdatedAsset, _wallets: Wallets) => {
-  const builder = getAssetBuilder(_asset, _wallets)
+export const createAsset = async (_asset: Asset) => { // TODO should be UpdatedAsset
+  const builder = await getAssetBuilder(_asset)
   if (builder) {
     builder.setBlockchain(_asset.networkId)
     builder.setDecimals(_asset.decimals)

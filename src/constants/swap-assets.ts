@@ -40,16 +40,11 @@ export interface HostAsset extends BaseAsset {
 export type Asset = (NativeAsset | HostAsset) & {
   defaultFrom?: boolean
   defaultTo?: boolean
-}
-
-export type AssetWithAddress = Asset & {
-  address: string
-  pTokenAddress: string | null
   formattedName?: string
   balance?: BigNumber
 }
 
-export type UpdatedAsset = AssetWithAddress & {
+export type UpdatedAsset = Asset & {
   explorer: string
   balance: BigNumber
   formattedBalance: string

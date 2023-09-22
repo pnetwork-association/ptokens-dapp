@@ -1,7 +1,7 @@
 import { Blockchain } from "ptokens-constants"
 
 import { Asset, isNative } from "../../constants/swap-assets"
-import { getBlockchain, getPrettierAddress } from "../../utils"
+import { getBlockchain, getPrettierAddress } from "../../utils/utils"
 
 type InfoCardProps = {
   asset: Asset

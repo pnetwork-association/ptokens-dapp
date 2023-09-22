@@ -1,9 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { Blockchain } from 'ptokens-constants'
+import { PublicClient } from "viem"
 
 export type IWallet = {
   blockchain: Blockchain
-  provider?: any
+  provider?: PublicClient
   account: string | null
   chainId: number | null
   network: string | null
