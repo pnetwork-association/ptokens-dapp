@@ -1,7 +1,7 @@
 {
   "name": "plain-dapp-update",
   "private": true,
-  "version": "1.14.2",
+  "version": "1.14.3",
   "type": "module",
   "scripts": {
     "dev": "npm run create-version-file && vite",
@@ -91,7 +91,7 @@
     "jsdom": "^22.0.0",
     "lint-staged": "^13.2.2",
     "prettier": "^2.8.8",
-    "thirdweb": "^0.11.11",
+    "thirdweb": "^0.11.20",
     "vite": "^4.2.3",
     "vite-plugin-node-polyfills": "^0.7.0",
     "vitest": "^0.31.1"
