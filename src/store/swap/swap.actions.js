@@ -101,7 +101,7 @@ const loadSwapData = (_opts = {}) => {
               'Content-Type': 'application/json',
             },
           })
-          const bpm = Object.fromEntries(resp.data.map((_el) => [_el.bridgeName, _el]))
+          const bpm = Object.fromEntries(resp.data.map((_el) => [_el[0].bridgeName, _el[0]]))
           _dispatch({
             type: BPM_LOADED,
             payload: {
