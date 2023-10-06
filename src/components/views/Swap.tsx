@@ -1,42 +1,49 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { RiSettings4Line, RiArrowUpDownLine, RiInformationLine } from "react-icons/ri"
-import { useAccount } from "wagmi"
 import cn from "classnames"
 import { FaChevronRight } from "react-icons/fa"
+import { Web3SettingsButton } from "react-web3-settings"
 
 import SwapLine from "../organisms/SwapLine"
 import { Asset } from "../../constants/swap-assets"
-import swapChains, { Chain } from "../../constants/swap-chains"
-import AssetChart from "../organisms/AssetsInfo"
-import { setGlobalOriginAsset, setGlobalDestAsset, createPTokenAssets } from "../../app/features/swap/swapSlice"
-import { useAppDispatch } from "../../app/hook"
-import SwapButtonControl from "../../app/features/swap/SwapButtonControl"
-import { defaultAssets } from "../../constants/defaults"
+import { Chain } from "../../constants/swap-chains"
+import AssetsInfo from "../organisms/AssetsInfo"
+import SwapButtonControl from "../molecules/SwapButtonControl"
+import { defaults } from "../../constants/defaults"
 import ProgressModal from "../organisms/Progress"
+import { PTokenAssetsContext, SwapContext } from "../../app/ContextProvider"
+import { useDestPtokenAsset, useOrigPtokenAsset } from "../../hooks/use-assets"
 
 const Swap = (): JSX.Element => {
-  const dispatch = useAppDispatch()
-  const [originAsset, setOriginAsset] = useState<Asset>(defaultAssets.origin)
-  const [destAsset, setDestAsset] = useState(defaultAssets.destination)
-  const [originChain, setOriginChain] = useState<Chain>(swapChains.find((chain: Chain) => chain.blockchain == defaultAssets.origin.blockchain) as Chain)
-  const [destChain, setDestChain] = useState<Chain>(swapChains.find((chain: Chain) => chain.blockchain == defaultAssets.destination.blockchain) as Chain)
+  const assetContext = useContext(PTokenAssetsContext)
+  const swapContext = useContext(SwapContext) 
+  const [originAsset, setOriginAsset] = useState<Asset>(defaults.originAsset)
+  const [destAsset, setDestAsset] = useState(defaults.destinationAsset)
+  const origPtokenAsset = useOrigPtokenAsset(originAsset)
+  const destPtokenAsset = useDestPtokenAsset(destAsset)
+  const [originChain, setOriginChain] = useState<Chain>(defaults.originChain)
+  const [destChain, setDestChain] = useState<Chain>(defaults.destinationChain)
   const [showInfo, setShowInfo] = useState(false)
-  const { isConnected } = useAccount()
+  const [amount, setAmount] = useState('0')
+  const [receivedAmount, setReceivedAmount] = useState(amount)
+
+  const setDestinationAddress = (event: any) => {
+    if (swapContext && event.target.value) {
+      swapContext.setDestinationAddress(event.target.value) 
+    }
+  }
+
+  useEffect (() => {
+    swapContext?.setSwapAmount(amount)
+  }, [amount])
 
   useEffect(() => {
-    if (isConnected)
-      dispatch(createPTokenAssets({ origin: originAsset, destination: destAsset }))
-    else 
-      dispatch(createPTokenAssets(null))
-  }, [isConnected, originAsset, destAsset])
+    assetContext?.setOrig(origPtokenAsset)
+  }, [origPtokenAsset])
 
   useEffect(() => {
-    dispatch(setGlobalOriginAsset(originAsset))
-  }, [originAsset])
-
-  useEffect(() => {
-    dispatch(setGlobalDestAsset(destAsset))
-  }, [destAsset])
+    assetContext?.setDest(destPtokenAsset)
+  }, [destPtokenAsset])
 
   const switchAssets = () => {
     const originAssetT = originAsset
@@ -60,41 +67,45 @@ const Swap = (): JSX.Element => {
   })
 
   return (
-    <div className={mainClassName}>
-      <div className="flex flex-col">
-        <div className="flex flex-col justify-between items-center bg-gray-800 rounded-md">
-          <div className="flex justify-between items-center w-full rounded-md mt-3 mb-1">
-            <div className="ml-7 mt-2 mb-1">pNetwork v3</div>
-            <div className="flex">
-              <button className="mr-1">
-                <RiSettings4Line size={25}/>
-              </button>
-              <button className={InfoButtonClassName}
-                onClick={() => setShowInfo(!showInfo)}
-              >
-                <div>
-                  <RiInformationLine size={25} />
-                </div>
-                <FaChevronRight size={11} color="gray" />
-              </button>
+    <div>
+      <div className={mainClassName}>
+        <div className="flex flex-col">
+          <div className="flex flex-col justify-between items-center bg-gray-800 rounded-md">
+            <div className="flex justify-between items-center w-full rounded-md mt-3 mb-1">
+              <div className="ml-7 mt-2 mb-1">pNetwork v3</div>
+              <div className="flex">
+                <button className="mr-1">
+                  <RiSettings4Line size={25}/>
+                </button>
+                <button className={InfoButtonClassName}
+                  onClick={() => setShowInfo(!showInfo)}
+                >
+                  <div>
+                    <RiInformationLine size={25} />
+                  </div>
+                  <FaChevronRight size={11} color="gray" />
+                </button>
+              </div>
             </div>
-          </div>
-          <SwapLine title='Origin' selectedAsset={originAsset} setAsset={setOriginAsset} selectedChain={originChain} setChain={setOriginChain} />
-          <div className="divider px-7">
-            <div className="btn btn-sm btn-ghost p-0 hover:rotate-180 transition-transform duration-200" onClick={() => switchAssets()}>
-              <RiArrowUpDownLine size={25}/>
+            <SwapLine title='Origin' selectedAsset={originAsset} setAsset={setOriginAsset} selectedChain={originChain} setChain={setOriginChain} amount={amount} setAmount={setAmount} />
+            <div className="divider px-7">
+              <div className="btn btn-sm btn-ghost p-0 hover:rotate-180 transition-transform duration-200" onClick={() => switchAssets()}>
+                <RiArrowUpDownLine size={25}/>
+              </div>
             </div>
+            <SwapLine title='Destination' selectedAsset={destAsset} setAsset={setDestAsset} selectedChain={destChain} setChain={setDestChain} amount={receivedAmount} setAmount={setReceivedAmount} />
+            <input type="text" placeholder="Destination Address" className="input w-11/12 mt-3 text-right focus:outline-none mb-1 grow" onChange={setDestinationAddress}/>
+            <SwapButtonControl />
+            <ProgressModal /> 
+            <Web3SettingsButton iconClassName={'api-icon'} text='settings' />
           </div>
-          <SwapLine title='Destination' selectedAsset={destAsset} setAsset={setDestAsset} selectedChain={destChain} setChain={setDestChain}/>
-          <SwapButtonControl />
+          <div className="flex flex-col justify-start items-center bg-gray-800 rounded-md mt-4">
+            <div>Fees</div>
+            <div>Estimated processing time</div>
+          </div>
         </div>
-        <div className="flex flex-col justify-start items-center bg-gray-800 rounded-md mt-4">
-          <div>Fees</div>
-          <div>Estimated processing time</div>
-        </div>
+        <AssetsInfo originAsset={originAsset} destAsset={destAsset} show={showInfo}/>
       </div>
-      <AssetChart originAsset={originAsset} destAsset={destAsset} show={showInfo}/>
-      <ProgressModal />
     </div>
   )
 }

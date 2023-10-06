@@ -1,11 +1,13 @@
 // import BigNumber from 'bignumber.js'
 import _ from 'lodash'
-import { useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { pTokensAsset } from 'ptokens-entities'
 
 // import { AssetId } from '../constants'
 import { Asset, UpdatedAsset, isNative } from '../constants/swap-assets'
 // import { offChainFormat, strip } from '../utils/amount-utils'
 import { blockchainSymbolToName, /* blockchainSymbolToCoin */ } from '../utils/maps'
+import { createAsset } from '../utils/ptokens'
 // import { getCorrespondingTokenExplorerLinkByBlockchain } from '../utils/explorer'
 
 // const updateAssets = async (_assets: Partial<Record<AssetId, Asset>>) => {
@@ -73,6 +75,40 @@ const useSearchAssets = (_assets: UpdatedAsset[]): [UpdatedAsset[], React.Dispat
   return [assets, setSearchWord]
 }
 
+const useOrigPtokenAsset = (_origAsset: Asset) => {
+  const [origPTokensAsset, setOriginPTokensAsset] = useState<pTokensAsset | undefined>(undefined)
+  const createOrigAsset = useCallback(async () => {
+    setOriginPTokensAsset(await createAsset(_origAsset))
+  }, [_origAsset])
+
+  useEffect(() => {
+    try {
+      createOrigAsset()
+    } catch (_err) {
+      console.error(_err)
+    }
+  }, [_origAsset])
+
+  return origPTokensAsset
+}
+
+const useDestPtokenAsset = (_destAsset: Asset) => {
+  const [destPTokensAsset, setOriginPTokensAsset] = useState<pTokensAsset | undefined>(undefined)
+  const createDestAsset = useCallback(async () => {
+    setOriginPTokensAsset(await createAsset(_destAsset))
+  }, [_destAsset])
+
+  useEffect(() => {
+    try {
+      createDestAsset()
+    } catch (_err) {
+      console.error(_err)
+    }
+  }, [_destAsset])
+
+  return destPTokensAsset
+}
+
 // const updateAsset = (_asset: Asset): UpdatedAsset => {
 //   return {
 //     ..._asset,
@@ -98,4 +134,4 @@ const useSearchAssets = (_assets: UpdatedAsset[]): [UpdatedAsset[], React.Dispat
 //   }
 // }
 
-export { /* updateAsset,  updateAssets, */useAssetsWithouDefault, usePtoken, useAssetsGroupedByGivenStrategy, useSearchAssets }
+export { /* updateAsset,  updateAssets, */useAssetsWithouDefault, usePtoken, useAssetsGroupedByGivenStrategy, useSearchAssets, useOrigPtokenAsset, useDestPtokenAsset }

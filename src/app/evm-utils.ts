@@ -4,8 +4,13 @@ import { erc20ABI } from 'wagmi'
 import { getAccount, getContract, getWalletClient } from 'wagmi/actions'
 
 // NOTE: avoids brave metamask gas estimation fails
-function getBigInt(amount: bigint, decimals: number): bigint {
-  return amount * BigInt(10) ** BigInt(decimals);
+function getBigInt(amount: string, decimals: number): bigint {
+  return BigInt(Number(amount) * 10 ** decimals)
+}
+
+type TApproveResult = {
+  message: string
+  hashType: boolean
 }
 
 // requiresReset is needed to be true in case of USDT
@@ -13,28 +18,32 @@ const approveTransaction = async (
   spender: string,
   assetAddress: string,
   amount: bigint,
-  requiresReset = false
-) => {
-  const walletClient = await getWalletClient()
+  chainId: number,
+  requiresReset: boolean = false,
+): Promise<TApproveResult> => {
+  console.log('chainId', chainId)
+  const walletClient = await getWalletClient({chainId: chainId})
   const account = getAccount()
   if (!account.address || !walletClient)
-    return new Error('No account connected')
+    throw new Error('No account connected')
   const assetContract = getContract({
     address: stringUtils.addHexPrefix(assetAddress),
     abi: erc20ABI,
     walletClient: walletClient
   })
+  console.log(spender)
   const allowance = await assetContract.read.allowance([account.address, stringUtils.addHexPrefix(spender)])
+  console.log('allowance', allowance)
+  console.log('amount', amount)
   let hash = ''
-  if (allowance <= amount) {
-    const _approve = async (amount: bigint) =>
-      await assetContract.write.approve([stringUtils.addHexPrefix(spender), amount])
+  if (allowance < amount) {
+    const _approve = async (amount: bigint) => await assetContract.write.approve([stringUtils.addHexPrefix(spender), amount])
     if (requiresReset && !BigNumber(allowance.toString()).isZero()) {
-      await _approve(0n)
-    }
-    await _approve(amount)
+      hash = await _approve(0n)
+    } else hash = await _approve(amount)
+    return {message: hash, hashType: true}
   }
-  return hash
+  return {message: `Allowance: ${allowance}`, hashType: false}
 }
 
 export { approveTransaction, getBigInt }

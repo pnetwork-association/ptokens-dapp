@@ -49,7 +49,7 @@ const AssetChart = ({asset}: AssetChartProps): JSX.Element => {
         console.error('CoinGecko API error:', (err as AxiosError).message)
       }
     }
-    loadData(getNativeAsset(asset).marketApi, 2)
+    loadData(getNativeAsset(asset).marketApi, 4)
   }, [asset])
 
   const options: ApexCharts.ApexOptions = {
@@ -62,6 +62,14 @@ const AssetChart = ({asset}: AssetChartProps): JSX.Element => {
       toolbar: {
         show: false,
       },
+    },
+    stroke: {
+      show: true,
+      curve: 'smooth',
+      lineCap: 'butt',
+      colors: undefined,
+      width: 3,
+      dashArray: 0, 
     },
     dataLabels: {
       enabled: false,

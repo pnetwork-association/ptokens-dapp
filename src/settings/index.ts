@@ -22,23 +22,39 @@ const settings: ISettings = {
   },
   supportedBlockchains: [
     {
-      name: 'xDai',
-      symbol: 'XDAI',
+      name: 'gnosis',
+      symbol: 'GNOSIS',
     },
     {
       name: 'Arbitrum',
       symbol: 'ARBITRUM',
     },
+    {
+      name: 'Bsc',
+      symbol: 'BSC',
+    },
+    {
+      name: 'Polygon',
+      symbol: 'POLYGON',
+    },
   ],
   rpc: {
     [Network.Mainnet]: {
       [Blockchain.Gnosis]: {
-        endpoint: 'https://rpc.xdaichain.com/',
+        endpoint: 'https://rpc.gnosischain.com/',
         chainId: 100,
       },
       [Blockchain.Arbitrum]: {
         endpoint: 'https://arb1.arbitrum.io/rpc',
         chainId: 42161,
+      },
+      [Blockchain.Bsc]: {
+        endpoint: 'https://bsc-dataseed2.binance.org/',
+        chainId: 56,
+      },
+      [Blockchain.Polygon]: {
+        endpoint: 'https://polygon-rpc.com/',
+        chainId: 137,
       },
     },
     [Network.Testnet]: {},
@@ -47,6 +63,8 @@ const settings: ISettings = {
     [Network.Mainnet]: {
       [Blockchain.Gnosis]: 'https://gnosisscan.io/',
       [Blockchain.Arbitrum]: 'https://arbiscan.io/',
+      [Blockchain.Polygon]: 'https://polygonscan.com/',
+      [Blockchain.Bsc]: 'https://bscscan.com/',
     },
     [Network.Testnet]: {},
   },
@@ -57,6 +75,10 @@ export const getFactoryAddressByBlockchain = (_blockchain: Blockchain, _network 
   switch (_blockchain) {
     case Blockchain.Arbitrum:
     case Blockchain.Gnosis:
+      return web3Settings.factoryAddress[_blockchain]
+    case Blockchain.Polygon:
+      return web3Settings.factoryAddress[_blockchain]
+    case Blockchain.Bsc:
       return web3Settings.factoryAddress[_blockchain]
     default:
       throw new Error(`Missing factory address for blockchain ${_blockchain}`)

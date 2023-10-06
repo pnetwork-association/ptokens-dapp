@@ -14,3 +14,78 @@ input[type=number] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
+
+.range-custom {
+  height: 0.5rem;
+  appearance: none;
+  -webkit-appearance: none; 
+  --range-shdw: var(--bc);
+  overflow: hidden;
+  /* background-color: transparent; */
+  border-radius: var(--rounded-box, 1rem);
+  width: 100%;
+  cursor: pointer;
+}
+
+.range-custom:focus-visible::-webkit-slider-thumb {
+  --focus-shadow: 0 0 0 6px hsl(var(--b1)) inset, 0 0 0 2rem hsl(var(--range-shdw)) inset;
+}
+.range-custom:focus-visible::-moz-range-thumb {
+  --focus-shadow: 0 0 0 6px hsl(var(--b1)) inset, 0 0 0 2rem hsl(var(--range-shdw)) inset;
+}
+.range-custom::-webkit-slider-runnable-track {
+  height: 0.5rem;
+  width: 100%;
+  background-color: hsl(var(--bc) / 0.1);
+  border-radius: var(--rounded-box, 1rem);
+}
+.range-custom::-moz-range-track {
+  height: 0.5rem;
+  width: 100%;
+  background-color: hsl(var(--bc) / 0.1);
+  border-radius: var(--rounded-box, 1rem);
+}
+
+.range-custom::-webkit-slider-thumb {
+  position: relative;
+  height: 0.5rem;
+  width: 1rem;
+  border-style: none;
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--range-shdw));
+  border-radius: var(--rounded-box, 1rem);
+    appearance: none;
+    -webkit-appearance: none;
+    top: 50%;
+    color: hsl(var(--range-shdw));
+    transform: translateY(-50%);
+    --filler-size: 100rem;
+    --filler-offset: 0.6rem;
+    box-shadow:
+      calc(var(--filler-size) * -1 - var(--filler-offset)) 0 0 var(--filler-size);
+}
+  .range-primary {
+    --range-shdw: var(--p);
+  }
+  .range-secondary {
+    --range-shdw: var(--s);
+  }
+  .range-accent {
+    --range-shdw: var(--a);
+  }
+  .range-success {
+    --range-shdw: var(--su);
+  }
+  .range-warning {
+    --range-shdw: var(--wa);
+  }
+  .range-info {
+    --range-shdw: var(--in);
+  }
+  .range-error {
+    --range-shdw: var(--er);
+  }
+  .range-disabled {
+    --range-shdw: hsl(var(--p));
+    cursor: default;
+  }

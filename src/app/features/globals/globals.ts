@@ -1,1 +1,0 @@
-export type LoadSwapDataOpts = { defaultSelection?: { asset?: string; from?: string; to?: string } }

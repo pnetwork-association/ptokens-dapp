@@ -1,15 +1,23 @@
 import { Blockchain } from "ptokens-constants"
+import { pTokensAsset } from "ptokens-entities"
 
-import { Asset, isNative } from "../../constants/swap-assets"
+import { Asset, NativeAsset, isNative } from "../../constants/swap-assets"
 import { getBlockchain, getPrettierAddress } from "../../utils/utils"
+import { NO_ADDRESS } from "../../constants"
 
 type InfoCardProps = {
   asset: Asset
+  pTokenAsset?: pTokensAsset
   title: string
   className?: string
 }
 
-const InfoCard = ({asset, title, className = ''}: InfoCardProps): JSX.Element => {
+const InfoCard = ({asset, pTokenAsset, title, className = ''}: InfoCardProps): JSX.Element => {
+
+  const address = pTokenAsset ? pTokenAsset.assetTokenAddress :
+    isNative(asset) ? (asset as NativeAsset).address :
+    NO_ADDRESS
+
   return(
     <div className={`flex justify-start items-center bg-base-100 rounded-md ml-5 mr-5 my-2 pb-2 w-1/2 ${className}`}>
       <div className="flex flex-col">
@@ -38,7 +46,7 @@ const InfoCard = ({asset, title, className = ''}: InfoCardProps): JSX.Element =>
         </div>
         <div className="flex items-center ml-4">
           <div className='bold mr-2 w-16 text-gray-500'>ADDRESS:</div>
-          <div className='ml-2'>{getPrettierAddress('willbeaddr', 4)}</div>
+          <div className='ml-2'>{(address === NO_ADDRESS) ? 'No address found' : getPrettierAddress(address, 4)}</div>
         </div>
       </div>
     </div>

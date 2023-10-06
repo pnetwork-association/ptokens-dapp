@@ -11,9 +11,13 @@ export type Chain = {
   networkId: NetworkId
 }
 
-const swapChains: Chain[] = [
+export const getChainById = (id: ChainId) => swapChains[id] || null
+
+export const getChainByBlockchain = (blockchain: Blockchain) => Object.values(swapChains).find((chain: Chain) => chain.blockchain == blockchain) as Chain
+
+const swapChains: Record<ChainId, Chain> = {
   /* #################   Chains   #################*/
-  {
+  [ChainId.ETH]: {
     id: ChainId.ETH,
     chainId: 1,
     endpoint: 'https://cloudflare-eth.com/',
@@ -22,7 +26,7 @@ const swapChains: Chain[] = [
     network: Network.Mainnet,
     image: 'ETH.svg'
   },
-  {
+  [ChainId.BSC]: {
     id: ChainId.BSC,
     chainId: 56,
     endpoint: 'https://bsc-dataseed1.binance.org/',
@@ -31,7 +35,7 @@ const swapChains: Chain[] = [
     network: Network.Mainnet,
     image: 'BSC.svg'
   },
-  {
+  [ChainId.GNOSIS]: {
     id: ChainId.GNOSIS,
     chainId: 100,
     endpoint: 'https://rpc.xdaichain.com/',
@@ -40,7 +44,7 @@ const swapChains: Chain[] = [
     network: Network.Mainnet,
     image: 'GNOSIS.svg'
   },
-  {
+  [ChainId.ARBITRUM]: {
     id: ChainId.ARBITRUM,
     chainId: 42161,
     endpoint: 'https://arb1.arbitrum.io/rpc',
@@ -49,13 +53,15 @@ const swapChains: Chain[] = [
     network: Network.Mainnet,
     image: 'ARBITRUM.svg'
   },
-  // {
-  //   id: ChainId.BTC,
-  //   blockchain: Blockchain.Bitcoin,
-  //   networkId: NetworkId.SepoliaTestnet,
-  //   network: Network.Mainnet,
-  //   image: 'BTC.svg'
-  // },
-]
+  [ChainId.POLYGON]: {
+    id: ChainId.POLYGON,
+    chainId: 137,
+    endpoint: 'https://polygon-rpc.com/',
+    blockchain: Blockchain.Polygon,
+    networkId: NetworkId.PolygonMainnet,
+    network: Network.Mainnet,
+    image: 'POLYGON.svg'
+  },
+}
 
 export default swapChains

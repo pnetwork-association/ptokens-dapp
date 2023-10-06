@@ -1,136 +1,105 @@
-import { SwapResult } from 'ptokens-entities'
+import { SwapResult, pTokensAsset } from 'ptokens-entities'
 import { pTokensSwap } from 'ptokens-swap'
-import { pTokensEvmAsset } from 'ptokens-assets-evm'
 
-// import { parseError } from '../../../utils/errors'
 import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
-// import { updateInfoModal } from '../../pages/pages.actions'
-// import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
-import { approveTransaction, getBigInt } from './evm-utils'
-import { store } from '../../store'
-import { resetProgress, updateProgress, updateSwapButton } from './swapSlice'
+import { approveTransaction, getBigInt } from '../../evm-utils'
+import { getChainByBlockchain } from '../../../constants/swap-chains'
+import { TProgressContext } from '../../ContextProvider'
+import { getPublicClient } from 'wagmi/actions'
 
 
-const peginWithWallet = async ({ swap , ptokenFrom, ptokenTo }: { swap: pTokensSwap; ptokenFrom: pTokensEvmAsset; ptokenTo: pTokensEvmAsset }) => {
-  let link: string
+const peginWithWallet = async ({ swap , ptokenFrom, ptokenTo, progress }: { swap: pTokensSwap; ptokenFrom: pTokensAsset; ptokenTo: pTokensAsset; progress: TProgressContext;}) => {
+  
+  const sourceChainId = getChainByBlockchain(ptokenFrom.blockchain).chainId
+  const publicClient = getPublicClient({chainId: sourceChainId})
+  // let link: string
   // NOTE: peth uses ethers
-
-  store.dispatch(
-    updateProgress({
-      show: true,
-      percent: 0,
-      message: 'Waiting for the transfer approval ...',
-      steps: [0, 25, 50, 75, 100],
-      terminated: false,
-    })
-  )
+  progress?.setShow(true)
+  progress?.setMessage('Waiting for the approval to be granted to pNetwork contract ...')
 
   if (swap.sourceAsset.isNative) {
     try {
-      const _amount = getBigInt(BigInt(swap.amount), ptokenTo.assetInfo.underlyingAssetDecimals)
+      const _amount = getBigInt(swap.amount, ptokenTo.assetInfo.underlyingAssetDecimals)
       const approve_hash = await approveTransaction(
-        ptokenFrom.assetTokenAddress,
+        swap.sourceAsset.pTokenAddress,
         swap.sourceAsset.assetTokenAddress,
         _amount,
+        sourceChainId,
         ptokenTo.assetInfo.underlyingAssetSymbol === 'USDT'
       )
-      link = getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, approve_hash as string)
+      if (approve_hash.hashType == true) {
+        const approve_tx = await publicClient.waitForTransactionReceipt({hash: approve_hash.message as `0x${string}`})
+        progress?.setMessage(getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, approve_tx.transactionHash as string))
+      } else {
+        progress?.setMessage(approve_hash.message)
+      }
+      progress?.setStep(1)
     } catch (_err) {
-      // if (_err instanceof Error) {
-      //   _dispatch(
-      //     updateInfoModal({
-      //       show: true,
-      //       text: 'Error during pegin, try again!',
-      //       showMoreText: _err.message ? _err.message : _err.toString(),
-      //       showMoreLabel: 'Show Details',
-      //       icon: 'cancel',
-      //     })
-      //   )
-      // }
-      // _dispatch(updateSwapButton('Swap'))
+      progress?.setStep(0)
+      progress?.setMessage('')
+      progress?.setIsComplete(false)
+      progress?.setShow(false)
       console.error(_err)
       return
     }
   }
 
-  store.dispatch(
-    updateProgress({
-      show: true,
-      percent: 0,
-      message: 'Waiting for the transaction to be signed ...',
-      steps: [0, 25, 50, 75, 100],
-      terminated: false,
-    })
-  )
-
+  progress?.setMessage('Waiting for the transaction to be signed ...')
+  let link: string
   await swap
     .execute()
     .on('inputTxBroadcasted', (_swapResult: SwapResult) => {
+      console.log(_swapResult)
       link = getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, _swapResult.txHash)
-      store.dispatch(
-        updateProgress({
-          show: true,
-          percent: 25,
-          message: `<a href="${link}" target="_blank">Transaction</a> broadcasted! Waiting for confirmation ...`,
-          steps: [0, 25, 50, 75, 100],
-          terminated: false,
-        })
-      )
+      console.log('inputTxBroadcasted')
+      progress?.setStep(2)
+      progress?.setMessage(`<a href="${link}" target="_blank">Transaction</a> broadcasted! Waiting for confirmation ...`)
+      console.log('link', link)
+      // store.dispatch(
+      //   updateProgress({
+      //     show: true,
+      //     percent: 25,
+      //     message: `<a href="${link}" target="_blank">Transaction</a> broadcasted! Waiting for confirmation ...`,
+      //     steps: [0, 25, 50, 75, 100],
+      //     terminated: false,
+      //   })
+      // )
     })
     .on('inputTxConfirmed', () => {
-      store.dispatch(
-        updateProgress({
-          show: true,
-          percent: 50,
-          message: `Waiting for the pNetwork to detect your <a href="${link}" target="_blank">transaction</a> ...`,
-          steps: [0, 25, 50, 75, 100],
-          terminated: false,
-        })
-      )
+      console.log('inputTxConfirmed')
+      progress?.setStep(3)
+      progress?.setMessage(`Waiting for the pNetwork to detect your <a href="${link}" target="_blank">transaction</a> ...`)
+      // store.dispatch(
+      //   updateProgress({
+      //     show: true,
+      //     percent: 50,
+      //     message: `Waiting for the pNetwork to detect your <a href="${link}" target="_blank">transaction</a> ...`,
+      //     steps: [0, 25, 50, 75, 100],
+      //     terminated: false,
+      //   })
+      // )
     })
     .on('operationQueued', (_swapResult: SwapResult) => {
       link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _swapResult.txHash)
-      store.dispatch(
-        updateProgress({
-          show: true,
-          percent: 75,
-          message: `Asset transfer proposal <a href="${link}" target="_blank">transaction</a> broadcasted...`,
-          steps: [0, 25, 50, 75, 100],
-          terminated: false,
-        })
-      )
+      console.log('operationQueued')
+      progress?.setStep(4)
+      progress?.setMessage(`Asset transfer proposal <a href="${link}" target="_blank">transaction</a> broadcasted...`)
     })
     .on('operationExecuted', (_swapResult: SwapResult) => {
       link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _swapResult.txHash)
-      store.dispatch(
-        updateProgress({
-          show: true,
-          percent: 100,
-          message: `Asset transfer <a href="${link}" target="_blank">transaction</a> executed.`,
-          steps: [0, 25, 50, 75, 100],
-          terminated: true,
-        })
-      )
-      store.dispatch(updateSwapButton({disabled: false, text: 'Swap'}))
+      console.log('operationExecuted')
+      progress?.setStep(5)
+      progress?.setMessage(`Asset transfer <a href="${link}" target="_blank">transaction</a> executed.`)
+      // store.dispatch(updateSwapButton({disabled: false, text: 'Swap'}))
       // setTimeout(() => _dispatch(loadBalanceByAssetId(ptokenFrom.id)), 2000)
       // setTimeout(() => _dispatch(loadBalanceByAssetId(ptokenTo.id)), 2000)
     })
     .catch((_err) => {
+      progress?.setStep(0)
+      progress?.setMessage('')
+      progress?.setIsComplete(false)
+      progress?.setShow(false)
       console.error(_err)
-      // const { showModal } = parseError(_err)
-      // if (showModal) {
-      //   _dispatch(
-      //     updateInfoModal({
-      //       show: true,
-      //       text: 'Error during pegin, try again!',
-      //       showMoreText: _err.message ? _err.message : _err,
-      //       showMoreLabel: 'Show Details',
-      //       icon: 'cancel',
-      //     })
-      //   )
-      // }
-      store.dispatch(updateSwapButton({disabled: false, text: 'Swap'}))
-      store.dispatch(resetProgress())
     })
   }
 

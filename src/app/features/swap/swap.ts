@@ -1,26 +1,31 @@
-
-import { pTokensEvmAsset } from "ptokens-assets-evm"
+import { pTokensAsset } from "ptokens-entities"
 
 import { getSwapBuilder } from "../../../utils/ptokens"
-import { isNative } from "../../../constants/swap-assets"
+// import { isNative } from "../../../constants/swap-assets"
 import peginWithWallet from "./pegin-with-wallet"
+import { TProgressContext } from "../../ContextProvider"
 
-
-export const swap = async (sourceAsset: pTokensEvmAsset, destinationAsset: pTokensEvmAsset, _amount: string, _address: string) => {
+//TODO change string to bigint
+export const swap = async (sourceAsset: pTokensAsset, destinationAsset: pTokensAsset, _amount: string, _address: string, _progress?: TProgressContext) => {
   try {
     // _dispatch(actions.progressReset())
+    console.log('down the rabbit hole')
     const swapBuilder = getSwapBuilder()
-    swapBuilder.setAmount(_amount)
+    if (_amount === '0') throw new Error('amount is 0')
+    swapBuilder.setAmount(_amount.toString())
+    swapBuilder.setNetworkFees(100)
     swapBuilder.setSourceAsset(sourceAsset)
     swapBuilder.addDestinationAsset(destinationAsset, _address, '0x', destinationAsset.isNative)
     const swap = swapBuilder.build()
+    console.log(swap)
     await peginWithWallet({
       swap,
       ptokenFrom: sourceAsset,
       ptokenTo: destinationAsset,
+      progress: _progress
     })
   } catch (_err) {
-    // console.error(_err)
+    console.error(_err)
     // const { showModal } = parseError(_err)
     // if (showModal) {
     //   _dispatch(

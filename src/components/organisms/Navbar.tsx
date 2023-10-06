@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'  
 
 import NavbarItem from '../molecules/NavbarItems'
-import Profile from '../../wallet/evm-chains/Profile'
+import Profile from '../../app/wallet/evm-chains/Profile'
 
 const Navbar = (): JSX.Element => {
   const navigate = useNavigate()

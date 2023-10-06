@@ -29,7 +29,7 @@ const ChainsDropdown = ({selectedAsset, selectedChain, setSelectedChain}: Chains
       </label>
       <ul  tabIndex={0} className="dropdown-content menu shadow bg-gray-800 rounded-md w-36 p-2 pb-0">
         <li>
-          {swapChains.filter((chain: Chain) => chain != selectedChain).map((chain: Chain) => (
+          {Object.values(swapChains).filter((chain: Chain) => chain != selectedChain).map((chain: Chain) => (
             <button 
               key={chain.id}
               className={cn({

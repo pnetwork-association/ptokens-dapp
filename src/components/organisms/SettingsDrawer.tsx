@@ -117,6 +117,14 @@ const SettingsDrawer = ({ children }: SettingsDrawerProps): JSX.Element => {
               label: 'Arbitrum',
               value: FactoryAddress.get(NetworkId.ArbitrumMainnet) as string, // TODO check type
             },
+            [Blockchain.Bsc]: {
+              label: 'Bsc',
+              value: FactoryAddress.get(NetworkId.BscMainnet) as string, // TODO check type
+            },
+            [Blockchain.Polygon]: {
+              label: 'Polygon',
+              value: FactoryAddress.get(NetworkId.PolygonMainnet) as string, // TODO check type
+            },
           },
         },
         rpcEndpoints: {
@@ -129,6 +137,14 @@ const SettingsDrawer = ({ children }: SettingsDrawerProps): JSX.Element => {
             [Blockchain.Arbitrum]: {
               label: 'Arbitrum',
               value: settings.rpc[Network.Mainnet][Blockchain.Arbitrum].endpoint,
+            },
+            [Blockchain.Bsc]: {
+              label: 'Bsc',
+              value: settings.rpc[Network.Mainnet][Blockchain.Bsc].endpoint,
+            },
+            [Blockchain.Polygon]: {
+              label: 'Polygon',
+              value: settings.rpc[Network.Mainnet][Blockchain.Polygon].endpoint,
             },
           },
         },

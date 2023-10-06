@@ -1,38 +1,32 @@
 import { configureChains, createConfig } from 'wagmi'
-import { arbitrum, bsc, gnosis, mainnet } from '@wagmi/core/chains'
+import { arbitrum, bsc, gnosis, mainnet, polygon } from '@wagmi/core/chains'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
+import settings from '../../../settings'
+import { Blockchain, Network } from 'ptokens-constants'
 
+
+//TODO pass also configuration for providers
 const { chains, publicClient } = configureChains(
-  [arbitrum, gnosis, bsc, mainnet],
+  [mainnet, arbitrum, bsc, gnosis, polygon],
   [
     jsonRpcProvider({
-      rpc: () => ({
-        http: `https://arb1.arbitrum.io/rpc`,
+      rpc: (chain) => ({
+        http:
+          chain.id === arbitrum.id ? settings.rpc[Network.Mainnet][Blockchain.Arbitrum].endpoint :
+          chain.id === bsc.id ? settings.rpc[Network.Mainnet][Blockchain.Bsc].endpoint:
+          chain.id === gnosis.id ? settings.rpc[Network.Mainnet][Blockchain.Gnosis].endpoint:
+          chain.id === polygon.id ? settings.rpc[Network.Mainnet][Blockchain.Polygon].endpoint:
+          'Unsupported Chain'
       }),
     }),
-    jsonRpcProvider({
-      rpc: () => ({
-        http: `https://rpc.xdaichain.com/`,
-      }),
-    }),
-    jsonRpcProvider({
-      rpc: () => ({
-        http: `https://bsc-dataseed1.binance.org/`,
-      }),
-    }),
-    jsonRpcProvider({
-      rpc: () => ({
-        http: `https://cloudflare-eth.com/`,
-      }),
-    }),
-  ],
+  ]
 )
 
 const wagmiConfig = createConfig({
-  autoConnect: true,
+  autoConnect: false,
   connectors: [
     new MetaMaskConnector({ chains }),
     new CoinbaseWalletConnector({

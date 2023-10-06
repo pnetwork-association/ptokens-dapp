@@ -1,11 +1,16 @@
 import { RiArrowDownSLine } from "react-icons/ri"
-import { useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useContext, useEffect, useState } from "react"
 import { useBalance, useAccount } from 'wagmi'
+import { pTokensAsset } from "ptokens-entities"
+import cn from "classnames"
 
 import AssetsModal from "./AssetsModal"
-import swapAssets, { Asset } from "../../constants/swap-assets"
+import swapAssets, { Asset, NativeAsset, isNative } from "../../constants/swap-assets"
 import ChainsDropdown from "./ChainsDropdown"
-import swapChains, { Chain } from "../../constants/swap-chains"
+import swapChains, { Chain, getChainByBlockchain } from "../../constants/swap-chains"
+
+import { NO_ADDRESS } from "../../constants"
+import { SwapContext } from "../../app/ContextProvider"
 
 type SwapLineProps = {
   title: string
@@ -13,19 +18,78 @@ type SwapLineProps = {
   selectedAsset: Asset
   setChain: (arg0: Chain) => void
   selectedChain: Chain
+  amount: string
+  setAmount: Dispatch<SetStateAction<string>>
+  pTokenAsset?: pTokensAsset
 }
 
-const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain}: SwapLineProps): JSX.Element => {
+type TrangeSlider = {
+  value: string
+  disabled: boolean
+}
+
+const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, amount, setAmount, pTokenAsset}: SwapLineProps): JSX.Element => {
+  const swapContext = useContext(SwapContext)
+  // const pTokenAssetsContext = useContext(PTokenAssetsContext)
   const [assetModalOpen, setAssetModalOpen] = useState(false)
-  const { address, isConnecting, isDisconnected } = useAccount()
+  const [rangeStatus, setRangeStatus] = useState<TrangeSlider>({value: '0', disabled: true})
+  const { address, isDisconnected } = useAccount()
+  const assetAddress = pTokenAsset ? pTokenAsset.assetTokenAddress :
+    isNative(selectedAsset) ? (selectedAsset as NativeAsset).address :
+    NO_ADDRESS
   const { data, isError, isLoading } = useBalance({
     address: address,
+    token: (assetAddress && assetAddress !== NO_ADDRESS) ? assetAddress as `0x${string}` : undefined,
+    chainId: getChainByBlockchain(selectedAsset.blockchain)?.chainId
   })
-  const [amount, setAmount] = useState(0)
+
+  const rangeSliderStyle = cn({
+    "btn btn-ghost btn-xs mr-4 hover:text-blue-600 hover:bg-transparent" : true,
+    "text-blue-600": amount == data?.formatted,
+  })
 
   const handleChange = (event: any) => {
-    setAmount(event.target.value)
-  };
+    if (data) {
+      // if (BigInt(event.target.value * (10 ** data.decimals)) > BigInt(Number.MAX_SAFE_INTEGER))
+        // console.warn('Number is too big, expect errors')
+      if (event.target.value && data && BigInt(Math.round(event.target.value * (10 ** data.decimals))) > data.value) { // FIXME this rounding is necessary because of precision but it will cause problems in the future.
+        setAmount(data.formatted)
+      }
+      else setAmount(event.target.value ? event.target.value.toString() : 0n) // FIXME this rounding is necessary because of precision but it will cause problems in the future.
+    } else setAmount(event.target.value)
+  }
+
+  // const formatAmount = (value: bigint) => {
+  //   if (data) {
+  //     // if (value > BigInt(Number.MAX_SAFE_INTEGER)) {
+  //     //   console.warn('Number is too big, expect errors')
+  //     // }
+  //     return Number(value) / (10 ** data?.decimals)
+  //   }
+  //   else return value.toString()
+  // }
+
+  // useEffect (() => {
+  //   console.log(pTokenAsset?.assetTokenAddress === pTokenAssetsContext?.asset?.origAsset?.assetTokenAddress)
+  //   console.log(pTokenAsset, pTokenAssetsContext?.asset?.origAsset)
+  //   if (pTokenAsset?.assetTokenAddress === pTokenAssetsContext?.asset?.origAsset?.assetTokenAddress)
+  //     swapContext?.setSwapAmount(amount)
+  // }, [amount])
+
+  useEffect(() => {
+    if (isDisconnected) setAmount('0')
+  }, [isDisconnected])
+
+  useEffect(() => {
+    if (data) {
+      if (Number(amount) >  Number(data.formatted)) setRangeStatus({value: data.formatted, disabled: false})
+      else setRangeStatus({value: amount, disabled: false})
+    } else setRangeStatus({value: '0', disabled: true})
+  }, [data, amount])
+
+  useEffect(() => {
+    
+  }, [amount])
 
   useEffect(() => {
     setChain(Object.values(swapChains).find((chain: Chain) => chain.blockchain === selectedAsset.blockchain) as Chain)
@@ -56,21 +120,30 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain}: Swa
           <input type="number" placeholder="0" className="input text-right text-4xl w-full focus:outline-none mb-1 grow mr-0" value={amount} onChange={handleChange}/>
         </div>
         <div className="flex justify-between items-center w-full ml-3">
-          {isLoading || isError ? (
-            <>
-              <div>
-                Balance: 
+          {isLoading ? (
+            <div className="flex justify-start items-center">
+              Balance:
+              <span className="loading loading-ring loading-md ml-2"></span> 
+            </div>
+          ) : isError ? (
+            <div>
+                Error in loading Balance.
               </div>
-              <span className="loading loading-ring loading-md"></span>
-            </>
           ) : (
             <div>
-             Balance: {data ? data.formatted : 0}
+              Balance: {data ? data.formatted : 0}
             </div>
           )}
+          {data ? (
+            <button className={rangeSliderStyle} onClick={() => setAmount(data.formatted)} >Max</button>
+          ) : null}
         </div>
         <div className="w-full px-2">
-          <input type="range" min={0} max="100" className="range range-xs" defaultValue="0" value={data?.formatted} />
+          { data ? (
+            <input type="range" min={0} max={data?.formatted.toString()} className="range-custom range-info" value={rangeStatus.value} step={(Number(data?.formatted) / 100).toString()} disabled={rangeStatus.disabled} onChange={handleChange} /> 
+          ) : (
+            <input type="range" min={0} max={0} className="range-custom range-info" disabled={true} />
+          )}
         </div>
       </div>
       <AssetsModal setAsset={setAsset} open={assetModalOpen} isOpen={setAssetModalOpen} />
