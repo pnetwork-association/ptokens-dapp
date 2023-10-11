@@ -12,6 +12,7 @@ import { pTokensAsset } from 'ptokens-entities'
 const getAssetBuilder = async (_asset: Asset) => {
   if (networkIdToTypeMap.get(_asset.networkId) === BlockchainType.EVM) {
     const publicClient = getPublicClient({chainId: getBlockchain(_asset).chainId})
+    // @ts-ignore
     const provider = new pTokensEvmProvider(publicClient)
     return new pTokensEvmAssetBuilder(provider)
   }
@@ -45,7 +46,6 @@ export const createAsset = async (_asset: Asset): Promise<pTokensAsset> => { // 
     const assetInfo = buildAssetInfo(_asset)
     builder.setAssetInfo(assetInfo)
     const asset = await builder.build()
-    console.log(asset)
     return asset
   } else {
     throw new Error('Missing builder')

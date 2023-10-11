@@ -1,5 +1,5 @@
 import { RiArrowDownSLine } from "react-icons/ri"
-import { Dispatch, SetStateAction, useContext, useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { useBalance, useAccount } from 'wagmi'
 import { pTokensAsset } from "ptokens-entities"
 import cn from "classnames"
@@ -10,7 +10,6 @@ import ChainsDropdown from "./ChainsDropdown"
 import swapChains, { Chain, getChainByBlockchain } from "../../constants/swap-chains"
 
 import { NO_ADDRESS } from "../../constants"
-import { SwapContext } from "../../app/ContextProvider"
 
 type SwapLineProps = {
   title: string
@@ -29,8 +28,6 @@ type TrangeSlider = {
 }
 
 const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, amount, setAmount, pTokenAsset}: SwapLineProps): JSX.Element => {
-  const swapContext = useContext(SwapContext)
-  // const pTokenAssetsContext = useContext(PTokenAssetsContext)
   const [assetModalOpen, setAssetModalOpen] = useState(false)
   const [rangeStatus, setRangeStatus] = useState<TrangeSlider>({value: '0', disabled: true})
   const { address, isDisconnected } = useAccount()

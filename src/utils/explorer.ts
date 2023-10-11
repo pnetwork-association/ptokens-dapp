@@ -24,17 +24,17 @@ const transactionBaseLink: Record<Blockchain, string> = {
 }
 
 const tokenBaseLink: Record<Blockchain, string> = {
-  [Blockchain.Gnosis]: `${settings.explorers[Network.Mainnet][Blockchain.Gnosis]}address/%s`,
-  [Blockchain.Arbitrum]: `${settings.explorers[Network.Mainnet][Blockchain.Arbitrum]}token/%s`,
+  [Blockchain.Gnosis]: `${settings.explorers[Network.Mainnet][Blockchain.Gnosis]}address/`,
+  [Blockchain.Arbitrum]: `${settings.explorers[Network.Mainnet][Blockchain.Arbitrum]}token/`,
   [Blockchain.Ethereum]: '',
   [Blockchain.Sepolia]: '',
   [Blockchain.Goerli]: '',
   [Blockchain.Bitcoin]: '',
   [Blockchain.Eos]: '',
   [Blockchain.Telos]: '',
-  [Blockchain.Bsc]: '',
+  [Blockchain.Bsc]: `${settings.explorers[Network.Mainnet][Blockchain.Bsc]}token/`,
   [Blockchain.Xdai]: '',
-  [Blockchain.Polygon]: '',
+  [Blockchain.Polygon]: `${settings.explorers[Network.Mainnet][Blockchain.Polygon]}address/`,
   [Blockchain.Ultra]: '',
   [Blockchain.Fio]: '',
   [Blockchain.Luxochain]: '',

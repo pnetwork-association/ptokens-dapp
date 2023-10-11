@@ -18,12 +18,12 @@ const ChainsDropdown = ({selectedAsset, selectedChain, setSelectedChain}: Chains
     }
   };
   return(
-    <div className="dropdown dropdown-end">
+    <div className="dropdown dropdown-end z-10">
       {/* label instead of button because of a safari bug */}
       <label tabIndex={0} className="btn btn-sm btn-ghost max-w-[32px] hover:max-w-sm overflow-hidden px-1
          transition-[max-width] duration-[600ms] hover:duration-300 delay-500 hover:delay-0 flex-nowrap justify-start border-0
          focus:!max-w-sm">
-          <img src={`/svg/${selectedChain.image}`} className="w-6 h-6" />
+          <img src={`/svg/${selectedChain.image}`} className="w-6 h-6 z-10" />
           <span>{Blockchain[selectedChain.blockchain]}</span>
           <FaChevronDown size={7} color="gray"/>
       </label>

@@ -4,6 +4,7 @@ import { useAccount } from 'wagmi'
 import { getWalletClient } from "wagmi/actions"
 import { isAddress, WalletClient } from 'viem'
 import { pTokensEvmAsset } from "ptokens-assets-evm"
+import cn from "classnames"
 
 import { swap } from "../../app/features/swap/swap"
 import { PTokenAssetsContext, ProgressContext, SwapContext, WalletContext } from "../../app/ContextProvider"
@@ -14,8 +15,10 @@ import { BlockchainType, NetworkId, networkIdToTypeMap } from "ptokens-constants
 const CONNECT_WALLET = 'Connect Wallet'
 const SWITCH_CHAIN = 'Switch chain'
 const INVALID_ADDRESS = 'Invalid Address'
-const ERROR = 'Error'
+const SET_AMOUNT = 'Set Amount'
 const INIT_SWAP = 'Swap'
+const LOADING = 'Loading'
+const ERROR = 'Error'
 
 const isValidAddress = (_networkId: NetworkId, _address: string) => {
   if (networkIdToTypeMap.get(_networkId) === BlockchainType.EVM) {
@@ -44,25 +47,41 @@ const SwapButtonControl = (): JSX.Element => {
   }, [isConnected, pTokenAssets])
 
   useEffect(() => {
-    if (pTokenAssets?.asset?.origAsset && pTokenAssets?.asset?.destAsset && assetWalletClient)
-      (pTokenAssets?.asset?.origAsset as pTokensEvmAsset).setWalletClient(assetWalletClient as WalletClient)
+    if (pTokenAssets?.asset?.origAsset && pTokenAssets?.asset?.destAsset && assetWalletClient) {
+      // @ts-ignore
+      (pTokenAssets?.asset?.origAsset as pTokensEvmAsset).setWalletClient(assetWalletClient)
+    }
   }, [assetWalletClient, pTokenAssets])
 
   useEffect(() => {
     if (swapData && walletData && pTokenAssets?.asset?.origAsset && pTokenAssets?.asset?.destAsset) {
-      if (!walletData?.isWalletConnected) {
-        swapData?.setSwapButtonText(CONNECT_WALLET)
+      if (!walletData.isWalletConnected) {
+        swapData.setSwapButtonDisabled(false)
+        swapData.setSwapButtonText(CONNECT_WALLET)
       }
-      else if (walletData.walletSelChain && pTokenAssets?.asset?.origAsset && walletData.walletSelChain.blockchain != pTokenAssets.asset.origAsset.blockchain) {
+      else if (walletData.walletSelChain && pTokenAssets.asset.origAsset && walletData.walletSelChain.blockchain != pTokenAssets.asset.origAsset.blockchain) {
+        swapData.setSwapButtonDisabled(false)
         swapData?.setSwapButtonText(SWITCH_CHAIN)
       }
       else if (!isValidAddress(pTokenAssets.asset.destAsset.networkId, swapData.destinationAddress)) {
-        swapData?.setSwapButtonText(INVALID_ADDRESS)
+        swapData.setSwapButtonDisabled(true)
+        swapData.setSwapButtonText(INVALID_ADDRESS)
+      }
+      else if (swapData.swapAmount === '0') {
+        swapData.setSwapButtonDisabled(true)
+        swapData.setSwapButtonText(SET_AMOUNT)
       }
       else {
-        swapData?.setSwapButtonText(INIT_SWAP)
+        swapData.setSwapButtonDisabled(false)
+        swapData.setSwapButtonText(INIT_SWAP)
       }
-    } else swapData?.setSwapButtonDisabled(true) || swapData?.setSwapButtonText(ERROR)
+    } else if (!isConnected) {
+      swapData?.setSwapButtonDisabled(true)
+      swapData?.setSwapButtonText(LOADING)
+    } else {
+      swapData?.setSwapButtonDisabled(true)
+      swapData?.setSwapButtonText(ERROR)
+    }
       
   }, [swapData, walletData, pTokenAssets])
 
@@ -84,9 +103,14 @@ const SwapButtonControl = (): JSX.Element => {
     } else throw new Error('No swap data or wallet data found')
   }
 
+  const swapButtonStyle = cn({
+    "btn btn-lg w-11/12 m-4 bg-sky-900 border-sky-900 hover:bg-sky-800 hover:border-sky-800 hover:scale-[101%]": true,
+    "btn-disabled": swapData?.swapButtonDisabled,
+  })
+
   return(    
     <button
-      className="btn btn-lg w-11/12 m-4 bg-sky-900 border-sky-900 hover:bg-sky-800 hover:border-sky-800 hover:scale-[101%]"
+      className={swapButtonStyle}
       onClick={swapButtonAction}
     >
       {swapData?.swapButtonText}

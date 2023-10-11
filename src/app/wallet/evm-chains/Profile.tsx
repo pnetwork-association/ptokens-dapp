@@ -85,9 +85,9 @@ export const Profile = (): JSX.Element => {
           <div className="drawer drawer-end">
             <input id="my-drawer" type="checkbox" className="drawer-toggle" checked={walletContext?.isDrawerExtended} onChange={handleWalletDrawerInputChange}/>
             <WalletDrawerButton />
-            <div className="drawer-side">
+            <div className="drawer-side fixed z-[99]">
               <label htmlFor="my-drawer" className="drawer-overlay"></label>
-              <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content z-[100]">
+              <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
                 {connectors.map((connector) => (
                   <button className='btn btn-sm text-md btn-ghost justify-start'
                     disabled={!connector.ready}

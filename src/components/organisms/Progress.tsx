@@ -1,5 +1,6 @@
 import { useContext, useEffect } from "react"
 import cn from "classnames"
+import parse from 'html-react-parser'
 
 import { ProgressContext, SwapContext } from "../../app/ContextProvider"
 
@@ -9,53 +10,50 @@ const ProgressModal = (): JSX.Element => {
 
   const step_0 = cn({
     "step px-8": true,
-    "step-primary": progressContext?.step >= 0,
+    "step-primary": progressContext ? progressContext?.step >= 0 : false,
   })
   const step_1 = cn({
     "step": true,
-    "step-primary": progressContext?.step >= 1,
+    "step-primary": progressContext ? progressContext?.step >= 1 : false,
   })
   const step_2 = cn({
     "step": true,
-    "step-primary": progressContext?.step >= 2,
+    "step-primary": progressContext ? progressContext?.step >= 2 : false,
   })
   const step_3 = cn({
     "step": true,
-    "step-primary": progressContext?.step >= 3,
+    "step-primary": progressContext ? progressContext?.step >= 3 : false,
   })
   const step_4 = cn({
     "step": true,
-    "step-primary": progressContext?.step >= 4,
+    "step-primary": progressContext ? progressContext?.step >= 4 : false,
   })
   const step_5 = cn({
     "step": true,
-    "step-primary": progressContext?.step >= 5,
+    "step-primary": progressContext ? progressContext?.step >= 5 : false,
   })
 
   useEffect(() => {
-    if (progressContext?.show === true)
+    console.log(progressContext?.message)
+    if (progressContext?.show === true) {
       swapContext?.setSwapButtonDisabled(true)
-    else swapContext?.setSwapButtonDisabled(false)
+    }
   }, [progressContext])
 
   return(
     <>
       {progressContext?.show ? (
-        <div className="flex flex-col justify-between items-center w-11/12 bg-base-100 rounded-md py-3">
-          {/* <div className="border border-gray-600 m-4 mt-1 px-0 pt-2 pb-1 rounded-md"> */}
-            <ul className="steps ">
+        <div className="flex flex-col justify-between items-center w-11/12 bg-base-100 rounded-md py-3 mb-7">
+            <ul className="steps">
               <li className={step_0}>Approve</li>
               <li className={step_1}>Sign</li>
               <li className={step_2}>Broadcast</li>
               <li className={step_3}>Confirmed</li>
               <li className={step_4}>Queued</li>
               <li className={step_5}>Executed</li>
-              {/* <li className="step">Operation queued</li>
-              <li className="step">Operation executed</li> */}
             </ul>
-          {/* </div> */}
           <div className="mt-5">
-            {progressContext.message}
+            {parse(progressContext.message)}
           </div>
         </div>
       ) : null }

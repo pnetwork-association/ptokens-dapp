@@ -4,6 +4,7 @@ import { pTokensAsset } from "ptokens-entities"
 import { Asset, NativeAsset, isNative } from "../../constants/swap-assets"
 import { getBlockchain, getPrettierAddress } from "../../utils/utils"
 import { NO_ADDRESS } from "../../constants"
+import { getCorrespondingTokenExplorerLinkByBlockchain } from "../../utils/explorer"
 
 type InfoCardProps = {
   asset: Asset
@@ -46,7 +47,9 @@ const InfoCard = ({asset, pTokenAsset, title, className = ''}: InfoCardProps): J
         </div>
         <div className="flex items-center ml-4">
           <div className='bold mr-2 w-16 text-gray-500'>ADDRESS:</div>
-          <div className='ml-2'>{(address === NO_ADDRESS) ? 'No address found' : getPrettierAddress(address, 4)}</div>
+          <a className='link link-info ml-2' href={getCorrespondingTokenExplorerLinkByBlockchain(asset.blockchain, address)}>
+            {(address === NO_ADDRESS) ? 'No address found' : getPrettierAddress(address, 4)}
+          </a>
         </div>
       </div>
     </div>

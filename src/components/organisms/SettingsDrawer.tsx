@@ -13,7 +13,7 @@ type  SettingsDrawerProps = {
 const SettingsDrawer = ({ children }: SettingsDrawerProps): JSX.Element => {
   const buttonSaveStyle = {
     color: 'white',
-    background: 'gray',
+    background: '#075985',
     fontSize: '16px',
     borderRadius: '10px',
     border: '0',
@@ -22,7 +22,7 @@ const SettingsDrawer = ({ children }: SettingsDrawerProps): JSX.Element => {
 
   const buttonResetStyle = {
     color: 'white',
-    background: 'gray',
+    background: '#1F2937',
     fontSize: '16px',
     borderRadius: '10px',
     border: '0',
@@ -37,13 +37,14 @@ const SettingsDrawer = ({ children }: SettingsDrawerProps): JSX.Element => {
   }
 
   const labelStyle = {
-    color: 'white',
+    color: '#A6ADAE',
     fontSize: '1.5rem',
-    fontWeight: '500',
+    fontWeight: '300',
   }
 
   const drawerStyle = {
-    background: 'gray',
+    background: '#191e24',
+    borderRadius: '!0px',
   }
 
   const headerStyle = {
@@ -57,10 +58,11 @@ const SettingsDrawer = ({ children }: SettingsDrawerProps): JSX.Element => {
     boxShadow: 'none !important',
     textAlign: 'left',
     fontSize: '16px',
-    color: 'blue',
+    color: '#A6ADAE',
     width: '100%',
-    background: 'white',
-    borderRadius: '5px',
+    background: '#1F2937',
+    borderRadius: '4px',
+    borderColor: '#A6ADAE',
   }
 
   const sectionLabelStyle = {
@@ -68,10 +70,11 @@ const SettingsDrawer = ({ children }: SettingsDrawerProps): JSX.Element => {
     fontSize: '1.25rem',
     fontWeight: '350',
     marginBottom: '0px',
+    margintTop: '0px',
   }
 
   const sectionRowStyle = {
-    marginTop: '2.5rem',
+    marginTop: '1.5rem',
   }
 
   const settingRowStyle = {
@@ -99,9 +102,9 @@ const SettingsDrawer = ({ children }: SettingsDrawerProps): JSX.Element => {
       settingRowStyle={settingRowStyle}
       buttonAreaStyle={buttonAreaStyle}
       drawerDirection={'left'}
-      title={''}
-      buttonSaveText={''}
-      buttonResetText={''}
+      title={'Settings'}
+      buttonSaveText={'Save'}
+      buttonResetText={'Reset'}
       labelStyle={labelStyle}
       headerStylee={labelStyle} 
       bodyStyle={labelStyle}

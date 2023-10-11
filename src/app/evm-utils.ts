@@ -21,7 +21,6 @@ const approveTransaction = async (
   chainId: number,
   requiresReset: boolean = false,
 ): Promise<TApproveResult> => {
-  console.log('chainId', chainId)
   const walletClient = await getWalletClient({chainId: chainId})
   const account = getAccount()
   if (!account.address || !walletClient)
@@ -31,10 +30,7 @@ const approveTransaction = async (
     abi: erc20ABI,
     walletClient: walletClient
   })
-  console.log(spender)
   const allowance = await assetContract.read.allowance([account.address, stringUtils.addHexPrefix(spender)])
-  console.log('allowance', allowance)
-  console.log('amount', amount)
   let hash = ''
   if (allowance < amount) {
     const _approve = async (amount: bigint) => await assetContract.write.approve([stringUtils.addHexPrefix(spender), amount])
