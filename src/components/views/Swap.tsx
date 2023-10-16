@@ -13,6 +13,8 @@ import { defaults } from "../../constants/defaults"
 import ProgressModal from "../organisms/Progress"
 import { PTokenAssetsContext, SwapContext } from "../../app/ContextProvider"
 import { useDestPtokenAsset, useOrigPtokenAsset } from "../../hooks/use-assets"
+import { bsc, polygon } from "viem/chains"
+import { createPublicClient, http } from "viem"
 
 const Swap = (): JSX.Element => {
   const { openSettings, open: isSettingsOpen } = useContext(Web3SettingsContext)
@@ -35,6 +37,21 @@ const Swap = (): JSX.Element => {
   }
 
   useEffect (() => {
+    const a = async () => {
+      const client = createPublicClient({ 
+        chain: bsc,
+        transport: http()
+      })
+      // const rcp = await client.waitForTransactionReceipt({hash: '0xa3ca2fe3981b265c3da018120abaf6a454b60f7b5363a3559531f82acdde4308'})
+      // console.log(rcp)
+      const logs = await client.getLogs({  
+        address: '0x8Fe7F9993e8e5fCA029a0D5ABF177dE052FaF0B5',
+        fromBlock: 32534179n,
+        toBlock: 32534180n, 
+      })
+      console.log(logs)
+    }
+    a()
     swapContext?.setSwapAmount(amount)
   }, [amount])
 

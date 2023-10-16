@@ -84,6 +84,12 @@ const peginWithWallet = async ({ swap , ptokenFrom, ptokenTo, progress }: { swap
       //   })
       // )
     })
+    .on('interimOperationQueued', (_swapResult: SwapResult) => {
+      console.log('interimOperationQueued')
+    })
+    .on('interimOperationExecuted', (_swapResult: SwapResult) => {
+      console.log('interimOperationExecuted')
+    })
     .on('operationQueued', (_swapResult: SwapResult) => {
       link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _swapResult.txHash)
       console.log('operationQueued')
