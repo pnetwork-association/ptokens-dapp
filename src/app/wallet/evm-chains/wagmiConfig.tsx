@@ -5,9 +5,13 @@ import { getWeb3Settings } from 'react-web3-settings'
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-import { Blockchain } from 'ptokens-constants'
+import { Blockchain, Network } from 'ptokens-constants'
 
-const settings = getWeb3Settings()
+import settings from '../../../settings'
+
+const setting = getWeb3Settings()
+
+const getRpcEndpoint = (blockchain: Blockchain) =>  setting.rpcEndpoints ? setting.rpcEndpoints[blockchain] : settings.rpc[Network.Mainnet][blockchain].endpoint
 
 //TODO pass also configuration for providers
 const { chains, publicClient } = configureChains(
@@ -16,10 +20,10 @@ const { chains, publicClient } = configureChains(
     jsonRpcProvider({
       rpc: (chain) => ({
         http:
-          chain.id === arbitrum.id ? settings.rpcEndpoints[Blockchain.Arbitrum] :
-          chain.id === bsc.id ? settings.rpcEndpoints[Blockchain.Bsc] :
-          chain.id === gnosis.id ? settings.rpcEndpoints[Blockchain.Gnosis] :
-          chain.id === polygon.id ? settings.rpcEndpoints[Blockchain.Polygon] :
+          chain.id === arbitrum.id ? getRpcEndpoint(Blockchain.Bsc) :
+          chain.id === bsc.id ? getRpcEndpoint(Blockchain.Bsc) :
+          chain.id === gnosis.id ? getRpcEndpoint(Blockchain.Gnosis) :
+          chain.id === polygon.id ? getRpcEndpoint(Blockchain.Polygon) :
           'Unsupported Chain'
       }),
     }),
