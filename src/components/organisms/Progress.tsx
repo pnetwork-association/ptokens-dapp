@@ -34,7 +34,6 @@ const ProgressModal = (): JSX.Element => {
   })
 
   useEffect(() => {
-    console.log(progressContext?.message)
     if (progressContext?.show === true) {
       swapContext?.setSwapButtonDisabled(true)
     }

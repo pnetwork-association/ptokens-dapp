@@ -6,8 +6,6 @@ import { approveTransaction, getBigInt } from '../../evm-utils'
 import { getChainByBlockchain } from '../../../constants/swap-chains'
 import { TProgressContext } from '../../ContextProvider'
 import { getPublicClient } from 'wagmi/actions'
-import { retryPromise } from '../../../utils/utils'
-import { TransactionReceipt } from 'viem'
 
 
 const peginWithWallet = async ({ swap , ptokenFrom, ptokenTo, progress }: { swap: pTokensSwap; ptokenFrom: pTokensAsset; ptokenTo: pTokensAsset; progress: TProgressContext;}) => {
@@ -32,7 +30,7 @@ const peginWithWallet = async ({ swap , ptokenFrom, ptokenTo, progress }: { swap
         ptokenTo.assetInfo.underlyingAssetSymbol === 'USDT'
       )
       if (approve_hash.hashType == true) {
-        const approve_tx = await publicClient.waitForTransactionReceipt({confirmations: 5, hash: approve_hash.message as `0x${string}`})
+        const approve_tx = await publicClient.waitForTransactionReceipt({confirmations: 3, hash: approve_hash.message as `0x${string}`})
         // const waitForApprovalReceipt = publicClient.waitForTransactionReceipt({confirmations: 5, hash: approve_hash.message as `0x${string}`})
         // const approve_tx = await retryPromise<TransactionReceipt>(waitForApprovalReceipt, 3, 1500) as TransactionReceipt
         progress?.setMessage(getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, approve_tx.transactionHash as string))
@@ -56,33 +54,13 @@ const peginWithWallet = async ({ swap , ptokenFrom, ptokenTo, progress }: { swap
     .execute()
     .on('inputTxBroadcasted', (_swapResult: SwapResult) => {
       link = getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, _swapResult.txHash)
-      console.log('inputTxBroadcasted')
       progress?.setStep(2)
       progress?.setMessage(`<a href="${link}" target="_blank" className="text-blue-800" noopener noreferrer>Transaction</a> broadcasted! Waiting for confirmation ...`)
       console.log('link', link)
-      // store.dispatch(
-      //   updateProgress({
-      //     show: true,
-      //     percent: 25,
-      //     message: `<a href="${link}" target="_blank">Transaction</a> broadcasted! Waiting for confirmation ...`,
-      //     steps: [0, 25, 50, 75, 100],
-      //     terminated: false,
-      //   })
-      // )
     })
     .on('inputTxConfirmed', () => {
-      console.log('inputTxConfirmed')
       progress?.setStep(3)
       progress?.setMessage(`Waiting for the pNetwork to detect your <a href="${link}" target="_blank" className="text-blue-800" noopener noreferrer>transaction</a> ...`)
-      // store.dispatch(
-      //   updateProgress({
-      //     show: true,
-      //     percent: 50,
-      //     message: `Waiting for the pNetwork to detect your <a href="${link}" target="_blank">transaction</a> ...`,
-      //     steps: [0, 25, 50, 75, 100],
-      //     terminated: false,
-      //   })
-      // )
     })
     .on('interimOperationQueued', (_swapResult: SwapResult) => {
       console.log('interimOperationQueued')
@@ -101,9 +79,6 @@ const peginWithWallet = async ({ swap , ptokenFrom, ptokenTo, progress }: { swap
       console.log('operationExecuted')
       progress?.setStep(5)
       progress?.setMessage(`Asset transfer <a href="${link}" target="_blank" className="text-blue-800" noopener noreferrer>transaction</a> executed.`)
-      // store.dispatch(updateSwapButton({disabled: false, text: 'Swap'}))
-      // setTimeout(() => _dispatch(loadBalanceByAssetId(ptokenFrom.id)), 2000)
-      // setTimeout(() => _dispatch(loadBalanceByAssetId(ptokenTo.id)), 2000)
     })
     .catch((_err) => {
       progress?.setStep(0)

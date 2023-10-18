@@ -56,23 +56,6 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, amou
     } else setAmount(event.target.value)
   }
 
-  // const formatAmount = (value: bigint) => {
-  //   if (data) {
-  //     // if (value > BigInt(Number.MAX_SAFE_INTEGER)) {
-  //     //   console.warn('Number is too big, expect errors')
-  //     // }
-  //     return Number(value) / (10 ** data?.decimals)
-  //   }
-  //   else return value.toString()
-  // }
-
-  // useEffect (() => {
-  //   console.log(pTokenAsset?.assetTokenAddress === pTokenAssetsContext?.asset?.origAsset?.assetTokenAddress)
-  //   console.log(pTokenAsset, pTokenAssetsContext?.asset?.origAsset)
-  //   if (pTokenAsset?.assetTokenAddress === pTokenAssetsContext?.asset?.origAsset?.assetTokenAddress)
-  //     swapContext?.setSwapAmount(amount)
-  // }, [amount])
-
   useEffect(() => {
     if (isDisconnected) setAmount('0')
   }, [isDisconnected])
