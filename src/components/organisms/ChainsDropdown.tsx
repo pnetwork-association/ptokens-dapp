@@ -41,8 +41,12 @@ const ChainsDropdown = ({selectedAsset, selectedChain, setSelectedChain}: Chains
                 setSelectedChain(chain)
                 handleClick()
               }}
-          >
-            <img src={`/svg/${chain.image}`} className='h-5 mr-1' />
+          > 
+            {assetsHaveMatches(chain.blockchain, selectedAsset.symbol) ? (
+              <img src={`/svg/${chain.disabledImage}`} className='h-5 mr-1' />
+            ) : (
+              <img src={`/svg/${chain.image}`} className='h-5 mr-1' />
+            )}
             {Blockchain[chain.blockchain]}
           </button>
           ))}

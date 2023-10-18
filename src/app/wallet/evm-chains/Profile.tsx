@@ -64,7 +64,7 @@ export const Profile = (): JSX.Element => {
             </>
           ) : 'chains'}
         </label>
-        <ul tabIndex={0} className="dropdown-content z-[1] menu m-2 p-2 shadow bg-gray-800 rounded-md w-52">
+        <ul tabIndex={0} className="dropdown-content menu m-2 p-2 shadow bg-gray-800 rounded-md w-52 fixed z-[99]">
           {Object.values(swapChains).map((swapChain) => (
             <button className='btn btn-sm text-md btn-outline mb-1 justify-start'
               key={swapChain.id}

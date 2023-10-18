@@ -8,6 +8,7 @@ export type Chain = {
   network: Network
   blockchain: Blockchain
   image: string
+  disabledImage: string
   networkId: NetworkId
 }
 
@@ -24,7 +25,8 @@ const swapChains: Record<ChainId, Chain> = {
     blockchain: Blockchain.Ethereum,
     networkId: NetworkId.SepoliaTestnet, // not really supported yet
     network: Network.Mainnet,
-    image: 'ETH.svg'
+    image: 'ETH.svg',
+    disabledImage: 'ETH_gray.svg'
   },
   [ChainId.BSC]: {
     id: ChainId.BSC,
@@ -33,7 +35,8 @@ const swapChains: Record<ChainId, Chain> = {
     blockchain: Blockchain.Bsc,
     networkId: NetworkId.GoerliTestnet, // not really supported yet
     network: Network.Mainnet,
-    image: 'BSC.svg'
+    image: 'BSC.svg',
+    disabledImage: 'BSC_gray.svg'
   },
   [ChainId.GNOSIS]: {
     id: ChainId.GNOSIS,
@@ -42,7 +45,8 @@ const swapChains: Record<ChainId, Chain> = {
     blockchain: Blockchain.Gnosis,
     networkId: NetworkId.GnosisMainnet,
     network: Network.Mainnet,
-    image: 'GNOSIS.svg'
+    image: 'GNOSIS.svg',
+    disabledImage: 'GNOSIS_gray.svg'
   },
   [ChainId.ARBITRUM]: {
     id: ChainId.ARBITRUM,
@@ -51,7 +55,8 @@ const swapChains: Record<ChainId, Chain> = {
     blockchain: Blockchain.Arbitrum,
     networkId: NetworkId.ArbitrumMainnet,
     network: Network.Mainnet,
-    image: 'ARBITRUM.svg'
+    image: 'ARBITRUM.svg',
+    disabledImage: 'ARBITRUM_gray.svg'
   },
   [ChainId.POLYGON]: {
     id: ChainId.POLYGON,
@@ -60,7 +65,8 @@ const swapChains: Record<ChainId, Chain> = {
     blockchain: Blockchain.Polygon,
     networkId: NetworkId.PolygonMainnet,
     network: Network.Mainnet,
-    image: 'POLYGON.svg'
+    image: 'POLYGON.svg',
+    disabledImage: 'POLYGON_gray.svg'
   },
 }
 
