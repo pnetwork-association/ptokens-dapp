@@ -1,12 +1,13 @@
 import { configureChains, createConfig } from 'wagmi'
 import { arbitrum, bsc, gnosis, mainnet, polygon } from '@wagmi/core/chains'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
+import { getWeb3Settings } from 'react-web3-settings'
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-import settings from '../../../settings'
-import { Blockchain, Network } from 'ptokens-constants'
+import { Blockchain } from 'ptokens-constants'
 
+const settings = getWeb3Settings()
 
 //TODO pass also configuration for providers
 const { chains, publicClient } = configureChains(
@@ -15,10 +16,10 @@ const { chains, publicClient } = configureChains(
     jsonRpcProvider({
       rpc: (chain) => ({
         http:
-          chain.id === arbitrum.id ? settings.rpc[Network.Mainnet][Blockchain.Arbitrum].endpoint :
-          chain.id === bsc.id ? settings.rpc[Network.Mainnet][Blockchain.Bsc].endpoint:
-          chain.id === gnosis.id ? settings.rpc[Network.Mainnet][Blockchain.Gnosis].endpoint:
-          chain.id === polygon.id ? settings.rpc[Network.Mainnet][Blockchain.Polygon].endpoint:
+          chain.id === arbitrum.id ? settings.rpcEndpoints[Blockchain.Arbitrum] :
+          chain.id === bsc.id ? settings.rpcEndpoints[Blockchain.Bsc] :
+          chain.id === gnosis.id ? settings.rpcEndpoints[Blockchain.Gnosis] :
+          chain.id === polygon.id ? settings.rpcEndpoints[Blockchain.Polygon] :
           'Unsupported Chain'
       }),
     }),
