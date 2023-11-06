@@ -69,7 +69,7 @@ const settings = {
   rpc: {
     mainnet: {
       eth: {
-        endpoint: 'https://cloudflare-eth.com/',
+        endpoint: 'https://ethereum.publicnode.com',
         chainId: 1,
         label: 'Ethereum',
       },
