@@ -30,7 +30,7 @@
     "anchor-link": "^3.5.0",
     "anchor-link-browser-transport": "^3.5.0",
     "async-mutex": "^0.1.4",
-    "axios": "^0.21.4",
+    "axios": "^1.6.0",
     "bignumber.js": "^9.1.1",
     "cross-fetch": "^3.1.5",
     "eos-transit": "^4.0.7",
@@ -101,6 +101,12 @@
   },
   "overrides": {
     "make-dir": "4.0.0",
-    "semver": "7.5.4"
+    "semver": "7.5.4",
+    "@curvefi/api": {
+      "axios": "$axios"
+    },
+    "ptokens-assets-utxo": {
+      "axios": "$axios"
+    }
   }
 }
