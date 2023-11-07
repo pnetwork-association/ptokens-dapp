@@ -1,12 +1,13 @@
-import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
-import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
-import { updateInfoModal } from '../../pages/pages.actions'
-import { parseError } from '../../../utils/errors'
 import curve from '@curvefi/api'
 import polling from 'light-async-polling'
 import Web3 from 'web3'
+
 import { PBTC_ON_ETH_POOL, TRANSFER_EVENT_TOPIC } from '../../../constants/index'
 import { sendEvent } from '../../../ga4'
+import { parseError } from '../../../utils/errors'
+import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
+import { updateInfoModal } from '../../pages/pages.actions'
+import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
 
 function getInputAmount(web3, txReceipt, poolAddress, returnAddress, trLink) {
   poolAddress = poolAddress.toUpperCase()
@@ -151,7 +152,7 @@ const curvePhase = async (swap, provider, tokenFrom, ptokenFrom, dispatch) => {
     let updatedAmount = getInputAmount(txReceipt, pool.address, provider.selectedAddress, link)
     swap._amount = updatedAmount
   } catch (_err) {
-    console.log(_err)
+    console.error(_err)
     dispatch(
       updateInfoModal({
         show: true,
@@ -265,7 +266,9 @@ const pegoutFromCurve = async ({ swap, provider, tokenFrom, ptokenFrom, ptokenTo
       dispatch(
         updateInfoModal({
           show: true,
-          text: 'Error during pegout, try again!',
+          text: _err.message.includes('transaction underpriced')
+            ? "You transaction wasn't accepted by the network as underpriced. Please try again increasing the gasprice from your wallet before signing."
+            : 'Error during pegout, try again!',
           showMoreText: _err.message ? _err.message : _err,
           showMoreLabel: 'Show Details',
           icon: 'cancel',
