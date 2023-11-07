@@ -1,10 +1,11 @@
-import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
-import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
-import { updateInfoModal } from '../../pages/pages.actions'
-import { parseError } from '../../../utils/errors'
-import { approveTransaction, getBigNumber } from '../../evm-approve'
 import Web3 from 'web3'
+
+import { parseError } from '../../../utils/errors'
+import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
+import { approveTransaction, getBigNumber } from '../../evm-approve'
+import { updateInfoModal } from '../../pages/pages.actions'
 import { getWalletByBlockchain } from '../../wallets/wallets.selectors'
+import { updateProgress, loadBalanceByAssetId, resetProgress, updateSwapButton } from '../swap.actions'
 
 const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
   let link
@@ -27,7 +28,9 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
       dispatch(
         updateInfoModal({
           show: true,
-          text: 'Error during pegin, try again!',
+          text: _err.message.includes('transaction underpriced')
+            ? "You transaction wasn't accepted by the network as underpriced. Please try again increasing the gasprice from your wallet before signing."
+            : 'Error during pegin, try again!',
           showMoreText: _err.message ? _err.message : _err,
           showMoreLabel: 'Show Details',
           icon: 'cancel',
@@ -119,7 +122,9 @@ const peginWithWallet = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
         dispatch(
           updateInfoModal({
             show: true,
-            text: 'Error during pegin, try again!',
+            text: _err.message.includes('underpriced')
+              ? "You transaction wasn't accepted by the network as underpriced. Please try again increasing the gasprice from your wallet before signing."
+              : 'Error during pegin, try again!',
             showMoreText: _err.message ? _err.message : _err,
             showMoreLabel: 'Show Details',
             icon: 'cancel',
