@@ -56,8 +56,9 @@ const Swap = (): JSX.Element => {
   }
 
   const mainClassName = cn({
-    "flex justify-center items-start mt-5 duration-700": true,
-    "-translate-x-[15%] transition": showInfo
+    "flex max-2xl:flex-col justify-center 2xl:items-start max-2xl:items-center mt-5 duration-700": true,
+    "2xl:-translate-x-[328px] 2xl:scale-100 transition": showInfo,
+    "lg:-translate-x-[246px] lg:scale-75 origin-top transition": showInfo
   })
 
   const InfoButtonClassName = cn({
@@ -86,7 +87,7 @@ const Swap = (): JSX.Element => {
         </div>
       </div>
       <div className={mainClassName}>
-        <div className="flex flex-col w-[41rem]">
+        <div className="flex flex-col lg:w-[656px]">
           <div className="flex flex-col justify-between items-center bg-gray-800 rounded-md">
             <div className="flex justify-between items-center w-full rounded-md mt-3 mb-1">
               <div className="ml-7 mt-2 mb-1">pNetwork v3</div>
