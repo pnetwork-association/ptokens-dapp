@@ -74,23 +74,23 @@ const Swap = (): JSX.Element => {
   })
 
   const SettingsButtonAnimation = cn({
-    "hover:rotate-90 hover:duration-300 duration-500": true,
+    "hover:rotate-90 hover:duration-300 duration-500 text-slate-100": true,
     "rotate-90": isSettingsOpen
   })
-
+  
   return (
     <div>
       <div className="flex items-center justify-center">
-        <div className="alert alert-warning mt-3 w-auto">
+        <div className="alert alert-warning mt-3 w-auto rounded-md">
           <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
           <span>Warning: This dApp is experimental and bugs are expected. Funds could be lost. Use it only if you know what you are doing.</span>
         </div>
       </div>
       <div className={mainClassName}>
         <div className="flex flex-col lg:w-[656px]">
-          <div className="flex flex-col justify-between items-center bg-gray-800 rounded-md">
+          <div className="border flex flex-col justify-between items-center bg-base-200 border-base-300 rounded-lg">
             <div className="flex justify-between items-center w-full rounded-md mt-3 mb-1">
-              <div className="ml-7 mt-2 mb-1">pNetwork v3</div>
+              <div className="ml-7 mt-2 mb-1 text-slate-100">pNetwork v3</div>
               <div className="flex">
                 <button className={SettingsButtonClassName}
                   onClick={openSettings}
@@ -100,21 +100,21 @@ const Swap = (): JSX.Element => {
                 <button className={InfoButtonClassName}
                   onClick={() => setShowInfo(!showInfo)}
                 >
-                  <div>
+                  <div className="text-slate-100">
                     <RiInformationLine size={25} />
                   </div>
-                  <FaChevronRight size={11} color="gray" />
+                  <FaChevronRight size={11} color="white" />
                 </button>
               </div>
             </div>
             <SwapLine title='Origin' selectedAsset={originAsset} setAsset={setOriginAsset} selectedChain={originChain} setChain={setOriginChain} amount={amount} setAmount={setAmount} />
             <div className="divider px-7">
               <div className="btn btn-sm btn-ghost p-0" onClick={() => switchAssets()}>
-              <div className="hover:rotate-180 transition-transform duration-200"><RiArrowUpDownLine size={25}/></div>
+              <div className="hover:rotate-180 transition-transform duration-200 text-slate-100"><RiArrowUpDownLine size={25}/></div>
               </div>
             </div>
             <SwapLine title='Destination' selectedAsset={destAsset} setAsset={setDestAsset} selectedChain={destChain} setChain={setDestChain} amount={receivedAmount} setAmount={setReceivedAmount} />
-            <input type="text" placeholder="Destination Address" className="input w-11/12 mt-3 text-right focus:outline-none mb-1 grow" onChange={setDestinationAddress}/>
+            <input type="text" placeholder="Destination Address" className="input w-11/12 mt-3 text-right focus:outline-none mb-1 grow text-slate-200" onChange={setDestinationAddress}/>
             <SwapButtonControl />
             <ProgressModal />
           </div>

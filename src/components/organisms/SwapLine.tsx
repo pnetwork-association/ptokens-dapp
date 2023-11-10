@@ -77,18 +77,18 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, amou
   }, [selectedChain])
 
   return(
-    <div className="flex flex-col justify-between items-center w-11/12 bg-base-100 rounded-md">
+    <div className="flex flex-col justify-between items-center w-11/12 rounded-md bg-base-100">
       <div className="flex justify-between items-center w-full rounded-md!">
         <div className="ml-4 mt-2 mb-">{title}</div>
         <div className="mr-4 mt-2 mb-1">
           <ChainsDropdown selectedAsset={selectedAsset} selectedChain={selectedChain} setSelectedChain={setChain} />
         </div>
       </div>
-      <div className="border border-gray-600 m-4 mt-1 px-0 pt-2 pb-1 rounded-md">
+      <div className="border border-base-300 mb-4 mt-1 px-0 pt-2 pb-1 rounded-md w-[97%]">
         <div className="flex justify-between items-center w-full mb-1">
           {createPortal(<AssetsModal setAsset={setAsset} open={assetModalOpen} isOpen={setAssetModalOpen} />, document.body)}
           <button 
-            className="btn btn-lg flex-nowrap pl-3 pr-4 mr-2 ml-2 hover:scale-105"
+            className="btn btn-lg btn-secondary flex-nowrap pl-3 pr-4 mr-2 ml-2 hover:scale-[102%]" //bg-base-300 border-base-300 hover:bg-blue-900 hover:border-blue-900 text-slate-200
             onClick={() => setAssetModalOpen(true)}
           >
             <img src={`/svg/${selectedAsset.image}`} className="w-11" />
@@ -108,7 +108,7 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, amou
                 Error in loading Balance.
               </div>
           ) : (
-            <div>
+            <div className="text-slate-200">
               Balance: {data ? data.formatted : 0}
             </div>
           )}
@@ -124,7 +124,7 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, amou
           )}
         </div>
       </div>
-      <AssetsModal setAsset={setAsset} open={assetModalOpen} isOpen={setAssetModalOpen} />
+      {/* <AssetsModal setAsset={setAsset} open={assetModalOpen} isOpen={setAssetModalOpen} /> */}
     </div>
   )
 }

@@ -104,7 +104,7 @@ const SwapButtonControl = (): JSX.Element => {
   }
 
   const swapButtonStyle = cn({
-    "btn btn-lg w-11/12 m-4 bg-sky-900 border-sky-900 hover:bg-sky-800 hover:border-sky-800 hover:scale-[101%]": true,
+    "btn btn-lg btn-primary w-11/12 m-4 hover:scale-[101%]": true,
     "btn-disabled": swapData?.swapButtonDisabled,
   })
 

@@ -46,7 +46,7 @@ export const Profile = (): JSX.Element => {
   return (
     <div className='flex items-center'>
       <div className="dropdown dropdown-bottom dropdown-end">
-        <label tabIndex={0} className="btn btn-md btn-ghost flex-nowrap w-12 p-0 ml-2 hover:scale-110 hover:bg-base-100">
+        <label tabIndex={0} className="btn btn-md btn-ghost flex-nowrap w-12 p-0 ml-2 hover:scale-105 hover:bg-base-100">
         {walletContext?.walletSelChain ? (
             <>
               <img className="w-6 h-6 m-0" src={`/svg/${walletContext.walletSelChain.image}`} />

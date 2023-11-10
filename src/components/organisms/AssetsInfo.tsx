@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { RiArrowRightLine } from 'react-icons/ri'
 import cn from 'classnames'
 
@@ -43,8 +43,8 @@ const AssetsInfo = ({originAsset, destAsset, show}: AssetsInfoProps): JSX.Elemen
       <AssetChart asset={destAsset} width={chartWidth} />
       <div className='flex max-sm:flex-col md:pb-2 items-center'>
         <InfoCard asset={originAsset} pTokenAsset={assetContext?.asset?.origAsset} title="Locking" className='md:!mr-2 text-slate-200' />
-        <RiArrowRightLine size={35} className="text-gray-500" />
-        <InfoCard asset={destAsset} pTokenAsset={assetContext?.asset?.destAsset} title="Getting" className='!ml-2' />        
+        <RiArrowRightLine size={35} className="text-slate-200" />
+        <InfoCard asset={destAsset} pTokenAsset={assetContext?.asset?.destAsset} title="Getting" className='md:!ml-2 text-slate-200' />        
       </div>
     </div>
   )
