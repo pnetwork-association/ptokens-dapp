@@ -20,7 +20,7 @@ const { chains, publicClient } = configureChains(
     jsonRpcProvider({
       rpc: (chain) => ({
         http:
-          chain.id === arbitrum.id ? getRpcEndpoint(Blockchain.Bsc) :
+          chain.id === arbitrum.id ? getRpcEndpoint(Blockchain.Arbitrum) :
           chain.id === bsc.id ? getRpcEndpoint(Blockchain.Bsc) :
           chain.id === gnosis.id ? getRpcEndpoint(Blockchain.Gnosis) :
           chain.id === polygon.id ? getRpcEndpoint(Blockchain.Polygon) :
