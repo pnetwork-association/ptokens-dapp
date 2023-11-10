@@ -18,22 +18,22 @@ export const getChainByBlockchain = (blockchain: Blockchain) => Object.values(sw
 
 const swapChains: Record<ChainId, Chain> = {
   /* #################   Chains   #################*/
-  [ChainId.ETH]: {
-    id: ChainId.ETH,
-    chainId: 1,
-    endpoint: 'https://cloudflare-eth.com/',
-    blockchain: Blockchain.Ethereum,
-    networkId: NetworkId.SepoliaTestnet, // not really supported yet
-    network: Network.Mainnet,
-    image: 'ETH.svg',
-    disabledImage: 'ETH_gray.svg'
-  },
+  // [ChainId.ETH]: {
+  //   id: ChainId.ETH,
+  //   chainId: 1,
+  //   endpoint: 'https://cloudflare-eth.com/',
+  //   blockchain: Blockchain.Ethereum,
+  //   networkId: NetworkId.PolygonMainnet, // not really supported yet
+  //   network: Network.Mainnet,
+  //   image: 'ETH.svg',
+  //   disabledImage: 'ETH_gray.svg'
+  // },
   [ChainId.BSC]: {
     id: ChainId.BSC,
     chainId: 56,
     endpoint: 'https://bsc.publicnode.com/',
     blockchain: Blockchain.Bsc,
-    networkId: NetworkId.GoerliTestnet, // not really supported yet
+    networkId: NetworkId.BscMainnet, // not really supported yet
     network: Network.Mainnet,
     image: 'BSC.svg',
     disabledImage: 'BSC_gray.svg'
