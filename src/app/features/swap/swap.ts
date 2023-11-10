@@ -15,7 +15,7 @@ export const swap = async (sourceAsset: pTokensAsset, destinationAsset: pTokensA
     swapBuilder.setForwardNetworkFees(100)
     swapBuilder.setSourceAsset(sourceAsset)
     swapBuilder.addDestinationAsset(destinationAsset, _address, '0x', destinationAsset.isNative)
-    const swap = swapBuilder.build()
+    const swap = await swapBuilder.build()
     await peginWithWallet({
       swap,
       ptokenFrom: sourceAsset,
