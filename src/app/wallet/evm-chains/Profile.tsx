@@ -42,11 +42,6 @@ export const Profile = (): JSX.Element => {
     if (switchStatus === 'error' && !switchLoading && isConnected && chain)
       walletContext?.setWalletSelChain((Object.values(swapChains).find((_chain: Chain) => _chain.chainId === chain.id)))
   }, [switchLoading])
-
-  /** Handle wallet redux state */
-  // useEffect(() => {
-    // dispatch(setWalletConnectedAddress(address as string))
-  // }, [address])
  
   return (
     <div className='flex items-center'>

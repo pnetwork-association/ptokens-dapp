@@ -69,10 +69,6 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, amou
   }, [data, amount])
 
   useEffect(() => {
-    
-  }, [amount])
-
-  useEffect(() => {
     setChain(Object.values(swapChains).find((chain: Chain) => chain.blockchain === selectedAsset.blockchain) as Chain)
   }, [selectedAsset])
 
