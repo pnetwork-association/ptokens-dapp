@@ -31,7 +31,7 @@ const swapChains: Record<ChainId, Chain> = {
   [ChainId.BSC]: {
     id: ChainId.BSC,
     chainId: 56,
-    endpoint: 'https://bsc-dataseed1.binance.org/',
+    endpoint: 'https://bsc.publicnode.com/',
     blockchain: Blockchain.Bsc,
     networkId: NetworkId.GoerliTestnet, // not really supported yet
     network: Network.Mainnet,
