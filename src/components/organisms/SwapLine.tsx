@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { useBalance, useAccount } from 'wagmi'
 import { pTokensAsset } from "ptokens-entities"
 import cn from "classnames"
+import { createPortal } from 'react-dom'
 
 import AssetsModal from "./AssetsModal"
 import swapAssets, { Asset, NativeAsset, isNative } from "../../constants/swap-assets"
@@ -89,6 +90,7 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, amou
       </div>
       <div className="border border-gray-600 m-4 mt-1 px-0 pt-2 pb-1 rounded-md">
         <div className="flex justify-between items-center w-full mb-1">
+          {createPortal(<AssetsModal setAsset={setAsset} open={assetModalOpen} isOpen={setAssetModalOpen} />, document.body)}
           <button 
             className="btn btn-lg flex-nowrap pl-3 pr-4 mr-2 ml-2 hover:scale-105"
             onClick={() => setAssetModalOpen(true)}
