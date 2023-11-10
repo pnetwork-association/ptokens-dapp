@@ -62,7 +62,7 @@ const Swap = (): JSX.Element => {
   })
 
   const InfoButtonClassName = cn({
-    "btn btn-ghost btn-sm flex flex-nowrap justify-start mr-7 px-1 max-md max-md:hidden": true,
+    "btn btn-ghost btn-sm flex flex-nowrap justify-start mr-7 px-1": true,
     "max-w-[32px] overflow-hidden transition-[max-width] duration-300": true,
     "hover:max-w-sm hover:duration-300": true,
     "max-w-sm btn-active": showInfo
