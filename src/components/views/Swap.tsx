@@ -3,6 +3,7 @@ import { RiSettings4Line, RiArrowUpDownLine, RiInformationLine } from "react-ico
 import cn from "classnames"
 import { FaChevronRight } from "react-icons/fa"
 import { Web3SettingsContext } from "react-web3-settings"
+import { Link } from 'react-scroll'
 
 import SwapLine from "../organisms/SwapLine"
 import { Asset } from "../../constants/swap-assets"
@@ -126,14 +127,16 @@ const Swap = (): JSX.Element => {
                 >
                   <div className={SettingsButtonAnimation}><RiSettings4Line size={25}/></div>
                 </button>
-                <button className={InfoButtonClassName}
-                  onClick={() => setShowInfo(!showInfo)}
-                >
-                  <div className="text-slate-100">
-                    <RiInformationLine size={25} />
-                  </div>
-                  <FaChevronRight size={11} color="white" />
-                </button>
+                <Link activeClass="active" className="info" to="info" spy={true} smooth={true} offset={-100} duration={500}>
+                  <button className={InfoButtonClassName}
+                    onClick={() => setShowInfo(!showInfo)}
+                  >
+                    <div className="text-slate-100">
+                      <RiInformationLine size={25} />
+                    </div>
+                    <FaChevronRight size={11} color="white" />
+                  </button>
+                </Link>
               </div>
             </div>
             <SwapLine title='Origin' selectedAsset={originAsset} setAsset={setOriginAsset} selectedChain={originChain} setChain={setOriginChain} amount={amount} setAmount={setAmount} />
