@@ -18,8 +18,9 @@ const WalletDrawerButton = (): JSX.Element => {
           </>
         ) : (
           <>
-            <PiWalletLight />
-            <div className="pb-[3px]">Connect</div>
+            <div className="pb-[3px] max-lg:hidden"><PiWalletLight /></div>
+            <div className="pb-[3px] lg:hidden"><PiWalletLight size={25} /></div>
+            <div className="pb-[3px] max-lg:hidden">Connect</div>
           </>
         )}
       </button>

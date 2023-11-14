@@ -49,17 +49,20 @@ export const Profile = (): JSX.Element => {
         <label tabIndex={0} className="btn btn-md btn-ghost flex-nowrap w-12 p-0 ml-2 hover:scale-105 hover:bg-base-100">
         {walletContext?.walletSelChain ? (
             <>
-              <img className="w-6 h-6 m-0" src={`/svg/${walletContext.walletSelChain.image}`} />
+              <img className="w-6 h-6 m-0 max-lg:hidden" src={`/svg/${walletContext.walletSelChain.image}`} />
+              <img className="w-4 h-4 m-0 lg:hidden" src={`/svg/${walletContext.walletSelChain.image}`} />
               {switchLoading && pendingChainId === walletContext.walletSelChain.chainId ? (
                 <span className="loading loading-ring loading-md"></span>
               ) : (
-                <RiArrowDownSLine size={20} color="gray" />
+                <div className='max-lg:w-0'>
+                  <div className='max-lg:hidden'><RiArrowDownSLine size={20} color="gray" /></div>
+                  <div className='lg:hidden'><RiArrowDownSLine size={10} color="gray" /></div>
+                </div>
               )}
-              
             </>
           ) : 'chains'}
         </label>
-        <ul tabIndex={0} className="dropdown-content menu m-2 p-2 shadow bg-gray-800 rounded-md w-52 fixed z-[99]">
+        <ul tabIndex={0} className="dropdown-content menu m-2 p-2 shadow bg-base-200 border border-base-300 rounded-md w-52 fixed z-[99]">
           {Object.values(swapChains).map((swapChain) => (
             <button className='btn btn-sm text-md btn-outline mb-1 justify-start'
               key={swapChain.id}
@@ -104,11 +107,15 @@ export const Profile = (): JSX.Element => {
       ) : (
         <>
           <div className="dropdown dropdown-bottom dropdown-end mt-1">
-            <label tabIndex={0} className="btn btn-sm text-md mx-1 ">
+            <label tabIndex={0} className="btn btn-sm text-md mx-1 max-lg:hidden">
               {connector? <img className="w-7" src={`/svg/${connector.name.toUpperCase()}.svg`} /> : null}
               {address? getPrettierAddress(address, 5) : 'Connected'}
             </label>
-            <ul tabIndex={0} className="dropdown-content z-[1] menu m-2 p-2 shadow bg-gray-800 rounded-md w-52">
+            <label tabIndex={0} className="btn btn-sm text-md mx-1 lg:hidden">
+              {connector? <img className="w-4" src={`/svg/${connector.name.toUpperCase()}.svg`} /> : null}
+              {address? getPrettierAddress(address, 2) : 'Connected'}
+            </label>
+            <ul tabIndex={0} className="dropdown-content z-[1] menu m-2 p-2 shadow bg-base-200 border border-base-300 rounded-md w-52">
               <button className='btn btn-sm text-md btn-ghost justify-start' onClick={() => disconnect()}>Disconnect</button>
             </ul>
           </div>

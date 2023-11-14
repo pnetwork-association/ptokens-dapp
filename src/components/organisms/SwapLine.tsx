@@ -77,21 +77,21 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, amou
   }, [selectedChain])
 
   return(
-    <div className="flex flex-col justify-between items-center w-11/12 rounded-md bg-base-100">
-      <div className="flex justify-between items-center w-full rounded-md!">
-        <div className="ml-4 mt-2 mb-">{title}</div>
-        <div className="mr-4 mt-2 mb-1">
+    <div className="flex flex-col justify-between items-center lg:w-11/12 max-lg:w-[95%] rounded-md bg-base-100">
+      <div className="flex justify-between max-lg:items-end lg:items-center w-full rounded-md! max-lg:h-8">
+        <div className="ml-4 lg:mt-2 m-0 mb-0 text-base">{title}</div>
+        <div className="mr-2 lg:mr-3 mt-2 max-lg:-mb-2 lg:mb-0">
           <ChainsDropdown selectedAsset={selectedAsset} selectedChain={selectedChain} setSelectedChain={setChain} />
         </div>
       </div>
-      <div className="border border-base-300 mb-4 mt-1 px-0 pt-2 pb-1 rounded-md w-[97%]">
+      <div className="border border-base-300 mb-4 mt-1 px-0 pt-2 pb-1 rounded-md w-[95%] lg:w-[97%]">
         <div className="flex justify-between items-center w-full mb-1">
           {createPortal(<AssetsModal setAsset={setAsset} open={assetModalOpen} isOpen={setAssetModalOpen} />, document.body)}
           <button 
-            className="btn btn-lg btn-secondary flex-nowrap pl-3 pr-4 mr-2 ml-2 hover:scale-[102%]" //bg-base-300 border-base-300 hover:bg-blue-900 hover:border-blue-900 text-slate-200
+            className="btn btn-md lg:btn-lg btn-secondary flex-nowrap pl-1 pr-0 lg:pl-3 lg:pr-4 lg:mr-2 ml-2 hover:scale-[102%]"
             onClick={() => setAssetModalOpen(true)}
           >
-            <img src={`/svg/${selectedAsset.image}`} className="w-11" />
+            <img src={`/svg/${selectedAsset.image}`} className="w-7 lg:w-11" />
             {selectedAsset.symbol}
             <RiArrowDownSLine size={20} color="gray"/>
           </button>
@@ -100,7 +100,7 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, amou
         <div className="flex justify-between items-center w-full ml-3">
           {isLoading ? (
             <div className="flex justify-start items-center">
-              Balance:
+              <div className="ml-3 lg:ml-4 mt-2 mb-0 text-xs lg:text-base">Balance:</div>
               <span className="loading loading-ring loading-md ml-2"></span> 
             </div>
           ) : isError ? (
@@ -109,7 +109,9 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, amou
               </div>
           ) : (
             <div className="text-slate-200">
-              Balance: {data ? data.formatted : 0}
+              <div className="ml-0 lg:ml-4 mt-0 lg:mt-2 mb-0 text-sm lg:text-base">
+                Balance: {data ? data.formatted : 0}
+              </div>
             </div>
           )}
           {data ? (

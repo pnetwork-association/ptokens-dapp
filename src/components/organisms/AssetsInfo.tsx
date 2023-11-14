@@ -16,7 +16,8 @@ interface AssetsInfoProps  {
 const AssetsInfo = ({originAsset, destAsset, show}: AssetsInfoProps): JSX.Element => {
   const assetContext = useContext(PTokenAssetsContext)
   const [chartWidth, setChartWith] = useState(656)
-  const [width, setWidth]   = useState(window.innerWidth)
+  const [chartHeight, setChartHeight] = useState(320)
+  const [width, setWidth] = useState(window.innerWidth)
   const updateDimensions = () => {
       setWidth(window.innerWidth)
   }
@@ -26,10 +27,14 @@ const AssetsInfo = ({originAsset, destAsset, show}: AssetsInfoProps): JSX.Elemen
   }, [])
 
   useEffect(() => {
-    if (width < 656)
-      setChartWith(width - 36)
-    else
+    if (width < 656) {
+      setChartWith(width - 74)
+      setChartHeight(250)
+    }
+    else {
       setChartWith(656)
+      setChartHeight(320)
+    }
   }, [width])
 
   const className = cn({
@@ -39,8 +44,8 @@ const AssetsInfo = ({originAsset, destAsset, show}: AssetsInfoProps): JSX.Elemen
   })
 
   return (
-    <div className={className}>
-      <AssetChart asset={destAsset} width={chartWidth} />
+    <div id='info' className={className}>
+      <AssetChart asset={destAsset} width={chartWidth} height={chartHeight} />
       <div className='flex max-sm:flex-col md:pb-2 items-center'>
         <InfoCard asset={originAsset} pTokenAsset={assetContext?.asset?.origAsset} title="Locking" className='md:!mr-2 text-slate-200' />
         <RiArrowRightLine size={35} className="text-slate-200" />
