@@ -138,7 +138,7 @@ const Swap = (): JSX.Element => {
         <div className="flex flex-col lg:w-[656px]">
           <div className="border flex flex-col justify-between items-center bg-base-200 border-base-300 rounded-lg">
             <div className="flex justify-between items-center w-full rounded-md mt-3 mb-1 max-lg:h-5">
-              <div className="ml-3 lg:ml-7 lg:mt-2 mb-1 text-slate-100">pNetwork v3</div>
+              <div className="ml-3 lg:ml-7 lg:mt-2 mb-1 font-semibold text-slate-100">pNetwork v3</div>
               <div className="flex">
                 <button className={SettingsButtonClassName}
                   onClick={openSettings}
