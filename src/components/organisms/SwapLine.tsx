@@ -61,6 +61,10 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, dest
     chainId: destination ? originChain?.chainId : getChainByBlockchain(selectedAsset.blockchain)?.chainId
   })
 
+  const tourId1 = destination ? 'destinationBtnId' : 'originBtnId'
+  const tourId2 = destination ? 'destinationInputId' : 'originInputId'
+  const tourId3 = destination ? 'destinationChainId' : 'originChainId'
+
   const rangeSliderStyle = cn({
     "btn btn-secondary btn-xs mr-5 hover:text-blue-600 hover:bg-transparent" : true,
     "text-blue-600": swapContext?.swapAmount.amount == data?.formatted,
@@ -171,7 +175,7 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, dest
       <div className="flex justify-between max-lg:items-end lg:items-center w-full rounded-md! max-lg:h-8">
         <div className="ml-4 lg:mt-2 m-0 mb-0 text-base">{title}</div>
         <div className="mr-2 lg:mr-3 mt-2 max-lg:-mb-2 lg:mb-0">
-          <ChainsDropdown selectedAsset={selectedAsset} selectedChain={selectedChain} setSelectedChain={setChain} />
+          <ChainsDropdown id={tourId3} selectedAsset={selectedAsset} selectedChain={selectedChain} setSelectedChain={setChain} />
         </div>
       </div>
       <div className="border border-base-300 mb-4 mt-1 px-0 pt-2 pb-1 rounded-md w-[95%] lg:w-[97%]">
@@ -179,6 +183,7 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, dest
           {createPortal(<AssetsModal setAsset={setAsset} open={assetModalOpen} isOpen={setAssetModalOpen} />, document.body)}
           <button 
             className="btn btn-md lg:btn-lg btn-secondary flex-nowrap pl-1 pr-0 lg:pl-3 lg:pr-4 lg:mr-2 ml-2 hover:scale-[102%]"
+            id={tourId1}
             onClick={() => setAssetModalOpen(true)}
           >
             <img src={`/svg/${selectedAsset.image}`} className="w-7 lg:w-11" />
@@ -186,9 +191,9 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, dest
             <RiArrowDownSLine size={20} color="gray"/>
           </button>
           {destination ? (
-            <input type="number" placeholder="0" className="input text-right text-4xl w-full focus:outline-none mb-1 grow mr-0" value={swapContext?.receiveAmount} onChange={handleDestinationChange}/>
+            <input id={tourId2} type="number" placeholder="0" className="input text-right text-4xl w-full focus:outline-none mb-1 grow mr-0" value={swapContext?.receiveAmount} onChange={handleDestinationChange}/>
           ) : (
-            <input type="number" placeholder="0" className="input text-right text-4xl w-full focus:outline-none mb-1 grow mr-0" value={swapContext?.swapAmount.amount} onChange={handleOriginChange}/>
+            <input id={tourId2} type="number" placeholder="0" className="input text-right text-4xl w-full focus:outline-none mb-1 grow mr-0" value={swapContext?.swapAmount.amount} onChange={handleOriginChange}/>
           )}
         </div>
         {!destination ? (

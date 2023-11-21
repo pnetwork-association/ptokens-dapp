@@ -8,9 +8,10 @@ type ChainsDropdownProps = {
   setSelectedChain: (arg0: Chain) => void
   selectedChain: Chain
   selectedAsset: Asset
+  id: string
 }
 
-const ChainsDropdown = ({selectedAsset, selectedChain, setSelectedChain}: ChainsDropdownProps): JSX.Element => {
+const ChainsDropdown = ({selectedAsset, selectedChain, setSelectedChain, id}: ChainsDropdownProps): JSX.Element => {
   const handleClick = () => {
     const elem = document.activeElement
     if(elem && elem instanceof HTMLElement){
@@ -18,7 +19,7 @@ const ChainsDropdown = ({selectedAsset, selectedChain, setSelectedChain}: Chains
     }
   };
   return(
-    <div className="dropdown dropdown-end z-10">
+    <div id={id}className="dropdown dropdown-end z-10">
       {/* label instead of button because of a safari bug */}
       <label tabIndex={0} className="btn btn-sm btn-ghost max-w-[32px] hover:max-w-sm overflow-hidden px-1
          transition-[max-width] duration-[600ms] hover:duration-300 delay-500 hover:delay-0 flex-nowrap justify-start border-0

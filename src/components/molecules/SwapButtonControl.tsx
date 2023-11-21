@@ -110,6 +110,7 @@ const SwapButtonControl = (): JSX.Element => {
 
   return(    
     <button
+      id="mainButton"
       className={swapButtonStyle}
       onClick={swapButtonAction}
     >
