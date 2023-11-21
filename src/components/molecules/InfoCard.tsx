@@ -21,7 +21,7 @@ const InfoCard = ({asset, pTokenAsset, title, className = ''}: InfoCardProps): J
     NO_ADDRESS
 
   return(
-    <div className={`flex justify-start items-center bg-base-100 rounded-md lg:mx-5 max-lg:mx-0 my-2 pb-2 md:w-1/2 max-md:w-9/12 ${className}`}>
+    <div className={`flex justify-start items-center bg-base-100 rounded-md lg:mx-5 max-lg:mx-1 lg:my-2 pb-2 lg:w-1/2 max-lg:w-[95%] ${className}`}>
       <div className="flex flex-col">
       <h1 className="text-md m-2 text-slate-200">{title}</h1>
         <div className="flex items-center ml-4">
@@ -42,8 +42,8 @@ const InfoCard = ({asset, pTokenAsset, title, className = ''}: InfoCardProps): J
         <div className="flex items-center ml-4">
           <div className='bold mr-2 w-16 text-slate-300'>TYPE:</div>
           {isNative(asset) ? 
-            (<div className='badge badge-outline badge-accent ml-2 rounded-md'> NATIVE </div>) :
-            (<div className='badge badge-outline badge-accent ml-2 rounded-md'> PTOKEN </div>)
+            (<div className='badge badge-outline ml-2 rounded-md'> NATIVE </div>) :
+            (<div className='badge badge-outline ml-2 rounded-md'> PTOKEN </div>)
           }
         </div>
         <div className="flex items-center ml-4">

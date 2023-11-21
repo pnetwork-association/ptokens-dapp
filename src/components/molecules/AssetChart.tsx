@@ -239,7 +239,7 @@ const AssetChart = ({asset, width = 700, height = 320}: AssetChartProps): JSX.El
   }
 
   return(
-    <>
+    <div className='bg-base-100 m-2 mb-1 lg:m-5 rounded-lg'>
       <div className="flex justify-between">
         <div className="flex justify-start mx-5 mt-5">
           <img
@@ -250,7 +250,7 @@ const AssetChart = ({asset, width = 700, height = 320}: AssetChartProps): JSX.El
             {getNativeAsset(asset).symbol}
           </h1>
         </div>
-        <div className='mx-5 mt-5'>
+        <div className='ml-5 mr-2 mt-5'>
           <button className={btn1Year} onClick={() => setTimeFrame('y')}>1y</button>
           <button className={btn1Month} onClick={() => setTimeFrame('m')}>1m</button>
           <button className={btn1Week} onClick={() => setTimeFrame('w')}>1w</button>
@@ -279,7 +279,7 @@ const AssetChart = ({asset, width = 700, height = 320}: AssetChartProps): JSX.El
       <div className='mx-2'>
         <Chart options={options} series={series} type="line" width={width} height={height} />
       </div>
-    </>
+    </div>
   )
 }
 
