@@ -1,7 +1,6 @@
 import { pTokensAsset } from "ptokens-entities"
 
 import { getSwapBuilder } from "../../../utils/ptokens"
-// import { isNative } from "../../../constants/swap-assets"
 import peginWithWallet from "./pegin-with-wallet"
 import { TProgressContext } from "../../ContextProvider"
 

@@ -17,8 +17,6 @@ const peginWithWallet = async ({ swap , ptokenFrom, ptokenTo, progress }: { swap
   progress?.setShow(true)
   progress?.setMessage('Waiting for the approval to be granted to pNetwork contract ...')
 
-  console.log('hubaddres', swap.sourceAsset.hubAddress)
-
   if (swap.sourceAsset.isNative) {
     try {
       const _amount = getBigInt(swap.amount, ptokenTo.assetInfo.underlyingAssetDecimals)
@@ -56,27 +54,27 @@ const peginWithWallet = async ({ swap , ptokenFrom, ptokenTo, progress }: { swap
       link = getCorrespondingTxExplorerLinkByBlockchain(ptokenFrom.blockchain, _swapResult.txHash)
       progress?.setStep(2)
       progress?.setMessage(`<a href="${link}" target="_blank" className="text-blue-800" noopener noreferrer>Transaction</a> broadcasted! Waiting for confirmation ...`)
-      console.log('link', link)
+      console.info('link', link)
     })
     .on('inputTxConfirmed', () => {
       progress?.setStep(3)
       progress?.setMessage(`Waiting for the pNetwork to detect your <a href="${link}" target="_blank" className="text-blue-800" noopener noreferrer>transaction</a> ...`)
     })
     .on('interimOperationQueued', (_swapResult: SwapResult) => {
-      console.log('interimOperationQueued')
+      console.info('interimOperationQueued')
     })
     .on('interimOperationExecuted', (_swapResult: SwapResult) => {
-      console.log('interimOperationExecuted')
+      console.info('interimOperationExecuted')
     })
     .on('operationQueued', (_swapResult: SwapResult) => {
       link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _swapResult.txHash)
-      console.log('operationQueued')
+      console.info('operationQueued')
       progress?.setStep(4)
       progress?.setMessage(`Asset transfer proposal <a href="${link}" target="_blank" className="text-blue-800" noopener noreferrer>transaction</a> broadcasted...`)
     })
     .on('operationExecuted', (_swapResult: SwapResult) => {
       link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _swapResult.txHash)
-      console.log('operationExecuted')
+      console.info('operationExecuted')
       progress?.setStep(5)
       progress?.setMessage(`Asset transfer <a href="${link}" target="_blank" className="text-blue-800" noopener noreferrer>transaction</a> executed.`)
     })

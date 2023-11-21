@@ -13,7 +13,7 @@ export const retryPromise = async <T>(operation: Promise<T>, maxAttempts: number
     } catch (error) {
       if (attempt < maxAttempts) {
         // If there are more attempts remaining, wait for a delay before retrying
-        console.log(`Attempt ${attempt} failed. Retrying in ${delayMs}ms.`);
+        console.info(`Attempt ${attempt} failed. Retrying in ${delayMs}ms.`);
         await new Promise((resolve) => setTimeout(resolve, delayMs));
       } else {
         // If all attempts have failed, re-throw the error
