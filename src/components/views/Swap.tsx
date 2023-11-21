@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react"
 import { RiSettings4Line, RiArrowUpDownLine, RiInformationLine } from "react-icons/ri"
 import cn from "classnames"
-import { FaChevronRight } from "react-icons/fa"
+import { FaChevronDown, FaChevronRight, FaChevronUp } from "react-icons/fa"
 import { Web3SettingsContext } from "react-web3-settings"
-import { Link } from 'react-scroll'
+import scrollIntoView from 'smooth-scroll-into-view-if-needed'
 
 import SwapLine from "../organisms/SwapLine"
 import { Asset } from "../../constants/swap-assets"
@@ -25,7 +25,7 @@ const Swap = (): JSX.Element => {
   const destPtokenAsset = useDestPtokenAsset(destAsset)
   const [originChain, setOriginChain] = useState<Chain>(defaults.originChain)
   const [destChain, setDestChain] = useState<Chain>(defaults.destinationChain)
-  const [showInfo, setShowInfo] = useState(true)
+  const [showInfo, setShowInfo] = useState(false)
   const [amount, setAmount] = useState('0')
   const [receivedAmount, setReceivedAmount] = useState(amount)
   const [closeWarn, setCloseWarn] = useState(false)
@@ -47,12 +47,6 @@ const Swap = (): JSX.Element => {
       return () => window.removeEventListener("resize", updateDimensions);
   }, [])
 
-  const setDestinationAddress = (event: any) => {
-    if (swapContext && event.target.value) {
-      swapContext.setDestinationAddress(event.target.value) 
-    }
-  }
-
   useEffect (() => {
     swapContext?.setSwapAmount(amount)
   }, [amount])
@@ -65,6 +59,19 @@ const Swap = (): JSX.Element => {
     assetContext?.setDest(destPtokenAsset)
   }, [destPtokenAsset])
 
+  useEffect(() => {
+    if (showInfo) {
+      const infoNode = (document.getElementById("info") as HTMLAnchorElement)
+      scrollIntoView(infoNode, { behavior: 'smooth', scrollMode: 'if-needed', block: 'end', inline: 'start' })
+    }
+  }, [showInfo])
+
+  const setDestinationAddress = (event: any) => {
+    if (swapContext && event.target.value) {
+      swapContext.setDestinationAddress(event.target.value) 
+    }
+  }
+
   const switchAssets = () => {
     const originAssetT = originAsset
     const originChainT = originChain
@@ -74,8 +81,13 @@ const Swap = (): JSX.Element => {
     setDestChain(originChainT) 
   }
 
+  const pageClassName = cn ({
+    "max-lg:h-[600px] max-lg:overflow-hidden": !showInfo && closeWarn,
+    "max-lg:h-[770px] max-lg:overflow-hidden": !showInfo && !closeWarn
+  })
+
   const mainClassName = cn({
-    "flex max-2xl:flex-col justify-center 2xl:items-start max-2xl:items-center duration-700 p-5 ": true,
+    "flex max-lg:flex-col justify-center lg:items-start max-lg:items-center duration-700 p-5 scroll-smooth": true,
     "2xl:-translate-x-[328px] 2xl:scale-100 transition": showInfo,
     "lg:-translate-x-[246px] lg:scale-75 origin-top transition": showInfo
   })
@@ -98,13 +110,8 @@ const Swap = (): JSX.Element => {
   })
 
   const WarnClassName = cn({
-    "alert alert-warning mt-3 w-auto rounded-lg max-lg:mx-5": true,
-    "hidden": closeWarn
-  })
-
-  const pageClassName = cn ({
-    "max-lg:h-[530px] max-lg:overflow-hidden": !showInfo && closeWarn,
-    "max-lg:h-[770px] max-lg:overflow-hidden": !showInfo && !closeWarn
+    "alert alert-warning font-semibold mt-3 w-auto rounded-lg max-lg:mx-5": true,
+    "flex": closeWarn
   })
 
   return (
@@ -112,8 +119,18 @@ const Swap = (): JSX.Element => {
       <div className="flex items-center justify-center">
         <div className={WarnClassName}>
           <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-          <span>Warning: This dApp is experimental and bugs are expected. Funds could be lost. Use it only if you know what you are doing.</span>
-          <button className="btn btn-sm btn-secondary top-1 right-1" onClick={() => setCloseWarn(true)}>Close</button>
+          {closeWarn ? (
+            <span>This dApp is experimental</span>
+          ) : (
+            <span>This dApp is experimental and bugs are expected. Funds could be lost. Use it only if you know what you are doing.</span>
+          )}
+          <button className="btn btn-sm btn-secondary top-1 right-1" onClick={() => setCloseWarn(!closeWarn)}>
+            {closeWarn ? (
+              <FaChevronDown size={11}/>
+            ) : (
+              <FaChevronUp size={11} />
+            )}
+          </button>
         </div>
       </div>
       <div className={mainClassName}>
@@ -127,16 +144,14 @@ const Swap = (): JSX.Element => {
                 >
                   <div className={SettingsButtonAnimation}><RiSettings4Line size={25}/></div>
                 </button>
-                <Link activeClass="active" className="info" to="info" spy={true} smooth={true} offset={-100} duration={500}>
-                  <button className={InfoButtonClassName}
-                    onClick={() => setShowInfo(!showInfo)}
-                  >
-                    <div className="text-slate-100">
-                      <RiInformationLine size={25} />
-                    </div>
-                    <FaChevronRight size={11} color="white" />
-                  </button>
-                </Link>
+                <button className={InfoButtonClassName}
+                  onClick={() => setShowInfo(!showInfo)}
+                >
+                  <div className="text-slate-100">
+                    <RiInformationLine size={25} />
+                  </div>
+                  <FaChevronRight size={11} color="white" />
+                </button>
               </div>
             </div>
             <SwapLine title='Origin' selectedAsset={originAsset} setAsset={setOriginAsset} selectedChain={originChain} setChain={setOriginChain} amount={amount} setAmount={setAmount} />
