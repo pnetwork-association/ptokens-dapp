@@ -25,14 +25,21 @@ type TWalletDrawerContext = {
   setIsWalletConnected: Dispatch<SetStateAction<boolean>>
 } | undefined
 
+type TAmount = {
+  bigIntAmount: bigint
+  amount: string
+}
+
 type TSwapContext = {
   swapButtonText: string
   swapButtonDisabled: boolean
-  swapAmount: string
+  swapAmount: TAmount
+  receiveAmount: string
   destinationAddress: string
   setSwapButtonText: Dispatch<SetStateAction<string>>
   setSwapButtonDisabled: Dispatch<SetStateAction<boolean>>
-  setSwapAmount: Dispatch<SetStateAction<string>>
+  setSwapAmount: Dispatch<SetStateAction<TAmount>>
+  setReceiveAmount: Dispatch<SetStateAction<string>>
   setDestinationAddress: Dispatch<SetStateAction<string>>
 } | undefined
 
@@ -65,7 +72,8 @@ const ContextProvider = ({ children }: ContextProviderProps) => {
   const [walletSelectedChain, setWalletSelectedChain] = useState<Chain | undefined>(defaults.originChain)
   const [swapButtonText, setSwapButtonText] = useState<string>('Swap')
   const [swapButtonDisabled, setSwapButtonDisabled] = useState<boolean>(false)
-  const [swapAmount, setSwapAmount] = useState<string>('0')
+  const [swapAmount, setSwapAmount] = useState<TAmount>({amount: '0', bigIntAmount: 0n})
+  const [receiveAmount, setReceiveAmount] = useState<string>('0')
   const [destinationAddress, setDestinationAddress] = useState<string>('')
   const [show, setShow] = useState<boolean>(false)
   const [step, setStep] = useState<number>(0)
@@ -99,10 +107,12 @@ const ContextProvider = ({ children }: ContextProviderProps) => {
             swapButtonText: swapButtonText,
             swapButtonDisabled: swapButtonDisabled,
             swapAmount: swapAmount,
+            receiveAmount: receiveAmount,
             destinationAddress: destinationAddress,
             setSwapButtonText: setSwapButtonText,
             setSwapButtonDisabled: setSwapButtonDisabled,
             setSwapAmount: setSwapAmount,
+            setReceiveAmount: setReceiveAmount,
             setDestinationAddress: setDestinationAddress,
           }}
         >

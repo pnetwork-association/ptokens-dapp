@@ -27,8 +27,6 @@ const Swap = (): JSX.Element => {
   const [originChain, setOriginChain] = useState<Chain>(defaults.originChain)
   const [destChain, setDestChain] = useState<Chain>(defaults.destinationChain)
   const [showInfo, setShowInfo] = useState(false)
-  const [amount, setAmount] = useState('0')
-  const [receivedAmount, setReceivedAmount] = useState(amount)
   const [closeWarn, setCloseWarn] = useState(false)
   const [width, setWidth] = useState(window.innerWidth)
   const updateDimensions = () => {
@@ -47,10 +45,6 @@ const Swap = (): JSX.Element => {
       window.addEventListener("resize", updateDimensions);
       return () => window.removeEventListener("resize", updateDimensions);
   }, [])
-
-  useEffect (() => {
-    swapContext?.setSwapAmount(amount)
-  }, [amount])
 
   useEffect(() => {
     assetContext?.setOrig(origPtokenAsset)
@@ -155,13 +149,13 @@ const Swap = (): JSX.Element => {
                 </button>
               </div>
             </div>
-            <SwapLine title='Origin' selectedAsset={originAsset} setAsset={setOriginAsset} selectedChain={originChain} setChain={setOriginChain} amount={amount} setAmount={setAmount} />
+            <SwapLine title='Origin' selectedAsset={originAsset} setAsset={setOriginAsset} selectedChain={originChain} setChain={setOriginChain} />
             <div className="lg:divider lg:px-7 lg:my-4 h-1 overflow-visible">
               <div className="btn btn-sm lg:btn-ghost max-lg:relative max-lg:z-10 max-lg:-translate-y-3.5 max-lg:border max-lg:border-base-300" onClick={() => switchAssets()}>
               <div className="hover:rotate-180 transition-transform duration-200 text-slate-100"><RiArrowUpDownLine size={swapSize}/></div>
               </div>
             </div>
-            <SwapLine title='Destination' selectedAsset={destAsset} setAsset={setDestAsset} selectedChain={destChain} setChain={setDestChain} amount={receivedAmount} setAmount={setReceivedAmount} />
+            <SwapLine title='Destination' selectedAsset={destAsset} setAsset={setDestAsset} selectedChain={destChain} setChain={setDestChain} destination={true} originPTokenAsset={origPtokenAsset} originChain={originChain}/>
             <input type="text" placeholder="Destination Address" className="input lg:w-11/12 max-lg:w-[95%] mt-1 lg:mt-3 text-right focus:outline-none lg:mb-1 grow text-slate-200" onChange={setDestinationAddress}/>
             <SwapButtonControl />
             <ProgressModal />

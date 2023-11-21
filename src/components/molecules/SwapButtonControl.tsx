@@ -67,7 +67,7 @@ const SwapButtonControl = (): JSX.Element => {
         swapData.setSwapButtonDisabled(true)
         swapData.setSwapButtonText(INVALID_ADDRESS)
       }
-      else if (swapData.swapAmount === '0') {
+      else if (Number(swapData.swapAmount.amount) === 0) {
         swapData.setSwapButtonDisabled(true)
         swapData.setSwapButtonText(SET_AMOUNT)
       }
@@ -95,7 +95,7 @@ const SwapButtonControl = (): JSX.Element => {
           walletData.setWalletSelChain(getChainByBlockchain(pTokenAssets.asset.origAsset.blockchain))
           break
         case INIT_SWAP:
-          swap(pTokenAssets.asset.origAsset, pTokenAssets.asset.destAsset, swapData.swapAmount, swapData.destinationAddress, progressData)
+          swap(pTokenAssets.asset.origAsset, pTokenAssets.asset.destAsset, swapData.swapAmount.amount, swapData.destinationAddress, progressData)
           break
         default:
           break;
