@@ -42,7 +42,7 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, amou
   })
 
   const rangeSliderStyle = cn({
-    "btn btn-ghost btn-xs mr-4 hover:text-blue-600 hover:bg-transparent" : true,
+    "btn btn-secondary btn-xs mr-5 hover:text-blue-600 hover:bg-transparent" : true,
     "text-blue-600": amount == data?.formatted,
   })
 
@@ -100,31 +100,30 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, amou
         <div className="flex justify-between items-center w-full ml-3">
           {isLoading ? (
             <div className="flex justify-start items-center">
-              <div className="ml-3 lg:ml-4 mt-2 mb-0 text-xs lg:text-base">Balance:</div>
+              {/* <div className="ml-0 mt-2 mb-0 text-xs lg:text-base">Balance:</div> */}
               <span className="loading loading-ring loading-md ml-2"></span> 
             </div>
           ) : isError ? (
             <div>
                 Error in loading Balance.
               </div>
-          ) : (
+          ) : data ? (
             <div className="text-slate-200">
-              <div className="ml-0 lg:ml-4 mt-0 lg:mt-2 mb-0 text-sm lg:text-base">
-                Balance: {data ? data.formatted : 0}
+              <div className="ml-0 mt-0 lg:mt-2 mb-0 text-sm lg:text-base">
+                Balance: {data.formatted }
               </div>
             </div>
-          )}
+          ) : null}
           {data ? (
             <button className={rangeSliderStyle} onClick={() => setAmount(data.formatted)} >Max</button>
           ) : null}
         </div>
-        <div className="w-full px-2">
-          { data ? (
+        {data ? (
+          <div className="w-full px-2">
             <input type="range" min={0} max={data?.formatted.toString()} className="range-custom range-info" value={rangeStatus.value} step={(Number(data?.formatted) / 100).toString()} disabled={rangeStatus.disabled} onChange={handleChange} /> 
-          ) : (
-            <input type="range" min={0} max={0} className="range-custom range-info" disabled={true} />
-          )}
-        </div>
+          </div> 
+        ) : null 
+        }
       </div>
       {/* <AssetsModal setAsset={setAsset} open={assetModalOpen} isOpen={setAssetModalOpen} /> */}
     </div>
