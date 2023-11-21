@@ -37,7 +37,7 @@ const wagmiConfig = createConfig({
     new CoinbaseWalletConnector({
       chains,
       options: {
-        appName: 'wagmi',
+        appName: 'pNetwork-v3',
       },
     }),
     new WalletConnectConnector({
