@@ -42,9 +42,23 @@ const SettingsDrawer = ({ children }: SettingsDrawerProps): JSX.Element => {
     fontWeight: '300',
   }
 
+  const bodyStyle = {
+    // color: '#A6ADAE',
+    height: '80%',
+    fontSize: '1.5rem',
+    fontWeight: '300',
+    overflow: 'hidden',
+    overflowY: 'scroll',
+  }
+
   const drawerStyle = {
-    background: '#191e24',
+    background: '#101929',
     borderRadius: '!0px',
+    marginRight: '0px',
+    marginTop: '0px',
+    minHeight: '100%',
+    width: '20rem',
+    transitionDuration: '300ms',
   }
 
   const headerStyle = {
@@ -74,7 +88,7 @@ const SettingsDrawer = ({ children }: SettingsDrawerProps): JSX.Element => {
   }
 
   const sectionRowStyle = {
-    marginTop: '1.5rem',
+    marginTop: '1rem',
   }
 
   const settingRowStyle = {
@@ -101,13 +115,13 @@ const SettingsDrawer = ({ children }: SettingsDrawerProps): JSX.Element => {
       sectionRowStyle={sectionRowStyle}
       settingRowStyle={settingRowStyle}
       buttonAreaStyle={buttonAreaStyle}
-      drawerDirection={'left'}
+      drawerDirection={'right'}
       title={'Settings'}
       buttonSaveText={'Save'}
       buttonResetText={'Reset'}
       labelStyle={labelStyle}
       headerStylee={labelStyle} 
-      bodyStyle={labelStyle}
+      bodyStyle={bodyStyle}
       settings={{
         factoryAddress: {
           label: 'pTokens Factory Address',
