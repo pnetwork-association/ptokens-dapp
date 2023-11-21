@@ -2,7 +2,12 @@
 export default {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['"Assistant"'
+        ],
+      }
+    }
   },
   plugins: [require("daisyui")],
   daisyui: {
