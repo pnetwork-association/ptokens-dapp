@@ -14,6 +14,7 @@ import { defaults } from "../../constants/defaults"
 import ProgressModal from "../organisms/Progress"
 import { PTokenAssetsContext, SwapContext } from "../../app/ContextProvider"
 import { useDestPtokenAsset, useOrigPtokenAsset } from "../../hooks/use-assets"
+import TermsAndConditions from "../organisms/TermsAndConditions"
 
 const Swap = (): JSX.Element => {
   const { openSettings, open: isSettingsOpen } = useContext(Web3SettingsContext)
@@ -171,6 +172,7 @@ const Swap = (): JSX.Element => {
           </div> */}
         </div>
         <AssetsInfo originAsset={originAsset} destAsset={destAsset} show={showInfo}/>
+        <TermsAndConditions />
       </div>
     </div>
   )
