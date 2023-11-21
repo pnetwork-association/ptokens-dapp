@@ -19,6 +19,7 @@ export default {
           "secondary-focus": "#1e293b",
           "secondary-content": "#ffffff",
           "accent": "#4299e1",
+          "neutral": "#ffffff",
           "ghost": "#ffffff",
           "neutral": "#3d4451",
           "base-100": "#020817",
