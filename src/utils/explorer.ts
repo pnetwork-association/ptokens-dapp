@@ -3,17 +3,17 @@ import { Blockchain, Network } from 'ptokens-constants'
 import settings from '../settings'
 
 const transactionBaseLink: Record<Blockchain, string> = {
-  [Blockchain.Gnosis]: `${settings.explorers[Network.Mainnet][Blockchain.Gnosis]}tx/%s`,
-  [Blockchain.Arbitrum]: `${settings.explorers[Network.Mainnet][Blockchain.Arbitrum]}tx/%s`,
+  [Blockchain.Gnosis]: `${settings.explorers[Network.Mainnet][Blockchain.Gnosis]}tx/`,
+  [Blockchain.Arbitrum]: `${settings.explorers[Network.Mainnet][Blockchain.Arbitrum]}tx/`,
   [Blockchain.Ethereum]: '',
   [Blockchain.Sepolia]: '',
   [Blockchain.Goerli]: '',
   [Blockchain.Bitcoin]: '',
   [Blockchain.Eos]: '',
   [Blockchain.Telos]: '',
-  [Blockchain.Bsc]: `${settings.explorers[Network.Mainnet][Blockchain.Bsc]}tx/%s`,
+  [Blockchain.Bsc]: `${settings.explorers[Network.Mainnet][Blockchain.Bsc]}tx/`,
   [Blockchain.Xdai]: '',
-  [Blockchain.Polygon]: `${settings.explorers[Network.Mainnet][Blockchain.Polygon]}tx/%s`,
+  [Blockchain.Polygon]: `${settings.explorers[Network.Mainnet][Blockchain.Polygon]}tx/`,
   [Blockchain.Ultra]: '',
   [Blockchain.Fio]: '',
   [Blockchain.Luxochain]: '',
