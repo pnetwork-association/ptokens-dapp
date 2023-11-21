@@ -62,7 +62,7 @@ export const Profile = (): JSX.Element => {
             </>
           ) : 'chains'}
         </label>
-        <ul tabIndex={0} className="dropdown-content menu m-2 p-2 shadow bg-base-200 border border-base-300 rounded-md w-52 fixed z-[99]">
+        <ul tabIndex={0} className="dropdown-content menu m-2 p-2 shadow bg-base-200 border border-base-300 rounded-md w-44 fixed z-[99]">
           {Object.values(swapChains).map((swapChain) => (
             <button className='btn btn-sm text-md btn-outline mb-1 justify-start'
               key={swapChain.id}
@@ -83,7 +83,7 @@ export const Profile = (): JSX.Element => {
           <div className="drawer drawer-end">
             <input id="my-drawer" type="checkbox" className="drawer-toggle" checked={walletContext?.isDrawerExtended} onChange={handleWalletDrawerInputChange}/>
             <WalletDrawerButton />
-            <div className="drawer-side fixed z-[99]">
+            <div className="drawer-side fixed z-[50]">
               <label htmlFor="my-drawer" className="drawer-overlay"></label>
               <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
                 {connectors.map((connector) => (
@@ -94,10 +94,10 @@ export const Profile = (): JSX.Element => {
                   >
                     <img className="w-6" src={`/svg/${connector.name.toUpperCase()}.svg`} />
                     {connector.name}
-                    {!connector.ready && ' (unsupported)'}
+                    {/* {!connector.ready && ' (unsupported)'} */}
                     {isLoading &&
                       connector.id === pendingConnector?.id &&
-                      ' (connecting)'}
+                      (<span className="loading loading-ring loading-md"></span>)}
                   </button>
                 ))}
               </ul>
