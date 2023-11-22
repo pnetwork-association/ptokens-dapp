@@ -139,9 +139,9 @@ const Swap = (): JSX.Element => {
         <div className={WarnClassName}>
           <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
           {closeWarn ? (
-            <span>This dApp is experimental</span>
+            <span>pNetwork v3 beta</span>
           ) : (
-            <span>This dApp is experimental and bugs are expected. Funds could be lost. Use it only if you know what you are doing.</span>
+            <span>Beta Alert: pNetwork v3 dApp is in beta and not yet audited. Only swap amounts you can afford to loose.</span>
           )}
           <button className="btn btn-sm btn-secondary top-1 right-1" onClick={() => setCloseWarn(!closeWarn)}>
             {closeWarn ? (
