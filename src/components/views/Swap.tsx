@@ -16,7 +16,7 @@ import { defaults } from "../../constants/defaults"
 import ProgressModal from "../organisms/Progress"
 import { PTokenAssetsContext, SwapContext } from "../../app/ContextProvider"
 import { useDestPtokenAsset, useOrigPtokenAsset } from "../../hooks/use-assets"
-import TermsAndConditions from "../organisms/TermsAndConditions"
+import Disclaimer from "../organisms/Disclaimer"
 
 const driverObj = driver({
   showProgress: true,
@@ -46,6 +46,7 @@ const Swap = (): JSX.Element => {
   const [showInfo, setShowInfo] = useState(false)
   const [closeWarn, setCloseWarn] = useState(false)
   const [width, setWidth] = useState(window.innerWidth)
+  const [open, setOpen] = useState(localStorage.getItem('termsAccepted') === 'true' ? false : true)
   const updateDimensions = () => {
       setWidth(window.innerWidth)
   }
@@ -79,8 +80,10 @@ const Swap = (): JSX.Element => {
   }, [showInfo])
 
   useEffect(() => {
-    driverObj.drive()
-  }, [])
+    if (!open) {
+      driverObj.drive()
+    }
+  }, [open])
 
   const setDestinationAddress = (event: any) => {
     if (swapContext && event.target.value) {
@@ -187,7 +190,7 @@ const Swap = (): JSX.Element => {
           </div> */}
         </div>
         <AssetsInfo originAsset={originAsset} destAsset={destAsset} show={showInfo}/>
-        <TermsAndConditions />
+        <Disclaimer open={open} setOpen={setOpen}/>
       </div>
     </div>
   )

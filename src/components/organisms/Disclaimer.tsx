@@ -1,8 +1,11 @@
-import { useState } from "react"
 import cn from "classnames"
 
-const TermsAndConditions = (): JSX.Element => {
-  const [open, setOpen] = useState(localStorage.getItem('termsAccepted') === 'true' ? false : true)
+type TDisclaimer = {
+  open: boolean
+  setOpen: (arg0: boolean) => void
+}
+
+const Disclaimer = ({open, setOpen}: TDisclaimer): JSX.Element => {
   const modalClass = cn({
     "modal max-lg:modal-top max-lg:mt-16 max-lg:flex": true,
     "modal-open": open,
@@ -24,4 +27,4 @@ const TermsAndConditions = (): JSX.Element => {
   )
 }
 
-export default TermsAndConditions
+export default Disclaimer
