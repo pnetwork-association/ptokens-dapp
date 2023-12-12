@@ -18,6 +18,7 @@ const Navbar = (): JSX.Element => {
           <img className="w-8 mr-2" src="/svg/PNT.svg" />
         </a>
         <NavbarItem onclick={() => navigate('/swap')} label='swap'>Swap</NavbarItem>
+        <NavbarItem onclick={() => navigate('/activity')} label='risks'>Activity</NavbarItem>
         <NavbarItem onclick={() => navigate('/risks')} label='risks'>Risks</NavbarItem>
       </div>
       <div className="flex-none">

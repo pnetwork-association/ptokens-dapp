@@ -49,7 +49,7 @@ const settings: ISettings = {
         chainId: 42161,
       },
       [Blockchain.Bsc]: {
-        endpoint: 'https://bsc-dataseed2.binance.org/',
+        endpoint: 'https://endpoints.omniatech.io/v1/bsc/mainnet/public',
         chainId: 56,
       },
       [Blockchain.Polygon]: {
