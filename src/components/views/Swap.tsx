@@ -6,6 +6,8 @@ import { Web3SettingsContext } from "react-web3-settings"
 import scrollIntoView from 'smooth-scroll-into-view-if-needed'
 import "driver.js/dist/driver.css"
 
+import Box from "../atoms/Box"
+import Container from "../atoms/Container"
 import SwapLine from "../organisms/SwapLine"
 import { Asset } from "../../constants/swap-assets"
 import { Chain } from "../../constants/swap-chains"
@@ -140,8 +142,8 @@ const Swap = (): JSX.Element => {
         </div>
       </div>
       <div className={mainClassName}>
-        <div className="flex flex-col lg:w-[656px]">
-          <div className="border flex flex-col justify-between items-center bg-base-200 border-base-300 rounded-lg">
+        <Container className="lg:w-[656px]">
+          <Box>
             <div className="flex justify-between items-center w-full rounded-md mt-3 mb-1 max-lg:h-5">
               <div className="ml-3 lg:ml-7 lg:mt-2 mb-1 font-semibold text-slate-100">pNetwork v3</div>
               <div className="flex">
@@ -170,12 +172,12 @@ const Swap = (): JSX.Element => {
             <input id="destinationAddress" type="text" placeholder="Destination Address" className="input lg:w-11/12 max-lg:w-[95%] mt-1 lg:mt-3 text-right focus:outline-none lg:mb-1 grow text-slate-200" onChange={setDestinationAddress}/>
             <SwapButtonControl />
             <ProgressModal />
-          </div>
+          </Box>
           {/* <div className="flex flex-col justify-start items-center bg-gray-800 rounded-md mt-4">
             <div>Fees</div>
             <div>Estimated processing time</div>
           </div> */}
-        </div>
+        </Container>
         <AssetsInfo originAsset={originAsset} destAsset={destAsset} show={showInfo}/>
         <Disclaimer open={open} setOpen={setOpen}/>
       </div>
