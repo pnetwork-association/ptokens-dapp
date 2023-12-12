@@ -1,5 +1,5 @@
 import { configureChains, createConfig } from 'wagmi'
-import { arbitrum, bsc, gnosis, polygon } from '@wagmi/core/chains'
+import { bsc, gnosis, polygon } from '@wagmi/core/chains'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { getWeb3Settings } from 'react-web3-settings'
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
@@ -15,12 +15,12 @@ const getRpcEndpoint = (blockchain: Blockchain) =>  setting.rpcEndpoints ? setti
 
 //TODO pass also configuration for providers
 const { chains, publicClient } = configureChains(
-  [arbitrum, bsc, gnosis, polygon],
+  [bsc, gnosis, polygon],
   [
     jsonRpcProvider({
       rpc: (chain) => ({
         http:
-          chain.id === arbitrum.id ? getRpcEndpoint(Blockchain.Arbitrum) :
+          // chain.id === arbitrum.id ? getRpcEndpoint(Blockchain.Arbitrum) :
           chain.id === bsc.id ? getRpcEndpoint(Blockchain.Bsc) :
           chain.id === gnosis.id ? getRpcEndpoint(Blockchain.Gnosis) :
           chain.id === polygon.id ? getRpcEndpoint(Blockchain.Polygon) :

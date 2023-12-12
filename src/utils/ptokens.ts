@@ -28,7 +28,7 @@ const buildAssetInfo = (_asset: Asset) => {
     symbol: _asset.symbol,
     decimals: _asset.decimals,
     assetTokenAddress: isNative(_asset) ? (_asset as NativeAsset).address : undefined,
-    // ...(isNative(_asset) && { assetTokenAddress: (_asset as NativeAsset).address }), // TODO Maybe better this one to avoid defining assetTokenAddress at all.
+    isNative: isNative(_asset),
     underlyingAssetName: underlyingAsset ? underlyingAsset.name : _asset.name,
     underlyingAssetSymbol: underlyingAsset ? underlyingAsset.symbol : _asset.symbol,
     underlyingAssetDecimals: underlyingAsset ? underlyingAsset.decimals : _asset.decimals,

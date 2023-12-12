@@ -14,7 +14,11 @@ export type Chain = {
 
 export const getChainById = (id: ChainId) => swapChains[id] || null
 
-export const getChainByBlockchain = (blockchain: Blockchain) => Object.values(swapChains).find((chain: Chain) => chain.blockchain == blockchain) as Chain
+export const getChainByBlockchain = (blockchain: Blockchain) => Object.values(swapChains).find((chain: Chain) => chain.blockchain === blockchain) as Chain
+
+export const getChainByNetworkId = (networkId: NetworkId) => Object.values(swapChains).find((chain: Chain) => chain.networkId === networkId) as Chain
+
+export const getNetworkIdByChainId = (chainId: number) => Object.values(swapChains).find((chain: Chain) => chain.chainId === chainId)?.networkId
 
 const swapChains: Record<ChainId, Chain> = {
   /* #################   Chains   #################*/
@@ -31,7 +35,7 @@ const swapChains: Record<ChainId, Chain> = {
   [ChainId.BSC]: {
     id: ChainId.BSC,
     chainId: 56,
-    endpoint: 'https://bsc.publicnode.com/',
+    endpoint: 'https://endpoints.omniatech.io/v1/bsc/mainnet/public',
     blockchain: Blockchain.Bsc,
     networkId: NetworkId.BscMainnet, // not really supported yet
     network: Network.Mainnet,
@@ -48,16 +52,16 @@ const swapChains: Record<ChainId, Chain> = {
     image: 'GNOSIS.svg',
     disabledImage: 'GNOSIS_gray.svg'
   },
-  [ChainId.ARBITRUM]: {
-    id: ChainId.ARBITRUM,
-    chainId: 42161,
-    endpoint: 'https://arb1.arbitrum.io/rpc',
-    blockchain: Blockchain.Arbitrum,
-    networkId: NetworkId.ArbitrumMainnet,
-    network: Network.Mainnet,
-    image: 'ARBITRUM.svg',
-    disabledImage: 'ARBITRUM_gray.svg'
-  },
+  // [ChainId.ARBITRUM]: {
+  //   id: ChainId.ARBITRUM,
+  //   chainId: 42161,
+  //   endpoint: 'https://arb1.arbitrum.io/rpc',
+  //   blockchain: Blockchain.Arbitrum,
+  //   networkId: NetworkId.ArbitrumMainnet,
+  //   network: Network.Mainnet,
+  //   image: 'ARBITRUM.svg',
+  //   disabledImage: 'ARBITRUM_gray.svg'
+  // },
   [ChainId.POLYGON]: {
     id: ChainId.POLYGON,
     chainId: 137,
