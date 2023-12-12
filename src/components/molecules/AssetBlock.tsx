@@ -2,17 +2,19 @@ import { Blockchain } from 'ptokens-constants'
 import swapAssets, { getAllNativeAssets, isHost, isNative } from '../../constants/swap-assets'
 import { Asset, HostAsset } from '../../constants/swap-assets'
 import { getChainByBlockchain } from '../../constants/swap-chains'
+import { pTokensAsset } from 'ptokens-entities'
 
 type AssetBoxProps = {
   setAsset: (arg0: Asset) => void
   isOpen: (arg0: boolean) => void
+  originPTokenAsset?: pTokensAsset | undefined
   searchWord?: string
 }
 
-const AssetBlock = ({ setAsset, isOpen, searchWord = '' }: AssetBoxProps): JSX.Element => {
+const AssetBlock = ({ setAsset, isOpen, originPTokenAsset, searchWord = '' }: AssetBoxProps): JSX.Element => {
   return(
     <div className='mt-6 rounded-md'>
-    {Object.values(getAllNativeAssets())
+    {Object.values(getAllNativeAssets(originPTokenAsset?.assetInfo.underlyingAssetSymbol))
       .map((nativeAsset: Asset) => (
       <div key={nativeAsset.id} className="collapse collapse-arrow bg-base-100 mt-2 rounded-md">
         <input type="checkbox" name="my-accordion-1" /> 
@@ -22,6 +24,9 @@ const AssetBlock = ({ setAsset, isOpen, searchWord = '' }: AssetBoxProps): JSX.E
         </div>
         <div className="collapse-content">
           {Object.values(swapAssets)
+            .filter((singleAsset: Asset) =>
+              originPTokenAsset?.isNative && isHost(singleAsset) ||
+              !(originPTokenAsset?.isNative) && singleAsset)
             .filter((singleAsset: Asset) =>
               (isNative(singleAsset) &&
                 singleAsset.symbol === nativeAsset.symbol) ||
@@ -57,7 +62,7 @@ const AssetBlock = ({ setAsset, isOpen, searchWord = '' }: AssetBoxProps): JSX.E
                   </div>
                 </button>
                 <button
-                  className='max-lg:hidden btn btn-lg text-sm btn-secondary border-base-300 flex flex-row justify-start items-center align-top w-full mb-2 rounded-md' 
+                  className='max-lg:hidden btn btn-lg text-md btn-secondary border-base-300 flex flex-row justify-start items-center align-top w-full mb-2 rounded-md' 
                   onClick={() => {
                     setAsset(asset)
                     isOpen(false)

@@ -6,12 +6,11 @@ import cn from "classnames"
 import { createPortal } from 'react-dom'
 
 import AssetsModal from "./AssetsModal"
-import swapAssets, { Asset, NativeAsset, isNative } from "../../constants/swap-assets"
+import swapAssets, { Asset } from "../../constants/swap-assets"
 import ChainsDropdown from "./ChainsDropdown"
-import swapChains, { Chain, getChainByBlockchain } from "../../constants/swap-chains"
-
-import { NO_ADDRESS } from "../../constants"
+import swapChains, { Chain, getChainByNetworkId } from "../../constants/swap-chains"
 import { SwapContext } from "../../app/ContextProvider"
+import { nativeToWei, weiToNative } from "../../utils/amount-utils"
 
 type SwapLineProps = {
   title: string
@@ -19,9 +18,9 @@ type SwapLineProps = {
   selectedAsset: Asset
   setChain: (arg0: Chain) => void
   selectedChain: Chain
-  destination?: boolean
-  originPTokenAsset?: pTokensAsset
+  originPTokenAsset: pTokensAsset | undefined
   originChain?: Chain
+  destination?: boolean
 }
 
 type TrangeSlider = {
@@ -29,37 +28,19 @@ type TrangeSlider = {
   disabled: boolean
 }
 
-const nativeToWei = (input: string, decimalLength: number): string => {
-  input.replace(/,/g, '')
-  const parts = input.split('.')
-  const integerPart = parts[0]
-  const decimalPart = parts[1] || ''
-  const zerosToAdd = decimalLength - decimalPart.length
-  const paddedDecimalPart = decimalPart + '0'.repeat(zerosToAdd)
-  return integerPart + paddedDecimalPart
-}
-
-const weiToNative = (input: string, decimalLength: number): string => {
-  const paddedString = input.padStart(decimalLength, '0')
-  const decimalPart = input.length > decimalLength ? paddedString.slice(-decimalLength) : paddedString
-  const trimmedDecimalPart = decimalPart.replace(/0+$/, '');
-  const integerPart = input.length > decimalLength ? paddedString.slice(0, paddedString.length - decimalLength) : '0'
-  return integerPart + '.' + trimmedDecimalPart
-}
-
-const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, destination = false, originPTokenAsset, originChain}: SwapLineProps): JSX.Element => {
+const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, destination = false, originPTokenAsset}: SwapLineProps): JSX.Element => {
   const swapContext = useContext(SwapContext)
   const [assetModalOpen, setAssetModalOpen] = useState(false)
   const [rangeStatus, setRangeStatus] = useState<TrangeSlider>({value: '0', disabled: true})
   const { address, isDisconnected } = useAccount()
-  const assetAddress = destination ? originPTokenAsset?.assetTokenAddress :
-    isNative(selectedAsset) ? (selectedAsset as NativeAsset).address :
-    NO_ADDRESS
+  const assetAddress = originPTokenAsset?.assetTokenAddress
+  const assetChainId = originPTokenAsset && getChainByNetworkId(originPTokenAsset?.networkId)?.chainId
   const { data, isError, isLoading } = useBalance({
-    address: address,
-    token: (assetAddress && assetAddress !== NO_ADDRESS) ? assetAddress as `0x${string}` : undefined,
-    chainId: destination ? originChain?.chainId : getChainByBlockchain(selectedAsset.blockchain)?.chainId
+    address: address || undefined,
+    token: assetAddress as `0x${string}` || undefined,
+    chainId: assetChainId || undefined,
   })
+  const isPTokenLoading = !originPTokenAsset || originPTokenAsset.networkId !== selectedAsset.networkId
 
   const tourId1 = destination ? 'destinationBtnId' : 'originBtnId'
   const tourId2 = destination ? 'destinationInputId' : 'originInputId'
@@ -99,6 +80,7 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, dest
     if (!swapContext)
       throw new Error('Error in retreiving swap context')
     const amount = event.target.value
+    console.log(amount)
     if (data) {
       const intAmount = BigInt(nativeToWei(amount, data.decimals))
       if (intAmount && data && intAmount > data.value) {
@@ -140,6 +122,7 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, dest
         setDestAmount(intAmount + 200n, data.decimals) // TODO use global fees
       }
     } else {
+      swapContext.setSwapAmount({ amount: '0', bigIntAmount: 0n })
       swapContext.setReceiveAmount(amount)
     }
   }
@@ -180,7 +163,11 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, dest
       </div>
       <div className="border border-base-300 mb-4 mt-1 px-0 pt-2 pb-1 rounded-md w-[95%] lg:w-[97%]">
         <div className="flex justify-between items-center w-full mb-1">
-          {createPortal(<AssetsModal setAsset={setAsset} open={assetModalOpen} isOpen={setAssetModalOpen} />, document.body)}
+          {destination ? (
+            createPortal(<AssetsModal setAsset={setAsset} open={assetModalOpen} isOpen={setAssetModalOpen} originPTokenAsset={originPTokenAsset} />, document.body)
+          ) : (
+            createPortal(<AssetsModal setAsset={setAsset} open={assetModalOpen} isOpen={setAssetModalOpen} />, document.body)
+          )}
           <button 
             className="btn btn-md lg:btn-lg btn-secondary flex-nowrap pl-1 pr-0 lg:pl-3 lg:pr-4 lg:mr-2 ml-2 hover:scale-[102%]"
             id={tourId1}
@@ -199,10 +186,13 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, dest
         {!destination ? (
           <>
             <div className="flex justify-between items-center w-full ml-3">
-              {isLoading ? (
+              {!isDisconnected && (isLoading || isPTokenLoading) ? (
                 <div className="flex justify-start items-center">
                   {/* <div className="ml-0 mt-2 mb-0 text-xs lg:text-base">Balance:</div> */}
-                  <span className="loading loading-ring loading-md ml-2"></span> 
+                  <div className="ml-0 mt-0 lg:mt-2 mb-0 text-sm lg:text-base">
+                    Balance: 
+                  </div> 
+                  <span className="loading loading-ring loading-sm pt-1 ml-2"></span> 
                 </div>
               ) : isError ? (
                 <div>

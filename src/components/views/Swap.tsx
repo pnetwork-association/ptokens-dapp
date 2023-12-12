@@ -162,7 +162,7 @@ const Swap = (): JSX.Element => {
                 </button>
               </div>
             </div>
-            <SwapLine title='Origin' selectedAsset={originAsset} setAsset={setOriginAsset} selectedChain={originChain} setChain={setOriginChain} />
+            <SwapLine title='Origin' selectedAsset={originAsset} setAsset={setOriginAsset} selectedChain={originChain} setChain={setOriginChain} originPTokenAsset={origPtokenAsset} originChain={originChain} />
             <div className="lg:divider lg:px-7 lg:my-4 h-1 overflow-visible">
               <div className="btn btn-sm lg:btn-ghost max-lg:relative max-lg:z-10 max-lg:-translate-y-3.5 max-lg:border max-lg:border-base-300" onClick={() => switchAssets()}>
               <div className="hover:rotate-180 transition-transform duration-200 text-slate-100"><RiArrowUpDownLine size={swapSize}/></div>
