@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import {
   useAccount,
   useConnect,
@@ -19,39 +19,49 @@ export const Profile = (): JSX.Element => {
   const { address, connector, isConnected } = useAccount()
   const { chain } = useNetwork()
   const { status: switchStatus, error: switchError, isLoading: switchLoading, pendingChainId, switchNetwork } =
-    useSwitchNetwork()
+    useSwitchNetwork({
+      onSuccess(){
+        walletContext?.setWalletSelChain(selChain)
+      }
+    })
   const { connect, connectors, error, isLoading, pendingConnector } =
     useConnect()
   const { disconnect } = useDisconnect()
   const walletContext = useContext(WalletContext)
+  const [selChain, setSelChain] = useState(walletContext?.walletSelChain)
 
   const handleWalletDrawerInputChange = () => {
     walletContext?.toggleWalletDrawer()
   }
  
   useEffect(() => {
-    if (chain?.id != walletContext?.walletSelChain?.chainId)
-      switchNetwork?.(walletContext?.walletSelChain?.chainId)
-  }, [walletContext?.walletSelChain, isConnected])
+    if (chain?.id != selChain?.chainId && !switchLoading)
+      switchNetwork?.(selChain?.chainId)
+  }, [selChain, isConnected])
 
   useEffect(() => {
     walletContext?.setIsWalletConnected(isConnected)
   }, [isConnected])
 
   useEffect(() => {
+    if (walletContext?.walletSelChain && selChain && selChain !== walletContext?.walletSelChain)
+      setSelChain(walletContext?.walletSelChain)
+  }, [walletContext?.walletSelChain])
+
+  useEffect(() => {
     if (switchStatus === 'error' && !switchLoading && isConnected && chain)
-      walletContext?.setWalletSelChain((Object.values(swapChains).find((_chain: Chain) => _chain.chainId === chain.id)))
+    setSelChain((Object.values(swapChains).find((_chain: Chain) => _chain.chainId === chain.id)))
   }, [switchLoading])
  
   return (
     <div className='flex items-center'>
       <div className="dropdown dropdown-bottom dropdown-end">
         <label tabIndex={0} className="btn btn-md btn-ghost flex-nowrap w-12 p-0 ml-2 hover:scale-105 hover:bg-base-100">
-        {walletContext?.walletSelChain ? (
+        {selChain ? (
             <>
-              <img className="w-6 h-6 m-0 max-lg:hidden" src={`/svg/${walletContext.walletSelChain.image}`} />
-              <img className="w-4 h-4 m-0 lg:hidden" src={`/svg/${walletContext.walletSelChain.image}`} />
-              {switchLoading && pendingChainId === walletContext.walletSelChain.chainId ? (
+              <img className="w-6 h-6 m-0 max-lg:hidden" src={`/svg/${selChain.image}`} />
+              <img className="w-4 h-4 m-0 lg:hidden" src={`/svg/${selChain.image}`} />
+              {switchLoading && pendingChainId === selChain.chainId ? (
                 <span className="loading loading-ring loading-md"></span>
               ) : (
                 <div className='max-lg:w-0'>
@@ -66,11 +76,11 @@ export const Profile = (): JSX.Element => {
           {Object.values(swapChains).map((swapChain) => (
             <button className='btn btn-sm text-md btn-outline mb-1 justify-start'
               key={swapChain.id}
-              onClick={() => walletContext?.setWalletSelChain(swapChain)}
+              onClick={() => setSelChain(swapChain)}
             >
               <img className="w-6 h-6" src={`/svg/${swapChain.image}`} />
               {Blockchain[swapChain.blockchain]}
-              {swapChain === walletContext?.walletSelChain ? (
+              {swapChain === selChain ? (
                 <RiCheckLine />
               ) : null}
             </button>
