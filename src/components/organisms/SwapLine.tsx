@@ -80,7 +80,6 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, dest
     if (!swapContext)
       throw new Error('Error in retreiving swap context')
     const amount = event.target.value
-    console.log(amount)
     if (data) {
       const intAmount = BigInt(nativeToWei(amount, data.decimals))
       if (intAmount && data && intAmount > data.value) {
