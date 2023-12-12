@@ -1,14 +1,19 @@
 import { SwapResult, pTokensAsset } from 'ptokens-entities'
 import { pTokensSwap } from 'ptokens-swap'
+import { getPublicClient } from 'wagmi/actions'
+import { Blockchain } from 'ptokens-constants'
+import { erc20ABI } from 'wagmi'
 
 import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'
-import { approveTransaction, getBigInt } from '../../evm-utils'
+import { approveTransaction } from '../../evm-utils'
 import { getChainByBlockchain } from '../../../constants/swap-chains'
 import { TProgressContext } from '../../ContextProvider'
-import { getPublicClient } from 'wagmi/actions'
+import { nativeToWei } from '../../../utils/amount-utils'
 
 
-const peginWithWallet = async ({ swap , ptokenFrom, ptokenTo, progress }: { swap: pTokensSwap; ptokenFrom: pTokensAsset; ptokenTo: pTokensAsset; progress: TProgressContext;}) => {
+
+
+const redeemPTokens = async ({ swap , ptokenFrom, ptokenTo, progress }: { swap: pTokensSwap; ptokenFrom: pTokensAsset; ptokenTo: pTokensAsset; progress: TProgressContext;}) => {
   
   const sourceChainId = getChainByBlockchain(ptokenFrom.blockchain).chainId
   const publicClient = getPublicClient({chainId: sourceChainId})
@@ -17,15 +22,16 @@ const peginWithWallet = async ({ swap , ptokenFrom, ptokenTo, progress }: { swap
   progress?.setShow(true)
   progress?.setMessage('Waiting for the approval to be granted to pNetwork contract ...')
 
-  if (swap.sourceAsset.isNative) {
+  if (swap.sourceAsset.blockchain !== Blockchain.Bsc) {
     try {
-      const _amount = getBigInt(swap.amount, ptokenTo.assetInfo.underlyingAssetDecimals)
+      const _amount = nativeToWei(swap.amount, ptokenTo.assetInfo.underlyingAssetDecimals)
       const approve_hash = await approveTransaction(
         swap.sourceAsset.pTokenAddress,
         swap.sourceAsset.assetTokenAddress,
-        _amount,
+        BigInt(_amount),
         sourceChainId,
-        ptokenTo.assetInfo.underlyingAssetSymbol === 'USDT'
+        ptokenTo.assetInfo.underlyingAssetSymbol === 'USDT',
+        erc20ABI
       )
       if (approve_hash.hashType == true) {
         const approve_tx = await publicClient.waitForTransactionReceipt({confirmations: 3, hash: approve_hash.message as `0x${string}`})
@@ -69,13 +75,13 @@ const peginWithWallet = async ({ swap , ptokenFrom, ptokenTo, progress }: { swap
     .on('operationQueued', (_swapResult: SwapResult) => {
       link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _swapResult.txHash)
       console.info('operationQueued')
-      progress?.setStep(4)
+      // progress?.setStep(4)
       progress?.setMessage(`Asset transfer proposal <a href="${link}" target="_blank" className="text-blue-800" noopener noreferrer>transaction</a> broadcasted...`)
     })
     .on('operationExecuted', (_swapResult: SwapResult) => {
       link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _swapResult.txHash)
       console.info('operationExecuted')
-      progress?.setStep(5)
+      // progress?.setStep(5)
       progress?.setMessage(`Asset transfer <a href="${link}" target="_blank" className="text-blue-800" noopener noreferrer>transaction</a> executed.`)
     })
     .catch((_err) => {
@@ -87,4 +93,4 @@ const peginWithWallet = async ({ swap , ptokenFrom, ptokenTo, progress }: { swap
     })
   }
 
-export default peginWithWallet
+export default redeemPTokens

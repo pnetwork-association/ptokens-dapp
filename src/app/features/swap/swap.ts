@@ -1,8 +1,9 @@
 import { pTokensAsset } from "ptokens-entities"
 
-import { getSwapBuilder } from "../../../utils/ptokens"
-import peginWithWallet from "./pegin-with-wallet"
 import { TProgressContext } from "../../ContextProvider"
+import { getSwapBuilder } from "../../../utils/ptokens"
+import mintPTokens from "./mint-ptoken"
+import redeemPTokens from "./redeem-ptokens"
 
 //TODO change string to bigint
 export const swap = async (sourceAsset: pTokensAsset, destinationAsset: pTokensAsset, _amount: string, _address: string, _progress?: TProgressContext) => {
@@ -15,12 +16,20 @@ export const swap = async (sourceAsset: pTokensAsset, destinationAsset: pTokensA
     swapBuilder.setSourceAsset(sourceAsset)
     swapBuilder.addDestinationAsset(destinationAsset, _address, '0x', destinationAsset.isNative)
     const swap = await swapBuilder.build()
-    await peginWithWallet({
-      swap,
-      ptokenFrom: sourceAsset,
-      ptokenTo: destinationAsset,
-      progress: _progress
-    })
+    if (sourceAsset.isNative)
+      await mintPTokens({
+        swap,
+        ptokenFrom: sourceAsset,
+        ptokenTo: destinationAsset,
+        progress: _progress
+      })
+    else
+      await redeemPTokens({
+        swap,
+        ptokenFrom: sourceAsset,
+        ptokenTo: destinationAsset,
+        progress: _progress
+      })
   } catch (_err) {
     console.error(_err)
     // const { showModal } = parseError(_err)

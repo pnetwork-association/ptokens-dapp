@@ -1,12 +1,12 @@
 import BigNumber from 'bignumber.js'
 import { stringUtils } from 'ptokens-helpers'
-import { erc20ABI } from 'wagmi'
+import { Abi } from 'viem'
 import { getAccount, getContract, getWalletClient } from 'wagmi/actions'
 
 // NOTE: avoids brave metamask gas estimation fails
-function getBigInt(amount: string, decimals: number): bigint {
-  return BigInt(Number(amount) * 10 ** decimals)
-}
+// function getBigInt(amount: string, decimals: number): bigint {
+//   return BigInt(Number(amount) * 10 ** decimals)
+// }
 
 type TApproveResult = {
   message: string
@@ -20,6 +20,7 @@ const approveTransaction = async (
   amount: bigint,
   chainId: number,
   requiresReset: boolean = false,
+  abi: Abi,
 ): Promise<TApproveResult> => {
   const walletClient = await getWalletClient({chainId: chainId})
   const account = getAccount()
@@ -27,10 +28,10 @@ const approveTransaction = async (
     throw new Error('No account connected')
   const assetContract = getContract({
     address: stringUtils.addHexPrefix(assetAddress),
-    abi: erc20ABI,
+    abi: abi,
     walletClient: walletClient
   })
-  const allowance = await assetContract.read.allowance([account.address, stringUtils.addHexPrefix(spender)])
+  const allowance = await assetContract.read.allowance([account.address, stringUtils.addHexPrefix(spender)]) as bigint
   let hash = ''
   if (allowance < amount) {
     const _approve = async (amount: bigint) => await assetContract.write.approve([stringUtils.addHexPrefix(spender), amount])
@@ -42,4 +43,4 @@ const approveTransaction = async (
   return {message: `Allowance: ${allowance}`, hashType: false}
 }
 
-export { approveTransaction, getBigInt }
+export { approveTransaction }
