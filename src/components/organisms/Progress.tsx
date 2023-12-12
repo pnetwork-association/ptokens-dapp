@@ -24,14 +24,14 @@ const ProgressModal = (): JSX.Element => {
     "step": true,
     "step-primary": progressContext ? progressContext?.step >= 3 : false,
   })
-  const step_4 = cn({
-    "step": true,
-    "step-primary": progressContext ? progressContext?.step >= 4 : false,
-  })
-  const step_5 = cn({
-    "step": true,
-    "step-primary": progressContext ? progressContext?.step >= 5 : false,
-  })
+  // const step_4 = cn({
+  //   "step": true,
+  //   "step-primary": progressContext ? progressContext?.step >= 4 : false,
+  // })
+  // const step_5 = cn({
+  //   "step": true,
+  //   "step-primary": progressContext ? progressContext?.step >= 5 : false,
+  // })
 
   useEffect(() => {
     if (progressContext?.show === true) {
@@ -48,8 +48,8 @@ const ProgressModal = (): JSX.Element => {
               <li className={step_1}>Sign</li>
               <li className={step_2}>Broadcast</li>
               <li className={step_3}>Confirmed</li>
-              <li className={step_4}>Queued</li>
-              <li className={step_5}>Executed</li>
+              {/* <li className={step_4}>Queued</li>
+              <li className={step_5}>Executed</li> */}
             </ul>
           <div className="mt-5">
             {parse(progressContext.message)}
