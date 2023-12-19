@@ -1,7 +1,7 @@
 import { getPublicClient } from "wagmi/actions"
-import { getNetworkIdByChainId } from "../../../constants/swap-chains"
+import { getChainByNetworkId, getNetworkIdByChainId } from "../../../constants/swap-chains"
 import { NetworkId } from "ptokens-constants"
-import { getEvmHubAddress, getOperationIdFromLog, pTokensEvmProvider, operationEvents } from 'ptokens-assets-evm'
+import { getEvmHubAddress, getOperationIdFromLog, pTokensEvmProvider, operationEvents, EVENT_NAMES } from 'ptokens-assets-evm'
 import { PublicClient } from "wagmi"
 
 // export const operationEventsAbi = eventsAbi.filter((event) => Object.values(EVENT_NAMES).includes(event.name as EVENT_NAMES))
@@ -33,7 +33,10 @@ const retreiveLogsChunck = async (_chainId: number, _address: string, _fromBlock
       fromBlock: _fromBlock,
       toBlock: _toBlock,
     })
-    return logs.map((log) => ({...log, operationId: getOperationIdFromLog(log, networkId), networkId: networkId, originHubAddress: originHubAddress}))
+    return logs
+      .filter((log) => log.eventName === EVENT_NAMES.USER_OPERATION && log.args.forwardDestinationNetworkId !== '0x00000000' ? getChainByNetworkId(log.args.forwardDestinationNetworkId as NetworkId) : log) // exclude chains not supporte on dApp
+      .filter((log) => log.eventName === EVENT_NAMES.USER_OPERATION ? !log.args.isForProtocol : log) // remove protocol generated UserOperations
+      .map((log) => ({...log, operationId: getOperationIdFromLog(log, networkId), networkId: networkId, originHubAddress: originHubAddress}))
   } catch (_err) {
     console.error(_err)
   }
