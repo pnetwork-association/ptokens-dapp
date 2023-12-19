@@ -1,11 +1,10 @@
 const nativeToWei = (input: string, decimalLength: number): string => {
-  console.log(input)
   input.replace(/,/g, '')
   const parts = input.split('.')
   const integerPart = parts[0]
   const decimalPart = parts[1] || ''
   const zerosToAdd = decimalLength - decimalPart.length
-  const paddedDecimalPart = decimalPart + '0'.repeat(zerosToAdd)
+  const paddedDecimalPart = zerosToAdd >= 0 ? decimalPart + '0'.repeat(zerosToAdd) : decimalPart
   return integerPart + paddedDecimalPart
 }
 

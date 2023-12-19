@@ -26,12 +26,15 @@ const AssetBlock = ({ setAsset, isOpen, originPTokenAsset, searchWord = '' }: As
           {Object.values(swapAssets)
             .filter((singleAsset: Asset) =>
               originPTokenAsset?.isNative && isHost(singleAsset) ||
-              !(originPTokenAsset?.isNative) && singleAsset)
+              !(originPTokenAsset?.isNative) && singleAsset.networkId !== originPTokenAsset?.networkId)
             .filter((singleAsset: Asset) =>
               (isNative(singleAsset) &&
                 singleAsset.symbol === nativeAsset.symbol) ||
-              (isHost(singleAsset) &&
+              (isHost(singleAsset) && 
                 (singleAsset as HostAsset).nativeSymbol === nativeAsset.symbol))
+            .filter((singleAsset: Asset) => 
+              isNative(singleAsset) ||
+              isHost(singleAsset) && singleAsset.networkId !== nativeAsset.networkId)
             .filter(
               ({ name, blockchain, symbol }) =>
                 name.toLowerCase().includes(searchWord.toLowerCase()) ||

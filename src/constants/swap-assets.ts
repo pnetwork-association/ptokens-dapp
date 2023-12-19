@@ -75,6 +75,8 @@ export const getAllNativeAssets = (symbol?: string) => {
   }, {} as Record<AssetId, Asset>)
 }
 
+export const getNativeAsset = (_asset: Asset) =>  isNative(_asset) ? _asset : Object.values(swapAssets).find((asset) => asset.symbol === (_asset as HostAsset).nativeSymbol)
+
 export const getNativeAssetByAddress = (address: string) => Object.values(swapAssets).find((asset) => 'address' in asset ? (asset as NativeAsset).address.toLowerCase() === address.toLowerCase() : false)
 
 export const getAssetById = (id: AssetId) => swapAssets[id] || null
