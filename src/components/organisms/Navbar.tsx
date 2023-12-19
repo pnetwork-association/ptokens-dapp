@@ -18,7 +18,7 @@ const Navbar = (): JSX.Element => {
           <img className="w-8 mr-2" src="/svg/PNT.svg" />
         </a>
         <NavbarItem onclick={() => navigate('/swap')} label='swap'>Swap</NavbarItem>
-        <NavbarItem onclick={() => navigate('/activity')} label='risks'>Activity</NavbarItem>
+        <NavbarItem onclick={() => navigate('/activity')} label='activity'>Activity</NavbarItem>
         <NavbarItem onclick={() => navigate('/risks')} label='risks'>Risks</NavbarItem>
       </div>
       <div className="flex-none">
@@ -33,6 +33,7 @@ const Navbar = (): JSX.Element => {
           </label >
           <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 border border-base-300 rounded-lg">
             <li><NavbarItem onclick={() => {navigate('/swap'); focusOnRoot()}} label='swap'>Swap</NavbarItem></li>
+            <li><NavbarItem onclick={() => {navigate('/activity'); focusOnRoot()}} label='activity'>Activity</NavbarItem></li>
             <li><NavbarItem onclick={() => {navigate('/risks'); focusOnRoot()}} label='risks'>Risks</NavbarItem></li>
           </ul>
         </div>
