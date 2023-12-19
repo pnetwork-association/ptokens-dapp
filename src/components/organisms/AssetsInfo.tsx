@@ -47,14 +47,14 @@ const AssetsInfo = ({originAsset, destAsset, show}: AssetsInfoProps): JSX.Elemen
     <div id='info' className={className}>
       <AssetChart asset={destAsset} width={chartWidth} height={chartHeight} />
       <div className='flex max-sm:flex-col pb-2 lg:pb-2 items-center mt'>
-        <InfoCard asset={originAsset} pTokenAsset={assetContext?.asset?.origAsset} title="Locking" className='md:!mr-2 text-slate-200' />
+        <InfoCard asset={originAsset} pTokenAsset={assetContext?.asset?.origAsset} className='md:!mr-2 text-slate-200' />
         <RiArrowRightLine size={35} className="text-slate-200 max-lg:hidden" />
         <div className='h-1 overflow-visible -translate-y-2'>
           <div className='btn btn-xs btn-neutral lg:hidden bg-base-200 border border-base-300'>
             <RiArrowDownLine size={25} className="text-slate-200 pb-1" />
           </div>
         </div>
-        <InfoCard asset={destAsset} pTokenAsset={assetContext?.asset?.destAsset} title="Getting" className='md:!ml-2 text-slate-200' />        
+        <InfoCard asset={destAsset} pTokenAsset={assetContext?.asset?.destAsset} destination={true} className='md:!ml-2 text-slate-200' />        
       </div>
     </div>
   )
