@@ -23,8 +23,8 @@ enum OperationStatus {
 }
 
 const ActivityLine = ({operations}: ActivityLineProps): JSX.Element => {
-  const [interimStatus, setInterimStatus] = useState<OperationStatus>(OperationStatus.NotQueued)
-  const [destinationStatus, setDestinationStatus] = useState<OperationStatus>(OperationStatus.NotQueued)
+  // const [interimStatus, setInterimStatus] = useState<OperationStatus>(OperationStatus.NotQueued)
+  // const [destinationStatus, setDestinationStatus] = useState<OperationStatus>(OperationStatus.NotQueued)
   const [queueEta, setQueueEta] = useState<Date>()
   const {
     date,
@@ -69,12 +69,12 @@ const ActivityLine = ({operations}: ActivityLineProps): JSX.Element => {
   // }, [operations])
 
   const isComplete = () => isInterimDestination ?
-    interimStatus === OperationStatus.Executed && interimExecuteOperation :
-    interimStatus === OperationStatus.Executed && interimExecuteOperation && destinationStatus === OperationStatus.Executed && destinationExecuteOperation
+    /* interimStatus === OperationStatus.Executed && */ interimExecuteOperation :
+    /* interimStatus === OperationStatus.Executed && */ interimExecuteOperation /* && destinationStatus === OperationStatus.Executed */ && destinationExecuteOperation
 
   const isChallenged = () => isInterimDestination ?
-    interimCancelOperation && interimStatus === OperationStatus.Queued :
-    interimCancelOperation && interimStatus === OperationStatus.Queued || destinationCancelOperation && destinationStatus === OperationStatus.Queued
+    interimCancelOperation /* && interimStatus === OperationStatus.Queued */ :
+    interimCancelOperation /* && interimStatus === OperationStatus.Queued */ || destinationCancelOperation /* && destinationStatus === OperationStatus.Queued */
 
   useEffect(() => {
     const fetchEta = async () => {
@@ -87,7 +87,7 @@ const ActivityLine = ({operations}: ActivityLineProps): JSX.Element => {
           userSend.transactionHash,
           userSend.args.optionsMask,
           userSend.args.nonce,
-          userSend.args.underlyingAssetDecimals,
+          userSend.args.underlyingAssetDecimals, 
           userSend.args.assetAmount,
           userSend.args.userDataProtocolFeeAssetAmount,
           userSend.args.networkFeeAssetAmount,
@@ -105,7 +105,7 @@ const ActivityLine = ({operations}: ActivityLineProps): JSX.Element => {
           userSend.args.isForProtocol,
         ]
         const interimOpStatus = await getOperationStatus(interimQueueOperation.originHubAddress, interimEvmProvider, args) as OperationStatus
-        setInterimStatus(interimOpStatus)
+        // setInterimStatus(interimOpStatus)
         if (interimOpStatus === OperationStatus.Queued) {
           const interimEtaData = await getOperationChallengePeriod(interimQueueOperation.originHubAddress, interimEvmProvider, args)
           setQueueEta(new Date(Number(interimEtaData[1]) * 1000))
@@ -146,7 +146,7 @@ const ActivityLine = ({operations}: ActivityLineProps): JSX.Element => {
             destUserSend.args.isForProtocol,
           ]
           const destOpStatus = await getOperationStatus(destinationQueueOperation.originHubAddress, destEvmProvider, args) as OperationStatus
-          setDestinationStatus(destOpStatus)
+          // setDestinationStatus(destOpStatus)
           if (destOpStatus === OperationStatus.Queued) {
             const destinationEtaData = await getOperationChallengePeriod(destinationQueueOperation.originHubAddress, destEvmProvider, args)
             setQueueEta(new Date(Number(destinationEtaData[1]) * 1000))
@@ -190,9 +190,9 @@ const ActivityLine = ({operations}: ActivityLineProps): JSX.Element => {
       <td>
         <div className="flex items-center pr-12">
           <span className="flex">From</span>
-          <img src={`/svg/${originChain?.image}`} className="ml-2 max-w-[20px] max-h-[20px]" alt="Avatar Tailwind CSS Component" />
+          <img src={`/svg/${originChain?.image}`} className="ml-2 max-w-[20px] max-h-[20px]" alt="Not found" />
           <span className="flex ml-2">To</span>
-          <img src={`/svg/${destinationChain?.image}`} className="ml-2 max-w-[20px] max-h-[20px]" alt="Avatar Tailwind CSS Component" />
+          <img src={`/svg/${destinationChain?.image}`} className="ml-2 max-w-[20px] max-h-[20px]" alt="Not found" />
         </div>
       </td>
       <td className="text-center">
@@ -209,7 +209,7 @@ const ActivityLine = ({operations}: ActivityLineProps): JSX.Element => {
               'Pending'
             )}
           </span>
-          {(!isComplete() && !queueEta || queueEta && isPast(queueEta) &&  differenceInMinutes(new Date(), queueEta) > 2) && (
+          {(!isComplete() && !queueEta || !isComplete() && queueEta && isPast(queueEta) &&  differenceInMinutes(new Date(), queueEta) > 2) && (
             <div className="text-sm opacity-50">Waiting for relayers</div>
           )}
           {!isComplete() && queueEta && isPast(queueEta) && differenceInMinutes(new Date(), queueEta) <= 2 ? (
@@ -224,7 +224,7 @@ const ActivityLine = ({operations}: ActivityLineProps): JSX.Element => {
           <div>
             {isComplete() && isInterimDestination && interimExecuteOperation && (
               <div className="badge badge-ghost badge-lg bg-green-400">
-                <a href={`${getCorrespondingTxExplorerLinkByBlockchain(getChainByNetworkId(INTERIM_CHAIN_NETWORK_ID).blockchain, interimExecuteOperation.transactionHash)}`} target="_blank" className="text-black font-medium" rel="noopener noreferrer">Execute Tx</a>
+                <a href={`${getCorrespondingTxExplorerLinkByBlockchain(getChainByNetworkId(INTERIM_CHAIN_NETWORK_ID).blockchain, interimExecuteOperation.transactionHash)}`} target="_blank" className="text-black font-medium" rel="noopener noreferrer">Final Tx</a>
                 <div className="text-black ml-2 mb-0.5">
                   <RiExternalLinkLine size={11}/>
                 </div>
@@ -232,7 +232,7 @@ const ActivityLine = ({operations}: ActivityLineProps): JSX.Element => {
             )}
             {isComplete() && !isInterimDestination && destinationExecuteOperation && (
               <div className="badge badge-ghost badge-lg bg-green-400">
-                <a href={`${getCorrespondingTxExplorerLinkByBlockchain(getChainByNetworkId(destinationExecuteOperation.networkId).blockchain, destinationExecuteOperation.transactionHash)}`} target="_blank" className="text-black font-medium" rel="noopener noreferrer">Execute Tx</a>
+                <a href={`${getCorrespondingTxExplorerLinkByBlockchain(getChainByNetworkId(destinationExecuteOperation.networkId).blockchain, destinationExecuteOperation.transactionHash)}`} target="_blank" className="text-black font-medium" rel="noopener noreferrer">Final Tx</a>
                 <div className="text-black ml-2 mb-0.5">
                   <RiExternalLinkLine size={11}/>
                 </div>

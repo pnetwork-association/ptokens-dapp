@@ -124,9 +124,11 @@ export const useOperation = (operations: Operations) => {
           setSwapType(SwapType.Mint)
         else if (userSend.args.originNetworkId !== userSend.args.forwardDestinationNetworkId && assetAddress === underlyingAssetAddress)
           setSwapType(SwapType.MintAndTransfer)
-        else if (assetAddress !== underlyingAssetAddress && userSend.args.originNetworkId !== userSend.args.forwardDestinationNetworkId)
+        else if (assetAddress !== underlyingAssetAddress &&
+          userSend.args.optionsMask === "0x0000000000000000000000000000000000000000000000000000000000000000")
           setSwapType(SwapType.Transfer)
-        else if (assetAddress !== underlyingAssetAddress && userSend.args.originNetworkId === userSend.args.forwardDestinationNetworkId)
+        else if (assetAddress !== underlyingAssetAddress &&
+          userSend.args.optionsMask === "0x0000000000000000000000000000000000000000000000000000000000000001")
           setSwapType(SwapType.Redeem)
         const operationBlockNumber = userSend.blockNumber
         const chainId = getChainByNetworkId(userSend.networkId).chainId
