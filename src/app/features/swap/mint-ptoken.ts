@@ -61,7 +61,7 @@ const mintPTokens = async ({ swap , ptokenFrom, ptokenTo, progress }: { swap: pT
     })
     .on('inputTxConfirmed', () => {
       progress?.setStep(3)
-      progress?.setMessage(`Waiting for the pNetwork to detect your <a href="${link}" target="_blank" className="text-blue-800" noopener noreferrer>transaction</a> ...`)
+      progress?.setMessage(`Your <a href="${link}" target="_blank" className="text-blue-800" noopener noreferrer>operation</a> has been initiated. You can monitor it on Activity page.`)
     })
     .on('interimOperationQueued', (_swapResult: SwapResult) => {
       console.info('interimOperationQueued')

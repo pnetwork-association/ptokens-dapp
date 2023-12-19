@@ -15,7 +15,7 @@ import AssetsInfo from "../organisms/AssetsInfo"
 import SwapButtonControl from "../molecules/SwapButtonControl"
 import { defaults } from "../../constants/defaults"
 import ProgressModal from "../organisms/Progress"
-import { PTokenAssetsContext, SwapContext } from "../../app/ContextProvider"
+import { PTokenAssetsContext, ProgressContext, SwapContext } from "../../app/ContextProvider"
 import { useDestPtokenAsset, useOrigPtokenAsset } from "../../hooks/use-assets"
 import Disclaimer from "../organisms/Disclaimer"
 import { tour } from "../../app/features/tour/driver"
@@ -23,7 +23,8 @@ import { tour } from "../../app/features/tour/driver"
 const Swap = (): JSX.Element => {
   const { openSettings, open: isSettingsOpen } = useContext(Web3SettingsContext)
   const assetContext = useContext(PTokenAssetsContext)
-  const swapContext = useContext(SwapContext) 
+  const swapContext = useContext(SwapContext)
+  const progressContext = useContext(ProgressContext)
   const [originAsset, setOriginAsset] = useState<Asset>(defaults.originAsset)
   const [destAsset, setDestAsset] = useState(defaults.destinationAsset)
   const origPtokenAsset = useOrigPtokenAsset(originAsset)
@@ -90,8 +91,10 @@ const Swap = (): JSX.Element => {
   }
 
   const pageClassName = cn ({
-    "max-lg:h-[600px] max-lg:overflow-hidden": !showInfo && closeWarn,
-    "max-lg:h-[770px] max-lg:overflow-hidden": !showInfo && !closeWarn
+    "max-lg:h-[600px] max-lg:overflow-hidden": !progressContext?.show && !showInfo && closeWarn,
+    "max-lg:h-[770px] max-lg:overflow-hidden": !progressContext?.show && !showInfo && !closeWarn,
+    "max-lg:h-[1040px] max-lg:overflow-hidden": progressContext?.show && !showInfo && closeWarn,
+    "max-lg:h-[1180px] max-lg:overflow-hidden": progressContext?.show && !showInfo && !closeWarn
   })
 
   const mainClassName = cn({
