@@ -22,22 +22,22 @@ export const getNetworkIdByChainId = (chainId: number) => Object.values(swapChai
 
 const swapChains: Record<ChainId, Chain> = {
   /* #################   Chains   #################*/
-  // [ChainId.ETH]: {
-  //   id: ChainId.ETH,
-  //   chainId: 1,
-  //   endpoint: 'https://cloudflare-eth.com/',
-  //   blockchain: Blockchain.Ethereum,
-  //   networkId: NetworkId.PolygonMainnet, // not really supported yet
-  //   network: Network.Mainnet,
-  //   image: 'ETH.svg',
-  //   disabledImage: 'ETH_gray.svg'
-  // },
+  [ChainId.ETH]: {
+    id: ChainId.ETH,
+    chainId: 1,
+    endpoint: 'https://ethereum.publicnode.com',
+    blockchain: Blockchain.Ethereum,
+    networkId: NetworkId.EthMainnet,
+    network: Network.Mainnet,
+    image: 'ETH.svg',
+    disabledImage: 'ETH_gray.svg'
+  },
   [ChainId.BSC]: {
     id: ChainId.BSC,
     chainId: 56,
     endpoint: 'https://endpoints.omniatech.io/v1/bsc/mainnet/public',
     blockchain: Blockchain.Bsc,
-    networkId: NetworkId.BscMainnet, // not really supported yet
+    networkId: NetworkId.BscMainnet,
     network: Network.Mainnet,
     image: 'BSC.svg',
     disabledImage: 'BSC_gray.svg'

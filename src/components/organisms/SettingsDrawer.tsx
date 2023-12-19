@@ -130,10 +130,10 @@ const SettingsDrawer = ({ children }: SettingsDrawerProps): JSX.Element => {
               label: 'Gnosis',
               value: FactoryAddress.get(NetworkId.GnosisMainnet) as string, // TODO check type
             },
-            // [Blockchain.Arbitrum]: {
-            //   label: 'Arbitrum',
-            //   value: FactoryAddress.get(NetworkId.ArbitrumMainnet) as string, // TODO check type
-            // },
+            [Blockchain.Ethereum]: {
+              label: 'Ethereum',
+              value: FactoryAddress.get(NetworkId.EthMainnet) as string, // TODO check type
+            },
             [Blockchain.Bsc]: {
               label: 'Bsc',
               value: FactoryAddress.get(NetworkId.BscMainnet) as string, // TODO check type
@@ -151,10 +151,10 @@ const SettingsDrawer = ({ children }: SettingsDrawerProps): JSX.Element => {
               label: 'Gnosis',
               value: settings.rpc[Network.Mainnet][Blockchain.Gnosis].endpoint,
             },
-            // [Blockchain.Arbitrum]: {
-            //   label: 'Arbitrum',
-            //   value: settings.rpc[Network.Mainnet][Blockchain.Arbitrum].endpoint,
-            // },
+            [Blockchain.Ethereum]: {
+              label: 'Ethereum',
+              value: settings.rpc[Network.Mainnet][Blockchain.Ethereum].endpoint,
+            },
             [Blockchain.Bsc]: {
               label: 'Bsc',
               value: settings.rpc[Network.Mainnet][Blockchain.Bsc].endpoint,

@@ -44,6 +44,10 @@ const settings: ISettings = {
         endpoint: 'https://rpc.gnosischain.com/',
         chainId: 100,
       },
+      [Blockchain.Ethereum]: {
+        endpoint: 'https://ethereum.publicnode.com',
+        chainId: 1,
+      },
       [Blockchain.Arbitrum]: {
         endpoint: 'https://arb1.arbitrum.io/rpc',
         chainId: 42161,
@@ -62,6 +66,7 @@ const settings: ISettings = {
   explorers: {
     [Network.Mainnet]: {
       [Blockchain.Gnosis]: 'https://gnosisscan.io/',
+      [Blockchain.Ethereum]: 'https://etherscan.io/',
       [Blockchain.Arbitrum]: 'https://arbiscan.io/',
       [Blockchain.Polygon]: 'https://polygonscan.com/',
       [Blockchain.Bsc]: 'https://bscscan.com/',
@@ -73,7 +78,8 @@ const settings: ISettings = {
 export const getFactoryAddressByBlockchain = (_blockchain: Blockchain, _network = Network.Mainnet) => {
   const web3Settings = getWeb3Settings() as { factoryAddress: Record<Blockchain, string> }
   switch (_blockchain) {
-    case Blockchain.Arbitrum:
+    case Blockchain.Ethereum:
+      return web3Settings.factoryAddress[_blockchain]
     case Blockchain.Gnosis:
       return web3Settings.factoryAddress[_blockchain]
     case Blockchain.Polygon:
