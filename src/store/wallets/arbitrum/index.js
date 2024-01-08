@@ -1,22 +1,26 @@
+import { getWeb3Settings } from 'react-web3-settings'
+import WalletLink from 'walletlink'
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
-import WalletLink from 'walletlink'
-import settings from '../../../settings'
+
 import {
   WALLET_ARBITRUM_CONNECTED,
   WALLET_ARBITRUM_DISCONNECTED,
   WALLET_ARBITRUM_NETWORK_CHANGED,
   WALLET_ARBITRUM_ACCOUNT_CHANGED,
 } from '../../../constants'
+import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
+import { changeNetwork, setupNetwork } from '../../../utils/wallet'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
-import { changeNetwork, setupNetwork } from '../../../utils/wallet'
 import { createWalletConnect2 } from '../wallets.utils'
 
 let web3Modal
 
 const connectWithArbitrumWallet = async (_dispatch) => {
+  const configs = getWeb3Settings()
+
   try {
     if (document.getElementById('WEB3_CONNECT_MODAL_ID')) {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
@@ -30,7 +34,7 @@ const connectWithArbitrumWallet = async (_dispatch) => {
           package: WalletLink,
           options: {
             appName: settings.dappName,
-            rpc: settings.rpc.mainnet.arbitrum.endpoint,
+            rpc: configs.arbitrum,
             chainId: settings.rpc.mainnet.arbitrum.chainId,
             darkMode: getTheme() === 'dark',
           },
@@ -78,6 +82,8 @@ const disconnectFromArbitrumWallet = async (_dispatch) => {
 }
 
 const _connectionSuccesfull = async (_provider, _dispatch) => {
+  const configs = getWeb3Settings()
+
   try {
     const { accounts, chainId } = _provider
     const account = accounts ? accounts[0] : await _getAccount(_provider)
@@ -99,7 +105,7 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
               symbol: 'AETH',
               decimals: 18,
             },
-            nodes: [settings.rpc.mainnet.arbitrum.endpoint],
+            nodes: [configs.arbitrum],
             blockExplorerUrls: [settings.explorers.mainnet.arbitrum],
           })
         }
