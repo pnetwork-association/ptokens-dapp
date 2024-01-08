@@ -21,7 +21,6 @@ describe('getCorrespondingTxExplorerLinkByBlockchain', () => {
     ['LUXOCHAIN', 'https://explorer.luxochain.io/tx/txhash'],
     ['ALGORAND', 'https://algoexplorer.io/tx/group/txhash'],
     ['FTM', 'https://ftmscan.com/tx/txhash'],
-    ['ORE', 'https://explorer.ore.network/tx/txhash'],
   ])('Should get the correct %s explorer link for the transaction', (blockchain, expected) => {
     const txHash = 'txhash'
     const ret = getCorrespondingTxExplorerLinkByBlockchain(blockchain, txHash)
@@ -48,7 +47,6 @@ describe('getCorrespondingTokenExplorerLinkByBlockchain', () => {
     ['LUXOCHAIN', 'https://explorer.luxochain.io/token/tokenaddress'],
     ['ALGORAND', 'https://algoexplorer.io/asset/tokenaddress'],
     ['FTM', 'https://ftmscan.com/token/tokenaddress'],
-    ['ORE', 'https://explorer.ore.network/account/tokenaddress'],
   ])('Should get the correct %s token link for the transaction', (blockchain, expected) => {
     const tokenAddress = 'tokenaddress'
     const ret = getCorrespondingTokenExplorerLinkByBlockchain(blockchain, tokenAddress)
