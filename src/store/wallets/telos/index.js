@@ -1,7 +1,7 @@
 import { toastr } from 'react-redux-toastr'
 import { getWeb3Settings } from 'react-web3-settings'
 
-import { WALLET_TELOS_CONNECTED } from '../../../constants'
+import { WALLET_TELOS_CONNECTED, WALLET_TELOS_DISCONNECTED } from '../../../constants'
 import EosConnect from '../../../lib/eosConnect/'
 import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
@@ -47,7 +47,7 @@ const connectWithTelosWallet = (_dispatch) => {
 
 const disconnectFromTelosWallet = (_dispatch) => {
   _dispatch({
-    type: WALLET_TELOS_CONNECTED,
+    type: WALLET_TELOS_DISCONNECTED,
   })
 }
 
