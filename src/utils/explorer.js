@@ -20,7 +20,6 @@ const transactionBaseLink = {
   LUXOCHAIN: `${settings.explorers.mainnet.luxochain}tx/%s`,
   ALGORAND: `${settings.explorers.mainnet.algorand}tx/group/%s`,
   FTM: `${settings.explorers.mainnet.ftm}tx/%s`,
-  ORE: `${settings.explorers.mainnet.ore}tx/%s`,
 }
 
 const tokenBaseLink = {
@@ -41,7 +40,6 @@ const tokenBaseLink = {
   LUXOCHAIN: `${settings.explorers.mainnet.luxochain}token/%s`,
   ALGORAND: `${settings.explorers.mainnet.algorand}asset/%s`,
   FTM: `${settings.explorers.mainnet.ftm}token/%s`,
-  ORE: `${settings.explorers.mainnet.ore}account/%s`,
 }
 
 const getCorrespondingTxExplorerLinkByBlockchain = (_blockchain, _hash) =>

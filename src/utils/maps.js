@@ -16,7 +16,6 @@ const blockchainSymbolToName = {
   LUXOCHAIN: 'Luxochain',
   ALGORAND: 'Algorand',
   FTM: 'Fantom',
-  ORE: 'ORE',
 }
 
 const blockchainSymbolToCoin = {
@@ -37,7 +36,6 @@ const blockchainSymbolToCoin = {
   LUXOCHAIN: 'Luxochain',
   ALGORAND: 'Algorand',
   FTM: 'Fantom',
-  ORE: 'ORE',
 }
 
 const getAssetFromSymbol = (_assets, _symbol) => _assets.find(({ symbol }) => symbol === _symbol)

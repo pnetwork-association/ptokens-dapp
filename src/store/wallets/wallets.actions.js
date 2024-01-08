@@ -9,7 +9,6 @@ import { connectWithFtmWallet, disconnectFromFtmWallet } from './ftm'
 import { connectWithGnosisWallet, disconnectFromGnosisWallet } from './gnosis'
 import { connectWithLibreWallet, disconnectFromLibreWallet } from './libre'
 import { connectWithLuxochainWallet, disconnectFromLuxochainWallet } from './luxochain'
-import { connectWithOreWallet, disconnectFromOreWallet } from './ore'
 import { connectWithPolygonWallet, disconnectFromPolygonWallet } from './polygon'
 import { connectWithTelosWallet, disconnectFromTelosWallet } from './telos'
 import { connectWithUltraWallet, disconnectFromUltraWallet } from './ultra'
@@ -63,10 +62,6 @@ const connectWithWallet = (_blockchain) => {
       }
       case 'FTM': {
         connectWithFtmWallet(_dispatch)
-        break
-      }
-      case 'ORE': {
-        connectWithOreWallet(_dispatch)
         break
       }
       default:
@@ -125,10 +120,6 @@ const disconnectFromWallet = (_blockchain) => {
       }
       case 'FTM': {
         disconnectFromFtmWallet(_dispatch)
-        break
-      }
-      case 'ORE': {
-        disconnectFromOreWallet(_dispatch)
         break
       }
       default:

@@ -28,8 +28,6 @@ const isValidAccountByBlockchain = (_account, _blockchain) => {
       return validators.isValidAddressByChainId(_account, ChainId.AlgorandMainnet)
     case 'FTM':
       return validators.isValidAddressByChainId(stringUtils.addHexPrefix(_account), ChainId.FantomMainnet)
-    case 'ORE':
-      return validators.isValidAddressByChainId(_account, ChainId.EosMainnet)
     case 'BTC':
       return validators.isValidAddressByChainId(_account, ChainId.BitcoinMainnet)
     case 'LTC':

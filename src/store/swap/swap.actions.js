@@ -178,15 +178,6 @@ const loadBalances = (_account, _blockchain) => {
           })
           break
         }
-        case 'ORE': {
-          loadEosioCompatibleBalances({
-            assets: getAssetsByBlockchain('ORE'),
-            account: _account,
-            dispatch: _dispatch,
-            blockchain: 'ORE',
-          })
-          break
-        }
         case 'BSC': {
           loadEvmCompatibleBalances({
             assets: getAssetsByBlockchain('BSC'),
@@ -275,10 +266,6 @@ const loadBalanceByAssetId = (_id) => {
           break
         }
         case 'EOS': {
-          loadEosioCompatibleBalance({ asset, account, dispatch: _dispatch })
-          break
-        }
-        case 'ORE': {
           loadEosioCompatibleBalance({ asset, account, dispatch: _dispatch })
           break
         }
