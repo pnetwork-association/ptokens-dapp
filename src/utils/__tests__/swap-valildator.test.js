@@ -89,7 +89,7 @@ describe('isValidSwap', () => {
     ],
     ['USDT_ON_ALGORAND_MAINNET', ['USDT']],
     ['PUSDT_ON_ALGORAND_MAINNET', ['USDT', 'PUSDT_ON_LIBRE_MAINNET', 'PUSDT_ON_TELOS_MAINNET']],
-    ['UOS', ['PUOS_ON_EOS_MAINNET', 'PUOS_ON_ULTRA_MAINNET']],
+    ['UOS', ['PUOS_ON_ULTRA_MAINNET']],
   ])('Should determine valid destination assets for %s', (id, expectedIds) => {
     const from = getAssetById(id)
     const expectedAssets = setFromIds(expectedIds)
