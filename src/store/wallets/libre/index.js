@@ -1,11 +1,15 @@
-import settings from '../../../settings'
 import { toastr } from 'react-redux-toastr'
+import { getWeb3Settings } from 'react-web3-settings'
+
 import { WALLET_LIBRE_CONNECTED, WALLET_LIBRE_DISCONNECTED } from '../../../constants'
 import EosConnect from '../../../lib/eosConnect/'
+import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 
 const connectWithLibreWallet = (_dispatch) => {
+  const configs = getWeb3Settings()
+
   if (document.getElementById('EOS_CONNECT')) {
     document.getElementById('EOS_CONNECT').remove()
   }
@@ -15,10 +19,10 @@ const connectWithLibreWallet = (_dispatch) => {
     theme: getWeb3ModalTheme(getTheme()),
     providerOptions: {
       libre: {
-        settings: settings.rpc.mainnet.libre,
+        settings: { ...settings.rpc.mainnet.libre, endpoint: configs.libre },
       },
       anchor: {
-        settings: settings.rpc.mainnet.libre,
+        settings: { ...settings.rpc.mainnet.libre, endpoint: configs.libre },
       },
     },
   })

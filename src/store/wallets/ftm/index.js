@@ -1,10 +1,12 @@
+import { getWeb3Settings } from 'react-web3-settings'
+import WalletLink from 'walletlink'
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
+
 import { WALLET_FTM_CONNECTED, WALLET_FTM_DISCONNECTED, WALLET_FTM_ACCOUNT_CHANGED } from '../../../constants'
-import WalletLink from 'walletlink'
 import settings from '../../../settings'
-import { changeNetwork, setupNetwork } from '../../../utils/wallet'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
+import { changeNetwork, setupNetwork } from '../../../utils/wallet'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
 import { createWalletConnect2 } from '../wallets.utils'
@@ -12,6 +14,8 @@ import { createWalletConnect2 } from '../wallets.utils'
 let web3Modal
 
 const connectWithFtmWallet = async (_dispatch) => {
+  const configs = getWeb3Settings()
+
   try {
     if (document.getElementById('WEB3_CONNECT_MODAL_ID')) {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
@@ -25,7 +29,7 @@ const connectWithFtmWallet = async (_dispatch) => {
           package: WalletLink,
           options: {
             appName: settings.dappName,
-            rpc: settings.rpc.mainnet.ftm.endpoint,
+            rpc: configs.ftm,
             chainId: settings.rpc.mainnet.ftm.chainId,
             darkMode: getTheme() === 'dark',
           },
@@ -70,6 +74,8 @@ const disconnectFromFtmWallet = async (_dispatch) => {
 }
 
 const _connectionSuccesfull = async (_provider, _dispatch) => {
+  const configs = getWeb3Settings()
+
   try {
     const { accounts, chainId } = _provider
     const account = accounts ? accounts[0] : await _getAccount(_provider)
@@ -91,7 +97,7 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
               symbol: 'ftm',
               decimals: 18,
             },
-            nodes: [settings.rpc.mainnet.ftm.endpoint],
+            nodes: [configs.ftm],
             blockExplorerUrls: [settings.explorers.mainnet.ftm],
           })
         }

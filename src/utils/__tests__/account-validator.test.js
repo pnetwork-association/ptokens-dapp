@@ -33,7 +33,6 @@ describe('isValidAccountByBlockchain', () => {
     ${`account`}   | ${'ULTRA'}     | ${'0x02f9337d'} | ${'account'}
     ${`account`}   | ${'ALGORAND'}  | ${'0x03c38e67'} | ${'account'}
     ${`account`}   | ${'FTM'}       | ${'0x0022af98'} | ${'0xaccount'}
-    ${`account`}   | ${'ORE'}       | ${'0x02e7261c'} | ${'account'}
     ${`account`}   | ${'BTC'}       | ${'0x01ec97de'} | ${'account'}
     ${`account`}   | ${'LTC'}       | ${'0x01840435'} | ${'account'}
   `(

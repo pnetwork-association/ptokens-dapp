@@ -1,14 +1,16 @@
+import { getWeb3Settings } from 'react-web3-settings'
+import WalletLink from 'walletlink'
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
-import WalletLink from 'walletlink'
+
 import {
   WALLET_POLYGON_CONNECTED,
   WALLET_POLYGON_ACCOUNT_CHANGED,
   WALLET_POLYGON_DISCONNECTED,
 } from '../../../constants'
-import { setupNetwork } from '../../../utils/wallet'
 import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
+import { setupNetwork } from '../../../utils/wallet'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
 import { createWalletConnect2 } from '../wallets.utils'
@@ -16,6 +18,8 @@ import { createWalletConnect2 } from '../wallets.utils'
 let web3Modal
 
 const connectWithPolygonWallet = async (_dispatch) => {
+  const configs = getWeb3Settings()
+
   try {
     if (document.getElementById('WEB3_CONNECT_MODAL_ID')) {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
@@ -29,7 +33,7 @@ const connectWithPolygonWallet = async (_dispatch) => {
           package: WalletLink,
           options: {
             appName: settings.dappName,
-            rpc: settings.rpc.mainnet.polygon.endpoint,
+            rpc: configs.polygon,
             chainId: settings.rpc.mainnet.polygon.chainId,
             darkMode: getTheme() === 'dark',
           },
@@ -67,6 +71,8 @@ const disconnectFromPolygonWallet = async (_dispatch) => {
 }
 
 const _connectionSuccesfull = async (_provider, _dispatch) => {
+  const configs = getWeb3Settings()
+
   try {
     const { accounts, chainId } = _provider
     const account = accounts ? accounts[0] : await _getAccount(_provider)
@@ -81,7 +87,7 @@ const _connectionSuccesfull = async (_provider, _dispatch) => {
           symbol: 'matic',
           decimals: 18,
         },
-        nodes: [settings.rpc.mainnet.polygon.endpoint],
+        nodes: [configs.polygon],
         blockExplorerUrls: [settings.explorers.mainnet.polygon],
       })
 

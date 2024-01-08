@@ -1,11 +1,15 @@
-import settings from '../../../settings'
 import { toastr } from 'react-redux-toastr'
-import { WALLET_TELOS_CONNECTED } from '../../../constants'
+import { getWeb3Settings } from 'react-web3-settings'
+
+import { WALLET_TELOS_CONNECTED, WALLET_TELOS_DISCONNECTED } from '../../../constants'
 import EosConnect from '../../../lib/eosConnect/'
+import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 
 const connectWithTelosWallet = (_dispatch) => {
+  const configs = getWeb3Settings()
+
   if (document.getElementById('EOS_CONNECT')) {
     document.getElementById('EOS_CONNECT').remove()
   }
@@ -15,10 +19,10 @@ const connectWithTelosWallet = (_dispatch) => {
     theme: getWeb3ModalTheme(getTheme()),
     providerOptions: {
       tokenPocket: {
-        settings: settings.rpc.mainnet.telos,
+        settings: { ...settings.rpc.mainnet.telos, endpoint: configs.telos },
       },
       anchor: {
-        settings: settings.rpc.mainnet.telos,
+        settings: { ...settings.rpc.mainnet.telos, endpoint: configs.telos },
       },
     },
   })
@@ -43,7 +47,7 @@ const connectWithTelosWallet = (_dispatch) => {
 
 const disconnectFromTelosWallet = (_dispatch) => {
   _dispatch({
-    type: WALLET_TELOS_CONNECTED,
+    type: WALLET_TELOS_DISCONNECTED,
   })
 }
 

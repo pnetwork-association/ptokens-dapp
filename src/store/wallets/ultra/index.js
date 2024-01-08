@@ -1,11 +1,15 @@
-import settings from '../../../settings'
 import { toastr } from 'react-redux-toastr'
+import { getWeb3Settings } from 'react-web3-settings'
+
 import { WALLET_ULTRA_CONNECTED, WALLET_ULTRA_DISCONNECTED } from '../../../constants'
 import EosConnect from '../../../lib/eosConnect/'
+import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 
 const connectWithUltraWallet = (_dispatch) => {
+  const configs = getWeb3Settings()
+
   if (document.getElementById('EOS_CONNECT')) {
     document.getElementById('EOS_CONNECT').remove()
   }
@@ -15,10 +19,10 @@ const connectWithUltraWallet = (_dispatch) => {
     theme: getWeb3ModalTheme(getTheme()),
     providerOptions: {
       tokenPocket: {
-        settings: settings.rpc.mainnet.ultra,
+        settings: { ...settings.rpc.mainnet.ultra, endpoint: configs.ultra },
       },
       anchor: {
-        settings: settings.rpc.mainnet.ultra,
+        settings: { ...settings.rpc.mainnet.ultra, endpoint: configs.ultra },
       },
     },
   })

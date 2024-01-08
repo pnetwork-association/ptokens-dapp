@@ -34,9 +34,6 @@ const getReadOnlyProviderByBlockchain = (_blockchain) => {
   if (_blockchain === 'ULTRA') {
     return new JsonRpc(configs.ultra, { fetch })
   }
-  if (_blockchain === 'ORE') {
-    return new JsonRpc(configs.ore, { fetch })
-  }
   if (_blockchain === 'ARBITRUM') {
     return new Web3.providers.HttpProvider(configs.arbitrum)
   }

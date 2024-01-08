@@ -1,15 +1,17 @@
+import { getWeb3Settings } from 'react-web3-settings'
+import WalletLink from 'walletlink'
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
-import WalletLink from 'walletlink'
-import settings from '../../../settings'
-import { changeNetwork } from '../../../utils/wallet'
+
 import {
   WALLET_ETH_CONNECTED,
   WALLET_ETH_DISCONNECTED,
   WALLET_ETH_NETWORK_CHANGED,
   WALLET_ETH_ACCOUNT_CHANGED,
 } from '../../../constants'
+import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
+import { changeNetwork } from '../../../utils/wallet'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
 import { createWalletConnect2 } from '../wallets.utils'
@@ -17,6 +19,8 @@ import { createWalletConnect2 } from '../wallets.utils'
 let web3Modal
 
 const connectWithEthWallet = async (_dispatch) => {
+  const configs = getWeb3Settings()
+
   try {
     if (document.getElementById('WEB3_CONNECT_MODAL_ID')) {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
@@ -31,7 +35,7 @@ const connectWithEthWallet = async (_dispatch) => {
           package: WalletLink,
           options: {
             appName: settings.dappName,
-            rpc: settings.rpc.mainnet.eth.endpoint,
+            rpc: configs.eth,
             chainId: settings.rpc.mainnet.eth.chainId,
             darkMode: getTheme() === 'dark',
           },

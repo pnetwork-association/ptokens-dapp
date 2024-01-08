@@ -6,3 +6,5 @@ dist.zip
 .eslintcache
 .vscode/
 coverage/
+.hostingConfig.json
+

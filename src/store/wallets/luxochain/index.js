@@ -1,13 +1,15 @@
+import { getWeb3Settings } from 'react-web3-settings'
+import WalletLink from 'walletlink'
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
-import WalletLink from 'walletlink'
-import settings from '../../../settings'
+
 import {
   WALLET_LUXOCHAIN_CONNECTED,
   WALLET_LUXOCHAIN_DISCONNECTED,
   WALLET_LUXOCHAIN_NETWORK_CHANGED,
   WALLET_LUXOCHAIN_ACCOUNT_CHANGED,
 } from '../../../constants'
+import settings from '../../../settings'
 import { getWeb3ModalTheme } from '../../../theme/web3-modal'
 import { getTheme } from '../../pages/pages.selectors'
 import { getWalletProviderByBlockchain } from '../wallets.selectors'
@@ -16,6 +18,8 @@ import { createWalletConnect2 } from '../wallets.utils'
 let web3Modal
 
 const connectWithLuxochainWallet = async (_dispatch) => {
+  const configs = getWeb3Settings()
+
   try {
     if (document.getElementById('WEB3_CONNECT_MODAL_ID')) {
       document.getElementById('WEB3_CONNECT_MODAL_ID').remove()
@@ -29,7 +33,7 @@ const connectWithLuxochainWallet = async (_dispatch) => {
           package: WalletLink,
           options: {
             appName: settings.dappName,
-            rpc: settings.rpc.mainnet.luxochain.endpoint,
+            rpc: configs.luxochain,
             chainId: settings.rpc.mainnet.luxochain.chainId,
             darkMode: getTheme() === 'dark',
           },
