@@ -48,8 +48,17 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, dest
     token: assetAddress as `0x${string}` || undefined,
     chainId: assetChainId || undefined,
   })
-  const isPTokenLoading = !originPTokenAsset || originPTokenAsset.networkId !== selectedAsset.networkId
+  const isPTokenLoading = !destination && (!originPTokenAsset || originPTokenAsset.networkId !== selectedAsset.networkId)
   const nativeAsset = getNativeAsset(selectedAsset)
+
+  // useEffect(() => {
+  //   console.log(isPTokenLoading)
+  // }, [isPTokenLoading])
+
+  // useEffect(() => {
+  //   console.log(originPTokenAsset)
+  //   console.log(isError, address, assetAddress, assetChainId)
+  // }, [address, assetAddress, assetChainId])
 
   const tourId1 = destination ? 'destinationBtnId' : 'originBtnId'
   const tourId2 = destination ? 'destinationInputId' : 'originInputId'
@@ -150,20 +159,22 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, dest
   useEffect(() => {
     if (destination && nativeAsset && filteredChain === selectedChain) {
       if (isNative(selectedAsset)) {
-        const chain = Object.values(swapChains).find((chain) => chain.chainId !== filteredChain.chainId && chain.chainId !== getChainByBlockchain(nativeAsset.blockchain).chainId)
-        const compatibleAsset = Object.values(swapAssets).find((asset) => !isNative(asset) && asset.blockchain === chain?.blockchain && (asset as HostAsset).nativeSymbol === selectedAsset.symbol)
+        const compatibleAsset = Object.values(swapAssets).find((asset) => !isNative(asset) && asset.blockchain !== filteredChain?.blockchain && asset.blockchain !== getChainByBlockchain(nativeAsset.blockchain).blockchain && (asset as HostAsset).nativeSymbol === selectedAsset.symbol)
+        const chain = compatibleAsset && getChainByBlockchain(compatibleAsset?.blockchain)
         if (compatibleAsset && chain) {
           setAsset(compatibleAsset)
           setChain(chain)
         }
       } else {
-        const chain = Object.values(swapChains).find((chain) => chain.networkId !== originPTokenAsset?.networkId && chain.blockchain != nativeAsset.blockchain && chain.blockchain !== filteredChain.blockchain)
+        const compatibleAsset = Object.values(swapAssets).find((asset) => !isNative(asset) && asset.blockchain !== filteredChain?.blockchain && asset.blockchain !== getChainByBlockchain(nativeAsset.blockchain).blockchain && (asset as HostAsset).symbol === selectedAsset.symbol)
+        const chain = compatibleAsset && getChainByBlockchain(compatibleAsset?.blockchain)
         if (chain) {
+          if (destination)
           setChain(chain)
         }
       }
     }
-  }, [filteredChain])  
+  }, [filteredChain, selectedChain])  
 
   useEffect(() => {
     if (destination && originPTokenAsset && selectedAsset) {
@@ -189,18 +200,24 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, dest
   }, [data, swapContext?.swapAmount])
 
   useEffect(() => {
-    setChain(Object.values(swapChains).find((chain: Chain) => chain.blockchain === selectedAsset.blockchain) as Chain)
+    const fChain = Object.values(swapChains).find((chain: Chain) => chain.blockchain === selectedAsset.blockchain) as Chain
+    if (destination && filteredChain && filteredChain.blockchain === selectedAsset.blockchain)
+      return
+    if (fChain)
+      setChain(fChain)
   }, [selectedAsset])
 
   useEffect(() => {
-    setAsset(Object.values(swapAssets).find((asset: Asset) => asset.symbol === selectedAsset.symbol && asset.blockchain === selectedChain.blockchain) as Asset)
+    const fAsset = Object.values(swapAssets).find((asset: Asset) => asset.symbol === selectedAsset.symbol && asset.blockchain === selectedChain.blockchain) as Asset
+    if (fAsset)
+      setAsset(fAsset)
   }, [selectedChain])
 
   return(
-    <div className="flex flex-col justify-between items-center lg:w-11/12 max-lg:w-[95%] rounded-md bg-base-100">
-      <div className="flex justify-between max-lg:items-end lg:items-center w-full rounded-md! max-lg:h-8">
-        <div className="ml-4 lg:mt-2 m-0 mb-0 text-base">{title}</div>
-        <div className="mr-2 lg:mr-3 mt-2 max-lg:-mb-2 lg:mb-0">
+    <div className="flex flex-col justify-between items-center w-[95%] rounded-md bg-base-100">
+      <div className="flex justify-between items-end w-full rounded-md! h-8">
+        <div className="ml-4 m-0 mb-0 text-base">{title}</div>
+        <div className="mr-2 mt-2 -mb-2">
           {destination ? (
             <ChainsDropdown id={tourId3} selectedAsset={selectedAsset} selectedChain={selectedChain} setSelectedChain={setChain} filteredChain={filteredChain} nativeAsset={nativeAsset} destination={true} />
           ) : (
@@ -208,22 +225,26 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, dest
           )}
         </div>
       </div>
-      <div className="border border-base-300 mb-4 mt-1 px-0 pt-2 pb-1 rounded-md w-[95%] lg:w-[97%]">
+      <div className="border border-base-300 mb-4 mt-1 px-0 pt-2 pb-1 rounded-md w-[95%]">
         <div className="flex justify-between items-center w-full mb-1">
           {destination ? (
             createPortal(<AssetsModal setAsset={setAsset} open={assetModalOpen} isOpen={setAssetModalOpen} originPTokenAsset={originPTokenAsset} />, document.body)
           ) : (
             createPortal(<AssetsModal setAsset={setAsset} open={assetModalOpen} isOpen={setAssetModalOpen} />, document.body)
           )}
+          {/* {isPTokenLoading ? (
+            <div className="skeleton rounded-lg h-10 w-28 m-3"></div>
+          ) : ( */}
           <button 
-            className="btn btn-md lg:btn-lg btn-secondary flex-nowrap pl-1 pr-0 lg:pl-3 lg:pr-4 lg:mr-2 ml-2 hover:scale-[102%]"
+            className="btn btn-md btn-secondary flex-nowrap pl-1 pr-0 ml-2 hover:scale-[102%]"
             id={tourId1}
             onClick={() => setAssetModalOpen(true)}
           >
-            <img src={`/svg/${selectedAsset.image}`} className="w-7 lg:w-11" />
+            <img src={`/svg/${selectedAsset.image}`} className="w-7" />
             {selectedAsset.symbol}
             <RiArrowDownSLine size={20} color="gray"/>
           </button>
+          {/* )} */}
           {destination ? (
             <input id={tourId2} type="number" placeholder="0" className="input text-right text-4xl w-full focus:outline-none mb-1 grow mr-0" value={swapContext?.receiveAmount} onChange={handleDestinationChange}/>
           ) : (
@@ -235,8 +256,8 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, dest
             <div className="flex justify-between items-center w-full ml-3">
               {!isDisconnected && (isLoading || isPTokenLoading) ? (
                 <div className="flex justify-start items-center">
-                  {/* <div className="ml-0 mt-2 mb-0 text-xs lg:text-base">Balance:</div> */}
-                  <div className="ml-0 mt-0 lg:mt-2 mb-0 text-sm lg:text-base">
+                  {/* <div className="ml-0 mt-2 mb-0 text-xs ">Balance:</div> */}
+                  <div className="ml-0 mt-0 mb-0 text-sm">
                     Balance: 
                   </div> 
                   <span className="loading loading-ring loading-sm pt-1 ml-2"></span> 
@@ -247,7 +268,7 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, dest
                   </div>
               ) : data ? (
                 <div className="text-slate-200">
-                  <div className="ml-0 mt-0 lg:mt-2 mb-0 text-sm lg:text-base">
+                  <div className="ml-0 mt-0 mb-0 text-sm">
                     Balance: {data.formatted}
                   </div>
                 </div>

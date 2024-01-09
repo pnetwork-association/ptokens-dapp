@@ -24,9 +24,9 @@ const AssetBlock = ({ setAsset, isOpen, originPTokenAsset, searchWord = '' }: As
         </div>
         <div className="collapse-content">
           {Object.values(swapAssets)
-            .filter((singleAsset: Asset) =>
-              originPTokenAsset?.isNative && isHost(singleAsset) ||
-              !(originPTokenAsset?.isNative) && singleAsset.networkId !== originPTokenAsset?.networkId)
+            .filter((singleAsset: Asset) => {
+              return originPTokenAsset?.isNative && isHost(singleAsset) ||
+              !(originPTokenAsset?.isNative) && singleAsset.networkId !== originPTokenAsset?.networkId})
             .filter((singleAsset: Asset) =>
               (isNative(singleAsset) &&
                 singleAsset.symbol === nativeAsset.symbol) ||
