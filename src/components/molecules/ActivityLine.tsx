@@ -26,6 +26,7 @@ const ActivityLine = ({operations}: ActivityLineProps): JSX.Element => {
   // const [interimStatus, setInterimStatus] = useState<OperationStatus>(OperationStatus.NotQueued)
   // const [destinationStatus, setDestinationStatus] = useState<OperationStatus>(OperationStatus.NotQueued)
   const [queueEta, setQueueEta] = useState<Date>()
+  const [totalQueueEta, setTotalQueueEta] = useState<Date>()
   const {
     date,
     swapType,
@@ -67,6 +68,15 @@ const ActivityLine = ({operations}: ActivityLineProps): JSX.Element => {
     //   isInterimDestination,)
     // }
   // }, [operations])
+
+  useEffect(() => {
+    if (queueEta) {
+      if (!isInterimDestination && !destinationQueueOperation)
+        setTotalQueueEta(new Date(queueEta.getTime() + 10 * 60000)) // add 10 minutes for teh destination
+      else
+        setTotalQueueEta(queueEta)
+    }
+  }, [queueEta])
 
   const isComplete = () => isInterimDestination ?
     /* interimStatus === OperationStatus.Executed && */ interimExecuteOperation :
@@ -209,13 +219,13 @@ const ActivityLine = ({operations}: ActivityLineProps): JSX.Element => {
               'Pending'
             )}
           </span>
-          {(!isComplete() && !queueEta || !isComplete() && queueEta && isPast(queueEta) &&  differenceInMinutes(new Date(), queueEta) > 2) && (
+          {(!isComplete() && !totalQueueEta || !isComplete() && totalQueueEta && isPast(totalQueueEta) &&  differenceInMinutes(new Date(), totalQueueEta) > 2) && (
             <div className="text-sm opacity-50">Waiting for relayers</div>
           )}
-          {!isComplete() && queueEta && isPast(queueEta) && differenceInMinutes(new Date(), queueEta) <= 2 ? (
+          {!isComplete() && totalQueueEta && isPast(totalQueueEta) && differenceInMinutes(new Date(), totalQueueEta) <= 2 ? (
             <div className="text-sm opacity-50">ETA: any moment</div>
-          ) : !isComplete() && queueEta && !isPast(queueEta) && (
-            <div className="text-sm opacity-50">ETA: {formatDistanceToNow(queueEta)}</div>
+          ) : !isComplete() && totalQueueEta && !isPast(totalQueueEta) && (
+            <div className="text-sm opacity-50">ETA: {formatDistanceToNow(totalQueueEta)}</div>
           )}
         </div>
       </td>
