@@ -31,7 +31,7 @@ const { chains, publicClient } = configureChains(
 )
 
 const wagmiConfig = createConfig({
-  autoConnect: false,
+  autoConnect: true,
   connectors: [
     new MetaMaskConnector({ chains }),
     new CoinbaseWalletConnector({
