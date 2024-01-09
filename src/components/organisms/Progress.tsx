@@ -3,7 +3,19 @@ import { useNavigate } from "react-router-dom"
 import cn from "classnames"
 import parse from 'html-react-parser'
 
-import { ProgressContext, SwapContext } from "../../app/ContextProvider"
+import { ProgressContext, SwapContext, TProgressContext, TSwapContext } from "../../app/ContextProvider"
+
+const resetProgress = (progress: TProgressContext, swap: TSwapContext) => {
+  progress?.setStep(0)
+  progress?.setMessage('')
+  progress?.setIsComplete(false)
+  progress?.setShow(false)
+  swap?.setSwapAmount({
+    bigIntAmount: 0n,
+    amount: '0',
+  })
+  swap?.setReceiveAmount('0')
+}
 
 const ProgressModal = (): JSX.Element => {
   const navigate = useNavigate()
@@ -26,14 +38,6 @@ const ProgressModal = (): JSX.Element => {
     "step": true,
     "step-primary": progressContext ? progressContext?.step >= 3 : false,
   })
-  // const step_4 = cn({
-  //   "step": true,
-  //   "step-primary": progressContext ? progressContext?.step >= 4 : false,
-  // })
-  // const step_5 = cn({
-  //   "step": true,
-  //   "step-primary": progressContext ? progressContext?.step >= 5 : false,
-  // })
 
   useEffect(() => {
     if (progressContext?.show === true) {
@@ -44,7 +48,7 @@ const ProgressModal = (): JSX.Element => {
   return(
     <>
       {progressContext?.show ? (
-        <div className="flex flex-col justify-between items-center w-11/12 bg-base-100 rounded-md py-3 mb-7">
+        <div className="flex flex-col justify-between items-center w-[95%] bg-base-100 rounded-md py-3 mb-3">
           <ul className="steps max-lg:steps-vertical max-lg:mt-5">
             <li className={step_0}>Approve</li>
             <li className={step_1}>Sign</li>
@@ -53,13 +57,13 @@ const ProgressModal = (): JSX.Element => {
             {/* <li className={step_4}>Queued</li>
             <li className={step_5}>Executed</li> */}
           </ul>
-          <div className="mt-5 max-lg:text-center max-lg:w-11/12">
+          <div className="mt-5 px-5 text-center max-lg:w-[95%]">
             {parse(progressContext.message)}
           </div>
           {progressContext?.step >= 3 && (
-            <div className="mt-5">
-              <a onClick={() => navigate('/activity')} className="btn btn-success">
-                Activity monitor
+            <div className="mt-2">
+              <a onClick={() => {navigate('/activity'); resetProgress(progressContext, swapContext)}} className="btn btn-sm btn-outline btn-info">
+                Go to Activity
               </a>
             </div>
           )}

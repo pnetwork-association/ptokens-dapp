@@ -30,7 +30,7 @@ type TAmount = {
   amount: string
 }
 
-type TSwapContext = {
+export type TSwapContext = {
   swapButtonText: string
   swapButtonDisabled: boolean
   swapAmount: TAmount
