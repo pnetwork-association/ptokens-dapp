@@ -17,7 +17,7 @@ const Activity = (): JSX.Element => {
 
   useEffect(() => {
     setDataLoaded(!isLoading)
-    if (events)console.log('events', events)
+    if (events) console.log('events', events)
   }, [isLoading])
 
   return (

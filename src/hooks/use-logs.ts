@@ -14,7 +14,7 @@ const useEvents = (chain: Chain) => {
 
   const getLogs = async () => {
     isLoading.current = true
-    const allLogs = (await Promise.all(Object.values(swapChains).map((chain) => retreiveLogs(chain.chainId, 50000)))).flat()
+    const allLogs = (await Promise.all(Object.values(swapChains).map((chain) => retreiveLogs(chain.chainId, 30000)))).flat()
     const logsList = _.compact(allLogs)
     const logs = (await Promise.all(logsList.map(async (log) => {
       if (log?.eventName === EVENT_NAMES.OPERATION_EXECUTED) {
@@ -41,7 +41,7 @@ const useEvents = (chain: Chain) => {
   useEffect(() => {
     try {
       if (!isLoading.current) getLogs()
-      const intervalId = setInterval(() => !isLoading.current && getLogs(), 30000)
+      const intervalId = setInterval(() => !isLoading.current && getLogs(), 20)
       return () => clearInterval(intervalId)
     }
     catch (_err) {
