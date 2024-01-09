@@ -132,7 +132,7 @@ const SettingsDrawer = ({ children }: SettingsDrawerProps): JSX.Element => {
             },
             [Blockchain.Ethereum]: {
               label: 'Ethereum',
-              value: FactoryAddress.get(NetworkId.EthMainnet) as string, // TODO check type
+              value: FactoryAddress.get(NetworkId.EthereumMainnet) as string, // TODO check type
             },
             [Blockchain.Bsc]: {
               label: 'Bsc',

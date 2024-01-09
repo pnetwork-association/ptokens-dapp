@@ -5,7 +5,7 @@ import settings from '../settings'
 const transactionBaseLink: Record<Blockchain, string> = {
   [Blockchain.Gnosis]: `${settings.explorers[Network.Mainnet][Blockchain.Gnosis]}tx/`,
   [Blockchain.Arbitrum]: `${settings.explorers[Network.Mainnet][Blockchain.Arbitrum]}tx/`,
-  [Blockchain.Ethereum]: '',
+  [Blockchain.Ethereum]: `${settings.explorers[Network.Mainnet][Blockchain.Ethereum]}tx/`,
   [Blockchain.Sepolia]: '',
   [Blockchain.Goerli]: '',
   [Blockchain.Bitcoin]: '',
@@ -26,7 +26,7 @@ const transactionBaseLink: Record<Blockchain, string> = {
 const tokenBaseLink: Record<Blockchain, string> = {
   [Blockchain.Gnosis]: `${settings.explorers[Network.Mainnet][Blockchain.Gnosis]}address/`,
   [Blockchain.Arbitrum]: `${settings.explorers[Network.Mainnet][Blockchain.Arbitrum]}token/`,
-  [Blockchain.Ethereum]: '',
+  [Blockchain.Ethereum]: `${settings.explorers[Network.Mainnet][Blockchain.Ethereum]}token/`,
   [Blockchain.Sepolia]: '',
   [Blockchain.Goerli]: '',
   [Blockchain.Bitcoin]: '',

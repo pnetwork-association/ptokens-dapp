@@ -12,11 +12,11 @@ enum BlockTime {
   GnosisMainnet = 5,
   PolygonMainnet = 2,
   BscMainnet = 3,
-  EthMainnet = 12,
+  EthereumMainnet = 12,
 }
 
 export const blockTimePerChain = new Map<NetworkId, BlockTime>([
-  [NetworkId.EthMainnet, BlockTime.EthMainnet],
+  [NetworkId.EthereumMainnet, BlockTime.EthereumMainnet],
   [NetworkId.GnosisMainnet, BlockTime.GnosisMainnet],
   [NetworkId.BscMainnet, BlockTime.BscMainnet],
   [NetworkId.PolygonMainnet, BlockTime.PolygonMainnet],

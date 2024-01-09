@@ -27,7 +27,7 @@ const swapChains: Record<ChainId, Chain> = {
     chainId: 1,
     endpoint: 'https://ethereum.publicnode.com',
     blockchain: Blockchain.Ethereum,
-    networkId: NetworkId.EthMainnet,
+    networkId: NetworkId.EthereumMainnet,
     network: Network.Mainnet,
     image: 'ETH.svg',
     disabledImage: 'ETH_gray.svg'
