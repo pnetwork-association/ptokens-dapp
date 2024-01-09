@@ -239,7 +239,7 @@ const AssetChart = ({asset, width = 700, height = 320}: AssetChartProps): JSX.El
   }
 
   return(
-    <div className='bg-base-100 m-2 mb-1 lg:m-5 rounded-lg'>
+    <div className='bg-base-100 m-2 mb-1 lg:m-3 rounded-lg'>
       <div className="flex justify-between">
         <div className="flex justify-start mx-5 mt-5">
           <img

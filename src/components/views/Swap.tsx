@@ -43,7 +43,7 @@ const Swap = (): JSX.Element => {
 
   useEffect(() => {
     if (width >= 1024)
-      setSwapSize(25)
+      setSwapSize(20)
     else
       setSwapSize(20)
   }, [width])
@@ -98,13 +98,12 @@ const Swap = (): JSX.Element => {
   })
 
   const mainClassName = cn({
-    "flex max-lg:flex-col justify-center lg:items-start max-lg:items-center duration-700 p-5 scroll-smooth": true,
-    "2xl:-translate-x-[328px] 2xl:scale-100 transition": showInfo,
-    "lg:-translate-x-[246px] lg:scale-75 origin-top transition": showInfo
+    "flex max-lg:flex-col justify-center max-lg:items-center duration-700 max-sm:p-2 sm:p-5 scroll-smooth": true,
+    "lg:-translate-x-[278px] 2xl:scale-100 transition origin-top": showInfo,
   })
 
   const InfoButtonClassName = cn({
-    "btn btn-ghost btn-sm flex flex-nowrap justify-start mr-3 lg:mr-7 px-1 max-lg:mb-2": true,
+    "btn btn-ghost btn-sm flex flex-nowrap justify-start mr-3 px-1 mb-2": true,
     "max-w-[32px] overflow-hidden transition-[max-width] duration-300": true,
     "hover:max-w-sm hover:duration-300": true,
     "max-w-sm btn-active": showInfo
@@ -121,7 +120,7 @@ const Swap = (): JSX.Element => {
   })
 
   const WarnClassName = cn({
-    "alert alert-warning font-semibold mt-3 w-auto rounded-lg max-lg:mx-5": true,
+    "alert alert-warning font-semibold mt-3 w-auto rounded-lg max-sm:mx-2 sm:mx-5 p-1": true,
     "flex": closeWarn
   })
 
@@ -135,7 +134,7 @@ const Swap = (): JSX.Element => {
           ) : (
             <span>Beta Alert: pNetwork v3 dApp is in beta and not yet audited. Only swap amounts you can afford to loose.</span>
           )}
-          <button className="btn btn-sm btn-secondary top-1 right-1" onClick={() => setCloseWarn(!closeWarn)}>
+          <button className="btn btn-xs btn-secondary top-1 right-1" onClick={() => setCloseWarn(!closeWarn)}>
             {closeWarn ? (
               <FaChevronDown size={11}/>
             ) : (
@@ -145,10 +144,10 @@ const Swap = (): JSX.Element => {
         </div>
       </div>
       <div className={mainClassName}>
-        <Container className="lg:w-[656px]">
+        <Container className="sm:w-[444px]">
           <Box>
-            <div className="flex justify-between items-center w-full rounded-md mt-3 mb-1 max-lg:h-5">
-              <div className="ml-3 lg:ml-7 lg:mt-2 mb-1 font-semibold text-slate-100">pNetwork v3</div>
+            <div className="flex justify-between items-center w-full rounded-md mt-3 mb-1 h-5">
+              <div className="ml-3 lg:ml-5 mb-1 font-semibold text-slate-100">pNetwork v3</div>
               <div className="flex">
                 <button className={SettingsButtonClassName}
                   onClick={openSettings}
@@ -166,13 +165,13 @@ const Swap = (): JSX.Element => {
               </div>
             </div>
             <SwapLine title='Origin' selectedAsset={originAsset} setAsset={setOriginAsset} selectedChain={originChain} setChain={setOriginChain} originPTokenAsset={origPtokenAsset} originChain={originChain} filteredChain={destChain} />
-            <div className="lg:divider lg:px-7 lg:my-4 h-1 overflow-visible">
-              <div className="btn btn-sm lg:btn-ghost max-lg:relative max-lg:z-10 max-lg:-translate-y-3.5 max-lg:border max-lg:border-base-300" onClick={() => switchAssets()}>
-              <div className="hover:rotate-180 transition-transform duration-200 text-slate-100"><RiArrowUpDownLine size={swapSize}/></div>
+            <div className="h-1 overflow-visible">
+              <div className="btn max-sm:btn-sm sm:btn-xs relative z-10 max-sm:-translate-y-3.5 sm:-translate-y-2.5 border border-base-300" onClick={() => switchAssets()}>
+              <div className="transition-transform duration-200 text-slate-100"><RiArrowUpDownLine size={swapSize}/></div>
               </div>
             </div>
             <SwapLine title='Destination' selectedAsset={destAsset} setAsset={setDestAsset} selectedChain={destChain} setChain={setDestChain} destination={true} originPTokenAsset={origPtokenAsset} originChain={originChain} filteredChain={originChain}/>
-            <input id="destinationAddress" type="text" placeholder="Destination Address" className="input lg:w-11/12 max-lg:w-[95%] mt-1 lg:mt-3 text-right focus:outline-none lg:mb-1 grow text-slate-200" onChange={setDestinationAddress}/>
+            <input id="destinationAddress" type="text" placeholder="Destination Address" className="input w-[95%] mt-1 text-right focus:outline-none grow text-slate-200" onChange={setDestinationAddress}/>
             <SwapButtonControl />
             <ProgressModal />
           </Box>

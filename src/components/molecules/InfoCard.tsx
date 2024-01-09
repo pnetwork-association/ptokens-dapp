@@ -37,15 +37,15 @@ const InfoCard = ({asset, pTokenAsset, destination, className = ''}: InfoCardPro
   }, [asset])
 
   return(
-    <div className={`flex justify-start items-center bg-base-100 rounded-md lg:mx-5 max-lg:mx-1 lg:my-2 pb-2 lg:w-1/2 max-lg:w-[95%] ${className}`}>
+    <div className={`flex justify-start items-center bg-base-100 rounded-md lg:mx-3 max-lg:mx-1 lg:my-0 pb-2 lg:w-1/2 max-lg:w-[95%] ${className}`}>
       <div className="flex flex-col">
       <h1 className="text-md m-2 text-slate-200">{originTitle}</h1>
         <div className="flex items-center ml-4">
           <img
-            className="w-8 mr-2 mb-2"
+            className="w-6 mr-2 mb-2"
             src={`/svg/${asset.image}`}
           />
-          <div className='mb-2 text-2xl'>{asset.symbol}</div>
+          <div className='mb-2 text-xl'>{asset.symbol}</div>
         </div>
         <div className="flex items-center ml-4">
           <div className='bold mr-2 w-16 text-slate-300'>CHAIN:</div>

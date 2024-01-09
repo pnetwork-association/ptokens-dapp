@@ -34,7 +34,7 @@ const ChainsDropdown = ({selectedAsset, selectedChain, setSelectedChain, id, fil
     <div id={id}className="dropdown dropdown-end z-20">
       {/* label instead of button because of a safari bug */}
       <label tabIndex={0} className={animationClassName}>
-          <img src={`/svg/${selectedChain.image}`} className="w-6 h-8 lg:w-6 lg:h-6 z-10" />
+          <img src={`/svg/${selectedChain.image}`} className="w-6 h-8 z-10" />
           <span>{Blockchain[selectedChain.blockchain]}</span>
           <FaChevronDown size={7} color="gray"/>
       </label>
