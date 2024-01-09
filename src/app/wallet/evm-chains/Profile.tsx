@@ -18,13 +18,13 @@ import { WalletContext } from '../../ContextProvider'
 export const Profile = (): JSX.Element => {
   const { address, connector, isConnected } = useAccount()
   const { chain } = useNetwork()
-  const { status: switchStatus, error: switchError, isLoading: switchLoading, pendingChainId, switchNetwork } =
+  const { status: switchStatus, isLoading: switchLoading, pendingChainId, switchNetwork } =
     useSwitchNetwork({
       onSuccess(){
         walletContext?.setWalletSelChain(selChain)
       }
     })
-  const { connect, connectors, error, isLoading, pendingConnector } =
+  const { connect, connectors, isLoading, pendingConnector } =
     useConnect()
   const { disconnect } = useDisconnect()
   const walletContext = useContext(WalletContext)
@@ -35,7 +35,15 @@ export const Profile = (): JSX.Element => {
   }
  
   useEffect(() => {
-    if (chain?.id != selChain?.chainId && !switchLoading)
+    if (chain?.id != selChain?.chainId ) {
+      const switchChain = Object.values(swapChains).find((swapChain: Chain) => swapChain.chainId === chain?.id)
+      setSelChain(switchChain)
+      walletContext?.setWalletSelChain(switchChain)
+    }
+  }, [chain, isConnected])
+
+  useEffect(() => {
+    if (selChain && chain?.id != selChain?.chainId && !switchLoading)
       switchNetwork?.(selChain?.chainId)
   }, [selChain, isConnected])
 
@@ -70,7 +78,7 @@ export const Profile = (): JSX.Element => {
                 </div>
               )}
             </>
-          ) : 'chains'}
+          ) : null}
         </label>
         <ul tabIndex={0} className="dropdown-content menu m-2 p-2 shadow bg-base-200 border border-base-300 rounded-md w-44 fixed z-[99]">
           {Object.values(swapChains).map((swapChain) => (
@@ -132,21 +140,22 @@ export const Profile = (): JSX.Element => {
         </>
       )}
       
-      {error ? (
+      {/* {error ? (
         <div className="toast">
           <div className="alert alert-error">
             <span>{error && <div>{error.message}</div>}</span>
+            <button className="btn btn-sm">Close</button>
           </div>
         </div>
-      ) : null}
+      ) : null} */}
 
-      {switchError ? (
+      {/* {switchError ? (
         <div className="toast">
           <div className="alert alert-error">
             <span>{switchError && <div>{switchError.message}</div>}</span>
           </div>
         </div>
-      ) : null}
+      ) : null} */}
       
     </div>
   )
