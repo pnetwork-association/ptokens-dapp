@@ -13,7 +13,7 @@ export default {
   daisyui: {
     themes: [
       {
-        mytheme: {
+        defaultTheme: {
           "primary": "#156BF4",
           "secondary": "#101929",
           "secondary-focus": "#1e293b",
