@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useMemo } from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Row, Col } from 'react-bootstrap'
-import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
-import { NumericFormat } from 'react-number-format'
-import AssetInfo from '../assetInfo/AssetInfo'
-import Icon from '../../atoms/icon/Icon'
-import { getDecimalSeparator, getThousandSeparator } from '../../../utils/amount-utils'
 import Skeleton from 'react-loading-skeleton'
+import { NumericFormat } from 'react-number-format'
+import styled from 'styled-components'
+
+import { getDecimalSeparator, getThousandSeparator } from '../../../utils/amount-utils'
+import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
+import Icon from '../../atoms/icon/Icon'
+import AssetInfo from '../assetInfo/AssetInfo'
+
 import 'react-loading-skeleton/dist/skeleton.css'
 
 const SwapLineContainer = styled.div`
@@ -275,7 +277,7 @@ const SwapLine = ({
                 disabled={disableInput}
                 onValueChange={(_e, _source) => onChangeAmount(_e.value.toString().replace(',', '.'), _source)}
                 prefix={prefix}
-                value={amount !== '' ? +amount : amount}
+                value={amount}
                 allowedDecimalSeparators={[',', '.']}
                 decimalSeparator={getDecimalSeparator()}
                 thousandSeparator={getThousandSeparator()}
