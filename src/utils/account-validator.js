@@ -37,4 +37,10 @@ const isValidAccountByBlockchain = (_account, _blockchain) => {
   }
 }
 
-export { isValidAccountByBlockchain }
+const isSmartContract = async (account, web3) => {
+  const code = await web3.eth.getCode(account)
+  if (code !== '0x') return false
+  else return true
+}
+
+export { isValidAccountByBlockchain, isSmartContract }
