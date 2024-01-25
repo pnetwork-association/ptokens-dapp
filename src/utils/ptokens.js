@@ -1,12 +1,14 @@
 import _ from 'lodash'
 import { pTokensAlgorandAssetBuilder, pTokensAlgorandProvider } from 'ptokens-assets-algorand'
 import { pTokensEosioAssetBuilder, pTokensEosioProvider } from 'ptokens-assets-eosio'
-import { pTokensEvmAssetBuilder, pTokensEvmProvider } from 'ptokens-assets-evm'
+import { pTokensEvmAssetBuilder, pTokensEvmProvider, pTokensEvmAsset } from 'ptokens-assets-evm'
 import { pTokensUtxoAssetBuilder, pTokensBlockstreamUtxoProvider } from 'ptokens-assets-utxo'
 import { pTokensNode, pTokensNodeProvider } from 'ptokens-node'
 import { pTokensSwapBuilder } from 'ptokens-swap'
 
-import { PNETWORK_NODE_V3 } from '../constants/index'
+import { ETHPNT_ON_ETH_MAINNET, PNETWORK_NODE_V3 } from '../constants/index'
+import swapAssets from '../settings/swap-assets'
+import { getWalletByBlockchain } from '../store/wallets/wallets.selectors'
 
 import { getReadOnlyProviderByBlockchain } from './read-only-providers'
 
@@ -70,6 +72,28 @@ export const createAsset = async (_asset, _wallets) => {
   }
   const asset = await builder.build()
   return asset
+}
+
+export const createEthPntAsset = async () => {
+  const ethPnt = swapAssets.find((asset) => asset.id === ETHPNT_ON_ETH_MAINNET)
+  if (!ethPnt) throw new Error('ethPnt not found')
+  const wallet = getWalletByBlockchain(ethPnt.blockchain)
+  const provider = new pTokensNodeProvider(PNETWORK_NODE_V3)
+  const node = new pTokensNode(provider)
+  // Here _to is used for the symbol in order to get PNT assetInfo.
+  // ethPNT is not directly supported and it is used as PNT only modifying the contract address.
+  const assetInfo = await node.getAssetInfoByChainId('PNT', ethPnt.chainId)
+  const providerInfo = new pTokensEvmProvider(
+    wallet.provider || getReadOnlyProviderByBlockchain(ethPnt.blockchain.toUpperCase())
+  )
+  const config = {
+    node: node,
+    assetInfo: { ...assetInfo, tokenAddress: ethPnt.address, decimals: ethPnt.decimals },
+    symbol: ethPnt.symbol,
+    chainId: ethPnt.chainId,
+    provider: providerInfo,
+  }
+  return new pTokensEvmAsset(config)
 }
 
 export const getSwapBuilder = () => {

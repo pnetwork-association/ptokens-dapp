@@ -1,9 +1,12 @@
 import _ from 'lodash'
 
+import { ETHPNT_ON_ETH_MAINNET } from '../constants'
+
 export const isValidSwap = (from, to, assets) => {
   if (_.isNil(from) || _.isNil(to)) return false
   if (to.id === from.id) return false
-  if (!assets.find(({ id }) => from.id === id) && !assets.find(({ id }) => to.id === id)) return false
+  if (!assets.find(({ id }) => from.id === id) || !assets.find(({ id }) => to.id === id)) return false
+  if (from.id === ETHPNT_ON_ETH_MAINNET && to.nativeSymbol === 'PNT' && !to.isNative) return true
   if (to.isHidden) return false
   if (to.nativeSymbol.toLowerCase() !== from.nativeSymbol.toLowerCase()) return false
   if (from.id === 'TLOS_ON_ETH_MAINNET' && to.id !== 'TLOS') return false

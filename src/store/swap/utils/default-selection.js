@@ -50,7 +50,9 @@ const getDefaultSelectionV2 = (
 
   const assetTo = _assets.find(
     ({ nativeSymbol, blockchain, address }) =>
-      nativeSymbol.toLowerCase() === asset.toLowerCase() &&
+      (asset.toLowerCase() === 'ethpnt'
+        ? nativeSymbol.toLowerCase() === 'pnt'
+        : nativeSymbol.toLowerCase() === asset.toLowerCase()) &&
       blockchain.toLowerCase() === to.toLowerCase() &&
       (algorand_to_assetid && blockchain === 'ALGORAND' ? address === algorand_to_assetid : true)
   )
