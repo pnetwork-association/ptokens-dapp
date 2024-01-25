@@ -66,7 +66,7 @@ const migrationAssets = [
     isNative: true,
     nativeSymbol: 'ethPNT',
     nativeBlockchain: 'ETH',
-    image: 'PNT_gray.svg',
+    image: 'PNT.svg',
     withBalanceDecimalsConversion: true,
     titleLabel: 'ethPNT',
     chainId: ChainId.EthereumMainnet,
