@@ -129,7 +129,7 @@ const settings = {
       algorand: {
         token: '4950dcab89ddc2e7f4dd8e51deb2f0c44aa37aab18cbfd8242ac5fb697222342',
         port: 443,
-        endpoint: 'https://algorand-node-1.ptokens.io',
+        endpoint: 'https://mainnet-api.algonode.cloud',
         label: 'Algorand',
       },
       ftm: {

@@ -9,7 +9,7 @@ export const getWeb3Settings = () => ({
   ultra: 'https://corsproxy.ptokens.io/v1/?apiurl=http://ultra-mainnet-1.ptokens.io:8888',
   arbitrum: 'https://arb1.arbitrum.io/rpc',
   luxochain: 'https://corsproxy.ptokens.io/v1/?apiurl=https://lugano.nodes.luxochain.io',
-  algorand: 'https://algorand-node-1.ptokens.io',
+  algorand: 'https://mainnet-api.algonode.cloud',
   ftm: 'https://rpc.ftm.tools/',
   ore: 'https://ore-node-1.ptokens.io',
   btc: 'https://blockstream.info/api/',

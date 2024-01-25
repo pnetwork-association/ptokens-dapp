@@ -41,7 +41,7 @@ const getReadOnlyProviderByBlockchain = (_blockchain) => {
     return new Web3.providers.HttpProvider(configs.luxochain)
   }
   if (_blockchain === 'ALGORAND') {
-    return new Algodv2(settings.rpc.mainnet.algorand.token, configs.algorand, settings.rpc.mainnet.algorand.port)
+    return new Algodv2('', configs.algorand, settings.rpc.mainnet.algorand.port) // use public node until pNetwork node is restored
   }
   if (_blockchain === 'FTM') {
     return new Web3.providers.HttpProvider(configs.ftm)
