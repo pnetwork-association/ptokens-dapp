@@ -1109,7 +1109,7 @@ const swapAssets = [
   },
   {
     address: '0x89ab32156e46f46d02ade3fecbe5fc4243b9aaed',
-    id: 'PNT',
+    id: 'PNT_ON_ETH_MAINNET',
     symbol: 'PNT',
     name: 'pNetwork',
     network: 'mainnet',
