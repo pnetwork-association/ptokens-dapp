@@ -1,5 +1,6 @@
 import { test, describe, expect } from 'vitest'
 
+import { ETHPNT_ON_ETH_MAINNET, PNT_ON_ETH_MAINNET } from '../../constants'
 import migrationAssets from '../../settings/migration-assets'
 import assets from '../../settings/swap-assets'
 import { isValidSwap } from '../swap-valildator'
@@ -99,6 +100,7 @@ describe('isValidSwap', () => {
 
   test('Should always be there at least one valid swap pair', () => {
     assets
+      .filter((asset) => asset.id !== ETHPNT_ON_ETH_MAINNET) // exclude ethPNT which is put in PNT list
       .map((_from) => assets.filter((_to) => isValidSwap(_from, _to, assets)))
       .map((_pairs) => expect(_pairs.length).toBeGreaterThan(0))
   })
@@ -121,5 +123,23 @@ describe('isValidSwap', () => {
 
   test('Should return false if from or to assets are not in assets array', () => {
     assets.map((_from) => assets.map((_to) => expect(isValidSwap(_from, _to, migrationAssets)).toBeFalsy()))
+  })
+
+  test('Should return true if from asset is ethPNT and to assets are non-native PNT', () => {
+    const ethPnt = assets.find((asset) => asset.id === ETHPNT_ON_ETH_MAINNET)
+    assets.map((_to) =>
+      _to.nativeSymbol === 'PNT' && !_to.isNative ? expect(isValidSwap(ethPnt, _to, assets)).toBeTruthy() : null
+    )
+  })
+
+  test('Should return false if to asset is ethPNT', () => {
+    const ethPnt = assets.find((asset) => asset.id === ETHPNT_ON_ETH_MAINNET)
+    assets.map((_from) => expect(isValidSwap(_from, ethPnt, assets)).toBeFalsy())
+  })
+
+  test('Should return false if trying to go from ethPNT to PNT', () => {
+    const ethPnt = assets.find((asset) => asset.id === ETHPNT_ON_ETH_MAINNET)
+    const pnt = assets.find((asset) => asset.id === PNT_ON_ETH_MAINNET)
+    assets.map((_from) => expect(isValidSwap(ethPnt, pnt, assets)).toBeFalsy())
   })
 })
