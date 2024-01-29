@@ -46,6 +46,26 @@ const useAssetsGroupedByGivenStrategy = (_assets) => {
   }, [_assets])
 }
 
+/*
+ * This function is used to manage ethPNT as an extension of PNT and not as a standalone token in the Modal List.
+ *
+ * ethPNT is an extension of PNT so it must be removed from the modal list somehow. The easiest way found in order to not
+ * disrupt every other function which uses `swap-assets.js` list structure is to manipulate the array in the very
+ * component that displays the list.
+ */
+const useSortPntInflationToken = (_assets) => {
+  return useMemo(() => {
+    const pntExtendingTokens = Object.values(_assets)
+      .flatMap((array) => array)
+      .filter((asset) => asset.extendsPnt === true)
+    if (pntExtendingTokens)
+      return Object.fromEntries(
+        Object.entries(_assets).filter(([key]) => !pntExtendingTokens.some((token) => token.nativeSymbol === key))
+      )
+    return _assets
+  }, [_assets])
+}
+
 const useSearchAssets = (_assets) => {
   const [searchWord, setSearchWord] = useState('')
 
@@ -100,4 +120,11 @@ const updateAsset = (_asset) => ({
   miniImage: `./assets/svg/${_asset.miniImage || _asset.blockchain}.svg`,
 })
 
-export { useAssets, useAssetsWithouDefault, usePtoken, useAssetsGroupedByGivenStrategy, useSearchAssets }
+export {
+  useAssets,
+  useAssetsWithouDefault,
+  usePtoken,
+  useAssetsGroupedByGivenStrategy,
+  useSearchAssets,
+  useSortPntInflationToken,
+}

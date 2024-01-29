@@ -1,7 +1,7 @@
 {
   "name": "plain-dapp-update",
   "private": true,
-  "version": "1.18.1",
+  "version": "1.19.0",
   "type": "module",
   "scripts": {
     "dev": "npm run create-version-file && vite",

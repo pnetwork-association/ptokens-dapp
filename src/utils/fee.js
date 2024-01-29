@@ -1,8 +1,11 @@
 import BigNumber from 'bignumber.js'
+import _ from 'lodash'
+
+import { PNT_ON_ETH_MAINNET, ETHPNT_ON_ETH_MAINNET, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../constants'
+import swapAssets from '../settings/swap-assets'
+
 import { formatDecimalSeparator } from './amount-utils'
 import { createAsset } from './ptokens'
-import { PNT_ON_ETH_MAINNET, ETHPNT_ON_ETH_MAINNET, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../constants'
-import _ from 'lodash'
 
 const getFeeFactor = (fee) => (_.isNil(fee) ? null : 1 - fee / 100)
 
@@ -24,8 +27,9 @@ const getMigrationFees = (_from, _to) => {
 }
 
 const getSwapFees = async (_from, _to) => {
+  const from = _from.id === ETHPNT_ON_ETH_MAINNET ? swapAssets.find((asset) => asset.id === PNT_ON_ETH_MAINNET) : _from
   try {
-    const fromAsset = await createAsset(_from)
+    const fromAsset = await createAsset(from)
     const toAsset = await createAsset(_to)
     const basisPoints = getBasisPoints(fromAsset, toAsset)
     const networkFee = toAsset.assetInfo.fees.networkFee

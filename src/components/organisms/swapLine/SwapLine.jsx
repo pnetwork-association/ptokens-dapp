@@ -2,15 +2,27 @@ import PropTypes from 'prop-types'
 import React, { useState, useEffect, useMemo } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 import { NumericFormat } from 'react-number-format'
 import styled from 'styled-components'
 
+import { ETHPNT_ON_ETH_MAINNET, PNT_ON_ETH_MAINNET } from '../../../constants'
 import { getDecimalSeparator, getThousandSeparator } from '../../../utils/amount-utils'
 import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
 import Icon from '../../atoms/icon/Icon'
+import Switch from '../../atoms/switch/Switch'
 import AssetInfo from '../assetInfo/AssetInfo'
 
-import 'react-loading-skeleton/dist/skeleton.css'
+const SelectCol = styled(Col)`
+  text-align: center;
+  font-weight: 500;
+  padding-top: 10px;
+  margin-left: 6px;
+  color: ${({ theme }) => theme.text1};
+  @media (max-width: 767.98px) {
+    font-size: 12px;
+  }
+`
 
 const SwapLineContainer = styled.div`
   border-radius: 20px;
@@ -198,6 +210,7 @@ const Arrow = styled(Icon)`
 
 const SwapLine = ({
   asset,
+  assets,
   amount,
   address,
   defaultImage,
@@ -211,6 +224,9 @@ const SwapLine = ({
   onMax,
   withTitleLabel,
   disableInput,
+  selectFrom = () => null,
+  selectTo = () => null,
+  migration = false,
   inputType = 'number',
   inputPlaceholder = '0',
   prefix = '',
@@ -218,14 +234,42 @@ const SwapLine = ({
 }) => {
   const [showInfo, setShowInfo] = useState(false)
   const [id, setId] = useState(false)
+  const [selectEthPNT, setSelectEthPNT] = useState(false)
 
   // NOTE: avoid to close show info when asset is reloaded with the balance
   useEffect(() => {
-    if (asset && asset.id !== id) {
+    if (asset && asset.id !== id && asset.id !== ETHPNT_ON_ETH_MAINNET) {
       setShowInfo(false)
       setId(asset.id)
     }
   }, [asset, id])
+
+  useEffect(() => {
+    if (asset && asset.id === ETHPNT_ON_ETH_MAINNET) {
+      setSelectEthPNT(true)
+      setShowInfo(true)
+    } else setSelectEthPNT(false)
+  }, [asset, id])
+
+  // This switch provides the ability to use ethPNT or PNT alternatively.
+  // When pressed the selected asset switch between ethPNt or PNT.
+  const switchPNT = () => {
+    if (migration) return
+    if (asset.id === ETHPNT_ON_ETH_MAINNET) {
+      const pnt = assets.find((asset) => asset.id === PNT_ON_ETH_MAINNET)
+      if (!address && address !== '') selectFrom(pnt)
+    } else {
+      const ethPnt = assets.find((asset) => asset.id === ETHPNT_ON_ETH_MAINNET)
+      if (!address && address !== '') selectFrom(ethPnt)
+    }
+  }
+
+  const isPNTcase = asset?.id === PNT_ON_ETH_MAINNET || asset?.id === ETHPNT_ON_ETH_MAINNET
+
+  // showPntSwitch can be true only in from swapLine because of !address && address !== ''
+  // which is true only if address is undefined. In to swapLine address is defined and therefore
+  // showPntSwitch is false.
+  const showPntSwitch = asset && isPNTcase && !migration && !address && address !== ''
 
   const formattedTitle = useMemo(() => {
     if (!withTitleLabel || !asset || !asset.titleLabel) return title
@@ -237,7 +281,7 @@ const SwapLine = ({
     <SwapLineContainer {..._props}>
       <ContainerTypeAndBalance>
         <ContainerTitle xs={6}>{formattedTitle}</ContainerTitle>
-        {asset && asset.formattedBalance !== '-' ? (
+        {asset && asset.formattedBalance && asset.formattedBalance !== '-' ? (
           <Col xs={6} className="text-right my-auto">
             <ContainerBalance>
               <BalanceLabel>{`Balance: ${asset.formattedBalance} ${
@@ -254,12 +298,15 @@ const SwapLine = ({
       <Row>
         <ContainerImageAndMaxButton xs={4} className="my-auto">
           <ContainerImage onClick={() => onClickImage && onClickImage()}>
-            <Image src={asset ? asset.image : defaultImage} onClick={() => onClickImage && onClickImage()} />
+            <Image
+              src={asset ? (isPNTcase ? './assets/svg/PNT.svg' : asset.image) : defaultImage}
+              onClick={() => onClickImage && onClickImage()}
+            />
             {(asset && asset.withMiniImage) || (!asset && defaultMiniImage) ? (
-              <MiniImage src={!asset ? defaultMiniImage : asset.miniImage} />
+              <MiniImage src={asset ? (isPNTcase ? './assets/svg/ETH.svg' : asset.miniImage) : defaultMiniImage} />
             ) : null}
           </ContainerImage>{' '}
-          {asset && asset.formattedBalance !== '-' && !hideMaxButton ? (
+          {asset && asset.formattedBalance && asset.formattedBalance !== '-' && !hideMaxButton ? (
             <ContainerMaxButton>
               <MaxButton onClick={onMax}>MAX</MaxButton>
             </ContainerMaxButton>
@@ -287,6 +334,11 @@ const SwapLine = ({
         </Col>
       </Row>
       <Row>
+        {showPntSwitch ? (
+          <SelectCol data-tip={'Use ethPNT'} data-for="tooltip-gasless" xs={2}>
+            <Switch height={15} width={30} checked={selectEthPNT} disabled={false} onChange={switchPNT} />
+          </SelectCol>
+        ) : null}
         <ExpandContainer>
           <Expand onClick={() => setShowInfo(!showInfo)}>
             {asset && asset.address ? (

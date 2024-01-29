@@ -1,26 +1,27 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import styled from 'styled-components'
-import PropTypes from 'prop-types'
 import BigNumber from 'bignumber.js'
+import PropTypes from 'prop-types'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Row, Col, Container } from 'react-bootstrap'
-import AssetListModal from '../../organisms/assetListModal/AssetListModal'
-import Progress from '../../molecules/progress/Progress'
-import { useSwap } from '../../../hooks/use-swap'
-import SwapLine from '../../organisms/swapLine/SwapLine'
-import DepositAddressModal from '../../organisms/depositAddressModal/DepositAddressModal'
-import SwapInfo from '../../organisms/swapInfo/SwapInfo'
-import defaultAssets from '../../../settings/swap-assets'
-import { useAssets } from '../../../hooks/use-assets'
-import Icon from '../../atoms/icon/Icon'
-import InfoModal from '../../organisms/infoModal/InfoModal'
+import ReactTooltip from 'react-tooltip'
+import styled from 'styled-components'
+
 import TermsOfService from '../../../components/molecules/popup/TermsOfService'
-import AddressWarning from '../../molecules/popup/AddressWarning'
-import WarningPopup from '../../molecules/popup/Warning'
-import Switch from '../../atoms/switch/Switch'
-import Button from '../../atoms/button/Button'
 import { MAX_IMPACT, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../../../constants'
 import { sendEvent } from '../../../ga4'
-import ReactTooltip from 'react-tooltip'
+import { useAssets } from '../../../hooks/use-assets'
+import { useSwap } from '../../../hooks/use-swap'
+import defaultAssets from '../../../settings/swap-assets'
+import Button from '../../atoms/button/Button'
+import Icon from '../../atoms/icon/Icon'
+import Switch from '../../atoms/switch/Switch'
+import AddressWarning from '../../molecules/popup/AddressWarning'
+import WarningPopup from '../../molecules/popup/Warning'
+import Progress from '../../molecules/progress/Progress'
+import AssetListModal from '../../organisms/assetListModal/AssetListModal'
+import DepositAddressModal from '../../organisms/depositAddressModal/DepositAddressModal'
+import InfoModal from '../../organisms/infoModal/InfoModal'
+import SwapInfo from '../../organisms/swapInfo/SwapInfo'
+import SwapLine from '../../organisms/swapLine/SwapLine'
 
 export const OuterContainerSwap = styled.div`
   @media (max-width: 767.98px) {
@@ -342,9 +343,11 @@ const Swap = ({
                 defaultImage="./assets/svg/BTC.svg"
                 title="From"
                 asset={from}
+                assets={assets.length === 0 ? defaultAssets : assets}
                 amount={fromAmount}
                 wallet={fromWallet}
                 disableInput={disableFromInput}
+                selectFrom={onSelectFrom}
                 onChangeAmount={onChangeFromAmount}
                 onClickImage={() => setShowModalFrom(true)}
                 onMax={onFromMax}
@@ -358,10 +361,12 @@ const Swap = ({
                 defaultMiniImage="./assets/svg/ETH.svg"
                 title="To"
                 asset={to}
+                assets={assets.length === 0 ? defaultAssets : assets}
                 amount={toAmount}
                 address={address}
                 wallet={toWallet}
                 disableInput={disableToInput}
+                selectTo={onSelectTo}
                 onChangeAmount={onChangeToAmount}
                 onClickImage={() => setShowModalTo(true)}
                 onChangeAddress={setAddress}

@@ -1,9 +1,15 @@
+import PropTypes from 'prop-types'
 import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import { Col, Row, Spinner } from 'react-bootstrap'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
+import {
+  useAssetsWithouDefault,
+  useSearchAssets,
+  useAssetsGroupedByGivenStrategy,
+  useSortPntInflationToken,
+} from '../../../hooks/use-assets'
 import { getAssetFromSymbol } from '../../../utils/maps'
-import { useAssetsWithouDefault, useSearchAssets, useAssetsGroupedByGivenStrategy } from '../../../hooks/use-assets'
 import Icon from '../../atoms/icon/Icon'
 import Modal from '../../molecules/modal/Modal'
 
@@ -166,7 +172,8 @@ const StyledSpinner = styled(Spinner)`
 const AssetListModal = ({ show: showModal, title, onClose, onSelect, assets: _assets, defaultAssets }) => {
   const [assetsWithoutDefault] = useAssetsWithouDefault(_assets)
   const [filteredAssets, setSearchWord] = useSearchAssets(assetsWithoutDefault)
-  const [assets] = useAssetsGroupedByGivenStrategy(filteredAssets)
+  const [groupedAssets] = useAssetsGroupedByGivenStrategy(filteredAssets)
+  const assets = useSortPntInflationToken(groupedAssets)
   const [show, setShow] = useState([])
   const inputSearchRef = useRef(null)
 

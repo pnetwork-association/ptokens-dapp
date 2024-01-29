@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import React, { useCallback } from 'react'
 import { Container, Table } from 'react-bootstrap'
+import styled from 'styled-components'
+
 import Button from '../../atoms/button/Button'
 import { ContainerImage, Image } from '../../organisms/swapLine/SwapLine'
 
@@ -136,7 +137,7 @@ const MigrationHome = ({ apys, selectPage, loadMigrationData }) => {
               {' '}
               <TdContent>
                 <ContainerImage>
-                  <StyledImage src={'./assets/svg/PNT_gray.svg'} />
+                  <StyledImage src={'./assets/svg/PNT.svg'} />
                 </ContainerImage>
                 <Text>ethPNT</Text>
               </TdContent>

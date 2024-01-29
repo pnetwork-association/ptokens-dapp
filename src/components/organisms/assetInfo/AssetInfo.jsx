@@ -1,14 +1,36 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import ReactTooltip from 'react-tooltip'
-import Icon from '../../atoms/icon/Icon'
-import { copyToClipboard } from '../../../utils/utils'
-import { registerToken } from '../../../utils/wallet'
-import { getBase64Image } from '../../../utils/image'
+import styled from 'styled-components'
+
+import { ETHPNT_ON_ETH_MAINNET } from '../../../constants'
 import { useProvider } from '../../../hooks/use-provider'
 import { capitalizeAllLettersExceptFirst } from '../../../utils/capitalize'
+import { getBase64Image } from '../../../utils/image'
+import { copyToClipboard } from '../../../utils/utils'
+import { registerToken } from '../../../utils/wallet'
+import Icon from '../../atoms/icon/Icon'
+
+const InfoEta = styled.div`
+  margin-top: 30px;
+  padding: 20px;
+  margin-bottom: 10px;
+  background: #66b8ff40;
+  border: 0.5px solid ${({ theme }) => theme.blue};
+  border-radius: 10px;
+  color: ${({ theme }) => theme.blue};
+  text-align: center;
+`
+
+const InflationInfo = styled(InfoEta)`
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  margin-right: 10px;
+  margin-left: 10px;
+  padding: 5px;
+`
 
 const ContainerAssetInfo = styled(Col)`
   margin-top: 10px;
@@ -120,6 +142,15 @@ const AssetInfo = ({ asset, wallet }) => {
             </Token>
           </ContainerOptions>
         </Row>
+        {asset.id === ETHPNT_ON_ETH_MAINNET ? (
+          <Row>
+            <InflationInfo>
+              ethPNT is an extension of the PNT token with cross-chain functionality, maintaining the same token economy
+              and functionalities as PNT-on-Ethereum. ethPNT grants the same DAO governance power of PNT, inheriting its
+              full value.
+            </InflationInfo>
+          </Row>
+        ) : null}
         <ReactTooltip
           getContent={(_dataTip) =>
             _dataTip === 'Add to MetaMask' || _dataTip === 'Connect MetaMask to add the token'

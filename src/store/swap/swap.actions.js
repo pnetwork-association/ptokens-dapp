@@ -12,12 +12,13 @@ import {
   UPDATE_SWAP_BUTTON,
   BPM_LOADED,
   SWAPPERS_BALANCES_LOADED,
+  ETHPNT_ON_ETH_MAINNET,
 } from '../../constants/index'
 import settings from '../../settings'
 import assets from '../../settings/swap-assets'
 import eosioTokenAbi from '../../utils/abi/eosio.token'
 import { parseError } from '../../utils/errors'
-import { createAsset, getSwapBuilder } from '../../utils/ptokens'
+import { createAsset, createEthPntAsset, getSwapBuilder } from '../../utils/ptokens'
 import { getReadOnlyProviderByBlockchain } from '../../utils/read-only-providers'
 import { updateInfoModal } from '../pages/pages.actions'
 import { getWallets, getWalletByBlockchain } from '../wallets/wallets.selectors'
@@ -329,8 +330,8 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
       if (_from.requiresCurve) {
         _from = getAssetById(_fromNative.pTokenId)
       }
-
-      const sourceAsset = await createAsset(_from, wallets, true)
+      const sourceAsset =
+        _from.id === ETHPNT_ON_ETH_MAINNET ? await createEthPntAsset() : await createAsset(_from, wallets)
       const destinationAsset = await createAsset(_to, wallets)
       const swapBuilder = getSwapBuilder()
       swapBuilder.setAmount(_amount)
