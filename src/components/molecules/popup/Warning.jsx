@@ -1,8 +1,10 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
+import { Alert, Row } from 'react-bootstrap'
 import styled from 'styled-components'
-import { Alert } from 'react-bootstrap'
+
 import Icon from '../../atoms/icon/Icon'
+import { OuterContainerSwap } from '../../pages/swap/Swap'
 
 const StyledAlert = styled(Alert)`
   // background: ${({ theme }) => theme.bg1};
@@ -13,27 +15,36 @@ const StyledAlert = styled(Alert)`
 `
 
 const WarningIcon = styled(Icon)`
-  padding-left: 0px;
-  padding-bottom: 2px;
-  padding-right: 5px;
+  height: 20px;
+  width: 20px;
+  margin: 5px;
   vertical-align: top;
   color: #475965;
 `
 
 const Paragraph = styled.div`
+  text-align: center;
   margin: 0rem;
-  margin-left: 2px;
+  margin-left: 25px;
 `
 
 const WarningPopup = ({ show, onClose }) => {
   return (
-    <StyledAlert show={show} onClose={onClose} variant="warning" dismissible>
-      <Paragraph>
-        <WarningIcon icon="warning" />
-        pNetwork is a new technology, and security audits don't eliminate risks completely. Please don't provide assets
-        you can't afford to lose.
-      </Paragraph>
-    </StyledAlert>
+    <Row>
+      <OuterContainerSwap className="mx-auto">
+        <StyledAlert show={show} onClose={onClose} variant="warning" dismissible>
+          <Paragraph>
+            <WarningIcon icon="warning" />
+            <br />
+            pNetwork is a new technology, and security audits don't
+            <br />
+            eliminate risks completely. Please don't provide assets you
+            <br />
+            can't afford to lose.
+          </Paragraph>
+        </StyledAlert>
+      </OuterContainerSwap>
+    </Row>
   )
 }
 
