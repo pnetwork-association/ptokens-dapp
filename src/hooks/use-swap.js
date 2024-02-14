@@ -340,6 +340,11 @@ const useSwap = ({
         return
       }
 
+      if (BigNumber.isBigNumber(from.balance) && from.balance.isZero()) {
+        updateSwapButton(`${from.symbol} balance is 0`, true)
+        return
+      }
+
       if (BigNumber(toAmount).isLessThan(0)) {
         updateSwapButton('Amount too low', true)
         return
