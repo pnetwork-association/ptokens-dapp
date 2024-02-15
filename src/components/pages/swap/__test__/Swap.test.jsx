@@ -1,15 +1,18 @@
 /* eslint-disable import/first */
-import UserEvent from '@testing-library/user-event'
-import { describe, expect, it, vi } from 'vitest'
 import { waitFor, render, screen, getByText } from '@testing-library/react'
+import UserEvent from '@testing-library/user-event'
+import BigNumber from 'bignumber.js'
+import { useCallback, useState } from 'react'
 import { ThemeContext } from 'styled-components'
-import * as SwapInfo from '../../../organisms/swapInfo/SwapInfo'
-import * as AssetListModal from '../../../organisms/assetListModal/AssetListModal'
-import * as feeUtils from '../../../../utils/fee'
-import Swap from '../Swap'
+import { describe, expect, it, vi } from 'vitest'
+
+import { PBTC_ON_ETH_MAINNET, PNT_ON_BSC_MAINNET, PNT_ON_ETH_MAINNET } from '../../../../constants'
 import swapAssets from '../../../../settings/swap-assets'
 import { getDefaultSelection } from '../../../../store/swap/utils/default-selection'
-import { useCallback, useState } from 'react'
+import * as feeUtils from '../../../../utils/fee'
+import * as AssetListModal from '../../../organisms/assetListModal/AssetListModal'
+import * as SwapInfo from '../../../organisms/swapInfo/SwapInfo'
+import Swap from '../Swap'
 
 const Wrapper = ({ asset, originBlockchain, destBlockchain }) => {
   const ThemeContextMock = {}
@@ -60,6 +63,48 @@ describe('Swap', async () => {
     expect(computeSwap).toBeCalledTimes(2)
   })
 
+  it('Should prevent swap if balance is 0', async () => {
+    vi.spyOn(SwapInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)
+    vi.spyOn(feeUtils, 'getSwapFees').mockResolvedValue({ basisPoints: 15, networkFee: 1e18, minProtocolFee: 2e18 })
+    swapAssets.find((_el) => _el.id === PNT_ON_ETH_MAINNET).balance = BigNumber(0)
+    swapAssets.find((_el) => _el.id === PNT_ON_BSC_MAINNET).balance = BigNumber(0)
+    render(<Wrapper asset="pnt" originBlockchain="eth" destBlockchain="bsc" />)
+    await waitFor(() => expect(screen.getByText(/balance is 0/)).toBeInTheDocument())
+    const [, , swapButton] = screen.getAllByRole('button')
+    const [fromInput, toInput, addressInput] = screen.getAllByRole('textbox')
+    await UserEvent.type(fromInput, '1')
+    expect(fromInput).toHaveAttribute('value', '1')
+    expect(toInput).toHaveAttribute('value', '-2')
+    expect(swapButton).toHaveTextContent(
+      `${swapAssets.find((_el) => _el.id === PNT_ON_ETH_MAINNET).symbol} balance is 0`
+    )
+    expect(swapButton).toBeDisabled()
+  })
+
+  it('Should continue with balance null', async () => {
+    vi.spyOn(SwapInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)
+    vi.spyOn(feeUtils, 'getSwapFees').mockResolvedValue({ basisPoints: 15, networkFee: 1e18, minProtocolFee: 2e18 })
+    swapAssets.find((_el) => _el.id === 'BTC').balance = null
+    swapAssets.find((_el) => _el.id === PBTC_ON_ETH_MAINNET).balance = BigNumber(0)
+    render(<Wrapper asset="btc" originBlockchain="btc" destBlockchain="eth" />)
+    await waitFor(() => expect(screen.getByText(/Enter an address/)).toBeInTheDocument())
+    const [, swapButton] = screen.getAllByRole('button')
+    const [fromInput, toInput, addressInput] = screen.getAllByRole('textbox')
+    await UserEvent.type(fromInput, '1')
+    expect(fromInput).toHaveAttribute('value', '1')
+    expect(toInput).toHaveAttribute('value', '-2')
+    expect(swapButton).toHaveTextContent('Amount too low')
+    await UserEvent.type(fromInput, '0')
+    expect(fromInput).toHaveAttribute('value', '10')
+    expect(toInput).toHaveAttribute('value', '7')
+    expect(swapButton).toHaveTextContent('Enter an address')
+    await UserEvent.type(addressInput, 'tttt')
+    expect(swapButton).toHaveTextContent('Invalid Address')
+    await UserEvent.clear(addressInput)
+    await UserEvent.type(addressInput, '0xA8Ae3c4cF1c92ADFf13e33b35280fc59b6600cA3')
+    expect(swapButton).toHaveTextContent('Get Deposit Address')
+  })
+
   it('Should update "to" amount correctly', async () => {
     vi.spyOn(SwapInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)
     vi.spyOn(feeUtils, 'getSwapFees').mockResolvedValue({ basisPoints: 15, networkFee: 1e18, minProtocolFee: 2e18 })
@@ -88,13 +133,13 @@ describe('Swap', async () => {
     render(<Wrapper />)
     await waitFor(() => expect(screen.getByText(/Enter an address/)).toBeInTheDocument())
     let img1, img2, img3
-    ;[, img1, , img2, img3] = screen.getAllByRole('img')
+    ;[img1, , img2, img3] = screen.getAllByRole('img')
     expect(img1).toHaveAttribute('src', './assets/svg/BTC.svg')
     expect(img2).toHaveAttribute('src', './assets/svg/pBTC.svg')
     expect(img3).toHaveAttribute('src', './assets/svg/ETH.svg')
     const changeOrderButton = screen.getByTestId('icon-sort')
     await UserEvent.click(changeOrderButton)
-    ;[, img1, img2, , , img3] = screen.getAllByRole('img')
+    ;[img1, img2, , , img3] = screen.getAllByRole('img')
     expect(img1).toHaveAttribute('src', './assets/svg/pBTC.svg')
     expect(img2).toHaveAttribute('src', './assets/svg/ETH.svg')
     expect(img3).toHaveAttribute('src', './assets/svg/BTC.svg')

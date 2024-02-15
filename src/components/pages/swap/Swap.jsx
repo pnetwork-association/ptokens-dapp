@@ -15,7 +15,6 @@ import Button from '../../atoms/button/Button'
 import Icon from '../../atoms/icon/Icon'
 import Switch from '../../atoms/switch/Switch'
 import AddressWarning from '../../molecules/popup/AddressWarning'
-import WarningPopup from '../../molecules/popup/Warning'
 import Progress from '../../molecules/progress/Progress'
 import AssetListModal from '../../organisms/assetListModal/AssetListModal'
 import DepositAddressModal from '../../organisms/depositAddressModal/DepositAddressModal'
@@ -196,7 +195,6 @@ const Swap = ({
   const [notifyMigration, setNotifyMigration] = useState()
   const [TosShow, setTosShow] = useState(false)
   const [AddressWarningShow, setAddressWarningShow] = useState(false)
-  const [showWarningPopup, setShowWarningPopup] = useState(true)
 
   const {
     from,
@@ -281,7 +279,6 @@ const Swap = ({
   return (
     <React.Fragment>
       <Container>
-        <WarningPopup show={showWarningPopup} onClose={() => setShowWarningPopup(false)} />
         <Row>
           <Col className="d-flex justify-content-center">
             {assets.find(({ id }) => id === 'OLD_PBTC_ON_BSC_MAINNET') &&
