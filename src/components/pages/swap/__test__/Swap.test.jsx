@@ -1,23 +1,30 @@
 /* eslint-disable import/first */
-import { waitFor, render, screen, getByText } from '@testing-library/react'
+import { waitFor, render, screen, getByText, fireEvent } from '@testing-library/react'
 import UserEvent from '@testing-library/user-event'
 import BigNumber from 'bignumber.js'
 import { useCallback, useState } from 'react'
 import { ThemeContext } from 'styled-components'
 import { describe, expect, it, vi } from 'vitest'
 
-import { PBTC_ON_ETH_MAINNET, PNT_ON_BSC_MAINNET, PNT_ON_ETH_MAINNET } from '../../../../constants'
+import {
+  PBTC_ON_ETH_MAINNET,
+  PNT_ON_BSC_MAINNET,
+  PNT_ON_ETH_MAINNET,
+  TLOS_ON_BSC_MAINNET,
+  TLOS_ON_ETH_MAINNET,
+} from '../../../../constants'
 import swapAssets from '../../../../settings/swap-assets'
+import * as swapAction from '../../../../store/swap/swap.actions'
 import { getDefaultSelection } from '../../../../store/swap/utils/default-selection'
 import * as feeUtils from '../../../../utils/fee'
 import * as AssetListModal from '../../../organisms/assetListModal/AssetListModal'
 import * as SwapInfo from '../../../organisms/swapInfo/SwapInfo'
 import Swap from '../Swap'
 
-const Wrapper = ({ asset, originBlockchain, destBlockchain }) => {
+const Wrapper = ({ asset, originBlockchain, destBlockchain, wallet }) => {
   const ThemeContextMock = {}
   const [button, setButton] = useState({})
-  const [wallets] = useState({ eth: {}, bsc: {} })
+  const [wallets] = useState(wallet ? wallet : { eth: {}, bsc: {} })
   const updateSwapButton = useCallback((_text, _disabled = false) => {
     setButton({ text: _text, disabled: _disabled })
   }, [])
@@ -37,6 +44,7 @@ const Wrapper = ({ asset, originBlockchain, destBlockchain }) => {
         depositAddressModal={{}}
         updateSwapButton={updateSwapButton}
         bpm={{}}
+        swap={swapAction.swap}
         wallets={wallets}
         swappersBalances={{}}
         swapButton={button}
@@ -224,6 +232,113 @@ describe('Swap', async () => {
     render(<Wrapper asset="tlos" originBlockchain="eth" destBlockchain="telos" />)
     await waitFor(() => expect(screen.getByText(/Enter an amount/)).toBeInTheDocument())
     expect(screen.getByText('Receive on a tEVM (Telos EVM) compatible address')).toBeInTheDocument()
+  })
+
+  it('Should pegout to pTLOS on ETH when pegging-out pTLOS on BSC with pegoutToTelosEvmAddress false', async () => {
+    vi.spyOn(SwapInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)
+    const swapSpy = vi.spyOn(swapAction, 'swap')
+    vi.spyOn(feeUtils, 'getSwapFees').mockResolvedValue({ basisPoints: 15, networkFee: 1e18, minProtocolFee: 2e18 })
+    swapAssets.find((_el) => _el.id === TLOS_ON_BSC_MAINNET).balance = BigNumber(200)
+    swapAssets.find((_el) => _el.id === TLOS_ON_ETH_MAINNET).balance = BigNumber(0)
+    console.log('Step1')
+    render(
+      <Wrapper
+        asset="tlos"
+        originBlockchain="bsc"
+        destBlockchain="eth"
+        wallet={{
+          eth: {},
+          bsc: { account: '0xA8Ae3c4cF1c92ADFf13e33b35280fc59b6600cA3', provider: null, chainId: '0x38' },
+        }}
+      />
+    )
+    await waitFor(() => expect(screen.getByText(/Enter an amount/)).toBeInTheDocument())
+    console.log('Step2')
+    const [fromInput, toInput, addressInput] = screen.getAllByRole('textbox')
+    const [, , swapButton] = screen.getAllByRole('button')
+    await UserEvent.type(fromInput, '200')
+    await UserEvent.type(addressInput, '0xA8Ae3c4cF1c92ADFf13e33b35280fc59b6600cA3')
+    expect(swapButton).toHaveTextContent('Swap')
+    await UserEvent.click(swapButton)
+    const [, , , , acceptTerms] = screen.getAllByRole('button')
+    console.log('screen', acceptTerms)
+    await UserEvent.click(acceptTerms)
+    expect(swapSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'TLOS_ON_BSC_MAINNET' }),
+      expect.objectContaining({ id: 'TLOS_ON_ETH_MAINNET' }),
+      '200',
+      '0xA8Ae3c4cF1c92ADFf13e33b35280fc59b6600cA3',
+      { pegoutToTelosEvmAddress: false }
+    )
+  })
+
+  it('Should pegout to tEVM when pegging-out pTLOS on BSC with pegoutToTelosEvmAddress true', async () => {
+    vi.spyOn(SwapInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)
+    const swapSpy = vi.spyOn(swapAction, 'swap')
+    vi.spyOn(feeUtils, 'getSwapFees').mockResolvedValue({ basisPoints: 15, networkFee: 1e18, minProtocolFee: 2e18 })
+    swapAssets.find((_el) => _el.id === TLOS_ON_BSC_MAINNET).balance = BigNumber(200)
+    swapAssets.find((_el) => _el.id === 'TLOS').balance = BigNumber(0)
+    render(
+      <Wrapper
+        asset="tlos"
+        originBlockchain="bsc"
+        destBlockchain="telos"
+        wallet={{
+          eth: {},
+          bsc: { account: '0xA8Ae3c4cF1c92ADFf13e33b35280fc59b6600cA3', provider: null, chainId: '0x38' },
+        }}
+      />
+    )
+    await waitFor(() => expect(screen.getByText(/Enter an amount/)).toBeInTheDocument())
+    const [fromInput, toInput, addressInput] = screen.getAllByRole('textbox')
+    const [, , swapButton] = screen.getAllByRole('button')
+    await UserEvent.type(fromInput, '200')
+    await UserEvent.type(addressInput, '0xA8Ae3c4cF1c92ADFf13e33b35280fc59b6600cA3')
+    expect(swapButton).toHaveTextContent('Swap')
+    await UserEvent.click(swapButton)
+    const [, , , , acceptTerms] = screen.getAllByRole('button')
+    await UserEvent.click(acceptTerms)
+    expect(swapSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'TLOS_ON_BSC_MAINNET' }),
+      expect.objectContaining({ id: 'TLOS' }),
+      '200',
+      '0xA8Ae3c4cF1c92ADFf13e33b35280fc59b6600cA3',
+      { pegoutToTelosEvmAddress: true }
+    )
+  })
+
+  it('Should pegout to TELOS native when pegging-out pTLOS on BSC', async () => {
+    vi.spyOn(SwapInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)
+    const swapSpy = vi.spyOn(swapAction, 'swap')
+    vi.spyOn(feeUtils, 'getSwapFees').mockResolvedValue({ basisPoints: 15, networkFee: 1e18, minProtocolFee: 2e18 })
+    swapAssets.find((_el) => _el.id === TLOS_ON_BSC_MAINNET).balance = BigNumber(200)
+    swapAssets.find((_el) => _el.id === 'TLOS').balance = BigNumber(0)
+    render(
+      <Wrapper
+        asset="tlos"
+        originBlockchain="bsc"
+        destBlockchain="telos"
+        wallet={{
+          telos: { account: 'telostest123', provider: undefined },
+          bsc: { account: '0xA8Ae3c4cF1c92ADFf13e33b35280fc59b6600cA3', provider: null, chainId: '0x38' },
+        }}
+      />
+    )
+    await waitFor(() => expect(screen.getByText(/Enter an amount/)).toBeInTheDocument())
+    const [fromInput, toInput, addressInput] = screen.getAllByRole('textbox')
+    const [, , swapButton] = screen.getAllByRole('button')
+    await UserEvent.type(fromInput, '200')
+    expect(swapButton).toHaveTextContent('Swap')
+    await UserEvent.click(swapButton)
+    const [, , , , acceptTerms] = screen.getAllByRole('button')
+    await UserEvent.click(acceptTerms)
+    expect(swapSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'TLOS_ON_BSC_MAINNET' }),
+      expect.objectContaining({ id: 'TLOS' }),
+      '200',
+      'telostest123',
+      { pegoutToTelosEvmAddress: false }
+    )
   })
 
   it('Should show deposit address warning when pegging-in pLTC on Ethereum', async () => {
