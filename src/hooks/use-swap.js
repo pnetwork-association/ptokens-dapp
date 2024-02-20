@@ -388,7 +388,8 @@ const useSwap = ({
         !from.isNative &&
         !pegoutToTelosEvmAddress &&
         (from.id === TLOS_ON_ETH_MAINNET || from.id === TLOS_ON_BSC_MAINNET) &&
-        isValidAccountByBlockchain(address, 'ETH')
+        isValidAccountByBlockchain(address, 'ETH') &&
+        to.id === 'TLOS'
       ) {
         setPegoutToTelosEvmAddress(true)
         return
