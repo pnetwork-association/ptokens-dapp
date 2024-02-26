@@ -24,9 +24,12 @@ describe('RedirectBanner', async () => {
 
   test.each([
     ['http://p.network/'],
-    ['http://pnetworkprotocol.eth'],
-    ['https://dapp.pnetworkprotocol.eth.limo/'],
-    ['ipns://dapp.pnetworkprotocol.eth']['https://dapp.pnetworkprotocol.eth/#/swap?asset=btc&from=btc&to=eth'],
+    ['https://dapp.p.network'],
+    ['https://dapp.p.network/#/swap?asset=btc&from=btc&to=eth'],
+    ['http://pnetwork.eth'],
+    ['https://dapp.pnetwork.eth.limo/'],
+    ['ipns://dapp.pnetwork.eth'],
+    ['https://dapp.pnetwork.eth.limo/#/swap?asset=btc&from=btc&to=eth'],
   ])('Should show the url popup only on specific url', async (url) => {
     Object.defineProperty(window, 'location', {
       value: {

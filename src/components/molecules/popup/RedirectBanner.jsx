@@ -54,7 +54,7 @@ const RedirectBanner = () => {
                 <br />
                 You are using an old domain that will be dismissed in the future.
                 <br />
-                Please use <a href="https://dapp.pnetworkprotocol.eth.limo">pnetworkprotocol.eth</a>
+                Please use <a href="https://dapp.p.network">dapp.p.network</a>
               </Paragraph>
             </StyledAlert>
           </OuterContainerSwap>

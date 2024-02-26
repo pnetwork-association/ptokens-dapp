@@ -1,7 +1,14 @@
 import { validators } from 'ptokens-helpers'
 import { test, describe, expect, vi } from 'vitest'
 
-import { isValidAccountByBlockchain } from '../account-validator'
+import { isValidAccountByBlockchain, isSmartContract } from '../account-validator'
+
+const mockGetCode = vi.fn()
+const mockWeb3Instance = {
+  eth: {
+    getCode: mockGetCode,
+  },
+}
 
 describe('isValidAccountByBlockchain', () => {
   beforeAll(() => {
@@ -16,6 +23,22 @@ describe('isValidAccountByBlockchain', () => {
 
   beforeEach(() => {
     vi.resetAllMocks()
+  })
+
+  test('Should return true if address is a smart contract', async () => {
+    const expectedCode = '0x1234'
+    mockGetCode.mockResolvedValue(expectedCode)
+
+    const passed = await isSmartContract('0xb794f5ea0ba39494ce839613fffba74279579268', mockWeb3Instance)
+    expect(passed).toBeTruthy()
+  })
+
+  test('Should return false if address is a not smart contract', async () => {
+    const expectedCode = '0x'
+    mockGetCode.mockResolvedValue(expectedCode)
+
+    const passed = await isSmartContract('0xb794f5ea0ba39494ce839613fffba74279579268', mockWeb3Instance)
+    expect(passed).toBeFalsy()
   })
 
   test.each`
