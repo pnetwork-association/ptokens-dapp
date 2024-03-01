@@ -1,6 +1,6 @@
-import { pTokensEvmAsset, pTokensEvmAssetBuilder, pTokensEvmProvider } from 'ptokens-assets-evm'
-import { pTokensNode, pTokensNodeProvider } from 'ptokens-node'
-import { pTokensSwapBuilder } from 'ptokens-swap'
+import { pTokensEvmAsset, pTokensEvmAssetBuilder, pTokensEvmProvider } from '@p.network/ptokens-assets-evm'
+import { pTokensNode, pTokensNodeProvider } from '@p.network/ptokens-node'
+import { pTokensSwapBuilder } from '@p.network/ptokens-swap'
 import Web3 from 'web3'
 
 import { PNETWORK_NODE_V3 } from '../../../constants'

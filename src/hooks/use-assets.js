@@ -1,5 +1,5 @@
+import { stringUtils } from '@p.network/ptokens-helpers'
 import _ from 'lodash'
-import { stringUtils } from 'ptokens-helpers'
 import { useMemo, useState } from 'react'
 
 import { offChainFormat, strip } from '../utils/amount-utils'
