@@ -1,4 +1,4 @@
-import { pTokensNode, pTokensNodeProvider } from 'ptokens'
+import { pTokensNode, pTokensNodeProvider } from '@p.network/ptokens'
 
 import { PNETWORK_NODE_V3 } from '../../constants'
 import { createEthPntAsset } from '../ptokens'

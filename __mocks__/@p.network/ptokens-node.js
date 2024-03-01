@@ -258,7 +258,7 @@ const supported = {
   ],
 }
 
-export { pTokensNode } from 'ptokens-node'
+export { pTokensNode } from '@p.network/ptokens-node'
 
 export class pTokensNodeProvider {
   sendRpcRequest(_reqId, _method, _params) {

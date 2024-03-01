@@ -1,4 +1,4 @@
-import { validators } from 'ptokens-helpers'
+import { validators } from '@p.network/ptokens-helpers'
 import { test, describe, expect, vi } from 'vitest'
 
 import { isValidAccountByBlockchain, isSmartContract } from '../account-validator'
@@ -12,8 +12,8 @@ const mockWeb3Instance = {
 
 describe('isValidAccountByBlockchain', () => {
   beforeAll(() => {
-    vi.mock('ptokens-helpers', async () => {
-      const actual = await vi.importActual('ptokens-helpers')
+    vi.mock('@p.network/ptokens-helpers', async () => {
+      const actual = await vi.importActual('@p.network/ptokens-helpers')
       return {
         ...actual,
         validators: { isValidAddressByChainId: vi.fn() },
