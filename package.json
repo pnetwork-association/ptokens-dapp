@@ -1,7 +1,7 @@
 {
   "name": "plain-dapp-update",
   "private": true,
-  "version": "1.20.2",
+  "version": "1.21.0",
   "type": "module",
   "scripts": {
     "dev": "npm run create-version-file && vite",
@@ -21,6 +21,7 @@
     "@libre-chain/libre-link": "^3.5.0",
     "@libre-chain/libre-link-browser-transport": "^3.4.2",
     "@msgpack/msgpack": "^2.7.2",
+    "@p.network/ptokens": "^1.7.1",
     "@perawallet/connect": "^1.3.1",
     "@randlabs/myalgo-connect": "^1.2.0",
     "@walletconnect/ethereum-provider": "^2.8.1",
@@ -40,7 +41,6 @@
     "is-mobile": "^3.0.0",
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
-    "ptokens": "^1.7.0",
     "qrcode.react": "^3.1.0",
     "query-string": "^6.11.1",
     "raw-loader": "^4.0.2",
@@ -105,7 +105,7 @@
     "@curvefi/api": {
       "axios": "$axios"
     },
-    "ptokens-assets-utxo": {
+    "@p.network/ptokens-assets-utxo": {
       "axios": "$axios"
     }
   }
