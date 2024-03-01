@@ -1,5 +1,5 @@
-import { ChainId } from 'ptokens-constants'
-import { validators, stringUtils } from 'ptokens-helpers'
+import { ChainId } from '@p.network/ptokens-constants'
+import { validators, stringUtils } from '@p.network/ptokens-helpers'
 
 const isValidAccountByBlockchain = (_account, _blockchain) => {
   if (!_account) return false

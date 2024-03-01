@@ -1,6 +1,6 @@
+import { getAmountInEosFormat } from '@p.network/ptokens-assets-eosio'
 import axios from 'axios'
 import BigNumber from 'bignumber.js'
-import { getAmountInEosFormat } from 'ptokens-assets-eosio'
 import Web3 from 'web3'
 
 import {

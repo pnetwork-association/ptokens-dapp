@@ -6,7 +6,7 @@ export const getWeb3Settings = () => ({
   bsc: 'https://bsc-dataseed1.binance.org/',
   gnosis: 'https://rpc.gnosischain.com',
   polygon: 'https://polygon-rpc.com/',
-  ultra: 'https://corsproxy.ptokens.io/v1/?apiurl=http://ultra-mainnet-1.ptokens.io:8888',
+  ultra: 'https://corsproxy.ptokens.io/v1/?apiurl=https://api.ultra.eossweden.org',
   arbitrum: 'https://arb1.arbitrum.io/rpc',
   luxochain: 'https://corsproxy.ptokens.io/v1/?apiurl=https://lugano.nodes.luxochain.io',
   algorand: 'https://mainnet-api.algonode.cloud',

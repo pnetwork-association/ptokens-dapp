@@ -507,9 +507,7 @@ const Swap = ({
                 <WarningEta>High price impact!</WarningEta>
               ) : null}
               {!onPnetworkV2 ? (
-                <WarningEta>
-                  This swap is still not supported by pNetwork v2. Please visit dapp-legacy.ptokens.io.
-                </WarningEta>
+                <WarningEta>This swap is not supported by pNetwork v2. Please write to hello@p.network.</WarningEta>
               ) : null}
               <ContainerSwapButton>
                 <Button

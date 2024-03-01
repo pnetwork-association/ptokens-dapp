@@ -110,10 +110,10 @@ const settings = {
       },
       ultra: {
         chainId: 'a9c481dfbc7d9506dc7e87e9a137c931b0a9303f64fd7a1d08b8230133920097',
-        host: 'https://corsproxy.ptokens.io/v1/?apiurl=http://ultra-mainnet-1.ptokens.io:8888',
+        host: 'https://corsproxy.ptokens.io/v1/?apiurl=https://api.ultra.eossweden.org',
         port: 443,
         protocol: 'https',
-        endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=http://ultra-mainnet-1.ptokens.io:8888',
+        endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://api.ultra.eossweden.org',
         label: 'Ultra',
       },
       arbitrum: {

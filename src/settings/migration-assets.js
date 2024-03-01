@@ -1,4 +1,4 @@
-import { ChainId } from 'ptokens-constants'
+import { ChainId } from '@p.network/ptokens-constants'
 
 const migrationAssets = [
   {

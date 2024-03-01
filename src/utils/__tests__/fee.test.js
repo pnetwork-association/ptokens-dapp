@@ -1,4 +1,7 @@
 import { test, vi, describe, expect } from 'vitest'
+
+import { PBTC_ON_ETH_MAINNET_V1_MIGRATION, ETHPNT_ON_ETH_MAINNET, PNT_ON_ETH_MAINNET } from '../../constants'
+import assets from '../../settings/swap-assets'
 import {
   getMigrationFees,
   computeMigrationAmount,
@@ -9,8 +12,6 @@ import {
   getFormattedProtocolFee,
   getSwapFees,
 } from '../fee'
-import { PBTC_ON_ETH_MAINNET_V1_MIGRATION, ETHPNT_ON_ETH_MAINNET, PNT_ON_ETH_MAINNET } from '../../constants'
-import assets from '../../settings/swap-assets'
 
 describe('getFormattedFees with no amount', () => {
   afterEach(() => {
@@ -232,7 +233,7 @@ describe('computeFeesAmount', () => {
 
 describe('getSwapFees', () => {
   beforeAll(() => {
-    vi.mock('ptokens-node')
+    vi.mock('@p.network/ptokens-node')
   })
   test('Should get fees for a native to host swap', async () => {
     const from = assets.find((_el) => _el.id === 'BTC')

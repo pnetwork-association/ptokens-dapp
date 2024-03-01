@@ -1,4 +1,4 @@
-import { chainIdToTypeMap, BlockchainType } from 'ptokens-constants'
+import { chainIdToTypeMap, BlockchainType } from '@p.network/ptokens-constants'
 import { useMemo } from 'react'
 
 import { getAssetById } from '../store/swap/swap.selectors'

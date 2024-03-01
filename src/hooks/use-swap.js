@@ -325,7 +325,7 @@ const useSwap = ({
       }
 
       if (!onPnetworkV2) {
-        updateSwapButton('Go to Legacy dApp', false, getLegacyUrl(from, to))
+        updateSwapButton('Disabled Swap', true)
         return
       }
 
