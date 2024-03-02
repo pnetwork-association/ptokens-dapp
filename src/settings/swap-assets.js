@@ -150,6 +150,7 @@ const swapAssets = [
     chainId: ChainId.EthereumMainnet,
     onPnetworkV2: true,
     notifyDepositAddressWarning: true,
+    onlyLegacyRedeem: true,
   },
   {
     address: 'ltc.ptokens',
