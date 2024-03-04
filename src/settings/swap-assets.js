@@ -429,7 +429,7 @@ const swapAssets = [
     onPnetworkV2: true,
   },
   {
-    address: '0x0259461eed4d76d4f0f900f9035f6c4dfb39159a',
+    address: '0x8805Aa0C1a8e59b03fA95740F691E28942Cf44f6',
     id: 'PNT_ON_GNOSIS_MAINNET',
     name: 'PNT',
     workingName: 'pnt',
@@ -448,7 +448,6 @@ const swapAssets = [
     isSpecial: true,
     isPerc20: true,
     chainId: ChainId.XdaiMainnet,
-    onlyLegacyRedeem: true,
     onPnetworkV2: true,
   },
   {
