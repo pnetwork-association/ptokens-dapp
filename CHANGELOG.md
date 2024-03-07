@@ -1,4 +1,4 @@
-# plain-dapp-update
+# ptokens-dapp-v2
 
 ## 1.22.0
 
