@@ -1,7 +1,7 @@
 {
   "name": "ptokens-dapp-v2",
   "private": true,
-  "version": "1.22.0",
+  "version": "1.23.0",
   "type": "module",
   "scripts": {
     "dev": "npm run create-version-file && vite",
