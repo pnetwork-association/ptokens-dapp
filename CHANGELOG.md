@@ -1,5 +1,11 @@
 # ptokens-dapp-v2
 
+## 1.23.0
+
+### Minor Changes
+
+- 5ccf0c7: Update Algorand explorer and supported wallets
+
 ## 1.22.0
 
 ### Minor Changes
