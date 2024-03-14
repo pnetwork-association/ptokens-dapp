@@ -19,7 +19,7 @@ describe('getCorrespondingTxExplorerLinkByBlockchain', () => {
     ['ULTRA', 'https://explorer.mainnet.ultra.io/tx/txhash'],
     ['ARBITRUM', 'https://arbiscan.io/tx/txhash'],
     ['LUXOCHAIN', 'https://explorer.luxochain.io/tx/txhash'],
-    ['ALGORAND', 'https://algoexplorer.io/tx/group/txhash'],
+    ['ALGORAND', 'https://allo.info/tx/group/txhash'],
     ['FTM', 'https://ftmscan.com/tx/txhash'],
   ])('Should get the correct %s explorer link for the transaction', (blockchain, expected) => {
     const txHash = 'txhash'
@@ -45,7 +45,7 @@ describe('getCorrespondingTokenExplorerLinkByBlockchain', () => {
     ['ULTRA', 'https://explorer.mainnet.ultra.io/account/tokenaddress'],
     ['ARBITRUM', 'https://arbiscan.io/token/tokenaddress'],
     ['LUXOCHAIN', 'https://explorer.luxochain.io/token/tokenaddress'],
-    ['ALGORAND', 'https://algoexplorer.io/asset/tokenaddress'],
+    ['ALGORAND', 'https://allo.info/asset/tokenaddress'],
     ['FTM', 'https://ftmscan.com/token/tokenaddress'],
   ])('Should get the correct %s token link for the transaction', (blockchain, expected) => {
     const tokenAddress = 'tokenaddress'

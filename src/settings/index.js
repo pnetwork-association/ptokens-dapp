@@ -160,7 +160,7 @@ const settings = {
       ultra: 'https://explorer.mainnet.ultra.io/',
       arbitrum: 'https://arbiscan.io/',
       luxochain: 'https://explorer.luxochain.io/',
-      algorand: 'https://algoexplorer.io/',
+      algorand: 'https://allo.info/',
       ftm: 'https://ftmscan.com/',
       ore: 'https://explorer.ore.network/',
     },

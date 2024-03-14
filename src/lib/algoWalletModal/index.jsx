@@ -1,12 +1,11 @@
+import EventEmitter from 'eventemitter3'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+
 import Modal from '../eosConnect/components/Modal'
-import EventEmitter from 'eventemitter3'
-import connectToWalletConnect from './connectors/wallet-connect'
-import connectToAlgoSigner from './connectors/algo-signer'
-import connectToMyAlgoWallet from './connectors/my-algo-wallet'
-import connectToPeraWallet from './connectors/pera-wallet'
+
 import connectToDeflyWallet from './connectors/defly-wallet'
+import connectToPeraWallet from './connectors/pera-wallet'
 
 const INITIAL_STATE = { show: false }
 
@@ -47,28 +46,6 @@ class AlgoWalletModal extends EventEmitter {
     this.userOptions = []
 
     this.userOptions.push({
-      name: 'AlgoSigner',
-      logo: './assets/jpeg/algosigner.jpeg',
-      description: 'Connect to AlgoSigner',
-      themeColors: this.themeColors,
-      onClick: async () => {
-        this._call.resolve(await connectToAlgoSigner())
-        await this.toogleModal()
-      },
-    })
-
-    this.userOptions.push({
-      name: 'MyAlgoWallet',
-      logo: './assets/png/myalgo-logo.png',
-      description: 'Connect to MyAlgoWallet',
-      themeColors: this.themeColors,
-      onClick: async () => {
-        this._call.resolve(await connectToMyAlgoWallet(walletConnect))
-        await this.toogleModal()
-      },
-    })
-
-    this.userOptions.push({
       name: 'Pera Wallet',
       logo: './assets/png/pera-wallet-logo.png',
       description: 'Connect to Pera Wallet',
@@ -89,19 +66,6 @@ class AlgoWalletModal extends EventEmitter {
         await this.toogleModal()
       },
     })
-
-    if (walletConnect) {
-      this.userOptions.push({
-        name: 'WalletConnect',
-        logo: './assets/svg/wallet-connect.svg',
-        description: 'Scan with WalletConnect to connect',
-        themeColors: this.themeColors,
-        onClick: async () => {
-          this._call.resolve(await connectToWalletConnect(walletConnect))
-          await this.toogleModal()
-        },
-      })
-    }
 
     this.renderModal()
   }
