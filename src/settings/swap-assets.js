@@ -429,7 +429,7 @@ const swapAssets = [
     onPnetworkV2: true,
   },
   {
-    address: '0x8805Aa0C1a8e59b03fA95740F691E28942Cf44f6',
+    address: '0xbB43F6EAEE709f238fA7FECaF007123600b48Ee2',
     id: 'PNT_ON_GNOSIS_MAINNET',
     name: 'PNT',
     workingName: 'pnt',
