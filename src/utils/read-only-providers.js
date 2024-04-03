@@ -1,7 +1,7 @@
+import { getWeb3Settings } from '@p.network/react-web3-settings'
 import { Algodv2 } from 'algosdk'
 import fetch from 'cross-fetch'
 import { JsonRpc } from 'eosjs'
-import { getWeb3Settings } from 'react-web3-settings'
 import Web3 from 'web3'
 
 import settings from '../settings'

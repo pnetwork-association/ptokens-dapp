@@ -1,5 +1,5 @@
+import { getWeb3Settings } from '@p.network/react-web3-settings'
 import { toastr } from 'react-redux-toastr'
-import { getWeb3Settings } from 'react-web3-settings'
 
 import { WALLET_LIBRE_CONNECTED, WALLET_LIBRE_DISCONNECTED } from '../../../constants'
 import EosConnect from '../../../lib/eosConnect/'

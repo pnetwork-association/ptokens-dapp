@@ -1,4 +1,4 @@
-import { getWeb3Settings } from 'react-web3-settings'
+import { getWeb3Settings } from '@p.network/react-web3-settings'
 
 import { WALLET_EOS_CONNECTED, WALLET_EOS_DISCONNECTED } from '../../../constants'
 import EosConnect from '../../../lib/eosConnect/'

@@ -14,7 +14,7 @@ import * as pegout from '../utils/pegout'
 describe('swap', () => {
   beforeAll(() => {
     vi.mock('@p.network/ptokens-node')
-    vi.mock('react-web3-settings')
+    vi.mock('@p.network/react-web3-settings')
   })
 
   beforeEach(() => {

@@ -1,5 +1,5 @@
+import { Web3SettingsProvider } from '@p.network/react-web3-settings'
 import React, { useContext } from 'react'
-import { Web3SettingsProvider } from 'react-web3-settings'
 import { ThemeContext } from 'styled-components'
 
 import settings from '../../../settings'

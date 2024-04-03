@@ -1,4 +1,4 @@
-import { getWeb3Settings } from 'react-web3-settings'
+import { getWeb3Settings } from '@p.network/react-web3-settings'
 import WalletLink from 'walletlink'
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
