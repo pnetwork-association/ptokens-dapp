@@ -11,7 +11,7 @@
       "src": "favicon.ico",
       "type": "image/png",
       "sizes": "512x512 128x128"
-    }	    
+    }
   ],
   "start_url": ".",
   "display": "standalone",
