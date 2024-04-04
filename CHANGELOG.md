@@ -1,5 +1,15 @@
 # ptokens-dapp-v2
 
+## 1.24.0
+
+### Minor Changes
+
+- 4969578: Update PNT-on-Gnosis address
+
+### Patch Changes
+
+- b426b06: fix endpoint update and algorand pool availability warnings.
+
 ## 1.23.0
 
 ### Minor Changes
