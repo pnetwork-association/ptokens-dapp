@@ -1,10 +1,11 @@
+import PropTypes from 'prop-types'
 import React, { useCallback, useMemo, useState } from 'react'
 import { Row, Col } from 'react-bootstrap'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
 import { isValidAccountByBlockchain } from '../../../utils/account-validator'
-import Modal from '../../molecules/modal/Modal'
 import { blockchainSymbolToName } from '../../../utils/maps'
+import Modal from '../../molecules/modal/Modal'
 
 const ContainerRow = styled.div`
   padding-top: 10px;

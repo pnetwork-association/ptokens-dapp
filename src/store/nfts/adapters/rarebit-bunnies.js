@@ -1,10 +1,11 @@
 import Web3 from 'web3'
-import NativeAbi from '../../../utils/abi/RAREBITBUNNIES/Native.json'
-import HostAbi from '../../../utils/abi/RAREBITBUNNIES/Host.json'
-import { executeEvmCompatibleTxWithToast } from '../../../utils/tx-utils'
-import { getProviderByBlockchain, getAccountByBlockchain } from '../nfts.selectors'
+
 import ERC1155Abi from '../../../utils/abi/ERC1155.json'
+import HostAbi from '../../../utils/abi/RAREBITBUNNIES/Host.json'
+import NativeAbi from '../../../utils/abi/RAREBITBUNNIES/Native.json'
+import { executeEvmCompatibleTxWithToast } from '../../../utils/tx-utils'
 import { loadNftData } from '../nfts.actions'
+import { getProviderByBlockchain, getAccountByBlockchain } from '../nfts.selectors'
 
 const moveRarebitBunnies = async ({ nft, destinationAccount, amount, dispatch }) => {
   try {

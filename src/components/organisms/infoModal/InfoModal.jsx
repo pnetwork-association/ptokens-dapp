@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import Modal from '../../molecules/modal/Modal'
+
 import Icon from '../../atoms/icon/Icon'
+import Modal from '../../molecules/modal/Modal'
 
 const Message = styled.div`
   margin-top: 30px;

@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import styled, { keyframes } from 'styled-components'
+import React, { useState } from 'react'
 import { bounceInUp } from 'react-animations'
 import { Card } from 'react-bootstrap'
+import styled, { keyframes } from 'styled-components'
+
 import Icon from '../../atoms/icon/Icon'
 
 const StyledCard = styled(Card)`

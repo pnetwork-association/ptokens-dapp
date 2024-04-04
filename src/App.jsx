@@ -1,19 +1,9 @@
-import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom'
 import queryString from 'query-string'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
+import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom'
 
-import SwapController from './components/pages/swap/SwapController'
-import { sendPageView, setPageLocation } from './ga4'
-import SwapOldPntController from './components/pages/swapOldPnt/SwapOldPntController'
-import { loadSwapData } from './store/swap/swap.actions'
-import { loadMigrationData } from './store/migration/migration.actions'
-import { loadSwapOldPntData } from './store/swap-old-pnt/swap-old-pnt.actions'
-import { selectPage, setTheme } from './store/pages/pages.actions'
-import history from './utils/history'
-import MigrationController from './components/pages/migration/MigrationController'
-import MigrationHomeController from './components/pages/migrationHome/MigrationHomeController'
 import NftsController from './components/pages/nfts/NftsController'
 import Risks from './components/pages/risks/Risks'
 import MainWrapper from './components/atoms/mainWrapper/MainWrapper'
@@ -24,6 +14,16 @@ import WarningPopup from './components/molecules/popup/Warning'
 import SocialLinks from './components/molecules/socials/Socials'
 import Version from './components/molecules/version/Version'
 import HeaderController from './components/organisms/header/HeaderController'
+import MigrationController from './components/pages/migration/MigrationController'
+import MigrationHomeController from './components/pages/migrationHome/MigrationHomeController'
+import SwapController from './components/pages/swap/SwapController'
+import SwapOldPntController from './components/pages/swapOldPnt/SwapOldPntController'
+import { sendPageView, setPageLocation } from './ga4'
+import { loadMigrationData } from './store/migration/migration.actions'
+import { selectPage, setTheme } from './store/pages/pages.actions'
+import { loadSwapData } from './store/swap/swap.actions'
+import { loadSwapOldPntData } from './store/swap-old-pnt/swap-old-pnt.actions'
+import history from './utils/history'
 
 history.listen((location) => {
   setPageLocation(location.pathname)
@@ -112,7 +112,7 @@ const App = ({ loading, setTheme, loadSwapData, loadSwapOldPntData, loadMigratio
       <MainWrapper>
         <Notifications />
         <HeaderController />
-        <RedirectBanner/>
+        <RedirectBanner />
         <WarningPopup show={showWarningPopup} onClose={() => setShowWarningPopup(false)} />
         <Switch>
           <Route exact path={'/swap'} render={() => <SwapController />} />

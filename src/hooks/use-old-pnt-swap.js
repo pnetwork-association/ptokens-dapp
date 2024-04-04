@@ -1,6 +1,8 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
-import { isValidAccountByBlockchain } from '../utils/account-validator'
 import BigNumber from 'bignumber.js'
+import { useState, useEffect, useCallback, useMemo } from 'react'
+
+import { isValidAccountByBlockchain } from '../utils/account-validator'
+
 import { useWalletByBlockchain } from './use-wallets'
 
 const useSwap = ({ wallets, assets, connectWithWallet, swap, progress, swapButton, updateSwapButton }) => {
