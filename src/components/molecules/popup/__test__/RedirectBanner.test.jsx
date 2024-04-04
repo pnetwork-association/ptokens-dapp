@@ -1,6 +1,6 @@
 /* eslint-disable import/first */
 import { render, screen } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect } from 'vitest'
 
 import RedirectBanner from '../RedirectBanner'
 

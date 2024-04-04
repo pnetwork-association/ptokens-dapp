@@ -1,7 +1,9 @@
 // NOTE: before run this scripts go to settings/swap-assets and change export default into module.exports =
-const { constants, helpers } = require('ptokens-utils')
-const { NodeSelector } = require('ptokens-node-selector')
 const fs = require('fs')
+
+const { NodeSelector } = require('ptokens-node-selector')
+const { constants, helpers } = require('ptokens-utils')
+
 const assets = require('../src/settings/swap-assets')
 
 const start = async () => {
@@ -19,12 +21,12 @@ const start = async () => {
           {
             pToken: workingName,
             blockchain: helpers.getBlockchainType(blockchain.toLowerCase()),
-            network
+            network,
           },
           helpers.getNativeBlockchainFromPtokenName(workingName)
         )
 
-        return new Promise(_resolve =>
+        return new Promise((_resolve) =>
           nodeSelector
             .select({
               timeout: 20 * 1000,
@@ -32,10 +34,10 @@ const start = async () => {
               nativeBlockchain,
               nativeNetwork,
               hostBlockchain,
-              hostNetwork
+              hostNetwork,
             })
             .then(_resolve)
-            .catch(_err => {
+            .catch((_err) => {
               console.error(_err)
               _resolve(null)
             })
@@ -45,8 +47,8 @@ const start = async () => {
 
     const pTokensAddresses = await Promise.all(
       nodes.map(
-        _node =>
-          new Promise(_resolve =>
+        (_node) =>
+          new Promise((_resolve) =>
             _node
               ? _node
                   .getInfo()
@@ -59,7 +61,7 @@ const start = async () => {
                         : null
                     )
                   })
-                  .catch(_err => {
+                  .catch((_err) => {
                     console.error(_err)
                     _resolve(null)
                   })
@@ -75,7 +77,7 @@ const start = async () => {
 
       return {
         address: nativeAddress ? nativeAddress : pTokensAddresses[_index],
-        ..._asset
+        ..._asset,
       }
     })
 

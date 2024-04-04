@@ -1,8 +1,10 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
-import { useWalletByBlockchain } from './use-wallets'
-import history from '../utils/history'
-import { computeMigrationAmount } from '../utils/fee'
 import BigNumber from 'bignumber.js'
+import { useState, useEffect, useCallback, useMemo } from 'react'
+
+import { computeMigrationAmount } from '../utils/fee'
+import history from '../utils/history'
+
+import { useWalletByBlockchain } from './use-wallets'
 
 const useMigration = ({
   wallets,

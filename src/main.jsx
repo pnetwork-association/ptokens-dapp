@@ -1,19 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
-import store from './store'
-import history from './utils/history'
+
+import App from './App'
+import SettingsDrawer from './components/organisms/settings/Settings'
+import { initialize } from './ga4'
 import * as serviceWorker from './serviceWorker'
+import store from './store'
 import ThemeProvider, { ThemedGlobalStyle } from './theme/ThemeProvider'
+import history from './utils/history'
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 import 'react-step-progress-bar/styles.css'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import './theme/font.css'
 import './theme/bootstrap.css'
-import { initialize } from './ga4'
-import SettingsDrawer from './components/organisms/settings/Settings'
 
 initialize()
 

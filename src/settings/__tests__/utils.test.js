@@ -1,4 +1,5 @@
 import { test, describe, expect } from 'vitest'
+
 import generateRpcSettings from '../utils'
 
 describe('generateRpcSettings', () => {

@@ -1,4 +1,4 @@
-import EthereumProvider from '@walletconnect/ethereum-provider'
+import Provider from '@walletconnect/ethereum-provider'
 
 const walletConnectV2Connector = async (_package, options) => {
   const provider = await _package.init({
@@ -26,6 +26,6 @@ export const createWalletConnect2 = (_chainId) => ({
     chainId: [_chainId],
     showQrModal: true,
   },
-  package: EthereumProvider,
+  package: Provider,
   connector: walletConnectV2Connector,
 })

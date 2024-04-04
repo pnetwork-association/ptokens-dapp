@@ -1,7 +1,8 @@
+import EventEmitter from 'eventemitter3'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+
 import Modal from './components/Modal'
-import EventEmitter from 'eventemitter3'
 import AnchorProvider from './providers/anchor'
 import LibreProvider from './providers/libre'
 import TokenPocketProvider from './providers/token-pocket'

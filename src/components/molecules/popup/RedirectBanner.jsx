@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import React from 'react'
 import { Alert, Row } from 'react-bootstrap'
 import styled from 'styled-components'

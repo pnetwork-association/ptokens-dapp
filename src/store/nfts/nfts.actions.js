@@ -1,14 +1,15 @@
-import nfts from '../../settings/nfts'
-import Web3 from 'web3'
 import _ from 'lodash'
-import { getReadOnlyProviderByBlockchain } from '../../utils/read-only-providers'
+import Web3 from 'web3'
+
 import { NFTS_DATA_LOADED } from '../../constants'
+import nfts from '../../settings/nfts'
+import { getReadOnlyProviderByBlockchain } from '../../utils/read-only-providers'
 import { setLoading } from '../pages/pages.actions'
-import { loadERC155Data } from './adapters/erc1155'
-import { moveChainGuardians } from './adapters/cgt'
-import { moveRarebitBunnies } from './adapters/rarebit-bunnies'
-import { loadChainGuardiansData } from './adapters/cgt'
 import { getWalletAccountByBlockchain } from '../wallets/wallets.selectors'
+
+import { moveChainGuardians, loadChainGuardiansData } from './adapters/cgt'
+import { loadERC155Data } from './adapters/erc1155'
+import { moveRarebitBunnies } from './adapters/rarebit-bunnies'
 
 const loadNftsData = (_account, _blockchain) => {
   return async (_dispatch) => {

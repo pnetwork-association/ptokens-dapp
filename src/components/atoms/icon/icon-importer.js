@@ -7,14 +7,14 @@ import close from './icons/close.svg?raw'
 import copy from './icons/copy.svg?raw'
 import descendant from './icons/descendant.svg?raw'
 import downArrow from './icons/down-arrow.svg?raw'
+import info from './icons/info.svg?raw'
 import metamask from './icons/metamask.svg?raw'
 import moon from './icons/moon.svg?raw'
 import sort from './icons/sort.svg?raw'
 import sun from './icons/sun.svg?raw'
 import wallet from './icons/wallet.svg?raw'
-import world from './icons/world.svg?raw'
 import warning from './icons/warning.svg?raw'
-import info from './icons/info.svg?raw'
+import world from './icons/world.svg?raw'
 
 const getIconSource = (icon) => {
   switch (icon) {
