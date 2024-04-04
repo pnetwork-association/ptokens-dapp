@@ -16,6 +16,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -23,6 +25,10 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ./package-lock.json
       - run: npm ci
+
+      - name: Check changesets
+        if: github.base_ref == 'develop'
+        run: npx changeset status --since=origin/develop
 
       - name: Run tests
         run: CI=true npm test
