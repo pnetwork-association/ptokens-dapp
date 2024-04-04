@@ -11,10 +11,10 @@ import assets from '../../../../settings/migration-assets'
 import { getDefaultSelection } from '../../../../store/migration/utils/default-selection'
 import * as feeUtils from '../../../../utils/fee'
 import * as Icon from '../../../atoms/icon/Icon'
-
-vi.spyOn(Icon, 'default').mockImplementation((props) => <div {...props} data-testid="icon" />)
 import * as MigrationInfo from '../../../organisms/migrationInfo/MigrationInfo'
 import Migration from '../Migration'
+
+vi.spyOn(Icon, 'default').mockImplementation((props) => <div {...props} data-testid="icon" />)
 
 const Wrapper = ({ strategy, connectWithWallet, migrate, assets }) => {
   const ThemeContextMock = {}

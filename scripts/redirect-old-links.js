@@ -16,7 +16,7 @@ for (let i = 0; i < dirList.length; i++) {
    * This allows to redirect old links of the type 'https://dapp/directory' to
    * 'https://dapp/#/directory' for all the directories listed in `dirList`
    */
-  if (dir == 'migration/a') {
+  if (dir === 'migration/a') {
     dirSub = 'migration/pBTC-v1-to-v2'
   }
   fs.writeFileSync(

@@ -15,7 +15,7 @@ import { isValidAccountByBlockchain } from '../utils/account-validator'
 import { getSwapFees, computeSwapAmount } from '../utils/fee'
 import { getReadOnlyProviderByBlockchain } from '../utils/read-only-providers'
 import { isValidSwap } from '../utils/swap-valildator'
-import { getLegacyUrl, updateUrlForSwap } from '../utils/url'
+import { updateUrlForSwap } from '../utils/url'
 
 import { useSwapInfo } from './use-swap-info'
 import { useWalletByBlockchain } from './use-wallets'

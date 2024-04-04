@@ -74,7 +74,7 @@ describe('Swap', async () => {
     render(<Wrapper asset="pnt" originBlockchain="eth" destBlockchain="bsc" />)
     await waitFor(() => expect(screen.getByText(/balance is 0/)).toBeInTheDocument())
     const [, , swapButton] = screen.getAllByRole('button')
-    const [fromInput, toInput, addressInput] = screen.getAllByRole('textbox')
+    const [fromInput, toInput] = screen.getAllByRole('textbox')
     await UserEvent.type(fromInput, '1')
     expect(fromInput).toHaveAttribute('value', '1')
     expect(toInput).toHaveAttribute('value', '-2')
