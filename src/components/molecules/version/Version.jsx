@@ -1,5 +1,5 @@
+import { Web3SettingsButton } from '@p.network/react-web3-settings'
 import React from 'react'
-import { Web3SettingsButton } from 'react-web3-settings'
 import styled from 'styled-components'
 
 const VersionDiv = styled.div`

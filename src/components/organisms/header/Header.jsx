@@ -1,12 +1,13 @@
-import React, { useState, useCallback } from 'react'
+import { Web3SettingsButton } from '@p.network/react-web3-settings'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import React, { useState, useCallback } from 'react'
 import { Navbar, Nav, NavDropdown, Container, Row, Col } from 'react-bootstrap'
-import Walletinfo from '../walletInfoModal/WalletInfoModal'
+import styled from 'styled-components'
+
 import { useWallets } from '../../../hooks/use-wallets'
-import Icon from '../../atoms/icon/Icon'
 import settings from '../../../settings'
-import { Web3SettingsButton } from 'react-web3-settings'
+import Icon from '../../atoms/icon/Icon'
+import Walletinfo from '../walletInfoModal/WalletInfoModal'
 
 const HeaderWrapper = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);

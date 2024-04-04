@@ -7,6 +7,7 @@ import { ThemeContext } from 'styled-components'
 import { describe, expect, it, vi } from 'vitest'
 
 import { PBTC_ON_ETH_MAINNET, PNT_ON_BSC_MAINNET, PNT_ON_ETH_MAINNET } from '../../../../constants'
+import * as UseSwapInfo from '../../../../hooks/use-swap-info'
 import swapAssets from '../../../../settings/swap-assets'
 import { getDefaultSelection } from '../../../../store/swap/utils/default-selection'
 import * as feeUtils from '../../../../utils/fee'
@@ -14,10 +15,10 @@ import * as AssetListModal from '../../../organisms/assetListModal/AssetListModa
 import * as SwapInfo from '../../../organisms/swapInfo/SwapInfo'
 import Swap from '../Swap'
 
-const Wrapper = ({ asset, originBlockchain, destBlockchain }) => {
+const Wrapper = ({ asset, originBlockchain, destBlockchain, algorand_from_assetid, algorand_to_assetid }) => {
   const ThemeContextMock = {}
   const [button, setButton] = useState({})
-  const [wallets] = useState({ eth: {}, bsc: {} })
+  const [wallets] = useState({ eth: {}, bsc: {}, algorand: {} })
   const updateSwapButton = useCallback((_text, _disabled = false) => {
     setButton({ text: _text, disabled: _disabled })
   }, [])
@@ -26,6 +27,8 @@ const Wrapper = ({ asset, originBlockchain, destBlockchain }) => {
     v2selection.asset = asset
     v2selection.from = originBlockchain
     v2selection.to = destBlockchain
+    v2selection.algorand_from_assetid = algorand_from_assetid
+    v2selection.algorand_to_assetid = algorand_to_assetid
   }
   const [assets] = useState([...swapAssets, ...getDefaultSelection(swapAssets, v2selection)])
   return (
@@ -80,6 +83,78 @@ describe('Swap', async () => {
     )
     expect(swapButton).toBeDisabled()
   })
+
+  it('Should continue and warn USDT swap from Algorand if pool is not reachable', async () => {
+    vi.spyOn(UseSwapInfo, 'useSwapInfo').mockReturnValue({ eta: '1', poolAmount: undefined })
+    vi.spyOn(SwapInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)
+    vi.spyOn(feeUtils, 'getSwapFees').mockResolvedValue({ basisPoints: 15, networkFee: 1e18, minProtocolFee: 2e18 })
+    render(<Wrapper asset="usdt" originBlockchain="algorand" destBlockchain="eth" algorand_from_assetid={'312769'} />)
+    await waitFor(() => expect(screen.getByText(/Enter an amount/)).toBeInTheDocument())
+    const [swapButton] = screen.getAllByRole('button')
+    const [fromInput, toInput] = screen.getAllByRole('textbox')
+    await UserEvent.type(fromInput, '10')
+    expect(fromInput).toHaveAttribute('value', '10')
+    expect(toInput).toHaveAttribute('value', '7')
+    expect(swapButton).toHaveTextContent('Connect Wallet')
+    expect(screen.getByText(/the transaction will likely fail/)).toBeInTheDocument()
+    expect(swapButton).toBeEnabled()
+  })
+
+  test.each(['0', '1000'])(
+    'Should prevent and warn USDT swap from Algorand if pool liquidity is insufficient',
+    async (poolAmount) => {
+      vi.spyOn(UseSwapInfo, 'useSwapInfo').mockReturnValue({ eta: '1', poolAmount: poolAmount })
+      vi.spyOn(SwapInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)
+      vi.spyOn(feeUtils, 'getSwapFees').mockResolvedValue({ basisPoints: 15, networkFee: 1e18, minProtocolFee: 2e18 })
+      render(<Wrapper asset="usdt" originBlockchain="algorand" destBlockchain="eth" algorand_from_assetid={'312769'} />)
+      await waitFor(() => expect(screen.getByText(/Enter an amount/)).toBeInTheDocument())
+      const [swapButton] = screen.getAllByRole('button')
+      const [fromInput, toInput] = screen.getAllByRole('textbox')
+      await UserEvent.type(fromInput, '10000')
+      expect(fromInput).toHaveAttribute('value', '10,000')
+      expect(toInput).toHaveAttribute('value', '9,984')
+      expect(swapButton).toHaveTextContent('Insufficient liquidity')
+      expect(screen.getByText(/There is not enough liquidity in the stableswap/)).toBeInTheDocument()
+      expect(swapButton).toBeDisabled()
+    }
+  )
+
+  it('Should continue and warn USDT swap to Algorand if pool is not reachable', async () => {
+    vi.spyOn(UseSwapInfo, 'useSwapInfo').mockReturnValue({ eta: '1', poolAmount: undefined })
+    vi.spyOn(SwapInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)
+    vi.spyOn(feeUtils, 'getSwapFees').mockResolvedValue({ basisPoints: 15, networkFee: 1e18, minProtocolFee: 2e18 })
+    render(<Wrapper asset="usdt" originBlockchain="eth" destBlockchain="algorand" algorand_to_assetid={'312769'} />)
+    await waitFor(() => expect(screen.getByText(/Enter an amount/)).toBeInTheDocument())
+    const [swapButton] = screen.getAllByRole('button')
+    const [fromInput, toInput] = screen.getAllByRole('textbox')
+    await UserEvent.type(fromInput, '100')
+    expect(fromInput).toHaveAttribute('value', '100')
+    expect(toInput).toHaveAttribute('value', '97')
+    expect(swapButton).toHaveTextContent('Connect Wallet')
+    expect(screen.getByText(/you will likely receive pUSDT rather than native USDT/)).toBeInTheDocument()
+    expect(swapButton).toBeEnabled()
+  })
+
+  test.each(['0', '1000'])(
+    'Should continue and warn USDT swap to Algorand if pool liquidity is insufficient',
+    async (poolAmount) => {
+      vi.spyOn(UseSwapInfo, 'useSwapInfo').mockReturnValue({ eta: '1', poolAmount: poolAmount })
+      vi.spyOn(SwapInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)
+      vi.spyOn(feeUtils, 'getSwapFees').mockResolvedValue({ basisPoints: 15, networkFee: 1e18, minProtocolFee: 2e18 })
+      render(<Wrapper asset="usdt" originBlockchain="eth" destBlockchain="algorand" algorand_to_assetid={'312769'} />)
+      await waitFor(() => expect(screen.getByText(/Enter an amount/)).toBeInTheDocument())
+      const [swapButton] = screen.getAllByRole('button')
+      const [fromInput, toInput] = screen.getAllByRole('textbox')
+      await UserEvent.type(fromInput, '10000')
+      expect(fromInput).toHaveAttribute('value', '10,000')
+      expect(toInput).toHaveAttribute('value', '9,984')
+      expect(swapButton).toHaveTextContent('Connect Wallet')
+      expect(
+        screen.getByText(/Due to insufficient liquidity it may not be possible to process a swap of this size/)
+      ).toBeInTheDocument()
+      expect(swapButton).toBeEnabled()
+    }
+  )
 
   it('Should continue with balance null', async () => {
     vi.spyOn(SwapInfo, 'default').mockImplementation(() => <div data-testid="swap-info" />)

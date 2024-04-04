@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import _ from 'lodash'
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Row, Col, Container } from 'react-bootstrap'
@@ -461,6 +462,21 @@ const Swap = ({
                     </>
                   )}
                 </InfoEta>
+              ) : null}
+              {to && to.swapperAddress && _.isNil(poolAmount) ? (
+                <WarningEta>
+                  It is currently not possible to check the liquidity pool availability. It is possible the configured
+                  Algorand endpoint is offline, please try with a different one. If the amount exceeds the pool
+                  availability you will likely receive p{to.symbol} rather than native {to.nativeSymbol}. Proceed at
+                  your own risk.
+                </WarningEta>
+              ) : null}
+              {from && from.swapperAddress && _.isNil(poolAmount) ? (
+                <WarningEta>
+                  It is currently not possible to check the liquidity pool availability. It is possible the configured
+                  Algorand endpoint is offline, please try with a different one. If the amount exceeds the pool
+                  availability, the transaction will likely fail.
+                </WarningEta>
               ) : null}
               {to && to.swapperAddress && poolAmount < 1.2 * toAmount ? (
                 <WarningEta>
