@@ -13,7 +13,7 @@ describe('createEthPntAsset', () => {
 
     const expectedFees = {
       networkFee: 0,
-      networkFeeUsd: 15,
+      networkFeeUsd: 20,
       minNodeOperatorFee: 0,
       minNodeOperatorFeeUsd: 0,
       basisPoints: {
