@@ -121,7 +121,6 @@ const App = ({ loading, setTheme, loadSwapData, loadSwapOldPntData, loadMigratio
             path={'/nfts'}
             render={() => (
               <React.Fragment>
-                {/* <Loader loading={loading} /> */}
                 <NftsController />
               </React.Fragment>
             )}
