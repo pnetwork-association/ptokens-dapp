@@ -1,5 +1,11 @@
 # ptokens-dapp-v2
 
+## 1.25.0
+
+### Minor Changes
+
+- a26e83b: update UOS swap infos
+
 ## 1.24.0
 
 ### Minor Changes
