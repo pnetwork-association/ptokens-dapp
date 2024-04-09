@@ -621,6 +621,7 @@ const swapAssets = [
     isPerc20: true,
     chainId: ChainId.UltraMainnet,
     onPnetworkV2: true,
+    formattedName: 'Native UOS',
   },
   {
     address: '0x9b917D94Fb0138eDF520332f3d45494f1a74Bec8',
@@ -1174,6 +1175,7 @@ const swapAssets = [
     image: 'UOS.svg',
     withBalanceDecimalsConversion: true,
     chainId: ChainId.EthereumMainnet,
+    formattedName: 'ERC20 UOS',
   },
   {
     address: 'everipediaiq',

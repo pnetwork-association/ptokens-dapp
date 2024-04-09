@@ -7,7 +7,7 @@ import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
 import TermsOfService from '../../../components/molecules/popup/TermsOfService'
-import { MAX_IMPACT, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../../../constants'
+import { MAX_IMPACT, PBTC_ON_ETH_MAINNET_V1_MIGRATION, PUOS_ON_ULTRA_MAINNET } from '../../../constants'
 import { sendEvent } from '../../../ga4'
 import { useAssets } from '../../../hooks/use-assets'
 import { useSwap } from '../../../hooks/use-swap'
@@ -392,6 +392,14 @@ const Swap = ({
                   pBTC on BSC has been relaunched on pNetwork v2 in late 2022 (token address
                   0x1003d3574ac79303a5fa0951ecb04cc7acba9747) and it is the only official pBTC representation on BSC.
                 </InfoEta>
+              ) : null}
+              {to && to.id === 'UOS' ? (
+                <InfoEta>
+                  By bridging to Ethereum you will get native ERC20 UOS tokens passing through the pUOS pToken
+                </InfoEta>
+              ) : null}
+              {to && to.id === PUOS_ON_ULTRA_MAINNET ? (
+                <InfoEta>By bridging to Ultra you will get native UOS tokens passing through the pUOS pToken</InfoEta>
               ) : null}
               {to && to.id === 'PBTC_ON_ALGORAND_MAINNET' ? (
                 <InfoEta>
