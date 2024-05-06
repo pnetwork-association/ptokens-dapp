@@ -256,6 +256,261 @@ const supported = {
       },
     },
   ],
+  aga: [
+    {
+      chainId: '0x005fe7f9',
+      isNative: true,
+      vaultAddress: 'e396757ec7e6ac7c8e5abe7285dde47b98f22db8',
+      identity: '341aa660fd5c280f5a9501e3822bb4a98e816d1b',
+      tokenReference: '0x8fea8ad36166ad36ca4f671b1af6307eebb7a9a8',
+      tokenAddress: '0x87b46212e805a3998b7e8077e9019c90759ea88c',
+      tokenDecimals: 18,
+      fees: {
+        networkFee: 0,
+        networkFeeUsd: 20,
+        basisPoints: {
+          nativeToHost: 0,
+          nativeToNative: 0,
+        },
+        minNodeOperatorFee: 0,
+        minNodeOperatorFeeUsd: 0,
+      },
+    },
+    {
+      chainId: '0x02f9337d',
+      isNative: false,
+      vaultAddress: null,
+      identity: 'Not set!',
+      tokenReference: '8fea8ad36166ad36ca4f671b1af6307eebb7a9a8',
+      tokenAddress: 'aga.ptokens',
+      tokenDecimals: 9,
+      fees: {
+        networkFee: 0,
+        networkFeeUsd: 0,
+        basisPoints: {
+          hostToHost: 0,
+          hostToNative: 0,
+        },
+        minNodeOperatorFee: 0,
+        minNodeOperatorFeeUsd: 0,
+      },
+    },
+  ],
+  borg: [
+    {
+      chainId: '0x005fe7f9',
+      isNative: true,
+      vaultAddress: 'e396757ec7e6ac7c8e5abe7285dde47b98f22db8',
+      identity: '341aa660fd5c280f5a9501e3822bb4a98e816d1b',
+      tokenReference: '0xbe8bc8841fd4028f9350d69b8ba41e67b0ed8ec7',
+      tokenAddress: '0x64d0f55cd8c7133a9d7102b13987235f486f2224',
+      tokenDecimals: 18,
+      fees: {
+        networkFee: 0,
+        networkFeeUsd: 20,
+        basisPoints: {
+          nativeToHost: 0,
+          nativeToNative: 0,
+        },
+        minNodeOperatorFee: 0,
+        minNodeOperatorFeeUsd: 0,
+      },
+    },
+    {
+      chainId: '0x02f9337d',
+      isNative: false,
+      vaultAddress: null,
+      identity: 'Not set!',
+      tokenReference: 'be8bc8841fd4028f9350d69b8ba41e67b0ed8ec7',
+      tokenAddress: 'borg.ptokens',
+      tokenDecimals: 9,
+      fees: {
+        networkFee: 0,
+        networkFeeUsd: 0,
+        basisPoints: {
+          hostToHost: 0,
+          hostToNative: 0,
+        },
+        minNodeOperatorFee: 0,
+        minNodeOperatorFeeUsd: 0,
+      },
+    },
+  ],
+  usdt: [
+    {
+      chainId: '0x03c38e67',
+      isNative: false,
+      vaultAddress: null,
+      identity: 'XXMOLMZYB5SMKNZP4PN4FRR5EX64BJURDZDYSQULMXS5SB354SDLBZX6HI',
+      tokenReference: '0xfefa7044416b10b2b1458bec31f3aea1ada41398',
+      tokenAddress: '748208047',
+      tokenDecimals: 6,
+      fees: {
+        networkFee: 0,
+        networkFeeUsd: 0,
+        basisPoints: {
+          hostToHost: 10,
+          hostToNative: 25,
+        },
+        minNodeOperatorFee: 10000000000000000000,
+        minNodeOperatorFeeUsd: 10,
+      },
+    },
+    {
+      chainId: '0x028c7109',
+      isNative: false,
+      vaultAddress: null,
+      identity: 'Not set!',
+      tokenReference: 'fefa7044416b10b2b1458bec31f3aea1ada41398',
+      tokenAddress: 'usdt.ptokens',
+      tokenDecimals: 6,
+      fees: {
+        networkFee: 0,
+        networkFeeUsd: 0,
+        basisPoints: {
+          hostToHost: 10,
+          hostToNative: 25,
+        },
+        minNodeOperatorFee: 10000000000000000000,
+        minNodeOperatorFeeUsd: 10,
+      },
+    },
+    {
+      chainId: '0x026776fa',
+      isNative: false,
+      vaultAddress: null,
+      identity: 'Not set!',
+      tokenReference: '0xfefa7044416b10b2b1458bec31f3aea1ada41398',
+      tokenAddress: 'usdt.ptokens',
+      tokenDecimals: 9,
+      fees: {
+        networkFee: 0,
+        networkFeeUsd: 0,
+        basisPoints: {
+          hostToHost: 10,
+          hostToNative: 25,
+        },
+        minNodeOperatorFee: 10000000000000000000,
+        minNodeOperatorFeeUsd: 10,
+      },
+    },
+    {
+      chainId: '0x005fe7f9',
+      isNative: true,
+      vaultAddress: 'e396757ec7e6ac7c8e5abe7285dde47b98f22db8',
+      identity: '341aa660fd5c280f5a9501e3822bb4a98e816d1b',
+      tokenReference: '0xfefa7044416b10b2b1458bec31f3aea1ada41398',
+      tokenAddress: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+      tokenDecimals: 6,
+      fees: {
+        networkFee: 20000000000000000000,
+        networkFeeUsd: 20,
+        basisPoints: {
+          nativeToHost: 10,
+          nativeToNative: 25,
+        },
+        minNodeOperatorFee: 10000000000000000000,
+        minNodeOperatorFeeUsd: 10,
+      },
+    },
+    {
+      chainId: '0x02f9337d',
+      isNative: false,
+      vaultAddress: null,
+      identity: 'Not set!',
+      tokenReference: 'fefa7044416b10b2b1458bec31f3aea1ada41398',
+      tokenAddress: 'usdt.ptokens',
+      tokenDecimals: 6,
+      fees: {
+        networkFee: 0,
+        networkFeeUsd: 0,
+        basisPoints: {
+          hostToHost: 10,
+          hostToNative: 25,
+        },
+        minNodeOperatorFee: 10000000000000000000,
+        minNodeOperatorFeeUsd: 10,
+      },
+    },
+  ],
+  eth: [
+    {
+      chainId: '0x005fe7f9',
+      isNative: true,
+      vaultAddress: 'e396757ec7e6ac7c8e5abe7285dde47b98f22db8',
+      identity: '341aa660fd5c280f5a9501e3822bb4a98e816d1b',
+      tokenReference: '0xbc6f2df529fcda4856f4d311c8c5307563c16654',
+      tokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+      tokenDecimals: 18,
+      fees: {
+        networkFee: 6939625260234000,
+        networkFeeUsd: 20,
+        basisPoints: {
+          nativeToHost: 10,
+          nativeToNative: 25,
+        },
+        minNodeOperatorFee: 3469812630117000,
+        minNodeOperatorFeeUsd: 10,
+      },
+    },
+    {
+      chainId: '0x02e7261c',
+      isNative: false,
+      vaultAddress: null,
+      identity: 'Not set!',
+      tokenReference: 'bc6f2df529fcda4856f4d311c8c5307563c16654',
+      tokenAddress: 'eth.ptokens',
+      tokenDecimals: 9,
+      fees: {
+        networkFee: 0,
+        networkFeeUsd: 0,
+        basisPoints: {
+          hostToHost: 10,
+          hostToNative: 25,
+        },
+        minNodeOperatorFee: 3469812630117000,
+        minNodeOperatorFeeUsd: 10,
+      },
+    },
+    {
+      chainId: '0x028c7109',
+      isNative: false,
+      vaultAddress: null,
+      identity: 'Not set!',
+      tokenReference: 'bc6f2df529fcda4856f4d311c8c5307563c16654',
+      tokenAddress: 'eth.ptokens',
+      tokenDecimals: 9,
+      fees: {
+        networkFee: 0,
+        networkFeeUsd: 0,
+        basisPoints: {
+          hostToHost: 10,
+          hostToNative: 25,
+        },
+        minNodeOperatorFee: 3469812630117000,
+        minNodeOperatorFeeUsd: 10,
+      },
+    },
+    {
+      chainId: '0x02f9337d',
+      isNative: false,
+      vaultAddress: null,
+      identity: 'Not set!',
+      tokenReference: 'bc6f2df529fcda4856f4d311c8c5307563c16654',
+      tokenAddress: 'eth.ptokens',
+      tokenDecimals: 9,
+      fees: {
+        networkFee: 0,
+        networkFeeUsd: 0,
+        basisPoints: {
+          hostToHost: 10,
+          hostToNative: 25,
+        },
+        minNodeOperatorFee: 3469812630117000,
+        minNodeOperatorFeeUsd: 10,
+      },
+    },
+  ],
 }
 
 export { pTokensNode } from '@p.network/ptokens-node'
@@ -273,6 +528,14 @@ export class pTokensNodeProvider {
         return Promise.resolve(supported.zmt)
       } else if (_params[0].toLowerCase().endsWith('usdc')) {
         return Promise.resolve(supported.usdc)
+      } else if (_params[0].toLowerCase().endsWith('aga')) {
+        return Promise.resolve(supported.aga)
+      } else if (_params[0].toLowerCase().endsWith('borg')) {
+        return Promise.resolve(supported.borg)
+      } else if (_params[0].toLowerCase().endsWith('usdt')) {
+        return Promise.resolve(supported.usdt)
+      } else if (_params[0].toLowerCase().endsWith('eth')) {
+        return Promise.resolve(supported.eth)
       }
     }
   }
