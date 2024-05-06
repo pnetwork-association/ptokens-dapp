@@ -78,14 +78,20 @@ describe('swap', () => {
     })
   })
 
-  it('Should peg-out pUOS on Ultra', async () => {
+  test.each([
+    ['PUOS_ON_ULTRA_MAINNET', 'UOS', '100.00000000 UOS'],
+    ['PAGA_ON_ULTRA_MAINNET', 'AGA', '100.000000000 AGA'],
+    ['PBORG_ON_ULTRA_MAINNET', 'BORG', '100.000000000 BORG'],
+    ['PUSDT_ON_ULTRA_MAINNET', 'USDT', '100.000000 USDT'],
+    ['PETH_ON_ULTRA_MAINNET', 'ETH', '100.000000000 ETH'],
+  ])('Should peg-out %s on Ultra', async (_from, _to, _quantity, _setAmount) => {
     vi.spyOn(wallets, 'getWallets').mockReturnValue({ ultra: { provider: undefined, account: 'sender' }, eth: {} })
     const pegoutSpy = vi.spyOn(pegout, 'default').mockResolvedValue()
     const addDestinationAssetSpy = vi.spyOn(pTokensSwapBuilder.prototype, 'addDestinationAsset')
     const setAmountSpy = vi.spyOn(pTokensSwapBuilder.prototype, 'setAmount')
     const setCustomActionsSpy = vi.spyOn(pTokensEosioAsset.prototype, 'setCustomActions')
-    const from = assets.find((_el) => _el.id === 'PUOS_ON_ULTRA_MAINNET')
-    const to = assets.find((_el) => _el.id === 'UOS')
+    const from = assets.find((_el) => _el.id === _from)
+    const to = assets.find((_el) => _el.id === _to)
     const amount = '100'
     const address = '0xF39d30Fa570db7940e5b3A3e42694665A1449E4B'
     const f = swap(from, to, amount, address)
@@ -100,7 +106,7 @@ describe('swap', () => {
         arguments: {
           from: 'sender',
           memo: '0xF39d30Fa570db7940e5b3A3e42694665A1449E4B',
-          quantity: '100.00000000 UOS',
+          quantity: _quantity,
           to: 'ultra.swap',
         },
         contractAddress: 'eosio.token',
@@ -140,6 +146,41 @@ describe('swap', () => {
       1,
       expect.anything(),
       '0xF39d30Fa570db7940e5b3A3e42694665A1449E4B'
+    )
+    expect(peginWithWalletSpy).toHaveBeenCalledTimes(1)
+    expect(peginWithWalletSpy).toHaveBeenNthCalledWith(1, {
+      swap: expect.any(pTokensSwap),
+      ptokenFrom: from,
+      ptokenTo: to,
+      dispatch,
+    })
+  })
+
+  test.each([
+    ['ETH', 'PETH_ON_ULTRA_MAINNET'],
+    ['AGA', 'PAGA_ON_ULTRA_MAINNET'],
+    ['BORG', 'PBORG_ON_ULTRA_MAINNET'],
+    ['USDT', 'PUSDT_ON_ULTRA_MAINNET'],
+    ['UOS', 'PUOS_ON_ULTRA_MAINNET'],
+  ])('Should peg-in % to Ultra', async (_from, _to) => {
+    const peginWithWalletSpy = vi.spyOn(peginWithWallet, 'default').mockResolvedValue()
+    const addDestinationAssetSpy = vi.spyOn(pTokensSwapBuilder.prototype, 'addDestinationAsset')
+    const setAmountSpy = vi.spyOn(pTokensSwapBuilder.prototype, 'setAmount')
+    const from = assets.find((_el) => _el.id === _from)
+    const to = assets.find((_el) => _el.id === _to)
+    const amount = '1000'
+    const address = 'pnettestacnt'
+    const f = swap(from, to, amount, address)
+    const dispatch = vi.fn()
+    await f(dispatch)
+    expect(setAmountSpy).toHaveBeenCalledTimes(1)
+    expect(setAmountSpy).toHaveBeenNthCalledWith(1, '1000')
+    expect(addDestinationAssetSpy).toHaveBeenCalledTimes(1)
+    expect(addDestinationAssetSpy).toHaveBeenNthCalledWith(
+      1,
+      expect.anything(),
+      'ultra.swap',
+      '0x706e65747465737461636e74'
     )
     expect(peginWithWalletSpy).toHaveBeenCalledTimes(1)
     expect(peginWithWalletSpy).toHaveBeenNthCalledWith(1, {
