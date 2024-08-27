@@ -19,7 +19,7 @@
   "dependencies": {
     "@blockshake/defly-connect": "^1.1.5",
     "@changesets/cli": "^2.27.1",
-    "@curvefi/api": "2.30.0",
+    "@curvefi/api": "^2.30.0",
     "@json-rpc-tools/utils": "^1.7.6",
     "@libre-chain/libre-link": "^3.5.0",
     "@libre-chain/libre-link-browser-transport": "^3.4.2",
