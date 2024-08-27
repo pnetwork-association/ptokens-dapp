@@ -319,7 +319,21 @@ const useSwap = ({
         return
       }
 
-      if (from.id === 'GALA' && to.id === 'GALA_ON_BSC_MAINNET') {
+      if (
+        (from.id === 'GALA' && to.id === 'GALA_ON_BSC_MAINNET') ||
+        (from.id === '$ANRX' && to.id === '$ANRX_ON_BSC_MAINNET') ||
+        (from.id === 'BTC' && to.id === 'PBTC_ON_ARBITRUM_MAINNET') ||
+        (from.id === 'PNT_ON_ETH_MAINNET' && to.id === 'PNT_ON_ARBITRUM_MAINNET') ||
+        (from.id === 'ETHPNT_ON_ETH_MAINNET' && to.id === 'PNT_ON_ARBITRUM_MAINNET') ||
+        (from.id === 'IQ' && to.id === 'IQ_ON_ETH_MAINNET') ||
+        (from.id === 'KEYS' && to.id === 'PKEYS_ON_BSC_MAINNET') ||
+        (from.id === 'LUXO' && to.id === 'LUXO_ON_BSC_MAINNET') ||
+        (from.id === 'OPEN' && to.id === 'POPEN_ON_BSC_MAINNET') ||
+        (from.id === 'OPIUM' && to.id === 'POPIUM_ON_BSC_MAINNET') ||
+        (from.id === 'PTERIA' && to.id === 'PTERIA_ON_BSC_MAINNET') ||
+        (from.id === 'SEEDS' && to.id === 'PSEEDS_ON_ETH_MAINNET') ||
+        (from.id === 'ZMT' && to.id === 'ZMT_ON_BSC_MAINNET')
+      ) {
         updateSwapButton('Disabled Swap', true)
         return
       }
