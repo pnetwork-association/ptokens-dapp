@@ -4,6 +4,12 @@
 
 ### Minor Changes
 
+- 18f718e: Disable pegins for $ANRX BTC PNT IQ KEYS LUXO OPEN OPIUM PTERIA SEED ZMT
+
+## 1.26.0
+
+### Minor Changes
+
 - ff36343: Disable pegins for $ANRX BTC PNT IQ KEYS LUXO OPEN OPIUM PTERIA SEED ZMT
 
 ## 1.25.0
