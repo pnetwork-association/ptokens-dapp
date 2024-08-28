@@ -4,7 +4,32 @@ version: v1.25.0
 ignore:
   SNYK-JS-WEB3UTILS-6229337:
     - '*':
-        reason: Not currently expoitable - fix planned
-        expires: 2024-05-04T00:00:00.000Z
+        reason: will be fixed in v4 - fix planned
+        expires: 2024-09-04T00:00:00.000Z
         created: 2024-04-04T11:30:11.068Z
+  SNYK-JS-WS-7266574:
+    - '*':
+        reason: will be fixed in v4 - fix planned
+        expires: 2024-09-04T00:00:00.000Z
+        created: 2024-08-28T11:30:11.068Z
+  SNYK-JS-ELLIPTIC-7577916:
+    - '*':
+        reason: Will be fixed in v4 - fix planned
+        expires: 2024-09-04T00:00:00.000Z
+        created: 2024-08-28T11:30:11.068Z
+  SNYK-JS-ELLIPTIC-7577917:
+    - '*':
+        reason: Will be fixed in v4 - fix planned
+        expires: 2024-09-04T00:00:00.000Z
+        created: 2024-08-28T11:30:11.068Z
+  SNYK-JS-ELLIPTIC-7577918:
+    - '*':
+        reason: Will be fixed in v4 - fix planned
+        expires: 2024-09-04T00:00:00.000Z
+        created: 2024-08-28T11:30:11.068Z
+  SNYK-JS-MICROMATCH-6838728:
+    - '*':
+        reason: Will be fixed in v4 - fix planned
+        expires: 2024-09-04T00:00:00.000Z
+        created: 2024-08-28T11:30:11.068Z
 patch: {}

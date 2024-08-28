@@ -450,8 +450,20 @@ const Swap = ({
                   direct control (i.e. not a CEX deposit address).
                 </InfoEta>
               ) : null}
-              {from && from.id === 'GALA' && to && to.id === 'GALA_ON_BSC_MAINNET' ? (
-                <InfoEta>GALA pegin are disabled.</InfoEta>
+              {(from && from.id === 'GALA' && to && to.id === 'GALA_ON_BSC_MAINNET') ||
+              (from && from.id === '$ANRX' && to && to.id === '$ANRX_ON_BSC_MAINNET') ||
+              (from && from.id === 'BTC' && to && to.id === 'PBTC_ON_ARBITRUM_MAINNET') ||
+              (from && from.id === 'PNT_ON_ETH_MAINNET' && to && to.id === 'PNT_ON_ARBITRUM_MAINNET') ||
+              (from && from.id === 'ETHPNT_ON_ETH_MAINNET' && to && to.id === 'PNT_ON_ARBITRUM_MAINNET') ||
+              (from && from.id === 'IQ' && to && to.id === 'IQ_ON_ETH_MAINNET') ||
+              (from && from.id === 'KEYS' && to && to.id === 'PKEYS_ON_BSC_MAINNET') ||
+              (from && from.id === 'LUXO' && to && to.id === 'LUXO_ON_BSC_MAINNET') ||
+              (from && from.id === 'OPEN' && to && to.id === 'POPEN_ON_BSC_MAINNET') ||
+              (from && from.id === 'OPIUM' && to && to.id === 'POPIUM_ON_BSC_MAINNET') ||
+              (from && from.id === 'PTERIA' && to && to.id === 'PTERIA_ON_BSC_MAINNET') ||
+              (from && from.id === 'SEEDS' && to && to.id === 'PSEEDS_ON_ETH_MAINNET') ||
+              (from && from.id === 'ZMT' && to && to.id === 'ZMT_ON_BSC_MAINNET') ? (
+                <WarningEta>{`${to.name} on ${to.blockchain} has been dismissed and pegins are disabled. Pegouts are available until 09/30/2024`}</WarningEta>
               ) : null}
               {to &&
               (to.id === 'PUSDC_ON_ALGORAND_MAINNET' ||
