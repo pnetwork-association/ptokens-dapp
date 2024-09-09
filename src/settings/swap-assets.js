@@ -2,7 +2,7 @@ import { ChainId } from '@p.network/ptokens-constants'
 
 export const disabledAssets = [
   'GALA_ON_BSC_MAINNET',
-  'ANRX_ON_BSC_MAINNET',
+  '$ANRX_ON_BSC_MAINNET',
   'PBTC_ON_ARBITRUM_MAINNET',
   'PBTC_ON_LIBRE_MAINNET',
   'PBTC_ON_TELOS_MAINNET',
