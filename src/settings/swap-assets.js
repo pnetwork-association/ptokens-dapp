@@ -1,5 +1,28 @@
 import { ChainId } from '@p.network/ptokens-constants'
 
+export const disabledAssets = [
+  'GALA_ON_BSC_MAINNET',
+  'ANRX_ON_BSC_MAINNET',
+  'PBTC_ON_ARBITRUM_MAINNET',
+  'PBTC_ON_LIBRE_MAINNET',
+  'PBTC_ON_TELOS_MAINNET',
+  'PNT_ON_ARBITRUM_MAINNET',
+  'IQ_ON_ETH_MAINNET',
+  'PKEYS_ON_BSC_MAINNET',
+  'LUXO_ON_BSC_MAINNET',
+  'POPEN_ON_BSC_MAINNET',
+  'POPIUM_ON_BSC_MAINNET',
+  'PTERIA_ON_BSC_MAINNET',
+  'PSEEDS_ON_ETH_MAINNET',
+  'TLOS_ON_ETH_MAINNET',
+  'TLOS_ON_BSC_MAINNET',
+  'PUSDT_ON_LIBRE_MAINNET',
+  'PUSDT_ON_TELOS_MAINNET',
+  'PETH_ON_TELOS_MAINNET',
+  'NUCO_ON_TELOS_MAINNET',
+  'ZMT_ON_BSC_MAINNET',
+]
+
 const swapAssets = [
   /* #################   pTokens   #################*/
   {
