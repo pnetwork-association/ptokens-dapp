@@ -1,5 +1,11 @@
 # ptokens-dapp-v2
 
+## 1.27.0
+
+### Minor Changes
+
+- 74bc631: disable unsupported tokens
+
 ## 1.26.0
 
 ### Minor Changes
