@@ -1,5 +1,11 @@
 # ptokens-dapp-v2
 
+## 1.27.1
+
+### Patch Changes
+
+- 7367d63: fix ANRX id name
+
 ## 1.27.0
 
 ### Minor Changes
