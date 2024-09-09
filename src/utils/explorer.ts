@@ -2,56 +2,30 @@ import { Chain, Protocol } from '@p.network/ptokens-constants'
 
 import settings from '../settings'
 
-const transactionBaseLink: Record<Blockchain, string> = {
-  [Blockchain.Gnosis]: `${settings.explorers[Network.Mainnet][Blockchain.Gnosis]}tx/`,
-  [Blockchain.Arbitrum]: `${settings.explorers[Network.Mainnet][Blockchain.Arbitrum]}tx/`,
-  [Blockchain.Ethereum]: `${settings.explorers[Network.Mainnet][Blockchain.Ethereum]}tx/`,
-  [Blockchain.Sepolia]: '',
-  [Blockchain.Goerli]: '',
-  [Blockchain.Bitcoin]: '',
-  [Blockchain.Eos]: '',
-  [Blockchain.Telos]: '',
-  [Blockchain.Bsc]: `${settings.explorers[Network.Mainnet][Blockchain.Bsc]}tx/`,
-  [Blockchain.Xdai]: '',
-  [Blockchain.Polygon]: `${settings.explorers[Network.Mainnet][Blockchain.Polygon]}tx/`,
-  [Blockchain.Ultra]: '',
-  [Blockchain.Fio]: '',
-  [Blockchain.Luxochain]: '',
-  [Blockchain.Fantom]: '',
-  [Blockchain.Algorand]: '',
-  [Blockchain.Libre]: '',
-  [Blockchain.Litecoin]: ''
+const transactionBaseLink: Record<Chain, string> = {
+  [Chain.GnosisMainnet]: `${settings.explorers[Protocol.EVM][Chain.GnosisMainnet]}tx/` + '',
+  [Chain.EthereumMainnet]: `${settings.explorers[Protocol.EVM][Chain.EthereumMainnet]}tx/`,
+  [Chain.BscMainnet]: `${settings.explorers[Protocol.EVM][Chain.BscMainnet]}tx/`,
+  [Chain.PolygonMainnet]: `${settings.explorers[Protocol.EVM][Chain.PolygonMainnet]}tx/`,
+  [Chain.EosMainnet]: `${settings.explorers[Protocol.EVM][Chain.EosMainnet]}tx/` // FIXME check EOS explorer url
 }
 
-const tokenBaseLink: Record<Blockchain, string> = {
-  [Blockchain.Gnosis]: `${settings.explorers[Network.Mainnet][Blockchain.Gnosis]}address/`,
-  [Blockchain.Arbitrum]: `${settings.explorers[Network.Mainnet][Blockchain.Arbitrum]}token/`,
-  [Blockchain.Ethereum]: `${settings.explorers[Network.Mainnet][Blockchain.Ethereum]}token/`,
-  [Blockchain.Sepolia]: '',
-  [Blockchain.Goerli]: '',
-  [Blockchain.Bitcoin]: '',
-  [Blockchain.Eos]: '',
-  [Blockchain.Telos]: '',
-  [Blockchain.Bsc]: `${settings.explorers[Network.Mainnet][Blockchain.Bsc]}token/`,
-  [Blockchain.Xdai]: '',
-  [Blockchain.Polygon]: `${settings.explorers[Network.Mainnet][Blockchain.Polygon]}address/`,
-  [Blockchain.Ultra]: '',
-  [Blockchain.Fio]: '',
-  [Blockchain.Luxochain]: '',
-  [Blockchain.Fantom]: '',
-  [Blockchain.Algorand]: '',
-  [Blockchain.Libre]: '',
-  [Blockchain.Litecoin]: ''
+const tokenBaseLink: Record<Chain, string> = {
+  [Chain.GnosisMainnet]: `${settings.explorers[Protocol.EVM][Chain.GnosisMainnet]}address/`,
+  [Chain.EthereumMainnet]: `${settings.explorers[Protocol.EVM][Chain.EthereumMainnet]}token/`,
+  [Chain.BscMainnet]: `${settings.explorers[Protocol.EVM][Chain.BscMainnet]}token/`,
+  [Chain.PolygonMainnet]: `${settings.explorers[Protocol.EVM][Chain.PolygonMainnet]}address/`,
+  [Chain.EosMainnet]: `${settings.explorers[Protocol.EVM][Chain.EosMainnet]}token/`
 }
 
-const getCorrespondingTxExplorerLinkByBlockchain = (_blockchain: Blockchain, _hash: string) => {
-  const baseLink = transactionBaseLink[_blockchain]
+const getCorrespondingTxExplorerLinkByBlockchain = (_chain: Chain, _hash: string) => {
+  const baseLink = transactionBaseLink[_chain]
   const encodedHash = encodeURIComponent(_hash)
   return `${baseLink}${encodedHash}`
 }
 
-const getCorrespondingTokenExplorerLinkByBlockchain = (_blockchain: Blockchain, _address: string) => {
-  const baseLink = tokenBaseLink[_blockchain]
+const getCorrespondingTokenExplorerLinkByBlockchain = (_chain: Chain, _address: string) => {
+  const baseLink = tokenBaseLink[_chain]
   const encodedHash = encodeURIComponent(_address)
   return `${baseLink}${encodedHash}`
 }
