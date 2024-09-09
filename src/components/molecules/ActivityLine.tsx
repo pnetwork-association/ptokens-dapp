@@ -6,8 +6,8 @@ import { RiFileCopyLine, RiExternalLinkLine  } from "react-icons/ri"
 import { useEffect, useState } from "react"
 import { getPublicClient } from "wagmi/actions"
 import { getChainByNetworkId } from "../../constants/swap-chains"
-import { EVENT_NAMES, getOperationChallengePeriod, getOperationStatus, pTokensEvmProvider } from "ptokens-assets-evm"
-import { INTERIM_CHAIN_NETWORK_ID } from "ptokens-constants"
+import { EVENT_NAMES, getOperationChallengePeriod, getOperationStatus, pTokensEvmProvider } from "@p.network/ptokens-assets-evm"
+import { INTERIM_CHAIN_NETWORK_ID } from "@p.network/ptokens-constants"
 import { formatDistanceToNow, differenceInMinutes, isPast } from 'date-fns'
 import { getCorrespondingTxExplorerLinkByBlockchain } from "../../utils/explorer"
 

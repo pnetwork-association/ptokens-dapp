@@ -1,7 +1,7 @@
 import { getPublicClient } from "wagmi/actions"
 import { getChainByNetworkId, getNetworkIdByChainId } from "../../../constants/swap-chains"
-import { NetworkId } from "ptokens-constants"
-import { getEvmHubAddress, getOperationIdFromLog, pTokensEvmProvider, operationEvents, EVENT_NAMES } from 'ptokens-assets-evm'
+import { NetworkId } from "@p.network/ptokens-constants"
+import { getEvmHubAddress, getOperationIdFromLog, pTokensEvmProvider, operationEvents, EVENT_NAMES } from '@p.network/ptokens-assets-evm'
 import { PublicClient } from "wagmi"
 
 // export const operationEventsAbi = eventsAbi.filter((event) => Object.values(EVENT_NAMES).includes(event.name as EVENT_NAMES))

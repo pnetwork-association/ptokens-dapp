@@ -1,5 +1,5 @@
 import { Dispatch, ReactNode, SetStateAction, createContext, useState } from 'react'
-import { pTokensAsset } from 'ptokens-entities'
+import { pTokensAsset } from '@p.network/ptokens-entities'
 import { Chain } from '../constants/swap-chains'
 import { defaults } from '../constants/defaults'
 

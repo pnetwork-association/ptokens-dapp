@@ -1,4 +1,4 @@
-import { pTokensAsset } from "ptokens-entities"
+import { pTokensAsset } from "@p.network/ptokens-entities"
 
 import { TProgressContext } from "../../ContextProvider"
 import { getSwapBuilder } from "../../../utils/ptokens"

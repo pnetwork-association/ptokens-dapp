@@ -1,5 +1,5 @@
-import { SwapResult, pTokensAsset } from 'ptokens-entities'
-import { pTokensSwap } from 'ptokens-swap'
+import { SwapResult, pTokensAsset } from '@p.network/ptokens-entities'
+import { pTokensSwap } from '@p.network/ptokens-swap'
 import { erc20ABI } from 'wagmi'
 import { getPublicClient } from 'wagmi/actions'
 

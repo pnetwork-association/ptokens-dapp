@@ -1,13 +1,12 @@
-import { pTokensEvmAssetBuilder, pTokensEvmProvider } from 'ptokens-assets-evm'
-import { BlockchainType, networkIdToTypeMap } from 'ptokens-constants'
-import { pTokensSwapBuilder } from 'ptokens-swap'
+import { pTokensEvmAssetBuilder, pTokensEvmProvider } from '@p.network/ptokens-assets-evm'
+import { BlockchainType } from '@p.network/ptokens-constants'
 import { getPublicClient } from 'wagmi/actions'
 
 import { getFactoryAddressByBlockchain } from '../settings'
 import swapAssets, { Asset, NativeAsset, isNative } from '../constants/swap-assets'
 import { AssetId } from '../constants'
 import { getBlockchain } from './utils'
-import { pTokensAsset } from 'ptokens-entities'
+import { pTokensAsset } from '@p.network/ptokens-entities'
 
 const getAssetBuilder = async (_asset: Asset) => {
   if (networkIdToTypeMap.get(_asset.networkId) === BlockchainType.EVM) {

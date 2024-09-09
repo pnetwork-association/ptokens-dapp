@@ -1,5 +1,5 @@
-import { Blockchain } from "ptokens-constants"
-import { pTokensAsset } from "ptokens-entities"
+import { Blockchain } from "@p.network/ptokens-constants"
+import { pTokensAsset } from "@p.network/ptokens-entities"
 import { RiFileCopyLine } from 'react-icons/ri'
 
 import { Asset, NativeAsset, isNative } from "../../constants/swap-assets"

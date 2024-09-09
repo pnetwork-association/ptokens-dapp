@@ -1,5 +1,5 @@
 import { ChainId } from '.'
-import { Blockchain, Network, NetworkId } from 'ptokens-constants'
+import { Blockchain, Network, NetworkId } from '@p.network/ptokens-constants'
 
 export type Chain = {
   id: ChainId

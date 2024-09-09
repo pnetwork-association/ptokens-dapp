@@ -1,6 +1,6 @@
 import { FaChevronDown } from "react-icons/fa"
 import swapChains, { Chain, getChainByBlockchain } from "../../constants/swap-chains"
-import { Blockchain } from "ptokens-constants"
+import { Blockchain } from "@p.network/ptokens-constants"
 import cn from 'classnames'
 import { Asset, assetsHaveMatches } from "../../constants/swap-assets"
 

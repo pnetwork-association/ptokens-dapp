@@ -1,7 +1,6 @@
-import { SwapResult, pTokensAsset } from 'ptokens-entities'
-import { pTokensSwap } from 'ptokens-swap'
+import { SwapResult, pTokensAsset } from '@p.network/ptokens-entities'
 import { getPublicClient } from 'wagmi/actions'
-import { Blockchain } from 'ptokens-constants'
+import { Blockchain } from '@p.network/ptokens-constants'
 import { erc20ABI } from 'wagmi'
 
 import { getCorrespondingTxExplorerLinkByBlockchain } from '../../../utils/explorer'

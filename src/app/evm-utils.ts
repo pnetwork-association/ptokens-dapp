@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { stringUtils } from 'ptokens-helpers'
+import { stringUtils } from '@p.network/ptokens-helpers'
 import { Abi } from 'viem'
 import { getAccount, getContract, getWalletClient } from 'wagmi/actions'
 

@@ -3,13 +3,13 @@ import { useContext, useEffect, useState } from "react"
 import { useAccount } from 'wagmi'
 import { getWalletClient } from "wagmi/actions"
 import { isAddress, WalletClient } from 'viem'
-import { pTokensEvmAsset } from "ptokens-assets-evm"
+import { pTokensEvmAsset } from "@p.network/ptokens-assets-evm"
+import { BlockchainType, NetworkId, networkIdToTypeMap } from "@p.network/ptokens-constants"
 import cn from "classnames"
 
 import { swap } from "../../app/features/swap/swap"
 import { PTokenAssetsContext, ProgressContext, SwapContext, WalletContext } from "../../app/ContextProvider"
 import { getChainByBlockchain } from "../../constants/swap-chains"
-import { BlockchainType, NetworkId, networkIdToTypeMap } from "ptokens-constants"
 
 
 const CONNECT_WALLET = 'Connect Wallet'

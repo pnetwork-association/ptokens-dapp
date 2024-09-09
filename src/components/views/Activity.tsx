@@ -7,7 +7,7 @@ import Container from '../atoms/Container'
 import { useEvents } from '../../hooks/use-logs'
 import { useEffect, useState } from 'react'
 import { getAccount } from 'wagmi/actions'
-import { EVENT_NAMES } from 'ptokens-assets-evm'
+import { EVENT_NAMES } from '@p.network/ptokens-assets-evm'
 
 const Activity = (): JSX.Element => {
   const { chain } = useNetwork()

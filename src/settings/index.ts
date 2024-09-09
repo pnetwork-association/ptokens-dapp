@@ -1,5 +1,5 @@
-import { Blockchain, Network } from 'ptokens-constants'
-import { getWeb3Settings } from 'react-web3-settings'
+import { Chain, Protocol } from '@p.network/ptokens-constants'
+import { getWeb3Settings } from '@p.network/react-web3-settings'
 
 interface ISettings {
   dappName: string

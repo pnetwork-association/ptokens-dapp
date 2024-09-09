@@ -7,7 +7,7 @@ import {
   useSwitchNetwork,
 } from 'wagmi'
 import { RiCheckLine, RiArrowDownSLine } from 'react-icons/ri'
-import { Blockchain } from 'ptokens-constants'
+import { Blockchain } from '@p.network/ptokens-constants'
 
 import swapChains, { Chain } from '../../../constants/swap-chains'
 import { getPrettierAddress } from '../../../utils/utils'

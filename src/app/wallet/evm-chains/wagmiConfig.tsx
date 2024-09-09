@@ -1,11 +1,7 @@
 import { configureChains, createConfig } from 'wagmi'
 import { mainnet, bsc, gnosis, polygon } from '@wagmi/core/chains'
-import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
-import { getWeb3Settings } from 'react-web3-settings'
-import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-import { Blockchain, Network } from 'ptokens-constants'
+import { getWeb3Settings } from '@p.network/react-web3-settings'
+import { Chain } from '@p.network/ptokens-constants'
 
 import settings from '../../../settings'
 

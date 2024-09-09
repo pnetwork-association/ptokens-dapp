@@ -2,7 +2,7 @@ import cn from "classnames"
 import { Asset } from "../../constants/swap-assets"
 import AssetBlock from "../molecules/AssetBlock"
 import { useState } from "react"
-import { pTokensAsset } from "ptokens-entities"
+import { pTokensAsset } from "@p.network/ptokens-entities"
 
 type AssetsModalProps = {
   setAsset: (arg0: Asset) => void

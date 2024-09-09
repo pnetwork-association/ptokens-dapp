@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { EVENT_NAMES } from 'ptokens-assets-evm'
+import { EVENT_NAMES } from '@p.network/ptokens-assets-evm'
 import { useEffect, useState, useRef } from 'react'
 
 import { retreiveLogs } from '../app/features/activity/activity-utils'

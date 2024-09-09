@@ -1,8 +1,8 @@
-import { Blockchain } from 'ptokens-constants'
+import { Blockchain } from '@p.network/ptokens-constants'
 import swapAssets, { getAllNativeAssets, isHost, isNative } from '../../constants/swap-assets'
 import { Asset, HostAsset } from '../../constants/swap-assets'
 import { getChainByBlockchain } from '../../constants/swap-chains'
-import { pTokensAsset } from 'ptokens-entities'
+import { pTokensAsset } from '@p.network/ptokens-entities'
 
 type AssetBoxProps = {
   setAsset: (arg0: Asset) => void

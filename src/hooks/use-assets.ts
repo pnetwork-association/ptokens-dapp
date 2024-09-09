@@ -1,7 +1,7 @@
 // import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { pTokensAsset } from 'ptokens-entities'
+import { pTokensAsset } from '@p.network/ptokens-entities'
 
 // import { AssetId } from '../constants'
 import { Asset, UpdatedAsset, isNative } from '../constants/swap-assets'

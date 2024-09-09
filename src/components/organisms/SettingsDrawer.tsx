@@ -1,5 +1,5 @@
-import { Blockchain, FactoryAddress, Network, NetworkId } from 'ptokens-constants'
-import { Web3SettingsProvider } from 'react-web3-settings'
+import { Blockchain, FactoryAddress, Network, NetworkId } from '@p.network/ptokens-constants'
+import { Web3SettingsProvider } from '@p.network/react-web3-settings'
 import React from 'react'
 
 import settings from '../../settings'

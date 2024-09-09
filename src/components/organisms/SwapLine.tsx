@@ -1,7 +1,7 @@
 import { RiArrowDownSLine } from "react-icons/ri"
 import { useContext, useEffect, useState } from "react"
 import { useBalance, useAccount } from 'wagmi'
-import { pTokensAsset } from "ptokens-entities"
+import { pTokensAsset } from "@p.network/ptokens-entities"
 import cn from "classnames"
 import { createPortal } from 'react-dom'
 

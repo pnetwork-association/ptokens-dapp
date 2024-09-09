@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { Blockchain, Network, NetworkId } from 'ptokens-constants'
+import { Chain } from '@p.network/ptokens-constants'
 
 import { AssetId } from '.'
 

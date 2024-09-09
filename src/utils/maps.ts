@@ -1,4 +1,4 @@
-import { Blockchain } from 'ptokens-constants'
+import { Blockchain } from '@p.network/ptokens-constants'
 
 import { Asset } from '../constants/swap-assets'
 

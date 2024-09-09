@@ -1,4 +1,4 @@
-import { Blockchain, Network } from 'ptokens-constants'
+import { Chain, Protocol } from '@p.network/ptokens-constants'
 
 import settings from '../settings'
 

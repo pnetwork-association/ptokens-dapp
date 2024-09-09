@@ -1,7 +1,7 @@
 import { Asset, getAssetById } from "./swap-assets"
 import { AssetId } from "."
 import { Chain, getChainByBlockchain } from "./swap-chains"
-import { Blockchain } from "ptokens-constants"
+import { Blockchain } from "@p.network/ptokens-constants"
 
 export const defaults = {
   originAsset: getAssetById(AssetId.PNT_ON_BSC_MAINNET) as Asset,
