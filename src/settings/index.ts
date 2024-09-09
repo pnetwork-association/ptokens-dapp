@@ -5,8 +5,8 @@ interface ISettings {
   dappName: string
   links: Record<string, string>
   supportedBlockchains: Array<{ name: string; symbol: string }>
-  rpc: Record<number, Record<number, { endpoint: string; chainId: number }>>
-  explorers: Record<number, Record<number, string>>
+  rpc: Record<Protocol, Partial<Record<Chain, { endpoint: string; chainId?: string }>>>
+  explorers: Record<Protocol, Partial<Record<Chain, string>>>
 }
 
 const settings: ISettings = {
@@ -22,72 +22,66 @@ const settings: ISettings = {
   },
   supportedBlockchains: [
     {
-      name: 'gnosis',
-      symbol: 'GNOSIS',
-    },
-    {
-      name: 'Arbitrum',
-      symbol: 'ARBITRUM',
+      name: 'mainnet',
+      symbol: 'MAINNET',
     },
     {
       name: 'Bsc',
       symbol: 'BSC',
     },
-    {
-      name: 'Polygon',
-      symbol: 'POLYGON',
-    },
   ],
   rpc: {
-    [Network.Mainnet]: {
-      [Blockchain.Gnosis]: {
+    [Protocol.EVM]: {
+      [Chain.GnosisMainnet]: {
         endpoint: 'https://rpc.gnosischain.com/',
-        chainId: 100,
+        chainId: Chain.GnosisMainnet,
       },
-      [Blockchain.Ethereum]: {
+      [Chain.EthereumMainnet]: {
         endpoint: 'https://ethereum.publicnode.com',
-        chainId: 1,
+        chainId: Chain.EthereumMainnet,
       },
-      [Blockchain.Arbitrum]: {
-        endpoint: 'https://arb1.arbitrum.io/rpc',
-        chainId: 42161,
-      },
-      [Blockchain.Bsc]: {
+      [Chain.BscMainnet]: {
         endpoint: 'https://endpoints.omniatech.io/v1/bsc/mainnet/public',
-        chainId: 56,
+        chainId: Chain.BscMainnet,
       },
-      [Blockchain.Polygon]: {
+      [Chain.PolygonMainnet]: {
         endpoint: 'https://polygon-rpc.com/',
-        chainId: 137,
+        chainId: Chain.PolygonMainnet,
+      }
+    },
+    [Protocol.EOS]: {
+      [Chain.EosMainnet]: {
+        endpoint: 'https://bloks.io/',
+        chainId: Chain.EosMainnet,
       },
     },
-    [Network.Testnet]: {},
   },
   explorers: {
-    [Network.Mainnet]: {
-      [Blockchain.Gnosis]: 'https://gnosisscan.io/',
-      [Blockchain.Ethereum]: 'https://etherscan.io/',
-      [Blockchain.Arbitrum]: 'https://arbiscan.io/',
-      [Blockchain.Polygon]: 'https://polygonscan.com/',
-      [Blockchain.Bsc]: 'https://bscscan.com/',
+    [Protocol.EVM]: {
+      [Chain.GnosisMainnet]: 'https://gnosisscan.io/',
+      [Chain.EthereumMainnet]: 'https://etherscan.io/',
+      [Chain.PolygonMainnet]: 'https://polygonscan.com/',
+      [Chain.BscMainnet]: 'https://bscscan.com/'
     },
-    [Network.Testnet]: {},
+    [Protocol.EOS]: {
+      [Chain.EosMainnet]: 'https://bloks.io/'
+    },
   },
 }
 
-export const getFactoryAddressByBlockchain = (_blockchain: Blockchain, _network = Network.Mainnet) => {
-  const web3Settings = getWeb3Settings() as { factoryAddress: Record<Blockchain, string> }
-  switch (_blockchain) {
-    case Blockchain.Ethereum:
-      return web3Settings.factoryAddress[_blockchain]
-    case Blockchain.Gnosis:
-      return web3Settings.factoryAddress[_blockchain]
-    case Blockchain.Polygon:
-      return web3Settings.factoryAddress[_blockchain]
-    case Blockchain.Bsc:
-      return web3Settings.factoryAddress[_blockchain]
+export const getAdapterAddressByBlockchain = (_chain: Chain) => {
+  const web3Settings = getWeb3Settings() as { adapterAddress: Record<Chain, string> }
+  switch (_chain) {
+    case Chain.EthereumMainnet:
+      return web3Settings.adapterAddress[_chain]
+    case Chain.GnosisMainnet:
+      return web3Settings.adapterAddress[_chain]
+    case Chain.PolygonMainnet:
+      return web3Settings.adapterAddress[_chain]
+    case Chain.BscMainnet:
+      return web3Settings.adapterAddress[_chain]
     default:
-      throw new Error(`Missing factory address for blockchain ${_blockchain}`)
+      throw new Error(`Missing factory address for blockchain ${_chain}`)
   }
 }
 
