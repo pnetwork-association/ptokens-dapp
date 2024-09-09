@@ -11,7 +11,7 @@ import { MAX_IMPACT, PBTC_ON_ETH_MAINNET_V1_MIGRATION, PUOS_ON_ULTRA_MAINNET } f
 import { sendEvent } from '../../../ga4'
 import { useAssets } from '../../../hooks/use-assets'
 import { useSwap } from '../../../hooks/use-swap'
-import defaultAssets from '../../../settings/swap-assets'
+import defaultAssets, { disabledAssets } from '../../../settings/swap-assets'
 import Button from '../../atoms/button/Button'
 import Icon from '../../atoms/icon/Icon'
 import Switch from '../../atoms/switch/Switch'
@@ -410,12 +410,18 @@ const Swap = ({
                   caution!
                 </InfoEta>
               ) : null}
-              {from && from.isNative && to && to && to.notifyDepositAddressWarning && (
-                <WarningEta>
-                  Please refrain from using previously generated deposit addresses, as doing so may result in a loss of
-                  funds.
-                </WarningEta>
-              )}
+              {from &&
+                from.isNative &&
+                to &&
+                to.notifyDepositAddressWarning &&
+                to.id !== 'PBTC_ON_ARBITRUM_MAINNET' &&
+                to.id !== 'PBTC_ON_TELOS_MAINNET' &&
+                to.id !== 'PBTC_ON_LIBRE_MAINNET' && (
+                  <WarningEta>
+                    Please refrain from using previously generated deposit addresses, as doing so may result in a loss
+                    of funds.
+                  </WarningEta>
+                )}
               {from && from.id === 'GALA_ON_BSC_MAINNET' && to && to.id === 'GALA' ? (
                 <InfoEta>
                   You are about to pegout (redeem){' '}
@@ -450,20 +456,8 @@ const Swap = ({
                   direct control (i.e. not a CEX deposit address).
                 </InfoEta>
               ) : null}
-              {(from && from.id === 'GALA' && to && to.id === 'GALA_ON_BSC_MAINNET') ||
-              (from && from.id === '$ANRX' && to && to.id === '$ANRX_ON_BSC_MAINNET') ||
-              (from && from.id === 'BTC' && to && to.id === 'PBTC_ON_ARBITRUM_MAINNET') ||
-              (from && from.id === 'PNT_ON_ETH_MAINNET' && to && to.id === 'PNT_ON_ARBITRUM_MAINNET') ||
-              (from && from.id === 'ETHPNT_ON_ETH_MAINNET' && to && to.id === 'PNT_ON_ARBITRUM_MAINNET') ||
-              (from && from.id === 'IQ' && to && to.id === 'IQ_ON_ETH_MAINNET') ||
-              (from && from.id === 'KEYS' && to && to.id === 'PKEYS_ON_BSC_MAINNET') ||
-              (from && from.id === 'LUXO' && to && to.id === 'LUXO_ON_BSC_MAINNET') ||
-              (from && from.id === 'OPEN' && to && to.id === 'POPEN_ON_BSC_MAINNET') ||
-              (from && from.id === 'OPIUM' && to && to.id === 'POPIUM_ON_BSC_MAINNET') ||
-              (from && from.id === 'PTERIA' && to && to.id === 'PTERIA_ON_BSC_MAINNET') ||
-              (from && from.id === 'SEEDS' && to && to.id === 'PSEEDS_ON_ETH_MAINNET') ||
-              (from && from.id === 'ZMT' && to && to.id === 'ZMT_ON_BSC_MAINNET') ? (
-                <WarningEta>{`${to.name} on ${to.blockchain} has been dismissed and pegins are disabled. Pegouts are available until 09/30/2024`}</WarningEta>
+              {from && to && (disabledAssets.includes(from.id) || disabledAssets.includes(to.id)) ? (
+                <WarningEta>{`${to.name} on ${to.blockchain} has been dismissed and pegins are disabled. Pegout the native token ASAP for a smooth redeem process.`}</WarningEta>
               ) : null}
               {to &&
               (to.id === 'PUSDC_ON_ALGORAND_MAINNET' ||
