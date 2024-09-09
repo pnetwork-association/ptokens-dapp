@@ -351,7 +351,13 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
           swapInfo,
         })
         sourceAsset.setCustomTransactions(txs)
-      } else if (_from.id === 'PUOS_ON_ULTRA_MAINNET') {
+      } else if (
+        _from.id === 'PUOS_ON_ULTRA_MAINNET' ||
+        _from.id === 'PUSDT_ON_ULTRA_MAINNET' ||
+        _from.id === 'PETH_ON_ULTRA_MAINNET' ||
+        _from.id === 'PBORG_ON_ULTRA_MAINNET' ||
+        _from.id === 'PAGA_ON_ULTRA_MAINNET'
+      ) {
         const actions = [
           {
             contractAddress: 'eosio.token',
@@ -361,7 +367,7 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
               from: wallets[_from.blockchain.toLowerCase()].account,
               to: 'ultra.swap',
               // it is UOS we need to transfer to ultra.swap, not PUOS
-              quantity: getAmountInEosFormat(_amount, _from.decimals, 'UOS'),
+              quantity: getAmountInEosFormat(_amount, _from.decimals, _from.symbolBalance),
               memo: _address,
             },
           },
@@ -382,7 +388,13 @@ const swap = (_from, _to, _amount, _address, _opts = {}) => {
           encodeUserData(_address, parseInt(input_asset_id, 10), _amount, parseInt(output_asset_id, 10), 0)
         )
         swapBuilder.addDestinationAsset(destinationAsset, _to.swapperAddress, metadata)
-      } else if (_to.id === 'PUOS_ON_ULTRA_MAINNET') {
+      } else if (
+        _to.id === 'PUOS_ON_ULTRA_MAINNET' ||
+        _to.id === 'PUSDT_ON_ULTRA_MAINNET' ||
+        _to.id === 'PETH_ON_ULTRA_MAINNET' ||
+        _to.id === 'PBORG_ON_ULTRA_MAINNET' ||
+        _to.id === 'PAGA_ON_ULTRA_MAINNET'
+      ) {
         const web3 = new Web3()
         swapBuilder.addDestinationAsset(destinationAsset, 'ultra.swap', web3.utils.utf8ToHex(_address))
       } else {
