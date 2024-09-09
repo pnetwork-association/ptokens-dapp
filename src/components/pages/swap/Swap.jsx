@@ -11,7 +11,7 @@ import { MAX_IMPACT, PBTC_ON_ETH_MAINNET_V1_MIGRATION, PUOS_ON_ULTRA_MAINNET } f
 import { sendEvent } from '../../../ga4'
 import { useAssets } from '../../../hooks/use-assets'
 import { useSwap } from '../../../hooks/use-swap'
-import defaultAssets from '../../../settings/swap-assets'
+import defaultAssets, { disabledAssets } from '../../../settings/swap-assets'
 import Button from '../../atoms/button/Button'
 import Icon from '../../atoms/icon/Icon'
 import Switch from '../../atoms/switch/Switch'
@@ -457,27 +457,7 @@ const Swap = ({
                   direct control (i.e. not a CEX deposit address).
                 </InfoEta>
               ) : null}
-              {(from && from.id === 'GALA' && to && to.id === 'GALA_ON_BSC_MAINNET') ||
-              (from && from.id === '$ANRX' && to && to.id === '$ANRX_ON_BSC_MAINNET') ||
-              (from && from.id === 'BTC' && to && to.id === 'PBTC_ON_ARBITRUM_MAINNET') ||
-              (from && from.id === 'BTC' && to && to.id === 'PBTC_ON_LIBRE_MAINNET') ||
-              (from && from.id === 'BTC' && to && to.id === 'PBTC_ON_TELOS_MAINNET') ||
-              (from && from.id === 'PNT_ON_ETH_MAINNET' && to && to.id === 'PNT_ON_ARBITRUM_MAINNET') ||
-              (from && from.id === 'ETHPNT_ON_ETH_MAINNET' && to && to.id === 'PNT_ON_ARBITRUM_MAINNET') ||
-              (from && from.id === 'IQ' && to && to.id === 'IQ_ON_ETH_MAINNET') ||
-              (from && from.id === 'KEYS' && to && to.id === 'PKEYS_ON_BSC_MAINNET') ||
-              (from && from.id === 'LUXO' && to && to.id === 'LUXO_ON_BSC_MAINNET') ||
-              (from && from.id === 'OPEN' && to && to.id === 'POPEN_ON_BSC_MAINNET') ||
-              (from && from.id === 'OPIUM' && to && to.id === 'POPIUM_ON_BSC_MAINNET') ||
-              (from && from.id === 'PTERIA' && to && to.id === 'PTERIA_ON_BSC_MAINNET') ||
-              (from && from.id === 'SEEDS' && to && to.id === 'PSEEDS_ON_ETH_MAINNET') ||
-              (from && from.id === 'TLOS' && to && to.id === 'TLOS_ON_ETH_MAINNET') ||
-              (from && from.id === 'TLOS' && to && to.id === 'TLOS_ON_BSC_MAINNET') ||
-              (from && from.id === 'USDT' && to && to.id === 'PUSDT_ON_LIBRE_MAINNET') ||
-              (from && from.id === 'USDT' && to && to.id === 'PUSDT_ON_TELOS_MAINNET') ||
-              (from && from.id === 'ETH' && to && to.id === 'PETH_ON_TELOS_MAINNET') ||
-              (from && from.id === 'NUCO' && to && to.id === 'NUCO_ON_TELOS_MAINNET') ||
-              (from && from.id === 'ZMT' && to && to.id === 'ZMT_ON_BSC_MAINNET') ? (
+              {from && to && (disabledAssets.includes(from.id) || disabledAssets.includes(to.id)) ? (
                 <WarningEta>{`${to.name} on ${to.blockchain} has been dismissed and pegins are disabled. Pegout the native token ASAP for a smooth redeem process.`}</WarningEta>
               ) : null}
               {to &&
