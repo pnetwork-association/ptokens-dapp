@@ -8,7 +8,7 @@ import { createPortal } from 'react-dom'
 import AssetsModal from "./AssetsModal"
 import swapAssets, { Asset, HostAsset, getNativeAsset, isNative } from "../../constants/swap-assets"
 import ChainsDropdown from "./ChainsDropdown"
-import swapChains, { Chain, getChainByBlockchain, getChainByNetworkId } from "../../constants/swap-chains"
+import swapChains, { BlockChain } from "../../constants/swap-chains"
 import { SwapContext } from "../../app/ContextProvider"
 import { nativeToWei, weiToNative } from "../../utils/amount-utils"
 import _ from "lodash"
@@ -17,11 +17,11 @@ type SwapLineProps = {
   title: string
   setAsset: (arg0: Asset) => void
   selectedAsset: Asset
-  setChain: (arg0: Chain) => void
-  selectedChain: Chain
-  filteredChain: Chain
+  setChain: (arg0: BlockChain) => void
+  selectedChain: BlockChain
+  filteredChain: BlockChain
   originPTokenAsset: pTokensAsset | undefined
-  originChain?: Chain
+  originChain?: BlockChain
   destination?: boolean
 }
 
@@ -41,14 +41,14 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, dest
   const [assetModalOpen, setAssetModalOpen] = useState(false)
   const [rangeStatus, setRangeStatus] = useState<TrangeSlider>({value: '0', disabled: true})
   const { address, isDisconnected } = useAccount()
-  const assetAddress = originPTokenAsset?.assetTokenAddress
-  const assetChainId = originPTokenAsset && getChainByNetworkId(originPTokenAsset?.networkId)?.chainId
-  const { data, isError, isLoading } = useBalance({
+  const assetAddress = originPTokenAsset && originPTokenAsset?.assetInfo.address
+  const assetChainId = originPTokenAsset && originPTokenAsset?.chainId
+  const { data, isError, isLoading } = useBalance({ // not working in v2
     address: address || undefined,
     token: assetAddress as `0x${string}` || undefined,
     chainId: assetChainId || undefined,
   })
-  const isPTokenLoading = !destination && (!originPTokenAsset || originPTokenAsset.networkId !== selectedAsset.networkId)
+  const isPTokenLoading = !destination && (!originPTokenAsset || originPTokenAsset.assetInfo.chain !== selectedAsset.chain)
   const nativeAsset = getNativeAsset(selectedAsset)
 
   // useEffect(() => {
@@ -159,36 +159,36 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, dest
   useEffect(() => {
     if (destination && nativeAsset && filteredChain === selectedChain) {
       if (isNative(selectedAsset)) {
-        const compatibleAsset = Object.values(swapAssets).find((asset) => !isNative(asset) && asset.blockchain !== filteredChain?.blockchain && asset.blockchain !== getChainByBlockchain(nativeAsset.blockchain).blockchain && (asset as HostAsset).nativeSymbol === selectedAsset.symbol)
-        const chain = compatibleAsset && getChainByBlockchain(compatibleAsset?.blockchain)
+        const compatibleAsset = Object.values(swapAssets).find((asset) => !isNative(asset) && asset.chain !== filteredChain?.chain && asset.chain !== nativeAsset.chain && (asset as HostAsset).nativeAsset === selectedAsset.id)
+        const chain = compatibleAsset && compatibleAsset?.chain
         if (compatibleAsset && chain) {
           setAsset(compatibleAsset)
-          setChain(chain)
+          setChain(swapChains[chain])
         }
       } else {
-        const compatibleAsset = Object.values(swapAssets).find((asset) => !isNative(asset) && asset.blockchain !== filteredChain?.blockchain && asset.blockchain !== getChainByBlockchain(nativeAsset.blockchain).blockchain && (asset as HostAsset).symbol === selectedAsset.symbol)
-        const chain = compatibleAsset && getChainByBlockchain(compatibleAsset?.blockchain)
+        const compatibleAsset = Object.values(swapAssets).find((asset) => !isNative(asset) && asset.chain !== filteredChain?.chain && asset.chain !== nativeAsset.chain && (asset as HostAsset).nativeAsset === selectedAsset.id)
+        const chain = compatibleAsset && compatibleAsset?.chain
         if (chain) {
           if (destination)
-          setChain(chain)
+          setChain(swapChains[chain])
         }
       }
     }
   }, [filteredChain, selectedChain])  
 
-  useEffect(() => {
-    if (destination && originPTokenAsset && selectedAsset) {
-      const symbol = isNative(selectedAsset) ? selectedAsset.symbol : (selectedAsset as HostAsset).nativeSymbol
-      if (originPTokenAsset.assetInfo.underlyingAssetSymbol !== symbol) {
-        const asset = Object.values(swapAssets).find((asset) => (asset as HostAsset).nativeSymbol === originPTokenAsset.assetInfo.underlyingAssetSymbol)
-        if (asset && asset.networkId) {
-          const chain = getChainByNetworkId(asset?.networkId)
-          setAsset(asset)
-          setChain(chain)
-        }
-      }
-    }
-  }, [originPTokenAsset])
+  // useEffect(() => {
+  //   if (destination && originPTokenAsset && selectedAsset) {
+  //     const symbol = isNative(selectedAsset) ? selectedAsset.id : (selectedAsset as HostAsset).nativeAsset
+  //     if (originPTokenAsset.assetInfo.underlyingAssetSymbol !== symbol) {
+  //       const asset = Object.values(swapAssets).find((asset) => (asset as HostAsset).nativeSymbol === originPTokenAsset.assetInfo.underlyingAssetSymbol)
+  //       if (asset && asset.networkId) {
+  //         const chain = getChainByNetworkId(asset?.networkId)
+  //         setAsset(asset)
+  //         setChain(chain)
+  //       }
+  //     }
+  //   }
+  // }, [originPTokenAsset])
 
   useEffect(() => {
     if (!swapContext)
@@ -200,15 +200,15 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, dest
   }, [data, swapContext?.swapAmount])
 
   useEffect(() => {
-    const fChain = Object.values(swapChains).find((chain: Chain) => chain.blockchain === selectedAsset.blockchain) as Chain
-    if (destination && filteredChain && filteredChain.blockchain === selectedAsset.blockchain)
+    const fChain = Object.values(swapChains).find((chain: BlockChain) => chain.chain === selectedAsset.chain) as BlockChain
+    if (destination && filteredChain && filteredChain.chain === selectedAsset.chain)
       return
     if (fChain)
       setChain(fChain)
   }, [selectedAsset])
 
   useEffect(() => {
-    const fAsset = Object.values(swapAssets).find((asset: Asset) => asset.symbol === selectedAsset.symbol && asset.blockchain === selectedChain.blockchain) as Asset
+    const fAsset = Object.values(swapAssets).find((asset: Asset) => asset.id === selectedAsset.id && asset.chain === selectedChain.chain) as Asset
     if (fAsset)
       setAsset(fAsset)
   }, [selectedChain])
@@ -241,7 +241,7 @@ const SwapLine = ({title, selectedAsset, setAsset, selectedChain, setChain, dest
             onClick={() => setAssetModalOpen(true)}
           >
             <img src={`/svg/${selectedAsset.image}`} className="w-7" />
-            {selectedAsset.symbol}
+            {selectedAsset.id}
             <RiArrowDownSLine size={20} color="gray"/>
           </button>
           {/* )} */}

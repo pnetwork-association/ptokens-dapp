@@ -4,7 +4,7 @@ import { RiFeedbackLine } from "react-icons/ri"
 import './App.css'
 import Navbar from './components/organisms/Navbar'
 import Swap from './components/views/Swap'
-import Activity from './components/views/Activity'
+// import Activity from './components/views/Activity'
 import Risks from './components/views/Risks'
 
 const App = (): JSX.Element => {
@@ -13,7 +13,7 @@ const App = (): JSX.Element => {
       <Navbar />
       <Routes>
         <Route path="/swap" element={<Swap />} />
-        <Route path="/activity" element={<Activity />} />
+        {/* <Route path="/activity" element={<Activity />} /> */}
         <Route path="/risks" element={<Risks />} />
         <Route path="/" element={<Navigate to="/swap" replace />} />
       </Routes>

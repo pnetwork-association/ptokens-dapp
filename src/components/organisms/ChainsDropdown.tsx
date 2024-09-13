@@ -1,13 +1,12 @@
 import { FaChevronDown } from "react-icons/fa"
-import swapChains, { Chain, getChainByBlockchain } from "../../constants/swap-chains"
-import { Blockchain } from "@p.network/ptokens-constants"
+import swapChains, { BlockChain } from "../../constants/swap-chains"
 import cn from 'classnames'
 import { Asset, assetsHaveMatches } from "../../constants/swap-assets"
 
 type ChainsDropdownProps = {
-  setSelectedChain: (arg0: Chain) => void
-  selectedChain: Chain
-  filteredChain: Chain
+  setSelectedChain: (arg0: BlockChain) => void
+  selectedChain: BlockChain
+  filteredChain: BlockChain
   selectedAsset: Asset
   nativeAsset: Asset | undefined
   destination?: boolean
@@ -26,8 +25,8 @@ const ChainsDropdown = ({selectedAsset, selectedChain, setSelectedChain, id, fil
     "btn btn-sm btn-ghost hover:max-w-sm overflow-hidden px-1": true,
     "transition-[max-width] duration-[600ms] hover:duration-300 delay-500": true,
     "hover:delay-0 flex-nowrap justify-start border-0 focus:!max-w-sm": true,
-    "max-w-[24px]": selectedChain.chainId === 1,
-    "max-w-[32px]": selectedChain.chainId !== 1
+    "max-w-[24px]": parseInt(selectedChain.chain) === 1,
+    "max-w-[32px]": parseInt(selectedChain.chain) !== 1
   })
 
   return(
@@ -35,34 +34,34 @@ const ChainsDropdown = ({selectedAsset, selectedChain, setSelectedChain, id, fil
       {/* label instead of button because of a safari bug */}
       <label tabIndex={0} className={animationClassName}>
           <img src={`/svg/${selectedChain.image}`} className="w-6 h-8 z-10" />
-          <span>{Blockchain[selectedChain.blockchain]}</span>
+          <span>{selectedChain.chain}</span>
           <FaChevronDown size={7} color="gray"/>
       </label>
       <ul  tabIndex={0} className="dropdown-content menu shadow bg-gray-800 rounded-md w-36 p-2 pb-0">
         <li>
           {Object.values(swapChains)
-            .filter((chain: Chain) => nativeAsset ? chain !== getChainByBlockchain(nativeAsset.blockchain) : chain)
-            .filter((chain: Chain) => chain !== selectedChain)
-            .filter((chain: Chain) => destination ? chain !== filteredChain : chain)
-            .map((chain: Chain) => (
+            .filter((chain: BlockChain) => nativeAsset ? chain !== swapChains[nativeAsset.chain] : chain)
+            .filter((chain: BlockChain) => chain !== selectedChain)
+            .filter((chain: BlockChain) => destination ? chain !== filteredChain : chain)
+            .map((chain: BlockChain) => (
             <button 
-              key={chain.id}
+              key={chain.chain}
               className={cn({
                 'btn btn-sm btn-outline flex flex-row flex-nowrap justify-start items-center w-full mb-2': true,
                 'btn-primary': chain === selectedChain,
-                'btn-disabled': chain === selectedChain || assetsHaveMatches(chain.blockchain, selectedAsset.symbol)
+                'btn-disabled': chain === selectedChain || assetsHaveMatches(chain.chain, selectedAsset.id)
               })}
               onClick={() => {
                 setSelectedChain(chain)
                 handleClick()
               }}
           > 
-            {assetsHaveMatches(chain.blockchain, selectedAsset.symbol) ? (
+            {assetsHaveMatches(chain.chain, selectedAsset.id) ? (
               <img src={`/svg/${chain.disabledImage}`} className='h-5 mr-1' />
             ) : (
               <img src={`/svg/${chain.image}`} className='h-5 mr-1' />
             )}
-            {Blockchain[chain.blockchain]}
+            {chain.chain}
           </button>
           ))}
         </li>

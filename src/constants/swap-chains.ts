@@ -1,74 +1,41 @@
-import { ChainId } from '.'
-import { Blockchain, Network, NetworkId } from '@p.network/ptokens-constants'
+import { Chain } from '@p.network/ptokens-constants'
 
-export type Chain = {
-  id: ChainId
-  chainId: number
+export type BlockChain = {
+  chain: Chain
   endpoint: string
-  network: Network
-  blockchain: Blockchain
   image: string
   disabledImage: string
-  networkId: NetworkId
 }
 
-export const getChainById = (id: ChainId) => swapChains[id] || null
-
-export const getChainByBlockchain = (blockchain: Blockchain) => Object.values(swapChains).find((chain: Chain) => chain.blockchain === blockchain) as Chain
-
-export const getChainByNetworkId = (networkId: NetworkId) => Object.values(swapChains).find((chain: Chain) => chain.networkId === networkId) as Chain
-
-export const getNetworkIdByChainId = (chainId: number) => Object.values(swapChains).find((chain: Chain) => chain.chainId === chainId)?.networkId
-
-const swapChains: Record<ChainId, Chain> = {
+const swapChains: Record<Chain, BlockChain> = {
   /* #################   Chains   #################*/
-  [ChainId.ETH]: {
-    id: ChainId.ETH,
-    chainId: 1,
+  [Chain.EthereumMainnet]: {
+    chain: Chain.EthereumMainnet,
     endpoint: 'https://ethereum.publicnode.com',
-    blockchain: Blockchain.Ethereum,
-    networkId: NetworkId.EthereumMainnet,
-    network: Network.Mainnet,
     image: 'ETH.svg',
     disabledImage: 'ETH_gray.svg'
   },
-  [ChainId.BSC]: {
-    id: ChainId.BSC,
-    chainId: 56,
+  [Chain.BscMainnet]: {
+    chain: Chain.BscMainnet,
     endpoint: 'https://endpoints.omniatech.io/v1/bsc/mainnet/public',
-    blockchain: Blockchain.Bsc,
-    networkId: NetworkId.BscMainnet,
-    network: Network.Mainnet,
     image: 'BSC.svg',
     disabledImage: 'BSC_gray.svg'
   },
-  [ChainId.GNOSIS]: {
-    id: ChainId.GNOSIS,
-    chainId: 100,
+  [Chain.GnosisMainnet]: {
+    chain: Chain.GnosisMainnet,
     endpoint: 'https://rpc.xdaichain.com/',
-    blockchain: Blockchain.Gnosis,
-    networkId: NetworkId.GnosisMainnet,
-    network: Network.Mainnet,
     image: 'GNOSIS.svg',
     disabledImage: 'GNOSIS_gray.svg'
   },
-  // [ChainId.ARBITRUM]: {
-  //   id: ChainId.ARBITRUM,
-  //   chainId: 42161,
-  //   endpoint: 'https://arb1.arbitrum.io/rpc',
-  //   blockchain: Blockchain.Arbitrum,
-  //   networkId: NetworkId.ArbitrumMainnet,
-  //   network: Network.Mainnet,
-  //   image: 'ARBITRUM.svg',
-  //   disabledImage: 'ARBITRUM_gray.svg'
-  // },
-  [ChainId.POLYGON]: {
-    id: ChainId.POLYGON,
-    chainId: 137,
+  [Chain.PolygonMainnet]: {
+    chain: Chain.PolygonMainnet,
     endpoint: 'https://polygon-rpc.com/',
-    blockchain: Blockchain.Polygon,
-    networkId: NetworkId.PolygonMainnet,
-    network: Network.Mainnet,
+    image: 'POLYGON.svg',
+    disabledImage: 'POLYGON_gray.svg'
+  },
+  [Chain.EosMainnet]: {
+    chain: Chain.EosMainnet,
+    endpoint: 'placeholder',
     image: 'POLYGON.svg',
     disabledImage: 'POLYGON_gray.svg'
   },

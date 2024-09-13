@@ -18,16 +18,16 @@ const tokenBaseLink: Record<Chain, string> = {
   [Chain.EosMainnet]: `${settings.explorers[Protocol.EVM][Chain.EosMainnet]}token/`
 }
 
-const getCorrespondingTxExplorerLinkByBlockchain = (_chain: Chain, _hash: string) => {
+const getCorrespondingTxExplorerLinkByChain = (_chain: Chain, _hash: string) => {
   const baseLink = transactionBaseLink[_chain]
   const encodedHash = encodeURIComponent(_hash)
   return `${baseLink}${encodedHash}`
 }
 
-const getCorrespondingTokenExplorerLinkByBlockchain = (_chain: Chain, _address: string) => {
+const getCorrespondingTokenExplorerLinkByChain = (_chain: Chain, _address: string) => {
   const baseLink = tokenBaseLink[_chain]
   const encodedHash = encodeURIComponent(_address)
   return `${baseLink}${encodedHash}`
 }
 
-export { getCorrespondingTxExplorerLinkByBlockchain, getCorrespondingTokenExplorerLinkByBlockchain }
+export { getCorrespondingTxExplorerLinkByChain, getCorrespondingTokenExplorerLinkByChain }

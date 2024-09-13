@@ -2,14 +2,16 @@
 import { useContext, useEffect, useState } from "react"
 import { useAccount } from 'wagmi'
 import { getWalletClient } from "wagmi/actions"
-import { isAddress, WalletClient } from 'viem'
+import { WalletClient } from 'viem'
 import { pTokensEvmAsset } from "@p.network/ptokens-assets-evm"
-import { BlockchainType, NetworkId, networkIdToTypeMap } from "@p.network/ptokens-constants"
+import { Protocol, chainToProtocolMap } from "@p.network/ptokens-constants"
+import { validators } from "@p.network/ptokens-helpers"
 import cn from "classnames"
 
 import { swap } from "../../app/features/swap/swap"
 import { PTokenAssetsContext, ProgressContext, SwapContext, WalletContext } from "../../app/ContextProvider"
-import { getChainByBlockchain } from "../../constants/swap-chains"
+import swapChains from "../../constants/swap-chains"
+import wagmiConfig from "../../app/wallet/evm-chains/wagmiConfig"
 
 
 const CONNECT_WALLET = 'Connect Wallet'
@@ -19,12 +21,6 @@ const SET_AMOUNT = 'Set Amount'
 const INIT_SWAP = 'Swap'
 const LOADING = 'Loading'
 const ERROR = 'Error'
-
-const isValidAddress = (_networkId: NetworkId, _address: string) => {
-  if (networkIdToTypeMap.get(_networkId) === BlockchainType.EVM) {
-    return isAddress(_address)
-  } else return false
-}
 
 const SwapButtonControl = (): JSX.Element => {
   const pTokenAssets = useContext(PTokenAssetsContext)
@@ -37,8 +33,8 @@ const SwapButtonControl = (): JSX.Element => {
   useEffect(() => {
     const waitForWalletClient = async () => {
       if (pTokenAssets?.asset?.origAsset) {
-        const chainId = getChainByBlockchain(pTokenAssets?.asset?.origAsset.blockchain).chainId
-        const wClient = await getWalletClient({chainId: chainId})
+        // const chainId = pTokenAssets?.asset?.origAsset.chainId
+        const wClient = await getWalletClient(wagmiConfig)
         if (!wClient) throw new Error('walletClient not retreived')
         setAssetWalletClient(wClient)
       }
@@ -59,11 +55,11 @@ const SwapButtonControl = (): JSX.Element => {
         swapData.setSwapButtonDisabled(false)
         swapData.setSwapButtonText(CONNECT_WALLET)
       }
-      else if (walletData.walletSelChain && pTokenAssets.asset.origAsset && walletData.walletSelChain.blockchain != pTokenAssets.asset.origAsset.blockchain) {
+      else if (walletData.walletSelChain && pTokenAssets.asset.origAsset && walletData.walletSelChain.assetInfo.chain != pTokenAssets.asset.origAsset.assetInfo.chain) {
         swapData.setSwapButtonDisabled(false)
         swapData?.setSwapButtonText(SWITCH_CHAIN)
       }
-      else if (!isValidAddress(pTokenAssets.asset.destAsset.networkId, swapData.destinationAddress)) {
+      else if (!validators.isValidAddressByChainId(swapData.destinationAddress, chainToProtocolMap.get(pTokenAssets.asset.destAsset.assetInfo.chain) as Protocol)) {
         swapData.setSwapButtonDisabled(true)
         swapData.setSwapButtonText(INVALID_ADDRESS)
       }
@@ -92,7 +88,7 @@ const SwapButtonControl = (): JSX.Element => {
           walletData.toggleWalletDrawer()
           break
         case SWITCH_CHAIN:
-          walletData.setWalletSelChain(getChainByBlockchain(pTokenAssets.asset.origAsset.blockchain))
+          walletData.setWalletSelChain(swapChains[pTokenAssets.asset.origAsset.assetInfo.chain])
           break
         case INIT_SWAP:
           swap(pTokenAssets.asset.origAsset, pTokenAssets.asset.destAsset, swapData.swapAmount.amount, swapData.destinationAddress, progressData)

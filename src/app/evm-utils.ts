@@ -1,7 +1,9 @@
 import BigNumber from 'bignumber.js'
 import { stringUtils } from '@p.network/ptokens-helpers'
-import { Abi } from 'viem'
-import { getAccount, getContract, getWalletClient } from 'wagmi/actions'
+import { Abi, getContract } from 'viem'
+import { getAccount, getWalletClient } from 'wagmi/actions'
+
+import wagmiConfig from './wallet/evm-chains/wagmiConfig'
 
 // NOTE: avoids brave metamask gas estimation fails
 // function getBigInt(amount: string, decimals: number): bigint {
@@ -22,14 +24,16 @@ const approveTransaction = async (
   requiresReset: boolean = false,
   abi: Abi,
 ): Promise<TApproveResult> => {
-  const walletClient = await getWalletClient({chainId: chainId})
-  const account = getAccount()
+  const walletClient = await getWalletClient(wagmiConfig)
+  const account = getAccount(wagmiConfig)
   if (!account.address || !walletClient)
     throw new Error('No account connected')
   const assetContract = getContract({
     address: stringUtils.addHexPrefix(assetAddress),
     abi: abi,
-    walletClient: walletClient
+    client: {
+      wallet: walletClient
+    }
   })
   const allowance = await assetContract.read.allowance([account.address, stringUtils.addHexPrefix(spender)]) as bigint
   let hash = ''

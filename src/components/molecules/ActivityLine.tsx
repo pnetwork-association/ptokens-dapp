@@ -9,7 +9,7 @@ import { getChainByNetworkId } from "../../constants/swap-chains"
 import { EVENT_NAMES, getOperationChallengePeriod, getOperationStatus, pTokensEvmProvider } from "@p.network/ptokens-assets-evm"
 import { INTERIM_CHAIN_NETWORK_ID } from "@p.network/ptokens-constants"
 import { formatDistanceToNow, differenceInMinutes, isPast } from 'date-fns'
-import { getCorrespondingTxExplorerLinkByBlockchain } from "../../utils/explorer"
+import { getCorrespondingTxExplorerLinkByChain } from "../../utils/explorer"
 
 type ActivityLineProps = {
   operations: Operations
@@ -234,7 +234,7 @@ const ActivityLine = ({operations}: ActivityLineProps): JSX.Element => {
           <div>
             {isComplete() && isInterimDestination && interimExecuteOperation && (
               <div className="badge badge-ghost badge-lg bg-green-400">
-                <a href={`${getCorrespondingTxExplorerLinkByBlockchain(getChainByNetworkId(INTERIM_CHAIN_NETWORK_ID).blockchain, interimExecuteOperation.transactionHash)}`} target="_blank" className="text-black font-medium" rel="noopener noreferrer">Final Tx</a>
+                <a href={`${getCorrespondingTxExplorerLinkByChain(getChainByNetworkId(INTERIM_CHAIN_NETWORK_ID).blockchain, interimExecuteOperation.transactionHash)}`} target="_blank" className="text-black font-medium" rel="noopener noreferrer">Final Tx</a>
                 <div className="text-black ml-2 mb-0.5">
                   <RiExternalLinkLine size={11}/>
                 </div>
@@ -242,7 +242,7 @@ const ActivityLine = ({operations}: ActivityLineProps): JSX.Element => {
             )}
             {isComplete() && !isInterimDestination && destinationExecuteOperation && (
               <div className="badge badge-ghost badge-lg bg-green-400">
-                <a href={`${getCorrespondingTxExplorerLinkByBlockchain(getChainByNetworkId(destinationExecuteOperation.networkId).blockchain, destinationExecuteOperation.transactionHash)}`} target="_blank" className="text-black font-medium" rel="noopener noreferrer">Final Tx</a>
+                <a href={`${getCorrespondingTxExplorerLinkByChain(getChainByNetworkId(destinationExecuteOperation.networkId).blockchain, destinationExecuteOperation.transactionHash)}`} target="_blank" className="text-black font-medium" rel="noopener noreferrer">Final Tx</a>
                 <div className="text-black ml-2 mb-0.5">
                   <RiExternalLinkLine size={11}/>
                 </div>
@@ -250,7 +250,7 @@ const ActivityLine = ({operations}: ActivityLineProps): JSX.Element => {
             )}
             {!isComplete() && userSend && (
               <div className="badge badge-ghost badge-lg bg-blue-300">
-                <a href={`${getCorrespondingTxExplorerLinkByBlockchain(getChainByNetworkId(userSend.networkId).blockchain, userSend.transactionHash)}`} target="_blank" className="text-black font-medium" rel="noopener noreferrer">User Tx</a>
+                <a href={`${getCorrespondingTxExplorerLinkByChain(getChainByNetworkId(userSend.networkId).blockchain, userSend.transactionHash)}`} target="_blank" className="text-black font-medium" rel="noopener noreferrer">User Tx</a>
                 <div className="text-black ml-2 mb-0.5">
                   <RiExternalLinkLine size={11}/>
                 </div>

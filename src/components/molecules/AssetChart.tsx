@@ -24,7 +24,7 @@ const getNativeAsset = (asset: Asset) => {
   if (isNative(asset))
     return asset as NativeAsset
   else
-    return Object.values(swapAssets).find((currAsset: Asset) => currAsset.id === (asset as HostAsset).underlyingAsset) as NativeAsset
+    return Object.values(swapAssets).find((currAsset: Asset) => currAsset.id === (asset as HostAsset).nativeAsset) as NativeAsset
 }
 
 const computeGainLoss = (from: number, to: number) => (to - from) / to * 100
@@ -247,7 +247,7 @@ const AssetChart = ({asset, width = 700, height = 320}: AssetChartProps): JSX.El
               src={getNativeAsset(asset) ? `/svg/${getNativeAsset(asset).image}` : '/svg/blockchain.svg'}
             />
           <h1 className='ml-2 text-2xl font-medium text-slate-100'>
-            {getNativeAsset(asset).symbol}
+            {getNativeAsset(asset).id}
           </h1>
         </div>
         <div className='ml-5 mr-2 mt-5'>

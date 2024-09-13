@@ -3,13 +3,11 @@ import {
   useAccount,
   useConnect,
   useDisconnect,
-  useNetwork,
-  useSwitchNetwork,
+  useSwitchChain,
 } from 'wagmi'
 import { RiCheckLine, RiArrowDownSLine } from 'react-icons/ri'
-import { Blockchain } from '@p.network/ptokens-constants'
 
-import swapChains, { Chain } from '../../../constants/swap-chains'
+import swapChains, { BlockChain } from '../../../constants/swap-chains'
 import { getPrettierAddress } from '../../../utils/utils'
 import WalletDrawerButton from '../../../components/molecules/WalletDrawerButton'
 import { WalletContext } from '../../ContextProvider'
@@ -17,14 +15,16 @@ import { WalletContext } from '../../ContextProvider'
  
 export const Profile = (): JSX.Element => {
   const { address, connector, isConnected } = useAccount()
-  const { chain } = useNetwork()
-  const { status: switchStatus, isLoading: switchLoading, pendingChainId, switchNetwork } =
-    useSwitchNetwork({
-      onSuccess(){
-        walletContext?.setWalletSelChain(selChain)
+  const { chain } = useAccount()
+  const { status: switchStatus, isPending: switchLoading, switchChain } =
+    useSwitchChain({
+      mutation:{
+        onSuccess(){
+          walletContext?.setWalletSelChain(selChain)
+        }
       }
     })
-  const { connect, connectors, isLoading, pendingConnector } =
+  const { connect, connectors, isPending } =
     useConnect()
   const { disconnect } = useDisconnect()
   const walletContext = useContext(WalletContext)
@@ -36,7 +36,7 @@ export const Profile = (): JSX.Element => {
  
   useEffect(() => {
     if (chain?.id != selChain?.chainId ) {
-      const switchChain = Object.values(swapChains).find((swapChain: Chain) => swapChain.chainId === chain?.id)
+      const switchChain = Object.values(swapChains).find((swapChain: BlockChain) => parseInt(swapChain.chain) === chain?.id)
       setSelChain(switchChain)
       walletContext?.setWalletSelChain(switchChain)
     }
@@ -44,7 +44,7 @@ export const Profile = (): JSX.Element => {
 
   useEffect(() => {
     if (selChain && chain?.id != selChain?.chainId && !switchLoading)
-      switchNetwork?.(selChain?.chainId)
+      switchChain?.(selChain?.chainId)
   }, [selChain, isConnected])
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export const Profile = (): JSX.Element => {
 
   useEffect(() => {
     if (switchStatus === 'error' && !switchLoading && isConnected && chain)
-    setSelChain((Object.values(swapChains).find((_chain: Chain) => _chain.chainId === chain.id)))
+    setSelChain((Object.values(swapChains).find((_chain: BlockChain) => parseInt(_chain.chain) === chain.id)))
   }, [switchLoading])
  
   return (
@@ -69,7 +69,7 @@ export const Profile = (): JSX.Element => {
             <>
               <img className="w-6 h-6 m-0 max-lg:hidden" src={`/svg/${selChain.image}`} />
               <img className="w-4 h-4 m-0 lg:hidden" src={`/svg/${selChain.image}`} />
-              {switchLoading && pendingChainId === selChain.chainId ? (
+              {switchLoading /*&& pendingChainId === selChain.chainId*/ ? (
                 <span className="loading loading-ring loading-md"></span>
               ) : (
                 <div className='max-lg:w-0'>
@@ -83,11 +83,11 @@ export const Profile = (): JSX.Element => {
         <ul tabIndex={0} className="dropdown-content menu m-2 p-2 shadow bg-base-200 border border-base-300 rounded-md w-44 fixed z-[99]">
           {Object.values(swapChains).map((swapChain) => (
             <button className='btn btn-sm text-md btn-outline mb-1 justify-start'
-              key={swapChain.id}
+              key={swapChain.chain}
               onClick={() => setSelChain(swapChain)}
             >
               <img className="w-6 h-6" src={`/svg/${swapChain.image}`} />
-              {Blockchain[swapChain.blockchain]}
+              {/* {Blockchain[swapChain.chain]} */}
               {swapChain === selChain ? (
                 <RiCheckLine />
               ) : null}
@@ -113,8 +113,8 @@ export const Profile = (): JSX.Element => {
                     <img className="w-6" src={`/svg/${connector.name.toUpperCase()}.svg`} />
                     {connector.name}
                     {/* {!connector.ready && ' (unsupported)'} */}
-                    {isLoading &&
-                      connector.id === pendingConnector?.id &&
+                    {isPending /*&&
+                      connector.id === pendingConnector?.id */ &&
                       (<span className="loading loading-ring loading-md"></span>)}
                   </button>
                 ))}

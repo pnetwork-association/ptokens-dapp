@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { RiSettings4Line, RiArrowUpDownLine, RiInformationLine } from "react-icons/ri"
 import cn from "classnames"
 import { FaChevronDown, FaChevronRight, FaChevronUp } from "react-icons/fa"
-import { Web3SettingsContext } from "react-web3-settings"
+import { Web3SettingsContext } from "@p.network/react-web3-settings"
 import scrollIntoView from 'smooth-scroll-into-view-if-needed'
 import "driver.js/dist/driver.css"
 
@@ -10,7 +10,7 @@ import Box from "../atoms/Box"
 import Container from "../atoms/Container"
 import SwapLine from "../organisms/SwapLine"
 import { Asset } from "../../constants/swap-assets"
-import { Chain } from "../../constants/swap-chains"
+import { BlockChain } from "../../constants/swap-chains"
 import AssetsInfo from "../organisms/AssetsInfo"
 import SwapButtonControl from "../molecules/SwapButtonControl"
 import { defaults } from "../../constants/defaults"
@@ -29,8 +29,8 @@ const Swap = (): JSX.Element => {
   const [destAsset, setDestAsset] = useState(defaults.destinationAsset)
   const origPtokenAsset = useOrigPtokenAsset(originAsset)
   const destPtokenAsset = useDestPtokenAsset(destAsset)
-  const [originChain, setOriginChain] = useState<Chain>(defaults.originChain)
-  const [destChain, setDestChain] = useState<Chain>(defaults.destinationChain)
+  const [originChain, setOriginChain] = useState<BlockChain>(defaults.originChain)
+  const [destChain, setDestChain] = useState<BlockChain>(defaults.destinationChain)
   const [showInfo, setShowInfo] = useState(false)
   const [closeWarn, setCloseWarn] = useState(false)
   const [width, setWidth] = useState(window.innerWidth)

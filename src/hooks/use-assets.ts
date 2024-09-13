@@ -6,7 +6,7 @@ import { pTokensAsset } from '@p.network/ptokens-entities'
 // import { AssetId } from '../constants'
 import { Asset, UpdatedAsset, isNative } from '../constants/swap-assets'
 // import { offChainFormat, strip } from '../utils/amount-utils'
-import { blockchainSymbolToName, /* blockchainSymbolToCoin */ } from '../utils/maps'
+import { chainToName, /* blockchainSymbolToCoin */ } from '../utils/maps'
 import { createAsset } from '../utils/ptokens'
 // import { getCorrespondingTokenExplorerLinkByBlockchain } from '../utils/explorer'
 
@@ -66,7 +66,7 @@ const useSearchAssets = (_assets: UpdatedAsset[]): [UpdatedAsset[], React.Dispat
         _asset.symbol.toLowerCase().includes(searchWord.toLowerCase()) ||
         (_asset.coin && _asset.coin.toLowerCase().includes(searchWord.toLowerCase())) ||
         ('nativeBlockchain' in _asset
-          ? blockchainSymbolToName[_asset.nativeBlockchain].toLowerCase().includes(searchWord.toLowerCase())
+          ? chainToName[_asset.nativeBlockchain].toLowerCase().includes(searchWord.toLowerCase())
           : false) ||
         `${_asset.name} on ${_asset.blockchain}`.toLowerCase().includes(searchWord.toLowerCase())
     )

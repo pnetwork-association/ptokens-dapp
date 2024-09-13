@@ -1,31 +1,27 @@
 import { pTokensAsset } from "@p.network/ptokens-entities"
 
 import { TProgressContext } from "../../ContextProvider"
-import { getSwapBuilder } from "../../../utils/ptokens"
 import mintPTokens from "./mint-ptoken"
 import redeemPTokens from "./redeem-ptokens"
 
 //TODO change string to bigint
 export const swap = async (sourceAsset: pTokensAsset, destinationAsset: pTokensAsset, _amount: string, _address: string, _progress?: TProgressContext) => {
   try {
-    const swapBuilder = getSwapBuilder()
     if (_amount === '0') throw new Error('amount is 0')
-    swapBuilder.setAmount(_amount.toString())
-    swapBuilder.setNetworkFees(100)
-    swapBuilder.setForwardNetworkFees(100)
-    swapBuilder.setSourceAsset(sourceAsset)
-    swapBuilder.addDestinationAsset(destinationAsset, _address, '0x', destinationAsset.isNative)
-    const swap = await swapBuilder.build()
-    if (sourceAsset.isNative)
+    if (sourceAsset.assetInfo.isNative)
       await mintPTokens({
-        swap,
+        amount: _amount.toString(),
+        recipient: _address,
+        userData: '0x',
         ptokenFrom: sourceAsset,
         ptokenTo: destinationAsset,
         progress: _progress
       })
     else
       await redeemPTokens({
-        swap,
+        amount: _amount.toString(),
+        recipient: _address,
+        userData: '0x',
         ptokenFrom: sourceAsset,
         ptokenTo: destinationAsset,
         progress: _progress

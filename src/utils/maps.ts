@@ -1,19 +1,17 @@
-import { Blockchain } from '@p.network/ptokens-constants'
+import { Chain } from '@p.network/ptokens-constants'
 
 import { Asset } from '../constants/swap-assets'
 
-const blockchainSymbolToName: Record<string, string> = {
-  [Blockchain.Gnosis]: 'xDai',
-  [Blockchain.Arbitrum]: 'Arbitrum',
+const chainToName: Record<string, string> = {
+  [Chain.GnosisMainnet]: 'xDai',
 }
 
-const blockchainSymbolToCoin: Record<string, string> = {
-  [Blockchain.Gnosis]: 'xDai',
-  [Blockchain.Arbitrum]: 'Arbitrum',
+// const blockchainSymbolToCoin: Record<string, string> = {
+//   [Chain.GnosisMainnet]: 'xDai',
+// }
+
+const getAssetFromId = (_assets: Asset[], _id: string) => {
+  return _assets.find(({ id }) => id === _id)
 }
 
-const getAssetFromSymbol = (_assets: Asset[], _symbol: string) => {
-  return _assets.find(({ symbol }) => symbol === _symbol)
-}
-
-export { blockchainSymbolToName, getAssetFromSymbol, blockchainSymbolToCoin }
+export { chainToName, getAssetFromId }

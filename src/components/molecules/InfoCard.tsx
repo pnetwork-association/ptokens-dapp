@@ -1,11 +1,10 @@
-import { Blockchain } from "@p.network/ptokens-constants"
 import { pTokensAsset } from "@p.network/ptokens-entities"
 import { RiFileCopyLine } from 'react-icons/ri'
 
-import { Asset, NativeAsset, isNative } from "../../constants/swap-assets"
+import { Asset, isNative } from "../../constants/swap-assets"
 import { getBlockchain, getPrettierAddress } from "../../utils/utils"
 import { NO_ADDRESS } from "../../constants"
-import { getCorrespondingTokenExplorerLinkByBlockchain } from "../../utils/explorer"
+import { getCorrespondingTokenExplorerLinkByChain } from "../../utils/explorer"
 import { useEffect, useState } from "react"
 
 type InfoCardProps = {
@@ -17,8 +16,8 @@ type InfoCardProps = {
 
 const InfoCard = ({asset, pTokenAsset, destination, className = ''}: InfoCardProps): JSX.Element => {
   const [originTitle, setOriginTitle] = useState('')
-  const address = pTokenAsset ? pTokenAsset.assetTokenAddress :
-    isNative(asset) ? (asset as NativeAsset).address :
+  const address = pTokenAsset ? pTokenAsset.assetInfo.address :
+    // isNative(asset) ? (asset as NativeAsset).address :
     NO_ADDRESS
 
   useEffect(() => {
@@ -45,7 +44,7 @@ const InfoCard = ({asset, pTokenAsset, destination, className = ''}: InfoCardPro
             className="w-6 mr-2 mb-2"
             src={`/svg/${asset.image}`}
           />
-          <div className='mb-2 text-xl'>{asset.symbol}</div>
+          <div className='mb-2 text-xl'>{asset.id}</div>
         </div>
         <div className="flex items-center ml-4">
           <div className='bold mr-2 w-16 text-slate-300'>CHAIN:</div>
@@ -53,7 +52,7 @@ const InfoCard = ({asset, pTokenAsset, destination, className = ''}: InfoCardPro
             className="w-4 mx-2"
             src={`/svg/${getBlockchain(asset).image}`}
           />
-          <div>{Blockchain [asset.blockchain].toUpperCase()}</div>
+          <div>{asset.chain.toUpperCase()}</div>
         </div>
         <div className="flex items-center ml-4">
           <div className='bold mr-2 w-16 text-slate-300'>TYPE:</div>
@@ -64,7 +63,7 @@ const InfoCard = ({asset, pTokenAsset, destination, className = ''}: InfoCardPro
         </div>
         <div className="flex items-center ml-4">
           <div className='bold mr-2 w-16 text-slate-300'>ADDRESS:</div>
-          <a className='link link-info ml-2' href={getCorrespondingTokenExplorerLinkByBlockchain(asset.blockchain, address)}>
+          <a className='link link-info ml-2' href={getCorrespondingTokenExplorerLinkByChain(asset.chain, address)}>
             {(address === NO_ADDRESS) ? 'No address found' : getPrettierAddress(address, 4)}
           </a>
           <button className="ml-2 btn btn-outline btn-accent btn-xs" onClick={() => {navigator.clipboard.writeText(address)}}>

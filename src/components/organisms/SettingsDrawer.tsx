@@ -1,4 +1,4 @@
-import { Blockchain, FactoryAddress, Network, NetworkId } from '@p.network/ptokens-constants'
+import { Chain, Protocol } from '@p.network/ptokens-constants'
 import { Web3SettingsProvider } from '@p.network/react-web3-settings'
 import React from 'react'
 
@@ -123,45 +123,45 @@ const SettingsDrawer = ({ children }: SettingsDrawerProps): JSX.Element => {
       headerStylee={labelStyle} 
       bodyStyle={bodyStyle}
       settings={{
-        factoryAddress: {
+        adapterAddress: {
           label: 'pTokens Factory Address',
           settings: {
-            [Blockchain.Gnosis]: {
+            [Chain.GnosisMainnet]: {
               label: 'Gnosis',
-              value: FactoryAddress.get(NetworkId.GnosisMainnet) as string, // TODO check type
+              value: ''
             },
-            [Blockchain.Ethereum]: {
+            [Chain.EthereumMainnet]: {
               label: 'Ethereum',
-              value: FactoryAddress.get(NetworkId.EthereumMainnet) as string, // TODO check type
+              value: ''
             },
-            [Blockchain.Bsc]: {
+            [Chain.BscMainnet]: {
               label: 'Bsc',
-              value: FactoryAddress.get(NetworkId.BscMainnet) as string, // TODO check type
+              value: ''
             },
-            [Blockchain.Polygon]: {
+            [Chain.PolygonMainnet]: {
               label: 'Polygon',
-              value: FactoryAddress.get(NetworkId.PolygonMainnet) as string, // TODO check type
+              value: ''
             },
           },
         },
         rpcEndpoints: {
           label: 'RPC Node Endpoints',
           settings: {
-            [Blockchain.Gnosis]: {
+            [Chain.GnosisMainnet]: {
               label: 'Gnosis',
-              value: settings.rpc[Network.Mainnet][Blockchain.Gnosis].endpoint,
+              value: settings.rpc[Protocol.EVM][Chain.GnosisMainnet]?.endpoint || '',
             },
-            [Blockchain.Ethereum]: {
+            [Chain.EthereumMainnet]: {
               label: 'Ethereum',
-              value: settings.rpc[Network.Mainnet][Blockchain.Ethereum].endpoint,
+              value: settings.rpc[Protocol.EVM][Chain.EthereumMainnet]?.endpoint || '',
             },
-            [Blockchain.Bsc]: {
+            [Chain.BscMainnet]: {
               label: 'Bsc',
-              value: settings.rpc[Network.Mainnet][Blockchain.Bsc].endpoint,
+              value: settings.rpc[Protocol.EVM][Chain.BscMainnet]?.endpoint || '',
             },
-            [Blockchain.Polygon]: {
+            [Chain.PolygonMainnet]: {
               label: 'Polygon',
-              value: settings.rpc[Network.Mainnet][Blockchain.Polygon].endpoint,
+              value: settings.rpc[Protocol.EVM][Chain.PolygonMainnet]?.endpoint || '',
             },
           },
         },
