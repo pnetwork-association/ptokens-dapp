@@ -11,7 +11,7 @@ import { MAX_IMPACT, PBTC_ON_ETH_MAINNET_V1_MIGRATION, PUOS_ON_ULTRA_MAINNET } f
 import { sendEvent } from '../../../ga4'
 import { useAssets } from '../../../hooks/use-assets'
 import { useSwap } from '../../../hooks/use-swap'
-import defaultAssets, { disabledAssets } from '../../../settings/swap-assets'
+import defaultAssets, { disabledAssets, dismissedAssets } from '../../../settings/swap-assets'
 import Button from '../../atoms/button/Button'
 import Icon from '../../atoms/icon/Icon'
 import Switch from '../../atoms/switch/Switch'
@@ -416,7 +416,8 @@ const Swap = ({
                 to.notifyDepositAddressWarning &&
                 to.id !== 'PBTC_ON_ARBITRUM_MAINNET' &&
                 to.id !== 'PBTC_ON_TELOS_MAINNET' &&
-                to.id !== 'PBTC_ON_LIBRE_MAINNET' && (
+                to.id !== 'PBTC_ON_LIBRE_MAINNET' &&
+                !(dismissedAssets.includes(from.id) || dismissedAssets.includes(to.id)) && (
                   <WarningEta>
                     Please refrain from using previously generated deposit addresses, as doing so may result in a loss
                     of funds.
@@ -456,8 +457,27 @@ const Swap = ({
                   direct control (i.e. not a CEX deposit address).
                 </InfoEta>
               ) : null}
-              {from && to && (disabledAssets.includes(from.id) || disabledAssets.includes(to.id)) ? (
+              {from &&
+              to &&
+              (from.blockchain == 'EOS' || to.blockchain == 'EOS') &&
+              !(dismissedAssets.includes(from.id) || dismissedAssets.includes(to.id)) ? (
+                <WarningEta>
+                  EOS chain will soon be upgraded to pNetwork v4 and has been disabled on v2. Swaps will soon be resumed
+                  on v4.
+                </WarningEta>
+              ) : null}
+              {from && to && disabledAssets.includes(to.id) ? (
                 <WarningEta>{`${to.name} on ${to.blockchain} has been dismissed and pegins are disabled. Pegout the native token ASAP for a smooth redeem process.`}</WarningEta>
+              ) : null}
+              {from && to && disabledAssets.includes(from.id) ? (
+                <WarningEta>{`${from.name} on ${from.blockchain} has been dismissed. Proceed ASAP for a smooth redeem process.`}</WarningEta>
+              ) : null}
+              {from && to && (dismissedAssets.includes(to.id) || dismissedAssets.includes(from.id)) ? (
+                <WarningEta>
+                  {
+                    'Token no longer supported. This token is no longer active on pNetwork and the redemption window via the official dApp has closed. For further assistance, please contact hello@p.network.'
+                  }
+                </WarningEta>
               ) : null}
               {to &&
               (to.id === 'PUSDC_ON_ALGORAND_MAINNET' ||

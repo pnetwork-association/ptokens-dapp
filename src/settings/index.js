@@ -74,7 +74,7 @@ const settings = {
         host: 'https://eos.greymass.com',
         port: 443,
         protocol: 'https',
-        endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com',
+        endpoint: 'https://eos.greymass.com',
         label: 'EOS',
       },
       telos: {
@@ -110,10 +110,10 @@ const settings = {
       },
       ultra: {
         chainId: 'a9c481dfbc7d9506dc7e87e9a137c931b0a9303f64fd7a1d08b8230133920097',
-        host: 'https://corsproxy.ptokens.io/v1/?apiurl=https://api.ultra.eossweden.org',
+        host: 'https://api.ultra.eossweden.org',
         port: 443,
         protocol: 'https',
-        endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://api.ultra.eossweden.org',
+        endpoint: 'https://api.ultra.eossweden.org',
         label: 'Ultra',
       },
       arbitrum: {
@@ -122,7 +122,7 @@ const settings = {
         label: 'Arbitrum',
       },
       luxochain: {
-        endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://lugano.nodes.luxochain.io',
+        endpoint: 'https://lugano.nodes.luxochain.io',
         chainId: 110,
         label: 'Luxochain',
       },
