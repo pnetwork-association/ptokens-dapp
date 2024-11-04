@@ -1,5 +1,11 @@
 # ptokens-dapp-v2
 
+## 1.28.0
+
+### Minor Changes
+
+- eb3de6a: update dismissed list
+
 ## 1.27.1
 
 ### Patch Changes
