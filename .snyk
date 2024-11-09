@@ -48,4 +48,9 @@ ignore:
         reason: Will be fixed in v4 - fix planned
         expires: 2024-12-10T00:00:00.000Z
         created: 2024-08-28T11:30:11.068Z
+  SNYK-JS-CROSSSPAWN-8303230:
+    - '*':
+          reason: Will be fixed in v4 - fix planned
+          expires: 2024-12-10T00:00:00.000Z
+          created: 2024-08-28T11:30:11.068Z
 patch: {}
