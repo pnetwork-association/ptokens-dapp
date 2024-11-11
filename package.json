@@ -11,9 +11,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@p.network/react-web3-settings": "^1.2.0",
     "@p.network/ptokens": "*",
+    "@p.network/react-web3-settings": "^1.2.0",
     "@tanstack/react-query": "^5.54.1",
+    "@wharfkit/session": "^1.4.0",
+    "@wharfkit/wallet-plugin-anchor": "^1.4.0",
+    "@wharfkit/web-renderer": "^1.4.1",
     "axios": "^1.7.7",
     "bignumber.js": "^9.1.2",
     "classnames": "^2.5.1",
@@ -54,4 +57,3 @@
     "vitest": "^2.0.5"
   }
 }
-
