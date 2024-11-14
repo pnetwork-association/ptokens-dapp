@@ -324,7 +324,7 @@ const useSwap = ({
         disabledAssets.includes(to.id) ||
         dismissedAssets.includes(from.id) ||
         dismissedAssets.includes(to.id) ||
-        from.blockchain === 'EOS' ||
+        // from.blockchain === 'EOS' ||
         to.blockchain === 'EOS'
       ) {
         updateSwapButton('Disabled Swap', true)

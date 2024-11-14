@@ -30,13 +30,17 @@ export const disabledAssets = [
   'WSB_ON_ETH_MAINNET',
   'PLTC_ON_ETH_MAINNET',
   'BIST_ON_BSC_MAINNET',
-]
-
-export const dismissedAssets = [
   'PUSDT_ON_LIBRE_MAINNET',
   'PBTC_ON_LIBRE_MAINNET',
   'IQ_ON_ETH_MAINNET',
   'PBTC_ON_EOS_MAINNET',
+]
+
+export const dismissedAssets = [
+  // 'PUSDT_ON_LIBRE_MAINNET',
+  // 'PBTC_ON_LIBRE_MAINNET',
+  // 'IQ_ON_ETH_MAINNET',
+  // 'PBTC_ON_EOS_MAINNET',
 ]
 
 const swapAssets = [

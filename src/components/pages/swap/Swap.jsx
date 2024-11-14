@@ -457,7 +457,7 @@ const Swap = ({
                   direct control (i.e. not a CEX deposit address).
                 </InfoEta>
               ) : null}
-              {from &&
+              {/* {from &&
               to &&
               (from.blockchain == 'EOS' || to.blockchain == 'EOS') &&
               !(dismissedAssets.includes(from.id) || dismissedAssets.includes(to.id)) ? (
@@ -465,19 +465,34 @@ const Swap = ({
                   EOS chain will soon be upgraded to pNetwork v4 and has been disabled on v2. Swaps will soon be resumed
                   on v4.
                 </WarningEta>
-              ) : null}
-              {from && to && disabledAssets.includes(to.id) ? (
+              ) : null} */}
+              {/* {from && to && (disabledAssets.includes(to.id) || to.blockchain == 'EOS')? (
                 <WarningEta>{`${to.name} on ${to.blockchain} has been dismissed and pegins are disabled. Pegout the native token ASAP for a smooth redeem process.`}</WarningEta>
               ) : null}
-              {from && to && disabledAssets.includes(from.id) ? (
+              {from && to && (disabledAssets.includes(from.id) || from.blockchain == 'EOS') ? (
                 <WarningEta>{`${from.name} on ${from.blockchain} has been dismissed. Proceed ASAP for a smooth redeem process.`}</WarningEta>
-              ) : null}
-              {from && to && (dismissedAssets.includes(to.id) || dismissedAssets.includes(from.id)) ? (
+              ) : null} */}
+              {/* {from && to && (dismissedAssets.includes(to.id) || dismissedAssets.includes(from.id) ||
+                disabledAssets.includes(to.id)
+              ) ? (
                 <WarningEta>
                   {
                     'Token no longer supported. This token is no longer active on pNetwork and the redemption window via the official dApp has closed. For further assistance, please contact hello@p.network.'
                   }
                 </WarningEta>
+              ) : null} */}
+              {from &&
+              to &&
+              (dismissedAssets.includes(to.id) ||
+                dismissedAssets.includes(from.id) ||
+                (disabledAssets.includes(to.id) && disabledAssets.includes(from.id)) ||
+                (from.blockchain == 'EOS' && disabledAssets.includes(to.id)) ||
+                (to.blockchain == 'EOS' && disabledAssets.includes(from.id))) ? (
+                <WarningEta>{`Token no longer supported. Please pegout towards native ${to.nativeSymbol}`}</WarningEta>
+              ) : from && to && (disabledAssets.includes(from.id) || from.blockchain == 'EOS') ? (
+                <WarningEta>{`${from.name} on ${from.blockchain} has been dismissed. Proceed ASAP for a smooth redeem process.`}</WarningEta>
+              ) : from && to && (disabledAssets.includes(to.id) || to.blockchain == 'EOS') ? (
+                <WarningEta>{`${to.name} on ${to.blockchain} has been dismissed and pegins are disabled. Pegout the native token ASAP for a smooth redeem process.`}</WarningEta>
               ) : null}
               {to &&
               (to.id === 'PUSDC_ON_ALGORAND_MAINNET' ||
