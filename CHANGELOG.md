@@ -1,5 +1,11 @@
 # ptokens-dapp-v2
 
+## 1.30.0
+
+### Minor Changes
+
+- 0810949: enable all pegout
+
 ## 1.29.0
 
 ### Minor Changes
