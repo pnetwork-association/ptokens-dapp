@@ -1,5 +1,11 @@
 # ptokens-dapp-v2
 
+## 1.30.1
+
+### Patch Changes
+
+- 4f9da4d: fix: enable only pegouts
+
 ## 1.30.0
 
 ### Minor Changes
