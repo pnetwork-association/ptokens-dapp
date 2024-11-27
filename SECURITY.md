@@ -1,7 +1,7 @@
 # Security Policy
 
 Pnetwork declines any responibilites coming from the use of this repository. Use it use at your own risk.
-Please check https://dapp.ptokens.io/#/risks to understand risks involved.
+Please check https://dapp.p.network/#/risks to understand risks involved.
 
 ## Supported Versions
 

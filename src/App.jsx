@@ -141,7 +141,7 @@ const App = ({ loading, setTheme, loadSwapData, loadSwapOldPntData, loadMigratio
             Now the dApp supports host-to-host swaps!
             <br />
             Have a try{' '}
-            <a href="https://dapp.ptokens.io/swap?asset=btc&from=algorand&to=eth&algorand_from_assetid=744665252">
+            <a href="https://dapp.p.network/swap?asset=btc&from=algorand&to=eth&algorand_from_assetid=744665252">
               here.
             </a>
           </React.Fragment>
