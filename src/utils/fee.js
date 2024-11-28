@@ -2,23 +2,10 @@ import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 
 import { PNT_ON_ETH_MAINNET, ETHPNT_ON_ETH_MAINNET, PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../constants'
-import swapAssets from '../settings/swap-assets'
 
 import { formatDecimalSeparator } from './amount-utils'
-import { createAsset } from './ptokens'
 
 const getFeeFactor = (fee) => (_.isNil(fee) ? null : 1 - fee / 100)
-
-const getBasisPoints = (_fromAsset, _toAsset) => {
-  if (_fromAsset.assetInfo.isNative && _toAsset.assetInfo.isNative)
-    return _fromAsset.assetInfo.fees.basisPoints.nativeToNative
-  else if (_fromAsset.assetInfo.isNative && !_toAsset.assetInfo.isNative)
-    return _fromAsset.assetInfo.fees.basisPoints.nativeToHost
-  else if (!_fromAsset.assetInfo.isNative && _toAsset.assetInfo.isNative)
-    return _fromAsset.assetInfo.fees.basisPoints.hostToNative
-  else if (!_fromAsset.assetInfo.isNative && !_toAsset.assetInfo.isNative)
-    return _fromAsset.assetInfo.fees.basisPoints.hostToHost
-}
 
 const getMigrationFees = (_from, _to) => {
   if (_from.id === ETHPNT_ON_ETH_MAINNET && _to.id === PNT_ON_ETH_MAINNET) return 0.25
@@ -27,13 +14,10 @@ const getMigrationFees = (_from, _to) => {
 }
 
 const getSwapFees = async (_from, _to) => {
-  const from = _from.id === ETHPNT_ON_ETH_MAINNET ? swapAssets.find((asset) => asset.id === PNT_ON_ETH_MAINNET) : _from
   try {
-    const fromAsset = await createAsset(from)
-    const toAsset = await createAsset(_to)
-    const basisPoints = getBasisPoints(fromAsset, toAsset)
-    const networkFee = toAsset.assetInfo.fees.networkFee
-    const minProtocolFee = fromAsset.assetInfo.fees.minNodeOperatorFee
+    const basisPoints = 25
+    const networkFee = 0
+    const minProtocolFee = 0
     return { basisPoints, networkFee, minProtocolFee }
   } catch (_err) {
     return { basisPoints: undefined, networkFee: undefined, minProtocolFee: undefined }
