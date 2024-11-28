@@ -191,8 +191,8 @@ const Header = (_props) => {
   const onSwap = useCallback(() => {
     loadSwapData({
       asset: 'pbtc',
-      from: 'btc',
-      to: 'eth',
+      from: 'eth',
+      to: 'btc',
     })
     selectPage('swap')
   }, [loadSwapData, selectPage])
