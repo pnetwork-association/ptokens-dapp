@@ -11,7 +11,7 @@ const pegout = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
       show: true,
       percent: 0,
       message: 'Waiting for the transaction to be signed ...',
-      steps: [0, 20, 40, 60, 80, 100],
+      steps: [0, 50, 100],
       terminated: false,
     })
   )
@@ -25,9 +25,9 @@ const pegout = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
       dispatch(
         updateProgress({
           show: true,
-          percent: 20,
+          percent: 50,
           message: `<a href="${link}" target="_blank">Transaction</a> broadcasted! Waiting for confirmation ...`,
-          steps: [0, 20, 40, 60, 80, 100],
+          steps: [0, 50, 100],
           terminated: false,
         })
       )
@@ -36,54 +36,10 @@ const pegout = async ({ swap, ptokenFrom, ptokenTo, dispatch }) => {
       dispatch(
         updateProgress({
           show: true,
-          percent: 40,
-          message: `Waiting for the pNetwork to detect your <a href="${link}" target="_blank">transaction</a> ...`,
-          steps: [0, 20, 40, 60, 80, 100],
-          terminated: false,
-        })
-      )
-    })
-    .once('inputTxDetected', () => {
-      dispatch(
-        updateProgress({
-          show: true,
-          percent: 60,
-          message: `Enclave received the <a href="${link}" target="_blank">transaction</a>, broadcasting ...`,
-          steps: [0, 20, 40, 60, 80, 100],
-          terminated: false,
-        })
-      )
-    })
-    .once('outputTxBroadcasted', (_outputs) => {
-      sendEvent('swap_processed', {
-        operation: 'pegout',
-        asset_from: ptokenFrom.id,
-        asset_to: ptokenTo.id,
-      })
-      link = getCorrespondingTxExplorerLinkByBlockchain(ptokenTo.blockchain, _outputs[0].txHash)
-      dispatch(
-        updateProgress({
-          show: true,
-          percent: 80,
-          message: `Asset swap <a href="${link}" target="_blank">transaction</a> completed, waiting for confirmation ...`,
-          steps: [0, 20, 40, 60, 80, 100],
-          terminated: false,
-        })
-      )
-    })
-    .then((_) => {
-      sendEvent('assets_delivered_tx_confirmed', {
-        operation: 'pegout',
-        asset_from: ptokenFrom.id,
-        asset_to: ptokenTo.id,
-      })
-      dispatch(
-        updateProgress({
-          show: true,
           percent: 100,
-          message: `<a href="${link}" target="_blank">Transaction</a> Confirmed.`,
-          steps: [0, 20, 40, 60, 80, 100],
-          terminated: true,
+          message: `Wait for <a href="${link}" target="_blank">transaction</a> to be processed. Please be patient as completion times for redeems are uncertain and may take several days.`,
+          steps: [0, 50, 100],
+          terminated: false,
         })
       )
 
