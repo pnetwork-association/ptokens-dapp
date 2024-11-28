@@ -1,5 +1,5 @@
 // nodes
-export const PNETWORK_NODE_V3 = 'https://pnetwork-node-2a.eu.ngrok.io/v3'
+export const PNETWORK_NODE_V3 = ''
 
 // pages
 export const PAGE_SELECTED = 'PAGE_SELECTED'
