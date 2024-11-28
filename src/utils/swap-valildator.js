@@ -10,10 +10,11 @@ export const isValidSwap = (from, to, assets) => {
   if (to.isHidden) return false
   if (to.nativeSymbol.toLowerCase() !== from.nativeSymbol.toLowerCase()) return false
   if (from.id === 'TLOS_ON_ETH_MAINNET' && to.id !== 'TLOS') return false
-  if (from.isNative) {
-    if (to.requiresCurve) return false
-    return true
-  } else {
+  if (from.isNative)
+    return false
+  if (!to.isNative)
+    return false
+  else {
     if (from.onlyLegacyRedeem && !to.isNative) return false
     if (from.onPnetworkV2 && !to.isNative && !to.onPnetworkV2) return false
     if (!from.onPnetworkV2 && !to.isNative) return false

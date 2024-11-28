@@ -412,7 +412,7 @@ const Swap = ({
       <AssetListModal
         title="Swap from ..."
         defaultAssets={assets.length === 0 ? defaultAssets : assets}
-        assets={assets.length === 0 ? defaultAssets : assets}
+        assets={assets.length === 0 ? defaultAssets : assets.filter((asset) => !asset.isNative)}
         show={showModalFrom}
         onClose={() => setShowModalFrom(false)}
         onSelect={onSelectFrom}
