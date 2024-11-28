@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import _ from 'lodash'
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Row, Col, Container } from 'react-bootstrap'
@@ -7,20 +6,18 @@ import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
 import TermsOfService from '../../../components/molecules/popup/TermsOfService'
-import { MAX_IMPACT, PBTC_ON_ETH_MAINNET_V1_MIGRATION, PUOS_ON_ULTRA_MAINNET } from '../../../constants'
+import { PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../../../constants'
 import { sendEvent } from '../../../ga4'
 import { useAssets } from '../../../hooks/use-assets'
 import { useSwap } from '../../../hooks/use-swap'
-import defaultAssets, { dismissedAssets } from '../../../settings/swap-assets'
+import defaultAssets from '../../../settings/swap-assets'
 import Button from '../../atoms/button/Button'
 import Icon from '../../atoms/icon/Icon'
-import Switch from '../../atoms/switch/Switch'
 import AddressWarning from '../../molecules/popup/AddressWarning'
 import Progress from '../../molecules/progress/Progress'
 import AssetListModal from '../../organisms/assetListModal/AssetListModal'
 import DepositAddressModal from '../../organisms/depositAddressModal/DepositAddressModal'
 import InfoModal from '../../organisms/infoModal/InfoModal'
-import SwapInfo from '../../organisms/swapInfo/SwapInfo'
 import SwapLine from '../../organisms/swapLine/SwapLine'
 
 export const OuterContainerSwap = styled.div`
@@ -128,10 +125,6 @@ const WarningEta = styled.div`
   text-align: center;
 `
 
-const ProvisionalSafemoonBox = styled(InfoEta)``
-
-const CurveInfo = styled(InfoEta)``
-
 const MigrationNotification = styled(InfoEta)`
   width: 460px;
   margin-bottom: 30px;
@@ -148,23 +141,6 @@ const PnetworkV2Badge = styled.span`
   font-size: 11px;
   border-radius: 10px;
   padding: 5px 10px 5px 10px;
-`
-
-const EnableTelosEvmRow = styled.div`
-  display: flex;
-  padding: 0px 6px 0px 6px;
-  align-items: center;
-`
-
-const EnableTelosEvmText = styled.span`
-  padding-left: 0px;
-  text-align: left;
-  font-weight: 300;
-  color: ${({ theme }) => theme.text1};
-  font-size: 14px;
-  @media (max-width: 767.98px) {
-    font-size: 12px;
-  }
 `
 
 const Link = styled.span`
@@ -371,186 +347,22 @@ const Swap = ({
                 onMax={onToMax}
               />
 
-              {from &&
-              (from.id === 'TLOS_ON_BSC_MAINNET' || from.id === 'TLOS_ON_ETH_MAINNET') &&
-              to &&
-              to.id === 'TLOS' ? (
-                <EnableTelosEvmRow>
-                  <Col style={{ paddingLeft: 0 }} className="pr-0">
-                    <EnableTelosEvmText>Receive on a tEVM (Telos EVM) compatible address</EnableTelosEvmText>
-                  </Col>
-                  <Col className="text-right" style={{ paddingRight: 0, paddingLeft: 0 }}>
-                    <Switch checked={pegoutToTelosEvmAddress} onChange={setPegoutToTelosEvmAddress} />
-                  </Col>
-                </EnableTelosEvmRow>
-              ) : null}
+            
               {progress.show ? (
                 <Progress percent={progress.percent} message={progress.message} steps={progress.steps} />
               ) : null}
-              {(to && to.id === 'PBTC_ON_BSC_MAINNET') || (from && from.id === 'PBTC_ON_BSC_MAINNET') ? (
-                <InfoEta>
-                  pBTC on BSC has been relaunched on pNetwork v2 in late 2022 (token address
-                  0x1003d3574ac79303a5fa0951ecb04cc7acba9747) and it is the only official pBTC representation on BSC.
-                </InfoEta>
-              ) : null}
-              {to && to.id === 'UOS' ? (
-                <InfoEta>
-                  By bridging to Ethereum you will get native ERC20 UOS tokens passing through the pUOS pToken
-                </InfoEta>
-              ) : null}
-              {to && to.id === PUOS_ON_ULTRA_MAINNET ? (
-                <InfoEta>By bridging to Ultra you will get native UOS tokens passing through the pUOS pToken</InfoEta>
-              ) : null}
-              {to && to.id === 'PBTC_ON_ALGORAND_MAINNET' ? (
-                <InfoEta>
-                  Please make sure that the receiving Algorand account has opted in for pBTC (Asset ID: {to.address}).
-                  <br />
-                  <br />
-                  pBTC on Algorand is still experimental and the security audit is ongoing - please proceed with
-                  caution!
-                </InfoEta>
-              ) : null}
-              {from &&
-                from.isNative &&
-                to &&
-                to.notifyDepositAddressWarning &&
-                to.id !== 'PBTC_ON_ARBITRUM_MAINNET' &&
-                to.id !== 'PBTC_ON_TELOS_MAINNET' &&
-                to.id !== 'PBTC_ON_LIBRE_MAINNET' &&
-                !(dismissedAssets.includes(from.id) || dismissedAssets.includes(to.id)) && (
-                  <WarningEta>
-                    Please refrain from using previously generated deposit addresses, as doing so may result in a loss
-                    of funds.
-                  </WarningEta>
-                )}
-              {from && from.id === 'GALA_ON_BSC_MAINNET' && to && to.id === 'GALA' ? (
-                <InfoEta>
-                  You are about to pegout (redeem){' '}
-                  <a
-                    href="https://bscscan.com/token/0x419c44c48cd346c0b0933ba243be02af46607c9b"
-                    rel="noopener noreferrer"
-                  >
-                    pGALA on BSC
-                  </a>{' '}
-                  for GALA ERC-20. You will receive both{' '}
-                  <a
-                    href="https://etherscan.io/token/0x15D4c048F83bd7e37d49eA4C83a07267Ec4203dA"
-                    rel="noopener noreferrer"
-                  >
-                    GALA v1
-                  </a>{' '}
-                  and{' '}
-                  <a
-                    href="https://etherscan.io/token/0xd1d2eb1b1e90b638588728b4130137d262c87cae"
-                    rel="noopener noreferrer"
-                  >
-                    GALA v2
-                  </a>{' '}
-                  tokens at the same time (Check the official{' '}
-                  <a
-                    href="https://blog.gala.games/gala-v2-contract-audits-and-details-6a0767352e79"
-                    rel="noopener noreferrer"
-                  >
-                    GalaGames channels
-                  </a>{' '}
-                  for more information on GALA v2). Make sure that the destination address you provide is under your
-                  direct control (i.e. not a CEX deposit address).
-                </InfoEta>
-              ) : null}
-              {from && to && !dismissedAssets.includes(from.id) && !dismissedAssets.includes(to.id) ? (
-                from.isNative ? (
-                  <WarningEta>
-                    {`${from.name} on ${from.blockchain} has been dismissed. Please pegout ASAP if you have pTokens.`}
-                  </WarningEta>
-                ) : to.isNative ? (
-                  <WarningEta>{`Proceed ASAP for a smooth redeem process.`}</WarningEta>
-                ) : (
-                  <WarningEta>
-                    {`${from.name} on ${from.blockchain} and ${to.name} on ${to.blockchain} have been dismissed. 
-                      Please pegout to ${from.nativeSymbol} if you have pTokens ASAP.`}
-                  </WarningEta>
-                )
-              ) : null}
-              {to &&
-              (to.id === 'PUSDC_ON_ALGORAND_MAINNET' ||
-                to.id === 'USDC_ON_ALGORAND_MAINNET' ||
-                to.id === 'PUSDT_ON_ALGORAND_MAINNET' ||
-                to.id === 'USDT_ON_ALGORAND_MAINNET') ? (
-                <InfoEta>
-                  Please make sure that the receiving Algorand account has opted in for {to.name} (Asset ID:{' '}
-                  {to.address}) {to.ptokenAddress ? `and p${to.name} (Asset ID: ${to.ptokenAddress})` : null}.
-                  {to.swapperAddress && (
-                    <>
-                      <br />
-                      <br />
-                      Please note that under certain circumstances (i.e. low liquidity in the stableswap pool),
-                      especially for bigger swaps, you may receive p{to.name} rather than native {to.nativeSymbol}.
-                    </>
-                  )}
-                </InfoEta>
-              ) : null}
-              {to && to.swapperAddress && _.isNil(poolAmount) ? (
+            
+              {from && to && !to.isNative ? (
                 <WarningEta>
-                  It is currently not possible to check the liquidity pool availability. It is possible the configured
-                  Algorand endpoint is offline, please try with a different one. If the amount exceeds the pool
-                  availability you will likely receive p{to.symbol} rather than native {to.nativeSymbol}. Proceed at
-                  your own risk.
+                  {`pNetwork v2 has been dismissed. Pegin are disabled.`}
                 </WarningEta>
-              ) : null}
-              {from && from.swapperAddress && _.isNil(poolAmount) ? (
+              ) : 
                 <WarningEta>
-                  It is currently not possible to check the liquidity pool availability. It is possible the configured
-                  Algorand endpoint is offline, please try with a different one. If the amount exceeds the pool
-                  availability, the transaction will likely fail.
+                  pNetwork v2 has been dismissed. Pegout at your own risk. Please be patient as completion times for redeems are uncertain and may take several days.
+                  Expected return amount is only indicative and actual fees cannot be predicted at swap time.
                 </WarningEta>
-              ) : null}
-              {to && to.swapperAddress && poolAmount < 1.2 * toAmount ? (
-                <WarningEta>
-                  Due to insufficient liquidity it may not be possible to process a swap of this size. Please try with a
-                  smaller amount or try again later. If you decide to proceed anyway, you may receive p{to.symbol}{' '}
-                  instead.
-                </WarningEta>
-              ) : null}
-              {from && from.swapperAddress && poolAmount < fromAmount ? (
-                <InfoEta>
-                  There is not enough liquidity in the stableswap pool to process this swap right now, please try again
-                  later
-                </InfoEta>
-              ) : null}
-              {eta === -1 || eta > 15 ? (
-                <InfoEta>
-                  {eta > 15 && eta < 45
-                    ? 'Please note that this operation may take longer than usual to get processed as the bridge is experiencing some delays.'
-                    : 'Please note that this operation may take longer than usual to get processed as the bridge is experiencing major delays.'}
-                </InfoEta>
-              ) : null}
-              {from && to && (from.symbol.toUpperCase() === 'SAFEMOON' || to.symbol.toUpperCase() === 'SAFEMOON') ? (
-                <ProvisionalSafemoonBox>
-                  Using this bridge requires a SFM transfer on BSC so a transfer fee may apply
-                </ProvisionalSafemoonBox>
-              ) : null}
-              {from && from.requiresCurve ? (
-                <CurveInfo>
-                  This swap works using Curve.fi.<br></br>
-                  <a href="https://classic.curve.fi/rootfaq" target="_blank" rel="noopener noreferrer">
-                    More info about Curve.fi
-                  </a>
-                  <br></br>
-                  <a
-                    href="https://curve.fi/#/ethereum/pools/factory-v2-242/swap"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    More info about the used liquidity pool
-                  </a>
-                </CurveInfo>
-              ) : null}
-              {from && from.requiresCurve && +curveImpact > MAX_IMPACT ? (
-                <WarningEta>High price impact!</WarningEta>
-              ) : null}
-              {!onPnetworkV2 ? (
-                <WarningEta>This swap is not supported by pNetwork v2. Please write to hello@p.network.</WarningEta>
-              ) : null}
+              }
+          
               <ContainerSwapButton>
                 <Button
                   onClick={() =>
@@ -595,15 +407,6 @@ const Swap = ({
           </OuterContainerSwap>
         </Row>
       </Container>
-      <SwapInfo
-        from={from}
-        to={to}
-        amount={fromAmount}
-        bpm={bpm}
-        curvePoolName={curvePoolName}
-        curveImpact={curveImpact}
-        fees={fees}
-      />
       <ReactTooltip id="tooltip-gasless" multiline={true} style={{ zIndex: 2 }} />
       <ReactTooltip id="tooltip-fees" multiline={true} style={{ zIndex: 2 }} />
       <AssetListModal
