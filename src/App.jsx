@@ -135,18 +135,7 @@ const App = ({ loading, setTheme, loadSwapData, loadSwapOldPntData, loadMigratio
           <Route render={() => <Redirect to="swap" />} />
         </Switch>
       </MainWrapper>
-      <Popup
-        content={
-          <React.Fragment>
-            Now the dApp supports host-to-host swaps!
-            <br />
-            Have a try{' '}
-            <a href="https://dapp.p.network/swap?asset=btc&from=algorand&to=eth&algorand_from_assetid=744665252">
-              here.
-            </a>
-          </React.Fragment>
-        }
-      />
+      <Popup content={<React.Fragment>Use the settings button to use custom RPC endpoints</React.Fragment>} />
       <SocialLinks />
       <Version />
     </React.Fragment>
