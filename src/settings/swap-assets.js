@@ -1,6 +1,7 @@
 import { ChainId } from '@p.network/ptokens-constants'
 
-export const dismissedAssets = ['USDC_ON_ALGORAND_MAINNET', 'USDT_ON_ALGORAND_MAINNET']
+export const dismissedChains = ['TELOS', 'ULTRA']
+export const dismissedToken = ['EFX']
 
 const swapAssets = [
   /* #################   pTokens   #################*/

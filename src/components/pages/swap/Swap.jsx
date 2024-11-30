@@ -10,7 +10,7 @@ import { PBTC_ON_ETH_MAINNET_V1_MIGRATION } from '../../../constants'
 import { sendEvent } from '../../../ga4'
 import { useAssets } from '../../../hooks/use-assets'
 import { useSwap } from '../../../hooks/use-swap'
-import defaultAssets from '../../../settings/swap-assets'
+import defaultAssets, { dismissedChains, dismissedToken } from '../../../settings/swap-assets'
 import Button from '../../atoms/button/Button'
 import Icon from '../../atoms/icon/Icon'
 import AddressWarning from '../../molecules/popup/AddressWarning'
@@ -356,7 +356,28 @@ const Swap = ({
                 <WarningEta>
                   {`pNetwork v2 has been dismissed. Pegin are disabled.`}
                 </WarningEta>
-              ) : 
+              ) : from && to && (from.blockchain === 'TELOS' || to.blockchain === 'TELOS') ? (
+                <WarningEta>
+                  TELOS pTokens are handled directly by the Telos Foundation.&ensp;
+                  <a href="https://x.com/HelloTelos/status/1861371335902908886" target="_blank" rel="noopener noreferrer">
+                    More info
+                  </a>
+                </WarningEta>
+              ) : from && to && (from.blockchain === 'ULTRA' || to.blockchain === 'ULTRA') ? (
+                <WarningEta>
+                  ULTRA pTokens are handled directly by the Ultra Team.&ensp;
+                  <a href="https://x.com/pNetworkDeFi/status/1862469316643316070" target="_blank" rel="noopener noreferrer">
+                    More info
+                  </a>
+                </WarningEta>
+              ) : from && to && (dismissedToken.includes(to.symbol) || dismissedToken.includes(from.symbol)) ? (
+                <WarningEta>
+                  EFFECT pTokens are handled directly by Effect AI.&ensp;
+                  <a href="https://x.com/effectaix/status/1856381643537228156" target="_blank" rel="noopener noreferrer">
+                    More info
+                  </a>
+                </WarningEta>
+              ) :
                 <WarningEta>
                   pNetwork v2 has been dismissed. Pegout at your own risk. Please be patient as completion times for redeems are uncertain and may take several days.
                   Expected return amount is only indicative and actual fees cannot be predicted at swap time.
