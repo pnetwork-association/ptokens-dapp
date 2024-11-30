@@ -45,7 +45,7 @@ const loadApys = () => {
     try {
       const {
         data: { result },
-      } = await axios.get('https://extra.ptokens.io/pbtc-v1-migration-apys')
+      } = await axios.get('https://extra.p.network/pbtc-v1-migration-apys')
       _dispatch({
         type: APYS_LOADED,
         payload: {

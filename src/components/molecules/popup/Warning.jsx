@@ -18,7 +18,7 @@ const WarningIcon = styled(Icon)`
   height: 20px;
   width: 20px;
   margin: 5px;
-  vertical-align: top;
+  vertical-align: mid;
   color: #475965;
 `
 
@@ -32,15 +32,19 @@ const WarningPopup = ({ show, onClose }) => {
   return (
     <Row>
       <OuterContainerSwap className="mx-auto">
-        <StyledAlert show={show} onClose={onClose} variant="warning" dismissible>
+        <StyledAlert show={show} onClose={onClose} variant="warning">
           <Paragraph>
             <WarningIcon icon="warning" />
+            PNETWORK V2 HAS REACHED END OF LIFE
+            <WarningIcon icon="warning" />
             <br />
-            pNetwork is a new technology, and security audits don't
+            If you want to redeem pTokens proceed at your own risk.
             <br />
-            eliminate risks completely. Please don't provide assets you
+            Please be aware that the pegout tx burns the amount
             <br />
-            can't afford to lose.
+            of pTokens selected. Please be patient as completion times
+            <br />
+            for redeems are uncertain and may take several days.
           </Paragraph>
         </StyledAlert>
       </OuterContainerSwap>

@@ -10,7 +10,7 @@ describe('generateRpcSettings', () => {
         host: 'https://eos.greymass.com',
         port: 443,
         protocol: 'https',
-        endpoint: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com',
+        endpoint: 'https://eos.greymass.com',
         label: 'Eos',
       },
       ftm: {
@@ -22,7 +22,7 @@ describe('generateRpcSettings', () => {
     const expected = {
       eos: {
         label: 'Eos',
-        value: 'https://corsproxy.ptokens.io/v1/?apiurl=https://eos.greymass.com',
+        value: 'https://eos.greymass.com',
       },
       ftm: {
         label: 'Ftm',

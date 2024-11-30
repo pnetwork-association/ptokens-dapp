@@ -87,10 +87,10 @@ const settings = {
       },
       libre: {
         chainId: '38b1d7815474d0c60683ecbea321d723e83f5da6ae5f1c1f9fecc69d9ba96465',
-        host: 'libre-node-2.ptokens.io',
+        host: 'lb.libre.org',
         port: 443,
         protocol: 'https',
-        endpoint: 'https://libre-node-2.ptokens.io:8889',
+        endpoint: 'https://lb.libre.org',
         label: 'Libre',
       },
       bsc: {

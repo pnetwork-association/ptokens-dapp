@@ -10,7 +10,7 @@ import {
   CURVE_MAX_AMOUNT,
 } from '../constants'
 import { sendEvent } from '../ga4'
-import { dismissedAssets } from '../settings/swap-assets'
+import { dismissedChains, dismissedToken } from '../settings/swap-assets'
 import { maybeOptInAlgoApp, maybeOptInAlgoAsset } from '../store/swap/utils/opt-in-algo'
 import { isValidAccountByBlockchain } from '../utils/account-validator'
 import { getSwapFees, computeSwapAmount } from '../utils/fee'
@@ -320,7 +320,13 @@ const useSwap = ({
         return
       }
 
-      if (dismissedAssets.includes(to.id) || dismissedAssets.includes(from.id) || !to.isNative || from.isNative) {
+      if (dismissedChains.includes(to.blockchain) ||
+        dismissedChains.includes(from.blockchain) ||
+        dismissedToken.includes(to.symbol) ||
+        dismissedToken.includes(from.symbol) ||
+        !to.isNative ||
+        from.isNative) 
+      {
         updateSwapButton('Disabled Swap', true)
         return
       }

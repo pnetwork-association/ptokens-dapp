@@ -112,28 +112,6 @@ const MigrationHome = ({ apys, selectPage, loadMigrationData }) => {
           <Tr>
             <Td>A</Td>
             <Td>
-              <TdContent>
-                <ContainerImage>
-                  <StyledImage src={'./assets/svg/pBTC_gray.svg'} />
-                </ContainerImage>
-                <Text>pBTC v1</Text>
-              </TdContent>
-            </Td>
-            <Td>
-              <TdContent>
-                <ContainerImage>
-                  <StyledImage src={'./assets/svg/pBTC.svg'} />
-                </ContainerImage>
-                <Text>pBTC v2</Text>
-              </TdContent>
-            </Td>
-            <Td>
-              <ContinueButton onClick={() => onMigrate('pBTC-v1-to-v2')}>Migrate</ContinueButton>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>B</Td>
-            <Td>
               {' '}
               <TdContent>
                 <ContainerImage>

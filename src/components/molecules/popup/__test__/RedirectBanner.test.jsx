@@ -8,9 +8,9 @@ const expectedText = 'You are using an old domain that will be dismissed in the 
 
 describe('RedirectBanner', async () => {
   test.each([
-    ['http://ptokens.io'],
-    ['http://dapp.ptokens.io'],
-    ['https://dapp.ptokens.io/#/swap?asset=btc&from=btc&to=eth'],
+    ['http://p.network'],
+    ['http://dapp.p.network'],
+    ['https://dapp.p.network/#/swap?asset=btc&from=btc&to=eth'],
   ])('Should show the url popup only on specific url', async (url) => {
     Object.defineProperty(window, 'location', {
       value: {

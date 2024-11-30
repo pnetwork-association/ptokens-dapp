@@ -23,8 +23,8 @@ const getDefaultSelectionV1 = (_assets, { pToken }) => {
   )
 
   // NOTE: handle token with p and without p as first letter
-  const pTokenDefaultFrom = Object.assign({}, assetFrom ? assetFrom : btc)
-  const pTokenDefaultTo = Object.assign({}, assetTo ? assetTo : pbtc)
+  const pTokenDefaultFrom = Object.assign({}, assetFrom ? assetFrom : pbtc)
+  const pTokenDefaultTo = Object.assign({}, assetTo ? assetTo : btc)
 
   if (pTokenDefaultFrom && pTokenDefaultTo) {
     pTokenDefaultFrom.defaultFrom = true
