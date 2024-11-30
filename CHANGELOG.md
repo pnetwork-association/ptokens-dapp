@@ -1,5 +1,11 @@
 # ptokens-dapp-v2
 
+## 2.0.0
+
+### Major Changes
+
+- c989fb9: v2 EOL: only pegout can be used.
+
 ## 1.30.1
 
 ### Patch Changes
